@@ -759,3 +759,144 @@ def fetch_auction_data(code: str = "", symbol: str = "", **kwargs):
         "开盘涨跌幅": getattr(result, "open_change_pct", None),
         "昨收": getattr(result, "pre_close_price", None),
     }])
+
+
+def fetch_category_quotes(category: str = "沪深a股", sort_by: str = "涨幅", count: int = 80, **kwargs):
+    """分类行情列表（eltdx 源，v3.3.7 新增，B 级）。
+
+    通过 quotes.list_by_category 返回分类行情（如 A股涨幅榜/成交额榜/封单榜），
+    实时性强于 akshare。category：沪深a股/a股；sort_by：涨幅/成交额/现价/封单额等。
+    """
+    import pandas as pd
+    client = _get_client()
+    if client is None:
+        raise RuntimeError("eltdx client not available")
+    page = client.quotes.list_by_category(category, sort_by=sort_by, count=count)
+    records = getattr(page, "records", None) or ()
+    rows = []
+    for r in records:
+        rows.append({
+            "代码": getattr(r, "full_code", None),
+            "现价": getattr(r, "last_price", None),
+            "涨跌幅": getattr(r, "change_pct", None),
+            "涨跌额": getattr(r, "change", None),
+            "成交额": getattr(r, "amount", None),
+            "买一": getattr(r, "bid1", None),
+            "卖一": getattr(r, "ask1", None),
+            "涨速": getattr(r, "rise_speed", None),
+            "短换手": getattr(r, "short_turnover", None),
+        })
+    return pd.DataFrame(rows)
+
+
+def fetch_trading_day(**kwargs):
+    """交易日判定（eltdx 源，v3.3.7 新增，B 级）。
+
+    通过 session.handshake 返回服务器日期（当前交易日）。
+    """
+    import pandas as pd
+    client = _get_client()
+    if client is None:
+        raise RuntimeError("eltdx client not available")
+    h = client.session.handshake()
+    return pd.DataFrame([{
+        "服务器日期": getattr(h, "server_date_1", None),
+        "服务器日期2": getattr(h, "server_date_2", None),
+        "服务器时间": getattr(h, "server_datetime", None),
+    }])
+
+
+def fetch_opening_match_history(code: str = "", symbol: str = "", trading_date: str = "", **kwargs):
+    """历史开盘撮合（eltdx 源，v3.3.7 新增，B 级）。
+
+    通过 trades.opening_match_history 返回历史某日 9:25 开盘撮合，复盘用。
+    """
+    import pandas as pd
+    client = _get_client()
+    if client is None:
+        raise RuntimeError("eltdx client not available")
+    norm_code = _normalize_symbol_code(symbol, code)
+    norm_date = (trading_date or "").replace("-", "").replace("/", "")
+    result = client.trades.opening_match_history(norm_code, norm_date)
+    if result is None:
+        raise RuntimeError(f"no opening match for {norm_code} on {norm_date}")
+    return pd.DataFrame([_tick_to_row(result)])
+
+
+def fetch_capital_changes(code: str = "", symbol: str = "", **kwargs):
+    """股本变动历史（eltdx 源，v3.3.7 新增，B 级）。
+
+    通过 corporate.capital_changes 返回股本变动（分红/送股/增发等）历史。
+    """
+    import pandas as pd
+    client = _get_client()
+    if client is None:
+        raise RuntimeError("eltdx client not available")
+    norm_code = _normalize_symbol_code(symbol, code)
+    block = client.corporate.capital_changes(norm_code)
+    records = getattr(block, "records", None) or getattr(block, "items", None) or ()
+    rows = []
+    for r in records:
+        rows.append({
+            "日期": getattr(r, "date", None),
+            "变动类型": getattr(r, "category_name", None),
+            "变动前股本": getattr(r, "c1_float", None),
+            "变动后股本": getattr(r, "c2_float", None),
+        })
+    return pd.DataFrame(rows)
+
+
+def fetch_special_limits_scan(**kwargs):
+    """扫描全部特殊涨跌停（eltdx 源，v3.3.7 新增，B 级）。
+
+    通过 limits.scan_special 扫描全市场特殊品种（ST/新股/复牌）涨跌停参考价。
+    """
+    import pandas as pd
+    client = _get_client()
+    if client is None:
+        raise RuntimeError("eltdx client not available")
+    records = client.limits.scan_special(max_rows=10000)
+    rows = []
+    for r in records:
+        rows.append({
+            "代码": getattr(r, "full_code", None),
+            "涨停价": getattr(r, "limit_up_price", None),
+            "跌停价": getattr(r, "limit_down_price", None),
+        })
+    return pd.DataFrame(rows)
+
+
+_F10_ENTRY_MAP = {
+    "valuation": "估值",
+    "theme_market": "题材行情",
+    "stock_score": "个股总评",
+    "profit_forecast": "盈利预测",
+    "ranking_detail": "排名明细",
+    "governance": "治理",
+    "shareholder_change_plans": "增减持",
+    "business_composition": "主营构成",
+    "announcements": "公告",
+    "news": "新闻",
+    "stock_info": "基础信息",
+}
+
+
+def fetch_f10_extra(entry: str = "", code: str = "", symbol: str = "", **kwargs):
+    """F10 额外资料通用入口（eltdx 源，v3.3.7 新增，B 级）。
+
+    覆盖 F10 的 B 级接口：valuation/theme_market/stock_score/profit_forecast/
+    ranking_detail/governance/shareholder_change_plans/business_composition/
+    announcements/news/stock_info。
+    字段为通达信内部编码（T007 等），作为 akshare 中文源的降级补充源。
+    """
+    client = _get_client()
+    if client is None:
+        raise RuntimeError("eltdx client not available")
+    if entry not in _F10_ENTRY_MAP:
+        raise RuntimeError(f"unsupported f10 entry: {entry}, choices: {list(_F10_ENTRY_MAP)}")
+    code6 = _strip_code6(code or symbol)
+    method = getattr(client.f10, entry, None)
+    if method is None:
+        raise RuntimeError(f"f10 entry not available: {entry}")
+    resp = method(code6)
+    return _f10_rows_to_df(resp)

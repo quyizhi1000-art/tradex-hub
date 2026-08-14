@@ -109,6 +109,12 @@ def register_all_sources() -> None:
     router.register("stock_topics", "eltdx", ef.fetch_stock_topics, priority=1, exclusive=True)
     router.register("topic_stocks", "eltdx", ef.fetch_topic_stocks, priority=1, exclusive=True)
     router.register("auction_data", "eltdx", ef.fetch_auction_data, priority=1, exclusive=True)
+    router.register("category_quotes", "eltdx", ef.fetch_category_quotes, priority=1, exclusive=True)
+    router.register("trading_day", "eltdx", ef.fetch_trading_day, priority=1, exclusive=True)
+    router.register("opening_match_history", "eltdx", ef.fetch_opening_match_history, priority=1, exclusive=True)
+    router.register("capital_changes", "eltdx", ef.fetch_capital_changes, priority=1, exclusive=True)
+    router.register("special_limits_scan", "eltdx", ef.fetch_special_limits_scan, priority=1, exclusive=True)
+    router.register("f10_extra", "eltdx", ef.fetch_f10_extra, priority=1, exclusive=True)
 
     # ── akshare 单源（备 tencent_http） ──
     router.register("company_info", "akshare", akf.fetch_company_info, priority=1)

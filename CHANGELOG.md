@@ -4,6 +4,29 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/),
 
+## [3.3.8] - 2026-08-14
+
+### Added（eltdx 2.0 第二梯队 B 级接入）
+
+按老板规划接入 B 级（有等价源的高精度补充）接口，新增 **6 个 MCP 工具**（工具数 121→127）：
+
+- `eltdx_get_category_quotes`（分类行情：A股涨幅榜/成交额榜/封单榜，实时性强于 akshare）
+- `eltdx_get_trading_day`（交易日判定，服务器握手）
+- `eltdx_get_opening_match_history`（历史开盘撮合，盘后复盘）
+- `eltdx_get_capital_changes`（股本变动历史，复权计算基础）
+- `eltdx_get_special_limits_scan`（扫描全市场特殊品种涨跌停）
+- `eltdx_get_f10_extra`（F10 通用入口，覆盖估值/题材行情/总评/盈利预测/排名/治理/增减持/主营构成/公告/新闻，通达信编码字段降级源）
+
+### Changed
+- 版本三处同步至 3.3.8（VERSION / pyproject.toml / README）。
+
+### 决策
+- C 级（服务器文件/连接心跳/旧接口/底层万能口）按老板指示**不接入**。
+
+### 验证
+- 非网络全量测试 27 passed / 0 failed。
+- 分类行情实测返回实时涨幅榜（北交所 29.97%、创业板 20% 等）。
+
 ## [3.3.7] - 2026-08-14
 
 ### Added（eltdx 2.0 能力大规模接入 · 第一梯队 S+A 级）
