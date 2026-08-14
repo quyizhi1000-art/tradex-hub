@@ -4,6 +4,35 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/),
 
+## [3.3.7] - 2026-08-14
+
+### Added（eltdx 2.0 能力大规模接入 · 第一梯队 S+A 级）
+
+按老板规划，将 eltdx 2.0 的第一梯队（S+A 级）能力接入 tradex，共新增 **19 个 MCP 工具**（工具数 101→121）：
+
+**S 级（推送/盘口，交易看板底座）**
+- 新增 `data_sources/eltdx_stream.py`：`EltdxStreamManager` 常驻连接管理器（start/subscribe/poll 增量/snapshot 五档/unsubscribe/health/stop）。
+- 关键实测结论：eltdx 2.0 常驻连接/后台读线程/心跳保活/推送帧入队已由 PooledSocketTransport 托管；免费行情站不主动推送，增量靠 refresh_stream(0x0547) 游标机制（cursor=update_time_raw）。
+- 新增 `eltdx_get_depth`（五档盘口快照）、`eltdx_stream_health`（流健康状态）。
+
+**A 级（查询类，9 个数据域）**
+- `eltdx_get_security_codes`（全市场证券代码表，5552 只A股精确分类）
+- `eltdx_get_minute_history`（历史分时 240 点）+ `eltdx_get_buy_sell_strength`（买卖强度）
+- `eltdx_get_today_ticks`（当日逐笔）+ `eltdx_get_opening_match`（9:25 开盘撮合）
+- `eltdx_get_full_kline`（全量K线）+ `eltdx_get_adjusted_kline`（复权K线）
+- `eltdx_get_stock_profile`（全景档案：行情+财务一表）
+- `eltdx_get_shortline_indicators`（21 项短线打板指标）
+- `eltdx_get_finance_batch`（批量财务）+ `eltdx_get_special_limits`（特殊涨跌停）
+- `eltdx_get_finance_report` / `eltdx_get_dividend_financing` / `eltdx_get_company_news` / `eltdx_get_northbound_holding`（F10 基本面，通达信编码字段，降级补充源）
+- `eltdx_get_stock_topics`（个股题材）+ `eltdx_get_topic_stocks`（题材成分股）+ `eltdx_get_auction_data`（竞价汇总）
+
+### Changed
+- 版本三处同步至 3.3.7（VERSION / pyproject.toml / README）。
+
+### 验证
+- 非网络全量测试 27 passed / 0 failed。
+- 新增工具逐一端到端实测通过（五档盘口/历史分时/逐笔/复权K线/全景档案/短线指标/批量财务/题材/竞价等均返回真实数据）。
+
 ## [3.3.6] - 2026-08-14
 
 ### Changed（上游依赖升级）
