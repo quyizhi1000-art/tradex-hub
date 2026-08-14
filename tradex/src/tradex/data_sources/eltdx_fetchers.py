@@ -178,8 +178,9 @@ def fetch_f10_profile(code: str = "", symbol: str = "", **kwargs) -> dict:
 def fetch_realtime_quote(code: str = "", symbol: str = "", **kwargs):
     """实时行情（eltdx 源）。返回单行 DataFrame，含'代码'列。
 
-    使用 client.get_quote() 获取真正的实时报价（QuoteSnapshot），
+    使用 client.helpers.full_quotes() 获取真正的实时报价（QuoteSnapshot），
     字段比 K 线最后一根完整：含涨跌额/涨跌幅/昨收/内外盘/现手等。
+    v3.3.6: eltdx 2.0 移除旧式 client.get_quote()，迁移至 client.helpers.full_quotes()。
     兼容 symbol/code 两种参数名（SmartRouter 路由归一化）。
     """
     import pandas as pd
@@ -187,7 +188,7 @@ def fetch_realtime_quote(code: str = "", symbol: str = "", **kwargs):
     if client is None:
         raise RuntimeError("eltdx client not available")
     norm_code = _normalize_symbol_code(symbol, code)
-    quotes = client.get_quote(norm_code)
+    quotes = client.helpers.full_quotes(norm_code)
     if not quotes:
         raise RuntimeError("eltdx returned no quote")
     q = quotes[0]

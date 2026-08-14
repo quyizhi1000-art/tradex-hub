@@ -20,15 +20,22 @@ Data source routing (via SmartRouter):
 
 from __future__ import annotations
 
+import json
+
 from mcp.server.fastmcp import FastMCP
 
 import pandas as pd
 from ..data_sources import get_router
+from ..data_sources.akshare_fetchers import fetch_index_daily_amount
 from ..utils.cache import TTL_DAILY, TTL_REALTIME, cache
 from ..utils.formatter import df_to_json, error_response, slim_df
 from ..utils.symbol import normalize_symbol
 
 _router = get_router()
+
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 def register(mcp: FastMCP):
@@ -60,6 +67,64 @@ def register(mcp: FastMCP):
             return error_response(
                 f"获取市场概览失败: {e}", "get_market_overview"
             )
+
+    @mcp.tool()
+    async def get_index_volume_compare(days: int = 6) -> str:
+        """
+        获取三大指数（上证/深证/创业板）近 days 个交易日的量能序列，
+        用于盘后复盘「量能对比」柱状图。
+
+        返回 JSON：
+        {
+          "sh000001": {
+            "name": "上证指数",
+            "series": [{"date": "2026-08-13", "volume_hand": 572793677, "volume_yi_share": 5.73,
+                        "amount_yuan": 1164203068530, "amount_yi": 11642.03}, ...]
+          },
+          ...
+        }
+        - volume_hand: 成交量(手)
+        - volume_yi_share: 成交量(亿手)
+        - amount_yuan: 成交额(元)，东财源才有，腾讯源为 null
+        - amount_yi: 成交额(亿元)
+        单指数取数失败则在对应项中返回 {"series": [], "error": "..."}。
+        """
+        cache_key = f"index_vol_compare:{days}"
+        cached = cache.get(cache_key)
+        if cached is not None:
+            return cached
+
+        indices = [
+            ("sh000001", "上证指数"),
+            ("sz399001", "深证成指"),
+            ("sz399006", "创业板指"),
+        ]
+        result: dict = {}
+        for code, name in indices:
+            try:
+                # v3.3.2: fetch_index_daily_amount 主源改为东财 push2his 直连
+                # （返回真实成交额 f57），腾讯 tx 降级为备源；不再走 SmartRouter 的 12s 硬超时。
+                data = fetch_index_daily_amount(symbol=code, days=days)
+                series = []
+                for d in (data or []):
+                    vol = float(d.get("volume", 0) or 0)
+                    amt = d.get("amount")
+                    amt = float(amt) if amt is not None else None
+                    series.append({
+                        "date": str(d.get("date", "")),
+                        "volume_hand": round(vol, 0),
+                        "volume_yi_share": round(vol / 1e8, 2),
+                        "amount_yuan": round(amt, 0) if amt is not None else None,
+                        "amount_yi": round(amt / 1e8, 2) if amt is not None else None,
+                    })
+                result[code] = {"name": name, "series": series}
+            except Exception as e:
+                logger.warning("index_daily_amount %s failed: %s", code, e)
+                result[code] = {"name": name, "series": [], "error": str(e)}
+
+        payload = json.dumps(result, ensure_ascii=False)
+        cache.set(cache_key, payload, TTL_DAILY)
+        return payload
 
     @mcp.tool()
     async def get_money_flow(symbol: str) -> str:
@@ -146,6 +211,19 @@ def register(mcp: FastMCP):
             if isinstance(result, pd.DataFrame):
                 df = result
             elif isinstance(result, dict):
+                # 停更检测（v3.3.2）：数值冻结时明确标注，不喂假数
+                if result.get("discontinued"):
+                    note = result.get("note", "北向资金已停更")
+                    realtime = result.get("realtime") or {}
+                    df = pd.DataFrame([{
+                        "状态": "已停更",
+                        "说明": note,
+                        "最近合计(亿)": realtime.get("total"),
+                        "来源": result.get("source"),
+                    }])
+                    result_json = df_to_json(df, max_rows=5)
+                    cache.set(cache_key, result_json, TTL_DAILY)
+                    return result_json
                 # 同花顺返回的 dict 含 history 列表
                 history = result.get("history") or []
                 if not history:

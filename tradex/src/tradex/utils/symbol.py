@@ -12,7 +12,79 @@ Exchange rules:
 - 000xxx, 001xxx, 002xxx, 003xxx -> Shenzhen (sz)
 - 300xxx, 301xxx -> Shenzhen ChiNext (sz)
 - 4xxxxx, 8xxxxx -> BSE (bj)
+
+Index rules (指数代码白名单, v3.3.2 新增):
+- sh000001 -> 上证指数
+- sz399001 -> 深证成指
+- sz399006 -> 创业板指
+- sh000300 -> 沪深300
+- sh000688 -> 科创50
+- sh000905 -> 中证500
+- sz399852 -> 中证1000
 """
+
+# 指数代码白名单：带交易所前缀的指数代码 -> (exchange, 名称)
+# 注意：000001 同时是平安银行(SZ)与上证指数(SH)，仅靠 bare code 无法区分，
+# 因此白名单只用带前缀代码；bare code 仅收录"非股票专用"的指数代码。
+_INDEX_CODES: dict[str, tuple[str, str]] = {
+    "sh000001": ("sh", "上证指数"),
+    "sz399001": ("sz", "深证成指"),
+    "sz399006": ("sz", "创业板指"),
+    "sh000300": ("sh", "沪深300"),
+    "sh000688": ("sh", "科创50"),
+    "sh000905": ("sh", "中证500"),
+    "sz399852": ("sz", "中证1000"),
+}
+
+# 无前缀、且不会与任何 A 股股票代码冲突的指数代码 -> exchange
+_INDEX_BARE: dict[str, str] = {
+    "399001": "sz",
+    "399006": "sz",
+    "399852": "sz",
+    "000300": "sh",
+    "000688": "sh",
+    "000905": "sh",
+}
+
+# 指数代码 -> 中文名称（同时收录带前缀与无前缀形式，便于按原始 code 直接查名）
+_INDEX_NAME: dict[str, str] = {
+    "sh000001": "上证指数", "sz399001": "深证成指", "sz399006": "创业板指",
+    "sh000300": "沪深300", "sh000688": "科创50", "sh000905": "中证500",
+    "sz399852": "中证1000",
+    "000300": "沪深300", "000688": "科创50", "000905": "中证500",
+    "399001": "深证成指", "399006": "创业板指", "399852": "中证1000",
+}
+
+
+def is_index_code(code: str) -> bool:
+    """判断代码是否为指数代码（带前缀或唯一性 bare code 均可）。
+
+    Args:
+        code: 股票/指数代码，支持 'sh000001' / '000001' / '399006' 等形式。
+
+    Returns:
+        True 若为已知指数代码。
+    """
+    raw = str(code).strip().lower()
+    if raw in _INDEX_CODES:
+        return True
+    bare = normalize_symbol(code).lower()
+    return bare in _INDEX_BARE
+
+
+def _index_exchange(code: str) -> str | None:
+    """返回指数代码的交易所前缀（'sh'/'sz'），非指数返回 None。"""
+    raw = str(code).strip().lower()
+    if raw in _INDEX_CODES:
+        return _INDEX_CODES[raw][0]
+    bare = normalize_symbol(code).lower()
+    return _INDEX_BARE.get(bare)
+
+
+def _index_name(code: str) -> str | None:
+    """返回指数代码的中文名称，非已知指数返回 None。"""
+    raw = str(code).strip().lower()
+    return _INDEX_NAME.get(raw)
 
 
 def normalize_symbol(code: str) -> str:
@@ -55,6 +127,11 @@ def get_exchange(code: str) -> str:
     Returns:
         Exchange identifier: 'sh', 'sz', or 'bj'.
     """
+    # 指数代码优先判定（白名单，必须用原始 code 保留 sh/sz 前缀以消歧）
+    idx_ex = _index_exchange(code)
+    if idx_ex:
+        return idx_ex
+
     code = normalize_symbol(code)
 
     if code.startswith(("6",)):
@@ -77,6 +154,11 @@ def get_market_name(code: str) -> str:
     Returns:
         Human-readable market name in Chinese.
     """
+    # 指数代码优先判定（用原始 code 保留前缀）
+    idx_name = _index_name(code)
+    if idx_name:
+        return f"指数 · {idx_name}"
+
     code = normalize_symbol(code)
 
     if code.startswith("688"):
@@ -103,6 +185,11 @@ def format_with_exchange(code: str) -> str:
     Returns:
         Code with exchange prefix, e.g., 'sh600519'.
     """
+    # 指数代码优先判定（用原始 code 保留前缀）
+    idx_ex = _index_exchange(code)
+    if idx_ex:
+        return f"{idx_ex}{normalize_symbol(code)}"
+
     code = normalize_symbol(code)
     exchange = get_exchange(code)
     return f"{exchange}{code}"
@@ -120,6 +207,11 @@ def format_em_symbol(code: str) -> str:
     Returns:
         Code with uppercase exchange prefix, e.g., 'SH600519'.
     """
+    # 指数代码优先判定（用原始 code 保留前缀）
+    idx_ex = _index_exchange(code)
+    if idx_ex:
+        return f"{idx_ex.upper()}{normalize_symbol(code)}"
+
     code = normalize_symbol(code)
     exchange = get_exchange(code).upper()
     return f"{exchange}{code}"
@@ -135,6 +227,9 @@ def is_valid_a_share_code(code: str) -> bool:
     Returns:
         True if valid, False otherwise.
     """
+    # 指数代码不是 A 股股票（用原始 code 含前缀消歧）
+    if is_index_code(code):
+        return False
     code = normalize_symbol(code)
     if len(code) != 6 or not code.isdigit():
         return False

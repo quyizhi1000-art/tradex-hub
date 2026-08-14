@@ -80,6 +80,138 @@ def fetch_historical_kline(
 
 
 # ============================================================
+# index_daily_amount — 指数历史日K成交额（量能对比数据源）
+# ============================================================
+
+def fetch_index_daily_amount(symbol: str = "", code: str = "", days: int = 6, **kwargs):
+    """指数历史日K 量能序列（供盘后复盘「量能对比」柱状图）。
+
+    主源：东方财富 push2his（历史K线域名，直连，curl_cffi 绕过系统代理）。
+      返回字段 f51-f61 = [日期, 开, 收, 高, 低, 成交量(手), 成交额(元), 振幅, 涨跌幅, 涨跌额, 换手率]，
+      其中 成交额 在第7位（index 6）。
+    备源1：腾讯财经 stock_zh_index_daily_tx（直连可达，仅 成交量(手)，无成交额）。
+    备源2：东方财富 stock_zh_index_daily_em（含 成交量+成交额；当前网络拓扑下 push2 直连常 RemoteDisconnected）。
+    返回最近 days 个交易日的 [日期, 成交量(手), 成交额(元)]。
+    兼容 symbol/code 两种参数名（symbol 用 sh000001 / sz399001 / sz399006 等格式）。
+    """
+    ak = _ak()
+    sym = symbol or code
+    if not sym:
+        raise RuntimeError("index symbol required (e.g. sh000001)")
+
+    # 主源：东财 push2his 历史K线（能返回成交额(元)）
+    try:
+        return _fetch_index_daily_from_push2his(sym, days)
+    except Exception as e_push2his:
+        logger.debug("push2his index daily(%s) failed: %s", sym, e_push2his)
+
+    # 备源1：腾讯财经（amount 列实为成交量(手)，无成交额）
+    try:
+        df = ak.stock_zh_index_daily_tx(symbol=sym)
+        src = "tx"
+    except Exception as e_tx:
+        logger.debug("stock_zh_index_daily_tx(%s) failed: %s", sym, e_tx)
+        # 备源2：东方财富（含 成交量 + 成交额）
+        try:
+            df = ak.stock_zh_index_daily_em(symbol=sym)
+            src = "em"
+        except Exception as e_em:
+            raise RuntimeError(
+                f"index daily failed all (push2his, tx({e_tx}), em({e_em})) for {sym}"
+            )
+
+    if df is None or df.empty:
+        raise RuntimeError(f"index daily empty for {sym} (src={src})")
+
+    # 列名兼容：
+    #  - 东财 stock_zh_index_daily_em：含 成交量 + 成交额 两列
+    #  - 腾讯 stock_zh_index_daily_tx：仅 amount 列，且该列实为「成交量(手)」
+    cols_lower = {str(c).lower(): c for c in df.columns}
+    has_volume = any(k in cols_lower for k in ("volume", "vol", "成交量"))
+    has_amount_name = any(k in cols_lower for k in ("amount", "amt", "成交额", "成交额(元)"))
+
+    amt_col = None
+    if has_volume and has_amount_name:
+        # 东财：volume=成交量(手)，amount=成交额(元)
+        vol_col = next(c for c in df.columns if str(c).lower() in ("volume", "vol", "成交量"))
+        amt_col = next(c for c in df.columns if str(c).lower() in ("amount", "amt", "成交额", "成交额(元)"))
+    elif has_amount_name and not has_volume:
+        # 腾讯：仅 amount 列，实为成交量(手)
+        vol_col = next(c for c in df.columns if str(c).lower() in ("amount", "amt", "成交额", "成交额(元)"))
+    else:
+        vol_col = df.columns[-1]
+
+    df = df.tail(int(days))
+    out = []
+    for _, r in df.iterrows():
+        vol = float(r.get(vol_col)) if vol_col and r.get(vol_col) is not None else 0.0
+        amt = float(r.get(amt_col)) if amt_col and r.get(amt_col) is not None else None
+        out.append({
+            "date": str(r.get("date", "")),
+            "volume": vol,          # 成交量(手)
+            "amount": amt,         # 成交额(元)，东财源才有；腾讯源为 None
+        })
+    return out
+
+
+def _fetch_index_daily_from_push2his(sym: str, days: int) -> list:
+    """直连东财 push2his 历史K线接口取指数量能序列（含成交额）。
+
+    返回 [{"date","volume","amount"}, ...]；成交额/成交量为 None 时表示该源未提供。
+    """
+    from curl_cffi import requests as _rq
+
+    # symbol 格式 sh000001 / sz399001 / sz399006 → secid
+    if sym.lower().startswith("sh") or sym.lower().startswith("1."):
+        secid = "1." + sym[2:].zfill(6) if "." not in sym else sym
+    elif sym.lower().startswith("sz") or sym.lower().startswith("0."):
+        secid = "0." + sym[2:].zfill(6) if "." not in sym else sym
+    else:
+        # 纯数字：上证≈1.，深证≈0.
+        secid = f"1.{sym.zfill(6)}" if sym.startswith(("000001", "999999")) else f"0.{sym.zfill(6)}"
+
+    _session = _rq.Session()
+    _session.headers.update({
+        "User-Agent": (
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+            "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+        ),
+        "Referer": "https://quote.eastmoney.com/",
+    })
+    url = "https://push2his.eastmoney.com/api/qt/stock/kline/get"
+    params = {
+        "secid": secid,
+        "ut": "fa5fd1943c7b386f172d6893dbfba10b",
+        "fields1": "f1,f2,f3,f4,f5,f6",
+        "fields2": "f51,f52,f53,f54,f55,f56,f57,f58,f59,f60,f61",
+        "klt": 101,
+        "fqt": 0,
+        "end": "20500101",
+        "lmt": max(int(days), 10),
+    }
+
+    resp = _session.get(url, params=params, timeout=10)
+    resp.raise_for_status()
+    data = resp.json()
+    klines = (data.get("data") or {}).get("klines") or []
+    if not klines:
+        raise RuntimeError(f"push2his kline empty for {sym}")
+
+    out = []
+    for line in klines[-int(days):]:
+        p = line.split(",")
+        # f51..f61: 0日期 1开 2收 3高 4低 5成交量(手) 6成交额(元)
+        vol = float(p[5]) if len(p) > 5 and p[5] not in (None, "", "-") else 0.0
+        amt = float(p[6]) if len(p) > 6 and p[6] not in (None, "", "-") else None
+        out.append({
+            "date": p[0],
+            "volume": vol,
+            "amount": amt,
+        })
+    return out
+
+
+# ============================================================
 # minute_data — 分时数据
 # ============================================================
 
@@ -301,19 +433,29 @@ def fetch_industry_data(
 # ============================================================
 
 def fetch_market_overview(symbol: str = "", **kwargs):
-    """主要指数实时行情。返回 DataFrame。
+    """主要指数实时行情。返回 DataFrame（含 最新价/涨跌幅/成交量/成交额 等）。
 
-    symbol 为空时返回新浪全量指数；指定时返回东方财富对应系列指数。
+    主源：新浪/腾讯 stock_zh_index_spot_sina（直连可达，成交额单位=元，数据正确）。
+    备源：东方财富 stock_zh_index_spot_em（当前网络拓扑下 push2 直连常 RemoteDisconnected，
+    失败时自动降级新浪源）。
+    注意：旧版 akshare 的 stock_zh_index_spot 已改名 stock_zh_index_spot_sina，直接调用会
+    AttributeError，故主源改用 _sina 后缀接口。
     """
     ak = _ak()
     if symbol:
-        return ak.stock_zh_index_spot_em(symbol=symbol)
+        # 指定系列指数时走东财（带 symbol 参数过滤）
+        try:
+            return ak.stock_zh_index_spot_em(symbol=symbol)
+        except Exception as e_em:
+            logger.debug("stock_zh_index_spot_em(%s) failed: %s", symbol, e_em)
+            return ak.stock_zh_index_spot_sina()
     try:
-        df = ak.stock_zh_index_spot()
+        df = ak.stock_zh_index_spot_sina()
         if df is not None and not df.empty:
             return df
     except Exception as e:
-        logger.debug("stock_zh_index_spot(sina) failed: %s", e)
+        logger.debug("stock_zh_index_spot_sina failed: %s", e)
+    # 备源：东方财富
     return ak.stock_zh_index_spot_em()
 
 

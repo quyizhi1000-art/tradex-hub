@@ -98,6 +98,7 @@ def register_all_sources() -> None:
     router.register("industry_data", "akshare", akf.fetch_industry_data, priority=1)
     router.register("market_overview", "akshare", akf.fetch_market_overview, priority=1)
     router.register("market_overview", "tencent_http", hf.fetch_market_overview_tencent, priority=100)
+    router.register("index_daily_amount", "akshare", akf.fetch_index_daily_amount, priority=1)
     router.register("news_data", "em_news_direct", nf.fetch_em_news_direct, priority=1)
     router.register("news_data", "akshare", akf.fetch_news_data, priority=100)
     router.register("telegraph_news", "cls_telegraph", nf.fetch_cls_telegraph, priority=1)

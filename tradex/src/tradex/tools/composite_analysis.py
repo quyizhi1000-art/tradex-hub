@@ -36,22 +36,37 @@ logger = logging.getLogger(__name__)
 _router = get_router()
 
 
-async def _safe_call(func, *args, **kwargs) -> dict:
-    """安全调用函数，捕获异常返回错误信息。
+async def _safe_call(func, *args, timeout: float = 30.0, **kwargs) -> dict:
+    """安全调用函数，捕获异常/超时返回错误信息。
+
+    v3.3.2 优化：同步函数放到线程池执行 + asyncio.wait_for 超时，
+    避免慢源阻塞 MCP 事件循环（根因 C 双保险；route() 内部已有 12s 超时，
+    此处 30s 覆盖多源降级的总耗时）。
 
     Args:
-        func: 要调用的函数
+        func: 要调用的函数（可为同步或协程）
         *args, **kwargs: 函数参数
+        timeout: 整体超时秒数（含 route 内部多源降级）
 
     Returns:
         成功返回 {"success": True, "data": result}，
         失败返回 {"success": False, "error": str}
     """
     try:
-        result = await func(*args, **kwargs) if asyncio.iscoroutinefunction(func) else func(*args, **kwargs)
+        if asyncio.iscoroutinefunction(func):
+            result = await asyncio.wait_for(func(*args, **kwargs), timeout=timeout)
+        else:
+            loop = asyncio.get_running_loop()
+            result = await asyncio.wait_for(
+                loop.run_in_executor(None, lambda: func(*args, **kwargs)),
+                timeout=timeout,
+            )
         return {"success": True, "data": result}
+    except asyncio.TimeoutError:
+        logger.warning("组合分析子调用超时 %s (%.0fs)", getattr(func, "__name__", "?"), timeout)
+        return {"success": False, "error": f"timeout after {timeout}s"}
     except Exception as exc:
-        logger.warning("组合分析子调用失败 %s: %s", func.__name__, exc)
+        logger.warning("组合分析子调用失败 %s: %s", getattr(func, "__name__", "?"), exc)
         return {"success": False, "error": str(exc)}
 
 
@@ -138,26 +153,47 @@ def _get_sector_fund_flow_sync() -> dict:
 
 
 def _get_market_overview_sync() -> dict:
-    """同步获取大盘总览（内部函数，via SmartRouter）。"""
+    """同步获取大盘总览（内部函数，via SmartRouter）。
+
+    兼容 akshare(代码/名称/最新价) 与 tencent_http(指数名称/最新点位) 两种列名；
+    akshare 主源超时/失败自动降级到腾讯兜底源（SmartRouter 已处理）。
+    """
     result = {}
-    for name, index_symbol, index_code in [
-        ("shanghai", "上证系列指数", "000001"),
-        ("shenzhen", "深证系列指数", "399001"),
-        ("chinext", "创业板系列指数", "399006"),
-    ]:
-        try:
-            df, _src = _router.route("market_overview", symbol=index_symbol)
-            if df is not None and not df.empty:
-                row = df[df["代码"].astype(str).str.strip() == index_code]
-                if not row.empty:
-                    r = row.iloc[0]
-                    result[name] = {
-                        "name": str(r.get("名称", "")),
-                        "price": float(r.get("最新价", 0) or 0),
-                        "change_pct": float(r.get("涨跌幅", 0) or 0),
-                    }
-        except Exception:
-            continue
+    # key -> (期望代码, 期望名称子串)
+    targets = {
+        "shanghai": ("000001", "上证指数"),
+        "shenzhen": ("399001", "深证成指"),
+        "chinext": ("399006", "创业板指"),
+    }
+    try:
+        df, _src = _router.route("market_overview")
+        if df is None or df.empty:
+            return result
+        # 列名归一化（兼容两源）
+        code_col = "代码" if "代码" in df.columns else None
+        name_col = (
+            "名称" if "名称" in df.columns
+            else ("指数名称" if "指数名称" in df.columns else None)
+        )
+        price_col = "最新价" if "最新价" in df.columns else (
+            "最新点位" if "最新点位" in df.columns else None
+        )
+        pct_col = "涨跌幅" if "涨跌幅" in df.columns else None
+        for key, (code_want, name_want) in targets.items():
+            row = None
+            if code_col is not None:
+                row = df[df[code_col].astype(str).str.strip() == code_want]
+            if (row is None or row.empty) and name_col is not None:
+                row = df[df[name_col].astype(str).str.contains(name_want, na=False)]
+            if row is not None and not row.empty:
+                r = row.iloc[0]
+                result[key] = {
+                    "name": str(r.get(name_col, name_want)) if name_col else name_want,
+                    "price": float(r.get(price_col, 0) or 0),
+                    "change_pct": float(r.get(pct_col, 0) or 0),
+                }
+    except Exception as e:
+        logger.warning("_get_market_overview_sync failed: %s", e)
     return result
 
 

@@ -10,9 +10,9 @@ class TestServerSetup:
         assert mcp_server.name == "tradex"
 
     def test_all_90_tools_registered(self, mcp_server):
-        """v3.3.1: 100 tools (99 + 1 global_market_quote)."""
+        """v3.3.6: 101 tools (99 + 1 global_market_quote + 1 telegraph news)."""
         tools = mcp_server._tool_manager._tools
-        assert len(tools) == 100, f"Expected 100 tools, got {len(tools)}"
+        assert len(tools) == 101, f"Expected 101 tools, got {len(tools)}"
 
     def test_v01_tools_present(self, mcp_server):
         """V0.1 company info + price data tools (8 tools)."""
@@ -127,6 +127,6 @@ class TestServerSetup:
             assert tool_name in tools, f"V0.6 tool '{tool_name}' not registered"
 
     def test_tool_count_per_version(self, mcp_server):
-        """v3.3.1 三层架构:L1(65) + L2(8) + L3(16) + 看板(1) + 电报(1) + 新闻(9) = 100 工具."""
+        """v3.3.6 三层架构:L1(65) + L2(8) + L3(16) + 看板(1) + 电报(1) + 新闻(10) = 101 工具."""
         tools = mcp_server._tool_manager._tools
-        assert len(tools) == 100
+        assert len(tools) == 101

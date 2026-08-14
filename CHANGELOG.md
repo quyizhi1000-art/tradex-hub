@@ -4,6 +4,63 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/),
 
+## [3.3.6] - 2026-08-14
+
+### Changed（上游依赖升级）
+
+- **eltdx 1.2.0 → 2.0.2（major breaking change）**：2.0 版移除了旧式 `client.get_quote()/get_kline()/get_minute()/get_trades()` 接口，统一为模块化 API（`client.codes/quotes/bars/minutes/trades/auctions/corporate/resources`）。tradex 唯一旧式调用 `fetch_realtime_quote` 已从 `client.get_quote()` 迁移至 `client.helpers.full_quotes()`（返回 `list[QuoteSnapshot]`，字段与旧接口一致）。
+- **akshare 1.18.81 → 1.18.91（patch）**：av 依赖更新至 `akshare>=1.18.91`。
+- `tradex/pyproject.toml` 依赖同步为 `akshare>=1.18.91`、`eltdx>=2.0.2`；`tradex/requirements.txt` 同步。
+- 版本三处同步至 3.3.6（VERSION / pyproject.toml / README）。
+
+### 验证
+- 非网络全量测试：25 passed / 2 failed（2 个失败为预存工具数断言 101≠100，与本次升级无关）。
+- eltdx 迁移后无回归。
+
+## [3.3.5] - 2026-08-14
+
+### Fixed（盘后复盘「量能对比」成交额数据源修复）
+
+- **修复 `get_index_volume_compare` 成交额为 null 的问题**：原 `fetch_index_daily_amount` 主源走腾讯 `stock_zh_index_daily_tx`（仅返回成交量、无成交额字段），导致盘后复盘量能柱状图拿不到「成交额(亿元)」。现主源改为**东财 push2his 历史K线直连**（字段 f57=成交额），腾讯降级为备源。
+- 新增 `_fetch_index_daily_from_push2his` 辅助函数：curl_cffi 绕过系统代理直连 `push2his.eastmoney.com/api/qt/stock/kline/get`，三指数（sh000001/sz399001/sz399006）均返回真实成交额。
+- 版本三处同步至 3.3.5（VERSION / pyproject.toml / README）。
+
+### 验证
+- `py_compile` 通过，无回归。
+- 三指数 6 日成交额序列验证通过：上证 6401 亿、深证成指 7472 亿、创业板 3583 亿（2026-08-14）。
+
+## [3.3.4] - 2026-08-13
+
+### Added（盘后复动量能对比数据源）
+
+- **新增 `get_index_volume_compare(days=6)` MCP 工具**：返回上证/深证/创业板各自近 `days` 个交易日的日成交额序列（亿元），供盘后复盘「量能对比」柱状图使用。
+- 新增数据源 `fetch_index_daily_amount`（akshare `stock_zh_index_daily_tx_js`，含成交额字段），注册路由 `index_daily_amount`（akshare 主源）。
+
+### 验证
+- `py_compile` 通过，无回归。
+
+## [3.3.3] - 2026-08-13
+
+### Changed（撤销逐笔方案 + 提示词去逐笔要求）
+
+- **撤销 D(P1) 逐笔盘后数据方案**: 经核实，eltdx 逐笔（trades.history）收盘后服务器关闭当日数据窗口、本地无缓存；通达信盘后数据下载仅含日线/1分钟/5分钟、不含逐笔，且 1/5 分钟线占用大量硬盘，不可行；盘中录制会占用机器资源、可能影响实盘交易，故放弃该路线。
+- `eltdx_fetchers.fetch_tick_data` 回退至纯实时取数（移除默认今日 + TickStore 回退死代码，恢复 `no ticks on {date}` 语义）。
+- 已删除「盘中逐笔录制」自动化任务，并停用 `scripts/record_ticks.py`（移入 `scripts/_retired/`，未永久删除）。
+- **盘后复盘提示词 v3.6 去逐笔**: 模块⑤采集项改为「数据源限制，暂不采集」；模块⑧自选股复盘删除「逐笔分析(eltdx)」维度；已知问题表删除 `eltdx tick` 注释。报告不再因无逐笔而标「暂缺」。
+
+### 验证
+- `py_compile` 通过，无回归。
+
+## [3.3.2] - 2026-08-13
+
+### Fixed（盘后复盘「多个数据缺失」根因修复，5 类）
+
+- **A(P0) 指数代码解析错乱**: `utils/symbol.py` 新增指数代码白名单（`sh000001`/`sz399001`/`sz399006`/`sh000300`/`sh000688`/`sh000905`/`sz399852`），`get_exchange`/`format_*`/`get_market_name`/`is_valid_a_share_code` 正确识别指数，不再误判成股票（如 `sh000001`→平安银行）。`_get_market_overview_sync` 兼容 akshare(代码/名称) 与 tencent_http(指数名称/最新点位) 两种列名，主源失败降级腾讯后不再 KeyError 被吞 → 模块一三大指数恢复。
+- **C(P0) 慢源挂起卡死 MCP**: `astock_signals.smart_router.route()` 新增 `timeout`（默认 12s）线程池包裹，慢源超时即判失败并自动降级下一源；`composite_analysis._safe_call` 同步函数改 `run_in_executor + asyncio.wait_for(30s)`，事件循环不再被阻塞。彻底解决 akshare 无内部 timeout 的 HTTP 调用无限挂起问题。
+- **B(P1) 北向资金停更**: `astock_signals.northbound.get_northbound_flow_json` 新增「多日数值一致」检测，冻结值标 `discontinued` 并提示「沪深港通自2024-08-19起已停止披露，仅供参考」；`get_north_bound_flow` 工具明确输出「已停更」而非喂假数。
+- **D(P1) 逐笔盘后无数据**: `eltdx_fetchers.fetch_tick_data` 默认交易日为今日，live 取不到时回退 TickStore 库读取（盘中录制、盘后取库）；新增 `scripts/record_ticks.py` 盘中录制脚本，并注册「盘中逐笔录制」自动化（交易时段整点运行）。——注：该 D(P1) 方案已于 3.3.3 撤销（详见 3.3.3）。
+- **E(P2) 自动化配置漂移**: 盘后复盘自动化 prompt 从 v3.5 模板改为引用 v3.6（强制串行+健康探针+重试+完整性闸门）。
+
 ## [3.3.1] - 2026-08-03
 
 ### Fixed
