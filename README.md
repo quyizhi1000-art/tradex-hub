@@ -2,7 +2,7 @@
 
 <p align="center">
   <strong>AI金融智能决策中台</strong><br/>
-  AKShare 封装 · eltdx 通达信协议 · astock_signals 信号模块 · 量化计算引擎 · SmartRouter 全量路由 · 本地 MCP Server · 99 个工具
+  AKShare 封装 · eltdx 通达信协议 · astock_signals 信号模块 · 量化计算引擎 · SmartRouter 全量路由 · 本地 MCP Server · 127 个工具
 </p>
 
 <p align="center">
@@ -10,7 +10,7 @@
   <img src="https://img.shields.io/badge/MCP-1.0-green.svg" alt="MCP"/>
   <img src="https://img.shields.io/badge/License-Apache--2.0-yellow.svg" alt="License"/>
   <img src="https://img.shields.io/badge/Data-A股-red.svg" alt="Data Scope"/>
-  <img src="https://img.shields.io/badge/Tools-99-orange.svg" alt="MCP Tools"/>
+  <img src="https://img.shields.io/badge/Tools-127-orange.svg" alt="MCP Tools"/>
   <img src="https://img.shields.io/badge/Version-3.3.8-blue.svg" alt="Version"/>
 </p>
 
@@ -20,20 +20,19 @@
 
 为 AI Agent（WorkBuddy / Claude Code / Cursor）提供 **A 股金融数据 + 量化计算 + 决策支持的 MCP 接口**。
 
-**三层能力模型**：
-- **L1 数据获取层**（65个工具）：通过 SmartRouter 统一获取数据（行情/财务/估值/行业/新闻/宏观/涨停板/龙虎榜等）
+**三层能力模型**（127 个工具）：
+- **L1 数据获取层**：通过 SmartRouter 统一获取数据（行情/财务/估值/行业/新闻/宏观/涨停板/龙虎榜/五档盘口/逐笔/分时/题材/短线指标等），其中 eltdx 通达信协议 31 个工具
 - **L2 计算引擎层**（8个工具）：技术指标计算6个、绩效指标计算2个
 - **L3 决策支持层**（16个工具）：交易信号生成3个、多因子分析2个、条件选股2个、系统诊断5个、综合分析3个、技术分析引擎1个
 
-**数据源架构（v3.3.0）**：
-- **data_sources 数据源层**：38 个数据类型，48 个数据源注册到 SmartRouter
+**数据源架构（v3.3.8）**：
+- **data_sources 数据源层**：65 个数据类型，76 个数据源注册到 SmartRouter
 - **SmartRouter 全量覆盖**：L1 工具通过 `SmartRouter.route()` 统一获取数据，自动健康评分/降级/故障隔离
-- **独占源标记**：集合竞价/逐笔/F10（eltdx 独有）、涨停归因（同花顺独有）、解禁日历（东财独有）等标记为 `exclusive`
-- **eltdx 1.2.0**：行情类第一主源（郑州节点，TCP 3.5ms），独有集合竞价/逐笔/F10
+- **eltdx 2.0.2**：行情类第一主源，31 个工具覆盖五档盘口/集合竞价/逐笔/F10/分时/K线/全景档案/短线指标/题材/分类行情等；新增常驻连接管理器 `eltdx_stream.py`（游标增量轮询实现准实时五档盘口）
 - **新闻资讯数据源**：东财个股新闻直连、财联社实时电报、巨潮公告直连、新浪财经直连、百度经济日历/交易提醒/热搜、期货新闻、东财人气榜、雪球热度、机构持仓、同花顺问财等
 - **数据源看板**：`python -m tradex.dashboard`（端口 8765），可视化查看数据源健康/路由/工具分布；MCP 工具 `get_data_source_dashboard` 可在 Agent 对话中查询
 
-**v3.3.0 更新**：新增 9 个 akshare 新闻资讯数据源（百度/东财人气/雪球/期货/基金持仓等）+ 同花顺问财可选集成，新增 9 个 MCP 工具（工具数 90→99），数据类型从 27 扩展到 38。详见 `docs/architecture.md`。
+**v3.3.8 更新**：eltdx 2.0 能力大规模接入（S+A+B 三梯队共 26 个新工具：五档盘口/历史分时/买卖强度/逐笔/开盘撮合/全量K线/复权K线/全景档案/短线指标/批量财务/F10财报分红资讯北向/题材/竞价/分类行情/交易日/股本变动/特殊涨跌停扫描），工具数 101→127，数据类型 40→65。
 
 ---
 
@@ -59,16 +58,22 @@ AI Agent (WorkBuddy / Claude Code / Cursor)
         │     ├── signal_data (17)   → 涨停归因/解禁/概念/预期/技术指标/北向/资金流/龙虎榜/行业/ETF/可转债/涨停板
         │     └─ 数据源：东财直连 + 同花顺 + AKShare
         │
-        └── eltdx 1.2.0 封装（5 工具）
-              ├── 集合竞价 (auction)    — AKShare 无此功能
-              ├── 逐笔成交 (ticks)      — AKShare 无此功能
-              ├── F10 资料 (f10)        — AKShare 无此功能
-              ├── 分时数据 (minutes)    — 与 AKShare 互补
-              └── K 线 (kline)          — 与 AKShare 互补
+        └── eltdx 2.0.2 封装（31 工具）
+              ├── 五档盘口 (depth)        — 常驻连接 + 游标增量轮询
+              ├── 集合竞价 (auction)      — AKShare 无此功能
+              ├── 逐笔成交 (ticks)        — AKShare 无此功能
+              ├── F10 资料 (f10)          — AKShare 无此功能
+              ├── 分时数据 (minutes)      — 含历史分时 + 买卖强度
+              ├── K 线 (kline)            — 含全量 + 复权
+              ├── 全景档案 (profile)      — 行情+财务一表
+              ├── 短线指标 (shortline)    — 21 项打板指标
+              ├── 批量财务 (finance)      — 总股本/资产/净利润
+              ├── 题材 (topics)           — 个股题材 + 成分股
+              └── 分类行情 (category)     — 涨幅榜/成交额榜
                     └─ 数据源：通达信私有协议 (TCP 7709)
 ```
 
-## MCP 工具清单（99 个）
+## MCP 工具清单（127 个）
 
 ### 1. 公司信息（4 个）— `company_info`
 
@@ -175,15 +180,62 @@ AI Agent (WorkBuddy / Claude Code / Cursor)
 | `get_board_sentiment` 🆕 v3.0.0 | 打板情绪速算（涨停/炸板/跌停情绪指标） | 本地计算 |
 | `get_limit_up_insight` 🆕 v3.0.0 | 涨停揭秘（题材归因/封单强度/资金流向） | 同花顺 limit_up_detail |
 
-### 10. eltdx 通达信独有（5 个）— `eltdx_data`
+### 10. eltdx 通达信协议（31 个）— `eltdx_data` 🆕 v3.3.8 扩充
 
-| 工具名 | 功能 | 延迟 | AKShare 是否有 |
-|--------|------|------|---------------|
-| `eltdx_get_auction` | 集合竞价（9:15-9:25撮合过程） | ~40ms | ❌ 没有 |
-| `eltdx_get_ticks` | 逐笔成交（价格/量/买卖方向） | ~45ms | ❌ 没有 |
-| `eltdx_get_f10` | F10资料（公司概况/题材归因/财务诊断） | ~2200ms | ❌ 没有 |
-| `eltdx_get_minutes` | 分时数据（1分钟K线） | ~40ms | ⚠️ 有但源不同 |
-| `eltdx_get_kline` | K线（日/周/月/5m/15m/30m/60m） | ~80ms | ⚠️ 有但源不同 |
+**盘口/推送**（S 级，交易看板底座）：
+| 工具名 | 功能 |
+|--------|------|
+| `eltdx_get_depth` | 五档盘口快照（买1-5/卖1-5/内外盘） |
+| `eltdx_stream_health` | 常驻连接管理器健康状态 |
+
+**集合竞价/逐笔**：
+| 工具名 | 功能 |
+|--------|------|
+| `eltdx_get_auction` | 集合竞价序列（9:15-9:25） |
+| `eltdx_get_ticks` | 历史逐笔成交 |
+| `eltdx_get_today_ticks` | 当日逐笔成交 |
+| `eltdx_get_opening_match` | 当日 9:25 开盘撮合 |
+| `eltdx_get_opening_match_history` | 历史开盘撮合 |
+| `eltdx_get_auction_data` | 竞价汇总（开盘价/量/额/涨跌） |
+
+**分时**：
+| 工具名 | 功能 |
+|--------|------|
+| `eltdx_get_minutes` | 当日分时 |
+| `eltdx_get_minute_history` | 历史分时（盘后复盘） |
+| `eltdx_get_buy_sell_strength` | 买卖强度（日内强弱） |
+
+**K 线**：
+| 工具名 | 功能 |
+|--------|------|
+| `eltdx_get_kline` | K线（日/周/月/分钟） |
+| `eltdx_get_full_kline` | 全量K线（回测） |
+| `eltdx_get_adjusted_kline` | 复权K线（qfq/hfq） |
+
+**F10/基本面**：
+| 工具名 | 功能 |
+|--------|------|
+| `eltdx_get_f10` | F10资料（概况/题材/诊断） |
+| `eltdx_get_f10_extra` | F10通用入口（估值/排名/治理等） |
+| `eltdx_get_finance_report` | 财务报表（资产负债/利润/现金流） |
+| `eltdx_get_dividend_financing` | 分红融资历史 |
+| `eltdx_get_company_news` | 公司资讯/研报 |
+| `eltdx_get_northbound_holding` | 沪深股通持股 |
+| `eltdx_get_finance_batch` | 批量财务字段 |
+| `eltdx_get_stock_profile` | 全景档案（行情+财务一表） |
+| `eltdx_get_shortline_indicators` | 21 项短线打板指标 |
+
+**题材/分类**：
+| 工具名 | 功能 |
+|--------|------|
+| `eltdx_get_stock_topics` | 个股关联题材 |
+| `eltdx_get_topic_stocks` | 题材成分股排名 |
+| `eltdx_get_security_codes` | 全市场证券代码表 |
+| `eltdx_get_category_quotes` | 分类行情（涨幅榜/成交额榜） |
+| `eltdx_get_trading_day` | 交易日判定 |
+| `eltdx_get_special_limits` | 特殊品种涨跌停参考价 |
+| `eltdx_get_special_limits_scan` | 扫描全市场特殊涨跌停 |
+| `eltdx_get_capital_changes` | 股本变动历史 |
 
 ### 11. 技术指标计算（6 个）— `technical_indicators` 🆕 V2.5.0
 
@@ -295,7 +347,7 @@ pip install --no-build-isolation -e .
 ### 5. 安装运行时依赖
 
 ```bash
-pip install "akshare>=1.18.81" mcp pandas pydantic "eltdx>=1.2.0"
+pip install "akshare>=1.18.91" mcp pandas pydantic "eltdx>=2.0.2"
 ```
 
 ---
@@ -334,10 +386,11 @@ AI 会调用 `mcp__tradex__eltdx_get_kline`，返回 100 根日 K 线。
 
 ## 已知限制
 
-1. **eltdx 逐笔数据不带时间字段**（`time: null`），只有价格/量/方向
-2. **eltdx F10 延迟高**（~2 秒），但数据独有（题材归因是 AKShare 没有的）
-3. **SmartRouter 全量覆盖**（v3.1.0）：L1 工具通过 `SmartRouter.route()` 统一获取数据，自动健康评分/降级/故障隔离，25 数据类型 34 源
-4. **Wind/通达信 MCP 不在本项目里**：通过独立 MCP Server 或 AI Agent 的 connector 系统接入
+1. **eltdx F10 字段为通达信内部编码**（`T007`/`T008` 等）：财报/分红/资讯/北向 4 个接口返回原始编码字段，作为 akshare 中文源的降级补充源，字段中文映射留待后续
+2. **免费行情站不主动推送**：eltdx `drain_pushes` 实测 0 帧，「推送」实为 refresh_stream 游标增量轮询（`eltdx_stream.py` 已封装）
+3. **eltdx F10 延迟较高**（~2 秒）：走 7615 HTTP 网关，但数据独有（题材归因 AKShare 没有）
+4. **SmartRouter 全量覆盖**：L1 工具通过 `SmartRouter.route()` 统一获取数据，自动健康评分/降级/故障隔离，65 数据类型 76 源
+5. **Wind 等独立 MCP 不在本项目里**：通过独立 MCP Server 或 AI Agent 的 connector 系统接入
 
 ---
 
@@ -345,6 +398,13 @@ AI 会调用 `mcp__tradex__eltdx_get_kline`，返回 100 根日 K 线。
 
 | 版本 | 日期 | 内容 |
 |------|------|------|
+| v3.3.8 | 2026-08-14 | eltdx 2.0 第二梯队 B 级接入：分类行情(涨幅榜/成交额榜)、交易日判定、历史开盘撮合、股本变动、特殊涨跌停扫描、F10通用入口(估值/题材/总评/盈利预测/排名/治理/增减持/主营/公告/新闻)，工具数 121→127 |
+| v3.3.7 | 2026-08-14 | eltdx 2.0 第一梯队 S+A 级接入：常驻连接管理器(eltdx_stream.py，游标增量轮询实现准实时五档盘口)+五档盘口+证券代码表+历史分时+买卖强度+逐笔+开盘撮合+全量K线+复权K线+全景档案+21项短线指标+批量财务+特殊涨跌停+F10财报分红资讯北向+个股题材+题材成分股+竞价汇总，工具数 101→121，数据类型 40→64 |
+| v3.3.6 | 2026-08-14 | 上游依赖升级：eltdx 1.2.0→2.0.2（major breaking，get_quote→helpers.full_quotes 迁移）+ akshare 1.18.81→1.18.91；盘后量能成交额修复（push2his 直连，f57=成交额）；工具数断言 100→101 |
+| v3.3.5 | 2026-08-14 | 盘后复盘「量能对比」成交额数据源修复：fetch_index_daily_amount 主源改 push2his.eastmoney.com 直连（含成交额），腾讯降级备源 |
+| v3.3.4 | 2026-08-13 | 盘后复盘「量能对比」数据源：新增 get_index_volume_compare 工具（上证/深证/创业板近 N 日成交额序列） |
+| v3.3.3 | 2026-08-13 | 撤销逐笔盘后数据方案（eltdx 逐笔收盘后无窗口、1/5分钟线占盘过大），fetch_tick_data 回退纯实时，盘后复盘提示词 v3.6 去逐笔要求 |
+| v3.3.2 | 2026-08-13 | 盘后复盘「多个数据缺失」根因修复 5 类：指数代码解析错乱（symbol.py 白名单）、慢源挂起卡死 MCP（SmartRouter timeout 12s）、北向资金停更检测、逐笔盘后回退 TickStore、自动化配置漂移 |
 | v3.3.1 | 2026-08-03 | 修复 4 个问题：get_money_flow 代理问题（4只股票全通）、get_financial_calendar date过滤失效（各源独立过滤）、search_news 稳定性增强（个股新闻降级全市场源）、get_sector_fund_flow 字段解析（新浪备源7字段）；P0修复：get_realtime_quote 外围行情代理失败、get_company_announcements 公告过滤 |
 | v3.3.0 | 2026-08-03 | 新增 9 个新闻资讯数据源（百度经济日历/交易提醒/热搜、期货新闻、新浪财经、东财人气榜、雪球热度、机构持仓、指数情绪）+ 同花顺问财可选集成，新增 9 个 MCP 工具（get_market_sentiment/get_futures_news/get_hot_rank/get_hot_keywords/get_xueqiu_hot/get_fund_hold/get_hot_search/get_wencai_query/get_wencai_news），工具数 90→99，数据类型 27→38 |
 | v3.1.4 | 2026-08-02 | 修复 P1/P2 遗留：eltdx realtime_quote 改用 get_quote()（QuoteSnapshot 完整字段含涨跌幅/内外盘）；装饰器死代码修复（list_all_tools/health_check 改用 mcp 实例，不再误报 degraded）；源名标识修正（etf_data/cb_data akshare→astock_signals）；_client_lock 改用 threading.Lock；architecture.md 文档修正；ETF 列名重复 warning 修复 |
