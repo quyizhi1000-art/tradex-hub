@@ -58,6 +58,9 @@ from . import http_fetchers as hf
 from . import news_fetchers as nf
 from . import astock_signals_fetchers as asf
 from . import wencai_fetchers as wf
+from . import em_client as emc
+from . import ths_fetchers as ths
+from . import tdx_local as tdx
 
 logger = logging.getLogger("tradex.data_sources")
 
@@ -161,6 +164,21 @@ def register_all_sources() -> None:
 
     # ── v3.3.1 新增：全局行情（腾讯直连，美股/大宗/亚太/外汇） ──
     router.register("global_market_quote", "tencent_http", hf.fetch_global_quote_tencent, priority=1)
+
+    # ── v3.3.8 新增：市场级统计（实时涨跌家数 / 行业板块涨幅） ──
+    # market_breadth：东财 push2ex 涨跌分布（实时）
+    # industry_quotes：东财 push2 行业板块（内部自动降级 push2delay 镜像）
+    router.register("market_breadth", "em_push2ex", hf.fetch_market_breadth, priority=1)
+    router.register("industry_quotes", "em_push2", hf.fetch_industry_quotes, priority=1)
+
+    # ── v3.3.9 新增：同花顺备源 + 东财 slist + 通达信本地数据 ──
+    router.register("stock_boards", "em_slist", emc.fetch_stock_boards, priority=1)
+    router.register("ths_eps_forecast", "ths", ths.fetch_ths_eps_forecast, priority=1)
+    router.register("ths_hot_reason", "ths", ths.fetch_ths_hot_reason, priority=1)
+    router.register("ths_limit_up_pool", "ths", ths.fetch_ths_limit_up_pool, priority=1)
+    router.register("ths_hot_list", "ths", ths.fetch_ths_hot_list, priority=1)
+    router.register("local_kline", "tdx_local", tdx.fetch_local_kline, priority=1)
+    router.register("local_minute", "tdx_local", tdx.fetch_local_minute, priority=1)
 
     # ── v3.3.0 新增：新闻/资讯类数据源 ──
     router.register("baidu_economic_calendar", "akshare_baidu_economic", akf.fetch_baidu_economic_calendar, priority=1)

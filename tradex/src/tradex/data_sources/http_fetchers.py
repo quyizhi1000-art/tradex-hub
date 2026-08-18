@@ -246,3 +246,74 @@ def fetch_market_overview_tencent(**kwargs) -> pd.DataFrame:
     except Exception as e:
         logger.warning("fetch_market_overview_tencent failed: %s", e)
         raise
+
+
+def fetch_market_breadth(**kwargs) -> pd.DataFrame:
+    """全市场实时涨跌家数/涨跌停（东财 push2ex 涨跌分布，直连实时）。
+
+    Returns:
+        DataFrame columns: 上涨 / 下跌 / 平盘 / 涨停 / 跌停
+    """
+    from tradex.data_sources.em_client import em_get
+
+    url = "https://push2ex.eastmoney.com/getTopicZDFenBu"
+    params = {"ut": "7eea3edcaed734bea9cbfc24409ed989", "dpt": "wz.ztzt"}
+    resp = em_get(url, params=params, timeout=15)
+    resp.raise_for_status()
+    fenbu = resp.json()["data"]["fenbu"]
+    up = down = flat = limit_up = limit_down = 0
+    for item in fenbu:
+        for k, v in item.items():
+            k = int(k)
+            v = int(v)
+            if k > 0:
+                up += v
+            elif k < 0:
+                down += v
+            else:
+                flat += v
+            if k >= 10:
+                limit_up += v
+            if k <= -10:
+                limit_down += v
+    return pd.DataFrame([{"上涨": up, "下跌": down, "平盘": flat, "涨停": limit_up, "跌停": limit_down}])
+
+
+def fetch_industry_quotes(**kwargs) -> pd.DataFrame:
+    """行业板块实时涨幅（东财 push2 主源，失败降级 push2delay 镜像）。
+
+    Returns:
+        DataFrame columns: 板块名称 / 涨跌幅 / 领涨股票 / 领涨股票涨跌幅 / 上涨家数 / 下跌家数
+    """
+    from tradex.data_sources.em_client import em_get
+
+    params = {
+        "pn": "1", "pz": "100", "po": "1", "np": "1",
+        "ut": "bd1d9ddb04089700cf9c27f6f7426281", "fltt": "2", "invt": "2",
+        "fid": "f3", "fs": "m:90 t:2 f:!50",
+        "fields": "f12,f14,f2,f3,f104,f105,f128,f136",
+    }
+    # 主源 push2（实时、常封），备源 push2delay（稳定、延迟几分钟）
+    for host in ("https://push2.eastmoney.com", "https://push2delay.eastmoney.com"):
+        try:
+            resp = em_get(f"{host}/api/qt/clist/get", params=params, timeout=15)
+            resp.raise_for_status()
+            diff = resp.json().get("data", {}).get("diff", [])
+            rows = []
+            for item in diff:
+                pct = item.get("f3")
+                if pct is None or pct == "-":
+                    continue
+                rows.append({
+                    "板块名称": item.get("f14", ""),
+                    "涨跌幅": float(pct),
+                    "领涨股票": item.get("f128", ""),
+                    "领涨股票涨跌幅": float(item.get("f136", 0) or 0),
+                    "上涨家数": int(item.get("f104", 0) or 0),
+                    "下跌家数": int(item.get("f105", 0) or 0),
+                })
+            rows.sort(key=lambda x: x["涨跌幅"], reverse=True)
+            return pd.DataFrame(rows)
+        except Exception as e:  # noqa: BLE001
+            logger.warning("fetch_industry_quotes %s failed: %s", host, e)
+    raise RuntimeError("fetch_industry_quotes all sources failed")

@@ -4,6 +4,30 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/),
 
+## [3.3.9] - 2026-08-18
+
+### Added（数据源扩充 + 本地数据 + 全局直连）
+
+- **全局直连**：`__init__.py` import 时清代理环境变量（HTTP(S)_PROXY 等），国内数据源一律直连，代理只给 git push GitHub。
+- **东财限流防封**：新增 `em_client.py`，em_get 统一请求入口（间隔≥1s+随机抖动+会话复用），所有东财接口走限流，避免高频封 IP。
+- **东财 slist 板块归属**：`fetch_stock_boards`（个股所属行业/概念/地域 + 龙头股，一次请求拿全）。
+- **同花顺数据源**：新增 `ths_fetchers.py`，4 个零鉴权接口（一致预期 EPS / 热点归因 reason / 涨停揭秘 / 热榜）。
+- **通达信本地数据**：新增 `tdx_local.py`，读本地 vipdoc .day/.lc5 二进制文件（离线不封 IP），全市场 5900+ 只日线。
+- **实时涨跌家数 / 行业涨幅**：`fetch_market_breadth`（push2ex 涨跌分布）+ `fetch_industry_quotes`（push2→push2delay 降级）。
+
+### Added（MCP 工具）
+
+- `get_local_kline` / `get_local_minute`：读通达信本地日线/分钟线（仅回测/历史分析，非盘中实时，盘中实时用实时源）。
+
+### Changed
+
+- 版本三处同步至 3.3.9（VERSION / pyproject.toml / README）。
+- 工具数 127→129。
+
+### 验证
+
+- 本地日线实测 5984 条（茅台全历史）；同花顺热点归因 64 只含题材标签；一致预期 EPS 3 年；slist 板块归属 28 板块含龙头。
+
 ## [3.3.8] - 2026-08-14
 
 ### Added（eltdx 2.0 第二梯队 B 级接入）

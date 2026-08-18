@@ -11,7 +11,7 @@
   <img src="https://img.shields.io/badge/License-Apache--2.0-yellow.svg" alt="License"/>
   <img src="https://img.shields.io/badge/Data-A股-red.svg" alt="Data Scope"/>
   <img src="https://img.shields.io/badge/Tools-127-orange.svg" alt="MCP Tools"/>
-  <img src="https://img.shields.io/badge/Version-3.3.8-blue.svg" alt="Version"/>
+  <img src="https://img.shields.io/badge/Version-3.3.9-blue.svg" alt="Version"/>
 </p>
 
 ---
@@ -25,14 +25,14 @@
 - **L2 计算引擎层**（8个工具）：技术指标计算6个、绩效指标计算2个
 - **L3 决策支持层**（16个工具）：交易信号生成3个、多因子分析2个、条件选股2个、系统诊断5个、综合分析3个、技术分析引擎1个
 
-**数据源架构（v3.3.8）**：
+**数据源架构（v3.3.9）**：
 - **data_sources 数据源层**：65 个数据类型，76 个数据源注册到 SmartRouter
 - **SmartRouter 全量覆盖**：L1 工具通过 `SmartRouter.route()` 统一获取数据，自动健康评分/降级/故障隔离
 - **eltdx 2.0.2**：行情类第一主源，31 个工具覆盖五档盘口/集合竞价/逐笔/F10/分时/K线/全景档案/短线指标/题材/分类行情等；新增常驻连接管理器 `eltdx_stream.py`（游标增量轮询实现准实时五档盘口）
 - **新闻资讯数据源**：东财个股新闻直连、财联社实时电报、巨潮公告直连、新浪财经直连、百度经济日历/交易提醒/热搜、期货新闻、东财人气榜、雪球热度、机构持仓、同花顺问财等
 - **数据源看板**：`python -m tradex.dashboard`（端口 8765），可视化查看数据源健康/路由/工具分布；MCP 工具 `get_data_source_dashboard` 可在 Agent 对话中查询
 
-**v3.3.8 更新**：eltdx 2.0 能力大规模接入（S+A+B 三梯队共 26 个新工具：五档盘口/历史分时/买卖强度/逐笔/开盘撮合/全量K线/复权K线/全景档案/短线指标/批量财务/F10财报分红资讯北向/题材/竞价/分类行情/交易日/股本变动/特殊涨跌停扫描），工具数 101→127，数据类型 40→65。
+**v3.3.9 更新**：全局直连（import 时清代理环境变量，国内数据源不走代理）+ 新增数据源（同花顺 4 接口 / 东财 slist 板块归属 / 东财限流防封 / 实时涨跌家数 / 行业涨幅 / 通达信本地数据）+ 2 个本地数据 MCP 工具，工具数 127→129。
 
 ---
 
@@ -180,7 +180,7 @@ AI Agent (WorkBuddy / Claude Code / Cursor)
 | `get_board_sentiment` 🆕 v3.0.0 | 打板情绪速算（涨停/炸板/跌停情绪指标） | 本地计算 |
 | `get_limit_up_insight` 🆕 v3.0.0 | 涨停揭秘（题材归因/封单强度/资金流向） | 同花顺 limit_up_detail |
 
-### 10. eltdx 通达信协议（31 个）— `eltdx_data` 🆕 v3.3.8 扩充
+### 10. eltdx 通达信协议（31 个）— `eltdx_data` 🆕 v3.3.9 扩充
 
 **盘口/推送**（S 级，交易看板底座）：
 | 工具名 | 功能 |
@@ -398,6 +398,7 @@ AI 会调用 `mcp__tradex__eltdx_get_kline`，返回 100 根日 K 线。
 
 | 版本 | 日期 | 内容 |
 |------|------|------|
+| v3.3.9 | 2026-08-18 | 全局直连(import去代理) + 同花顺4接口/东财slist板块归属/东财限流防封/实时涨跌家数/行业涨幅/通达信本地数据 + 本地数据MCP工具2个(get_local_kline/get_local_minute)，工具数 127→129 |
 | v3.3.8 | 2026-08-14 | eltdx 2.0 第二梯队 B 级接入：分类行情(涨幅榜/成交额榜)、交易日判定、历史开盘撮合、股本变动、特殊涨跌停扫描、F10通用入口(估值/题材/总评/盈利预测/排名/治理/增减持/主营/公告/新闻)，工具数 121→127 |
 | v3.3.7 | 2026-08-14 | eltdx 2.0 第一梯队 S+A 级接入：常驻连接管理器(eltdx_stream.py，游标增量轮询实现准实时五档盘口)+五档盘口+证券代码表+历史分时+买卖强度+逐笔+开盘撮合+全量K线+复权K线+全景档案+21项短线指标+批量财务+特殊涨跌停+F10财报分红资讯北向+个股题材+题材成分股+竞价汇总，工具数 101→121，数据类型 40→64 |
 | v3.3.6 | 2026-08-14 | 上游依赖升级：eltdx 1.2.0→2.0.2（major breaking，get_quote→helpers.full_quotes 迁移）+ akshare 1.18.81→1.18.91；盘后量能成交额修复（push2his 直连，f57=成交额）；工具数断言 100→101 |
