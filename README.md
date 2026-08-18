@@ -2,7 +2,7 @@
 
 <p align="center">
   <strong>AI金融智能决策中台</strong><br/>
-  AKShare 封装 · eltdx 通达信协议 · astock_signals 信号模块 · 量化计算引擎 · SmartRouter 全量路由 · 本地 MCP Server · 127 个工具
+  AKShare 封装 · eltdx 通达信协议 · astock_signals 信号模块 · 量化计算引擎 · SmartRouter 全量路由 · 本地 MCP Server · 129 个工具
 </p>
 
 <p align="center">
@@ -10,7 +10,7 @@
   <img src="https://img.shields.io/badge/MCP-1.0-green.svg" alt="MCP"/>
   <img src="https://img.shields.io/badge/License-Apache--2.0-yellow.svg" alt="License"/>
   <img src="https://img.shields.io/badge/Data-A股-red.svg" alt="Data Scope"/>
-  <img src="https://img.shields.io/badge/Tools-127-orange.svg" alt="MCP Tools"/>
+  <img src="https://img.shields.io/badge/Tools-129-orange.svg" alt="MCP Tools"/>
   <img src="https://img.shields.io/badge/Version-3.3.9-blue.svg" alt="Version"/>
 </p>
 
@@ -20,16 +20,16 @@
 
 为 AI Agent（WorkBuddy / Claude Code / Cursor）提供 **A 股金融数据 + 量化计算 + 决策支持的 MCP 接口**。
 
-**三层能力模型**（127 个工具）：
+**三层能力模型**（129 个工具）：
 - **L1 数据获取层**：通过 SmartRouter 统一获取数据（行情/财务/估值/行业/新闻/宏观/涨停板/龙虎榜/五档盘口/逐笔/分时/题材/短线指标等），其中 eltdx 通达信协议 31 个工具
 - **L2 计算引擎层**（8个工具）：技术指标计算6个、绩效指标计算2个
 - **L3 决策支持层**（16个工具）：交易信号生成3个、多因子分析2个、条件选股2个、系统诊断5个、综合分析3个、技术分析引擎1个
 
 **数据源架构（v3.3.9）**：
-- **data_sources 数据源层**：65 个数据类型，76 个数据源注册到 SmartRouter
+- **data_sources 数据源层**：74 个数据类型，85 个数据源注册（28 种源），按封禁风险分三梯队
 - **SmartRouter 全量覆盖**：L1 工具通过 `SmartRouter.route()` 统一获取数据，自动健康评分/降级/故障隔离
 - **eltdx 2.0.2**：行情类第一主源，31 个工具覆盖五档盘口/集合竞价/逐笔/F10/分时/K线/全景档案/短线指标/题材/分类行情等；新增常驻连接管理器 `eltdx_stream.py`（游标增量轮询实现准实时五档盘口）
-- **新闻资讯数据源**：东财个股新闻直连、财联社实时电报、巨潮公告直连、新浪财经直连、百度经济日历/交易提醒/热搜、期货新闻、东财人气榜、雪球热度、机构持仓、同花顺问财等
+- **数据源梯队**：第一梯队（eltdx/腾讯/本地 vipdoc，不封 IP）+ 第二梯队（同花顺/新浪/巨潮/财联社，低风险）+ 第三梯队（东财 push2/push2ex/slist，仅独有数据 + 限流防封）
 - **数据源看板**：`python -m tradex.dashboard`（端口 8765），可视化查看数据源健康/路由/工具分布；MCP 工具 `get_data_source_dashboard` 可在 Agent 对话中查询
 
 **v3.3.9 更新**：全局直连（import 时清代理环境变量，国内数据源不走代理）+ 新增数据源（同花顺 4 接口 / 东财 slist 板块归属 / 东财限流防封 / 实时涨跌家数 / 行业涨幅 / 通达信本地数据）+ 2 个本地数据 MCP 工具，工具数 127→129。
@@ -38,42 +38,21 @@
 
 ## 项目架构
 
-```
-AI Agent (WorkBuddy / Claude Code / Cursor)
-        │  MCP 协议 (stdio)
-        ▼
-  tradex ── FastMCP Server
-        │
-        ├── AKShare 封装（43 工具）
-        │     ├── company_info (4)   → 搜索/概况/竞品
-        │     ├── price_data (5)     → 实时行情/历史K线/分时/市值/列表
-        │     ├── financial_stmt (8) → 三表+财务指标+增长率+每股+分拆营收
-        │     ├── valuation (4)      → PE/PB/PS历史/分红/机构持仓/分析师评级
-        │     ├── industry (5)       → 行业板块/成分股/概念/板块资金流/行业PE
-        │     ├── market (5)         → 指数快照/资金流/北向/涨跌停/龙虎榜
-        │     ├── news_events (4)    → 个股新闻/财报日历/公告/关键词搜索
-        │     └── macro_fx (8)       → GDP/CPI/PMI/M2/汇率/国债/两融/增减持
-        │
-        ├── 信号数据 — 混合数据源（17 工具）
-        │     ├── signal_data (17)   → 涨停归因/解禁/概念/预期/技术指标/北向/资金流/龙虎榜/行业/ETF/可转债/涨停板
-        │     └─ 数据源：东财直连 + 同花顺 + AKShare
-        │
-        └── eltdx 2.0.2 封装（31 工具）
-              ├── 五档盘口 (depth)        — 常驻连接 + 游标增量轮询
-              ├── 集合竞价 (auction)      — AKShare 无此功能
-              ├── 逐笔成交 (ticks)        — AKShare 无此功能
-              ├── F10 资料 (f10)          — AKShare 无此功能
-              ├── 分时数据 (minutes)      — 含历史分时 + 买卖强度
-              ├── K 线 (kline)            — 含全量 + 复权
-              ├── 全景档案 (profile)      — 行情+财务一表
-              ├── 短线指标 (shortline)    — 21 项打板指标
-              ├── 批量财务 (finance)      — 总股本/资产/净利润
-              ├── 题材 (topics)           — 个股题材 + 成分股
-              └── 分类行情 (category)     — 涨幅榜/成交额榜
-                    └─ 数据源：通达信私有协议 (TCP 7709)
+```mermaid
+flowchart TD
+    A["AI Agent<br/>WorkBuddy / Claude Code / Cursor"] -->|"MCP 协议 (stdio)"| B["tradex FastMCP Server"]
+    B --> C["MCP 工具层<br/>129 工具 / 19 模块"]
+    C --> D["SmartRouter 智能路由<br/>74 数据类型 · 降级 · 健康评分 · 故障隔离"]
+    D --> E["数据源层 · 28 源 · 3 梯队"]
+    E --> F["第一梯队 · 不封 IP<br/>eltdx 通达信 · 腾讯 · 本地 vipdoc"]
+    E --> G["第二梯队 · 低风险<br/>同花顺 · 新浪 · 巨潮 · 财联社"]
+    E --> H["第三梯队 · 限流防封<br/>东财 push2 · push2ex · slist · datacenter"]
+    E --> I["akshare 聚合<br/>财务 · 估值 · 宏观 · 热搜"]
 ```
 
-## MCP 工具清单（127 个）
+> **数据源优先级**：第一梯队（eltdx/腾讯/本地，不封 IP）优先用，第二梯队（同花顺/新浪/巨潮）低风险，第三梯队（东财）仅用于独有数据 + 限流防封（间隔 ≥1s + 随机抖动）。
+
+## MCP 工具清单（129 个）
 
 ### 1. 公司信息（4 个）— `company_info`
 
@@ -307,6 +286,15 @@ AI Agent (WorkBuddy / Claude Code / Cursor)
 |--------|------|
 | `analyze_technical` | 技术分析引擎（多指标组合分析，输出趋势/支撑压力/买卖信号综合研判） |
 
+### 19. 本地数据（2 个）— `local_data` 🆕 v3.3.9
+
+读通达信本地 `vipdoc` 二进制文件（离线，不封 IP），**仅用于回测和历史分析，非盘中实时**。
+
+| 工具名 | 功能 |
+|--------|------|
+| `get_local_kline` | 通达信本地日线（离线，最新到上一交易日收盘） |
+| `get_local_minute` | 通达信本地分钟线（离线，需通达信已下载分钟线） |
+
 ---
 
 ## 安装
@@ -389,7 +377,7 @@ AI 会调用 `mcp__tradex__eltdx_get_kline`，返回 100 根日 K 线。
 1. **eltdx F10 字段为通达信内部编码**（`T007`/`T008` 等）：财报/分红/资讯/北向 4 个接口返回原始编码字段，作为 akshare 中文源的降级补充源，字段中文映射留待后续
 2. **免费行情站不主动推送**：eltdx `drain_pushes` 实测 0 帧，「推送」实为 refresh_stream 游标增量轮询（`eltdx_stream.py` 已封装）
 3. **eltdx F10 延迟较高**（~2 秒）：走 7615 HTTP 网关，但数据独有（题材归因 AKShare 没有）
-4. **SmartRouter 全量覆盖**：L1 工具通过 `SmartRouter.route()` 统一获取数据，自动健康评分/降级/故障隔离，65 数据类型 76 源
+4. **SmartRouter 全量覆盖**：L1 工具通过 `SmartRouter.route()` 统一获取数据，自动健康评分/降级/故障隔离，74 数据类型 85 源（28 种）
 5. **Wind 等独立 MCP 不在本项目里**：通过独立 MCP Server 或 AI Agent 的 connector 系统接入
 
 ---
