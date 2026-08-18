@@ -7,6 +7,7 @@ Tools:
 
 Data source: 通达信本地 vipdoc 二进制文件（.day/.lc5/.lc1），
 非网络请求，网络全封/东财被封时仍可用。
+本地数据读取能力源自 mootdx（github.com/mootdx/mootdx）。
 数据新鲜度取决于通达信最后一次打开更新的时间。
 """
 

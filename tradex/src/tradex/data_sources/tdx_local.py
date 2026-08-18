@@ -1,4 +1,8 @@
-"""读通达信本地数据（离线，不封 IP）—— 借鉴 mootdx reader 的 vipdoc 文件定位。
+"""读通达信本地数据（离线，不封 IP）。
+
+能力源自开源项目 **mootdx**（https://github.com/mootdx/mootdx，通达信数据读取封装），
+借鉴其 reader 模块对 vipdoc 本地二进制文件的定位与解析思路，此处自行用 struct 实现
+（不引入 mootdx 底层的 tdxpy 依赖，更轻量）。
 
 通达信每天收盘后把行情写成本地二进制文件：
   - 日线：vipdoc/{market}/lday/{market}{code}.day（每条 32 字节）
