@@ -38,17 +38,9 @@
 
 ## 项目架构
 
-```mermaid
-flowchart TD
-    A["AI Agent<br/>WorkBuddy / Claude Code / Cursor"] -->|"MCP 协议 (stdio)"| B["tradex FastMCP Server"]
-    B --> C["MCP 工具层<br/>129 工具 / 19 模块"]
-    C --> D["SmartRouter 智能路由<br/>74 数据类型 · 降级 · 健康评分 · 故障隔离"]
-    D --> E["数据源层 · 28 源 · 3 梯队"]
-    E --> F["第一梯队 · 不封 IP<br/>eltdx 通达信 · 腾讯 · 本地 vipdoc"]
-    E --> G["第二梯队 · 低风险<br/>同花顺 · 新浪 · 巨潮 · 财联社"]
-    E --> H["第三梯队 · 限流防封<br/>东财 push2 · push2ex · slist · datacenter"]
-    E --> I["akshare 聚合<br/>财务 · 估值 · 宏观 · 热搜"]
-```
+<p align="center">
+  <img src="assets/architecture.svg" alt="tradex-hub 架构图" width="100%"/>
+</p>
 
 > **数据源优先级**：第一梯队（eltdx/腾讯/本地，不封 IP）优先用，第二梯队（同花顺/新浪/巨潮）低风险，第三梯队（东财）仅用于独有数据 + 限流防封（间隔 ≥1s + 随机抖动）。
 
