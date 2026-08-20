@@ -601,10 +601,36 @@ def test_market_breadth_combines_snapshot_with_exact_pool_counts(monkeypatch):
         "上涨": 2,
         "下跌": 2,
         "平盘": 1,
+        "未分类": 0,
         "涨停": 2,
         "跌停": 1,
     }
     assert result.attrs["source"] == "ths_fuyao"
+
+
+def test_market_breadth_preserves_unclassified_snapshot_rows(monkeypatch):
+    snapshot = pd.DataFrame({"涨跌幅": [1.2, -0.5, float("nan"), 0.0]})
+    snapshot.attrs["provider_as_of"] = "2026-08-19T15:00:00+08:00"
+    monkeypatch.setattr(fuyao_fetchers, "fetch_realtime_quote", lambda: snapshot)
+    monkeypatch.setattr(
+        fuyao_fetchers,
+        "_fetch_pool_records",
+        lambda board_type, *, date_ms=None: (
+            [],
+            "2026-08-19T15:00:00+08:00",
+        ),
+    )
+
+    result = fuyao_fetchers.fetch_market_breadth()
+
+    assert result.iloc[0].to_dict() == {
+        "上涨": 1,
+        "下跌": 1,
+        "平盘": 1,
+        "未分类": 1,
+        "涨停": 0,
+        "跌停": 0,
+    }
 
 
 def _dragon_tiger_payload():

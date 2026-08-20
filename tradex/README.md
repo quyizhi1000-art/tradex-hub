@@ -402,29 +402,44 @@ docker compose up -d
 
 ## 🔄 SmartRouter 全量路由（v3.1.0）
 
-data_sources 数据源层（25 类型 34 源）注册到 SmartRouter，L1 工具通过 `SmartRouter.route()` 统一获取数据，自动健康评分/降级/故障隔离。eltdx 为行情类第一主源（郑州节点，TCP 7709，延迟 3.5ms），akshare 1.18.81 为第二主源。
+data_sources 数据源层注册到 SmartRouter，L1 工具通过 `SmartRouter.route()` 统一获取数据，自动健康评分/降级/故障隔离。配置必盈许可证后，等价能力统一采用“必盈主源 → Fuyao 二级源 → 原有源”；没有 Fuyao 等价接口的能力直接降级到原有源。未配置必盈时保持原路由。
 
 ```
-请求 → SmartRouter.route() → 选择最优源
-         ↓                    ├── eltdx（行情类第一主源，TCP 7709）
-         ↓                    ├── akshare 1.18.81（第二主源）
-         ↓                    ├── 东财直连 / 同花顺 / 腾讯
+请求 → SmartRouter.route() → 固定优先级候选
+         ↓                    ├── 必盈（配置后，priority=1）
+         ↓                    ├── 同花顺 Fuyao 等价能力（priority=50）
+         ↓                    ├── eltdx / akshare / 东财 / 腾讯（priority>=100）
          ↓ 失败降级            └── 独占源（exclusive）不降级
        返回错误
 ```
 
 | 数据类型 | 主源 | 备选源 | 独占 |
 |:---------|:----:|:------:|:----:|
-| 实时行情 | eltdx | 腾讯 / akshare | - |
-| 历史 K 线 | eltdx | akshare / Wind | - |
+| 实时行情 | 必盈 | Fuyao / eltdx / akshare / 腾讯 | - |
+| 历史 K 线 | 必盈 | Fuyao / eltdx / akshare | - |
 | 分时数据 | eltdx | 腾讯 / akshare | - |
 | 集合竞价 | eltdx | 无 | ✅ 独占 |
 | 逐笔成交 | eltdx | 无 | ✅ 独占 |
 | F10 资料 | eltdx | 无 | ✅ 独占 |
-| 涨停板 | 东财 push2 | 无 | ✅ 独占 |
+| 涨停板 | 必盈 | Fuyao / 东财 push2 | - |
 | 涨停揭秘 | 同花顺 | 无 | ✅ 独占 |
 | 信号数据 | 混合源（东财/同花顺/akshare） | akshare 备用 | - |
-| 财务/估值 | akshare | Wind / eltdx F10 | - |
+| 财务/估值 | 必盈（等价子能力） | akshare / eltdx F10 | - |
+
+必盈建议使用文件配置，避免许可证进入命令行、日志或版本库：
+
+```dotenv
+BIYING_ENABLED=true
+BIYING_LICENCE_FILE=../key/必营key.txt
+BIYING_RATE_LIMIT_PER_MINUTE=300
+# 从此列表删除单项即可仅回滚对应能力
+BIYING_PRIMARY_CAPABILITIES=realtime_quote,historical_kline,market_overview
+```
+
+完整配置项见 `.env.example`；客户端不会自动重试，异常信息不会包含许可证所在
+URL。没有精确语义对应的子能力会在当前请求内继续降级，不会用近似数据冒充。
+估值快照、同花顺指数、行业实时行情、每日龙虎榜和限售解禁当前仍以
+Fuyao/原有源为主，因为必盈现有字段不足以满足这些工具的完整契约。
 
 > **数据源看板**：`python -m tradex.dashboard`（端口 8765），HTML 可视化查看数据源健康/路由/工具分布；MCP 工具 `get_data_source_dashboard` 可在 Agent 对话中查询。
 

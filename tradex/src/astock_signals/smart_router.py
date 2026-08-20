@@ -35,7 +35,12 @@ class SourceBusyError(RuntimeError):
     """当前源的并发/限流预算已满，只影响当前请求的降级。"""
 
 
+class SourcePayloadError(RuntimeError):
+    """当前源的返回值未通过调用方的数据契约校验。"""
+
+
 SourceEntry = tuple[str, Callable[..., Any], int, bool]
+ResultValidator = Callable[[Any, str], Any]
 
 
 @dataclass
@@ -182,6 +187,31 @@ class SmartRouter:
         Raises:
             RuntimeError: 所有数据源都失败（或独占源失败）
         """
+        return self._route(data_type, validator=None, **kwargs)
+
+    def route_validated(
+        self,
+        data_type: str,
+        validator: ResultValidator,
+        **kwargs,
+    ) -> tuple[Any, str]:
+        """路由并在记录成功前把源返回值转换为调用方的规范契约。
+
+        校验或映射失败属于源返回值失败，会计入该源健康度并继续尝试
+        当前请求的下一个候选源。请求参数校验仍应在进入本方法前完成，
+        或由 fetcher 显式抛出 :class:`RequestValidationError`。
+        """
+        if not callable(validator):
+            raise TypeError("validator must be callable")
+        return self._route(data_type, validator=validator, **kwargs)
+
+    def _route(
+        self,
+        data_type: str,
+        *,
+        validator: ResultValidator | None,
+        **kwargs,
+    ) -> tuple[Any, str]:
         # Take an immutable snapshot under the lock. Registration after this point
         # cannot alter the order or membership observed by the current request.
         with self._lock:
@@ -196,6 +226,11 @@ class SmartRouter:
             t0 = time.perf_counter()
             try:
                 result = fetch_fn(**kwargs)
+                if validator is not None:
+                    try:
+                        result = validator(result, source_name)
+                    except Exception as exc:
+                        raise SourcePayloadError(str(exc)) from exc
                 latency_ms = (time.perf_counter() - t0) * 1000
                 with self._lock:
                     self._health[key].record_success(latency_ms)

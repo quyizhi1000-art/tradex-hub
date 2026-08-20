@@ -14,6 +14,8 @@ import threading
 import atexit
 from typing import Any, Optional
 
+from astock_signals.smart_router import SourceCapabilityError
+
 logger = logging.getLogger("tradex.eltdx")
 
 
@@ -209,13 +211,27 @@ def fetch_realtime_quote(code: str = "", symbol: str = "", **kwargs):
     }])
 
 
-def fetch_historical_kline(code: str = "", symbol: str = "", period: str = "day", count: int = 100, **kwargs):
+def fetch_historical_kline(
+    code: str = "",
+    symbol: str = "",
+    period: str = "day",
+    count: int = 100,
+    adjust: str = "",
+    **kwargs,
+):
     """历史 K 线（eltdx 源）。返回中文列名 DataFrame（与 akshare 口径对齐）。
 
     兼容 symbol/code 两种参数名（SmartRouter 路由归一化）。
     KlineBar 字段映射（v3.1.3 修复）：date→time, volume→volume_lots。
     """
     import pandas as pd
+    adjust_key = str(adjust or "").strip().lower()
+    if adjust_key not in {"", "none"}:
+        # eltdx bars.get() does not implement qfq/hfq. Failing explicitly lets
+        # SmartRouter continue to Fuyao/AKShare instead of mislabelling raw bars.
+        raise SourceCapabilityError(
+            f"eltdx historical_kline does not support adjust={adjust!r}"
+        )
     client = _get_client()
     if client is None:
         raise RuntimeError("eltdx client not available")

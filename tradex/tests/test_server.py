@@ -165,6 +165,7 @@ class TestServerSetup:
         """有密钥时注册扶摇路由与可切换源，无密钥时不注入。"""
         from astock_signals.smart_router import get_router
         from tradex.data_sources.fuyao_client import is_configured
+        from tradex.data_sources.biying_client import provides as biying_provides
 
         entries = [
             entry
@@ -175,25 +176,27 @@ class TestServerSetup:
             assert entries == []
             return
 
-        assert {
+        expected = {
             (entry["data_type"], entry["priority"])
             for entry in entries
-        } == {
+        }
+        assert expected == {
             ("realtime_quote", 50),
             ("historical_kline", 50),
-            ("valuation_snapshot", 1),
-            ("ths_index_catalog", 1),
-            ("ths_index_constituents", 1),
+            ("valuation_snapshot", 50 if biying_provides("valuation_snapshot") else 1),
+            ("ths_index_catalog", 50 if biying_provides("ths_index_catalog") else 1),
+            ("ths_index_constituents", 50 if biying_provides("ths_index_constituents") else 1),
             ("limit_up_ladder", 1),
             ("stock_anomaly_analysis", 1),
-            ("dragon_tiger_market_day", 1),
-            ("limit_up_board", 1),
+            ("dragon_tiger_market_day", 50 if biying_provides("dragon_tiger_market_day") else 1),
+            ("limit_up_board", 50 if biying_provides("limit_up_board") else 1),
             ("market_breadth", 1),
         }
 
     def test_dragon_tiger_contracts_use_separate_routes(self, mcp_server):
         from astock_signals.smart_router import get_router
         from tradex.data_sources.fuyao_client import is_configured
+        from tradex.data_sources.biying_client import provides as biying_provides
 
         report = get_router().get_registry_report()
         multi_day = [
@@ -209,8 +212,13 @@ class TestServerSetup:
 
         assert multi_day == [("em_datacenter", 1), ("akshare", 100)]
         expected_market_day = [("akshare_exact_day", 100)]
+        if biying_provides("dragon_tiger_market_day"):
+            expected_market_day.insert(0, ("biying", 1))
         if is_configured():
-            expected_market_day.insert(0, ("ths_fuyao", 1))
+            expected_market_day.insert(
+                1 if biying_provides("dragon_tiger_market_day") else 0,
+                ("ths_fuyao", 50 if biying_provides("dragon_tiger_market_day") else 1),
+            )
         assert market_day == expected_market_day
 
     def test_tool_count_per_version(self, mcp_server):

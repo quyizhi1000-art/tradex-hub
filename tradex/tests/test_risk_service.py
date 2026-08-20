@@ -6,12 +6,20 @@ import copy
 import threading
 import time
 from concurrent.futures import Future
-from datetime import datetime
+from datetime import date, datetime
 from zoneinfo import ZoneInfo
 
 import pytest
 import pandas as pd
 
+from astock_signals.smart_router import SmartRouter
+from tradex.data_gateway.contracts import (
+    ContractMetadata,
+    QualityStatus,
+    StockSectorProfileSeriesV1,
+    StockSectorProfileV1,
+)
+from tradex.data_gateway.limit_events import fetch_limit_up_events
 from tradex.dashboard import risk_service
 
 
@@ -41,39 +49,48 @@ def _background(prefix: str) -> list[dict]:
     ]
 
 
-def _flow_background(prefix: str) -> list[dict]:
-    return [
-        {"板块": f"{prefix}{index}", "主力净流入-占比": value}
-        for index, value in enumerate((-4.0, -2.0, 0.0, 2.0, 4.0), start=1)
-    ]
-
-
 def _install_component_fakes(monkeypatch):
     industry = [
-        *_background("行业"),
+        *(
+            {**row, "主力净流入-占比": flow_ratio}
+            for row, flow_ratio in zip(
+                _background("行业"),
+                (-4.0, -2.0, 0.0, 2.0, 4.0),
+            )
+        ),
         {
             "板块名称": "证券",
             "最新点位": 1234.5,
             "涨跌幅": 8.0,
+            "主力净流入-占比": 8.0,
             "上涨家数": 70,
             "下跌家数": 30,
             "领涨股票": "中信证券",
             "领涨股涨幅": 5.2,
         },
-        {"板块名称": "银行", "涨跌幅": 1.0, "上涨家数": 52, "下跌家数": 48},
+        {
+            "板块名称": "银行",
+            "涨跌幅": 1.0,
+            "主力净流入-占比": 1.0,
+            "上涨家数": 52,
+            "下跌家数": 48,
+        },
     ]
     concepts = [
-        *_background("概念"),
-        {"板块名称": "互联网金融", "涨跌幅": 9.0, "上涨家数": 72, "下跌家数": 28},
-    ]
-    industry_flow = [
-        *_flow_background("行业"),
-        {"板块": "证券", "主力净流入-占比": 8.0},
-        {"板块": "银行", "主力净流入-占比": 1.0},
-    ]
-    concept_flow = [
-        *_flow_background("概念"),
-        {"板块": "互联网金融", "主力净流入-占比": 9.0},
+        *(
+            {**row, "主力净流入-占比": flow_ratio}
+            for row, flow_ratio in zip(
+                _background("概念"),
+                (-4.0, -2.0, 0.0, 2.0, 4.0),
+            )
+        ),
+        {
+            "板块名称": "互联网金融",
+            "涨跌幅": 9.0,
+            "主力净流入-占比": 9.0,
+            "上涨家数": 72,
+            "下跌家数": 28,
+        },
     ]
 
     monkeypatch.setattr(
@@ -85,14 +102,6 @@ def _install_component_fakes(monkeypatch):
         risk_service,
         "_fetch_board_quotes",
         lambda board_type: (industry if board_type == "industry" else concepts, board_type),
-    )
-    monkeypatch.setattr(
-        risk_service,
-        "_fetch_board_flow",
-        lambda sector_type: (
-            industry_flow if sector_type == "行业资金流" else concept_flow,
-            "flow",
-        ),
     )
     monkeypatch.setattr(
         risk_service,
@@ -118,6 +127,10 @@ def _install_component_fakes(monkeypatch):
         risk_service,
         "_fetch_leadership_pool",
         lambda trade_date: ([], "ths", {
+            "contract": "limit_event.v1",
+            "schema_version": 1,
+            "quality": "degraded",
+            "quality_flags": ["provider_timestamp_missing"],
             "source_valid": True,
             "data_date": trade_date.replace("-", ""),
             "trade_status": {"id": 3, "name": "交易中"},
@@ -134,6 +147,7 @@ def _install_component_fakes(monkeypatch):
 
 def _market_data() -> dict:
     return {
+        "provider_as_of": "2026-08-19T10:30:00+08:00",
         "participation_indices": [
             {"名称": "上证指数", "代码": "sh000001", "涨跌幅": 0.5},
             {"名称": "深证成指", "代码": "sz399001", "涨跌幅": 0.7},
@@ -145,6 +159,38 @@ def _market_data() -> dict:
             "difference": 100,
         },
     }
+
+
+def test_sector_flow_components_are_derived_from_quote_components():
+    values = {
+        "industry_quotes": [{"板块名称": "证券", "主力净流入-占比": 8.0}],
+        "concept_quotes": [{"板块名称": "互联网金融", "主力净流入-占比": 9.0}],
+    }
+    statuses = {
+        "industry_quotes": {
+            "source": "paid-provider",
+            "contract": "sector_quote.v1",
+            "provider_as_of": "2026-08-19T10:30:00+08:00",
+        },
+        "concept_quotes": {
+            "source": "paid-provider",
+            "contract": "sector_quote.v1",
+            "provider_as_of": "2026-08-19T10:30:00+08:00",
+        },
+    }
+
+    risk_service._derive_sector_flow_components(values, statuses)
+
+    assert values["industry_flow"] == values["industry_quotes"]
+    assert values["industry_flow"] is not values["industry_quotes"]
+    assert values["industry_flow"][0] is not values["industry_quotes"][0]
+    assert statuses["concept_flow"] == {
+        **statuses["concept_quotes"],
+        "derived_from": "concept_quotes",
+    }
+    assert statuses["concept_flow"] is not statuses["concept_quotes"]
+    assert risk_service._CONTEXT_COMPONENTS == ("etfs", "leaders")
+    assert set(risk_service._context_jobs()) == {"etfs", "leaders"}
 
 
 class _DeferredFuture(Future):
@@ -323,7 +369,8 @@ def test_capture_observer_waits_for_cold_context_futures_without_refetch(monkeyp
     for name in risk_service._CONTEXT_COMPONENTS:
         assert capture["values"][name]
         assert capture["statuses"][name]["refreshing"] is False
-    assert capture["statuses"]["industry_flow"]["source"] == "flow"
+    assert capture["statuses"]["industry_flow"]["source"] == "industry"
+    assert capture["statuses"]["industry_flow"]["derived_from"] == "industry_quotes"
     assert capture["statuses"]["etfs"]["source"] == "etf"
     assert capture["statuses"]["leaders"]["source"] == "tencent"
 
@@ -373,6 +420,10 @@ def test_industry_profile_degradation_marks_top_level_data_quality_partial(monke
             "涨停原因": "复合肥+央企",
             "连板": "首板",
         }], "ths", {
+            "contract": "limit_event.v1",
+            "schema_version": 1,
+            "quality": "degraded",
+            "quality_flags": ["provider_timestamp_missing"],
             "source_valid": True,
             "data_date": trade_date.replace("-", ""),
             "trade_status": {"id": 3, "name": "交易中"},
@@ -666,15 +717,55 @@ def _limit_up_frame_for_profile_test():
     return frame
 
 
-def test_leadership_fetch_adds_one_complete_batch_industry_profile(monkeypatch):
-    from tradex.data_sources import http_fetchers
+def _limit_event_series_for_profile_test(frame, trade_date="2026-08-19"):
+    router = SmartRouter()
+    router.register("limit_events", "ths", lambda date: frame, priority=1)
+    return fetch_limit_up_events(
+        trade_date,
+        router=router,
+        now=datetime(2026, 8, 19, 15, 0, tzinfo=ZoneInfo("Asia/Shanghai")),
+    )
 
+
+def _stock_sector_profile_series(rows):
+    profiles = tuple(
+        StockSectorProfileV1(
+            instrument_id=(
+                f"{row['代码']}.SH" if row["代码"].startswith("6")
+                else f"{row['代码']}.SZ"
+            ),
+            name=row["名称"],
+            industry=row["行业"],
+            region=row["地域"],
+            concept_tags=tuple(row["概念标签"]),
+            provider_as_of=datetime.fromisoformat(row["provider_as_of"]),
+            provider_variant=row["source"],
+        )
+        for row in rows
+    )
+    provider_as_of = max(item.provider_as_of for item in profiles)
+    return StockSectorProfileSeriesV1(
+        metadata=ContractMetadata(
+            contract="stock_sector_profile.v1",
+            provider="push2delay",
+            provider_as_of=provider_as_of,
+            fetched_at=datetime(2026, 8, 19, 15, 0, tzinfo=ZoneInfo("Asia/Shanghai")),
+            quality=QualityStatus.ACCEPTED,
+        ),
+        trade_date=date(2026, 8, 19),
+        requested_instrument_ids=tuple(item.instrument_id for item in profiles),
+        profiles=profiles,
+    )
+
+
+def test_leadership_fetch_adds_one_complete_batch_industry_profile(monkeypatch):
+    frame = _limit_up_frame_for_profile_test()
     monkeypatch.setattr(
         risk_service,
-        "_fetch_router",
-        lambda data_type, **kwargs: (_limit_up_frame_for_profile_test(), "ths"),
+        "fetch_limit_up_events",
+        lambda trade_date: _limit_event_series_for_profile_test(frame, trade_date),
     )
-    profiles = pd.DataFrame([{
+    profiles = [{
         "代码": "600928",
         "名称": "西安银行",
         "行业": "银行Ⅱ",
@@ -682,16 +773,11 @@ def test_leadership_fetch_adds_one_complete_batch_industry_profile(monkeypatch):
         "概念标签": ["互联网金融", "移动支付"],
         "provider_as_of": "2026-08-19T15:00:00+08:00",
         "source": "push2delay",
-    }])
-    profiles.attrs.update({
-        "source": "push2delay",
-        "profile_total": 1,
-        "source_valid": True,
-    })
+    }]
     monkeypatch.setattr(
-        http_fetchers,
+        risk_service,
         "fetch_stock_sector_profiles",
-        lambda codes: profiles,
+        lambda codes, *, trade_date: _stock_sector_profile_series(profiles),
     )
 
     records, source, metadata = risk_service._fetch_leadership_pool("2026-08-19")
@@ -703,23 +789,25 @@ def test_leadership_fetch_adds_one_complete_batch_industry_profile(monkeypatch):
         "concept_tags": ["互联网金融", "移动支付"],
         "source": "push2delay",
         "provider_as_of": "2026-08-19T15:00:00+08:00",
+        "fetched_at": "2026-08-19T15:00:00+08:00",
     }
     assert metadata["industry_profile_status"]["status"] == "ready"
     assert metadata["industry_profile_status"]["coverage"] == 1.0
 
 
 def test_leadership_fetch_degrades_to_reason_only_when_profile_batch_fails(monkeypatch):
-    from tradex.data_sources import http_fetchers
-
+    frame = _limit_up_frame_for_profile_test()
     monkeypatch.setattr(
         risk_service,
-        "_fetch_router",
-        lambda data_type, **kwargs: (_limit_up_frame_for_profile_test(), "ths"),
+        "fetch_limit_up_events",
+        lambda trade_date: _limit_event_series_for_profile_test(frame, trade_date),
     )
     monkeypatch.setattr(
-        http_fetchers,
+        risk_service,
         "fetch_stock_sector_profiles",
-        lambda codes: (_ for _ in ()).throw(RuntimeError("profile unavailable")),
+        lambda codes, *, trade_date: (_ for _ in ()).throw(
+            RuntimeError("profile unavailable")
+        ),
     )
 
     records, _, metadata = risk_service._fetch_leadership_pool("2026-08-19")
@@ -732,8 +820,6 @@ def test_leadership_fetch_degrades_to_reason_only_when_profile_batch_fails(monke
 
 
 def test_leadership_fetch_degrades_when_any_profile_row_has_wrong_trade_date(monkeypatch):
-    from tradex.data_sources import http_fetchers
-
     frame = pd.concat(
         [
             _limit_up_frame_for_profile_test(),
@@ -760,38 +846,15 @@ def test_leadership_fetch_degrades_when_any_profile_row_has_wrong_trade_date(mon
     })
     monkeypatch.setattr(
         risk_service,
-        "_fetch_router",
-        lambda data_type, **kwargs: (frame, "ths"),
+        "fetch_limit_up_events",
+        lambda trade_date: _limit_event_series_for_profile_test(frame, trade_date),
     )
-    profiles = pd.DataFrame([
-        {
-            "代码": "600928",
-            "名称": "西安银行",
-            "行业": "银行Ⅱ",
-            "地域": "陕西板块",
-            "概念标签": [],
-            "provider_as_of": "2026-08-19T15:00:00+08:00",
-            "source": "push2delay",
-        },
-        {
-            "代码": "002948",
-            "名称": "青岛银行",
-            "行业": "银行Ⅱ",
-            "地域": "山东板块",
-            "概念标签": [],
-            "provider_as_of": "2026-08-18T15:00:00+08:00",
-            "source": "push2delay",
-        },
-    ])
-    profiles.attrs.update({
-        "source": "push2delay",
-        "profile_total": 2,
-        "source_valid": True,
-    })
     monkeypatch.setattr(
-        http_fetchers,
+        risk_service,
         "fetch_stock_sector_profiles",
-        lambda codes: profiles,
+        lambda codes, *, trade_date: (_ for _ in ()).throw(
+            RuntimeError("股票行业 profile 存在缺失或错误交易日")
+        ),
     )
 
     records, _, metadata = risk_service._fetch_leadership_pool("2026-08-19")
@@ -801,13 +864,13 @@ def test_leadership_fetch_degrades_when_any_profile_row_has_wrong_trade_date(mon
     assert "错误交易日" in metadata["industry_profile_status"]["error"]
 
 
-def test_leadership_fetch_requires_explicit_ths_source_valid(monkeypatch):
+def test_leadership_fetch_requires_explicit_source_valid(monkeypatch):
     frame = _limit_up_frame_for_profile_test()
     frame.attrs.pop("source_valid")
     monkeypatch.setattr(
         risk_service,
-        "_fetch_router",
-        lambda data_type, **kwargs: (frame, "ths"),
+        "fetch_limit_up_events",
+        lambda trade_date: _limit_event_series_for_profile_test(frame, trade_date),
     )
 
     with pytest.raises(RuntimeError, match="未通过数据有效性校验"):
@@ -869,6 +932,10 @@ def test_preopen_leadership_pool_is_display_only(monkeypatch):
             {"代码": "2", "名称": "乙", "涨停原因": "证券", "连板": "2天2板"},
             {"代码": "3", "名称": "丙", "涨停原因": "证券", "连板": "首板"},
         ], "ths", {
+            "contract": "limit_event.v1",
+            "schema_version": 1,
+            "quality": "degraded",
+            "quality_flags": ["provider_timestamp_missing"],
             "source_valid": True,
             "data_date": trade_date.replace("-", ""),
             "trade_status": {"id": "pre_open", "name": "集合竞价"},
@@ -892,56 +959,71 @@ def test_preopen_leadership_pool_is_display_only(monkeypatch):
     assert securities["evidence"]["leadership"] is None
 
 
-def test_stock_membership_verification_reuses_the_same_taxonomy(monkeypatch):
-    monkeypatch.setattr(
-        risk_service,
-        "_fetch_router",
-        lambda data_type, **kwargs: ([
-            {"板块名称": "复合肥"},
-            {"板块名称": "基础化工"},
-            {"板块名称": "农化制品"},
-            {"板块名称": "农业种植"},
-        ], "eastmoney"),
-    )
-
-    result = risk_service._fetch_stock_membership("603395")
-
-    assert result["status"] == "ready"
-    assert result["source"] == "eastmoney"
-    assert {item["sector_key"] for item in result["attributions"]} == {"agriculture"}
-    assert {item["chain_node"] for item in result["attributions"]} >= {
-        "农业投入品",
-        "种植",
-    }
-    assert "基础化工" in result["unmapped_tags"]
-
-
-def test_membership_overlay_replaces_pending_value_on_cached_response():
-    result = {
-        "groups": [{
-            "items": [{
+def test_static_membership_reuses_the_existing_sector_profile():
+    snapshot = {
+        "sectors": {
+            "bank": {
                 "leadership": {
                     "limit_up_leaders": [{
-                        "code": "603395",
-                        "static_membership": {"status": "pending"},
+                        "code": "600928",
+                        "sector_profile": {
+                            "industry": "银行Ⅱ",
+                            "region": "陕西板块",
+                            "concept_tags": ["互联网金融", "移动支付"],
+                            "source": "push2delay",
+                            "provider_as_of": "2026-08-19T15:00:00+08:00",
+                            "fetched_at": "2026-08-19T15:00:01+08:00",
+                        },
                     }],
                 },
-            }],
-        }],
-    }
-    risk_service._membership_cache[("2026-08-19", "603395")] = {
-        "status": "ready",
-        "source": "eastmoney",
-        "board_names": ["复合肥"],
+            },
+        },
     }
 
-    overlaid = risk_service._overlay_memberships(result, "2026-08-19")
+    risk_service._attach_static_memberships(snapshot)
 
-    membership = overlaid["groups"][0]["items"][0]["leadership"][
+    membership = snapshot["sectors"]["bank"]["leadership"][
         "limit_up_leaders"
     ][0]["static_membership"]
     assert membership["status"] == "ready"
-    assert membership["board_names"] == ["复合肥"]
+    assert membership["derived_from"] == "stock_sector_profile.v1"
+    assert membership["source"] == "push2delay"
+    assert membership["board_names"] == [
+        "银行Ⅱ",
+        "陕西板块",
+        "互联网金融",
+        "移动支付",
+    ]
+    assert {item["sector_key"] for item in membership["attributions"]} == {
+        "bank",
+        "internet_finance",
+    }
+
+
+def test_static_membership_is_explicitly_unavailable_without_a_profile():
+    snapshot = {
+        "sectors": {
+            "bank": {
+                "leadership": {
+                    "limit_up_leaders": [{"code": "600928", "sector_profile": None}],
+                },
+            },
+        },
+    }
+
+    risk_service._attach_static_memberships(snapshot)
+
+    membership = snapshot["sectors"]["bank"]["leadership"][
+        "limit_up_leaders"
+    ][0]["static_membership"]
+    assert membership == {
+        "status": "unavailable",
+        "source": None,
+        "provider_as_of": None,
+        "fetched_at": None,
+        "derived_from": "stock_sector_profile.v1",
+        "reason": "sector_profile_unavailable",
+    }
 
 
 def test_provider_leader_fallback_reaches_core_radar_and_summary():

@@ -23,6 +23,12 @@ import logging
 from mcp.server.fastmcp import FastMCP
 
 from ..data_sources import get_router
+from ..data_gateway.securities import (
+    fetch_ohlcv_series,
+    fetch_quote_snapshot,
+    ohlcv_series_to_legacy_records,
+    quote_snapshot_to_legacy_records,
+)
 from ..utils.cache import TTL_DAILY, TTL_REALTIME, cache
 from ..utils.formatter import df_to_json, dict_to_json, error_response, slim_df
 from ..utils.symbol import format_with_exchange, normalize_symbol
@@ -84,28 +90,20 @@ def register(mcp: FastMCP):
 
         # A股代码处理
         symbol = normalize_symbol(symbol)
-        cache_key = f"realtime_quote:{symbol}"
+        cache_key = f"realtime_quote:v1:{symbol}"
         cached = cache.get(cache_key)
         if cached is not None:
             return cached
 
         try:
-            df, _src = _router.route("realtime_quote", symbol=symbol)
-            if df is None or df.empty:
-                return error_response(
-                    f"获取实时行情失败 ({symbol}): 数据源返回空数据", "get_realtime_quote"
+            snapshot = fetch_quote_snapshot(symbol, router=_router)
+            if snapshot.metadata.quality.value != "accepted":
+                logger.info(
+                    "quote_snapshot.v1 degraded provider=%s flags=%s",
+                    snapshot.metadata.provider,
+                    ",".join(snapshot.metadata.quality_flags),
                 )
-            # eltdx/tencent 返回单行；akshare 返回全量需过滤
-            code_col = _find_code_col(df)
-            if len(df) > 1:
-                row = df[df[code_col].astype(str).str.strip() == symbol]
-                if row.empty:
-                    return error_response(
-                        f"未找到股票 {symbol} 的实时行情", "get_realtime_quote"
-                    )
-            else:
-                row = df
-            result = df_to_json(row)
+            result = dict_to_json(quote_snapshot_to_legacy_records(snapshot))
             cache.set(cache_key, result, TTL_REALTIME)
             return result
         except Exception as e:
@@ -136,21 +134,27 @@ def register(mcp: FastMCP):
             成交量、成交额、振幅、涨跌幅、涨跌额、换手率。
         """
         symbol = normalize_symbol(symbol)
-        cache_key = f"hist_price:{symbol}:{period}:{start_date}:{end_date}:{adjust}"
+        cache_key = f"hist_price:v1:{symbol}:{period}:{start_date}:{end_date}:{adjust}"
         cached = cache.get(cache_key)
         if cached is not None:
             return cached
 
         try:
-            df, _src = _router.route(
-                "historical_kline",
-                symbol=symbol,
+            series = fetch_ohlcv_series(
+                symbol,
                 period=period,
                 start_date=start_date,
                 end_date=end_date,
                 adjust=adjust,
+                router=_router,
             )
-            result = df_to_json(df, max_rows=500)
+            if series.metadata.quality.value != "accepted":
+                logger.info(
+                    "ohlcv_bar.v1 degraded provider=%s flags=%s",
+                    series.metadata.provider,
+                    ",".join(series.metadata.quality_flags),
+                )
+            result = dict_to_json(ohlcv_series_to_legacy_records(series))
             cache.set(cache_key, result, TTL_DAILY)
             return result
         except Exception as e:

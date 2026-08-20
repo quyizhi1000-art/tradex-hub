@@ -1,0 +1,35 @@
+{
+  "interfaces_must_not_import_data_sources": [
+    "tradex.dashboard.__main__ -> tradex.data_sources:register_all_sources",
+    "tradex.tools.analysis_engine -> tradex.data_sources:get_router",
+    "tradex.tools.company_info -> tradex.data_sources:get_router",
+    "tradex.tools.composite_analysis -> tradex.data_sources:get_router",
+    "tradex.tools.eltdx_data -> tradex.data_sources.eltdx_stream:get_stream_manager",
+    "tradex.tools.eltdx_data -> tradex.data_sources:get_router",
+    "tradex.tools.financial_stmt -> tradex.data_sources:get_router",
+    "tradex.tools.fuyao_data -> tradex.data_sources:get_router",
+    "tradex.tools.industry -> tradex.data_sources:get_router",
+    "tradex.tools.local_data -> tradex.data_sources.tdx_local:detect_tdx_dir",
+    "tradex.tools.local_data -> tradex.data_sources.tdx_local:fetch_local_kline",
+    "tradex.tools.local_data -> tradex.data_sources.tdx_local:fetch_local_minute",
+    "tradex.tools.macro_fx -> tradex.data_sources:get_router",
+    "tradex.tools.market -> tradex.data_sources.akshare_fetchers:fetch_index_daily_amount",
+    "tradex.tools.market -> tradex.data_sources:get_router",
+    "tradex.tools.news_events -> tradex.data_sources:get_router",
+    "tradex.tools.price_data -> tradex.data_sources:get_router",
+    "tradex.tools.signal_data_base -> tradex.data_sources:get_router",
+    "tradex.tools.signal_data_board -> tradex.data_sources:get_router",
+    "tradex.tools.signal_data_cb -> tradex.data_sources:get_router",
+    "tradex.tools.signal_data_etf -> tradex.data_sources:get_router",
+    "tradex.tools.signal_data_flow -> tradex.data_sources:get_router",
+    "tradex.tools.valuation -> tradex.data_sources:get_router"
+  ],
+  "gateway_must_not_import_provider_implementations": [
+    "tradex.data_gateway.market -> tradex.data_sources.akshare_fetchers:fetch_index_intraday_amount"
+  ],
+  "data_lake_must_not_import_dashboard": [
+    "tradex.data_lake.live_source -> tradex.dashboard.__main__:get_market_data",
+    "tradex.data_lake.live_source -> tradex.dashboard.risk_service:get_risk_appetite_data",
+    "tradex.data_lake.replay -> tradex.dashboard.risk_appetite:build_risk_appetite_snapshot"
+  ]
+}

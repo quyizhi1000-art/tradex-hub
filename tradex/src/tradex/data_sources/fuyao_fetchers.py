@@ -231,7 +231,7 @@ def _required_number(value: Any, *, context: str) -> int | float:
 
 
 def _optional_number(value: Any, *, context: str) -> int | float | None:
-    if value is None:
+    if value is None or bool(pd.isna(value)):
         return None
     return _required_number(value, context=context)
 
@@ -1063,10 +1063,16 @@ def fetch_market_breadth(**kwargs: Any) -> pd.DataFrame:
     """用全市场快照与官方涨跌停池生成严格的市场宽度口径。"""
     snapshot = fetch_realtime_quote()
     changes: list[int | float] = []
+    unclassified_count = 0
     for index, value in enumerate(snapshot["涨跌幅"].tolist()):
-        changes.append(
-            _required_number(value, context=f"全市场行情 item[{index}].涨跌幅")
+        change = _optional_number(
+            value,
+            context=f"全市场行情 item[{index}].涨跌幅",
         )
+        if change is None:
+            unclassified_count += 1
+        else:
+            changes.append(change)
     up_records, up_as_of = _fetch_pool_records("zt")
     down_records, down_as_of = _fetch_pool_records("dt")
 
@@ -1088,6 +1094,7 @@ def fetch_market_breadth(**kwargs: Any) -> pd.DataFrame:
                 "上涨": sum(value > 0 for value in changes),
                 "下跌": sum(value < 0 for value in changes),
                 "平盘": sum(value == 0 for value in changes),
+                "未分类": unclassified_count,
                 "涨停": len(up_records),
                 "跌停": len(down_records),
             }

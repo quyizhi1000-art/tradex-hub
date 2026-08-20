@@ -32,6 +32,8 @@ $endDate = $TradeDate.Date
 $startDate = $endDate.AddDays(-($CalendarDays - 1))
 $startText = $startDate.ToString('yyyy-MM-dd')
 $endText = $endDate.ToString('yyyy-MM-dd')
+$breadthLookbackStartText = $startDate.AddDays(-7).ToString('yyyy-MM-dd')
+$breadthLookbackEndText = $startDate.AddDays(-1).ToString('yyyy-MM-dd')
 $automationRoot = Join-Path $DataRoot 'meta\automation'
 $logRoot = Join-Path $DataRoot 'meta\logs'
 New-Item -ItemType Directory -Force -Path $automationRoot, $logRoot | Out-Null
@@ -73,7 +75,10 @@ function Get-RunStatus {
     param([string]$RunId)
     if (-not $RunId) { return '' }
     $manifestPath = Join-Path $DataRoot 'meta\manifest.db'
-    $code = 'import sqlite3,sys; c=sqlite3.connect(sys.argv[1]); r=c.execute("select status from ingestion_runs where run_id=?",(sys.argv[2],)).fetchone(); print(r[0] if r else "missing")'
+    # Windows PowerShell 5.1 strips embedded double quotes when forwarding a
+    # variable to a native executable.  Keep the Python program free of double
+    # quotes so ``python -c`` receives one intact argument.
+    $code = "import sqlite3,sys; c=sqlite3.connect(sys.argv[1]); r=c.execute('select status from ingestion_runs where run_id=?',(sys.argv[2],)).fetchone(); print(r[0] if r else 'missing')"
     $value = & $resolvedPython -c $code $manifestPath $RunId
     if ($LASTEXITCODE -ne 0) {
         throw "Unable to inspect manifest status for run $RunId"
@@ -166,6 +171,14 @@ try {
 
     Invoke-CneStep -Name 'index_bars' -Attempts $NetworkAttempts -CneArguments @(
         'backfill', 'index_bars', '--config', $resolvedConfig, '--start', $startText, '--end', $endText
+    )
+
+    # Breadth for the first requested session needs the prior session's close.
+    # Seed a bounded one-week lookback so weekends/holidays are covered while
+    # the published breadth window remains exactly startText..endText.
+    Invoke-CneStep -Name 'breadth_daily_lookback' -Attempts $NetworkAttempts -CneArguments @(
+        'backfill', 'daily_bars', '--config', $resolvedConfig,
+        '--start', $breadthLookbackStartText, '--end', $breadthLookbackEndText
     )
     Invoke-CneStep -Name 'market_breadth' -CneArguments @(
         'backfill', 'market_breadth', '--config', $resolvedConfig, '--start', $startText, '--end', $endText

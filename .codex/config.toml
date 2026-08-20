@@ -2,9 +2,3 @@
 url = "http://127.0.0.1:8000/mcp"
 startup_timeout_sec = 15.0
 required = false
-
-# This server belongs to LMGameDev and is unavailable when working in money.
-# Define the full transport before disabling it so the plugin merge remains valid.
-[mcp_servers.lmgamedev-workhub-local]
-url = "http://localhost:3001/api/mcp"
-enabled = false

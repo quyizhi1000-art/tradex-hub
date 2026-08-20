@@ -91,6 +91,43 @@ class Config:
     FUYAO_TIMEOUT: int = _get_env("FUYAO_TIMEOUT", 15, int)
     """同花顺扶摇 API 请求超时时间（秒）"""
 
+    BIYING_ENABLED: bool = _get_env("BIYING_ENABLED", True, bool)
+    """是否允许注册必盈数据源；可按能力独立回滚"""
+
+    BIYING_BASE_URL: str = _get_env(
+        "BIYING_BASE_URL", "https://api.biyingapi.com"
+    )
+    """必盈 API 根地址"""
+
+    BIYING_LICENCE: str = _get_env("BIYING_LICENCE", "")
+    """必盈许可证；优先于 BIYING_LICENCE_FILE"""
+
+    BIYING_LICENCE_FILE: str = _get_env("BIYING_LICENCE_FILE", "")
+    """保存必盈许可证的本地文件路径"""
+
+    BIYING_TIMEOUT: int = _get_env("BIYING_TIMEOUT", 15, int)
+    """必盈 API 请求超时时间（秒）"""
+
+    BIYING_MAX_INFLIGHT: int = _get_env("BIYING_MAX_INFLIGHT", 4, int)
+    """进程内必盈请求最大并发数"""
+
+    BIYING_RATE_LIMIT_PER_MINUTE: int = _get_env(
+        "BIYING_RATE_LIMIT_PER_MINUTE", 300, int
+    )
+    """进程内必盈普通接口每分钟请求上限"""
+
+    BIYING_PRIMARY_CAPABILITIES: str = _get_env(
+        "BIYING_PRIMARY_CAPABILITIES",
+        (
+            "realtime_quote,historical_kline,market_overview,"
+            "index_daily_amount,all_a_shares,full_kline,adjusted_kline,"
+            "company_info,financial_stmt,finance_report,valuation,"
+            "dividend_financing,industry_data,concept_attribution,"
+            "limit_up_board,fund_hold"
+        ),
+    )
+    """以逗号分隔的必盈主源能力；移除单项即可独立回滚"""
+
     # ── 智能路由 ────────────────────────────────────────────
     ROUTER_HEALTH_CHECK_INTERVAL: int = _get_env("ROUTER_HEALTH_CHECK_INTERVAL", 60, int)
     """健康检查间隔（秒）"""

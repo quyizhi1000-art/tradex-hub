@@ -623,6 +623,7 @@ def _prepare_stock(record: Record) -> dict[str, Any]:
             "concept_tags": concept_tags,
             "source": str(profile.get("source") or "industry_profile"),
             "provider_as_of": profile.get("provider_as_of"),
+            "fetched_at": profile.get("fetched_at"),
         } if industry else None,
         "order_amount": _finite_number(_first_value(record, _ORDER_AMOUNT_FIELDS)),
     }

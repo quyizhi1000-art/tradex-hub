@@ -15,7 +15,6 @@ from __future__ import annotations
 import asyncio
 import json
 import logging
-import math
 import os
 import threading
 import time
@@ -25,6 +24,20 @@ from pathlib import Path
 from urllib.parse import parse_qs, urlsplit
 from zoneinfo import ZoneInfo
 
+from tradex.data_gateway.market import (
+    build_market_turnover as _build_canonical_market_turnover,
+    fetch_market_overview,
+    index_quotes_to_legacy,
+    market_overview_to_legacy_payload,
+    market_state as _canonical_market_state,
+    market_turnover_to_legacy,
+    participation_indices_to_legacy,
+)
+from tradex.data_gateway.providers.market_overview import (
+    map_indices,
+    map_participation_indices,
+)
+
 _TOOL_COUNT: int | None = None
 _MARKET_CACHE: dict | None = None
 _MARKET_CACHE_AT = 0.0
@@ -32,11 +45,6 @@ _MARKET_REFRESH_LOCK = threading.Lock()
 _MARKET_CACHE_TTL = 10
 _MARKET_MIN_FORCE_INTERVAL = 30
 logger = logging.getLogger(__name__)
-
-_INDEX_SPECS = (
-    {"code": "sh000001", "name": "上证指数", "aliases": ("上证指数", "上证综合指数")},
-    {"code": "sz399001", "name": "深证成指", "aliases": ("深证成指", "深证指数")},
-)
 
 
 def _get_html() -> str:
@@ -72,107 +80,19 @@ def get_dashboard_data() -> dict:
     return build_dashboard_data(tool_count=_get_tool_count())
 
 
-def _number(value) -> float | None:
-    """将行情字段安全转换为有限浮点数。"""
-    if value is None or value == "":
-        return None
-    try:
-        result = float(value)
-    except (TypeError, ValueError):
-        return None
-    return result if math.isfinite(result) else None
-
-
-def _field(row: dict, *names: str):
-    """兼容不同数据源的同义字段名。"""
-    normalised = {str(key).strip().lower().replace(" ", ""): value for key, value in row.items()}
-    for name in names:
-        key = name.strip().lower().replace(" ", "")
-        if key in normalised:
-            return normalised[key]
-    return None
-
-
-def _matches_index(row: dict, spec: dict) -> bool:
-    raw_code = str(_field(row, "代码", "指数代码", "code", "symbol") or "").lower()
-    compact_code = raw_code.replace(".", "").replace("_", "")
-    expected = spec["code"]
-    if compact_code in (expected, expected[2:], expected[2:] + expected[:2]):
-        return True
-    raw_name = str(_field(row, "指数名称", "名称", "name") or "")
-    return any(alias in raw_name for alias in spec["aliases"])
-
-
 def _normalise_indices(records: list[dict], source: str) -> list[dict]:
-    """从行情源结果中提取并统一沪深两大指数字段。"""
-    indices: list[dict] = []
-    for spec in _INDEX_SPECS:
-        row = next((item for item in records if _matches_index(item, spec)), None)
-        if row is None:
-            indices.append({"code": spec["code"], "name": spec["name"], "available": False})
-            continue
-
-        price = _number(_field(row, "最新点位", "最新价", "最新", "现价", "price", "close", "收盘"))
-        change = _number(_field(row, "涨跌额", "涨跌", "change"))
-        change_pct = _number(_field(row, "涨跌幅", "涨跌幅(%)", "change_pct", "pct_chg"))
-        previous_close = _number(_field(row, "昨收", "昨日收盘", "前收盘", "previous_close", "pre_close"))
-        if previous_close is None and price is not None and change is not None:
-            previous_close = price - change
-
-        amount = _number(_field(row, "成交额(元)", "成交额", "amount", "turnover"))
-        # 腾讯 qt.gtimg.cn 的成交额字段单位为万元，内部 fetcher 保留了原值。
-        if amount is not None and source == "tencent_http":
-            amount *= 10_000
-
-        indices.append({
-            "code": spec["code"],
-            "name": spec["name"],
-            "available": price is not None,
-            "price": price,
-            "change": change,
-            "change_pct": change_pct,
-            "previous_close": previous_close,
-            "open": _number(_field(row, "今开", "开盘", "open")),
-            "high": _number(_field(row, "最高", "最高价", "high")),
-            "low": _number(_field(row, "最低", "最低价", "low")),
-            "amount": amount,
-        })
-    return indices
+    """兼容入口：标准映射已迁移到 provider-neutral 数据网关。"""
+    return index_quotes_to_legacy(map_indices(records, source))
 
 
 def _normalise_participation_indices(records: list[dict]) -> list[dict]:
-    """保留市场参与度模型需要的全量指数名称、代码与涨跌幅。"""
-
-    result = []
-    for row in records:
-        change_pct = _number(_field(row, "涨跌幅", "涨跌幅(%)", "change_pct", "pct_chg"))
-        name = _field(row, "指数名称", "名称", "name")
-        code = _field(row, "代码", "指数代码", "code", "symbol")
-        if change_pct is None or (name is None and code is None):
-            continue
-        result.append({
-            "名称": str(name or ""),
-            "代码": str(code or ""),
-            "涨跌幅": change_pct,
-            "更新时间": _field(row, "更新时间", "provider_as_of"),
-        })
-    return result
+    """兼容入口：返回旧风险模型仍在消费的中文字段。"""
+    return participation_indices_to_legacy(map_participation_indices(records))
 
 
 def _market_state(now: datetime) -> dict:
     """返回中国 A 股常规交易时段状态（不推断节假日）。"""
-    minute = now.hour * 60 + now.minute
-    if now.weekday() >= 5:
-        return {"label": "周末休市", "is_open": False}
-    if minute < 9 * 60 + 15:
-        return {"label": "等待开盘", "is_open": False}
-    if minute < 9 * 60 + 30:
-        return {"label": "集合竞价", "is_open": False}
-    if minute <= 11 * 60 + 30 or 13 * 60 <= minute <= 15 * 60:
-        return {"label": "盘中交易", "is_open": True}
-    if minute < 13 * 60:
-        return {"label": "午间休市", "is_open": False}
-    return {"label": "今日收盘", "is_open": False}
+    return _canonical_market_state(now).model_dump()
 
 
 def _market_payload_is_current(payload: dict, now: datetime) -> bool:
@@ -189,76 +109,18 @@ def _market_payload_is_current(payload: dict, now: datetime) -> bool:
     )
 
 
-def _sum_amount_until(series: list[dict], trading_date: str, as_of: str) -> float:
-    """累计某交易日从开盘至指定分钟（含）的成交额。"""
-    return sum(
-        amount
-        for item in series or []
-        if str(item.get("date") or "") == trading_date
-        and str(item.get("time") or "")[:5] <= as_of
-        and (amount := _number(item.get("amount"))) is not None
-    )
-
-
 def _build_market_turnover(series_by_code: dict[str, list[dict]], now: datetime) -> dict:
-    """计算大 A 全市今日此时与上一交易日同一时刻的累计成交额差。"""
-    today_date = now.date().isoformat()
-    required_codes = {spec["code"] for spec in _INDEX_SPECS}
-    if set(series_by_code) != required_codes:
-        return {"available": False, "reason": "沪深成交额数据不完整"}
-
-    dates_by_code: dict[str, set[str]] = {}
-    latest_times: list[str] = []
-    for code, series in series_by_code.items():
-        dates = {str(item.get("date") or "") for item in series if item.get("date")}
-        dates_by_code[code] = dates
-        today_times = [
-            str(item.get("time") or "")[:5]
-            for item in series
-            if str(item.get("date") or "") == today_date and _number(item.get("amount")) is not None
-        ]
-        if not today_times:
-            return {"available": False, "reason": "今日尚无成交额"}
-        latest_times.append(max(today_times))
-
-    # 采用沪深两市都已返回的最新分钟，保证比较时点完全一致。
-    as_of = min(latest_times)
-    common_dates = set.intersection(*(dates for dates in dates_by_code.values()))
-    previous_dates = sorted(date for date in common_dates if date < today_date)
-    if not previous_dates:
-        return {"available": False, "reason": "上一交易日同期数据暂缺"}
-    previous_date = previous_dates[-1]
-
-    today_amount = sum(
-        _sum_amount_until(series, today_date, as_of) for series in series_by_code.values()
-    )
-    previous_same_time_amount = sum(
-        _sum_amount_until(series, previous_date, as_of) for series in series_by_code.values()
-    )
-    if today_amount <= 0 or previous_same_time_amount <= 0:
-        return {"available": False, "reason": "同期成交额暂缺"}
-
-    difference = today_amount - previous_same_time_amount
-    if difference > 0:
-        direction, label = "expand", "放量"
-    elif difference < 0:
-        direction, label = "shrink", "缩量"
-    else:
-        direction, label = "flat", "持平"
-
-    return {
-        "available": True,
-        "scope": "all_a_shares",
-        "metric": "amount",
-        "as_of": as_of,
-        "today_date": today_date,
-        "previous_date": previous_date,
-        "today_amount": today_amount,
-        "previous_same_time_amount": previous_same_time_amount,
-        "difference": difference,
-        "direction": direction,
-        "label": label,
+    """兼容入口：旧代码键转换后交由标准成交额契约计算。"""
+    canonical_series = {
+        {
+            "sh000001": "000001.SH",
+            "sz399001": "399001.SZ",
+        }.get(code, code): series
+        for code, series in series_by_code.items()
     }
+    return market_turnover_to_legacy(
+        _build_canonical_market_turnover(canonical_series, now)
+    )
 
 
 def get_market_data(force: bool = False) -> dict:
@@ -287,48 +149,7 @@ def get_market_data(force: bool = False) -> dict:
 def _refresh_market_data() -> dict:
     """执行一次真实行情刷新；调用方负责持有刷新锁。"""
     global _MARKET_CACHE, _MARKET_CACHE_AT
-
-    from tradex.data_sources import get_router, register_all_sources
-
-    register_all_sources()
-    frame, source = get_router().route("market_overview")
-    if frame is None or not hasattr(frame, "to_dict"):
-        raise RuntimeError("行情源返回了无法识别的数据")
-
-    records = frame.to_dict(orient="records")
-    indices = _normalise_indices(records, source)
-    if not any(item.get("available") for item in indices):
-        raise RuntimeError("行情结果中未找到上证指数或深证成指")
-
-    now = datetime.now(ZoneInfo("Asia/Shanghai"))
-    try:
-        from tradex.data_sources.akshare_fetchers import fetch_index_intraday_amount
-
-        series_by_code = {
-            spec["code"]: fetch_index_intraday_amount(symbol=spec["code"], days=5)
-            for spec in _INDEX_SPECS
-        }
-        market_turnover = _build_market_turnover(series_by_code, now)
-    except Exception:
-        market_turnover = {"available": False, "reason": "全市场同期成交额暂不可用"}
-    source_labels = {"akshare": "AKShare 行情", "tencent_http": "腾讯行情"}
-    payload = {
-        "timestamp": now.isoformat(timespec="seconds"),
-        "provider_as_of": max(
-            (
-                str(value)
-                for row in records
-                if (value := _field(row, "更新时间", "provider_as_of"))
-            ),
-            default=None,
-        ),
-        "market_state": _market_state(now),
-        "source": source,
-        "source_label": source_labels.get(source, source),
-        "indices": indices,
-        "participation_indices": _normalise_participation_indices(records),
-        "market_turnover": market_turnover,
-    }
+    payload = market_overview_to_legacy_payload(fetch_market_overview())
     _MARKET_CACHE = payload
     _MARKET_CACHE_AT = time.monotonic()
     return payload

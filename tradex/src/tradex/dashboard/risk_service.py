@@ -11,6 +11,28 @@ from datetime import date, datetime, time as clock_time, timedelta
 from typing import Any, Callable
 from zoneinfo import ZoneInfo
 
+from tradex.data_gateway.leadership import (
+    board_leader_snapshot_to_legacy_payload,
+    fetch_board_leader_snapshot,
+    fetch_leader_quotes,
+    fetch_stock_sector_profiles,
+    leader_quotes_to_legacy_records,
+    stock_sector_profiles_to_legacy_records,
+)
+from tradex.data_gateway.etfs import etf_quotes_to_legacy_records, fetch_etf_quotes
+from tradex.data_gateway.limit_events import (
+    fetch_limit_up_events,
+    limit_event_series_to_component_metadata,
+    limit_event_series_to_legacy_records,
+)
+from tradex.data_gateway.market_structure import (
+    fetch_market_breadth_snapshot,
+    fetch_sector_quotes,
+    market_breadth_to_legacy_records,
+    metadata_to_component_status,
+    sector_quotes_to_legacy_records,
+)
+
 from .risk_appetite import (
     CONFIG_VERSION,
     DEFENSE_FOCUS_VERSION,
@@ -36,7 +58,6 @@ _BOARD_LEADER_MAX_STALE = 300
 _BOARD_LEADER_RETRY_INTERVAL = 30
 _BOARD_LEADER_MAX_TARGETS = 6
 _BOARD_LEADER_GROUP_TARGETS = 3
-_MEMBERSHIP_RETRY_INTERVAL = 300
 _DEFENSE_FOCUS_KEYS = (
     "agriculture",
     "ports",
@@ -50,8 +71,6 @@ _COMPONENT_TTLS = {
     "industry_quotes": 60,
     "concept_quotes": 60,
     "leadership_pool": 60,
-    "industry_flow": 300,
-    "concept_flow": 300,
     "etfs": 300,
     "leaders": 300,
 }
@@ -60,8 +79,6 @@ _COMPONENT_MAX_STALE = {
     "industry_quotes": 90,
     "concept_quotes": 90,
     "leadership_pool": 120,
-    "industry_flow": 360,
-    "concept_flow": 360,
     "etfs": 900,
     "leaders": 900,
 }
@@ -71,7 +88,7 @@ _FAST_COMPONENTS = (
     "concept_quotes",
     "leadership_pool",
 )
-_CONTEXT_COMPONENTS = ("industry_flow", "concept_flow", "etfs", "leaders")
+_CONTEXT_COMPONENTS = ("etfs", "leaders")
 
 _snapshot_cache: dict[str, Any] | None = None
 _snapshot_cached_at = 0.0
@@ -83,11 +100,6 @@ _cache_lock = threading.RLock()
 _refresh_lock = threading.Lock()
 _context_executor = ThreadPoolExecutor(max_workers=4, thread_name_prefix="risk-context")
 _context_futures: dict[str, Future] = {}
-_membership_executor = ThreadPoolExecutor(max_workers=1, thread_name_prefix="risk-membership")
-_membership_cache: dict[tuple[str, str], dict[str, Any]] = {}
-_membership_futures: dict[tuple[str, str], Future] = {}
-_membership_attempted_at: dict[tuple[str, str], float] = {}
-_membership_generation = 0
 _board_leader_executor = ThreadPoolExecutor(
     max_workers=1,
     thread_name_prefix="risk-board-leaders",
@@ -105,135 +117,57 @@ _rotation_store: RotationRadarStore | None = None
 _rotation_store_lock = threading.Lock()
 
 
-def _records(value: Any, nested_key: str | None = None) -> list[dict[str, Any]]:
-    """Convert router return values into ordinary records."""
-
-    if value is None:
-        return []
-    if nested_key and isinstance(value, dict):
-        value = value.get(nested_key, [])
-    if hasattr(value, "to_dict"):
-        return list(value.to_dict(orient="records"))
-    if isinstance(value, (list, tuple)):
-        return [dict(item) for item in value if isinstance(item, dict)]
-    if isinstance(value, dict):
-        return [dict(value)]
-    return []
-
-
-def _fetch_router(data_type: str, **kwargs) -> tuple[Any, str]:
-    from tradex.data_sources import get_router
-
-    return get_router().route(data_type, **kwargs)
-
-
-def _fetch_market_breadth() -> tuple[list[dict[str, Any]], str]:
-    value, source = _fetch_router("market_breadth")
-    return _records(value), source
-
-
-def _fetch_board_quotes(board_type: str) -> tuple[list[dict[str, Any]], str]:
-    value, source = _fetch_router("industry_quotes", board_type=board_type)
-    return _records(value), source
-
-
-def _fetch_board_flow(sector_type: str) -> tuple[list[dict[str, Any]], str]:
-    value, source = _fetch_router(
-        "industry_data",
-        endpoint="sector_fund_flow_rank",
-        sector_type=sector_type,
-        indicator="今日",
+def _fetch_market_breadth() -> tuple[list[dict[str, Any]], str, dict[str, Any]]:
+    snapshot = fetch_market_breadth_snapshot()
+    return (
+        market_breadth_to_legacy_records(snapshot),
+        snapshot.metadata.provider,
+        metadata_to_component_status(snapshot.metadata),
     )
-    return _records(value), source
 
 
-def _fetch_etfs() -> tuple[list[dict[str, Any]], str]:
-    value, source = _fetch_router(
-        "etf_data",
-        symbol="",
-        top_n=5000,
-        sort_by="成交额",
+def _fetch_board_quotes(
+    board_type: str,
+) -> tuple[list[dict[str, Any]], str, dict[str, Any]]:
+    series = fetch_sector_quotes(board_type)
+    return (
+        sector_quotes_to_legacy_records(series),
+        series.metadata.provider,
+        metadata_to_component_status(series.metadata),
     )
-    return _records(value, "etfs"), source
 
 
-def _fetch_leaders() -> tuple[list[dict[str, Any]], str]:
-    from tradex.data_sources.http_fetchers import fetch_realtime_quotes_tencent
+def _fetch_etfs() -> tuple[list[dict[str, Any]], str, dict[str, Any]]:
+    series = fetch_etf_quotes()
+    return (
+        etf_quotes_to_legacy_records(series),
+        series.metadata.provider,
+        metadata_to_component_status(series.metadata),
+    )
 
+
+def _fetch_leaders() -> tuple[list[dict[str, Any]], str, dict[str, Any]]:
     codes = list(dict.fromkeys(
         leader.code
         for definition in SECTOR_DEFINITIONS
         for leader in definition.leaders
     ))
-    return _records(fetch_realtime_quotes_tencent(codes)), "tencent_http"
+    series = fetch_leader_quotes(codes)
+    return (
+        leader_quotes_to_legacy_records(series),
+        series.metadata.provider,
+        metadata_to_component_status(series.metadata),
+    )
 
 
 def _fetch_leadership_pool(
     trade_date: str,
 ) -> tuple[list[dict[str, Any]], str, dict[str, Any]]:
-    value, source = _fetch_router(
-        "ths_limit_up_pool",
-        date=trade_date.replace("-", ""),
-    )
-    attrs = dict(getattr(value, "attrs", {}) or {})
-    data_date = attrs.get("data_date") or attrs.get("requested_date")
-    metadata = {
-        # Source validity is an explicit part of the THS contract.  Missing
-        # metadata must never be treated as a successful pool.
-        "source_valid": attrs.get("source_valid") is True,
-        "data_date": data_date,
-        "trade_status": attrs.get("trade_status"),
-        "pool_total": attrs.get("pool_total"),
-        "unique_total": attrs.get("unique_total"),
-        "reason_coverage": attrs.get("reason_coverage"),
-        "board_count_coverage": attrs.get("board_count_coverage"),
-        "unknown_board_count": attrs.get("unknown_board_count"),
-        "valid_empty": bool(attrs.get("valid_empty", False)),
-        "page_count": attrs.get("page_count"),
-    }
-    if not metadata["source_valid"]:
-        raise RuntimeError("同花顺涨停池未通过数据有效性校验")
-    if not _leadership_trade_status_structured(metadata["trade_status"]):
-        raise RuntimeError("同花顺涨停池交易状态契约无效")
-    normalised_date = str(data_date or "").replace("-", "")
-    if normalised_date != trade_date.replace("-", ""):
-        raise RuntimeError(
-            f"同花顺涨停池交易日不匹配: expected={trade_date}, actual={data_date}"
-        )
-    records = _records(value)
-    if not records and not metadata["valid_empty"]:
-        raise RuntimeError("同花顺涨停池为空但未声明为有效空池")
-    pool_total = metadata["pool_total"]
-    unique_total = metadata["unique_total"]
-    if (
-        not isinstance(pool_total, int)
-        or isinstance(pool_total, bool)
-        or pool_total < 0
-        or unique_total != pool_total
-        or len(records) != pool_total
-    ):
-        raise RuntimeError("同花顺涨停池 total/唯一股票数契约无效")
+    series = fetch_limit_up_events(trade_date)
+    records = limit_event_series_to_legacy_records(series)
+    source = series.metadata.provider
+    metadata = limit_event_series_to_component_metadata(series)
     codes = [str(row.get("代码") or row.get("code") or "").strip() for row in records]
-    if any(not code for code in codes) or len(set(codes)) != len(codes):
-        raise RuntimeError("同花顺涨停池股票代码缺失或重复")
-    if metadata["reason_coverage"] != 1.0:
-        raise RuntimeError("同花顺涨停池涨停原因覆盖不完整")
-    unknown_board_count = metadata["unknown_board_count"]
-    board_count_coverage = metadata["board_count_coverage"]
-    expected_board_coverage = (
-        (pool_total - unknown_board_count) / pool_total if pool_total else 1.0
-    ) if (
-        isinstance(unknown_board_count, int)
-        and not isinstance(unknown_board_count, bool)
-        and 0 <= unknown_board_count <= pool_total
-    ) else None
-    if (
-        not isinstance(board_count_coverage, (int, float))
-        or isinstance(board_count_coverage, bool)
-        or expected_board_coverage is None
-        or abs(float(board_count_coverage) - expected_board_coverage) > 1e-9
-    ):
-        raise RuntimeError("同花顺涨停池连板高度覆盖契约无效")
 
     profile_status: dict[str, Any] = {
         "status": "ready" if not records else "degraded",
@@ -249,36 +183,13 @@ def _fetch_leadership_pool(
     enriched_records = [dict(record) for record in records]
     if records:
         try:
-            from tradex.data_sources.http_fetchers import fetch_stock_sector_profiles
-
-            profile_frame = fetch_stock_sector_profiles(codes)
-            profile_attrs = dict(getattr(profile_frame, "attrs", {}) or {})
-            profile_records = _records(profile_frame)
-            profile_provider_as_of = _provider_as_of(profile_records)
-            if profile_attrs.get("source_valid") is not True:
-                raise RuntimeError("股票行业 profile 未通过源有效性校验")
-            if profile_attrs.get("profile_total") != len(codes):
-                raise RuntimeError("股票行业 profile 总数与涨停池不一致")
-            if len(profile_records) != len(codes):
-                raise RuntimeError("股票行业 profile 返回行数与涨停池不一致")
-            if any(
-                not _provider_matches_date(profile.get("provider_as_of"), trade_date)
-                for profile in profile_records
-            ):
-                raise RuntimeError(
-                    "股票行业 profile 存在缺失或错误交易日"
-                )
-            profile_codes = [
-                str(profile.get("代码") or "").strip()
-                for profile in profile_records
-            ]
-            if any(not code for code in profile_codes) or len(set(profile_codes)) != len(
-                profile_codes
-            ):
-                raise RuntimeError("股票行业 profile 股票代码缺失或重复")
+            profile_series = fetch_stock_sector_profiles(
+                codes,
+                trade_date=trade_date,
+            )
+            profile_records = stock_sector_profiles_to_legacy_records(profile_series)
+            profile_codes = [profile["代码"] for profile in profile_records]
             profiles_by_code = dict(zip(profile_codes, profile_records, strict=True))
-            if set(profiles_by_code) != set(codes):
-                raise RuntimeError("股票行业 profile 代码集合与涨停池不一致")
             for record in enriched_records:
                 code = str(record.get("代码") or record.get("code") or "").strip()
                 profile = profiles_by_code[code]
@@ -289,18 +200,29 @@ def _fetch_leadership_pool(
                     # stable f100 industry contributes attribution.  A broad
                     # concept membership alone does not prove today's theme.
                     "concept_tags": copy.deepcopy(profile.get("概念标签") or []),
-                    "source": profile.get("source") or profile_attrs.get("source"),
+                    "source": profile.get("source") or profile_series.metadata.provider,
                     "provider_as_of": profile.get("provider_as_of"),
+                    "fetched_at": profile_series.metadata.fetched_at.isoformat(
+                        timespec="seconds"
+                    ),
                 }
+            profile_provider_as_of = (
+                profile_series.metadata.provider_as_of.isoformat(timespec="seconds")
+                if profile_series.metadata.provider_as_of
+                else None
+            )
             profile_status = {
                 "status": "ready",
-                "source": profile_attrs.get("source"),
+                "source": profile_series.metadata.provider,
                 "source_valid": True,
                 "eligible_for_attribution": True,
                 "requested_total": len(codes),
                 "returned_total": len(profile_records),
                 "coverage": 1.0,
                 "provider_as_of": profile_provider_as_of,
+                "fetched_at": profile_series.metadata.fetched_at.isoformat(
+                    timespec="seconds"
+                ),
                 "error": None,
             }
         except Exception as exc:  # noqa: BLE001 - reason attribution remains usable
@@ -310,57 +232,17 @@ def _fetch_leadership_pool(
     return enriched_records, source, metadata
 
 
-def _fetch_stock_membership(code: str) -> dict[str, Any]:
-    value, source = _fetch_router("stock_boards", code=code)
-    records = _records(value)
-    board_names = [
-        str(name).strip()
-        for row in records
-        if (name := _first_present(row, "板块名称", "板块", "名称"))
-        and str(name).strip()
-    ]
-    if not board_names:
-        raise RuntimeError(f"个股 {code} 的静态板块归属为空")
-    attribution = attribute_board_names(board_names)
-    return {
-        "status": "ready",
-        "source": source,
-        "fetched_at": datetime.now(ZoneInfo("Asia/Shanghai")).isoformat(timespec="seconds"),
-        "board_names": board_names,
-        "parsed_tags": attribution.get("parsed_tags", []),
-        "matched_tags": attribution.get("matched_tags", []),
-        "attributions": attribution.get("attributions", []),
-        "unmapped_tags": attribution.get("unmapped_tags", []),
-        "taxonomy_version": attribution.get("taxonomy_version"),
-    }
-
-
 def _fetch_board_leader_snapshot(
     board_code: str,
     source_hint: str | None = None,
 ) -> dict[str, Any]:
-    from tradex.data_sources.http_fetchers import fetch_board_leaders
-
-    value = fetch_board_leaders(board_code, limit=3, source_hint=source_hint)
-    items = _records(value)
-    if not items:
-        raise RuntimeError(f"板块 {board_code} 的领涨成分为空")
-    attrs = dict(getattr(value, "attrs", {}) or {})
-    source = str(
-        attrs.get("source")
-        or _first_present(items[0], "source")
-        or "eastmoney"
+    return board_leader_snapshot_to_legacy_payload(
+        fetch_board_leader_snapshot(
+            board_code,
+            limit=3,
+            source_hint=source_hint,
+        )
     )
-    fetched_at = datetime.now(ZoneInfo("Asia/Shanghai")).isoformat(timespec="seconds")
-    return {
-        "status": "ready",
-        "source": source,
-        "provider_as_of": _provider_as_of(items),
-        "fetched_at": fetched_at,
-        "stale": False,
-        "method": "board_constituents",
-        "items": items[:3],
-    }
 
 
 def _provider_as_of(records: list[dict[str, Any]]) -> str | None:
@@ -387,6 +269,12 @@ def _component_status(
         "fetched_at": entry.get("fetched_at"),
         "as_of": entry.get("fetched_at"),
         "provider_as_of": entry.get("provider_as_of"),
+        "provider_request_id": entry.get("provider_request_id"),
+        "contract": entry.get("contract"),
+        "schema_version": entry.get("schema_version"),
+        "quality": entry.get("quality"),
+        "quality_flags": copy.deepcopy(entry.get("quality_flags") or []),
+        "partial": bool(entry.get("partial", False)),
         "cache_identity": entry.get("cache_identity"),
         "source_valid": entry.get("source_valid", True),
         "data_date": entry.get("data_date"),
@@ -513,6 +401,12 @@ def _component(
             "fetched_at": None,
             "as_of": None,
             "provider_as_of": None,
+            "provider_request_id": None,
+            "contract": None,
+            "schema_version": None,
+            "quality": None,
+            "quality_flags": [],
+            "partial": False,
             "cache_identity": cache_identity,
             "source_valid": False,
             "data_date": None,
@@ -534,13 +428,27 @@ def _component(
         }
 
 
-def _context_jobs() -> dict[str, Callable[[], tuple[list[dict[str, Any]], str]]]:
+def _context_jobs() -> dict[str, Callable[[], tuple[Any, ...]]]:
     return {
-        "industry_flow": lambda: _fetch_board_flow("行业资金流"),
-        "concept_flow": lambda: _fetch_board_flow("概念资金流"),
         "etfs": _fetch_etfs,
         "leaders": _fetch_leaders,
     }
+
+
+def _derive_sector_flow_components(
+    values: dict[str, list[dict[str, Any]]],
+    statuses: dict[str, dict[str, Any]],
+) -> None:
+    """Expose quote-embedded fund flow through the legacy component names."""
+
+    for quote_name, flow_name in (
+        ("industry_quotes", "industry_flow"),
+        ("concept_quotes", "concept_flow"),
+    ):
+        values[flow_name] = copy.deepcopy(values.get(quote_name, []))
+        status = copy.deepcopy(statuses.get(quote_name, {}))
+        status["derived_from"] = quote_name
+        statuses[flow_name] = status
 
 
 def _clear_context_future(name: str, future: Future) -> None:
@@ -707,118 +615,53 @@ def _merge_leader_quotes(snapshot: dict[str, Any], leader_records: list[dict[str
         sector["leaders"] = merged
 
 
-def _complete_membership_fetch(
-    cache_key: tuple[str, str],
-    generation: int,
-    future: Future,
-) -> None:
-    global _snapshot_cache, _snapshot_cached_at
-
-    try:
-        result = future.result()
-    except Exception as exc:  # noqa: BLE001 - verification is display-only
-        logger.warning("stock membership verification %s failed: %s", cache_key[1], exc)
-        result = {
-            "status": "error",
+def _membership_from_sector_profile(profile: Any) -> dict[str, Any]:
+    if not isinstance(profile, dict) or not str(profile.get("industry") or "").strip():
+        return {
+            "status": "unavailable",
             "source": None,
-            "fetched_at": datetime.now(ZoneInfo("Asia/Shanghai")).isoformat(timespec="seconds"),
-            "error": str(exc),
+            "provider_as_of": None,
+            "fetched_at": None,
+            "derived_from": "stock_sector_profile.v1",
+            "reason": "sector_profile_unavailable",
         }
-    with _cache_lock:
-        if generation != _membership_generation:
-            return
-        _membership_cache[cache_key] = result
-        _membership_futures.pop(cache_key, None)
-        # The next request can reuse all market components while exposing the
-        # newly completed display-only corroboration.
-        _snapshot_cache = None
-        _snapshot_cached_at = 0.0
+
+    raw_concepts = profile.get("concept_tags")
+    if isinstance(raw_concepts, str):
+        concepts = [item.strip() for item in raw_concepts.split(",") if item.strip()]
+    elif isinstance(raw_concepts, (list, tuple, set)):
+        concepts = [str(item).strip() for item in raw_concepts if str(item).strip()]
+    else:
+        concepts = []
+    board_names = list(dict.fromkeys(
+        value
+        for raw in (profile.get("industry"), profile.get("region"), *concepts)
+        if (value := str(raw or "").strip())
+    ))
+    attribution = attribute_board_names(board_names)
+    return {
+        "status": "ready",
+        "source": profile.get("source"),
+        "provider_as_of": profile.get("provider_as_of"),
+        "fetched_at": profile.get("fetched_at"),
+        "derived_from": "stock_sector_profile.v1",
+        "board_names": board_names,
+        "parsed_tags": attribution.get("parsed_tags", []),
+        "matched_tags": attribution.get("matched_tags", []),
+        "attributions": attribution.get("attributions", []),
+        "unmapped_tags": attribution.get("unmapped_tags", []),
+        "taxonomy_version": attribution.get("taxonomy_version"),
+    }
 
 
-def _attach_or_schedule_memberships(
-    snapshot: dict[str, Any],
-    trade_date: str,
-) -> None:
-    leaders_by_code: dict[str, list[dict[str, Any]]] = {}
+def _attach_static_memberships(snapshot: dict[str, Any]) -> None:
+    """Derive display-only membership from the already fetched batch profile."""
+
     for sector in snapshot.get("sectors", {}).values():
         for leader in sector.get("leadership", {}).get("limit_up_leaders", []):
-            raw_code = str(leader.get("code") or "").strip()
-            if not raw_code:
-                continue
-            code = raw_code.zfill(6)
-            leaders_by_code.setdefault(code, []).append(leader)
-
-    for code, leaders in leaders_by_code.items():
-        cache_key = (trade_date, code)
-        with _cache_lock:
-            cached = copy.deepcopy(_membership_cache.get(cache_key))
-            pending = cache_key in _membership_futures
-            attempted_at = _membership_attempted_at.get(cache_key)
-            retry_due = bool(
-                cached
-                and cached.get("status") == "error"
-                and not pending
-                and (
-                    attempted_at is None
-                    or time.monotonic() - attempted_at >= _MEMBERSHIP_RETRY_INTERVAL
-                )
+            leader["static_membership"] = _membership_from_sector_profile(
+                leader.get("sector_profile")
             )
-            if retry_due:
-                _membership_cache.pop(cache_key, None)
-                cached = None
-            generation = _membership_generation
-            if cached is None and not pending:
-                future = _membership_executor.submit(_fetch_stock_membership, code)
-                _membership_futures[cache_key] = future
-                _membership_attempted_at[cache_key] = time.monotonic()
-                pending = True
-                future.add_done_callback(
-                    lambda completed, key=cache_key, current_generation=generation: (
-                        _complete_membership_fetch(key, current_generation, completed)
-                    )
-                )
-        membership = cached or {
-            "status": "pending" if pending else "unavailable",
-            "source": None,
-            "fetched_at": None,
-        }
-        for leader in leaders:
-            leader["static_membership"] = copy.deepcopy(membership)
-
-
-def _overlay_memberships(result: dict[str, Any], trade_date: str) -> dict[str, Any]:
-    """Overlay completed display-only membership data on cached responses."""
-
-    leaders: list[dict[str, Any]] = []
-    sectors = result.get("sectors")
-    if isinstance(sectors, dict):
-        for sector in sectors.values():
-            leaders.extend(
-                sector.get("leadership", {}).get("limit_up_leaders", [])
-            )
-    for group in result.get("groups", []):
-        for item in group.get("items", []):
-            leaders.extend(
-                item.get("leadership", {}).get("limit_up_leaders", [])
-            )
-
-    with _cache_lock:
-        for leader in leaders:
-            raw_code = str(leader.get("code") or "").strip()
-            if not raw_code:
-                continue
-            cache_key = (trade_date, raw_code.zfill(6))
-            cached = copy.deepcopy(_membership_cache.get(cache_key))
-            pending = cache_key in _membership_futures
-            if cached is not None:
-                leader["static_membership"] = cached
-            elif pending:
-                leader["static_membership"] = {
-                    "status": "pending",
-                    "source": None,
-                    "fetched_at": None,
-                }
-    return result
 
 
 def _normalise_board_code(value: Any) -> str | None:
@@ -1702,39 +1545,16 @@ def _leadership_trade_status_eligible(value: Any) -> bool:
     )
 
 
-def _leadership_contract_valid(
-    records: list[dict[str, Any]],
-    status: dict[str, Any],
-) -> bool:
-    pool_total = status.get("pool_total")
-    unique_total = status.get("unique_total")
-    if (
-        not isinstance(pool_total, int)
-        or isinstance(pool_total, bool)
-        or pool_total < 0
-        or unique_total != pool_total
-        or len(records) != pool_total
-        or status.get("reason_coverage") != 1.0
-        or not _leadership_trade_status_structured(status.get("trade_status"))
-    ):
-        return False
-    unknown_board_count = status.get("unknown_board_count")
-    board_count_coverage = status.get("board_count_coverage")
-    if (
-        not isinstance(unknown_board_count, int)
-        or isinstance(unknown_board_count, bool)
-        or not 0 <= unknown_board_count <= pool_total
-        or not isinstance(board_count_coverage, (int, float))
-        or isinstance(board_count_coverage, bool)
-    ):
-        return False
-    expected_board_coverage = (
-        (pool_total - unknown_board_count) / pool_total if pool_total else 1.0
+def _leadership_contract_valid(status: dict[str, Any]) -> bool:
+    """Accept only payloads already validated at the canonical gateway boundary."""
+
+    return bool(
+        status.get("contract") == "limit_event.v1"
+        and status.get("schema_version") == 1
+        and status.get("quality") in {"accepted", "degraded"}
+        and status.get("source_valid")
+        and _leadership_trade_status_structured(status.get("trade_status"))
     )
-    if abs(float(board_count_coverage) - expected_board_coverage) > 1e-9:
-        return False
-    codes = [str(row.get("代码") or row.get("code") or "").strip() for row in records]
-    return all(codes) and len(set(codes)) == len(codes) if records else True
 
 
 def _component_is_fresh(
@@ -2414,7 +2234,7 @@ def get_risk_appetite_data(
                 not force and age < _SNAPSHOT_TTL
             ):
                 return _overlay_board_leaders(
-                    _overlay_memberships(copy.deepcopy(_snapshot_cache), trade_date),
+                    copy.deepcopy(_snapshot_cache),
                     trade_date,
                 )
 
@@ -2431,13 +2251,9 @@ def get_risk_appetite_data(
                     not force and age < _SNAPSHOT_TTL
                 ):
                     return _overlay_board_leaders(
-                        _overlay_memberships(copy.deepcopy(_snapshot_cache), trade_date),
+                        copy.deepcopy(_snapshot_cache),
                         trade_date,
                     )
-
-        from tradex.data_sources import register_all_sources
-
-        register_all_sources()
         jobs = {
             "market_breadth": _fetch_market_breadth,
             "industry_quotes": lambda: _fetch_board_quotes("industry"),
@@ -2467,6 +2283,7 @@ def get_risk_appetite_data(
                 name = futures[future]
                 values[name], statuses[name] = future.result()
 
+        _derive_sector_flow_components(values, statuses)
         context_futures = _refresh_context_async(
             force=force and not record_trajectory
         )
@@ -2531,10 +2348,7 @@ def get_risk_appetite_data(
         leadership_date_matches = (
             _normalise_trade_date(leadership_status.get("data_date")) == trade_date
         )
-        leadership_contract_valid = _leadership_contract_valid(
-            values["leadership_pool"],
-            leadership_status,
-        )
+        leadership_contract_valid = _leadership_contract_valid(leadership_status)
         leadership_source_valid = bool(
             leadership_status.get("fetched_at")
             and leadership_status.get("source_valid")
@@ -2603,7 +2417,7 @@ def get_risk_appetite_data(
             as_of=now,
         )
         _merge_leader_quotes(snapshot, values["leaders"])
-        _attach_or_schedule_memberships(snapshot, trade_date)
+        _attach_static_memberships(snapshot)
 
         # Preserve the provider's current leader as context. It never affects votes.
         board_records = values["industry_quotes"] + values["concept_quotes"]
@@ -2704,7 +2518,7 @@ def get_risk_appetite_data(
             _snapshot_cached_at = time.monotonic()
             _snapshot_trade_date = trade_date
         return _overlay_board_leaders(
-            _overlay_memberships(result, trade_date),
+            result,
             trade_date,
         )
 
@@ -2714,7 +2528,7 @@ def reset_risk_appetite_cache() -> None:
 
     global _snapshot_cache, _snapshot_cached_at, _snapshot_trade_date
     global _published_headline, _pending_headline_key, _pending_headline_count
-    global _membership_generation, _board_leader_generation, _board_leader_trade_date
+    global _board_leader_generation, _board_leader_trade_date
     with _cache_lock:
         _snapshot_cache = None
         _snapshot_cached_at = 0.0
@@ -2725,12 +2539,6 @@ def reset_risk_appetite_cache() -> None:
         for future in _context_futures.values():
             future.cancel()
         _context_futures.clear()
-        _membership_generation += 1
-        for future in _membership_futures.values():
-            future.cancel()
-        _membership_futures.clear()
-        _membership_cache.clear()
-        _membership_attempted_at.clear()
         _board_leader_generation += 1
         for future in _board_leader_futures.values():
             future.cancel()

@@ -11,7 +11,7 @@ Exchange rules:
 - 688xxx -> Shanghai STAR Market (sh)
 - 000xxx, 001xxx, 002xxx, 003xxx -> Shenzhen (sz)
 - 300xxx, 301xxx -> Shenzhen ChiNext (sz)
-- 4xxxxx, 8xxxxx -> BSE (bj)
+- 4xxxxx, 8xxxxx, 920xxx -> BSE (bj)
 
 Index rules (指数代码白名单, v3.3.2 新增):
 - sh000001 -> 上证指数
@@ -138,7 +138,7 @@ def get_exchange(code: str) -> str:
         return "sh"
     elif code.startswith(("0", "1", "2", "3")):
         return "sz"
-    elif code.startswith(("4", "8")):
+    elif code.startswith(("4", "8", "920")):
         return "bj"
     else:
         return "sh"  # Default to Shanghai
@@ -169,7 +169,7 @@ def get_market_name(code: str) -> str:
         return "深交所创业板"
     elif code.startswith(("0", "1")):
         return "深交所主板"
-    elif code.startswith(("4", "8")):
+    elif code.startswith(("4", "8", "920")):
         return "北交所"
     else:
         return "未知市场"
@@ -240,6 +240,6 @@ def is_valid_a_share_code(code: str) -> bool:
         "688",                        # Shanghai STAR
         "000", "001", "002", "003",  # Shenzhen main board
         "300", "301",                 # Shenzhen ChiNext
-        "4", "8",                     # BSE
+        "4", "8", "920",              # BSE (including current 920xxx segment)
     )
     return code.startswith(valid_prefixes)

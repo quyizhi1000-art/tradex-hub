@@ -6,18 +6,18 @@
 核心数据源矩阵（其余独有数据类型在下方集中注册）：
   | data_type            | priority=1        | priority=50   | priority=100/200 | exclusive |
   |----------------------|-------------------|---------------|------------------|-----------|
-  | realtime_quote       | eltdx             | ths_fuyao     | akshare/tencent_http |        |
+  | realtime_quote       | biying            | ths_fuyao     | eltdx/akshare/tencent_http |     |
   | stock_list           | akshare           |               |               |           |
-  | historical_kline     | eltdx             | ths_fuyao     | akshare          |           |
+  | historical_kline     | biying            | ths_fuyao     | eltdx/akshare    |           |
   | minute_data          | eltdx             | akshare       |               |           |
   | call_auction         | eltdx             |               |               | 是        |
   | tick_data            | eltdx             |               |               | 是        |
   | f10_profile          | eltdx             |               |               | 是        |
-  | company_info         | akshare           |               |               |           |
-  | financial_stmt       | akshare           |               |               |           |
-  | valuation            | akshare           |               |               |           |
-  | industry_data        | akshare           |               |               |           |
-  | market_overview      | akshare           |               |               |           |
+  | company_info         | biying            |               | akshare       |           |
+  | financial_stmt       | biying            |               | akshare       |           |
+  | valuation            | biying            |               | akshare       |           |
+  | industry_data        | biying            |               | akshare       |           |
+  | market_overview      | biying            |               | akshare/tencent_http |      |
   | news_data            | em_news_direct    | akshare       |               |           |
   | telegraph_news       | cls_telegraph     |               |               |           |
   | cninfo_announcement  | cninfo_direct     |               |               |           |
@@ -31,11 +31,15 @@
   | northbound           | ths_hsgt          | akshare       |               |           |
   | hot_money            | ths_editorial     |               |               | 是        |
   | lockup_expiry        | em_datacenter     |               |               | 是        |
-  | limit_up_board       | ths_fuyao         |               | em_push2_clist   |           |
+  | limit_up_board       | biying            | ths_fuyao     | em_push2_clist   |           |
+  | limit_events         | ths               |               |                  |           |
   | market_breadth       | ths_fuyao         |               | em_push2ex       |           |
+  | leader_quotes        | tencent_http      |               |                  |           |
+  | stock_sector_profiles | em_push2delay    |               |                  |           |
+  | board_leaders        | eastmoney         |               |                  |           |
   | hot_stocks           | akshare           |               |               |           |
   | profit_forecast      | akshare           | tencent_http  |               |           |
-  | concept_attribution  | em_push2delay     |               |               |           |
+  | concept_attribution  | biying            |               | em_push2delay |           |
   | baidu_economic_calendar | akshare_baidu_economic |           |               |           |
   | baidu_trade_notify   | akshare_baidu_notify |             |               |           |
   | index_news_sentiment | akshare_index_sentiment |           |               |           |
@@ -44,7 +48,7 @@
   | hot_search           | akshare_hot_search |               |               |           |
   | hot_rank             | akshare_hot_rank   |               |               |           |
   | xueqiu_hot           | akshare_xueqiu_hot |               |               |           |
-  | fund_hold            | akshare_fund_hold  |               |               |           |
+  | fund_hold            | biying             |               | akshare_fund_hold |        |
   | wencai_query         | pywencai           |               |               |           |
   | wencai_news          | iwencai_openapi    |               |               |           |
 """
@@ -65,6 +69,8 @@ from . import wencai_fetchers as wf
 from . import em_client as emc
 from . import fuyao_fetchers as ff
 from .fuyao_client import is_configured as fuyao_is_configured
+from . import biying_fetchers as bf
+from .biying_client import provides as biying_provides
 from . import ths_fetchers as ths
 from . import tdx_local as tdx
 
@@ -85,47 +91,66 @@ def _register_all_sources_unlocked() -> None:
         return
     router = get_router()
 
-    # ── 行情类 ──
-    router.register("realtime_quote", "eltdx", ef.fetch_realtime_quote, priority=1)
+    # ── 行情类：必盈主源 → Fuyao 等价能力 → 原有源 ──
+    biying_realtime = biying_provides("realtime_quote")
+    if biying_realtime:
+        router.register("realtime_quote", "biying", bf.fetch_realtime_quote, priority=1)
     if fuyao_is_configured():
         router.register(
             "realtime_quote", "ths_fuyao", ff.fetch_realtime_quote, priority=50
         )
-    router.register("realtime_quote", "akshare", akf.fetch_realtime_quote, priority=100)
-    router.register("realtime_quote", "tencent_http", hf.fetch_realtime_quote_tencent, priority=200)
+    router.register("realtime_quote", "eltdx", ef.fetch_realtime_quote, priority=100 if biying_realtime else 1)
+    router.register("realtime_quote", "akshare", akf.fetch_realtime_quote, priority=200 if biying_realtime else 100)
+    router.register("realtime_quote", "tencent_http", hf.fetch_realtime_quote_tencent, priority=300 if biying_realtime else 200)
 
     # 全市场列表需要名称、行业和市值字段，不能与仅含价格字段的单标的
     # snapshot 共用路由，否则上游成功但字段不完整时不会触发 fallback。
     router.register("stock_list", "akshare", akf.fetch_realtime_quote, priority=1)
 
-    router.register("historical_kline", "eltdx", ef.fetch_historical_kline, priority=1)
+    biying_history = biying_provides("historical_kline")
+    if biying_history:
+        router.register("historical_kline", "biying", bf.fetch_historical_kline, priority=1)
     if fuyao_is_configured():
         router.register(
             "historical_kline", "ths_fuyao", ff.fetch_historical_kline, priority=50
         )
-    router.register("historical_kline", "akshare", akf.fetch_historical_kline, priority=100)
+    router.register("historical_kline", "eltdx", ef.fetch_historical_kline, priority=100 if biying_history else 1)
+    router.register("historical_kline", "akshare", akf.fetch_historical_kline, priority=200 if biying_history else 100)
 
     # ── 同花顺扶摇官方独有能力 ──
     # 每项使用独立 data_type，避免某个不支持的接口影响其他扶摇能力的
     # SmartRouter 健康分。未配置密钥时完全不注册，现有工具仍可正常启动。
+    if biying_provides("valuation_snapshot"):
+        router.register(
+            "valuation_snapshot", "biying", bf.fetch_valuation_snapshot, priority=1
+        )
+    if biying_provides("ths_index_catalog"):
+        router.register(
+            "ths_index_catalog", "biying", bf.fetch_ths_index_catalog, priority=1
+        )
+    if biying_provides("ths_index_constituents"):
+        router.register(
+            "ths_index_constituents", "biying", bf.fetch_ths_index_constituents, priority=1
+        )
     if fuyao_is_configured():
+        fuyao_capability_priority = 50 if biying_provides("valuation_snapshot") else 1
         router.register(
             "valuation_snapshot",
             "ths_fuyao",
             ff.fetch_valuation_snapshot,
-            priority=1,
+            priority=fuyao_capability_priority,
         )
         router.register(
             "ths_index_catalog",
             "ths_fuyao",
             ff.fetch_ths_index_catalog,
-            priority=1,
+            priority=50 if biying_provides("ths_index_catalog") else 1,
         )
         router.register(
             "ths_index_constituents",
             "ths_fuyao",
             ff.fetch_ths_index_constituents,
-            priority=1,
+            priority=50 if biying_provides("ths_index_constituents") else 1,
         )
         router.register(
             "limit_up_ladder",
@@ -148,19 +173,34 @@ def _register_all_sources_unlocked() -> None:
     router.register("tick_data", "eltdx", ef.fetch_tick_data, priority=1, exclusive=True)
     router.register("f10_profile", "eltdx", ef.fetch_f10_profile, priority=1, exclusive=True)
     router.register("security_codes", "eltdx", ef.fetch_security_codes, priority=1, exclusive=True)
-    router.register("all_a_shares", "eltdx", ef.fetch_all_a_shares, priority=1, exclusive=True)
+    biying_all_a = biying_provides("all_a_shares")
+    if biying_all_a:
+        router.register("all_a_shares", "biying", bf.fetch_all_a_shares, priority=1)
+    router.register("all_a_shares", "eltdx", ef.fetch_all_a_shares, priority=100 if biying_all_a else 1, exclusive=not biying_all_a)
     router.register("minute_history", "eltdx", ef.fetch_minute_history, priority=1, exclusive=True)
     router.register("minute_aux", "eltdx", ef.fetch_minute_aux, priority=1, exclusive=True)
     router.register("today_ticks", "eltdx", ef.fetch_today_ticks, priority=1, exclusive=True)
     router.register("opening_match", "eltdx", ef.fetch_opening_match, priority=1, exclusive=True)
-    router.register("full_kline", "eltdx", ef.fetch_full_kline, priority=1, exclusive=True)
-    router.register("adjusted_kline", "eltdx", ef.fetch_adjusted_kline, priority=1, exclusive=True)
+    biying_full_kline = biying_provides("full_kline")
+    if biying_full_kline:
+        router.register("full_kline", "biying", bf.fetch_full_kline, priority=1)
+    router.register("full_kline", "eltdx", ef.fetch_full_kline, priority=100 if biying_full_kline else 1, exclusive=not biying_full_kline)
+    biying_adjusted = biying_provides("adjusted_kline")
+    if biying_adjusted:
+        router.register("adjusted_kline", "biying", bf.fetch_adjusted_kline, priority=1)
+    router.register("adjusted_kline", "eltdx", ef.fetch_adjusted_kline, priority=100 if biying_adjusted else 1, exclusive=not biying_adjusted)
     router.register("stock_profile", "eltdx", ef.fetch_stock_profile, priority=1, exclusive=True)
     router.register("shortline_indicators", "eltdx", ef.fetch_shortline_indicators, priority=1, exclusive=True)
     router.register("finance_batch", "eltdx", ef.fetch_finance_batch, priority=1, exclusive=True)
     router.register("special_limits", "eltdx", ef.fetch_special_limits, priority=1, exclusive=True)
-    router.register("finance_report", "eltdx", ef.fetch_finance_report, priority=1, exclusive=True)
-    router.register("dividend_financing", "eltdx", ef.fetch_dividend_financing, priority=1, exclusive=True)
+    biying_finance_report = biying_provides("finance_report")
+    if biying_finance_report:
+        router.register("finance_report", "biying", bf.fetch_finance_report, priority=1)
+    router.register("finance_report", "eltdx", ef.fetch_finance_report, priority=100 if biying_finance_report else 1, exclusive=not biying_finance_report)
+    biying_dividend = biying_provides("dividend_financing")
+    if biying_dividend:
+        router.register("dividend_financing", "biying", bf.fetch_dividend_financing, priority=1)
+    router.register("dividend_financing", "eltdx", ef.fetch_dividend_financing, priority=100 if biying_dividend else 1, exclusive=not biying_dividend)
     router.register("company_news", "eltdx", ef.fetch_company_news, priority=1, exclusive=True)
     router.register("northbound_holding", "eltdx", ef.fetch_northbound_holding, priority=1, exclusive=True)
     router.register("stock_topics", "eltdx", ef.fetch_stock_topics, priority=1, exclusive=True)
@@ -173,14 +213,24 @@ def _register_all_sources_unlocked() -> None:
     router.register("special_limits_scan", "eltdx", ef.fetch_special_limits_scan, priority=1, exclusive=True)
     router.register("f10_extra", "eltdx", ef.fetch_f10_extra, priority=1, exclusive=True)
 
-    # ── akshare 单源（备 tencent_http） ──
-    router.register("company_info", "akshare", akf.fetch_company_info, priority=1)
-    router.register("financial_stmt", "akshare", akf.fetch_financial_stmt, priority=1)
-    router.register("valuation", "akshare", akf.fetch_valuation, priority=1)
-    router.register("industry_data", "akshare", akf.fetch_industry_data, priority=1)
-    router.register("market_overview", "akshare", akf.fetch_market_overview, priority=1)
-    router.register("market_overview", "tencent_http", hf.fetch_market_overview_tencent, priority=100)
-    router.register("index_daily_amount", "akshare", akf.fetch_index_daily_amount, priority=1)
+    # ── 基本面/板块/市场：按能力独立启停必盈 ──
+    for data_type, fetcher in (
+        ("company_info", bf.fetch_company_info),
+        ("financial_stmt", bf.fetch_financial_stmt),
+        ("valuation", bf.fetch_valuation),
+        ("industry_data", bf.fetch_industry_data),
+        ("market_overview", bf.fetch_market_overview),
+        ("index_daily_amount", bf.fetch_index_daily_amount),
+    ):
+        if biying_provides(data_type):
+            router.register(data_type, "biying", fetcher, priority=1)
+    router.register("company_info", "akshare", akf.fetch_company_info, priority=100 if biying_provides("company_info") else 1)
+    router.register("financial_stmt", "akshare", akf.fetch_financial_stmt, priority=100 if biying_provides("financial_stmt") else 1)
+    router.register("valuation", "akshare", akf.fetch_valuation, priority=100 if biying_provides("valuation") else 1)
+    router.register("industry_data", "akshare", akf.fetch_industry_data, priority=100 if biying_provides("industry_data") else 1)
+    router.register("market_overview", "akshare", akf.fetch_market_overview, priority=100 if biying_provides("market_overview") else 1)
+    router.register("market_overview", "tencent_http", hf.fetch_market_overview_tencent, priority=200 if biying_provides("market_overview") else 100)
+    router.register("index_daily_amount", "akshare", akf.fetch_index_daily_amount, priority=100 if biying_provides("index_daily_amount") else 1)
     router.register("news_data", "em_news_direct", nf.fetch_em_news_direct, priority=1)
     router.register("news_data", "akshare", akf.fetch_news_data, priority=100)
     router.register("telegraph_news", "cls_telegraph", nf.fetch_cls_telegraph, priority=1)
@@ -200,12 +250,16 @@ def _register_all_sources_unlocked() -> None:
     # Single-day market list is a separate contract from per-stock, multi-day
     # seat details.  Splitting the route prevents a fallback from silently
     # ignoring board_type/look-back parameters and returning a different view.
+    if biying_provides("dragon_tiger_market_day"):
+        router.register(
+            "dragon_tiger_market_day", "biying", bf.fetch_dragon_tiger, priority=1
+        )
     if fuyao_is_configured():
         router.register(
             "dragon_tiger_market_day",
             "ths_fuyao",
             ff.fetch_dragon_tiger,
-            priority=1,
+            priority=50 if biying_provides("dragon_tiger_market_day") else 1,
         )
     router.register(
         "dragon_tiger_market_day",
@@ -223,10 +277,18 @@ def _register_all_sources_unlocked() -> None:
 
     # ── 独占源 ──
     router.register("hot_money", "ths_editorial", asf.fetch_hot_money, priority=1, exclusive=True)
-    router.register("lockup_expiry", "em_datacenter", asf.fetch_lockup_expiry, priority=1, exclusive=True)
+    biying_lockup = biying_provides("lockup_expiry")
+    if biying_lockup:
+        router.register("lockup_expiry", "biying", bf.fetch_lockup_expiry, priority=1)
+    router.register("lockup_expiry", "em_datacenter", asf.fetch_lockup_expiry, priority=100 if biying_lockup else 1, exclusive=not biying_lockup)
+    if biying_provides("limit_up_board"):
+        router.register(
+            "limit_up_board", "biying", bf.fetch_limit_up_board, priority=1
+        )
     if fuyao_is_configured():
         router.register(
-            "limit_up_board", "ths_fuyao", ff.fetch_limit_up_board, priority=1
+            "limit_up_board", "ths_fuyao", ff.fetch_limit_up_board,
+            priority=50 if biying_provides("limit_up_board") else 1
         )
     router.register(
         "limit_up_board", "em_push2_clist", asf.fetch_limit_up_board, priority=100
@@ -236,8 +298,10 @@ def _register_all_sources_unlocked() -> None:
     router.register("profit_forecast", "akshare", akf.fetch_profit_forecast, priority=1)
     router.register("profit_forecast", "tencent_http", hf.fetch_profit_forecast_tencent, priority=100)
 
-    # ── 单源 ──
-    router.register("concept_attribution", "em_push2delay", asf.fetch_concept_attribution, priority=1)
+    # ── 单源/主备 ──
+    if biying_provides("concept_attribution"):
+        router.register("concept_attribution", "biying", bf.fetch_concept_attribution, priority=1)
+    router.register("concept_attribution", "em_push2delay", asf.fetch_concept_attribution, priority=100 if biying_provides("concept_attribution") else 1)
 
     # ── v3.3.1 新增：全局行情（腾讯直连，美股/大宗/亚太/外汇） ──
     router.register("global_market_quote", "tencent_http", hf.fetch_global_quote_tencent, priority=1)
@@ -250,13 +314,37 @@ def _register_all_sources_unlocked() -> None:
             "market_breadth", "ths_fuyao", ff.fetch_market_breadth, priority=1
         )
     router.register("market_breadth", "em_push2ex", hf.fetch_market_breadth, priority=100)
-    router.register("industry_quotes", "em_push2", hf.fetch_industry_quotes, priority=1)
+    if biying_provides("industry_quotes"):
+        router.register("industry_quotes", "biying", bf.fetch_industry_quotes, priority=1)
+    router.register("industry_quotes", "em_push2", hf.fetch_industry_quotes, priority=100 if biying_provides("industry_quotes") else 1)
+
+    # Dashboard leadership acquisition.  The gateway above this registry owns
+    # canonical mapping and payload validation, so future paid adapters can be
+    # inserted here without changing dashboard consumers.
+    router.register(
+        "leader_quotes",
+        "tencent_http",
+        hf.fetch_realtime_quotes_tencent,
+        priority=1,
+    )
+    router.register(
+        "stock_sector_profiles",
+        "em_push2delay",
+        hf.fetch_stock_sector_profiles,
+        priority=1,
+    )
+    router.register(
+        "board_leaders",
+        "eastmoney",
+        hf.fetch_board_leaders,
+        priority=1,
+    )
 
     # ── v3.3.9 新增：同花顺备源 + 东财 slist + 通达信本地数据 ──
     router.register("stock_boards", "em_slist", emc.fetch_stock_boards, priority=1)
     router.register("ths_eps_forecast", "ths", ths.fetch_ths_eps_forecast, priority=1)
     router.register("ths_hot_reason", "ths", ths.fetch_ths_hot_reason, priority=1)
-    router.register("ths_limit_up_pool", "ths", ths.fetch_ths_limit_up_pool, priority=1)
+    router.register("limit_events", "ths", ths.fetch_ths_limit_up_pool, priority=1)
     router.register("ths_hot_list", "ths", ths.fetch_ths_hot_list, priority=1)
     router.register("local_kline", "tdx_local", tdx.fetch_local_kline, priority=1)
     router.register("local_minute", "tdx_local", tdx.fetch_local_minute, priority=1)
@@ -270,7 +358,9 @@ def _register_all_sources_unlocked() -> None:
     router.register("hot_search", "akshare_hot_search", akf.fetch_hot_search_baidu, priority=1)
     router.register("hot_rank", "akshare_hot_rank", akf.fetch_hot_rank_data, priority=1)
     router.register("xueqiu_hot", "akshare_xueqiu_hot", akf.fetch_xueqiu_hot, priority=1)
-    router.register("fund_hold", "akshare_fund_hold", akf.fetch_fund_hold_data, priority=1)
+    if biying_provides("fund_hold"):
+        router.register("fund_hold", "biying", bf.fetch_fund_hold_data, priority=1)
+    router.register("fund_hold", "akshare_fund_hold", akf.fetch_fund_hold_data, priority=100 if biying_provides("fund_hold") else 1)
 
     # ── v3.3.0 新增：同花顺问财数据源（可选依赖） ──
     router.register("wencai_query", "pywencai", wf.fetch_wencai_query, priority=1)

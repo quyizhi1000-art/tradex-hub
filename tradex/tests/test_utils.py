@@ -111,21 +111,25 @@ class TestSymbol:
         assert get_exchange("000001") == "sz"
         assert get_exchange("300750") == "sz"
         assert get_exchange("688981") == "sh"
+        assert get_exchange("920547") == "bj"
 
     def test_get_market_name(self):
         assert "上交所" in get_market_name("600519")
         assert "深交所" in get_market_name("000001")
         assert "创业板" in get_market_name("300750")
         assert "科创板" in get_market_name("688981")
+        assert "北交所" in get_market_name("920547")
 
     def test_format_with_exchange(self):
         assert format_with_exchange("600519") == "sh600519"
         assert format_with_exchange("000001") == "sz000001"
+        assert format_with_exchange("920547") == "bj920547"
 
     def test_is_valid(self):
         assert is_valid_a_share_code("600519") is True
         assert is_valid_a_share_code("000001") is True
         assert is_valid_a_share_code("300750") is True
         assert is_valid_a_share_code("688981") is True
+        assert is_valid_a_share_code("920547") is True
         assert is_valid_a_share_code("999999") is False
         assert is_valid_a_share_code("abcdef") is False

@@ -2,16 +2,27 @@
 data_router.py 语法和命令注册测试。
 """
 
-import pytest
 import ast
+import os
+from pathlib import Path
+
+import pytest
 
 
 class TestDataRouterSyntax:
     """验证 data_router.py 语法正确，命令数量完整。"""
 
     def _parse_router(self):
-        path = r"C:\Users\wolfj\.workbuddy\skills\trader-data-router\data_router.py"
-        with open(path, "r", encoding="utf-8") as f:
+        configured = os.environ.get("TRADER_DATA_ROUTER_PATH")
+        if not configured:
+            pytest.skip(
+                "external trader-data-router skill is not installed; "
+                "set TRADER_DATA_ROUTER_PATH to validate it"
+            )
+        path = Path(configured).expanduser().resolve()
+        if not path.is_file():
+            pytest.skip(f"TRADER_DATA_ROUTER_PATH does not exist: {path}")
+        with path.open("r", encoding="utf-8") as f:
             source = f.read()
         return ast.parse(source), source
 
