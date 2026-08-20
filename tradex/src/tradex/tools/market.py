@@ -15,12 +15,15 @@ Data source routing (via SmartRouter):
   资金流向: em_push2(priority=1) → akshare(priority=100)  [fund_flow]
   北向资金: ths_hsgt(priority=1) → akshare(priority=100)  [northbound]
   涨跌停池: akshare hot_stocks
-  龙虎榜:   em_datacenter(priority=1) → akshare(priority=100)  [dragon_tiger]
+  龙虎榜多日: em_datacenter(priority=1) → akshare(priority=100) [dragon_tiger]
+  龙虎榜单日: ths_fuyao(priority=1) → akshare exact-day(priority=100)
 """
 
 from __future__ import annotations
 
 import json
+from datetime import datetime
+from zoneinfo import ZoneInfo
 
 from mcp.server.fastmcp import FastMCP
 
@@ -36,6 +39,7 @@ _router = get_router()
 import logging
 
 logger = logging.getLogger(__name__)
+_SHANGHAI = ZoneInfo("Asia/Shanghai")
 
 
 def register(mcp: FastMCP):
@@ -283,6 +287,8 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def get_dragon_tiger(
         num_days: int = 5,
+        trade_date: str = "",
+        board_type: str = "all",
     ) -> str:
         """
         获取龙虎榜数据（机构和游资活跃买卖记录）。
@@ -292,21 +298,37 @@ def register(mcp: FastMCP):
 
         Args:
             num_days: 返回最近几个交易日的数据，默认5天
+            trade_date: 单日查询时的交易日 YYYY-MM-DD；留空由同花顺返回最近交易日
+            board_type: 单日榜单类型；当前安全适配仅支持 all
 
         Returns:
             龙虎榜数据 (JSON)，包含股票代码、名称、上榜原因、
             买入额、卖出额、净买入额、买方营业部等。
         """
-        cache_key = f"dragon_tiger:{num_days}"
+        cache_date = trade_date or datetime.now(_SHANGHAI).date().isoformat()
+        cache_key = f"dragon_tiger:v3:{num_days}:{cache_date}:{board_type}"
         cached = cache.get(cache_key)
         if cached is not None:
             return cached
 
         try:
-            # code="" → 返回全市场龙虎榜明细 DataFrame（akshare 源）
-            result, _src = _router.route(
-                "dragon_tiger", code="", look_back_days=num_days * 2
-            )
+            if num_days == 1:
+                result, _src = _router.route(
+                    "dragon_tiger_market_day",
+                    code="",
+                    trade_date=trade_date,
+                    board_type=board_type,
+                    look_back_days=1,
+                )
+            else:
+                if board_type != "all":
+                    raise ValueError("多日龙虎榜只支持 board_type='all'")
+                result, _src = _router.route(
+                    "dragon_tiger",
+                    code="",
+                    trade_date=trade_date,
+                    look_back_days=num_days * 2,
+                )
             # dragon_tiger with code="" 返回原始 DataFrame
             if isinstance(result, pd.DataFrame):
                 df = result

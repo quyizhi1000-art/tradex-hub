@@ -1,13 +1,14 @@
 """
 数据源注册中心 — register_all_sources()。
 
-注册全部 38 个数据类型到 SmartRouter，按数据源矩阵定义优先级与独占标记。
+注册全部数据类型到 SmartRouter，按数据源矩阵定义优先级与独占标记。
 
-数据源矩阵（39 个数据类型，v3.3.1 新增 global_market_quote）：
-  | data_type            | priority=1        | priority=100  | priority=200  | exclusive |
-  |----------------------|-------------------|---------------|---------------|-----------|
-  | realtime_quote       | eltdx             | akshare       | tencent_http  |           |
-  | historical_kline     | eltdx             | akshare       |               |           |
+核心数据源矩阵（其余独有数据类型在下方集中注册）：
+  | data_type            | priority=1        | priority=50   | priority=100/200 | exclusive |
+  |----------------------|-------------------|---------------|------------------|-----------|
+  | realtime_quote       | eltdx             | ths_fuyao     | akshare/tencent_http |        |
+  | stock_list           | akshare           |               |               |           |
+  | historical_kline     | eltdx             | ths_fuyao     | akshare          |           |
   | minute_data          | eltdx             | akshare       |               |           |
   | call_auction         | eltdx             |               |               | 是        |
   | tick_data            | eltdx             |               |               | 是        |
@@ -24,12 +25,14 @@
   | etf_data             | akshare           |               |               |           |
   | cb_data              | akshare           |               |               |           |
   | fund_flow            | em_push2          | akshare       |               |           |
-  | dragon_tiger         | em_datacenter     | akshare       |               |           |
+  | dragon_tiger         | em_datacenter     |               | akshare          |           |
+  | dragon_tiger_market_day | ths_fuyao      |               | akshare(exact day) |         |
   | industry_comparison  | em_push2          | akshare       |               |           |
   | northbound           | ths_hsgt          | akshare       |               |           |
   | hot_money            | ths_editorial     |               |               | 是        |
   | lockup_expiry        | em_datacenter     |               |               | 是        |
-  | limit_up_board       | em_push2_clist    |               |               | 是        |
+  | limit_up_board       | ths_fuyao         |               | em_push2_clist   |           |
+  | market_breadth       | ths_fuyao         |               | em_push2ex       |           |
   | hot_stocks           | akshare           |               |               |           |
   | profit_forecast      | akshare           | tencent_http  |               |           |
   | concept_attribution  | em_push2delay     |               |               |           |
@@ -49,6 +52,7 @@
 from __future__ import annotations
 
 import logging
+import threading
 
 from astock_signals.smart_router import get_router
 
@@ -59,16 +63,19 @@ from . import news_fetchers as nf
 from . import astock_signals_fetchers as asf
 from . import wencai_fetchers as wf
 from . import em_client as emc
+from . import fuyao_fetchers as ff
+from .fuyao_client import is_configured as fuyao_is_configured
 from . import ths_fetchers as ths
 from . import tdx_local as tdx
 
 logger = logging.getLogger("tradex.data_sources")
 
 _registered = False
+_registration_lock = threading.Lock()
 
 
-def register_all_sources() -> None:
-    """注册全部 38 个数据类型到 SmartRouter 全局单例。
+def _register_all_sources_unlocked() -> None:
+    """注册全部数据类型到 SmartRouter 全局单例。
 
     幂等：重复调用不会重复注册。
     """
@@ -80,11 +87,58 @@ def register_all_sources() -> None:
 
     # ── 行情类 ──
     router.register("realtime_quote", "eltdx", ef.fetch_realtime_quote, priority=1)
+    if fuyao_is_configured():
+        router.register(
+            "realtime_quote", "ths_fuyao", ff.fetch_realtime_quote, priority=50
+        )
     router.register("realtime_quote", "akshare", akf.fetch_realtime_quote, priority=100)
     router.register("realtime_quote", "tencent_http", hf.fetch_realtime_quote_tencent, priority=200)
 
+    # 全市场列表需要名称、行业和市值字段，不能与仅含价格字段的单标的
+    # snapshot 共用路由，否则上游成功但字段不完整时不会触发 fallback。
+    router.register("stock_list", "akshare", akf.fetch_realtime_quote, priority=1)
+
     router.register("historical_kline", "eltdx", ef.fetch_historical_kline, priority=1)
+    if fuyao_is_configured():
+        router.register(
+            "historical_kline", "ths_fuyao", ff.fetch_historical_kline, priority=50
+        )
     router.register("historical_kline", "akshare", akf.fetch_historical_kline, priority=100)
+
+    # ── 同花顺扶摇官方独有能力 ──
+    # 每项使用独立 data_type，避免某个不支持的接口影响其他扶摇能力的
+    # SmartRouter 健康分。未配置密钥时完全不注册，现有工具仍可正常启动。
+    if fuyao_is_configured():
+        router.register(
+            "valuation_snapshot",
+            "ths_fuyao",
+            ff.fetch_valuation_snapshot,
+            priority=1,
+        )
+        router.register(
+            "ths_index_catalog",
+            "ths_fuyao",
+            ff.fetch_ths_index_catalog,
+            priority=1,
+        )
+        router.register(
+            "ths_index_constituents",
+            "ths_fuyao",
+            ff.fetch_ths_index_constituents,
+            priority=1,
+        )
+        router.register(
+            "limit_up_ladder",
+            "ths_fuyao",
+            ff.fetch_limit_up_ladder,
+            priority=1,
+        )
+        router.register(
+            "stock_anomaly_analysis",
+            "ths_fuyao",
+            ff.fetch_stock_anomaly_analysis,
+            priority=1,
+        )
 
     router.register("minute_data", "eltdx", ef.fetch_minute_data, priority=1)
     router.register("minute_data", "akshare", akf.fetch_minute_data, priority=100)
@@ -143,6 +197,23 @@ def register_all_sources() -> None:
     router.register("dragon_tiger", "em_datacenter", asf.fetch_dragon_tiger_em, priority=1)
     router.register("dragon_tiger", "akshare", akf.fetch_dragon_tiger, priority=100)
 
+    # Single-day market list is a separate contract from per-stock, multi-day
+    # seat details.  Splitting the route prevents a fallback from silently
+    # ignoring board_type/look-back parameters and returning a different view.
+    if fuyao_is_configured():
+        router.register(
+            "dragon_tiger_market_day",
+            "ths_fuyao",
+            ff.fetch_dragon_tiger,
+            priority=1,
+        )
+    router.register(
+        "dragon_tiger_market_day",
+        "akshare_exact_day",
+        akf.fetch_dragon_tiger_market_day,
+        priority=100,
+    )
+
     router.register("industry_comparison", "em_push2", asf.fetch_industry_comparison_em, priority=1)
     router.register("industry_comparison", "akshare", akf.fetch_industry_comparison, priority=100)
 
@@ -153,7 +224,13 @@ def register_all_sources() -> None:
     # ── 独占源 ──
     router.register("hot_money", "ths_editorial", asf.fetch_hot_money, priority=1, exclusive=True)
     router.register("lockup_expiry", "em_datacenter", asf.fetch_lockup_expiry, priority=1, exclusive=True)
-    router.register("limit_up_board", "em_push2_clist", asf.fetch_limit_up_board, priority=1, exclusive=True)
+    if fuyao_is_configured():
+        router.register(
+            "limit_up_board", "ths_fuyao", ff.fetch_limit_up_board, priority=1
+        )
+    router.register(
+        "limit_up_board", "em_push2_clist", asf.fetch_limit_up_board, priority=100
+    )
 
     # ── akshare 主 + tencent_http 备 ──
     router.register("profit_forecast", "akshare", akf.fetch_profit_forecast, priority=1)
@@ -168,7 +245,11 @@ def register_all_sources() -> None:
     # ── v3.3.8 新增：市场级统计（实时涨跌家数 / 行业板块涨幅） ──
     # market_breadth：东财 push2ex 涨跌分布（实时）
     # industry_quotes：东财 push2 行业板块（内部自动降级 push2delay 镜像）
-    router.register("market_breadth", "em_push2ex", hf.fetch_market_breadth, priority=1)
+    if fuyao_is_configured():
+        router.register(
+            "market_breadth", "ths_fuyao", ff.fetch_market_breadth, priority=1
+        )
+    router.register("market_breadth", "em_push2ex", hf.fetch_market_breadth, priority=100)
     router.register("industry_quotes", "em_push2", hf.fetch_industry_quotes, priority=1)
 
     # ── v3.3.9 新增：同花顺备源 + 东财 slist + 通达信本地数据 ──
@@ -202,3 +283,9 @@ def register_all_sources() -> None:
         "register_all_sources: 已注册 %d 个数据类型, %d 个数据源",
         len(data_types), len(report),
     )
+
+
+def register_all_sources() -> None:
+    """Register every source exactly once, even under concurrent imports."""
+    with _registration_lock:
+        _register_all_sources_unlocked()

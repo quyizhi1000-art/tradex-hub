@@ -2,9 +2,10 @@
 Entry point for running the tradex server.
 
 Usage:
-    python -m tradex                    # stdio mode (default)
-    python -m tradex --http             # HTTP/SSE mode
-    python -m tradex --http --port 9000 # HTTP/SSE on custom port
+    python -m tradex                              # stdio mode (default)
+    python -m tradex --http                       # legacy HTTP/SSE mode
+    python -m tradex --streamable-http            # Streamable HTTP mode
+    python -m tradex --streamable-http --port 9000
 
 环境变量：
     WS_SERVER_ENABLED=true   启用 WebSocket 推送服务
@@ -65,22 +66,28 @@ def main():
     parser = argparse.ArgumentParser(
         description="tradex: China Financial Data MCP Server based on AKShare"
     )
-    parser.add_argument(
+    transport_group = parser.add_mutually_exclusive_group()
+    transport_group.add_argument(
         "--http",
         action="store_true",
-        help="Run in HTTP/SSE mode instead of stdio",
+        help="Run in legacy HTTP/SSE mode instead of stdio",
+    )
+    transport_group.add_argument(
+        "--streamable-http",
+        action="store_true",
+        help="Run in Streamable HTTP mode instead of stdio",
     )
     parser.add_argument(
         "--port",
         type=int,
         default=8000,
-        help="Port for HTTP/SSE mode (default: 8000)",
+        help="Port for HTTP transports (default: 8000)",
     )
     parser.add_argument(
         "--host",
         type=str,
         default="127.0.0.1",
-        help="Host for HTTP/SSE mode (default: 127.0.0.1)",
+        help="Host for HTTP transports (default: 127.0.0.1)",
     )
     args = parser.parse_args()
 
@@ -91,10 +98,14 @@ def main():
     if config.WS_SERVER_ENABLED:
         _start_ws_server(config)
 
-    if args.http:
-        mcp._host = args.host
-        mcp._port = args.port
-        mcp.run(transport="sse")
+    if args.http or args.streamable_http:
+        # FastMCP 1.x reads the public settings object when starting its
+        # transport. Writing private attributes leaves custom CLI values
+        # unused and silently falls back to 127.0.0.1:8000.
+        mcp.settings.host = args.host
+        mcp.settings.port = args.port
+        transport = "streamable-http" if args.streamable_http else "sse"
+        mcp.run(transport=transport)
     else:
         mcp.run(transport="stdio")
 

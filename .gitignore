@@ -30,6 +30,8 @@ Thumbs.db
 
 # Config (secrets)
 config/local.json
+.env
+key/
 *.key
 *.pem
 
@@ -43,6 +45,9 @@ coverage/
 # Cache
 .cache/
 *.cache/
+
+# Local launcher runtime state and logs
+.tradex-run/
 
 # Test data
 data/

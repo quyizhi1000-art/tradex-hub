@@ -16,11 +16,16 @@ Usage:
 from __future__ import annotations
 
 import os
+from pathlib import Path
 from typing import Any
 
 try:
     from dotenv import load_dotenv
     load_dotenv()
+    # ``python -m tradex`` is often launched from the repository parent.  In
+    # that case python-dotenv's cwd search misses tradex/.env, so load the
+    # package project file as a non-overriding fallback.
+    load_dotenv(Path(__file__).resolve().parents[2] / ".env", override=False)
 except ImportError:
     # python-dotenv 未安装时忽略，直接读取环境变量
     pass
@@ -71,6 +76,20 @@ class Config:
 
     ELTDX_SERVER: str = _get_env("ELTDX_SERVER", "auto")
     """通达信服务器地址，auto 表示自动选择最优"""
+
+    FUYAO_BASE_URL: str = _get_env(
+        "FUYAO_BASE_URL", "https://fuyao.aicubes.cn"
+    )
+    """同花顺扶摇金融数据 REST API 根地址"""
+
+    FUYAO_API_KEY: str = _get_env("FUYAO_API_KEY", "")
+    """同花顺扶摇 API Key；优先于 FUYAO_API_KEY_FILE"""
+
+    FUYAO_API_KEY_FILE: str = _get_env("FUYAO_API_KEY_FILE", "")
+    """保存同花顺扶摇 API Key 的本地文件路径"""
+
+    FUYAO_TIMEOUT: int = _get_env("FUYAO_TIMEOUT", 15, int)
+    """同花顺扶摇 API 请求超时时间（秒）"""
 
     # ── 智能路由 ────────────────────────────────────────────
     ROUTER_HEALTH_CHECK_INTERVAL: int = _get_env("ROUTER_HEALTH_CHECK_INTERVAL", 60, int)

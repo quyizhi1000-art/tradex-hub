@@ -2,7 +2,7 @@
 
 <p align="center">
   <strong>AI金融智能决策中台</strong><br/>
-  AKShare 封装 · eltdx 通达信协议 · astock_signals 信号模块 · 量化计算引擎 · SmartRouter 全量路由 · 本地 MCP Server · 129 个工具
+  AKShare 封装 · eltdx 通达信协议 · 同花顺扶摇官方 API · astock_signals 信号模块 · 量化计算引擎 · SmartRouter 全量路由 · 本地 MCP Server · 134 个工具
 </p>
 
 <p align="center">
@@ -10,7 +10,7 @@
   <img src="https://img.shields.io/badge/MCP-1.0-green.svg" alt="MCP"/>
   <img src="https://img.shields.io/badge/License-Apache--2.0-yellow.svg" alt="License"/>
   <img src="https://img.shields.io/badge/Data-A股-red.svg" alt="Data Scope"/>
-  <img src="https://img.shields.io/badge/Tools-129-orange.svg" alt="MCP Tools"/>
+  <img src="https://img.shields.io/badge/Tools-134-orange.svg" alt="MCP Tools"/>
   <img src="https://img.shields.io/badge/Version-3.3.9-blue.svg" alt="Version"/>
 </p>
 
@@ -20,15 +20,16 @@
 
 为 AI Agent（WorkBuddy / Claude Code / Cursor）提供 **A 股金融数据 + 量化计算 + 决策支持的 MCP 接口**。
 
-**三层能力模型**（129 个工具）：
+**三层能力模型**（134 个工具）：
 - **L1 数据获取层**：通过 SmartRouter 统一获取数据（行情/财务/估值/行业/新闻/宏观/涨停板/龙虎榜/五档盘口/逐笔/分时/题材/短线指标等），其中 eltdx 通达信协议 31 个工具
 - **L2 计算引擎层**（8个工具）：技术指标计算6个、绩效指标计算2个
 - **L3 决策支持层**（16个工具）：交易信号生成3个、多因子分析2个、条件选股2个、系统诊断5个、综合分析3个、技术分析引擎1个
 
-**数据源架构（v3.3.9）**：
-- **data_sources 数据源层**：74 个数据类型，85 个数据源注册（28 种源），按封禁风险分三梯队
+**当前数据源架构**：
+- **data_sources 数据源层**：扶摇密钥已配置时为 80 个数据类型、93 个数据源注册（29 种源），按封禁风险分三梯队
 - **SmartRouter 全量覆盖**：L1 工具通过 `SmartRouter.route()` 统一获取数据，自动健康评分/降级/故障隔离
 - **eltdx 2.0.2**：行情类第一主源，31 个工具覆盖五档盘口/集合竞价/逐笔/F10/分时/K线/全景档案/短线指标/题材/分类行情等；新增常驻连接管理器 `eltdx_stream.py`（游标增量轮询实现准实时五档盘口）
+- **同花顺扶摇官方 API**：作为实时行情、日/周/月 K 线的路由降级源，并提供估值快照、同花顺指数、连板天梯和个股异动等独有能力
 - **数据源梯队**：第一梯队（eltdx/腾讯/本地 vipdoc，不封 IP）+ 第二梯队（同花顺/新浪/巨潮/财联社，低风险）+ 第三梯队（东财 push2/push2ex/slist，仅独有数据 + 限流防封）
 - **数据源看板**：`python -m tradex.dashboard`（端口 8765），可视化查看数据源健康/路由/工具分布；MCP 工具 `get_data_source_dashboard` 可在 Agent 对话中查询
 
@@ -44,7 +45,7 @@
 
 > **数据源优先级**：第一梯队（eltdx/腾讯/本地，不封 IP）优先用，第二梯队（同花顺/新浪/巨潮）低风险，第三梯队（东财）仅用于独有数据 + 限流防封（间隔 ≥1s + 随机抖动）。
 
-## MCP 工具清单（129 个）
+## MCP 工具清单（134 个）
 
 ### 1. 公司信息（4 个）— `company_info`
 
@@ -260,7 +261,7 @@
 | `list_all_tools` | 列出所有已注册的 MCP 工具及模块归属 |
 | `get_cache_stats` | 缓存统计（命中率/容量/TTL 过期情况） |
 | `health_check` | 系统整体健康检查（模块状态/数据源/缓存综合诊断） |
-| `get_data_source_dashboard` 🆕 v3.1.0 | 数据源看板（25 类型 34 源的健康/路由/工具分布，供 Agent 对话查询） |
+| `get_data_source_dashboard` 🆕 v3.1.0 | 数据源看板（当前 80 类型、93 个注册项的健康/路由/工具分布，供 Agent 对话查询） |
 
 ### 17. 综合分析（3 个）— `composite_analysis` 🆕 v3.0.0
 
@@ -286,6 +287,18 @@
 |--------|------|
 | `get_local_kline` | 通达信本地日线（离线，最新到上一交易日收盘） |
 | `get_local_minute` | 通达信本地分钟线（离线，需通达信已下载分钟线） |
+
+### 20. 同花顺扶摇（5 个）— `fuyao_data`
+
+通过服务端 `X-api-key` 鉴权并统一走 SmartRouter；API 业务错误即使使用 HTTP 200 也会被识别并触发路由失败处理。
+
+| 工具名 | 功能 |
+|--------|------|
+| `get_valuation_snapshot` | 批量获取最新 PE(TTM/MRQ)、PB(MRQ)、PS(TTM)、PCF(TTM) |
+| `get_ths_index_catalog` | 获取概念/行业/地域/特色同花顺指数及稳定 `.TI` 代码 |
+| `get_ths_index_constituents` | 获取同花顺指数或标准 A 股指数的当前成分股 |
+| `get_limit_up_ladder` | 获取近 30 个交易日二板至七板以上连板天梯 |
+| `get_stock_anomaly_analysis` | 批量获取当日个股异动原因、标签与关键词 |
 
 ---
 
@@ -332,6 +345,18 @@ pip install "akshare>=1.18.91" mcp pandas pydantic "eltdx>=2.0.2"
 
 ---
 
+## 配置同花顺扶摇 API（可选）
+
+在 `tradex/.env` 中配置密钥文件路径；该文件和仓库根目录的 `key/` 已被 Git 忽略：
+
+```dotenv
+FUYAO_API_KEY_FILE=../key/同花顺API-key.txt
+# FUYAO_BASE_URL=https://fuyao.aicubes.cn
+# FUYAO_TIMEOUT=15
+```
+
+也可在服务端环境变量中直接设置 `FUYAO_API_KEY`。未配置密钥时，扶摇数据源不会注册，其余工具不受影响。不要把密钥写入源码、MCP 客户端配置、日志或提交记录。
+
 ## 配置到 AI Agent
 
 编辑 MCP 配置文件（如 `~/.trae-cn/mcp.json` 或对应 AI Agent 的配置文件）：
@@ -369,7 +394,7 @@ AI 会调用 `mcp__tradex__eltdx_get_kline`，返回 100 根日 K 线。
 1. **eltdx F10 字段为通达信内部编码**（`T007`/`T008` 等）：财报/分红/资讯/北向 4 个接口返回原始编码字段，作为 akshare 中文源的降级补充源，字段中文映射留待后续
 2. **免费行情站不主动推送**：eltdx `drain_pushes` 实测 0 帧，「推送」实为 refresh_stream 游标增量轮询（`eltdx_stream.py` 已封装）
 3. **eltdx F10 延迟较高**（~2 秒）：走 7615 HTTP 网关，但数据独有（题材归因 AKShare 没有）
-4. **SmartRouter 全量覆盖**：L1 工具通过 `SmartRouter.route()` 统一获取数据，自动健康评分/降级/故障隔离，74 数据类型 85 源（28 种）
+4. **SmartRouter 全量覆盖**：L1 工具通过 `SmartRouter.route()` 统一获取数据，自动健康评分/降级/故障隔离，80 个数据类型、93 个注册项（29 种源）
 5. **Wind 等独立 MCP 不在本项目里**：通过独立 MCP Server 或 AI Agent 的 connector 系统接入
 
 ---

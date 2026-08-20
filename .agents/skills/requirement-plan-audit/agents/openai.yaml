@@ -1,0 +1,4 @@
+interface:
+  display_name: "需求方案复核"
+  short_description: "默认拆解需求、形成方案并自我复核，执行前请求用户确认"
+  default_prompt: "Use $requirement-plan-audit to decompose this request, critically review the proposed solution, and ask me to approve the final plan before execution."

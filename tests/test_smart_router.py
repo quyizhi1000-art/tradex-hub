@@ -111,23 +111,25 @@ class TestSmartRouter:
         assert report[0]["source"] == "quote:src1"
         assert report[0]["total_calls"] == 1
 
-    def test_healthy_source_preferred(self):
-        """健康的源应该优先于不健康的源。"""
+    def test_health_observation_does_not_override_fixed_priority(self):
+        """其他请求造成的健康变化不得改变合法请求的选源。"""
         router = SmartRouter()
-        good_fn = MagicMock(return_value="good")
-        bad_fn = MagicMock(side_effect=Exception("bad"))
+        primary_fail = True
 
-        # 先让 bad_source 多次失败
-        router.register("quote", "bad_source", bad_fn, priority=1)
-        router.register("quote", "good_source", good_fn, priority=2)
+        def primary_fn():
+            if primary_fail:
+                raise RuntimeError("temporary failure")
+            return "primary"
 
-        # 让 bad_source 失败 5 次
+        backup_fn = MagicMock(return_value="backup")
+        router.register("quote", "primary", primary_fn, priority=1)
+        router.register("quote", "backup", backup_fn, priority=2)
+
+        # 让主源的观测分归零，但降级只属于这五个请求。
         for _ in range(5):
-            try:
-                router.route("quote")
-            except RuntimeError:
-                pass
+            result, source = router.route("quote")
+            assert (result, source) == ("backup", "backup")
 
-        # 现在 good_source 应该是唯一健康的
+        primary_fail = False
         result, source = router.route("quote")
-        assert source == "good_source"
+        assert (result, source) == ("primary", "primary")

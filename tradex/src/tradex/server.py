@@ -8,13 +8,16 @@ Supports stdio (dev) and HTTP/SSE (production) transport modes.
 import importlib
 import logging
 
-from mcp.server.fastmcp import FastMCP
+from .execution import IsolatedFastMCP
 
 logger = logging.getLogger(__name__)
 
-# Create the MCP server instance
-mcp = FastMCP(
+# Create the MCP server instance.  Streamable HTTP is stateless because Tradex
+# keeps no protocol-session state; this also avoids retaining terminated MCP
+# 1.x session tombstones in a long-running shared service.
+mcp = IsolatedFastMCP(
     name="tradex",
+    stateless_http=True,
     instructions=(
         "tradex provides free Chinese mainland financial data via AKShare. "
         "Use the available tools to search stocks, get real-time quotes, historical prices, "

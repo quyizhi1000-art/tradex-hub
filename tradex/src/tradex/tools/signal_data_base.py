@@ -21,6 +21,7 @@ Tools (共 6 个):
 from __future__ import annotations
 
 from datetime import datetime, timedelta
+from zoneinfo import ZoneInfo
 
 import pandas as pd
 from mcp.server.fastmcp import FastMCP
@@ -31,6 +32,7 @@ from ..utils.formatter import error_response, dict_to_json
 from ..utils.symbol import normalize_symbol
 
 _router = get_router()
+_SHANGHAI = ZoneInfo("Asia/Shanghai")
 
 
 def register(mcp: FastMCP):
@@ -51,7 +53,8 @@ def register(mcp: FastMCP):
             涨停股票列表及主题归因 (JSON)，含股票代码/名称/涨幅/换手率/
             成交额/DDE净量/原因标签，以及主题频次 top20。
         """
-        cache_key = f"hot_stocks:{date or 'today'}"
+        cache_date = date or datetime.now(_SHANGHAI).date().isoformat()
+        cache_key = f"hot_stocks:v2:{cache_date}"
         cached = cache.get(cache_key)
         if cached is not None:
             return cached

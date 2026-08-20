@@ -42,7 +42,7 @@ class TestEltdxFetcherParamCompat:
         """关键回归：route('realtime_quote', symbol=...) 必须能路由到 eltdx。"""
         from tradex.data_sources import eltdx_fetchers
 
-        # mock client.get_quote() 返回 QuoteSnapshot（v3.1.4 起用 get_quote 替代 bars.get）
+        # mock helpers.full_quotes() 返回 QuoteSnapshot（eltdx 2.0 API）
         fake_quote = MagicMock()
         fake_quote.code = "600519"
         fake_quote.last_price = 1350.6
@@ -59,15 +59,15 @@ class TestEltdxFetcherParamCompat:
         fake_quote.current_hand = 677
 
         with patch.object(eltdx_fetchers, "_get_client") as mock_client:
-            mock_client.return_value.get_quote.return_value = [fake_quote]
+            mock_client.return_value.helpers.full_quotes.return_value = [fake_quote]
             # 用 symbol= 调用（工具层 price_data.py 的调用方式）
             df = eltdx_fetchers.fetch_realtime_quote(symbol="600519")
             assert len(df) == 1
             assert df.iloc[0]["代码"] == "600519"
             assert df.iloc[0]["成交量"] == 55127  # total_hand
             assert df.iloc[0]["涨跌幅"] == -0.82  # change_pct（v3.1.4 新增字段）
-            # 验证 get_quote 收到的代码非空
-            call_args = mock_client.return_value.get_quote.call_args
+            # 验证 full_quotes 收到的代码非空
+            call_args = mock_client.return_value.helpers.full_quotes.call_args
             assert call_args[0][0]  # norm_code 非空
 
     def test_fetch_realtime_quote_accepts_code(self):
@@ -90,7 +90,7 @@ class TestEltdxFetcherParamCompat:
         fake_quote.current_hand = 10
 
         with patch.object(eltdx_fetchers, "_get_client") as mock_client:
-            mock_client.return_value.get_quote.return_value = [fake_quote]
+            mock_client.return_value.helpers.full_quotes.return_value = [fake_quote]
             df = eltdx_fetchers.fetch_realtime_quote(code="600519")
             assert df.iloc[0]["代码"] == "600519"
 
@@ -188,16 +188,18 @@ class TestAstockSignalsFetcherParamCompat:
         """关键回归：route('fund_flow', symbol=...) 必须能路由到 em 主源。"""
         from tradex.data_sources import astock_signals_fetchers
 
-        with patch.object(astock_signals_fetchers, "_as") as mock_as:
-            mock_as.return_value.get_fund_flow_json.return_value = {
-                "realtime": {"data": 1},
-                "history": [],
-            }
+        response = MagicMock()
+        response.json.return_value = {
+            "data": {"klines": ["09:30,1,2,3,4,5,6"]}
+        }
+        with patch("tradex.data_sources.em_client.em_get", return_value=response) as mock_get:
             # 用 symbol= 调用
-            astock_signals_fetchers.fetch_fund_flow_em(symbol="600519")
-            # 验证 get_fund_flow_json 收到的 code 是 600519
-            call_args = mock_as.return_value.get_fund_flow_json.call_args[0]
-            assert call_args[0] == "600519"
+            result = astock_signals_fetchers.fetch_fund_flow_em(
+                symbol="600519", include_history=False
+            )
+            # 统一 em_get 入口收到由 symbol 归一化出的沪市 secid。
+            assert mock_get.call_args.kwargs["params"]["secid"] == "1.600519"
+            assert result["symbol"] == "600519"
 
     def test_fetch_dragon_tiger_em_accepts_symbol(self):
         from tradex.data_sources import astock_signals_fetchers

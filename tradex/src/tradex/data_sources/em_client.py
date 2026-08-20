@@ -10,39 +10,67 @@
 """
 from __future__ import annotations
 
-import random
+import threading
 import time
 
 import pandas as pd
 from curl_cffi import requests as _rq
 
+from astock_signals import anti_ban_client as _shared_em_throttle
+
 logger = __import__("logging").getLogger("tradex.em")
 
-# 东财风控：最小请求间隔（秒）
-EM_MIN_INTERVAL = 1.0
-
-_em_last_call = [0.0]
-_EM_SESSION = _rq.Session()
+# Compatibility aliases make the single process-wide scheduler observable to
+# existing diagnostics without creating a second mutable state owner.
+_em_next_slot = _shared_em_throttle._em_next_slot
+_EM_REQUEST_LOCK = _shared_em_throttle._lock
+_EM_THREAD_LOCAL = threading.local()
 
 _UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
        "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36")
 _REFERER = "https://quote.eastmoney.com/"
 
 
+def _get_session():
+    """Return a worker-local curl_cffi session.
+
+    curl_cffi/requests sessions carry mutable connection and cookie state and
+    are not safe to share between the worker threads used by the MCP server.
+    """
+    session = getattr(_EM_THREAD_LOCAL, "session", None)
+    if session is None:
+        session = _rq.Session()
+        _EM_THREAD_LOCAL.session = session
+    return session
+
+
+def _reserve_request_slot() -> float:
+    """Reserve the shared process-wide Eastmoney/IP request slot."""
+    return _shared_em_throttle.reserve_em_request_slot()
+
+
 def em_get(url: str, params: dict | None = None, headers: dict | None = None,
            timeout: int = 15, **kwargs):
-    """东财统一请求入口：自动节流 + 复用 session + 默认 UA。"""
-    wait = EM_MIN_INTERVAL - (time.time() - _em_last_call[0])
+    """东财统一请求入口：有界排队、线程本地 session、默认 UA。
+
+    只在锁内预定下一个 IP 请求时隙；等待和网络请求都在锁外完成。
+    当预计等待超过预算时立即交给 SmartRouter 做本次请求的源切换，避免
+    东财拥塞占满整个 MCP worker 池。
+    """
+    wait = _reserve_request_slot()
     if wait > 0:
-        time.sleep(wait + random.uniform(0.1, 0.5))
+        time.sleep(wait)
     h = {"User-Agent": _UA, "Referer": _REFERER}
     if headers:
         h.update(headers)
-    try:
-        return _EM_SESSION.get(url, params=params, headers=h, timeout=timeout,
-                               impersonate="chrome120", **kwargs)
-    finally:
-        _em_last_call[0] = time.time()
+    return _get_session().get(
+        url,
+        params=params,
+        headers=h,
+        timeout=timeout,
+        impersonate="chrome120",
+        **kwargs,
+    )
 
 
 def fetch_stock_boards(code: str, **kwargs) -> pd.DataFrame:

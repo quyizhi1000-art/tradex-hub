@@ -90,7 +90,7 @@ def register(mcp: FastMCP):
                 pass
 
             # Fallback: 从 A 股全量行情列表中提取基本信息
-            df, _src = _router.route("realtime_quote", symbol="")
+            df, _src = _router.route("stock_list", symbol="")
             code_col = _find_code_col(df)
             row = df[df[code_col].astype(str).str.strip() == symbol]
             if row.empty:
@@ -181,7 +181,7 @@ def register(mcp: FastMCP):
                     )
                     if board_df is not None and not board_df.empty:
                         # look up stock in A-share spot to find the industry name
-                        spot_df, _src2 = _router.route("realtime_quote", symbol="")
+                        spot_df, _src2 = _router.route("stock_list", symbol="")
                         if spot_df is not None and not spot_df.empty:
                             code_col = _find_code_col(spot_df)
                             row = spot_df[spot_df[code_col].astype(str).str.strip() == symbol]

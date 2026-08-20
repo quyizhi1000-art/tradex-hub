@@ -27,6 +27,7 @@ from typing import Any
 from mcp.server.fastmcp import FastMCP
 
 from ..data_sources import get_router
+from ..execution import native_async, run_blocking
 from ..utils.cache import cache, TTL_REALTIME, TTL_DAILY
 from ..utils.formatter import dict_to_json, error_response, df_to_json, slim_df
 from ..utils.symbol import normalize_symbol
@@ -39,9 +40,9 @@ _router = get_router()
 async def _safe_call(func, *args, timeout: float = 30.0, **kwargs) -> dict:
     """安全调用函数，捕获异常/超时返回错误信息。
 
-    v3.3.2 优化：同步函数放到线程池执行 + asyncio.wait_for 超时，
-    避免慢源阻塞 MCP 事件循环（根因 C 双保险；route() 内部已有 12s 超时，
-    此处 30s 覆盖多源降级的总耗时）。
+    同步函数统一通过 MCP 的共享有界执行网关，避免绕过全局并发上限。
+    超时取消时执行网关会先回收不可强制终止的工作线程，防止请求结束后
+    留下继续修改缓存或数据源健康状态的孤儿任务。
 
     Args:
         func: 要调用的函数（可为同步或协程）
@@ -56,9 +57,8 @@ async def _safe_call(func, *args, timeout: float = 30.0, **kwargs) -> dict:
         if asyncio.iscoroutinefunction(func):
             result = await asyncio.wait_for(func(*args, **kwargs), timeout=timeout)
         else:
-            loop = asyncio.get_running_loop()
             result = await asyncio.wait_for(
-                loop.run_in_executor(None, lambda: func(*args, **kwargs)),
+                run_blocking(func, *args, **kwargs),
                 timeout=timeout,
             )
         return {"success": True, "data": result}
@@ -216,6 +216,7 @@ def register(mcp: FastMCP):
     """Register composite analysis tools with the MCP server."""
 
     @mcp.tool()
+    @native_async
     async def analyze_stock_comprehensive(symbol: str) -> str:
         """
         个股综合分析 — 一次调用获取完整分析视图。
@@ -274,6 +275,7 @@ def register(mcp: FastMCP):
         return output
 
     @mcp.tool()
+    @native_async
     async def analyze_industry_comparison(symbol: str) -> str:
         """
         行业对比分析 — 个股指标 vs 同行业均值。
@@ -306,8 +308,10 @@ def register(mcp: FastMCP):
         # Step 2: 获取行业成分股
         try:
             industry_code = None
-            board_df, _src = _router.route(
-                "industry_data", endpoint="board_industry_name_em"
+            board_df, _src = await run_blocking(
+                _router.route,
+                "industry_data",
+                endpoint="board_industry_name_em",
             )
             if board_df is not None and not board_df.empty:
                 match = board_df[board_df["板块名称"].str.contains(industry, na=False)]
@@ -321,7 +325,8 @@ def register(mcp: FastMCP):
                 )
 
             # 获取行业成分股
-            constituents, _src = _router.route(
+            constituents, _src = await run_blocking(
+                _router.route,
                 "industry_data",
                 endpoint="board_industry_cons_em",
                 industry=industry,
@@ -369,6 +374,7 @@ def register(mcp: FastMCP):
         return output
 
     @mcp.tool()
+    @native_async
     async def analyze_market_overview() -> str:
         """
         市场全景分析 — 大盘指数 + 板块资金 + 涨跌停统计。

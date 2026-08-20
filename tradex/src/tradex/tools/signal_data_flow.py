@@ -20,6 +20,8 @@ Tools (共 4 个):
 from __future__ import annotations
 
 import logging
+from datetime import datetime
+from zoneinfo import ZoneInfo
 
 import pandas as pd
 from mcp.server.fastmcp import FastMCP
@@ -30,6 +32,7 @@ from ..utils.formatter import df_to_json, dict_to_json, error_response
 from ..utils.symbol import normalize_symbol
 
 logger = logging.getLogger(__name__)
+_SHANGHAI = ZoneInfo("Asia/Shanghai")
 
 # 全局 SmartRouter 单例（数据源注册在 server.py 启动时由 register_all_sources() 完成）
 _router = get_router()
@@ -155,7 +158,8 @@ def register(mcp: FastMCP):
             龙虎榜数据 (JSON)，含上榜记录、买卖席位TOP5、机构动向。
         """
         symbol = normalize_symbol(symbol)
-        cache_key = f"dragon_tiger_signal:{symbol}:{trade_date or 'today'}:{look_back_days}"
+        cache_date = trade_date or datetime.now(_SHANGHAI).date().isoformat()
+        cache_key = f"dragon_tiger_signal:v2:{symbol}:{cache_date}:{look_back_days}"
         cached = cache.get(cache_key)
         if cached is not None:
             return cached
@@ -198,7 +202,8 @@ def register(mcp: FastMCP):
         """
         if symbol:
             symbol = normalize_symbol(symbol)
-        cache_key = f"industry_cmp:{symbol or 'all'}:{trade_date or 'today'}:{top_n}"
+        cache_date = trade_date or datetime.now(_SHANGHAI).date().isoformat()
+        cache_key = f"industry_cmp:v2:{symbol or 'all'}:{cache_date}:{top_n}"
         cached = cache.get(cache_key)
         if cached is not None:
             return cached

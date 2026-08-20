@@ -4,9 +4,9 @@ SmartRouter 集成测试 — 验证 signal_data_flow.py 的 3 个工具与 Smart
 测试范围:
   1. get_router() 全局单例
   2. signal_data_flow 注册 6 个数据源（3 数据类型 × 2 源）
-  3. route() 按优先级选择最高优先级源
+  3. route() 每次请求按固定优先级快照选源
   4. 东财源失败时降级到 AKShare
-  5. SourceHealth 健康评分动态更新（成功+5/失败-20×consecutive/5次归零）
+  5. SourceHealth 健康评分仅观测，不影响任何其他请求的选源
   6. get_health_report() 返回结构
 
 与 tests/test_smart_router.py（纯函数单测）的区别：
@@ -82,16 +82,22 @@ class TestSignalDataFlowRegistration:
             f"Missing sources: {expected_keys - source_keys}"
         )
 
-    def test_data_types_have_two_sources_each(self):
-        """每种数据类型恰好有 2 个源（一主一备）。"""
+    def test_data_types_keep_their_legacy_fallback_sources(self):
+        """新增独立数据源时，保留既有东财/AKShare 降级链。"""
         from tradex.data_sources import register_all_sources
         register_all_sources()
 
         router = get_router()
-        for data_type in ("fund_flow", "dragon_tiger", "industry_comparison"):
+        expected_sources = {
+            "fund_flow": {"em_push2", "akshare"},
+            "dragon_tiger": {"em_datacenter", "akshare"},
+            "industry_comparison": {"em_push2", "akshare"},
+        }
+        for data_type, expected in expected_sources.items():
             sources = router._sources.get(data_type, [])
-            assert len(sources) == 2, (
-                f"{data_type} expected 2 sources, got {len(sources)}"
+            actual = {entry[0] for entry in sources}
+            assert expected.issubset(actual), (
+                f"{data_type} missing legacy sources: {expected - actual}"
             )
 
 

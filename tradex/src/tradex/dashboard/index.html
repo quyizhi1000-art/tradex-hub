@@ -1,446 +1,3568 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>tradex 数据源看板</title>
-<style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
-                 "Microsoft YaHei", sans-serif;
-    background: #f5f5f5;
-    color: #333;
-    line-height: 1.5;
-  }
-  /* ── 顶部状态栏 ── */
-  .header {
-    background: #fff;
-    padding: 16px 24px;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-  .header-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-  .header h1 {
-    font-size: 20px;
-    font-weight: 600;
-    color: #1a1a1a;
-  }
-  .stats {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-    font-size: 14px;
-    margin-top: 8px;
-  }
-  .stat {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .stat-label { color: #888; }
-  .stat-value { font-weight: 600; color: #1a1a1a; }
-  .stat-value.green { color: #4caf50; }
-  .stat-value.red { color: #f44336; }
-  .refresh-btn {
-    background: #1976d2;
-    color: #fff;
-    border: none;
-    padding: 8px 18px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: background 0.2s;
-    white-space: nowrap;
-  }
-  .refresh-btn:hover { background: #1565c0; }
-  .refresh-btn:disabled { background: #90caf9; cursor: not-allowed; }
-  /* ── 版本信息条幅 ── */
-  .version-banner {
-    background: #e8f5e9;
-    border: 1px solid #4caf50;
-    color: #2e7d32;
-    padding: 10px 24px;
-    margin: 0;
-  }
-  .version-banner.has-update {
-    background: #fff3cd;
-    border-color: #ffc107;
-    color: #856404;
-  }
-  .version-banner.has-error {
-    background: #ffebee;
-    border-color: #f44336;
-    color: #c62828;
-  }
-  .version-banner.hidden { display: none; }
-  .version-item { margin: 4px 0; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
-  .version-item a {
-    color: #1976d2;
-    text-decoration: none;
-    font-weight: 500;
-  }
-  .version-item a:hover { text-decoration: underline; }
-  .version-tag {
-    font-size: 11px;
-    padding: 1px 6px;
-    border-radius: 8px;
-    font-weight: 500;
-  }
-  .version-tag.latest { background: #c8e6c9; color: #2e7d32; }
-  .version-tag.update { background: #fff9c4; color: #f57f17; }
-  .version-tag.error { background: #ffcdd2; color: #c62828; }
-  /* ── 主体内容 ── */
-  .container {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 20px;
-  }
-  .loading, .error-msg {
-    text-align: center;
-    padding: 60px 20px;
-    color: #888;
-    font-size: 16px;
-  }
-  .error-msg { color: #f44336; }
-  /* ── 数据类型分组 ── */
-  .type-group { margin-bottom: 28px; }
-  .type-group h2 {
-    font-size: 15px;
-    color: #555;
-    margin-bottom: 12px;
-    padding-bottom: 6px;
-    border-bottom: 2px solid #e0e0e0;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .type-group .type-count {
-    font-size: 12px;
-    color: #999;
-    font-weight: normal;
-  }
-  /* ── 卡片网格 ── */
-  .card-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 14px;
-  }
-  .card {
-    background: #fff;
-    border-radius: 6px;
-    padding: 14px 16px;
-    border-left: 4px solid #ccc;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
-    transition: box-shadow 0.2s;
-  }
-  .card:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.12); }
-  .card.healthy { border-left-color: #4caf50; }
-  .card.warning { border-left-color: #ff9800; }
-  .card.fault { border-left-color: #f44336; }
-  .card-head {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 10px;
-  }
-  .card-name {
-    font-size: 16px;
-    font-weight: 600;
-    color: #1a1a1a;
-  }
-  .card-meta {
-    font-size: 12px;
-    color: #999;
-    margin-top: 2px;
-  }
-  .badge {
-    font-size: 11px;
-    padding: 2px 8px;
-    border-radius: 10px;
-    font-weight: 500;
-    white-space: nowrap;
-  }
-  .badge.exclusive {
-    background: #fff3e0;
-    color: #e65100;
-    border: 1px solid #ffb74d;
-  }
-  .badge.priority {
-    background: #e3f2fd;
-    color: #1565c0;
-    border: 1px solid #90caf9;
-  }
-  .card-score {
-    display: flex;
-    align-items: baseline;
-    gap: 6px;
-    margin: 8px 0;
-  }
-  .score-num {
-    font-size: 28px;
-    font-weight: 700;
-  }
-  .score-num.healthy { color: #4caf50; }
-  .score-num.warning { color: #ff9800; }
-  .score-num.fault { color: #f44336; }
-  .score-label { font-size: 12px; color: #999; }
-  .card-stats {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4px 12px;
-    font-size: 13px;
-    margin-top: 8px;
-  }
-  .card-stats .label { color: #888; }
-  .card-stats .value { font-weight: 500; text-align: right; }
-  .exclusive-note {
-    font-size: 11px;
-    color: #e65100;
-    margin-top: 8px;
-    padding-top: 6px;
-    border-top: 1px dashed #ffcc80;
-  }
-  /* ── 响应式 ── */
-  @media (max-width: 600px) {
-    .header { padding: 12px 16px; }
-    .header h1 { font-size: 17px; }
-    .stats { gap: 12px; font-size: 13px; }
-    .container { padding: 12px; }
-    .card-grid { grid-template-columns: 1fr; }
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="上证指数与深证成指实时行情看板">
+  <title>双市行情 · A股指数看板</title>
+  <style>
+    :root {
+      --paper: #f4f1ea;
+      --surface: rgba(255, 255, 255, 0.82);
+      --ink: #171916;
+      --muted: #777970;
+      --line: rgba(23, 25, 22, 0.11);
+      --positive: #df4238;
+      --positive-soft: rgba(223, 66, 56, 0.10);
+      --negative: #14865f;
+      --negative-soft: rgba(20, 134, 95, 0.10);
+      --accent: #bf8b3b;
+      --shadow: 0 24px 70px rgba(43, 39, 28, 0.10);
+    }
+
+    * { box-sizing: border-box; }
+    html {
+      min-width: 0;
+      scroll-padding-top: 96px;
+      background: var(--paper);
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        "PingFang SC", "Microsoft YaHei", sans-serif;
+      background:
+        radial-gradient(circle at 90% 3%, rgba(191, 139, 59, 0.14), transparent 29rem),
+        radial-gradient(circle at 4% 85%, rgba(20, 134, 95, 0.07), transparent 31rem),
+        var(--paper);
+    }
+
+    button { font: inherit; }
+
+    .shell {
+      width: min(1180px, calc(100% - 48px));
+      margin: 0 auto;
+      padding: 28px 0 44px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding-bottom: 26px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 760;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-mark {
+      display: grid;
+      width: 36px;
+      height: 36px;
+      place-items: center;
+      border-radius: 11px;
+      color: #fffdf8;
+      background: var(--ink);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.14);
+      font-family: Georgia, serif;
+      font-size: 18px;
+    }
+
+    .top-meta {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .clock { font-variant-numeric: tabular-nums; }
+
+    .session {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 11px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255,255,255,.52);
+      color: var(--ink);
+      white-space: nowrap;
+    }
+
+    .session-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #aaa99f;
+      box-shadow: 0 0 0 4px rgba(170,169,159,.14);
+    }
+
+    .session.open .session-dot {
+      background: var(--positive);
+      box-shadow: 0 0 0 4px var(--positive-soft);
+    }
+
+    .sr-only {
+      position: absolute;
+      overflow: hidden;
+      width: 1px;
+      height: 1px;
+      margin: -1px;
+      padding: 0;
+      border: 0;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+    }
+
+    .market-pulse {
+      --pulse-muted: #686a62;
+      --pulse-positive: #b7352f;
+      --pulse-negative: #0b7350;
+      position: sticky;
+      z-index: 40;
+      top: 0;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr)) auto;
+      align-items: stretch;
+      margin-top: 14px;
+      padding: 10px 12px;
+      border: 1px solid rgba(23, 25, 22, .13);
+      border-radius: 16px;
+      background: rgba(250, 248, 242, .97);
+      box-shadow: 0 12px 34px rgba(43, 39, 28, .10);
+      backdrop-filter: blur(14px);
+    }
+
+    .market-pulse-item {
+      display: grid;
+      min-width: 0;
+      align-content: center;
+      gap: 5px;
+      padding: 2px 16px;
+      border-right: 1px solid var(--line);
+    }
+
+    .market-pulse-label {
+      color: var(--pulse-muted);
+      font-size: 10px;
+      font-weight: 720;
+      letter-spacing: .08em;
+      white-space: nowrap;
+    }
+
+    .market-pulse-readout {
+      display: flex;
+      min-width: 0;
+      align-items: baseline;
+      gap: 7px;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+
+    .market-pulse-value {
+      overflow: hidden;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 23px;
+      font-weight: 620;
+      line-height: 1;
+      letter-spacing: -.025em;
+      text-overflow: ellipsis;
+    }
+
+    .market-pulse-change {
+      overflow: hidden;
+      color: var(--pulse-muted);
+      font-size: 12px;
+      font-weight: 780;
+      text-overflow: ellipsis;
+    }
+
+    .market-pulse-item.positive .market-pulse-change,
+    .market-pulse-item.expand .market-pulse-value,
+    .market-pulse-item.expand .market-pulse-change { color: var(--pulse-positive); }
+
+    .market-pulse-item.negative .market-pulse-change,
+    .market-pulse-item.shrink .market-pulse-value,
+    .market-pulse-item.shrink .market-pulse-change { color: var(--pulse-negative); }
+
+    .market-pulse-actions {
+      display: grid;
+      min-width: 132px;
+      align-content: center;
+      justify-items: end;
+      gap: 4px;
+      padding-left: 14px;
+    }
+
+    .market-pulse-status {
+      min-width: 0;
+      max-width: 132px;
+      overflow: hidden;
+      color: var(--pulse-muted);
+      font-size: 10px;
+      font-weight: 680;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .market-pulse-status.is-alert { color: #94651f; }
+
+    .market-details-toggle,
+    .market-details-close {
+      display: inline-flex;
+      min-height: 44px;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      padding: 0 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--ink);
+      background: rgba(255,255,255,.72);
+      font-size: 12px;
+      font-weight: 740;
+      cursor: pointer;
+    }
+
+    .market-details-toggle:hover,
+    .market-details-close:hover { border-color: rgba(23,25,22,.3); background: #fff; }
+
+    .market-details-toggle:focus-visible,
+    .market-details-close:focus-visible { outline: 3px solid rgba(191,139,59,.35); outline-offset: 2px; }
+
+    .market-details-chevron { font-size: 15px; transition: transform .2s ease; }
+    .market-details-toggle[aria-expanded="true"] .market-details-chevron { transform: rotate(180deg); }
+    .market-details-toggle-short { display: none; }
+
+    .market-details {
+      margin-top: 18px;
+    }
+
+    .market-details[hidden] { display: none; }
+
+    .market-details-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      margin: 0 2px 12px;
+    }
+
+    .market-details-title {
+      margin: 0;
+      font-family: Georgia, "Noto Serif SC", serif;
+      font-size: 21px;
+      font-weight: 540;
+    }
+
+    .market-details-title:focus-visible { outline: 3px solid rgba(191,139,59,.35); outline-offset: 4px; }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: end;
+      gap: 32px;
+      padding: 64px 0 34px;
+    }
+
+    .eyebrow {
+      margin: 0 0 12px;
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 720px;
+      margin: 0;
+      font-family: Georgia, "Noto Serif SC", "Songti SC", serif;
+      font-size: clamp(38px, 5.5vw, 68px);
+      font-weight: 540;
+      letter-spacing: -0.055em;
+      line-height: 1.04;
+    }
+
+    .hero-copy {
+      max-width: 610px;
+      margin: 18px 0 0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.8;
+    }
+
+    .refresh-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      min-height: 44px;
+      padding: 0 18px;
+      border: 1px solid var(--ink);
+      border-radius: 999px;
+      color: var(--ink);
+      background: transparent;
+      cursor: pointer;
+      transition: color .2s ease, background .2s ease, transform .2s ease;
+    }
+
+    .refresh-button:hover { color: #fff; background: var(--ink); transform: translateY(-1px); }
+    .refresh-button:focus-visible { outline: 3px solid rgba(191,139,59,.35); outline-offset: 3px; }
+    .refresh-button:disabled { opacity: .55; cursor: wait; transform: none; }
+    .refresh-icon { font-size: 17px; transition: transform .55s ease; }
+    .refresh-button.loading .refresh-icon { transform: rotate(360deg); }
+
+    .notice {
+      display: none;
+      margin: 0 0 18px;
+      padding: 12px 15px;
+      border: 1px solid rgba(191,139,59,.28);
+      border-radius: 12px;
+      color: #75511d;
+      background: rgba(255, 248, 228, .72);
+      font-size: 13px;
+    }
+
+    .notice.visible { display: block; }
+
+    .index-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .index-card {
+      position: relative;
+      overflow: hidden;
+      min-height: 430px;
+      padding: clamp(24px, 3.2vw, 38px);
+      border: 1px solid rgba(255,255,255,.75);
+      border-radius: 24px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+      isolation: isolate;
+    }
+
+    .index-card::after {
+      position: absolute;
+      z-index: -1;
+      right: -76px;
+      bottom: -115px;
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(191,139,59,.11), transparent 69%);
+      content: "";
+    }
+
+    .card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .market-name { margin: 0; font-size: 22px; letter-spacing: -.03em; }
+    .market-en { margin: 5px 0 0; color: var(--muted); font-size: 11px; letter-spacing: .12em; }
+
+    .market-code {
+      padding: 6px 9px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      color: var(--muted);
+      font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+      font-size: 11px;
+    }
+
+    .quote {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 18px;
+      margin-top: 54px;
+    }
+
+    .price {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(47px, 6vw, 68px);
+      line-height: .95;
+      letter-spacing: -0.055em;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .change {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      margin-bottom: 5px;
+      padding: 8px 11px;
+      border-radius: 10px;
+      color: var(--muted);
+      background: rgba(23,25,22,.055);
+      font-size: 14px;
+      font-weight: 750;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+
+    .change.positive { color: var(--positive); background: var(--positive-soft); }
+    .change.negative { color: var(--negative); background: var(--negative-soft); }
+
+    .range-block { margin-top: 58px; }
+    .range-title { display: flex; justify-content: space-between; color: var(--muted); font-size: 12px; }
+    .range-title strong { color: var(--ink); font-weight: 650; }
+
+    .range-track {
+      position: relative;
+      height: 5px;
+      margin: 16px 0 11px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(20,134,95,.32), rgba(191,139,59,.46), rgba(223,66,56,.35));
+    }
+
+    .range-marker {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 13px;
+      height: 13px;
+      border: 3px solid #fff;
+      border-radius: 50%;
+      background: var(--ink);
+      box-shadow: 0 1px 7px rgba(0,0,0,.23);
+      transform: translate(-50%, -50%);
+      transition: left .55s cubic-bezier(.2,.8,.2,1);
+    }
+
+    .range-labels { display: flex; justify-content: space-between; color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-top: 35px;
+      padding-top: 24px;
+      border-top: 1px solid var(--line);
+    }
+
+    .metric-label { display: block; margin-bottom: 7px; color: var(--muted); font-size: 11px; }
+    .metric-value { font-size: 14px; font-weight: 680; font-variant-numeric: tabular-nums; }
+
+    .turnover-section {
+      margin-top: 18px;
+      padding: 30px;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: rgba(255,255,255,.48);
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+
+    .section-heading h2 { margin: 0; font-family: Georgia, "Noto Serif SC", serif; font-size: 25px; font-weight: 540; }
+    .section-heading p { margin: 7px 0 0; color: var(--muted); font-size: 12px; line-height: 1.6; }
+
+    .turnover-asof {
+      flex: none;
+      padding: 8px 12px;
+      border-radius: 999px;
+      color: var(--muted);
+      background: rgba(23,25,22,.06);
+      font-size: 12px;
+      font-weight: 750;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+
+    .turnover-layout {
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 24px;
+      padding: 26px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(255,255,255,.66);
+    }
+
+    .turnover-kicker {
+      margin: 0 0 10px;
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    .turnover-delta {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(46px, 6vw, 66px);
+      line-height: 1;
+      letter-spacing: -.05em;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .turnover-delta.expand { color: var(--positive); }
+    .turnover-delta.shrink { color: var(--negative); }
+    .turnover-verdict { margin: 13px 0 0; color: var(--muted); font-size: 13px; }
+    .turnover-verdict strong { color: var(--ink); }
+
+    .turnover-values {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      align-content: center;
+    }
+
+    .turnover-stat {
+      padding: 17px;
+      border-radius: 13px;
+      background: rgba(23,25,22,.045);
+    }
+
+    .turnover-stat-label { display: block; margin-bottom: 8px; color: var(--muted); font-size: 11px; }
+    .turnover-stat-value { font-size: 20px; font-weight: 760; font-variant-numeric: tabular-nums; }
+
+    .turnover-formula {
+      grid-column: 1 / -1;
+      margin-top: 2px;
+      padding-top: 14px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.6;
+    }
+
+    .sentiment-section {
+      margin-top: 18px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255,255,255,.52);
+      overflow: hidden;
+    }
+
+    .sentiment-toggle {
+      display: grid;
+      width: 100%;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 20px;
+      padding: 20px 22px 16px;
+      border: 0;
+      color: inherit;
+      background: transparent;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .sentiment-toggle:hover { background: rgba(255,255,255,.42); }
+    .sentiment-toggle:focus-visible { outline: 3px solid rgba(191,139,59,.35); outline-offset: -3px; }
+    .sentiment-heading { min-width: 0; }
+    .sentiment-kicker { display: block; margin-bottom: 7px; color: var(--muted); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; }
+
+    .sentiment-title-row {
+      display: flex;
+      min-width: 0;
+      align-items: baseline;
+      gap: 10px 14px;
+      flex-wrap: wrap;
+    }
+
+    .sentiment-title { margin: 0; font-family: Georgia, "Noto Serif SC", serif; font-size: 24px; font-weight: 540; }
+    .sentiment-emotion { font-size: 17px; font-weight: 780; overflow-wrap: anywhere; }
+    .sentiment-structure { color: var(--muted); font-size: 13px; font-weight: 620; overflow-wrap: anywhere; }
+    .sentiment-emotion.tone-positive, .sentiment-structure.tone-positive { color: var(--positive); }
+    .sentiment-emotion.tone-negative, .sentiment-structure.tone-negative { color: var(--negative); }
+    .sentiment-emotion.tone-warning, .sentiment-structure.tone-warning { color: #94651f; }
+
+    .sentiment-toggle-side { display: inline-flex; align-items: center; gap: 10px; color: var(--muted); }
+    .sentiment-stale { font-size: 11px; font-weight: 720; color: #94651f; white-space: nowrap; }
+    .sentiment-stale[hidden] { display: none; }
+    .sentiment-chevron { display: inline-block; font-size: 19px; line-height: 1; transition: transform .2s ease; }
+    .sentiment-toggle[aria-expanded="true"] .sentiment-chevron { transform: rotate(180deg); }
+
+    .sentiment-dynamic-line {
+      display: flex;
+      min-width: 0;
+      align-items: baseline;
+      gap: 7px 12px;
+      flex-wrap: wrap;
+      padding: 0 22px 15px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .sentiment-dynamic-window { flex: none; color: var(--accent); font-size: 10px; font-weight: 780; }
+    .sentiment-dynamic-headline { min-width: 0; color: var(--ink); font-size: 13px; font-weight: 720; overflow-wrap: anywhere; }
+    .sentiment-dynamic-line.is-degraded .sentiment-dynamic-headline { color: var(--muted); font-weight: 650; }
+    .sentiment-dynamic-line.is-stale .sentiment-dynamic-headline { color: #94651f; }
+
+    .sentiment-overview {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .sentiment-stat { min-width: 0; padding: 14px 18px; }
+    .sentiment-stat + .sentiment-stat { border-left: 1px solid var(--line); }
+    .sentiment-stat-label { display: block; margin-bottom: 5px; color: var(--muted); font-size: 11px; }
+    .sentiment-stat-value { display: block; font-size: 16px; font-weight: 780; overflow-wrap: anywhere; }
+    .sentiment-stat.state-strong .sentiment-stat-value { color: var(--positive); }
+    .sentiment-stat[data-summary="stable_defense"].state-strong .sentiment-stat-value { color: var(--negative); }
+    .sentiment-stat[data-summary="resource"].state-strong .sentiment-stat-value { color: #94651f; }
+    .sentiment-stat.state-weak .sentiment-stat-value { color: var(--muted); }
+
+    .sentiment-stat-direction {
+      display: flex;
+      min-width: 0;
+      align-items: baseline;
+      gap: 5px;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 650;
+      line-height: 1.35;
+    }
+
+    .sentiment-direction-icon { flex: none; width: 1em; color: var(--muted); text-align: center; font-size: 12px; font-weight: 820; }
+    .sentiment-direction-text { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .direction-strengthening .sentiment-direction-icon,
+    .direction-weakening .sentiment-direction-icon { color: var(--accent); }
+    .direction-flat .sentiment-direction-icon { color: var(--muted); }
+
+    .sentiment-defense-focus {
+      display: flex;
+      min-width: 0;
+      align-items: baseline;
+      gap: 10px 18px;
+      padding: 10px 22px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(20, 134, 95, 0.025);
+    }
+
+    .sentiment-defense-focus[hidden] { display: none; }
+    .sentiment-defense-focus-label { flex: none; color: var(--muted); font-size: 11px; font-weight: 720; }
+
+    .sentiment-defense-focus-items {
+      display: flex;
+      min-width: 0;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 7px 10px;
+    }
+
+    .sentiment-defense-focus-item {
+      display: inline-flex;
+      min-width: 0;
+      align-items: baseline;
+      gap: 6px;
+      padding: 3px 8px;
+      border: 1px solid rgba(20, 134, 95, 0.18);
+      border-radius: 999px;
+      background: var(--negative-soft);
+    }
+
+    .sentiment-defense-focus-name { color: var(--ink); font-size: 12px; font-weight: 740; }
+    .sentiment-defense-focus-item .sentiment-state { color: var(--negative); font-size: 11px; font-weight: 780; }
+    .sentiment-defense-focus-empty,
+    .sentiment-defense-focus-more { color: var(--muted); font-size: 11px; }
+    .sentiment-defense-focus.is-stale .sentiment-defense-focus-label { color: #94651f; }
+
+    .sentiment-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 11px 22px;
+      color: var(--muted);
+      font-size: 11px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .sentiment-meta span { min-width: 0; overflow-wrap: anywhere; }
+    .sentiment-meta-status { text-align: right; }
+    .sentiment-coverage.is-alert { color: #94651f; font-weight: 720; }
+
+    .sentiment-details { padding: 4px 22px 22px; }
+    .sentiment-details[hidden] { display: none; }
+
+    .sentiment-reasons {
+      display: flex;
+      gap: 8px 18px;
+      flex-wrap: wrap;
+      margin: 4px 0 17px;
+      padding: 12px 0 15px;
+      border-bottom: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    .sentiment-reasons:empty { display: none; }
+    .sentiment-reason { position: relative; padding-left: 12px; }
+    .sentiment-reason::before { position: absolute; left: 0; color: var(--accent); content: "\2022"; }
+    .sentiment-groups { display: grid; gap: 20px; }
+    .sentiment-group { min-width: 0; }
+
+    .sentiment-group-heading {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .sentiment-group-heading h3 { margin: 0; font-size: 14px; font-weight: 760; }
+    .sentiment-group-state { color: var(--muted); font-size: 12px; font-weight: 700; }
+    .sentiment-group-state.tone-positive { color: var(--positive); }
+    .sentiment-group-state.tone-negative { color: var(--negative); }
+    .sentiment-group-state.tone-warning { color: #94651f; }
+    .sentiment-table-wrap { width: 100%; overflow-x: auto; border-top: 1px solid var(--line); }
+
+    .sentiment-table {
+      width: 100%;
+      min-width: 880px;
+      border-collapse: collapse;
+      table-layout: fixed;
+      font-size: 12px;
+    }
+
+    .sentiment-table th,
+    .sentiment-table td { padding: 11px 9px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+    .sentiment-table th { color: var(--muted); font-size: 10px; font-weight: 650; }
+    .sentiment-table th:nth-child(1) { width: 14%; }
+    .sentiment-table th:nth-child(2) { width: 14%; }
+    .sentiment-table th:nth-child(3) { width: 10%; }
+    .sentiment-table th:nth-child(4) { width: 10%; }
+    .sentiment-table th:nth-child(5) { width: 8%; }
+    .sentiment-table th:nth-child(6) { width: 10%; }
+    .sentiment-table th:nth-child(7) { width: 34%; }
+    .sentiment-table tbody tr:last-child td { border-bottom: 0; }
+    .sentiment-table td { overflow-wrap: anywhere; }
+    .sentiment-item-name { display: block; font-weight: 740; }
+    .sentiment-matched-name { display: block; margin-top: 3px; color: var(--muted); font-size: 10px; }
+    .sentiment-value { font-weight: 720; font-variant-numeric: tabular-nums; }
+    .sentiment-value.positive { color: var(--positive); }
+    .sentiment-value.negative { color: var(--negative); }
+
+    .sentiment-state {
+      display: inline-block;
+      min-width: 2.6em;
+      padding: 2px 5px;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      color: var(--muted);
+      background: rgba(255,255,255,.48);
+      text-align: center;
+      font-size: 11px;
+      font-weight: 730;
+    }
+
+    .sentiment-state.state-strong { color: var(--positive); border-color: rgba(223,66,56,.22); background: var(--positive-soft); }
+    .sentiment-state.state-weak { color: var(--negative); border-color: rgba(20,134,95,.22); background: var(--negative-soft); }
+    .sentiment-item-state { display: grid; min-width: 0; justify-items: start; gap: 4px; }
+    .sentiment-item-trend { display: flex; min-width: 0; align-items: baseline; gap: 4px; color: var(--muted); font-size: 10px; line-height: 1.35; }
+    .sentiment-item-trend .sentiment-direction-icon { font-size: 11px; }
+    .sentiment-item-path,
+    .sentiment-item-pending { max-width: 100%; color: var(--muted); font-size: 10px; line-height: 1.35; overflow-wrap: anywhere; }
+    .sentiment-item-pending { color: #94651f; }
+    .sentiment-item-core { max-width: 100%; color: var(--muted); font-size: 10px; line-height: 1.35; overflow-wrap: anywhere; }
+    .sentiment-evidence { display: grid; gap: 9px; color: var(--muted); font-size: 11px; line-height: 1.45; }
+    .sentiment-evidence strong { color: var(--ink); font-weight: 680; }
+
+    .sentiment-profile {
+      display: grid;
+      gap: 3px;
+      padding: 8px 9px;
+      border-left: 2px solid var(--accent);
+      border-radius: 0 4px 4px 0;
+      color: var(--muted);
+      background: rgba(191,139,59,.07);
+    }
+
+    .sentiment-profile strong { color: #94651f; font-size: 11px; }
+    .sentiment-evidence-section { display: grid; min-width: 0; gap: 5px; }
+
+    .sentiment-evidence-heading {
+      display: flex;
+      min-width: 0;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 6px 10px;
+      flex-wrap: wrap;
+    }
+
+    .sentiment-evidence-heading > strong { font-size: 11px; }
+    .sentiment-evidence-status { color: var(--muted); font-size: 10px; font-weight: 650; }
+    .sentiment-evidence-status.is-warning { color: #94651f; }
+    .sentiment-ladder-summary { color: var(--ink); font-weight: 690; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+    .sentiment-ladder-summary.is-warning { color: #94651f; }
+    .sentiment-ladder-list { display: grid; gap: 4px; }
+
+    .sentiment-ladder-leader {
+      min-width: 0;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      background: rgba(255,255,255,.42);
+    }
+
+    .sentiment-ladder-leader summary {
+      position: relative;
+      padding: 5px 21px 5px 7px;
+      color: var(--ink);
+      font-weight: 670;
+      list-style: none;
+      cursor: pointer;
+      overflow-wrap: anywhere;
+    }
+
+    .sentiment-ladder-leader summary::-webkit-details-marker { display: none; }
+    .sentiment-ladder-leader summary::after { position: absolute; top: 5px; right: 7px; color: var(--accent); content: "+"; }
+    .sentiment-ladder-leader[open] summary::after { content: "−"; }
+    .sentiment-ladder-leader summary:focus-visible { outline: 2px solid rgba(191,139,59,.4); outline-offset: 1px; }
+
+    .sentiment-ladder-detail {
+      display: grid;
+      gap: 4px;
+      padding: 6px 7px 7px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 10px;
+      overflow-wrap: anywhere;
+    }
+
+    .sentiment-ladder-detail strong { margin-right: 4px; font-size: 10px; }
+    .sentiment-attribution-note { color: var(--muted); font-size: 10px; overflow-wrap: anywhere; }
+    .sentiment-representatives { display: grid; min-width: 0; gap: 3px; padding-top: 7px; border-top: 1px dashed var(--line); }
+    .sentiment-representative-line { min-width: 0; overflow-wrap: anywhere; }
+    .sentiment-empty { padding: 12px 0; color: var(--muted); font-size: 12px; }
+
+    .core-offense-overview {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(110px, .52fr)) minmax(280px, 1.65fr);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .core-offense-stat,
+    .core-offense-focus {
+      min-width: 0;
+      padding: 12px 18px;
+    }
+
+    .core-offense-stat + .core-offense-stat,
+    .core-offense-focus { border-left: 1px solid var(--line); }
+    .core-offense-stat-label,
+    .core-offense-focus-label { display: block; margin-bottom: 4px; color: var(--muted); font-size: 10px; }
+    .core-offense-stat-value { color: var(--ink); font-size: 17px; font-weight: 760; font-variant-numeric: tabular-nums; }
+    .core-offense-stat[data-core-count="strong"] .core-offense-stat-value,
+    .core-offense-stat[data-core-count="strengthening"] .core-offense-stat-value { color: var(--positive); }
+    .core-offense-stat[data-core-count="weakening"] .core-offense-stat-value { color: var(--negative); }
+    .core-offense-focus-list { display: flex; min-width: 0; align-items: center; gap: 6px; flex-wrap: wrap; color: var(--muted); font-size: 11px; }
+    .core-offense-focus-item { color: var(--ink); font-weight: 690; }
+    .core-offense-focus-item + .core-offense-focus-item::before { margin-right: 6px; color: var(--muted); content: "/"; }
+
+    .core-offense-details { padding-top: 12px; }
+    .core-offense-table-wrap { width: 100%; overflow-x: auto; }
+    .core-offense-table { width: 100%; min-width: 980px; border-collapse: collapse; table-layout: fixed; font-size: 11px; }
+    .core-offense-table th {
+      padding: 7px 9px;
+      border-bottom: 1px solid var(--line);
+      color: var(--muted);
+      text-align: left;
+      font-size: 9px;
+      font-weight: 680;
+    }
+    .core-offense-table td { min-width: 0; padding: 10px 9px; border-bottom: 1px solid var(--line); vertical-align: top; }
+    .core-offense-table tbody tr:last-child td { border-bottom: 0; }
+    .core-offense-table tbody tr.is-placeholder { color: var(--muted); background: rgba(23,25,22,.018); }
+    .core-offense-name { display: block; color: var(--ink); font-size: 13px; font-weight: 750; overflow-wrap: anywhere; }
+    .core-offense-tags { display: flex; min-width: 0; gap: 4px; flex-wrap: wrap; margin-top: 5px; }
+    .core-offense-tag { padding: 1px 4px; border: 1px solid var(--line); border-radius: 3px; color: var(--muted); font-size: 9px; }
+    .core-offense-tag.is-conditional { color: #94651f; border-color: rgba(148,101,31,.24); }
+    .core-offense-cell-primary { display: block; color: var(--ink); font-weight: 700; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+    .core-offense-cell-primary.positive { color: var(--positive); }
+    .core-offense-cell-primary.negative { color: var(--negative); }
+    .core-offense-cell-secondary { display: block; margin-top: 3px; color: var(--muted); font-size: 9px; line-height: 1.4; overflow-wrap: anywhere; }
+    .core-offense-level { display: inline-block; min-width: 2.5em; padding: 2px 5px; border: 1px solid var(--line); border-radius: 4px; text-align: center; }
+    .core-offense-level.state-strong { color: var(--positive); border-color: rgba(223,66,56,.22); background: var(--positive-soft); }
+    .core-offense-level.state-weak { color: var(--negative); border-color: rgba(20,134,95,.22); background: var(--negative-soft); }
+    .core-offense-direction { display: inline-flex; min-width: 0; align-items: baseline; gap: 5px; color: var(--ink); font-weight: 690; }
+    .core-offense-board { color: var(--ink); font-weight: 690; overflow-wrap: anywhere; }
+    .core-offense-leader { display: block; margin-top: 4px; color: var(--muted); overflow-wrap: anywhere; }
+
+    .offense-section {
+      margin-top: 18px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255,255,255,.58);
+      overflow: hidden;
+    }
+
+    .offense-toggle {
+      display: grid;
+      width: 100%;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 18px;
+      padding: 18px 22px 14px;
+      border: 0;
+      color: inherit;
+      background: transparent;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .offense-toggle:hover:not(:disabled) { background: rgba(255,255,255,.42); }
+    .offense-toggle:focus-visible { outline: 3px solid rgba(191,139,59,.35); outline-offset: -3px; }
+    .offense-toggle:disabled { cursor: default; }
+    .offense-heading { min-width: 0; }
+    .offense-kicker { display: block; margin-bottom: 6px; color: var(--muted); font-size: 10px; letter-spacing: 0; text-transform: uppercase; }
+    .offense-title-row { display: flex; min-width: 0; align-items: baseline; gap: 9px 13px; flex-wrap: wrap; }
+    .offense-title { font-family: Georgia, "Noto Serif SC", serif; font-size: 22px; font-weight: 540; }
+    .offense-headline { color: var(--muted); font-size: 12px; font-weight: 650; overflow-wrap: anywhere; }
+    .offense-toggle-side { display: inline-flex; align-items: center; gap: 9px; color: var(--muted); }
+    .offense-alert { color: #94651f; font-size: 10px; font-weight: 740; white-space: nowrap; }
+    .offense-alert[hidden] { display: none; }
+    .offense-chevron { display: inline-block; font-size: 18px; line-height: 1; transition: transform .2s ease; }
+    .offense-toggle[aria-expanded="true"] .offense-chevron { transform: rotate(180deg); }
+    .offense-toggle:disabled .offense-chevron { display: none; }
+
+    .offense-overview {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .offense-axis { min-width: 0; padding: 12px 18px; }
+    .offense-axis + .offense-axis { border-left: 1px solid var(--line); }
+    .offense-axis-label { display: block; margin-bottom: 4px; color: var(--muted); font-size: 10px; }
+    .offense-axis-value { display: block; font-size: 15px; font-weight: 760; line-height: 1.35; overflow-wrap: anywhere; }
+    .offense-axis-value.tone-positive { color: var(--positive); }
+    .offense-axis-value.tone-negative { color: var(--negative); }
+    .offense-axis-value.tone-warning { color: #94651f; }
+    .offense-direction { display: inline-flex; min-width: 0; align-items: baseline; gap: 5px; }
+    .offense-direction-icon { flex: none; width: 1em; color: var(--accent); text-align: center; font-size: 12px; }
+    .offense-direction.direction-unknown .offense-direction-icon,
+    .offense-direction.direction-flat .offense-direction-icon { color: var(--muted); }
+
+    .offense-counts {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      padding: 9px 18px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .offense-count { min-width: 0; padding: 2px 9px; color: var(--muted); font-size: 10px; white-space: nowrap; }
+    .offense-count + .offense-count { border-left: 1px solid var(--line); }
+    .offense-count strong { margin-left: 5px; color: var(--ink); font-size: 13px; font-variant-numeric: tabular-nums; }
+    .offense-count[data-count="attacking"] strong,
+    .offense-count[data-count="rotating"] strong { color: var(--positive); }
+    .offense-count[data-count="divergent"] strong { color: #94651f; }
+    .offense-count[data-count="cooling"] strong { color: var(--negative); }
+
+    .offense-leaders {
+      display: grid;
+      min-width: 0;
+      grid-template-columns: 96px minmax(0, 1fr);
+      align-items: start;
+      gap: 10px;
+      padding: 10px 22px;
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .offense-leaders-label { padding-top: 7px; font-weight: 680; }
+    .offense-leader-list { display: grid; min-width: 0; }
+    .offense-leader {
+      display: grid;
+      min-width: 0;
+      grid-template-columns: minmax(120px, 1.3fr) repeat(5, minmax(0, .75fr));
+      gap: 7px 12px;
+      align-items: center;
+      padding: 7px 0;
+      border-top: 1px solid var(--line);
+      color: var(--ink);
+      font-size: 11px;
+    }
+    .offense-leader:first-child { padding-top: 0; border-top: 0; }
+    .offense-leader:last-child { padding-bottom: 0; }
+    .offense-leader-name { min-width: 0; font-weight: 730; overflow-wrap: anywhere; }
+    .offense-leader-name small,
+    .offense-leader-metric small { display: block; margin-bottom: 2px; color: var(--muted); font-size: 8px; font-weight: 620; }
+    .offense-leader-metric { min-width: 0; font-weight: 690; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+    .offense-leader-metric.positive { color: var(--positive); }
+    .offense-leader-metric.negative { color: var(--negative); }
+
+    .offense-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 9px 22px;
+      border-top: 1px solid var(--line);
+      color: #94651f;
+      font-size: 10px;
+      font-weight: 680;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .offense-meta[hidden] { display: none; }
+    .offense-meta span { min-width: 0; overflow-wrap: anywhere; }
+    .offense-meta-time { text-align: right; }
+    .offense-details { padding: 4px 22px 20px; border-top: 1px solid var(--line); }
+    .offense-details[hidden] { display: none; }
+
+    .offense-tabs {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 4px;
+      margin: 12px 0;
+      padding: 3px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: rgba(23,25,22,.035);
+    }
+
+    .offense-tab {
+      min-width: 0;
+      min-height: 34px;
+      padding: 6px 8px;
+      border: 0;
+      border-radius: 4px;
+      color: var(--muted);
+      background: transparent;
+      font-size: 11px;
+      font-weight: 680;
+      line-height: 1.25;
+      cursor: pointer;
+      overflow-wrap: anywhere;
+    }
+
+    .offense-tab:hover { color: var(--ink); }
+    .offense-tab:focus-visible { outline: 2px solid rgba(191,139,59,.45); outline-offset: 0; }
+    .offense-tab[aria-selected="true"] { color: var(--ink); background: rgba(255,255,255,.88); box-shadow: 0 1px 4px rgba(43,39,28,.08); }
+    .offense-tab-count { margin-left: 4px; color: var(--muted); font-variant-numeric: tabular-nums; }
+    .offense-panel[hidden] { display: none; }
+    .offense-list { display: grid; }
+    .offense-empty { padding: 18px 2px; color: var(--muted); font-size: 12px; text-align: center; }
+
+    .offense-item {
+      display: grid;
+      min-width: 0;
+      grid-template-columns: minmax(150px, .82fr) minmax(200px, 1fr) minmax(250px, 1.35fr);
+      gap: 12px 18px;
+      padding: 13px 2px;
+      border-top: 1px solid var(--line);
+      font-size: 11px;
+    }
+
+    .offense-item:first-child { border-top: 0; }
+    .offense-item-block { min-width: 0; }
+    .offense-item-name-row { display: flex; min-width: 0; align-items: baseline; gap: 7px; flex-wrap: wrap; }
+    .offense-item-name { color: var(--ink); font-size: 14px; font-weight: 760; overflow-wrap: anywhere; }
+    .offense-item-badge { padding: 2px 5px; border: 1px solid var(--line); border-radius: 4px; color: var(--muted); font-size: 9px; font-weight: 680; }
+    .offense-item-badge.is-warning { color: #94651f; border-color: rgba(148,101,31,.24); }
+    .offense-item-state-row { display: flex; min-width: 0; align-items: baseline; gap: 6px 9px; flex-wrap: wrap; margin-top: 7px; }
+    .offense-lifecycle { color: var(--ink); font-weight: 720; }
+    .offense-item-time { color: var(--muted); font-variant-numeric: tabular-nums; }
+    .offense-item-family { margin-top: 5px; color: var(--muted); overflow-wrap: anywhere; }
+
+    .offense-metrics { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px 12px; }
+    .offense-metric { min-width: 0; }
+    .offense-metric-label { display: block; margin-bottom: 2px; color: var(--muted); font-size: 9px; }
+    .offense-metric-value { color: var(--ink); font-weight: 700; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+    .offense-metric-value.positive { color: var(--positive); }
+    .offense-metric-value.negative { color: var(--negative); }
+
+    .offense-funds { display: grid; gap: 5px; }
+    .offense-funds-head { display: flex; min-width: 0; align-items: baseline; gap: 6px 9px; flex-wrap: wrap; }
+    .offense-funds-state { color: var(--ink); font-weight: 720; }
+    .offense-funds-values { color: var(--muted); font-variant-numeric: tabular-nums; line-height: 1.5; overflow-wrap: anywhere; }
+    .offense-funds-change { color: var(--ink); font-weight: 690; }
+    .offense-funds-change.positive { color: var(--positive); }
+    .offense-funds-change.negative { color: var(--negative); }
+    .offense-reasons { display: flex; min-width: 0; grid-column: 1 / -1; gap: 5px 13px; flex-wrap: wrap; color: var(--muted); line-height: 1.45; }
+    .offense-reason { position: relative; padding-left: 9px; overflow-wrap: anywhere; }
+    .offense-reason::before { position: absolute; left: 0; color: var(--accent); content: "\2022"; }
+
+    .offense-stock-leaders { min-width: 0; grid-column: 1 / -1; padding-top: 10px; border-top: 1px dashed var(--line); }
+    .offense-stock-leaders-head { display: flex; min-width: 0; align-items: baseline; justify-content: space-between; gap: 8px 16px; margin-bottom: 7px; }
+    .offense-stock-leaders-title { color: var(--ink); font-size: 11px; font-weight: 720; }
+    .offense-stock-leaders-note { color: var(--muted); font-size: 9px; }
+    .offense-stock-status { margin-left: 6px; padding: 1px 4px; border: 1px solid var(--line); border-radius: 3px; color: var(--muted); font-size: 8px; font-weight: 650; }
+    .offense-stock-status.status-full { color: var(--positive); border-color: rgba(223,66,56,.2); }
+    .offense-stock-status.status-stale,
+    .offense-stock-status.status-fallback { color: #94651f; border-color: rgba(148,101,31,.24); }
+    .offense-stock-table-wrap { width: 100%; overflow-x: auto; }
+    .offense-stock-table { width: 100%; min-width: 790px; border-collapse: collapse; table-layout: fixed; }
+    .offense-stock-table th { padding: 5px 7px; color: var(--muted); text-align: left; font-size: 8px; font-weight: 640; }
+    .offense-stock-table td { padding: 6px 7px; border-top: 1px solid var(--line); color: var(--ink); font-size: 10px; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+    .offense-stock-table td.positive { color: var(--positive); }
+    .offense-stock-table td.negative { color: var(--negative); }
+    .offense-stock-name { font-weight: 710; }
+    .offense-stock-code { margin-left: 5px; color: var(--muted); font-size: 9px; }
+    .offense-stock-flag { display: inline-block; margin-left: 5px; padding: 1px 4px; border: 1px solid rgba(148,101,31,.28); border-radius: 3px; color: #94651f; font-size: 9px; }
+    .offense-stock-empty { padding: 6px 0 2px; color: var(--muted); font-size: 10px; }
+
+    .offense-events { margin-top: 10px; border-top: 1px solid var(--line); }
+    .offense-events summary { padding: 11px 1px 4px; color: var(--muted); font-size: 11px; font-weight: 680; cursor: pointer; }
+    .offense-events summary:focus-visible { outline: 2px solid rgba(191,139,59,.4); outline-offset: 2px; }
+    .offense-event-list { display: grid; margin: 7px 0 0; padding: 0; list-style: none; }
+    .offense-event { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 10px; padding: 7px 1px; border-top: 1px solid var(--line); color: var(--muted); font-size: 11px; line-height: 1.45; }
+    .offense-event-time { color: var(--accent); font-variant-numeric: tabular-nums; }
+    .offense-event-text { min-width: 0; overflow-wrap: anywhere; }
+
+    .market-summary {
+      display: grid;
+      grid-template-columns: .85fr 1.15fr;
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .summary-card {
+      padding: 27px 30px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: rgba(255,255,255,.48);
+    }
+
+    .summary-kicker { margin: 0 0 8px; color: var(--muted); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; }
+    .summary-title { margin: 0; font-family: Georgia, "Noto Serif SC", serif; font-size: 24px; font-weight: 540; }
+    .summary-text { margin: 10px 0 0; color: var(--muted); font-size: 13px; line-height: 1.7; }
+
+    .comparison { display: grid; gap: 17px; align-content: center; }
+    .comparison-row { display: grid; grid-template-columns: 66px 1fr 60px; align-items: center; gap: 13px; font-size: 12px; }
+    .comparison-label { color: var(--muted); }
+    .comparison-value { text-align: right; font-weight: 750; font-variant-numeric: tabular-nums; }
+    .comparison-value.positive { color: var(--positive); }
+    .comparison-value.negative { color: var(--negative); }
+    .comparison-track { height: 7px; overflow: hidden; border-radius: 999px; background: rgba(23,25,22,.07); }
+    .comparison-fill { width: 0; height: 100%; border-radius: inherit; background: var(--muted); transition: width .65s ease; }
+    .comparison-fill.positive { background: var(--positive); }
+    .comparison-fill.negative { background: var(--negative); }
+
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      margin-top: 20px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    @media (max-width: 820px) {
+      .shell { width: min(100% - 28px, 680px); padding-top: 18px; }
+      .top-meta .clock { display: none; }
+      .market-pulse-item { padding-inline: 12px; }
+      .market-pulse-item:not(.volume) .market-pulse-readout { display: grid; gap: 3px; }
+      .market-pulse-actions { min-width: 118px; padding-left: 10px; }
+      .hero { grid-template-columns: 1fr; padding-top: 46px; }
+      .refresh-button { justify-self: start; }
+      .index-grid, .market-summary { grid-template-columns: 1fr; }
+      .turnover-layout { grid-template-columns: 1fr; }
+      .sentiment-overview { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .sentiment-stat:nth-child(3) { border-left: 0; }
+      .sentiment-stat:nth-child(n+3) { border-top: 1px solid var(--line); }
+      .offense-item { grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); }
+      .offense-item .offense-funds { grid-column: 1 / -1; }
+      .index-card { min-height: 0; }
+    }
+
+    @media (min-width: 521px) and (max-width: 820px) {
+      .market-pulse-item.volume .market-pulse-readout { display: grid; gap: 3px; }
+    }
+
+    @media (min-width: 521px) and (max-width: 600px) {
+      .market-pulse-item { padding-inline: 8px; }
+      .market-pulse-value { font-size: 20px; }
+      .market-pulse-actions { min-width: 100px; padding-left: 8px; }
+      .market-details-toggle { padding-inline: 10px; }
+    }
+
+    @media (max-width: 520px) {
+      html { scroll-padding-top: 152px; }
+      .brand-name { display: none; }
+      .topbar { padding-bottom: 18px; }
+      .top-meta { gap: 8px; }
+      .market-pulse {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        padding: 8px 9px;
+        border-radius: 14px;
+      }
+      .market-pulse-item { min-height: 48px; padding: 3px 9px; }
+      .market-pulse-item:not(.volume) { min-height: 60px; }
+      .market-pulse-item:not(.volume) .market-pulse-readout { display: grid; gap: 3px; }
+      .market-pulse-item:nth-child(2) { border-right: 0; }
+      .market-pulse-item.volume {
+        grid-column: 1;
+        grid-row: 2;
+        border-top: 1px solid var(--line);
+        border-right: 1px solid var(--line);
+      }
+      .market-pulse-value { font-size: 20px; }
+      .market-pulse-change { font-size: 11px; }
+      .market-pulse-actions {
+        display: flex;
+        min-width: 0;
+        grid-column: 2;
+        grid-row: 2;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 8px;
+        padding: 4px 0 4px 9px;
+        border-top: 1px solid var(--line);
+      }
+      .market-pulse-status { flex: 1; max-width: none; text-align: right; }
+      .market-details-toggle { flex: none; padding-inline: 10px; }
+      .market-details-toggle-long { display: none; }
+      .market-details-toggle-short { display: inline; }
+      .market-details-title { font-size: 19px; }
+      .hero { padding: 38px 2px 26px; }
+      h1 { font-size: 43px; }
+      .hero-copy { font-size: 14px; }
+      .index-card { padding: 24px 21px; border-radius: 20px; }
+      .quote { display: block; margin-top: 40px; }
+      .change { width: fit-content; margin-top: 16px; }
+      .range-block { margin-top: 42px; }
+      .metrics { gap: 10px; }
+      .metric-value { font-size: 13px; }
+      .turnover-section { padding: 22px; }
+      .section-heading { display: block; }
+      .turnover-asof { display: inline-block; margin-top: 14px; }
+      .turnover-layout { padding: 20px; }
+      .turnover-values { grid-template-columns: 1fr; }
+      .sentiment-toggle { gap: 10px; padding: 18px 16px 14px; }
+      .sentiment-title-row { display: grid; gap: 5px; }
+      .sentiment-title { font-size: 21px; }
+      .sentiment-emotion { font-size: 15px; }
+      .sentiment-toggle-side { align-self: start; }
+      .sentiment-dynamic-line { display: grid; gap: 4px; padding: 0 16px 13px; }
+      .sentiment-stat { padding: 12px 14px; }
+      .sentiment-meta { display: grid; gap: 5px; padding: 10px 16px; }
+      .sentiment-meta-status { text-align: left; }
+      .sentiment-details { padding: 4px 16px 18px; }
+      .sentiment-reasons { display: grid; gap: 7px; }
+      .sentiment-table-wrap { overflow: visible; border-top: 0; }
+      .sentiment-table { min-width: 0; }
+      .sentiment-table thead { display: none; }
+      .sentiment-table,
+      .sentiment-table tbody,
+      .sentiment-table tr,
+      .sentiment-table td { display: block; width: 100%; }
+      .sentiment-table tr { padding: 8px 0; border-top: 1px solid var(--line); }
+      .sentiment-table td { display: grid; grid-template-columns: 80px minmax(0, 1fr); gap: 10px; padding: 5px 0; border: 0; }
+      .sentiment-table td::before { color: var(--muted); font-size: 10px; font-weight: 650; content: attr(data-label); }
+      .sentiment-evidence { min-width: 0; }
+      .offense-toggle { gap: 10px; padding: 17px 16px 13px; }
+      .offense-title-row { display: grid; gap: 4px; }
+      .offense-title { font-size: 20px; }
+      .offense-toggle-side { align-self: start; }
+      .offense-overview { grid-template-columns: 1fr; }
+      .offense-axis { display: grid; grid-template-columns: 90px minmax(0, 1fr); align-items: baseline; gap: 9px; padding: 10px 14px; }
+      .offense-axis + .offense-axis { border-top: 1px solid var(--line); border-left: 0; }
+      .offense-axis-label { margin: 0; }
+      .offense-axis-value { font-size: 14px; }
+      .offense-counts { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 8px 14px; }
+      .offense-count { padding: 5px 7px; }
+      .offense-count:nth-child(3) { border-left: 0; }
+      .offense-count:nth-child(n+3) { border-top: 1px solid var(--line); }
+      .offense-leaders { display: grid; grid-template-columns: 1fr; gap: 5px; padding: 9px 16px; }
+      .offense-leader { width: fit-content; }
+      .offense-meta { display: grid; gap: 4px; padding: 9px 16px; }
+      .offense-meta[hidden] { display: none; }
+      .offense-meta-time { text-align: left; }
+      .offense-details { padding: 4px 16px 18px; }
+      .offense-tabs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .offense-item { grid-template-columns: minmax(0, 1fr); gap: 10px; padding: 13px 0; }
+      .offense-item .offense-funds { grid-column: auto; }
+      .offense-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 9px 0; border-top: 1px dashed var(--line); border-bottom: 1px dashed var(--line); }
+      .offense-reasons { grid-column: auto; }
+      .offense-event { grid-template-columns: 40px minmax(0, 1fr); }
+      .market-summary { gap: 12px; }
+      .summary-card { padding: 22px; }
+      .comparison-row { grid-template-columns: 58px 1fr 54px; gap: 9px; }
+      .footer { display: block; line-height: 1.8; }
+    }
+
+    @media (max-width: 360px) {
+      .market-pulse-item { min-height: 58px; }
+      .market-pulse-readout { display: grid; gap: 3px; }
+      .market-pulse-value { font-size: 19px; }
+      .market-pulse-actions { gap: 5px; }
+      .market-pulse-status { font-size: 9px; }
+      .market-details-toggle { padding-inline: 8px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+    }
+  </style>
 </head>
 <body>
-
-<div class="header">
-  <div class="header-row">
-    <div>
-      <h1>tradex 数据源看板</h1>
-      <div class="stats" id="stats">
-        <span class="stat"><span class="stat-label">数据类型:</span> <span class="stat-value" id="stat-types">-</span></span>
-        <span class="stat"><span class="stat-label">数据源:</span> <span class="stat-value" id="stat-sources">-</span></span>
-        <span class="stat"><span class="stat-label">健康:</span> <span class="stat-value green" id="stat-healthy">-</span></span>
-        <span class="stat"><span class="stat-label">MCP工具:</span> <span class="stat-value" id="stat-tools">-</span></span>
-        <span class="stat"><span class="stat-label">时间:</span> <span class="stat-value" id="stat-time">-</span></span>
+  <main class="shell">
+    <header class="topbar">
+      <div class="brand" aria-label="双市行情">
+        <span class="brand-mark" aria-hidden="true">M</span>
+        <span class="brand-name">双市行情</span>
       </div>
-    </div>
-    <button class="refresh-btn" id="refresh-btn" onclick="manualRefresh()">立即刷新</button>
-  </div>
-</div>
+      <div class="top-meta">
+        <span class="clock" id="clock">--:--:--</span>
+        <span class="session" id="session">
+          <span class="session-dot" aria-hidden="true"></span>
+          <span id="session-label">正在连接行情</span>
+        </span>
+      </div>
+    </header>
 
-<div class="version-banner hidden" id="version-banner"></div>
+    <section class="market-pulse" id="market-pulse" aria-label="沪深指数与全市场量能快览" aria-busy="true">
+      <div class="market-pulse-item neutral" data-pulse-index="sh000001">
+        <span class="market-pulse-label">上证指数</span>
+        <span class="market-pulse-readout">
+          <strong class="market-pulse-value" data-pulse-field="price">—</strong>
+          <span class="market-pulse-change" data-pulse-field="change">连接中</span>
+        </span>
+      </div>
+      <div class="market-pulse-item neutral" data-pulse-index="sz399001">
+        <span class="market-pulse-label">深证成指</span>
+        <span class="market-pulse-readout">
+          <strong class="market-pulse-value" data-pulse-field="price">—</strong>
+          <span class="market-pulse-change" data-pulse-field="change">连接中</span>
+        </span>
+      </div>
+      <div class="market-pulse-item volume neutral" id="market-pulse-turnover">
+        <span class="market-pulse-label">全市场同期量能</span>
+        <span class="market-pulse-readout">
+          <strong class="market-pulse-value" id="market-pulse-turnover-label">量能</strong>
+          <span class="market-pulse-change" id="market-pulse-turnover-delta">计算中</span>
+        </span>
+      </div>
+      <div class="market-pulse-actions">
+        <span class="market-pulse-status" id="market-pulse-status">正在连接行情</span>
+        <button class="market-details-toggle" id="market-details-toggle" type="button" aria-label="查看行情明细" aria-expanded="false" aria-controls="market-details">
+          <span class="market-details-toggle-long">查看详情</span>
+          <span class="market-details-toggle-short">详情</span>
+          <span class="market-details-chevron" aria-hidden="true">⌄</span>
+        </button>
+      </div>
+      <span class="sr-only" id="market-pulse-announcement" aria-live="polite" aria-atomic="true"></span>
+    </section>
 
-<div class="container">
-  <div id="content">
-    <div class="loading">加载中...</div>
-  </div>
-</div>
+    <section class="hero" aria-labelledby="page-title">
+      <div>
+        <p class="eyebrow">China Market Pulse</p>
+        <h1 id="page-title">今日市场，<br>一屏掌握。</h1>
+        <p class="hero-copy">聚焦沪深两市核心指数，并实时比较大 A 全市今日与上一交易日同期成交额。行情每 15 秒自动更新。</p>
+      </div>
+      <button class="refresh-button" id="refresh" type="button">
+        <span class="refresh-icon" aria-hidden="true">↻</span>
+        <span>刷新行情</span>
+      </button>
+    </section>
 
-<script>
-  var REFRESH_INTERVAL = 30000; // 30 秒
-  var timerId = null;
+    <div class="notice" id="notice" role="status"></div>
 
-  // 优先级转中文标签
-  function priorityLabel(p) {
-    if (p === 1) return "主源";
-    if (p === 100) return "备源";
-    if (p === 200) return "兜底";
-    return "优先级 " + p;
-  }
+    <section class="market-details" id="market-details" aria-labelledby="market-details-title" hidden>
+      <div class="market-details-header">
+        <h2 class="market-details-title" id="market-details-title" tabindex="-1">行情明细</h2>
+        <button class="market-details-close" id="market-details-close" type="button">收起详情</button>
+      </div>
 
-  // 按健康评分返回状态等级
-  function scoreLevel(score) {
-    if (score >= 80) return "healthy";
-    if (score >= 20) return "warning";
-    return "fault";
-  }
+      <section class="index-grid" aria-label="主要指数">
+      <article class="index-card" data-index="sh000001">
+        <div class="card-header">
+          <div>
+            <h2 class="market-name">上证指数</h2>
+            <p class="market-en">SHANGHAI COMPOSITE</p>
+          </div>
+          <span class="market-code">000001.SH</span>
+        </div>
+        <div class="quote">
+          <div class="price" data-field="price">—</div>
+          <div class="change" data-field="change"><span>—</span></div>
+        </div>
+        <div class="range-block">
+          <div class="range-title"><span>日内区间</span><strong data-field="range-status">等待行情</strong></div>
+          <div class="range-track" aria-hidden="true"><span class="range-marker" data-field="marker"></span></div>
+          <div class="range-labels"><span data-field="low">低 —</span><span data-field="high">高 —</span></div>
+        </div>
+        <div class="metrics">
+          <div><span class="metric-label">今开</span><span class="metric-value" data-field="open">—</span></div>
+          <div><span class="metric-label">昨收</span><span class="metric-value" data-field="previous-close">—</span></div>
+          <div><span class="metric-label">成交额</span><span class="metric-value" data-field="amount">—</span></div>
+        </div>
+      </article>
 
-  // 渲染顶部统计
-  function renderSummary(s) {
-    document.getElementById("stat-types").textContent = s.data_types;
-    document.getElementById("stat-sources").textContent = s.sources;
-    var healthyEl = document.getElementById("stat-healthy");
-    var ratio = s.sources > 0 ? Math.round(s.healthy_sources / s.sources * 100) : 0;
-    healthyEl.textContent = s.healthy_sources + "/" + s.sources + " (" + ratio + "%)";
-    healthyEl.className = "stat-value " + (ratio >= 80 ? "green" : (ratio < 50 ? "red" : ""));
-    document.getElementById("stat-tools").textContent = s.total_tools;
-  }
+      <article class="index-card" data-index="sz399001">
+        <div class="card-header">
+          <div>
+            <h2 class="market-name">深证成指</h2>
+            <p class="market-en">SHENZHEN COMPONENT</p>
+          </div>
+          <span class="market-code">399001.SZ</span>
+        </div>
+        <div class="quote">
+          <div class="price" data-field="price">—</div>
+          <div class="change" data-field="change"><span>—</span></div>
+        </div>
+        <div class="range-block">
+          <div class="range-title"><span>日内区间</span><strong data-field="range-status">等待行情</strong></div>
+          <div class="range-track" aria-hidden="true"><span class="range-marker" data-field="marker"></span></div>
+          <div class="range-labels"><span data-field="low">低 —</span><span data-field="high">高 —</span></div>
+        </div>
+        <div class="metrics">
+          <div><span class="metric-label">今开</span><span class="metric-value" data-field="open">—</span></div>
+          <div><span class="metric-label">昨收</span><span class="metric-value" data-field="previous-close">—</span></div>
+          <div><span class="metric-label">成交额</span><span class="metric-value" data-field="amount">—</span></div>
+        </div>
+      </article>
+      </section>
 
-  // 渲染版本信息条幅（始终展示）
-  function renderVersions(versions) {
-    var banner = document.getElementById("version-banner");
-    if (!versions || !versions.length) {
-      banner.classList.add("hidden");
-      return;
+      <section class="turnover-section" aria-labelledby="turnover-title">
+      <div class="section-heading">
+        <div>
+          <h2 id="turnover-title">大 A 全市同期成交额</h2>
+          <p>沪深两市全部 A 股合计，比较今日此时与上一交易日同一时刻的累计成交额。</p>
+        </div>
+        <span class="turnover-asof" id="turnover-asof">同期数据计算中</span>
+      </div>
+      <div class="turnover-layout">
+        <div class="turnover-primary">
+          <p class="turnover-kicker">今日此时 − 昨日此时</p>
+          <div class="turnover-delta" id="turnover-delta">—</div>
+          <p class="turnover-verdict" id="turnover-verdict">正在读取全市场同期成交额…</p>
+        </div>
+        <div class="turnover-values">
+          <div class="turnover-stat">
+            <span class="turnover-stat-label" id="today-turnover-label">今日此时成交额</span>
+            <span class="turnover-stat-value" id="today-turnover">—</span>
+          </div>
+          <div class="turnover-stat">
+            <span class="turnover-stat-label" id="previous-turnover-label">昨日此时成交额</span>
+            <span class="turnover-stat-value" id="previous-turnover">—</span>
+          </div>
+          <div class="turnover-formula">正数表示全市场同期放量，负数表示全市场同期缩量；仅使用成交额口径。</div>
+        </div>
+      </div>
+      </section>
+    </section>
+
+    <section class="sentiment-section" id="market-sentiment" aria-labelledby="sentiment-title">
+      <button class="sentiment-toggle" id="sentiment-toggle" type="button" aria-expanded="false" aria-controls="sentiment-details">
+        <span class="sentiment-heading">
+          <span class="sentiment-kicker">Market sentiment</span>
+          <span class="sentiment-title-row">
+            <span class="sentiment-title" id="sentiment-title">市场资金情绪</span>
+            <strong class="sentiment-emotion" id="sentiment-emotion" aria-live="polite">等待信号</strong>
+            <span class="sentiment-structure" id="sentiment-structure">结构计算中</span>
+          </span>
+        </span>
+        <span class="sentiment-toggle-side">
+          <span class="sentiment-stale" id="sentiment-stale" hidden>最近有效数据</span>
+          <span class="sentiment-chevron" aria-hidden="true">⌄</span>
+        </span>
+      </button>
+
+      <div class="sentiment-dynamic-line is-degraded" id="sentiment-dynamic-line" aria-live="polite">
+        <span class="sentiment-dynamic-window" id="sentiment-dynamic-window">动态</span>
+        <strong class="sentiment-dynamic-headline" id="sentiment-dynamic-headline">动态样本积累中</strong>
+      </div>
+
+      <div class="sentiment-overview" aria-label="资金情绪强弱概览">
+        <div class="sentiment-stat" data-summary="financial_core">
+          <span class="sentiment-stat-label">金融核心</span>
+          <strong class="sentiment-stat-value" id="sentiment-financial-core">—</strong>
+          <span class="sentiment-stat-direction direction-unknown" id="sentiment-financial-core-direction"><span class="sentiment-direction-icon">—</span><span class="sentiment-direction-text">趋势待积累</span></span>
+        </div>
+        <div class="sentiment-stat" data-summary="bank_support">
+          <span class="sentiment-stat-label">银行</span>
+          <strong class="sentiment-stat-value" id="sentiment-bank-support">—</strong>
+          <span class="sentiment-stat-direction direction-unknown" id="sentiment-bank-support-direction"><span class="sentiment-direction-icon">—</span><span class="sentiment-direction-text">趋势待积累</span></span>
+        </div>
+        <div class="sentiment-stat" data-summary="stable_defense">
+          <span class="sentiment-stat-label">稳态防御</span>
+          <strong class="sentiment-stat-value" id="sentiment-stable-defense">—</strong>
+          <span class="sentiment-stat-direction direction-unknown" id="sentiment-stable-defense-direction"><span class="sentiment-direction-icon">—</span><span class="sentiment-direction-text">趋势待积累</span></span>
+        </div>
+        <div class="sentiment-stat" data-summary="resource">
+          <span class="sentiment-stat-label">资源</span>
+          <strong class="sentiment-stat-value" id="sentiment-resource">—</strong>
+          <span class="sentiment-stat-direction direction-unknown" id="sentiment-resource-direction"><span class="sentiment-direction-icon">—</span><span class="sentiment-direction-text">趋势待积累</span></span>
+        </div>
+      </div>
+
+      <div class="sentiment-defense-focus" id="sentiment-defense-focus" aria-label="防御强势细分" hidden>
+        <span class="sentiment-defense-focus-label">防御强势细分</span>
+        <div class="sentiment-defense-focus-items" id="sentiment-defense-focus-items"></div>
+      </div>
+
+      <div class="sentiment-meta">
+        <span id="sentiment-coverage">数据覆盖 —</span>
+        <span class="sentiment-meta-status" id="sentiment-updated">情绪数据准备中</span>
+      </div>
+
+      <div class="sentiment-details" id="sentiment-details" hidden>
+        <div class="sentiment-reasons" id="sentiment-reasons"></div>
+        <div class="sentiment-groups" id="sentiment-groups">
+          <div class="sentiment-empty">板块明细准备中</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="offense-section core-offense-section is-empty" id="core-offense" aria-labelledby="core-offense-title" data-status="collecting">
+      <button class="offense-toggle" id="core-offense-toggle" type="button" aria-expanded="false" aria-controls="core-offense-details">
+        <span class="offense-heading">
+          <span class="offense-kicker">Core offense anchors</span>
+          <span class="offense-title-row">
+            <span class="offense-title" id="core-offense-title">常规进攻</span>
+            <span class="offense-headline" id="core-offense-headline" aria-live="polite">八组风险偏好锚准备中</span>
+          </span>
+        </span>
+        <span class="offense-toggle-side">
+          <span class="offense-alert" id="core-offense-alert" hidden>数据待确认</span>
+          <span class="offense-chevron" aria-hidden="true">⌄</span>
+        </span>
+      </button>
+
+      <div class="core-offense-overview" aria-label="常规进攻概览">
+        <div class="core-offense-stat" data-core-count="strong">
+          <span class="core-offense-stat-label">强势锚</span>
+          <strong class="core-offense-stat-value" id="core-offense-count-strong">—</strong>
+        </div>
+        <div class="core-offense-stat" data-core-count="strengthening">
+          <span class="core-offense-stat-label">近10分钟增强</span>
+          <strong class="core-offense-stat-value" id="core-offense-count-strengthening">—</strong>
+        </div>
+        <div class="core-offense-stat" data-core-count="weakening">
+          <span class="core-offense-stat-label">近10分钟转弱</span>
+          <strong class="core-offense-stat-value" id="core-offense-count-weakening">—</strong>
+        </div>
+        <div class="core-offense-focus">
+          <span class="core-offense-focus-label">重点方向</span>
+          <div class="core-offense-focus-list" id="core-offense-focus">八组锚数据待接入</div>
+        </div>
+      </div>
+
+      <div class="offense-meta" id="core-offense-meta">
+        <span id="core-offense-coverage">固定观察 8 组 · 数据待接入</span>
+        <span class="offense-meta-time" id="core-offense-as-of">时间待确认</span>
+      </div>
+
+      <div class="offense-details core-offense-details" id="core-offense-details" hidden>
+        <div class="core-offense-table-wrap">
+          <table class="core-offense-table">
+            <colgroup>
+              <col style="width: 17%">
+              <col style="width: 12%">
+              <col style="width: 13%">
+              <col style="width: 11%">
+              <col style="width: 13%">
+              <col style="width: 13%">
+              <col style="width: 21%">
+            </colgroup>
+            <thead>
+              <tr>
+                <th scope="col">方向</th>
+                <th scope="col">强度 / 证据</th>
+                <th scope="col">涨幅 / 分位</th>
+                <th scope="col">内部广度</th>
+                <th scope="col">资金位置</th>
+                <th scope="col">近10分钟</th>
+                <th scope="col">代表板块 / 领涨</th>
+              </tr>
+            </thead>
+            <tbody id="core-offense-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="offense-section is-empty" id="offense-radar" aria-labelledby="offense-title" data-status="collecting">
+      <button class="offense-toggle" id="offense-toggle" type="button" aria-expanded="false" aria-controls="offense-details" disabled>
+        <span class="offense-heading">
+          <span class="offense-kicker">Offense radar</span>
+          <span class="offense-title-row">
+            <span class="offense-title" id="offense-title">进攻雷达</span>
+            <span class="offense-headline" id="offense-headline" aria-live="polite">轮动样本积累中</span>
+          </span>
+        </span>
+        <span class="offense-toggle-side">
+          <span class="offense-alert" id="offense-alert" hidden>数据待确认</span>
+          <span class="offense-chevron" aria-hidden="true">⌄</span>
+        </span>
+      </button>
+
+      <div class="offense-overview" aria-label="进攻雷达概览">
+        <div class="offense-axis">
+          <span class="offense-axis-label">进攻强度</span>
+          <strong class="offense-axis-value" id="offense-strength">—</strong>
+        </div>
+        <div class="offense-axis">
+          <span class="offense-axis-label">市场结构</span>
+          <strong class="offense-axis-value" id="offense-structure">观察中</strong>
+        </div>
+        <div class="offense-axis">
+          <span class="offense-axis-label">近10分钟</span>
+          <strong class="offense-axis-value offense-direction direction-unknown" id="offense-direction"><span class="offense-direction-icon">—</span><span>待积累</span></strong>
+        </div>
+      </div>
+
+      <div class="offense-counts" aria-label="进攻方向数量">
+        <span class="offense-count" data-count="attacking">进攻中<strong id="offense-count-attacking">0</strong></span>
+        <span class="offense-count" data-count="rotating">新近增强<strong id="offense-count-rotating">0</strong></span>
+        <span class="offense-count" data-count="divergent">分歧<strong id="offense-count-divergent">0</strong></span>
+        <span class="offense-count" data-count="cooling">退潮<strong id="offense-count-cooling">0</strong></span>
+      </div>
+
+      <div class="offense-leaders" id="offense-leaders">
+        <span class="offense-leaders-label">当前领先</span>
+        <span>方向待确认</span>
+      </div>
+
+      <div class="offense-meta" id="offense-meta" hidden>
+        <span id="offense-coverage">覆盖情况待确认</span>
+        <span class="offense-meta-time" id="offense-as-of">时间待确认</span>
+      </div>
+
+      <div class="offense-details" id="offense-details" hidden>
+        <div class="offense-tabs" role="tablist" aria-label="进攻雷达分类">
+          <button class="offense-tab" id="offense-tab-attacking" type="button" role="tab" aria-selected="true" aria-controls="offense-panel-attacking" tabindex="0" data-offense-tab="attacking">正在进攻<span class="offense-tab-count" id="offense-tab-count-attacking">0</span></button>
+          <button class="offense-tab" id="offense-tab-rotating" type="button" role="tab" aria-selected="false" aria-controls="offense-panel-rotating" tabindex="-1" data-offense-tab="rotating">新近增强<span class="offense-tab-count" id="offense-tab-count-rotating">0</span></button>
+          <button class="offense-tab" id="offense-tab-cooling" type="button" role="tab" aria-selected="false" aria-controls="offense-panel-cooling" tabindex="-1" data-offense-tab="cooling">分歧与退潮<span class="offense-tab-count" id="offense-tab-count-cooling">0</span></button>
+          <button class="offense-tab" id="offense-tab-unclassified" type="button" role="tab" aria-selected="false" aria-controls="offense-panel-unclassified" tabindex="-1" data-offense-tab="unclassified">待归类<span class="offense-tab-count" id="offense-tab-count-unclassified">0</span></button>
+        </div>
+
+        <div class="offense-panel" id="offense-panel-attacking" role="tabpanel" aria-labelledby="offense-tab-attacking" data-offense-panel="attacking">
+          <div class="offense-list" id="offense-list-attacking"></div>
+        </div>
+        <div class="offense-panel" id="offense-panel-rotating" role="tabpanel" aria-labelledby="offense-tab-rotating" data-offense-panel="rotating" hidden>
+          <div class="offense-list" id="offense-list-rotating"></div>
+        </div>
+        <div class="offense-panel" id="offense-panel-cooling" role="tabpanel" aria-labelledby="offense-tab-cooling" data-offense-panel="cooling" hidden>
+          <div class="offense-list" id="offense-list-cooling"></div>
+        </div>
+        <div class="offense-panel" id="offense-panel-unclassified" role="tabpanel" aria-labelledby="offense-tab-unclassified" data-offense-panel="unclassified" hidden>
+          <div class="offense-list" id="offense-list-unclassified"></div>
+        </div>
+
+        <details class="offense-events" id="offense-events">
+          <summary>状态变化 <span id="offense-event-count">0</span></summary>
+          <ol class="offense-event-list" id="offense-event-list"></ol>
+        </details>
+      </div>
+    </section>
+
+    <section class="market-summary" aria-label="指数表现对比">
+      <article class="summary-card">
+        <p class="summary-kicker">Index performance</p>
+        <h2 class="summary-title" id="summary-title">等待行情</h2>
+        <p class="summary-text" id="summary-text">连接数据源后，这里会快速概括沪深两市的同步或分化表现。</p>
+      </article>
+      <article class="summary-card comparison" id="comparison">
+        <div class="comparison-row" data-compare="sh000001">
+          <span class="comparison-label">上证</span>
+          <span class="comparison-track"><span class="comparison-fill"></span></span>
+          <span class="comparison-value">—</span>
+        </div>
+        <div class="comparison-row" data-compare="sz399001">
+          <span class="comparison-label">深证</span>
+          <span class="comparison-track"><span class="comparison-fill"></span></span>
+          <span class="comparison-value">—</span>
+        </div>
+      </article>
+    </section>
+
+    <footer class="footer">
+      <span id="data-meta">行情数据准备中</span>
+      <span>数据仅供参考，不构成投资建议</span>
+    </footer>
+  </main>
+
+  <script>
+    const REFRESH_MS = 15000;
+    const SENTIMENT_REFRESH_MS = 60000;
+    const cards = new Map(
+      Array.from(document.querySelectorAll("[data-index]")).map((card) => [card.dataset.index, card])
+    );
+    const pulseIndexItems = new Map(
+      Array.from(document.querySelectorAll("[data-pulse-index]")).map((item) => [item.dataset.pulseIndex, item])
+    );
+    let latestIndices = [];
+    let latestRiskAppetite = null;
+    let marketRequestInFlight = false;
+    let hasSuccessfulMarketPayload = false;
+    let riskRequestInFlight = false;
+
+    function isNumber(value) {
+      return typeof value === "number" && Number.isFinite(value);
     }
-    var items = [];
-    var hasUpdate = false;
-    var hasError = false;
-    for (var i = 0; i < versions.length; i++) {
-      var v = versions[i];
-      if (v.error) {
-        hasError = true;
-        items.push(
-          '<div class="version-item">' +
-          '<strong>' + v.name + '</strong>' +
-          '<span class="version-tag error">检查失败</span>' +
-          '<span>' + v.error + '</span>' +
-          '</div>'
-        );
-      } else if (v.has_update) {
-        hasUpdate = true;
-        items.push(
-          '<div class="version-item">' +
-          '<strong>' + v.name + '</strong>' +
-          '<span class="version-tag update">有新版</span>' +
-          '当前 ' + v.current + ' → 最新 <strong>' + v.latest + '</strong>' +
-          '<a href="' + v.url + '" target="_blank">升级</a>' +
-          '</div>'
-        );
-      } else {
-        items.push(
-          '<div class="version-item">' +
-          '<strong>' + v.name + '</strong>' +
-          '<span class="version-tag latest">最新</span>' +
-          'v' + v.current +
-          '<a href="' + v.url + '" target="_blank">查看</a>' +
-          '</div>'
-        );
-      }
-    }
-    banner.innerHTML = items.join("");
-    banner.classList.remove("hidden", "has-update", "has-error");
-    if (hasUpdate) banner.classList.add("has-update");
-    else if (hasError) banner.classList.add("has-error");
-  }
 
-  // 渲染单张卡片
-  function renderCard(src) {
-    var h = src.health || {};
-    var score = h.score != null ? h.score : 0;
-    var level = scoreLevel(score);
-    var latency = h.avg_latency_ms || 0;
-    var successRate = h.success_rate != null ? h.success_rate : 100;
-    var totalCalls = h.total_calls || 0;
-    var consecFails = h.consecutive_fails || 0;
+    function formatPoint(value) {
+      return isNumber(value) ? value.toLocaleString("zh-CN", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : "—";
+    }
 
-    var html = '<div class="card ' + level + '">';
-    // 卡片头部：源名 + 徽章
-    html += '<div class="card-head">';
-    html += '<div><div class="card-name">' + src.source_name + '</div>';
-    html += '<div class="card-meta">' + src.data_type + '</div></div>';
-    html += '<div>';
-    if (src.exclusive) {
-      html += '<span class="badge exclusive">独占源</span> ';
+    function formatSigned(value) {
+      if (!isNumber(value)) return "—";
+      const sign = value > 0 ? "+" : "";
+      return sign + value.toFixed(2);
     }
-    html += '<span class="badge priority">' + priorityLabel(src.priority) + '</span>';
-    html += '</div></div>';
-    // 健康评分
-    html += '<div class="card-score">';
-    html += '<span class="score-num ' + level + '">' + score + '</span>';
-    html += '<span class="score-label">健康评分</span>';
-    html += '</div>';
-    // 统计指标
-    html += '<div class="card-stats">';
-    html += '<span class="label">平均延迟</span><span class="value">' + latency + ' ms</span>';
-    html += '<span class="label">成功率</span><span class="value">' + successRate + '%</span>';
-    html += '<span class="label">总调用</span><span class="value">' + totalCalls + '</span>';
-    html += '<span class="label">连续失败</span><span class="value">' + consecFails + '</span>';
-    html += '</div>';
-    // 独占源提示
-    if (src.exclusive) {
-      html += '<div class="exclusive-note">无备用，故障即不可用</div>';
-    }
-    html += '</div>';
-    return html;
-  }
 
-  // 按 data_type 分组渲染卡片
-  function renderSources(sources) {
-    if (!sources || !sources.length) {
-      return '<div class="loading">暂无已注册数据源</div>';
+    function formatAmount(value) {
+      if (!isNumber(value)) return "—";
+      if (value >= 1e12) return (value / 1e12).toFixed(2) + " 万亿";
+      if (value >= 1e8) return (value / 1e8).toFixed(0) + " 亿";
+      return (value / 1e4).toFixed(0) + " 万";
     }
-    // 分组
-    var groups = {};
-    var groupOrder = [];
-    for (var i = 0; i < sources.length; i++) {
-      var dt = sources[i].data_type;
-      if (!groups[dt]) {
-        groups[dt] = [];
-        groupOrder.push(dt);
-      }
-      groups[dt].push(sources[i]);
-    }
-    var html = "";
-    for (var g = 0; g < groupOrder.length; g++) {
-      var dt = groupOrder[g];
-      var items = groups[dt];
-      html += '<div class="type-group">';
-      html += '<h2>' + dt + ' <span class="type-count">(' + items.length + ' 源)</span></h2>';
-      html += '<div class="card-grid">';
-      for (var j = 0; j < items.length; j++) {
-        html += renderCard(items[j]);
-      }
-      html += '</div></div>';
-    }
-    return html;
-  }
 
-  // 渲染整个看板
-  function render(data) {
-    if (data.error) {
-      document.getElementById("content").innerHTML =
-        '<div class="error-msg">加载失败: ' + data.error + '</div>';
-      return;
+    function formatTurnover(value, signed = false) {
+      if (!isNumber(value)) return "—";
+      const prefix = signed && value > 0 ? "+" : value < 0 ? "−" : "";
+      const absolute = Math.abs(value);
+      if (absolute >= 1e12) return prefix + (absolute / 1e12).toFixed(2) + " 万亿";
+      return prefix + (absolute / 1e8).toFixed(2) + " 亿";
     }
-    renderSummary(data.summary || {});
-    renderVersions(data.versions || []);
-    document.getElementById("content").innerHTML = renderSources(data.sources || []);
-    document.getElementById("stat-time").textContent = data.timestamp || "-";
-  }
 
-  // 拉取看板数据
-  function fetchDashboard() {
-    var btn = document.getElementById("refresh-btn");
-    btn.disabled = true;
-    btn.textContent = "刷新中...";
-    fetch("/api/dashboard", { cache: "no-store" })
-      .then(function(resp) { return resp.json(); })
-      .then(function(data) { render(data); })
-      .catch(function(err) {
-        document.getElementById("content").innerHTML =
-          '<div class="error-msg">请求失败: ' + err.message + '</div>';
-      })
-      .finally(function() {
-        btn.disabled = false;
-        btn.textContent = "立即刷新";
+    function tone(value) {
+      if (!isNumber(value) || value === 0) return "neutral";
+      return value > 0 ? "positive" : "negative";
+    }
+
+    function indexAvailable(index) {
+      return index?.available !== false && isNumber(index?.price);
+    }
+
+    function turnoverDirection(turnover) {
+      return ["expand", "shrink", "flat"].includes(turnover?.direction)
+        ? turnover.direction
+        : "neutral";
+    }
+
+    function renderPulseIndex(index) {
+      const item = pulseIndexItems.get(index.code);
+      if (!item) return;
+      const price = item.querySelector('[data-pulse-field="price"]');
+      const change = item.querySelector('[data-pulse-field="change"]');
+      const available = indexAvailable(index);
+      const direction = available ? tone(index.change_pct) : "neutral";
+      const arrow = direction === "positive" ? "↑" : direction === "negative" ? "↓" : "•";
+
+      item.className = "market-pulse-item " + direction;
+      price.textContent = available ? formatPoint(index.price) : "—";
+      change.textContent = available && isNumber(index.change_pct)
+        ? `${arrow} ${formatSigned(index.change_pct)}%`
+        : available ? "涨跌幅暂缺" : "暂不可用";
+    }
+
+    function extractMarketTime(value) {
+      const text = String(value || "").trim();
+      if (/^\d{14}$/.test(text)) return text.slice(8, 10) + ":" + text.slice(10, 12);
+      const dateTime = text.match(/[T\s](\d{2}:\d{2})(?::\d{2})?/);
+      if (dateTime) return dateTime[1];
+      const clockTime = text.match(/^(\d{2}:\d{2})(?::\d{2})?/);
+      return clockTime ? clockTime[1] : "";
+    }
+
+    function marketPulseStatus(data) {
+      const providerTime = extractMarketTime(data.provider_as_of);
+      if (providerTime) return "行情 " + providerTime;
+      if (data.market_turnover?.as_of) return "量能 " + data.market_turnover.as_of;
+      const updatedTime = extractMarketTime(data.timestamp);
+      return updatedTime ? "更新 " + updatedTime : "行情已连接";
+    }
+
+    function setMarketPulseStatus(text, isAlert = false) {
+      const status = document.getElementById("market-pulse-status");
+      status.className = "market-pulse-status" + (isAlert ? " is-alert" : "");
+      status.textContent = text;
+    }
+
+    function announceMarketPulse(message) {
+      const announcement = document.getElementById("market-pulse-announcement");
+      announcement.textContent = "";
+      window.requestAnimationFrame(() => { announcement.textContent = message; });
+    }
+
+    function renderMarketPulse(data) {
+      const indices = Array.isArray(data.indices) ? data.indices : [];
+      let availableCount = 0;
+      ["sh000001", "sz399001"].forEach((code) => {
+        const index = indices.find((item) => item.code === code) || { code, available: false };
+        if (indexAvailable(index)) availableCount += 1;
+        renderPulseIndex(index);
       });
-  }
 
-  // 手动刷新
-  function manualRefresh() {
-    fetchDashboard();
-  }
+      const turnover = data.market_turnover || {};
+      const turnoverItem = document.getElementById("market-pulse-turnover");
+      const turnoverLabel = document.getElementById("market-pulse-turnover-label");
+      const turnoverDelta = document.getElementById("market-pulse-turnover-delta");
+      const turnoverAvailable = turnover.available && isNumber(turnover.difference);
+      const direction = turnoverAvailable ? turnoverDirection(turnover) : "neutral";
+      turnoverItem.className = "market-pulse-item volume " + direction;
+      if (turnoverAvailable) {
+        availableCount += 1;
+        turnoverLabel.textContent = turnover.label || { expand: "放量", shrink: "缩量", flat: "持平" }[direction] || "量能";
+        turnoverDelta.textContent = formatTurnover(turnover.difference, true);
+        turnoverItem.title = turnover.as_of ? `同期时点 ${turnover.as_of}` : "";
+      } else {
+        turnoverLabel.textContent = "量能";
+        turnoverDelta.textContent = "暂不可用";
+        turnoverItem.title = turnover.reason || "全市场同期成交额暂不可用";
+      }
 
-  // 启动自动刷新
-  function startAutoRefresh() {
-    if (timerId) clearInterval(timerId);
-    timerId = setInterval(fetchDashboard, REFRESH_INTERVAL);
-  }
+      const pulse = document.getElementById("market-pulse");
+      const previousConnection = pulse.dataset.connection || "loading";
+      const freshStatus = marketPulseStatus(data);
+      const connection = availableCount === 3 ? "fresh" : availableCount > 0 ? "partial" : "unavailable";
+      pulse.dataset.connection = connection;
+      if (availableCount > 0) pulse.dataset.freshStatus = freshStatus;
+      pulse.setAttribute("aria-busy", "false");
+      if (connection === "fresh") {
+        setMarketPulseStatus(freshStatus);
+        if (["delayed", "partial", "unavailable"].includes(previousConnection)) {
+          announceMarketPulse("行情更新已恢复");
+        }
+      } else if (connection === "partial") {
+        setMarketPulseStatus(freshStatus + " · 部分数据", true);
+      } else {
+        setMarketPulseStatus("行情暂不可用", true);
+      }
+      return availableCount;
+    }
 
-  // 页面加载后首次拉取 + 启动定时刷新
-  fetchDashboard();
-  startAutoRefresh();
-</script>
+    function markMarketPulseFailure() {
+      const pulse = document.getElementById("market-pulse");
+      pulse.setAttribute("aria-busy", "false");
+      if (hasSuccessfulMarketPayload) {
+        pulse.dataset.connection = "delayed";
+        const lastTime = (pulse.dataset.freshStatus || "").match(/\d{2}:\d{2}/)?.[0];
+        setMarketPulseStatus(lastTime ? "最近有效 " + lastTime : "最近有效数据", true);
+        return;
+      }
 
+      pulse.dataset.connection = "unavailable";
+      ["sh000001", "sz399001"].forEach((code) => renderPulseIndex({ code, available: false }));
+      const turnoverItem = document.getElementById("market-pulse-turnover");
+      turnoverItem.className = "market-pulse-item volume neutral";
+      document.getElementById("market-pulse-turnover-label").textContent = "量能";
+      document.getElementById("market-pulse-turnover-delta").textContent = "暂不可用";
+      setMarketPulseStatus("行情暂不可用", true);
+    }
+
+    function renderCard(index) {
+      const card = cards.get(index.code);
+      if (!card) return;
+      const get = (name) => card.querySelector(`[data-field="${name}"]`);
+      const available = indexAvailable(index);
+
+      get("price").textContent = available ? formatPoint(index.price) : "—";
+      const change = get("change");
+      const direction = available ? tone(index.change_pct) : "neutral";
+      const arrow = direction === "positive" ? "↑" : direction === "negative" ? "↓" : "•";
+      change.className = "change " + direction;
+      change.textContent = available
+        ? `${arrow} ${formatSigned(index.change)} / ${formatSigned(index.change_pct)}%`
+        : "暂不可用";
+
+      get("open").textContent = formatPoint(index.open);
+      get("previous-close").textContent = formatPoint(index.previous_close);
+      get("amount").textContent = formatAmount(index.amount);
+      get("low").textContent = "低 " + formatPoint(index.low);
+      get("high").textContent = "高 " + formatPoint(index.high);
+
+      const hasRange = isNumber(index.low) && isNumber(index.high) && index.high > index.low && isNumber(index.price);
+      const position = hasRange ? Math.max(3, Math.min(97, ((index.price - index.low) / (index.high - index.low)) * 100)) : 50;
+      get("marker").style.left = position + "%";
+      get("range-status").textContent = available
+        ? hasRange ? "位于日内 " + Math.round(position) + "%" : "区间数据暂缺"
+        : "行情暂不可用";
+    }
+
+    function renderComparison(indices) {
+      document.querySelectorAll("[data-compare]").forEach((row) => {
+        const fill = row.querySelector(".comparison-fill");
+        fill.className = "comparison-fill";
+        fill.style.width = "0";
+        const value = row.querySelector(".comparison-value");
+        value.className = "comparison-value";
+        value.textContent = "—";
+      });
+      const valid = indices.filter((item) => indexAvailable(item) && isNumber(item.change_pct));
+      const maxMove = Math.max(0.2, ...valid.map((item) => Math.abs(item.change_pct)));
+
+      valid.forEach((item) => {
+        const row = document.querySelector(`[data-compare="${item.code}"]`);
+        if (!row) return;
+        const fill = row.querySelector(".comparison-fill");
+        const direction = tone(item.change_pct);
+        fill.className = "comparison-fill " + direction;
+        fill.style.width = Math.max(3, Math.abs(item.change_pct) / maxMove * 100) + "%";
+        const value = row.querySelector(".comparison-value");
+        value.className = "comparison-value " + direction;
+        value.textContent = formatSigned(item.change_pct) + "%";
+      });
+
+      const sh = indices.find((item) => item.code === "sh000001");
+      const sz = indices.find((item) => item.code === "sz399001");
+      if (!indexAvailable(sh) || !indexAvailable(sz) || !isNumber(sh.change_pct) || !isNumber(sz.change_pct)) {
+        document.getElementById("summary-title").textContent = "指数数据暂不完整";
+        document.getElementById("summary-text").textContent = "保留当前可用行情，等待下一次数据更新。";
+        return;
+      }
+
+      const sameDirection = Math.sign(sh.change_pct) === Math.sign(sz.change_pct);
+      const title = document.getElementById("summary-title");
+      const text = document.getElementById("summary-text");
+      const leader = Math.abs(sh.change_pct) >= Math.abs(sz.change_pct) ? sh : sz;
+      const leaderName = leader.code === "sh000001" ? "上证" : "深证";
+
+      if (sameDirection && sh.change_pct > 0) {
+        title.textContent = "沪深同步走强";
+        text.textContent = `${leaderName}涨幅相对领先，当前双市指数方向一致。`;
+      } else if (sameDirection && sh.change_pct < 0) {
+        title.textContent = "沪深同步承压";
+        text.textContent = `${leaderName}跌幅相对较大，当前双市指数方向一致。`;
+      } else if (sh.change_pct === 0 && sz.change_pct === 0) {
+        title.textContent = "双市窄幅整理";
+        text.textContent = "两大指数当前接近平盘，市场方向仍在选择中。";
+      } else {
+        title.textContent = "沪深走势分化";
+        text.textContent = `上证 ${formatSigned(sh.change_pct)}%，深证 ${formatSigned(sz.change_pct)}%，两市表现存在分化。`;
+      }
+    }
+
+    function sentimentTone(value) {
+      const key = String(value || "").toLowerCase().replaceAll("-", "_");
+      if (["positive", "risk_on", "attack", "strong", "hot"].includes(key)) return "positive";
+      if (["negative", "risk_off", "defensive", "weak", "cool"].includes(key)) return "negative";
+      if (["warning", "resource", "rotation", "support", "mixed"].includes(key)) return "warning";
+      return "neutral";
+    }
+
+    function normaliseState(value) {
+      const raw = typeof value === "object" && value !== null
+        ? value.state ?? value.level ?? value.key ?? value.label ?? value.score
+        : value;
+      if (isNumber(raw)) return raw >= 25 ? "strong" : raw <= -25 ? "weak" : "medium";
+      const key = String(raw || "").toLowerCase();
+      if (["strong", "high", "强", "偏强"].includes(key)) return "strong";
+      if (["weak", "low", "弱", "偏弱"].includes(key)) return "weak";
+      if (["medium", "mid", "neutral", "中", "中性"].includes(key)) return "medium";
+      return "unknown";
+    }
+
+    function stateLabel(value) {
+      if (typeof value === "object" && value !== null && value.label) return String(value.label);
+      const state = normaliseState(value);
+      return { strong: "强", medium: "中", weak: "弱", unknown: "—" }[state];
+    }
+
+    function objectLabel(value, fallback) {
+      if (typeof value === "string" && value.trim()) return value;
+      if (value && typeof value === "object") return String(value.label || value.name || fallback);
+      return fallback;
+    }
+
+    function percentileValue(value) {
+      if (!isNumber(value)) return null;
+      return Math.abs(value) <= 1 ? value * 100 : value;
+    }
+
+    function formatBreadth(value) {
+      if (!isNumber(value)) return "—";
+      const percentage = Math.abs(value) <= 1 ? value * 100 : value;
+      return percentage.toFixed(0) + "%";
+    }
+
+    function breadthTone(value) {
+      if (!isNumber(value)) return "neutral";
+      const percentage = Math.abs(value) <= 1 ? value * 100 : value;
+      if (percentage >= 55) return "positive";
+      if (percentage <= 45) return "negative";
+      return "neutral";
+    }
+
+    function formatFlow(value) {
+      const percentage = isNumber(value) ? value : null;
+      return percentage === null ? "—" : formatSigned(percentage) + "%";
+    }
+
+    function formatPercentile(value) {
+      const percentage = percentileValue(value);
+      if (percentage === null) return "—";
+      return "强于 " + Math.max(0, Math.min(100, Math.round(percentage))) + "%";
+    }
+
+    function setTone(element, value, baseClass) {
+      element.className = baseClass + " tone-" + sentimentTone(value);
+    }
+
+    const DYNAMIC_STATUS_LABELS = {
+      collecting: "动态样本积累中",
+      paused: "动态观察已暂停",
+      stale: "动态数据延迟",
+      reset: "动态历史重新积累中",
+      closed: "今日收盘，动态已定格",
+      unknown: "动态数据暂缺",
+    };
+
+    const DYNAMIC_STATUS_SHORT_LABELS = {
+      collecting: "趋势待积累",
+      paused: "动态暂停",
+      stale: "数据延迟",
+      reset: "重新积累",
+      closed: "收盘定格",
+      unknown: "趋势暂缺",
+    };
+
+    function normaliseDynamicStatus(dynamics) {
+      const status = String(dynamics?.status || "unknown").toLowerCase();
+      return ["ready", "active", "collecting", "paused", "stale", "reset", "closed"].includes(status)
+        ? status
+        : "unknown";
+    }
+
+    function dynamicStatusReady(status) {
+      return status === "ready" || status === "active";
+    }
+
+    function shortSampleTime(value) {
+      if (!value) return "";
+      const text = String(value).replace("T", " ");
+      return text.length >= 16 ? text.slice(11, 16) : text;
+    }
+
+    function renderDynamics(dynamics) {
+      const status = normaliseDynamicStatus(dynamics);
+      const ready = dynamicStatusReady(status);
+      const line = document.getElementById("sentiment-dynamic-line");
+      const windowLabel = document.getElementById("sentiment-dynamic-window");
+      const headline = document.getElementById("sentiment-dynamic-headline");
+      line.className = "sentiment-dynamic-line" + (ready ? "" : " is-degraded") + (status === "stale" ? " is-stale" : "");
+
+      const sampledAt = shortSampleTime(dynamics?.sampled_at);
+      const windowMinutes = Number(dynamics?.window_minutes);
+      if (ready && Number.isFinite(windowMinutes) && windowMinutes > 0) {
+        windowLabel.textContent = `近 ${windowMinutes} 分钟` + (sampledAt ? ` · ${sampledAt}` : "");
+      } else {
+        windowLabel.textContent = sampledAt ? `截至 ${sampledAt}` : "动态";
+      }
+
+      const fallback = DYNAMIC_STATUS_LABELS[status] || DYNAMIC_STATUS_LABELS.unknown;
+      headline.textContent = ready ? String(dynamics?.headline || "动态结论暂缺") : String(dynamics?.status_label || fallback);
+      line.title = dynamics?.detail ? String(dynamics.detail) : "";
+      return status;
+    }
+
+    function normaliseDirection(value) {
+      const direction = String(value || "unknown").toLowerCase();
+      return ["strengthening", "weakening", "flat"].includes(direction) ? direction : "unknown";
+    }
+
+    function directionView(axis, dynamicStatus) {
+      if (!dynamicStatusReady(dynamicStatus)) {
+        return {
+          direction: "unknown",
+          icon: "—",
+          label: DYNAMIC_STATUS_SHORT_LABELS[dynamicStatus] || DYNAMIC_STATUS_SHORT_LABELS.unknown,
+        };
+      }
+
+      const direction = normaliseDirection(axis?.direction);
+      return {
+        strengthening: { direction, icon: "↑", label: "相对增强" },
+        weakening: { direction, icon: "↓", label: "相对转弱" },
+        flat: { direction, icon: "→", label: "相对持平" },
+        unknown: { direction: "unknown", icon: "—", label: "趋势待积累" },
+      }[direction];
+    }
+
+    function renderDirection(target, axis, dynamicStatus) {
+      const view = directionView(axis, dynamicStatus);
+      target.className = "sentiment-stat-direction direction-" + view.direction;
+      target.replaceChildren(
+        createText("span", "sentiment-direction-icon", view.icon),
+        createText("span", "sentiment-direction-text", view.label),
+      );
+    }
+
+    function renderDefenseFocus(value) {
+      const section = document.getElementById("sentiment-defense-focus");
+      const container = document.getElementById("sentiment-defense-focus-items");
+      if (!value || typeof value !== "object" || !Array.isArray(value.items)) {
+        section.hidden = true;
+        container.replaceChildren();
+        return;
+      }
+
+      const status = String(value.status || "ready").toLowerCase();
+      const items = value.items.filter((item) => item && typeof item === "object").slice(0, 3);
+      section.hidden = false;
+      section.className = "sentiment-defense-focus" + (status === "stale" ? " is-stale" : "");
+      container.replaceChildren();
+
+      items.forEach((item) => {
+        const currentState = item.state;
+        const chip = document.createElement("span");
+        chip.className = "sentiment-defense-focus-item state-" + normaliseState(currentState);
+        chip.append(
+          createText("span", "sentiment-defense-focus-name", String(item.label || item.key || "未命名板块")),
+          createText("strong", "sentiment-state state-" + normaliseState(currentState), stateLabel(currentState)),
+        );
+        const context = [item.basis, item.matched_name && item.matched_name !== item.label ? `行情代理：${item.matched_name}` : ""]
+          .filter(Boolean)
+          .join(" · ");
+        if (context) chip.title = context;
+        container.append(chip);
+      });
+
+      if (!items.length) {
+        container.append(createText(
+          "span",
+          "sentiment-defense-focus-empty",
+          String(value.status_label || (status === "empty" ? "暂无强势防御细分" : "防御细分数据暂不可用")),
+        ));
+      }
+      const truncated = Number(value.truncated_count);
+      if (Number.isFinite(truncated) && truncated > 0) {
+        container.append(createText("span", "sentiment-defense-focus-more", `另有 ${Math.round(truncated)} 项`));
+      }
+    }
+
+    function trendPointLabel(point) {
+      if (point && typeof point === "object" && point.label) return String(point.label);
+      const value = point && typeof point === "object" ? point.state : point;
+      const normalised = normaliseState(value);
+      return normalised === "unknown" ? "" : stateLabel(value);
+    }
+
+    function shortTrendPath(trend) {
+      if (!Array.isArray(trend?.path)) return "";
+      const labels = trend.path.map(trendPointLabel).filter(Boolean);
+      if (labels.length < 2) return "";
+      const visible = labels.slice(-3);
+      return (labels.length > visible.length ? "…→" : "") + visible.join("→");
+    }
+
+    function renderItemState(item, dynamicStatus) {
+      const trend = item?.trend && typeof item.trend === "object" ? item.trend : {};
+      const currentState = item?.state ?? trend.current_state ?? trend.confirmed_state;
+      const wrapper = document.createElement("div");
+      wrapper.className = "sentiment-item-state";
+      wrapper.append(createText("span", "sentiment-state state-" + normaliseState(currentState), stateLabel(currentState)));
+
+      const view = directionView(trend, dynamicStatus);
+      const direction = document.createElement("span");
+      direction.className = "sentiment-item-trend direction-" + view.direction;
+      direction.append(
+        createText("span", "sentiment-direction-icon", view.icon),
+        createText("span", "sentiment-direction-text", view.label),
+      );
+      wrapper.append(direction);
+
+      if (dynamicStatusReady(dynamicStatus)) {
+        const path = shortTrendPath(trend);
+        if (path) wrapper.append(createText("span", "sentiment-item-path", "相对 " + path));
+        const pending = trendPointLabel(trend.pending_state);
+        if (pending && normaliseState(trend.pending_state) !== normaliseState(currentState)) {
+          wrapper.append(createText("span", "sentiment-item-pending", "待确认 " + pending));
+        }
+      }
+
+      const coreState = item?.core_state;
+      const leadershipVote = item?.evidence && typeof item.evidence === "object"
+        ? item.evidence.leadership
+        : null;
+      const evidenceParts = [];
+      if (normaliseState(coreState) !== "unknown") evidenceParts.push("板块三项 " + stateLabel(coreState));
+      if (normaliseState(leadershipVote) !== "unknown") evidenceParts.push("梯队 " + stateLabel(leadershipVote));
+      if (evidenceParts.length) {
+        wrapper.append(createText("span", "sentiment-item-core", evidenceParts.join(" · ")));
+      }
+      return wrapper;
+    }
+
+    function renderSummaryState(key, value) {
+      const stat = document.querySelector(`[data-summary="${key}"]`);
+      if (!stat) return;
+      stat.classList.remove("state-strong", "state-medium", "state-weak", "state-unknown");
+      stat.classList.add("state-" + normaliseState(value));
+      const target = stat.querySelector(".sentiment-stat-value");
+      target.textContent = stateLabel(value);
+    }
+
+    function createText(tag, className, value) {
+      const element = document.createElement(tag);
+      if (className) element.className = className;
+      element.textContent = value;
+      return element;
+    }
+
+    function appendEvidence(container, prefix, value) {
+      if (!value) return;
+      const line = document.createElement("span");
+      line.className = "sentiment-representative-line";
+      line.append(createText("strong", "", prefix + " "));
+      line.append(document.createTextNode(value));
+      container.append(line);
+    }
+
+    function quoteLabel(quote) {
+      if (!quote || typeof quote !== "object") return "";
+      const name = quote.name || quote.label || quote.code || "";
+      const code = quote.code && quote.code !== name ? ` (${quote.code})` : "";
+      const change = isNumber(quote.change_pct) ? ` ${formatSigned(quote.change_pct)}%` : "";
+      return String(name) + code + change;
+    }
+
+    function normaliseLeadershipPool(value) {
+      const pool = value && typeof value === "object" ? value : null;
+      const rawStatus = pool?.status;
+      const status = rawStatus && typeof rawStatus === "object" ? rawStatus : {};
+      const namedStatus = typeof rawStatus === "string" ? rawStatus.toLowerCase() : "";
+      const hasStatus = Boolean(namedStatus)
+        || (rawStatus && typeof rawStatus === "object" && Object.keys(rawStatus).length > 0);
+      const stale = namedStatus === "stale" || Boolean(status.stale);
+      const unavailable = !pool
+        || !hasStatus
+        || ["unavailable", "error", "invalid"].includes(namedStatus)
+        || status.source_valid === false
+        || Boolean(status.expired)
+        || Boolean(status.error && !stale);
+      const numericTotal = pool && pool.pool_total !== null && pool.pool_total !== ""
+        ? Number(pool.pool_total)
+        : null;
+      const validEmpty = namedStatus === "empty"
+        || Boolean(status.valid_empty)
+        || (status.source_valid === true && Number.isFinite(numericTotal) && numericTotal === 0);
+
+      if (unavailable) return { key: "unavailable", label: "数据暂不可用", warning: true };
+      if (stale) return { key: "stale", label: "数据延迟，未参与判断", warning: true };
+      if (status.eligible_for_vote === false) {
+        if (status.reason === "trade_status_not_eligible") {
+          return { key: "unavailable", label: "盘前或休市，未参与判断", warning: true };
+        }
+        return { key: "unavailable", label: "数据未通过有效性校验", warning: true };
+      }
+      if (validEmpty) return { key: "empty", label: "当日有效空池", warning: false };
+      if (status.attribution_degraded) {
+        return { key: "ready", label: "原因归因参与；行业归属降级", warning: true };
+      }
+      return { key: "ready", label: "原因 + 股票行业归属参与判断", warning: false };
+    }
+
+    function leadershipCount(value) {
+      if (value === null || value === "") return null;
+      const number = Number(value);
+      return Number.isFinite(number) && number >= 0 ? Math.round(number) : null;
+    }
+
+    function leadershipSummary(leadership, poolView) {
+      if (poolView.key === "unavailable") return "短线梯队暂不可用";
+      if (poolView.key === "empty") return "短线梯队当日有效空池";
+
+      const count = leadershipCount(leadership?.matched_count) ?? 0;
+      const maxBoard = leadershipCount(leadership?.max_board_count);
+      const rank = leadershipCount(leadership?.leadership_rank);
+      const rankTotal = leadershipCount(leadership?.leadership_rank_total) || 11;
+      const parts = [`短线梯队 ${count}只`];
+      if (count > 0 && maxBoard > 0) parts.push(`最高${maxBoard}板`);
+      if (count > 0 && rank > 0) parts.push(`${rankTotal}板块第${rank}`);
+      if (leadership?.vote_enabled === false && poolView.key === "ready") parts.push("未参与判断");
+      const summary = parts.join(" / ");
+      return poolView.key === "stale" ? "最近缓存 · " + summary : summary;
+    }
+
+    function leaderAttributionPaths(leader, sectorKey) {
+      const values = Array.isArray(leader?.attributions) ? leader.attributions : [];
+      const sameSector = values.filter((item) => item && item.sector_key === sectorKey);
+      return Array.from(new Set(sameSector.map((item) => {
+        if (!item || typeof item !== "object") return "";
+        const tag = item.matched_tag || item.canonical_tag || "";
+        const node = item.chain_node || "";
+        return tag && node ? `${tag} → ${node}` : tag || node;
+      }).filter(Boolean)));
+    }
+
+    function limitUpLeaderLabel(leader) {
+      const name = String(leader?.name || leader?.code || "未命名股票");
+      const code = leader?.code && String(leader.code) !== name ? ` (${leader.code})` : "";
+      const boardCount = leadershipCount(leader?.board_count);
+      const boardLabel = leader?.board_label
+        ? String(leader.board_label)
+        : boardCount === 1
+          ? "首板"
+          : boardCount > 1
+            ? `${boardCount}板`
+            : "连板暂缺";
+      return `${name}${code} · ${boardLabel}`;
+    }
+
+    function renderLimitUpLeader(leader, sectorKey) {
+      const paths = leaderAttributionPaths(leader, sectorKey);
+      const rawReason = leader?.raw_reason ? String(leader.raw_reason) : "";
+      const details = document.createElement("details");
+      details.className = "sentiment-ladder-leader";
+      const summary = createText("summary", "", limitUpLeaderLabel(leader));
+      summary.title = [rawReason ? "涨停原因：" + rawReason : "", paths.length ? "产业链归属：" + paths.join("；") : ""]
+        .filter(Boolean)
+        .join("\n");
+      details.append(summary);
+
+      const body = document.createElement("div");
+      body.className = "sentiment-ladder-detail";
+      const reasonLine = document.createElement("span");
+      reasonLine.append(createText("strong", "", "涨停原因"));
+      reasonLine.append(document.createTextNode(rawReason || "原始原因暂缺"));
+      body.append(reasonLine);
+      const pathLine = document.createElement("span");
+      pathLine.append(createText("strong", "", "产业链归属"));
+      pathLine.append(document.createTextNode(paths.join("；") || "归属路径暂缺"));
+      body.append(pathLine);
+      const profile = leader?.sector_profile && typeof leader.sector_profile === "object"
+        ? leader.sector_profile
+        : null;
+      if (profile?.industry) {
+        const industryLine = document.createElement("span");
+        industryLine.append(createText("strong", "", "股票行业归属"));
+        industryLine.append(document.createTextNode(String(profile.industry)));
+        body.append(industryLine);
+      }
+      const membership = leader?.static_membership && typeof leader.static_membership === "object"
+        ? leader.static_membership
+        : null;
+      if (membership?.status === "ready") {
+        const membershipPaths = leaderAttributionPaths(membership, sectorKey);
+        const membershipLine = document.createElement("span");
+        membershipLine.append(createText("strong", "", "静态板块互证"));
+        membershipLine.append(document.createTextNode(
+          membershipPaths.join("；") || "已核验，未发现同板块精确标签",
+        ));
+        body.append(membershipLine);
+      } else if (membership?.status === "pending") {
+        const membershipLine = document.createElement("span");
+        membershipLine.append(createText("strong", "", "静态板块互证"));
+        membershipLine.append(document.createTextNode("后台日缓存核验中，不参与评分"));
+        body.append(membershipLine);
+      } else if (membership?.status === "error") {
+        const membershipLine = document.createElement("span");
+        membershipLine.append(createText("strong", "", "静态板块互证"));
+        membershipLine.append(document.createTextNode("暂不可用，将自动重试；不参与评分"));
+        body.append(membershipLine);
+      }
+      details.append(body);
+      return details;
+    }
+
+    function renderSentimentEvidence(item, leadershipPoolView) {
+      const evidence = document.createElement("div");
+      evidence.className = "sentiment-evidence";
+
+      if (item.strength_profile === "leader_concentrated") {
+        const profile = document.createElement("div");
+        profile.className = "sentiment-profile";
+        profile.append(
+          createText("strong", "", "核心梯队强、扩散偏弱"),
+          createText("span", "", "涨停梯队提供强证据；板块均值、广度与资金仍按各自数据展示。"),
+        );
+        evidence.append(profile);
+      }
+
+      const leadership = item?.leadership && typeof item.leadership === "object" ? item.leadership : {};
+      const ladder = document.createElement("section");
+      ladder.className = "sentiment-evidence-section";
+      const ladderHeading = document.createElement("div");
+      ladderHeading.className = "sentiment-evidence-heading";
+      ladderHeading.append(createText("strong", "", "涨停梯队"));
+      ladderHeading.append(createText(
+        "span",
+        "sentiment-evidence-status" + (leadershipPoolView.warning ? " is-warning" : ""),
+        leadershipPoolView.label,
+      ));
+      ladder.append(ladderHeading);
+      ladder.append(createText(
+        "div",
+        "sentiment-ladder-summary" + (leadershipPoolView.warning ? " is-warning" : ""),
+        leadershipSummary(leadership, leadershipPoolView),
+      ));
+
+      const limitUpLeaders = Array.isArray(leadership.limit_up_leaders)
+        ? leadership.limit_up_leaders.slice(0, 3)
+        : [];
+      if (leadershipPoolView.key !== "unavailable" && limitUpLeaders.length) {
+        const list = document.createElement("div");
+        list.className = "sentiment-ladder-list";
+        limitUpLeaders.forEach((leader) => list.append(renderLimitUpLeader(leader, item.key)));
+        ladder.append(list);
+      }
+      ladder.append(createText(
+        "span",
+        "sentiment-attribution-note",
+        "归因口径：涨停原因 + 股票基础行业（非官方板块分类）",
+      ));
+      evidence.append(ladder);
+
+      const representatives = document.createElement("section");
+      representatives.className = "sentiment-evidence-section sentiment-representatives";
+      const representativeHeading = document.createElement("div");
+      representativeHeading.className = "sentiment-evidence-heading";
+      representativeHeading.append(createText("strong", "", "代表标的"));
+      representatives.append(representativeHeading);
+      appendEvidence(representatives, "ETF", quoteLabel(item.etf));
+
+      const fixedLeaders = Array.isArray(item.leaders) ? item.leaders.map(quoteLabel).filter(Boolean) : [];
+      appendEvidence(representatives, "固定代表", fixedLeaders.slice(0, 3).join("、"));
+      appendEvidence(representatives, "当前领涨", quoteLabel(item.current_leader));
+      if (representatives.childElementCount === 1) representatives.append(createText("span", "", "行情标的暂缺"));
+      evidence.append(representatives);
+      return evidence;
+    }
+
+    function renderSentimentGroups(groups, dynamicStatus = "unknown", leadershipPool = null) {
+      const container = document.getElementById("sentiment-groups");
+      container.replaceChildren();
+      if (!Array.isArray(groups) || !groups.length) {
+        container.append(createText("div", "sentiment-empty", "当前仅有汇总信号，板块明细暂缺。"));
+        return;
+      }
+
+      const leadershipPoolView = normaliseLeadershipPool(leadershipPool);
+
+      groups.forEach((group) => {
+        const section = document.createElement("section");
+        section.className = "sentiment-group";
+        const heading = document.createElement("div");
+        heading.className = "sentiment-group-heading";
+        heading.append(createText("h3", "", objectLabel(group, "未命名分组")));
+        const groupState = createText("span", "sentiment-group-state", stateLabel(group.state));
+        setTone(groupState, group.tone || group.state, "sentiment-group-state");
+        heading.append(groupState);
+        section.append(heading);
+
+        const items = Array.isArray(group.items) ? group.items : [];
+        if (!items.length) {
+          section.append(createText("div", "sentiment-empty", "该分组暂无可用板块数据。"));
+          container.append(section);
+          return;
+        }
+
+        const wrap = document.createElement("div");
+        wrap.className = "sentiment-table-wrap";
+        const table = document.createElement("table");
+        table.className = "sentiment-table";
+        const thead = document.createElement("thead");
+        const headerRow = document.createElement("tr");
+        ["板块", "状态", "指数 / 涨跌幅", "相对位置", "广度", "资金位置", "确认标的"].forEach((label) => {
+          headerRow.append(createText("th", "", label));
+        });
+        thead.append(headerRow);
+        table.append(thead);
+        const tbody = document.createElement("tbody");
+
+        items.forEach((item) => {
+          const row = document.createElement("tr");
+          const labels = ["板块", "状态", "指数 / 涨跌幅", "相对位置", "广度", "资金位置", "确认标的"];
+          const nameCell = document.createElement("td");
+          nameCell.append(createText("span", "sentiment-item-name", objectLabel(item, "未命名板块")));
+          if (item.matched_name && item.matched_name !== item.label) {
+            nameCell.append(createText("span", "sentiment-matched-name", "匹配 " + item.matched_name));
+          }
+
+          const stateCell = document.createElement("td");
+          stateCell.append(renderItemState(item, dynamicStatus));
+
+          const changeClass = "sentiment-value " + tone(item.change_pct);
+          const indexParts = [];
+          if (isNumber(item.index_level)) indexParts.push(formatPoint(item.index_level));
+          if (isNumber(item.change_pct)) indexParts.push(formatSigned(item.change_pct) + "%");
+          const changeCell = createText("td", changeClass, indexParts.join(" · ") || "—");
+          const relativeCell = createText("td", "sentiment-value", formatPercentile(item.price_percentile));
+          const breadthCell = createText("td", "sentiment-value " + breadthTone(item.breadth_ratio), formatBreadth(item.breadth_ratio));
+          const flowParts = [];
+          if (isNumber(item.flow_pct)) flowParts.push(formatFlow(item.flow_pct));
+          if (isNumber(item.flow_percentile)) flowParts.push(formatPercentile(item.flow_percentile));
+          const flowCell = createText("td", "sentiment-value", flowParts.join(" · ") || "—");
+          const evidenceCell = document.createElement("td");
+          evidenceCell.append(renderSentimentEvidence(item, leadershipPoolView));
+
+          [nameCell, stateCell, changeCell, relativeCell, breadthCell, flowCell, evidenceCell].forEach((cell, index) => {
+            cell.dataset.label = labels[index];
+            row.append(cell);
+          });
+          tbody.append(row);
+        });
+
+        table.append(tbody);
+        wrap.append(table);
+        section.append(wrap);
+        container.append(section);
+      });
+    }
+
+    function renderSentimentReasons(structure) {
+      const container = document.getElementById("sentiment-reasons");
+      container.replaceChildren();
+      const reasons = structure && Array.isArray(structure.reasons) ? structure.reasons : [];
+      reasons.slice(0, 4).forEach((reason) => {
+        const label = typeof reason === "string" ? reason : reason?.label || reason?.text || reason?.reason;
+        if (label) container.append(createText("span", "sentiment-reason", String(label)));
+      });
+    }
+
+    let activeOffenseTab = "attacking";
+
+    const CORE_OFFENSE_DEFAULTS = [
+      { key: "semiconductor", name: "半导体", category: "科技成长", anchor_mode: "industry" },
+      { key: "software_development", name: "软件开发", category: "科技成长", anchor_mode: "industry" },
+      { key: "communication_equipment", name: "通信设备", category: "科技成长", anchor_mode: "industry" },
+      { key: "automation_equipment", name: "自动化设备", category: "科技成长", anchor_mode: "industry" },
+      { key: "consumer_electronics", name: "消费电子", category: "科技成长", anchor_mode: "industry" },
+      { key: "battery", name: "电池", category: "成长周期", anchor_mode: "industry" },
+      { key: "photovoltaic_equipment", name: "光伏设备", category: "成长周期", anchor_mode: "industry" },
+      { key: "defense", name: "国防军工", category: "条件进攻", anchor_mode: "industry", conditional: true },
+    ];
+
+    function normaliseOffenseStatus(value) {
+      const status = String(value || "collecting").toLowerCase();
+      return ["ready", "active", "collecting", "partial", "stale", "closed", "reset", "error"].includes(status)
+        ? status
+        : "collecting";
+    }
+
+    function offenseDirectionsReady(status) {
+      return status === "ready" || status === "active" || status === "closed";
+    }
+
+    function offenseDirectionView(value, allowArrow) {
+      const raw = value && typeof value === "object"
+        ? value.key ?? value.direction ?? value.state ?? value.label
+        : value;
+      const text = String(raw || "").toLowerCase();
+      let direction = normaliseDirection(text);
+      if (direction === "unknown" && (text.includes("增强") || text.includes("走强") || text.includes("改善"))) direction = "strengthening";
+      if (direction === "unknown" && (text.includes("转弱") || text.includes("降温") || text.includes("走弱"))) direction = "weakening";
+      if (direction === "unknown" && (text.includes("持平") || text.includes("稳定"))) direction = "flat";
+
+      const fallback = {
+        strengthening: "相对增强",
+        weakening: "相对转弱",
+        flat: "相对持平",
+        unknown: "方向待积累",
+      }[direction];
+      const label = value && typeof value === "object" && value.label
+        ? String(value.label)
+        : fallback;
+      if (!allowArrow) return { direction: "unknown", icon: "—", label: "方向暂停" };
+      return {
+        direction,
+        icon: { strengthening: "↑", weakening: "↓", flat: "→", unknown: "—" }[direction],
+        label,
+      };
+    }
+
+    function renderOffenseDirection(target, value, allowArrow) {
+      const view = offenseDirectionView(value, allowArrow);
+      target.className = "offense-axis-value offense-direction direction-" + view.direction;
+      target.replaceChildren(
+        createText("span", "offense-direction-icon", view.icon),
+        createText("span", "", view.label),
+      );
+    }
+
+    function offenseCount(value, fallback = 0) {
+      if (value === null || value === undefined || value === "") return fallback;
+      const number = Number(value);
+      return Number.isFinite(number) && number >= 0 ? Math.round(number) : fallback;
+    }
+
+    function offenseCoverageLabel(coverage) {
+      if (typeof coverage === "string" && coverage.trim()) return coverage;
+      if (isNumber(coverage)) return "覆盖 " + coverage;
+      if (!coverage || typeof coverage !== "object") return "覆盖情况待确认";
+      const available = Number(coverage.available);
+      const total = Number(coverage.total);
+      const count = Number.isFinite(available) && Number.isFinite(total)
+        ? `${available}/${total} 项可用`
+        : "";
+      return [count, coverage.label].filter(Boolean).join(" · ") || "覆盖情况待确认";
+    }
+
+    function offenseCoverageAbnormal(coverage) {
+      if (typeof coverage === "string") return /部分|延迟|缺失|异常|partial|stale|error/i.test(coverage);
+      if (!coverage || typeof coverage !== "object") return false;
+      const available = Number(coverage.available);
+      const total = Number(coverage.total);
+      return Boolean(coverage.partial || coverage.stale || coverage.error)
+        || (Number.isFinite(available) && Number.isFinite(total) && available < total);
+    }
+
+    function offenseAsOf(value, prefix = "截至") {
+      if (!value) return "时间待确认";
+      const text = String(value).replace("T", " ");
+      return prefix + " " + (text.length >= 16 ? text.slice(0, 16) : text);
+    }
+
+    function offenseShortTime(value) {
+      if (!value) return "";
+      const text = String(value).replace("T", " ");
+      return text.length >= 16 ? text.slice(11, 16) : text;
+    }
+
+    function formatOffenseMoney(value) {
+      if (!isNumber(value)) return "—";
+      const sign = value > 0 ? "+" : value < 0 ? "−" : "";
+      const absolute = Math.abs(value);
+      if (absolute >= 1e8) return sign + (absolute / 1e8).toFixed(2) + " 亿";
+      if (absolute >= 1e4) return sign + (absolute / 1e4).toFixed(0) + " 万";
+      return sign + absolute.toFixed(0);
+    }
+
+    function formatOffensePercentile(value) {
+      const percentage = percentileValue(value);
+      return percentage === null ? "—" : Math.max(0, Math.min(100, Math.round(percentage))) + "%分位";
+    }
+
+    function formatOffenseDelta(value) {
+      const points = percentileValue(value);
+      if (points === null) return "—";
+      return (points > 0 ? "+" : "") + points.toFixed(0) + "pp";
+    }
+
+    function appendOffenseMetric(container, label, value, toneClass = "") {
+      const metric = document.createElement("span");
+      metric.className = "offense-metric";
+      metric.append(
+        createText("span", "offense-metric-label", label),
+        createText("strong", "offense-metric-value" + (toneClass ? " " + toneClass : ""), value),
+      );
+      container.append(metric);
+    }
+
+    function offenseTaxonomyLabel(value) {
+      const key = String(value || "").toLowerCase();
+      if (key === "industry" || key === "行业") return "行业";
+      if (key === "concept" || key === "概念") return "概念";
+      return value ? String(value) : "待归类";
+    }
+
+    function offenseNumber(...values) {
+      for (const value of values) {
+        if (value === null || value === undefined || value === "") continue;
+        const number = Number(value);
+        if (Number.isFinite(number)) return number;
+      }
+      return null;
+    }
+
+    function normaliseLeaderSnapshot(value, fallbackLeader = null) {
+      const supplied = Array.isArray(value) || Boolean(value && typeof value === "object");
+      const source = Array.isArray(value)
+        ? { leaders: value, status: "full" }
+        : value && typeof value === "object" ? value : {};
+      let leaders = source.leaders || source.items || source.stocks || source.gainers || [];
+      if (!Array.isArray(leaders)) leaders = leaders && typeof leaders === "object" ? [leaders] : [];
+      if (!leaders.length && source.leader && typeof source.leader === "object") leaders = [source.leader];
+      if (!leaders.length && fallbackLeader && typeof fallbackLeader === "object") leaders = [fallbackLeader];
+
+      let status = String(source.status || source.state || "").toLowerCase();
+      if (status === "ready" || status === "active") status = "full";
+      if (!status) status = leaders.length ? "full" : supplied ? "loading" : "unavailable";
+      if (source.stale) status = "stale";
+      if (!["full", "fallback", "loading", "stale", "unavailable", "error"].includes(status)) {
+        status = leaders.length ? "full" : "loading";
+      }
+      return {
+        status,
+        status_label: source.status_label || source.label || {
+          full: "成分股已更新",
+          fallback: "快速领涨",
+          loading: "成分股加载中",
+          stale: "领涨数据延迟",
+          unavailable: "领涨数据暂缺",
+          error: "领涨数据暂缺",
+        }[status],
+        as_of: source.provider_as_of || source.as_of || source.updated_at || source.fetched_at || source.timestamp || "",
+        source: source.source || "",
+        method: source.method || source.selection_method || "",
+        leaders: leaders.slice(0, 3),
+      };
+    }
+
+    function leaderStockFields(value, fallbackAsOf = "") {
+      const stock = value && typeof value === "object" ? value : {};
+      const quote = stock.quote && typeof stock.quote === "object" ? stock.quote : {};
+      const funds = stock.funds && typeof stock.funds === "object" ? stock.funds : {};
+      const name = stock.name || stock.label || stock.stock_name || stock["股票名称"] || stock["名称"] || "未命名股票";
+      const code = String(stock.code || stock.stock_code || stock.symbol || stock["股票代码"] || stock["代码"] || "");
+      let tradeFlag = stock.tradeability_label || stock.trade_flag || "";
+      if (!tradeFlag && /(^|\*)ST/i.test(String(name))) tradeFlag = "ST";
+      if (!tradeFlag && /^(4|8|92)/.test(code)) tradeFlag = "北交所";
+      return {
+        name,
+        code,
+        trade_flag: tradeFlag,
+        change_pct: offenseNumber(stock.change_pct, stock.pct_change, quote.change_pct, stock["涨跌幅"]),
+        amount: offenseNumber(stock.amount, stock.turnover_amount, quote.amount, stock["成交额"]),
+        turnover_rate: offenseNumber(stock.turnover_rate, stock.turnover, quote.turnover_rate, stock["换手率"]),
+        fund_ratio: offenseNumber(stock.main_net_ratio, stock.main_flow_ratio, stock.flow_ratio, funds.current_ratio, funds.ratio, stock["主力净流入-占比"]),
+        fund_amount: offenseNumber(stock.main_net_amount, stock.main_flow_amount, stock.flow_amount, funds.current_amount, funds.amount, stock["主力净流入"]),
+        as_of: stock.as_of || stock.updated_at || stock.timestamp || quote.as_of || funds.as_of || stock["更新时间"] || fallbackAsOf,
+      };
+    }
+
+    function formatStockAmount(value) {
+      if (!isNumber(value)) return "—";
+      const absolute = Math.abs(value);
+      if (absolute >= 1e8) return (value / 1e8).toFixed(2) + " 亿";
+      if (absolute >= 1e4) return (value / 1e4).toFixed(0) + " 万";
+      return value.toFixed(0);
+    }
+
+    function leaderStockShort(snapshotValue, fallbackLeader = null) {
+      const snapshot = normaliseLeaderSnapshot(snapshotValue, fallbackLeader);
+      if (!snapshot.leaders.length) return snapshot.status_label;
+      const leader = leaderStockFields(snapshot.leaders[0], snapshot.as_of);
+      const identity = [leader.name, leader.code].filter(Boolean).join(" ");
+      const flag = leader.trade_flag ? " [" + leader.trade_flag + "]" : "";
+      return identity + flag + (isNumber(leader.change_pct) ? " " + formatSigned(leader.change_pct) + "%" : "");
+    }
+
+    function renderOffenseStockLeaders(snapshotValue, fallbackLeader = null) {
+      const snapshot = normaliseLeaderSnapshot(snapshotValue, fallbackLeader);
+      const block = document.createElement("section");
+      block.className = "offense-stock-leaders";
+      const head = document.createElement("div");
+      head.className = "offense-stock-leaders-head";
+      const title = createText("span", "offense-stock-leaders-title", "实际领涨");
+      title.append(createText("span", "offense-stock-status status-" + snapshot.status, snapshot.status_label));
+      head.append(
+        title,
+        createText("span", "offense-stock-leaders-note", "实际领涨，不构成买入建议"),
+      );
+      block.append(head);
+
+      if (!snapshot.leaders.length) {
+        block.append(createText("div", "offense-stock-empty", snapshot.status_label));
+        return block;
+      }
+
+      const wrapper = document.createElement("div");
+      wrapper.className = "offense-stock-table-wrap";
+      const table = document.createElement("table");
+      table.className = "offense-stock-table";
+      const headRow = document.createElement("tr");
+      ["股票", "涨跌幅", "成交额", "换手率", "主力资金", "时间"].forEach((label) => {
+        const cell = createText("th", "", label);
+        cell.scope = "col";
+        headRow.append(cell);
+      });
+      const tableHead = document.createElement("thead");
+      tableHead.append(headRow);
+      const body = document.createElement("tbody");
+      snapshot.leaders.forEach((value) => {
+        const stock = leaderStockFields(value, snapshot.as_of);
+        const row = document.createElement("tr");
+        const identity = document.createElement("td");
+        identity.append(createText("span", "offense-stock-name", stock.name));
+        if (stock.code) identity.append(createText("span", "offense-stock-code", stock.code));
+        if (stock.trade_flag) identity.append(createText("span", "offense-stock-flag", stock.trade_flag));
+        const change = createText("td", isNumber(stock.change_pct) ? tone(stock.change_pct) : "", isNumber(stock.change_pct) ? formatSigned(stock.change_pct) + "%" : "—");
+        const funds = isNumber(stock.fund_ratio)
+          ? formatSigned(stock.fund_ratio) + "%"
+          : isNumber(stock.fund_amount) ? formatOffenseMoney(stock.fund_amount) : "—";
+        row.append(
+          identity,
+          change,
+          createText("td", "", formatStockAmount(stock.amount)),
+          createText("td", "", isNumber(stock.turnover_rate) ? stock.turnover_rate.toFixed(2) + "%" : "—"),
+          createText("td", isNumber(stock.fund_ratio) ? tone(stock.fund_ratio) : isNumber(stock.fund_amount) ? tone(stock.fund_amount) : "", funds),
+          createText("td", "", offenseShortTime(stock.as_of) || "—"),
+        );
+        body.append(row);
+      });
+      table.append(tableHead, body);
+      wrapper.append(table);
+      block.append(wrapper);
+      return block;
+    }
+
+    function coreOffenseToken(value) {
+      return String(value || "").toLowerCase().replace(/[\s/_\-·]+/g, "");
+    }
+
+    function coreOffenseItems(value) {
+      const items = Array.isArray(value) ? value.filter((item) => item && typeof item === "object") : [];
+      const used = new Set();
+      const merged = CORE_OFFENSE_DEFAULTS.map((definition) => {
+        const matchTokens = [definition.key, definition.name, ...(definition.aliases || [])].map(coreOffenseToken);
+        const index = items.findIndex((item, position) => {
+          if (used.has(position)) return false;
+          return [item.key, item.name, item.label].map(coreOffenseToken).some((token) => token && matchTokens.includes(token));
+        });
+        if (index < 0) return null;
+        used.add(index);
+        return { ...definition, ...items[index], placeholder: false };
+      });
+      items.forEach((item, index) => {
+        if (used.has(index)) return;
+        const slot = merged.findIndex((value) => value === null);
+        if (slot >= 0) merged[slot] = { ...CORE_OFFENSE_DEFAULTS[slot], ...item, placeholder: false };
+      });
+      return merged.map((item, index) => item || { ...CORE_OFFENSE_DEFAULTS[index], placeholder: true });
+    }
+
+    function coreAnchorModeLabel(value) {
+      return {
+        industry: "行业主锚",
+        concept: "概念主锚",
+        hybrid: "行业 + 概念",
+        structural: "行业主锚",
+        conditional_event: "事件条件锚",
+      }[String(value || "").toLowerCase()] || "证据待确认";
+    }
+
+    function coreConfirmationLabel(value) {
+      if (!Array.isArray(value)) return "";
+      const alignmentLabels = {
+        confirming: "确认",
+        divergent: "分歧",
+        neutral: "中性",
+        unavailable: "缺失",
+      };
+      return value.slice(0, 2).map((item) => {
+        const label = objectLabel(item, "");
+        if (!label || !item || typeof item !== "object") return label;
+        const alignment = alignmentLabels[String(item.alignment || "").toLowerCase()];
+        return alignment ? label + " " + alignment : label;
+      }).filter(Boolean).join(" · ");
+    }
+
+    function renderCoreOffenseRow(item, status) {
+      const source = item && typeof item === "object" ? item : {};
+      const metrics = source.metrics && typeof source.metrics === "object" ? source.metrics : {};
+      const row = document.createElement("tr");
+      row.className = source.placeholder ? "is-placeholder" : "";
+
+      const identity = document.createElement("td");
+      identity.append(createText("span", "core-offense-name", source.name || source.label || "待定义方向"));
+      const tags = document.createElement("span");
+      tags.className = "core-offense-tags";
+      tags.append(createText("span", "core-offense-tag", source.category || "常规锚"));
+      tags.append(createText("span", "core-offense-tag", coreAnchorModeLabel(source.anchor_mode)));
+      if (source.conditional) tags.append(createText("span", "core-offense-tag is-conditional", "条件锚"));
+      identity.append(tags);
+
+      const strength = document.createElement("td");
+      const state = normaliseState(source.level);
+      strength.append(createText("span", "core-offense-level state-" + state, source.level_label || stateLabel(source.level)));
+      const evidenceCount = offenseNumber(source.evidence_count);
+      const evidenceTotal = offenseNumber(source.evidence_total);
+      strength.append(createText(
+        "span",
+        "core-offense-cell-secondary",
+        evidenceCount !== null && evidenceTotal !== null ? `有效证据 ${evidenceCount}/${evidenceTotal}` : "有效证据待积累",
+      ));
+
+      const price = document.createElement("td");
+      const change = offenseNumber(metrics.change_pct);
+      price.append(createText("span", "core-offense-cell-primary " + (isNumber(change) ? tone(change) : ""), isNumber(change) ? formatSigned(change) + "%" : "—"));
+      price.append(createText("span", "core-offense-cell-secondary", formatOffensePercentile(offenseNumber(metrics.price_percentile))));
+
+      const breadth = document.createElement("td");
+      const breadthRatio = offenseNumber(metrics.breadth_ratio);
+      breadth.append(createText("span", "core-offense-cell-primary " + (isNumber(breadthRatio) ? breadthTone(breadthRatio) : ""), formatBreadth(breadthRatio)));
+      breadth.append(createText("span", "core-offense-cell-secondary", "上涨覆盖"));
+
+      const funds = document.createElement("td");
+      const flowRatio = offenseNumber(metrics.flow_ratio);
+      funds.append(createText("span", "core-offense-cell-primary", formatOffensePercentile(offenseNumber(metrics.flow_percentile))));
+      funds.append(createText("span", "core-offense-cell-secondary", isNumber(flowRatio) ? "净流占比 " + formatSigned(flowRatio) + "%" : "净流占比 —"));
+
+      const direction = document.createElement("td");
+      const directionView = offenseDirectionView(source.direction, offenseDirectionsReady(status));
+      const directionLine = document.createElement("span");
+      directionLine.className = "core-offense-direction direction-" + directionView.direction;
+      directionLine.append(
+        createText("span", "offense-direction-icon", directionView.icon),
+        createText("span", "", directionView.label),
+      );
+      direction.append(directionLine);
+      const rankDelta = offenseNumber(metrics.rank_delta_10m, metrics.rank_delta_5m);
+      direction.append(createText("span", "core-offense-cell-secondary", isNumber(rankDelta) ? "相对排名 " + formatOffenseDelta(rankDelta) : "相对排名待积累"));
+
+      const context = document.createElement("td");
+      context.append(createText("span", "core-offense-board", objectLabel(source.representative_board, "代表板块待确认")));
+      const confirmation = coreConfirmationLabel(source.confirmations);
+      if (confirmation) context.append(createText("span", "core-offense-cell-secondary", "概念证据 · " + confirmation));
+      context.append(createText("span", "core-offense-leader", "领涨 · " + leaderStockShort(source.leader_snapshot)));
+
+      row.append(identity, strength, price, breadth, funds, direction, context);
+      return row;
+    }
+
+    function coreSummaryCount(summary, key, fallback) {
+      const counts = summary && typeof summary.counts === "object" ? summary.counts : {};
+      const directionCounts = summary && typeof summary.direction_counts === "object" ? summary.direction_counts : {};
+      const direct = summary
+        ? summary[key + "_count"] ?? (key === "strong" ? counts[key] : directionCounts[key]) ?? counts[key]
+        : null;
+      return direct === null || direct === undefined || direct === "" ? fallback : offenseCount(direct, fallback);
+    }
+
+    function renderCoreOffense(core) {
+      const available = core && typeof core === "object";
+      const source = available ? core : {};
+      const status = normaliseOffenseStatus(source.status);
+      const summary = source.summary && typeof source.summary === "object" ? source.summary : {};
+      const items = coreOffenseItems(source.items);
+      const actualItems = items.filter((item) => !item.placeholder);
+      const rawDirection = (item) => offenseDirectionView(item.direction, true).direction;
+      const derived = {
+        strong: actualItems.filter((item) => normaliseState(item.level) === "strong").length,
+        strengthening: actualItems.filter((item) => rawDirection(item) === "strengthening").length,
+        weakening: actualItems.filter((item) => rawDirection(item) === "weakening").length,
+      };
+
+      const section = document.getElementById("core-offense");
+      section.dataset.status = status;
+      section.classList.toggle("is-empty", !available);
+      document.getElementById("core-offense-headline").textContent = available
+        ? String(source.status_label || "八组风险偏好锚")
+        : "常规进攻数据待接入";
+
+      ["strong", "strengthening", "weakening"].forEach((key) => {
+        document.getElementById("core-offense-count-" + key).textContent = available
+          ? String(coreSummaryCount(summary, key, derived[key]))
+          : "—";
+      });
+
+      let focusValues = summary.focus || summary.focus_items || summary.current_leaders || [];
+      if (!Array.isArray(focusValues)) focusValues = [];
+      if (!focusValues.length) {
+        focusValues = actualItems.filter((item) => normaliseState(item.level) === "strong" || rawDirection(item) === "strengthening");
+      }
+      const focus = document.getElementById("core-offense-focus");
+      focus.replaceChildren();
+      focusValues.slice(0, 4).forEach((value) => {
+        const item = value && typeof value === "object" ? value : { name: value };
+        const label = objectLabel(item, "待确认方向");
+        const level = item.level_label || (normaliseState(item.level) !== "unknown" ? stateLabel(item.level) : "");
+        const view = offenseDirectionView(item.direction, offenseDirectionsReady(status));
+        const suffix = [level, view.direction !== "unknown" ? view.icon : ""].filter(Boolean).join("");
+        focus.append(createText("span", "core-offense-focus-item", label + (suffix ? " " + suffix : "")));
+      });
+      if (!focus.childElementCount) focus.append(document.createTextNode(available ? "重点方向待确认" : "八组锚数据待接入"));
+
+      const body = document.getElementById("core-offense-body");
+      body.replaceChildren(...items.map((item) => renderCoreOffenseRow(item, status)));
+
+      const coverageAbnormal = offenseCoverageAbnormal(source.coverage);
+      const statusAbnormal = !["ready", "active", "closed"].includes(status);
+      const meta = document.getElementById("core-offense-meta");
+      meta.hidden = available && !coverageAbnormal && !statusAbnormal;
+      document.getElementById("core-offense-coverage").textContent = available
+        ? offenseCoverageLabel(source.coverage)
+        : "固定观察 8 组 · 数据待接入";
+      document.getElementById("core-offense-as-of").textContent = offenseAsOf(source.as_of || source.coverage?.as_of);
+      const alert = document.getElementById("core-offense-alert");
+      alert.hidden = available && !coverageAbnormal && !statusAbnormal;
+      alert.textContent = status === "stale" ? "数据延迟" : available ? "部分数据" : "等待接口";
+    }
+
+    function appendOffenseLeaderMetric(row, label, value, toneClass = "") {
+      const metric = document.createElement("span");
+      metric.className = "offense-leader-metric" + (toneClass ? " " + toneClass : "");
+      metric.append(createText("small", "", label), document.createTextNode(value));
+      row.append(metric);
+    }
+
+    function renderOffenseLeaderRow(value, allowArrow) {
+      const source = value && typeof value === "object" ? value : {};
+      const price = source.price && typeof source.price === "object" ? source.price : {};
+      const breadth = source.breadth && typeof source.breadth === "object" ? source.breadth : {};
+      const metrics = source.metrics && typeof source.metrics === "object" ? source.metrics : {};
+      const change = offenseNumber(source.change_pct, price.change_pct, metrics.change_pct);
+      const percentile = offenseNumber(price.percentile, metrics.price_percentile);
+      const breadthRatio = offenseNumber(breadth.ratio, metrics.breadth_ratio);
+      const direction = offenseDirectionView(source.direction, allowArrow);
+      const row = document.createElement("div");
+      row.className = "offense-leader";
+      const name = document.createElement("span");
+      name.className = "offense-leader-name";
+      name.append(createText("small", "", "板块 / 强度"), document.createTextNode(objectLabel(source, "未命名方向") + " · " + stateLabel(source.strength || source.state)));
+      row.append(name);
+      appendOffenseLeaderMetric(row, "涨跌", isNumber(change) ? formatSigned(change) + "%" : "—", isNumber(change) ? tone(change) : "");
+      appendOffenseLeaderMetric(row, "相对位置", formatOffensePercentile(percentile));
+      appendOffenseLeaderMetric(row, "内部广度", formatBreadth(breadthRatio), isNumber(breadthRatio) ? breadthTone(breadthRatio) : "");
+      appendOffenseLeaderMetric(row, "近10分钟", direction.icon + " " + direction.label);
+      appendOffenseLeaderMetric(row, "领涨", leaderStockShort(source.leader_snapshot, source.current_leader));
+      return row;
+    }
+
+    function renderOffenseItem(item, overallStatus) {
+      const source = item && typeof item === "object" ? item : {};
+      const row = document.createElement("article");
+      row.className = "offense-item";
+
+      const identity = document.createElement("div");
+      identity.className = "offense-item-block";
+      const nameRow = document.createElement("div");
+      nameRow.className = "offense-item-name-row";
+      nameRow.append(createText("strong", "offense-item-name", objectLabel(source, "未命名方向")));
+      nameRow.append(createText("span", "offense-item-badge", offenseTaxonomyLabel(source.taxonomy)));
+      if (source.role) nameRow.append(createText("span", "offense-item-badge", String(source.role)));
+      if (source.divergent) nameRow.append(createText("span", "offense-item-badge is-warning", "分歧"));
+      identity.append(nameRow);
+
+      const stateRow = document.createElement("div");
+      stateRow.className = "offense-item-state-row";
+      stateRow.append(createText("span", "offense-lifecycle", source.lifecycle_label || source.lifecycle || "观察中"));
+      const direction = document.createElement("span");
+      const directionView = offenseDirectionView(
+        source.direction_label ? { direction: source.direction, label: source.direction_label } : source.direction,
+        offenseDirectionsReady(overallStatus),
+      );
+      direction.className = "offense-direction direction-" + directionView.direction;
+      direction.append(
+        createText("span", "offense-direction-icon", directionView.icon),
+        createText("span", "", directionView.label),
+      );
+      stateRow.append(direction);
+      const enteredAt = offenseShortTime(source.entered_at);
+      if (enteredAt) stateRow.append(createText("span", "offense-item-time", enteredAt + " 进入"));
+      identity.append(stateRow);
+      if (source.family) identity.append(createText("div", "offense-item-family", "主题族 · " + source.family));
+      row.append(identity);
+
+      const price = source.price && typeof source.price === "object" ? source.price : {};
+      const breadth = source.breadth && typeof source.breadth === "object" ? source.breadth : {};
+      const metrics = document.createElement("div");
+      metrics.className = "offense-item-block offense-metrics";
+      appendOffenseMetric(
+        metrics,
+        "当前涨跌",
+        isNumber(price.change_pct) ? formatSigned(price.change_pct) + "%" : "—",
+        tone(price.change_pct),
+      );
+      appendOffenseMetric(metrics, "相对位置", formatOffensePercentile(price.percentile));
+      const speedParts = [];
+      if (isNumber(price.delta_5m)) speedParts.push("5m " + formatOffenseDelta(price.delta_5m));
+      if (isNumber(price.delta_10m)) speedParts.push("10m " + formatOffenseDelta(price.delta_10m));
+      appendOffenseMetric(metrics, "分位速度", speedParts.join(" · ") || "—");
+      const breadthParts = [];
+      if (isNumber(breadth.ratio)) breadthParts.push(formatBreadth(breadth.ratio));
+      if (isNumber(breadth.delta_5m)) breadthParts.push("5m " + formatOffenseDelta(breadth.delta_5m));
+      appendOffenseMetric(metrics, "内部广度", breadthParts.join(" · ") || "—", breadthTone(breadth.ratio));
+      row.append(metrics);
+
+      const funds = source.funds && typeof source.funds === "object" ? source.funds : {};
+      const fundsBlock = document.createElement("div");
+      fundsBlock.className = "offense-item-block offense-funds";
+      const fundsHead = document.createElement("div");
+      fundsHead.className = "offense-funds-head";
+      fundsHead.append(createText("span", "offense-funds-state", "资金 · " + (funds.label || stateLabel(funds.state))));
+      const fundStatus = String(funds.status || "").toLowerCase();
+      const fundsFresh = !["stale", "partial", "collecting", "reset", "error", "unavailable"].includes(fundStatus);
+      const fundsDirection = offenseDirectionView(
+        funds.direction_label ? { direction: funds.direction, label: funds.direction_label } : funds.direction,
+        offenseDirectionsReady(overallStatus) && fundsFresh,
+      );
+      const fundsDirectionElement = document.createElement("span");
+      fundsDirectionElement.className = "offense-direction direction-" + fundsDirection.direction;
+      fundsDirectionElement.append(
+        createText("span", "offense-direction-icon", fundsDirection.icon),
+        createText("span", "", fundsDirection.label),
+      );
+      fundsHead.append(fundsDirectionElement);
+      fundsBlock.append(fundsHead);
+
+      const currentParts = [];
+      if (isNumber(funds.current_amount)) currentParts.push("累计主力净额 " + formatOffenseMoney(funds.current_amount));
+      if (isNumber(funds.current_ratio)) currentParts.push("占比 " + formatSigned(funds.current_ratio) + "%");
+      if (funds.rank !== null && funds.rank !== undefined && funds.rank !== "") currentParts.push("排名 " + funds.rank);
+      fundsBlock.append(createText("div", "offense-funds-values", currentParts.join(" · ") || "资金快照待积累"));
+
+      if (isNumber(funds.delta_amount)) {
+        const snapshotRange = [offenseShortTime(funds.previous_as_of), offenseShortTime(funds.as_of)].filter(Boolean).join("→");
+        const change = createText(
+          "div",
+          "offense-funds-change " + tone(funds.delta_amount),
+          "较上一同源快照 " + formatOffenseMoney(funds.delta_amount) + (snapshotRange ? " · " + snapshotRange : ""),
+        );
+        fundsBlock.append(change);
+      } else if (fundStatus && fundStatus !== "ready" && fundStatus !== "active") {
+        fundsBlock.append(createText("div", "offense-funds-values", funds.status_label || "资金变化待刷新"));
+      }
+      row.append(fundsBlock);
+      row.append(renderOffenseStockLeaders(source.leader_snapshot, source.current_leader));
+
+      const reasons = Array.isArray(source.reasons) ? source.reasons : [];
+      if (reasons.length) {
+        const reasonBlock = document.createElement("div");
+        reasonBlock.className = "offense-reasons";
+        reasons.slice(0, 4).forEach((reason) => {
+          const label = typeof reason === "string" ? reason : reason?.label || reason?.text || reason?.reason;
+          if (label) reasonBlock.append(createText("span", "offense-reason", String(label)));
+        });
+        if (reasonBlock.childElementCount) row.append(reasonBlock);
+      }
+      return row;
+    }
+
+    function renderOffenseList(key, items, overallStatus) {
+      const container = document.getElementById("offense-list-" + key);
+      container.replaceChildren();
+      if (!Array.isArray(items) || !items.length) {
+        container.append(createText("div", "offense-empty", "当前没有已确认方向。"));
+        return;
+      }
+      items.forEach((item) => container.append(renderOffenseItem(item, overallStatus)));
+    }
+
+    function offenseEventText(event) {
+      if (typeof event === "string") return event;
+      if (!event || typeof event !== "object") return "状态发生变化";
+      const direct = event.label || event.text || event.description || event.message || event.reason;
+      if (direct) return String(direct);
+      const name = event.name || event.board || event.item_label || event.key || "方向";
+      const action = event.lifecycle_label || event.lifecycle || event.action || event.state || "状态变化";
+      return String(name) + " · " + String(action);
+    }
+
+    function renderOffenseEvents(events) {
+      const values = Array.isArray(events) ? events.slice(0, 12) : [];
+      const details = document.getElementById("offense-events");
+      const list = document.getElementById("offense-event-list");
+      document.getElementById("offense-event-count").textContent = String(values.length);
+      list.replaceChildren();
+      values.forEach((event) => {
+        const source = event && typeof event === "object" ? event : {};
+        const time = offenseShortTime(source.at || source.as_of || source.time || source.timestamp || source.occurred_at) || "—";
+        const item = document.createElement("li");
+        item.className = "offense-event";
+        item.append(
+          createText("time", "offense-event-time", time),
+          createText("span", "offense-event-text", offenseEventText(event)),
+        );
+        list.append(item);
+      });
+      details.hidden = values.length === 0;
+      if (!values.length) details.open = false;
+    }
+
+    function selectOffenseTab(key, focus = false) {
+      const tabs = Array.from(document.querySelectorAll("[data-offense-tab]"));
+      const selected = tabs.find((tab) => tab.dataset.offenseTab === key) || tabs[0];
+      activeOffenseTab = selected.dataset.offenseTab;
+      tabs.forEach((tab) => {
+        const active = tab === selected;
+        tab.setAttribute("aria-selected", String(active));
+        tab.tabIndex = active ? 0 : -1;
+      });
+      document.querySelectorAll("[data-offense-panel]").forEach((panel) => {
+        panel.hidden = panel.dataset.offensePanel !== activeOffenseTab;
+      });
+      if (focus) selected.focus();
+    }
+
+    function renderOffenseRadar(offense) {
+      const available = offense && typeof offense === "object";
+      const source = available ? offense : {};
+      const status = normaliseOffenseStatus(source.status);
+      const summary = source.summary && typeof source.summary === "object" ? source.summary : {};
+      const lists = source.lists && typeof source.lists === "object" ? source.lists : {};
+      const counts = summary.counts && typeof summary.counts === "object" ? summary.counts : {};
+      const attacking = Array.isArray(lists.attacking) ? lists.attacking : [];
+      const rotating = Array.isArray(lists.rotating) ? lists.rotating : [];
+      const cooling = Array.isArray(lists.cooling) ? lists.cooling : [];
+      const unclassified = Array.isArray(lists.unclassified) ? lists.unclassified : [];
+      const events = Array.isArray(source.events) ? source.events : [];
+      const directionsReady = offenseDirectionsReady(status);
+
+      const section = document.getElementById("offense-radar");
+      section.dataset.status = status;
+      section.classList.toggle("is-empty", !available);
+      const fallbackStatus = {
+        collecting: "轮动样本积累中",
+        partial: "部分轮动数据可用",
+        stale: "进攻雷达数据延迟",
+        closed: "今日轮动已定格",
+        reset: "轮动历史重新积累中",
+        error: "进攻雷达暂不可用",
+      }[status] || "全市场轮动扫描";
+      document.getElementById("offense-headline").textContent = available
+        ? String(source.status_label || fallbackStatus)
+        : "轮动样本积累中";
+
+      const strength = summary.strength && typeof summary.strength === "object" ? summary.strength : {};
+      const structure = summary.structure && typeof summary.structure === "object" ? summary.structure : {};
+      const strengthElement = document.getElementById("offense-strength");
+      strengthElement.textContent = objectLabel(strength, "—");
+      setTone(strengthElement, strength.tone || strength.key, "offense-axis-value");
+      const structureElement = document.getElementById("offense-structure");
+      structureElement.textContent = objectLabel(structure, available ? "观察中" : "样本积累中");
+      setTone(structureElement, structure.tone || structure.key, "offense-axis-value");
+      renderOffenseDirection(document.getElementById("offense-direction"), summary.direction, directionsReady);
+
+      const countValues = {
+        attacking: offenseCount(counts.attacking, attacking.length),
+        rotating: offenseCount(counts.rotating, rotating.length),
+        divergent: offenseCount(
+          counts.divergent,
+          cooling.filter((item) => item && typeof item === "object" && (
+            item.divergent || String(item.lifecycle || "").toLowerCase() === "divergent"
+          )).length,
+        ),
+        cooling: offenseCount(
+          counts.cooling,
+          cooling.filter((item) => !item || typeof item !== "object" || (
+            !item.divergent && String(item.lifecycle || "").toLowerCase() !== "divergent"
+          )).length,
+        ),
+      };
+      Object.entries(countValues).forEach(([key, value]) => {
+        document.getElementById("offense-count-" + key).textContent = String(value);
+      });
+
+      const leaders = document.getElementById("offense-leaders");
+      leaders.replaceChildren(createText("span", "offense-leaders-label", "当前领先"));
+      const leaderList = document.createElement("div");
+      leaderList.className = "offense-leader-list";
+      leaders.append(leaderList);
+      const currentLeaders = Array.isArray(summary.current_leaders) ? summary.current_leaders.slice(0, 3) : [];
+      if (!currentLeaders.length) {
+        leaderList.append(createText("span", "offense-stock-empty", available ? "方向待确认" : "轮动样本积累中"));
+      } else {
+        const candidateItems = [...attacking, ...rotating, ...cooling, ...unclassified];
+        currentLeaders.forEach((leader) => {
+          const sourceLeader = leader && typeof leader === "object" ? leader : { label: leader };
+          const leaderKey = sourceLeader.key || sourceLeader.id;
+          const match = candidateItems.find((item) => item && typeof item === "object" && (
+            (leaderKey && (item.key === leaderKey || item.id === leaderKey))
+            || objectLabel(item, "") === objectLabel(sourceLeader, "")
+          ));
+          const enriched = match ? {
+            ...match,
+            ...sourceLeader,
+            price: sourceLeader.price || match.price,
+            breadth: sourceLeader.breadth || match.breadth,
+            metrics: sourceLeader.metrics || match.metrics,
+            leader_snapshot: sourceLeader.leader_snapshot || match.leader_snapshot,
+            current_leader: sourceLeader.current_leader || match.current_leader,
+          } : sourceLeader;
+          leaderList.append(renderOffenseLeaderRow(enriched, directionsReady));
+        });
+      }
+
+      const statusAbnormal = !["ready", "active", "closed"].includes(status);
+      const coverageAbnormal = offenseCoverageAbnormal(source.coverage);
+      const meta = document.getElementById("offense-meta");
+      meta.hidden = !available || (!statusAbnormal && !coverageAbnormal);
+      document.getElementById("offense-coverage").textContent = offenseCoverageLabel(source.coverage);
+      document.getElementById("offense-as-of").textContent = offenseAsOf(source.as_of);
+      const alert = document.getElementById("offense-alert");
+      alert.hidden = !available || (!statusAbnormal && !coverageAbnormal);
+      alert.textContent = status === "stale" ? "数据延迟" : status === "partial" || coverageAbnormal ? "部分数据" : fallbackStatus;
+
+      renderOffenseList("attacking", attacking, status);
+      renderOffenseList("rotating", rotating, status);
+      renderOffenseList("cooling", cooling, status);
+      renderOffenseList("unclassified", unclassified, status);
+      const tabCounts = {
+        attacking: attacking.length,
+        rotating: rotating.length,
+        cooling: cooling.length || countValues.divergent + countValues.cooling,
+        unclassified: unclassified.length,
+      };
+      Object.entries(tabCounts).forEach(([key, value]) => {
+        document.getElementById("offense-tab-count-" + key).textContent = String(value);
+      });
+      renderOffenseEvents(events);
+      selectOffenseTab(activeOffenseTab);
+
+      const toggle = document.getElementById("offense-toggle");
+      const hasDetails = attacking.length + rotating.length + cooling.length + unclassified.length + events.length > 0;
+      toggle.disabled = !hasDetails;
+      if (!hasDetails) {
+        toggle.setAttribute("aria-expanded", "false");
+        document.getElementById("offense-details").hidden = true;
+      }
+    }
+
+    function renderRiskAppetite(data) {
+      latestRiskAppetite = data;
+      const emotion = data.emotion || {};
+      const structure = data.structure || {};
+      const dynamics = data.dynamics && typeof data.dynamics === "object" ? data.dynamics : {};
+      const dynamicStatus = renderDynamics(dynamics);
+      const emotionElement = document.getElementById("sentiment-emotion");
+      const structureElement = document.getElementById("sentiment-structure");
+      emotionElement.textContent = objectLabel(emotion, "信号不足");
+      structureElement.textContent = objectLabel(structure, "结构尚不明确");
+      setTone(emotionElement, emotion.tone || emotion.key, "sentiment-emotion");
+      setTone(structureElement, structure.tone || structure.key, "sentiment-structure");
+
+      const summary = data.summary || {};
+      const axes = dynamics.axes && typeof dynamics.axes === "object" ? dynamics.axes : {};
+      ["financial_core", "bank_support", "stable_defense", "resource"].forEach((key) => {
+        const axis = axes[key] && typeof axes[key] === "object" ? axes[key] : {};
+        const currentState = summary[key] ?? axis.current_state ?? axis.confirmed_state;
+        renderSummaryState(key, currentState);
+        renderDirection(document.getElementById("sentiment-" + key.replaceAll("_", "-") + "-direction"), axis, dynamicStatus);
+      });
+
+      const quality = data.data_quality || {};
+      const available = quality.available !== null && quality.available !== "" && Number.isFinite(Number(quality.available))
+        ? Number(quality.available)
+        : null;
+      const total = quality.total !== null && quality.total !== "" && Number.isFinite(Number(quality.total))
+        ? Number(quality.total)
+        : null;
+      let coverage = quality.label || "";
+      if (available !== null && total !== null) {
+        coverage = `${available}/${total} 项可用` + (coverage ? ` · ${coverage}` : "");
+      }
+      const coverageElement = document.getElementById("sentiment-coverage");
+      const coverageAlert = (available !== null && total !== null && available < total)
+        || Boolean(quality.partial || quality.stale)
+        || dynamicStatus === "stale";
+      coverageElement.className = "sentiment-coverage" + (coverageAlert ? " is-alert" : "");
+      coverageElement.textContent = "数据覆盖 " + (coverage || "—");
+
+      const focusStatus = data.defense_focus && typeof data.defense_focus === "object"
+        ? String(data.defense_focus.status || "")
+        : "";
+      const stale = Boolean(
+        data.stale || quality.stale || data.phase === "stale" || dynamicStatus === "stale" || focusStatus === "stale"
+      );
+      const staleBadge = document.getElementById("sentiment-stale");
+      staleBadge.hidden = !stale;
+      const time = data.timestamp ? data.timestamp.replace("T", " ").slice(0, 19) : "时间暂缺";
+      const phaseNames = { opening_observation: "开盘观察", regular: "盘中确认", unknown: "时段未知" };
+      const phaseLabel = data.phase_label || phaseNames[data.phase] || "";
+      const phase = phaseLabel ? " · " + phaseLabel : "";
+      document.getElementById("sentiment-updated").textContent = (stale ? "最近有效数据 " : "更新于 ") + time + phase;
+
+      renderDefenseFocus(data.defense_focus);
+      renderSentimentReasons(structure);
+      renderSentimentGroups(data.groups, dynamicStatus, data.leadership_pool);
+      const offense = data.offense && typeof data.offense === "object" ? data.offense : {};
+      renderCoreOffense(offense.core);
+      renderOffenseRadar(data.offense);
+    }
+
+    async function fetchRiskAppetite(manual = false) {
+      if (riskRequestInFlight) return;
+      riskRequestInFlight = true;
+      try {
+        const response = await fetch("/api/risk-appetite" + (manual ? "?refresh=1" : ""), { cache: "no-store" });
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || "资金情绪服务暂时不可用");
+        renderRiskAppetite(data);
+      } catch (error) {
+        const updated = document.getElementById("sentiment-updated");
+        if (latestRiskAppetite) {
+          document.getElementById("sentiment-stale").hidden = false;
+          updated.textContent = "本次更新失败，保留最近有效数据";
+        } else {
+          document.getElementById("sentiment-emotion").textContent = "数据暂不可用";
+          document.getElementById("sentiment-structure").textContent = "等待下一次更新";
+          updated.textContent = "资金情绪连接暂时不可用";
+        }
+      } finally {
+        riskRequestInFlight = false;
+      }
+    }
+
+    function shortDate(value) {
+      if (!value || value.length < 10) return "";
+      return value.slice(5).replace("-", "/");
+    }
+
+    function renderMarketTurnover(turnover) {
+      const delta = document.getElementById("turnover-delta");
+      const verdict = document.getElementById("turnover-verdict");
+      const asOf = document.getElementById("turnover-asof");
+      if (!turnover?.available || !isNumber(turnover.difference)) {
+        delta.className = "turnover-delta";
+        delta.textContent = "—";
+        verdict.textContent = turnover?.reason || "全市场同期成交额暂不可用。";
+        asOf.textContent = "等待成交数据";
+        document.getElementById("today-turnover-label").textContent = "今日此时成交额";
+        document.getElementById("previous-turnover-label").textContent = "上一交易日同期成交额";
+        document.getElementById("today-turnover").textContent = "—";
+        document.getElementById("previous-turnover").textContent = "—";
+        return;
+      }
+
+      delta.className = "turnover-delta " + turnoverDirection(turnover);
+      delta.textContent = formatTurnover(turnover.difference, true);
+      verdict.innerHTML = `截至 <strong>${turnover.as_of}</strong>，大 A 全市较上一交易日同期<strong>${turnover.label} ${formatTurnover(Math.abs(turnover.difference))}</strong>。`;
+      asOf.textContent = "同期时点 " + turnover.as_of;
+      document.getElementById("today-turnover-label").textContent = `今日 ${shortDate(turnover.today_date)} · ${turnover.as_of}`;
+      document.getElementById("previous-turnover-label").textContent = `上一交易日 ${shortDate(turnover.previous_date)} · ${turnover.as_of}`;
+      document.getElementById("today-turnover").textContent = formatTurnover(turnover.today_amount);
+      document.getElementById("previous-turnover").textContent = formatTurnover(turnover.previous_same_time_amount);
+    }
+
+    function render(data) {
+      latestIndices = Array.isArray(data.indices) ? data.indices : [];
+      cards.forEach((_, code) => {
+        renderCard(latestIndices.find((item) => item.code === code) || { code, available: false });
+      });
+      renderComparison(latestIndices);
+      renderMarketTurnover(data.market_turnover);
+      hasSuccessfulMarketPayload = renderMarketPulse(data) > 0;
+
+      const session = document.getElementById("session");
+      document.getElementById("session-label").textContent = data.market_state?.label || "行情已连接";
+      session.classList.toggle("open", Boolean(data.market_state?.is_open));
+
+      const time = data.timestamp ? data.timestamp.replace("T", " ").slice(0, 19) : "刚刚";
+      const source = data.source_label || data.source || "行情源";
+      document.getElementById("data-meta").textContent = `更新于 ${time} · ${source}`;
+      document.getElementById("notice").classList.remove("visible");
+    }
+
+    async function fetchMarket(manual = false) {
+      if (marketRequestInFlight) return;
+      marketRequestInFlight = true;
+      const button = document.getElementById("refresh");
+      button.disabled = true;
+      button.classList.add("loading");
+      try {
+        const response = await fetch("/api/market" + (manual ? "?refresh=1" : ""), { cache: "no-store" });
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || "行情服务暂时不可用");
+        render(data);
+      } catch (error) {
+        markMarketPulseFailure();
+        const notice = document.getElementById("notice");
+        const message = hasSuccessfulMarketPayload
+          ? "本次更新未完成，页面继续显示最近一次行情。"
+          : "行情连接暂时不可用，请稍后刷新。";
+        if (notice.textContent !== message) notice.textContent = message;
+        notice.classList.add("visible");
+      } finally {
+        marketRequestInFlight = false;
+        button.disabled = false;
+        button.classList.remove("loading");
+      }
+    }
+
+    function updateClock() {
+      document.getElementById("clock").textContent = new Intl.DateTimeFormat("zh-CN", {
+        timeZone: "Asia/Shanghai", hour12: false, hour: "2-digit", minute: "2-digit", second: "2-digit"
+      }).format(new Date()) + " CST";
+    }
+
+    const marketDetailsToggle = document.getElementById("market-details-toggle");
+    const marketDetailsClose = document.getElementById("market-details-close");
+    const marketDetails = document.getElementById("market-details");
+
+    function setMarketDetailsExpanded(expanded, returnFocus = false) {
+      marketDetails.hidden = !expanded;
+      marketDetailsToggle.setAttribute("aria-expanded", String(expanded));
+      marketDetailsToggle.setAttribute("aria-label", expanded ? "收起行情明细" : "查看行情明细");
+      marketDetailsToggle.querySelector(".market-details-toggle-long").textContent = expanded ? "收起详情" : "查看详情";
+      marketDetailsToggle.querySelector(".market-details-toggle-short").textContent = expanded ? "收起" : "详情";
+
+      if (expanded) {
+        window.requestAnimationFrame(() => {
+          marketDetails.scrollIntoView({ block: "start", behavior: "auto" });
+          document.getElementById("market-details-title").focus({ preventScroll: true });
+        });
+      } else if (returnFocus) {
+        marketDetailsToggle.focus();
+      }
+    }
+
+    marketDetailsToggle.addEventListener("click", () => {
+      const expanded = marketDetailsToggle.getAttribute("aria-expanded") === "true";
+      setMarketDetailsExpanded(!expanded, expanded);
+    });
+    marketDetailsClose.addEventListener("click", () => setMarketDetailsExpanded(false, true));
+
+    const sentimentToggle = document.getElementById("sentiment-toggle");
+    sentimentToggle.addEventListener("click", () => {
+      const toggle = sentimentToggle;
+      const details = document.getElementById("sentiment-details");
+      const expanded = toggle.getAttribute("aria-expanded") === "true";
+      toggle.setAttribute("aria-expanded", String(!expanded));
+      details.hidden = expanded;
+    });
+    sentimentToggle.addEventListener("keydown", (event) => {
+      if (event.key !== "Enter" && event.key !== " ") return;
+      event.preventDefault();
+      sentimentToggle.click();
+    });
+
+    const coreOffenseToggle = document.getElementById("core-offense-toggle");
+    coreOffenseToggle.addEventListener("click", () => {
+      const details = document.getElementById("core-offense-details");
+      const expanded = coreOffenseToggle.getAttribute("aria-expanded") === "true";
+      coreOffenseToggle.setAttribute("aria-expanded", String(!expanded));
+      details.hidden = expanded;
+    });
+    coreOffenseToggle.addEventListener("keydown", (event) => {
+      if (event.key !== "Enter" && event.key !== " ") return;
+      event.preventDefault();
+      coreOffenseToggle.click();
+    });
+
+    const offenseToggle = document.getElementById("offense-toggle");
+    offenseToggle.addEventListener("click", () => {
+      const details = document.getElementById("offense-details");
+      const expanded = offenseToggle.getAttribute("aria-expanded") === "true";
+      offenseToggle.setAttribute("aria-expanded", String(!expanded));
+      details.hidden = expanded;
+    });
+    offenseToggle.addEventListener("keydown", (event) => {
+      if (event.key !== "Enter" && event.key !== " ") return;
+      event.preventDefault();
+      offenseToggle.click();
+    });
+
+    const offenseTabs = Array.from(document.querySelectorAll("[data-offense-tab]"));
+    offenseTabs.forEach((tab) => {
+      tab.addEventListener("click", () => selectOffenseTab(tab.dataset.offenseTab));
+      tab.addEventListener("keydown", (event) => {
+        const currentIndex = offenseTabs.indexOf(tab);
+        let nextIndex = null;
+        if (event.key === "ArrowRight" || event.key === "ArrowDown") nextIndex = (currentIndex + 1) % offenseTabs.length;
+        if (event.key === "ArrowLeft" || event.key === "ArrowUp") nextIndex = (currentIndex - 1 + offenseTabs.length) % offenseTabs.length;
+        if (event.key === "Home") nextIndex = 0;
+        if (event.key === "End") nextIndex = offenseTabs.length - 1;
+        if (nextIndex === null) return;
+        event.preventDefault();
+        selectOffenseTab(offenseTabs[nextIndex].dataset.offenseTab, true);
+      });
+    });
+
+    document.getElementById("refresh").addEventListener("click", () => {
+      fetchMarket(true);
+      fetchRiskAppetite(true);
+    });
+    renderCoreOffense(null);
+    updateClock();
+    window.setInterval(updateClock, 1000);
+    fetchMarket();
+    fetchRiskAppetite();
+    window.setInterval(fetchMarket, REFRESH_MS);
+    window.setInterval(fetchRiskAppetite, SENTIMENT_REFRESH_MS);
+  </script>
 </body>
 </html>

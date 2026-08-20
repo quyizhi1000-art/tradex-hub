@@ -26,7 +26,7 @@ classifiers = [
 ]
 
 dependencies = [
-    "mcp>=1.0.0",
+    "mcp>=1.0.0,<2.0.0",
     "akshare>=1.18.91",
     "eltdx>=2.0.2",
     "pandas>=2.0.0",
@@ -44,6 +44,9 @@ http = [
 ]
 ws = [
     "websockets>=12.0",
+]
+lake = [
+    "duckdb>=1.1.0",
 ]
 dev = [
     "pytest>=8.0.0",

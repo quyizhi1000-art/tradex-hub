@@ -1,0 +1,19 @@
+{
+  "description": "Ensure the shared Tradex MCP service is ready with a short bounded wait for money project sessions.",
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "^(startup|resume|clear)$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "pwsh -NoProfile -NonInteractive -ExecutionPolicy Bypass -File scripts/tradex_session_start.ps1",
+            "commandWindows": "pwsh -NoProfile -NonInteractive -ExecutionPolicy Bypass -File scripts/tradex_session_start.ps1",
+            "timeout": 7,
+            "statusMessage": "Ensuring shared Tradex MCP is ready"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -16,8 +16,11 @@ MCP 诊断工具模块 — 暴露数据源健康状态、工具清单、缓存�
 
 from __future__ import annotations
 
+import importlib
+
 from mcp.server.fastmcp import FastMCP
 
+from ..execution import native_async, run_blocking
 from ..utils.formatter import dict_to_json, error_response
 from ..utils.cache import cache
 from .registry import ToolRegistry
@@ -163,6 +166,7 @@ def register(mcp: FastMCP):
             )
 
     @mcp.tool()
+    @native_async
     async def list_all_tools() -> str:
         """
         返回所有已注册工具的清单。
@@ -212,6 +216,7 @@ def register(mcp: FastMCP):
             return error_response(f"获取缓存统计失败: {e}", "get_cache_stats")
 
     @mcp.tool()
+    @native_async
     async def health_check() -> str:
         """
         系统健康检查。
@@ -239,7 +244,7 @@ def register(mcp: FastMCP):
 
         # akshare 连通性测试（核心依赖，不可用即为 unhealthy）
         try:
-            import akshare
+            akshare = await run_blocking(importlib.import_module, "akshare")
 
             result["akshare"] = {
                 "available": True,
@@ -320,6 +325,7 @@ def register(mcp: FastMCP):
         return dict_to_json(result)
 
     @mcp.tool()
+    @native_async
     async def get_data_source_dashboard() -> str:
         """
         获取数据源看板数据（JSON）。
@@ -343,7 +349,7 @@ def register(mcp: FastMCP):
                 tool_count = len(tools)
             except Exception:
                 tool_count = 0
-            data = build_dashboard_data(tool_count=tool_count)
+            data = await run_blocking(build_dashboard_data, tool_count=tool_count)
             return dict_to_json(data)
         except Exception as e:
             return error_response(f"获取数据源看板失败: {e}", "get_data_source_dashboard")

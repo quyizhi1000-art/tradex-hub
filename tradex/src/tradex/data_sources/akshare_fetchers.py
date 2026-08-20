@@ -159,7 +159,7 @@ def _fetch_index_daily_from_push2his(sym: str, days: int) -> list:
 
     返回 [{"date","volume","amount"}, ...]；成交额/成交量为 None 时表示该源未提供。
     """
-    from curl_cffi import requests as _rq
+    from tradex.data_sources.em_client import em_get
 
     # symbol 格式 sh000001 / sz399001 / sz399006 → secid
     if sym.lower().startswith("sh") or sym.lower().startswith("1."):
@@ -170,14 +170,6 @@ def _fetch_index_daily_from_push2his(sym: str, days: int) -> list:
         # 纯数字：上证≈1.，深证≈0.
         secid = f"1.{sym.zfill(6)}" if sym.startswith(("000001", "999999")) else f"0.{sym.zfill(6)}"
 
-    _session = _rq.Session()
-    _session.headers.update({
-        "User-Agent": (
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-            "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
-        ),
-        "Referer": "https://quote.eastmoney.com/",
-    })
     url = "https://push2his.eastmoney.com/api/qt/stock/kline/get"
     params = {
         "secid": secid,
@@ -190,7 +182,7 @@ def _fetch_index_daily_from_push2his(sym: str, days: int) -> list:
         "lmt": max(int(days), 10),
     }
 
-    resp = _session.get(url, params=params, timeout=10)
+    resp = em_get(url, params=params, timeout=10)
     resp.raise_for_status()
     data = resp.json()
     klines = (data.get("data") or {}).get("klines") or []
@@ -209,6 +201,66 @@ def _fetch_index_daily_from_push2his(sym: str, days: int) -> list:
             "amount": amt,
         })
     return out
+
+
+# ============================================================
+# index_intraday_amount — 指数近 5 日分钟成交额（同期量能对比）
+# ============================================================
+
+def fetch_index_intraday_amount(symbol: str = "", code: str = "", days: int = 5, **kwargs):
+    """获取指数最近若干交易日的 1 分钟成交额（元）。
+
+    东方财富 trends2 的每个分钟点提供该分钟成交额；对分钟点累加即可得到
+    当日截至任意时刻的累计成交额。沪深指数成交额相加代表大 A 全市场成交额。
+    """
+    from tradex.data_sources.em_client import em_get
+
+    sym = (symbol or code).strip().lower()
+    if not sym:
+        raise RuntimeError("index symbol required (e.g. sh000001)")
+    if sym.startswith("sh"):
+        secid = "1." + sym[2:].zfill(6)
+    elif sym.startswith("sz"):
+        secid = "0." + sym[2:].zfill(6)
+    elif "." in sym:
+        secid = sym
+    else:
+        secid = ("1." if sym in ("000001", "999999") else "0.") + sym.zfill(6)
+
+    params = {
+        "fields1": "f1,f2,f3,f4,f5,f6,f7,f8,f9,f10,f11,f12,f13",
+        "fields2": "f51,f52,f53,f54,f55,f56,f57,f58",
+        "ut": "7eea3edcaed734bea9cbfc24409ed989",
+        "ndays": str(max(2, min(int(days), 5))),
+        "iscr": "0",
+        "secid": secid,
+    }
+    response = em_get(
+        "https://push2his.eastmoney.com/api/qt/stock/trends2/get",
+        params=params,
+        timeout=10,
+    )
+    response.raise_for_status()
+    trends = (response.json().get("data") or {}).get("trends") or []
+    rows = []
+    for raw in trends:
+        fields = str(raw).split(",")
+        if len(fields) < 7 or " " not in fields[0]:
+            continue
+        date_text, time_text = fields[0].split(" ", 1)
+        try:
+            amount = float(fields[6])
+        except (TypeError, ValueError):
+            continue
+        rows.append({
+            "datetime": fields[0],
+            "date": date_text,
+            "time": time_text[:5],
+            "amount": amount,
+        })
+    if not rows:
+        raise RuntimeError(f"index intraday amount empty for {sym}")
+    return rows
 
 
 # ============================================================
@@ -364,22 +416,16 @@ def fetch_industry_data(
     if endpoint == "board_concept_name_ths":
         return ak.stock_board_concept_name_ths()
     if endpoint == "sector_fund_flow_rank":
-        # 使用 curl_cffi 绕过系统代理（东财 push2 接口）
-        from curl_cffi import requests as _rq
-        _session = _rq.Session()
-        _session.headers.update({
-            "User-Agent": (
-                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-                "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
-            ),
-            "Referer": "https://data.eastmoney.com/",
-        })
+        # 统一经过共享东财网关；网关内部仍使用 curl_cffi。
+        from tradex.data_sources.em_client import em_get
+        from .http_fetchers import _provider_time_iso
         _st_map = {"行业资金流": "2", "概念资金流": "3", "地域资金流": "1"}
         _ind_map = {"今日": "0", "5日": "5", "10日": "10"}
         _fs = f"m:90+t:{_st_map.get(sector_type, '2')}"
         _url = "https://push2.eastmoney.com/api/qt/clist/get"
+        _page_size = 100
         _params = {
-            "pn": "1", "pz": "100", "po": "1", "np": "1",
+            "pz": str(_page_size), "po": "1", "np": "1",
             "ut": "b2884a393a59ad64002292a3e90d46a5",
             "fltt": "2", "invt": "2",
             "fid0": "f62",
@@ -391,10 +437,25 @@ def fetch_industry_data(
             ),
             "rt": "52975239",
         }
-        resp = _session.get(_url, params=_params, timeout=15, impersonate="chrome120")
-        resp.raise_for_status()
-        _data = resp.json()
-        _items = _data.get("data", {}).get("diff", [])
+        _items = []
+        for _page in range(1, 51):
+            _page_params = {**_params, "pn": str(_page)}
+            resp = em_get(
+                _url,
+                params=_page_params,
+                timeout=15,
+            )
+            resp.raise_for_status()
+            _data = resp.json().get("data") or {}
+            _page_items = _data.get("diff") or []
+            _items.extend(_page_items)
+            _total = int(_data.get("total") or 0)
+            if (
+                not _page_items
+                or len(_page_items) < _page_size
+                or (_total and len(_items) >= _total)
+            ):
+                break
         _rows = []
         for item in _items:
             _rows.append({
@@ -402,22 +463,35 @@ def fetch_industry_data(
                 "代码": item.get("f12", ""),
                 "最新价": item.get("f2", 0),
                 "涨跌幅": item.get("f3", 0),
-                "主力净流入": item.get("f62", 0),
-                "主力净流入-占比": item.get("f184", 0),
-                "超大单净流入": item.get("f66", 0),
-                "超大单净流入-占比": item.get("f69", 0),
-                "大单净流入": item.get("f72", 0),
-                "大单净流入-占比": item.get("f75", 0),
-                "中单净流入": item.get("f78", 0),
-                "中单净流入-占比": item.get("f81", 0),
-                "小单净流入": item.get("f84", 0),
-                "小单净流入-占比": item.get("f87", 0),
-                "主力净流入排名": item.get("f204", 0),
-                "涨跌股数比": item.get("f205", 0),
+                "主力净流入": item.get("f62"),
+                "主力净流入-占比": item.get("f184"),
+                "超大单净流入": item.get("f66"),
+                "超大单净流入-占比": item.get("f69"),
+                "大单净流入": item.get("f72"),
+                "大单净流入-占比": item.get("f75"),
+                "中单净流入": item.get("f78"),
+                "中单净流入-占比": item.get("f81"),
+                "小单净流入": item.get("f84"),
+                "小单净流入-占比": item.get("f87"),
+                "主力净流入排名": item.get("f204"),
+                "涨跌股数比": item.get("f205"),
+                "更新时间": _provider_time_iso(item.get("f124")),
             })
         if not _rows:
             return pd.DataFrame()
-        return pd.DataFrame(_rows)
+        result = pd.DataFrame(_rows)
+        optional_columns = [
+            "主力净流入", "主力净流入-占比",
+            "超大单净流入", "超大单净流入-占比",
+            "大单净流入", "大单净流入-占比",
+            "中单净流入", "中单净流入-占比",
+            "小单净流入", "小单净流入-占比",
+            "主力净流入排名", "涨跌股数比", "更新时间",
+        ]
+        for column in optional_columns:
+            result[column] = result[column].astype(object)
+            result.loc[result[column].isna(), column] = None
+        return result
     if endpoint == "board_industry_hist_em":
         kw: dict = {"symbol": industry, "period": period}
         if start_date:
@@ -559,7 +633,8 @@ def fetch_fund_flow(code: str = "", curr_date: str = "", include_history: bool =
     返回与 em_push2 源相同的 dict 结构（realtime/history/signal）。
     使用 curl_cffi 替代 requests，避免系统代理导致的 RemoteDisconnected。
     """
-    from curl_cffi import requests as _rq
+    from astock_signals.smart_router import SourceBusyError
+    from tradex.data_sources.em_client import em_get
 
     if not curr_date:
         curr_date = datetime.now().strftime("%Y-%m-%d")
@@ -571,15 +646,6 @@ def fetch_fund_flow(code: str = "", curr_date: str = "", include_history: bool =
         "history": [],
         "signal": "neutral",
     }
-
-    _session = _rq.Session()
-    _session.headers.update({
-        "User-Agent": (
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-            "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
-        ),
-        "Referer": "https://data.eastmoney.com/",
-    })
 
     secid = f"1.{code}" if code.startswith("6") else f"0.{code}"
     url = "https://push2his.eastmoney.com/api/qt/stock/fflow/daykline/get"
@@ -593,7 +659,7 @@ def fetch_fund_flow(code: str = "", curr_date: str = "", include_history: bool =
     }
 
     try:
-        resp = _session.get(url, params=params, timeout=10)
+        resp = em_get(url, params=params, timeout=10)
         resp.raise_for_status()
         data = resp.json()
         klines = data.get("data", {}).get("klines", [])
@@ -617,6 +683,8 @@ def fetch_fund_flow(code: str = "", curr_date: str = "", include_history: bool =
             elif last["main_net"] < 0:
                 result["signal"] = "bearish_outflow"
         return result
+    except SourceBusyError:
+        raise
     except Exception as e:
         raise RuntimeError(f"AKShare 资金流数据获取失败: {e}")
 
@@ -666,6 +734,117 @@ def fetch_dragon_tiger(code: str = "", trade_date: str = "", look_back_days: int
             "turnover_pct": round(float(row.get("换手率", 0) or 0), 2),
         })
     return result
+
+
+def fetch_dragon_tiger_market_day(
+    code: str = "",
+    symbol: str = "",
+    trade_date: str = "",
+    board_type: str = "all",
+    look_back_days: int = 1,
+    **kwargs,
+):
+    """Strict one-day market-list fallback for the Fuyao contract.
+
+    AKShare can reproduce this contract only for an explicit date and the
+    unfiltered ``all`` board.  Unsupported dimensions are rejected instead of
+    being silently ignored and returning semantically different data.
+    """
+    from astock_signals.smart_router import SourceCapabilityError
+
+    if code or symbol:
+        raise SourceCapabilityError("market-day dragon tiger does not accept a stock code")
+    if str(board_type or "all").strip().lower() != "all":
+        raise SourceCapabilityError("AKShare fallback supports only board_type='all'")
+    if look_back_days != 1:
+        raise SourceCapabilityError("market-day dragon tiger requires look_back_days=1")
+    if not trade_date:
+        raise SourceCapabilityError(
+            "AKShare exact-day fallback requires an explicit trade_date"
+        )
+
+    parsed = datetime.strptime(trade_date, "%Y-%m-%d")
+    date_text = parsed.strftime("%Y%m%d")
+    raw = _ak().stock_lhb_detail_em(start_date=date_text, end_date=date_text)
+    if raw is None or raw.empty:
+        raise RuntimeError(f"AKShare 龙虎榜在 {trade_date} 无市场数据")
+
+    columns = [
+        "代码",
+        "名称",
+        "上榜日",
+        "解读",
+        "涨跌幅",
+        "龙虎榜买入额",
+        "龙虎榜卖出额",
+        "龙虎榜净买额",
+        "净买额占总成交比",
+        "机构净买额",
+        "游资净买额",
+        "热度排名",
+        "上榜天数",
+        "概念列表",
+        "数据源",
+    ]
+    required = {
+        "代码",
+        "名称",
+        "上榜日",
+        "涨跌幅",
+        "龙虎榜买入额",
+        "龙虎榜卖出额",
+        "龙虎榜净买额",
+        "净买额占总成交比",
+    }
+    missing = required.difference(raw.columns)
+    if missing:
+        raise RuntimeError(
+            "AKShare 龙虎榜缺少统一契约字段: " + ",".join(sorted(missing))
+        )
+
+    rows = []
+    for _, item in raw.iterrows():
+        code_text = str(item.get("代码") or "").strip().split(".", 1)[0].zfill(6)
+        if len(code_text) != 6 or not code_text.isdigit():
+            raise RuntimeError("AKShare 龙虎榜包含无效股票代码")
+        row_date = str(item.get("上榜日") or "")[:10]
+        if row_date != trade_date:
+            raise RuntimeError(
+                f"AKShare 龙虎榜返回错日数据: expected={trade_date}, actual={row_date}"
+            )
+        rows.append(
+            {
+                "代码": code_text,
+                "名称": str(item.get("名称") or ""),
+                "上榜日": row_date,
+                "解读": str(item.get("解读") or item.get("上榜原因") or ""),
+                "涨跌幅": item.get("涨跌幅"),
+                "龙虎榜买入额": item.get("龙虎榜买入额"),
+                "龙虎榜卖出额": item.get("龙虎榜卖出额"),
+                "龙虎榜净买额": item.get("龙虎榜净买额"),
+                "净买额占总成交比": item.get("净买额占总成交比"),
+                "机构净买额": None,
+                "游资净买额": None,
+                "热度排名": None,
+                "上榜天数": None,
+                "概念列表": [],
+                "数据源": "akshare_exact_day",
+            }
+        )
+    frame = pd.DataFrame(rows, columns=columns)
+    frame.attrs.update(
+        {
+            "trade_date": trade_date,
+            "board_type": "all",
+            "total": len(frame),
+            "stock_count": frame["代码"].nunique(),
+            "provider_as_of": None,
+            "source": "akshare_exact_day",
+            "source_valid": True,
+            "valid_empty": False,
+        }
+    )
+    return frame
 
 
 # ============================================================

@@ -8,7 +8,7 @@
 
 设计原则：
   - 每个 fetch_fn 接受 **kwargs，返回 DataFrame（统一格式）
-  - 失败时返回空 DataFrame，不抛异常（容错设计）
+  - 普通失败返回空 DataFrame；东财队列拥塞原样上抛给 SmartRouter 降级
   - 仅使用 curl_cffi（requests 兼容层），不引入其他第三方依赖
 """
 
@@ -24,6 +24,8 @@ from urllib.parse import urlencode
 
 import pandas as pd
 from curl_cffi import requests as curl_requests
+
+from astock_signals.smart_router import SourceBusyError
 
 logger = logging.getLogger("tradex.news")
 
@@ -51,6 +53,7 @@ def fetch_em_news_direct(symbol: str = "", code: str = "", **kwargs) -> pd.DataF
     sym = symbol or code
     if not sym:
         raise ValueError("fetch_em_news_direct: symbol/code is required")
+    from tradex.data_sources.em_client import em_get
 
     try:
         url = "https://search-api-web.eastmoney.com/search/jsonp"
@@ -81,7 +84,7 @@ def fetch_em_news_direct(symbol: str = "", code: str = "", **kwargs) -> pd.DataF
             "Referer": "https://so.eastmoney.com/news/s?keyword=" + sym,
             "Accept": "*/*",
         }
-        resp = curl_requests.get(url, params=params, headers=headers, timeout=_TIMEOUT, impersonate="chrome120")
+        resp = em_get(url, params=params, headers=headers, timeout=_TIMEOUT)
         resp.raise_for_status()
 
         # 解析 JSONP 响应：去掉 callback 包裹
@@ -118,6 +121,8 @@ def fetch_em_news_direct(symbol: str = "", code: str = "", **kwargs) -> pd.DataF
 
         return pd.DataFrame(articles)
 
+    except SourceBusyError:
+        raise
     except Exception as e:
         logger.warning("fetch_em_news_direct(%s) failed: %s", sym, e)
         return pd.DataFrame()

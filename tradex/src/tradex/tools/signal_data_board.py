@@ -17,6 +17,9 @@ Tools (共 3 个):
 
 from __future__ import annotations
 
+from datetime import datetime
+from zoneinfo import ZoneInfo
+
 from mcp.server.fastmcp import FastMCP
 
 from ..data_sources import get_router
@@ -24,6 +27,7 @@ from ..utils.cache import TTL_DAILY, TTL_REALTIME, cache
 from ..utils.formatter import error_response, dict_to_json
 
 _router = get_router()
+_SHANGHAI = ZoneInfo("Asia/Shanghai")
 
 
 def _try_push_limit_up_signal(board_type: str, count: int) -> None:
@@ -76,7 +80,8 @@ def register(mcp: FastMCP):
                 "get_limit_up_board",
             )
 
-        cache_key = f"limit_up_board:{board_type}"
+        cache_date = datetime.now(_SHANGHAI).date().isoformat()
+        cache_key = f"limit_up_board:v2:{cache_date}:{board_type}"
         cached = cache.get(cache_key)
         if cached is not None:
             return cached
@@ -108,7 +113,8 @@ def register(mcp: FastMCP):
             打板情绪数据 (JSON)，含涨停数/炸板数/跌停数/炸板率/
             连板梯队/晋级率/平均溢价/热门题材。
         """
-        cache_key = "board_sentiment"
+        cache_date = datetime.now(_SHANGHAI).date().isoformat()
+        cache_key = f"board_sentiment:v2:{cache_date}"
         cached = cache.get(cache_key)
         if cached is not None:
             return cached
@@ -140,7 +146,8 @@ def register(mcp: FastMCP):
         Returns:
             涨停揭秘数据 (JSON)，含题材原因/封板成功率/板型/封单额/换手率。
         """
-        cache_key = f"limit_up_insight:{code or 'all'}"
+        cache_date = datetime.now(_SHANGHAI).date().isoformat()
+        cache_key = f"limit_up_insight:v2:{cache_date}:{code or 'all'}"
         cached = cache.get(cache_key)
         if cached is not None:
             return cached

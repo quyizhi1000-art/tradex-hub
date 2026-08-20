@@ -40,20 +40,20 @@ def fetch_fund_flow_em(code: str = "", symbol: str = "", curr_date: str = "", in
     兼容 symbol/code 两种参数名（SmartRouter 路由归一化）。
     """
     from datetime import datetime
-    from curl_cffi import requests as _rq
+    from astock_signals.smart_router import SourceBusyError
+    from tradex.data_sources.em_client import em_get
 
     code = code or symbol
     if not curr_date:
         curr_date = datetime.now().strftime("%Y-%m-%d")
 
-    _session = _rq.Session()
-    _session.headers.update({
+    request_headers = {
         "User-Agent": (
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
             "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
         ),
         "Referer": "https://data.eastmoney.com/",
-    })
+    }
 
     secid = f"1.{code}" if code.startswith("6") else f"0.{code}"
     result: dict = {
@@ -74,7 +74,7 @@ def fetch_fund_flow_em(code: str = "", symbol: str = "", curr_date: str = "", in
         "fields2": "f51,f52,f53,f54,f55,f56,f57",
     }
     try:
-        resp = _session.get(url1, params=params1, timeout=10)
+        resp = em_get(url1, params=params1, headers=request_headers, timeout=10)
         resp.raise_for_status()
         data = resp.json()
         klines = data.get("data", {}).get("klines", [])
@@ -95,6 +95,8 @@ def fetch_fund_flow_em(code: str = "", symbol: str = "", curr_date: str = "", in
                 result["signal"] = "bullish_inflow"
             elif last["main_net"] < 0:
                 result["signal"] = "bearish_outflow"
+    except SourceBusyError:
+        raise
     except Exception as e:
         logger.debug("fetch_fund_flow_em realtime failed: %s", e)
 
@@ -109,7 +111,7 @@ def fetch_fund_flow_em(code: str = "", symbol: str = "", curr_date: str = "", in
             "fields2": "f51,f52,f53,f54,f55,f56,f57",
         }
         try:
-            resp = _session.get(url2, params=params2, timeout=10)
+            resp = em_get(url2, params=params2, headers=request_headers, timeout=10)
             resp.raise_for_status()
             data = resp.json()
             hist_klines = data.get("data", {}).get("klines", [])
@@ -124,6 +126,8 @@ def fetch_fund_flow_em(code: str = "", symbol: str = "", curr_date: str = "", in
                         "large": float(parts[4]),
                         "super_large": float(parts[5]),
                     })
+        except SourceBusyError:
+            raise
         except Exception as e:
             logger.debug("fetch_fund_flow_em history failed: %s", e)
 
@@ -243,13 +247,24 @@ def fetch_concept_attribution(symbol: str = "", code: str = "", **kwargs) -> dic
 # limit_up_board — 东财 em_push2_clist 源（独占）
 # ============================================================
 
-def fetch_limit_up_board(board_type: str = "zt", **kwargs):
+def fetch_limit_up_board(
+    board_type: str = "zt",
+    date_ms: int | None = None,
+    **kwargs,
+):
     """涨停四池/打板情绪（东财 push2ex，独占源）。
 
     通过 board_type 分派：
       - "sentiment": 调用 get_board_sentiment_json() 返回打板情绪
       - 其他: 调用 get_limit_up_board_json(board_type) 返回对应池数据
     """
+    from astock_signals.smart_router import SourceCapabilityError
+
+    if date_ms is not None:
+        raise SourceCapabilityError(
+            "em_push2_clist cannot preserve the requested Fuyao date_ms"
+        )
+
     asig = _as()
     if board_type == "sentiment":
         return asig.get_board_sentiment_json()

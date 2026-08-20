@@ -9,11 +9,11 @@ Tools:
   9. get_stock_list            - Full A-share list with basic data
 
 Data source routing (via SmartRouter):
-  实时行情(A股): eltdx(priority=1) → akshare(priority=100) → tencent_http(priority=200)
+  实时行情(A股): eltdx(priority=1) → ths_fuyao(priority=50) → akshare(priority=100) → tencent_http(priority=200)
   实时行情(全球): tencent_http(priority=1)  [global_market_quote]
-  历史K线:  eltdx(priority=1) → akshare(priority=100)
+  历史K线:  eltdx(priority=1) → ths_fuyao(priority=50) → akshare(priority=100)
   分时数据: eltdx(priority=1) → akshare(priority=100)
-  股票列表: akshare(全量行情快照)
+  股票列表: stock_list 独立路由 → akshare(全量行情快照)
 """
 
 from __future__ import annotations
@@ -318,8 +318,9 @@ def register(mcp: FastMCP):
             return cached
 
         try:
-            # symbol="" → eltdx 单股源会失败，SmartRouter 自动降级到 akshare 全量快照
-            df, _src = _router.route("realtime_quote", symbol="")
+            # 全市场列表使用独立路由，避免只有价格字段的单标的备源
+            # 返回“成功”后截断 AKShare 的名称/行业/市值完整快照。
+            df, _src = _router.route("stock_list", symbol="")
             if df is None or df.empty:
                 return error_response(
                     "获取股票列表失败: 数据源返回空数据", "get_stock_list"
