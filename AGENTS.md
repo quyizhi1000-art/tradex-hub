@@ -1,5 +1,13 @@
 # Project-level development constraints
 
+## Lean path for small tasks
+
+- Treat a task as small when it is one local, reversible concern with narrow acceptance criteria and it does not cross architecture, schema, authentication, security, licensing, deployment, external-write, or release boundaries.
+- For a small task, do not spawn subagents and do not invoke a requirement or plan audit unless the user explicitly asks for either one.
+- Batch the necessary reads into one pass, make one coherent edit batch, run the single nearest focused test or validator, and stop as soon as the stated acceptance criteria pass.
+- Do not add a full suite, build, browser run, online check, repeated passing test, or speculative follow-up audit to a small task. A failed focused check may be rerun only after its concrete cause has changed.
+- If the initial read shows that the task crosses one of the excluded boundaries, leave the small-task path and state the concrete reason before expanding execution.
+
 ## Temporary mobile exclusion
 
 - Until the project owner explicitly revokes this section, treat desktop web pages and desktop user experience as the only UI target for the project.

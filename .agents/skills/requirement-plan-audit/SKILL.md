@@ -1,27 +1,18 @@
 ---
 name: requirement-plan-audit
-description: Analyze new implementation, change, repair, or refactoring requirements in this repository before execution. Unless the user explicitly directs immediate execution, decompose the requirement, propose a repository-grounded solution, critically recheck or replace the proposal, and ask the user to approve the final plan before making changes. When an unambiguous direct-execution instruction applies to the current task, skip this planning workflow and implement immediately within normal safety and authorization boundaries. Do not use for purely informational or read-only questions unless the user requests planning or review.
+description: Perform a repository-grounded requirement and solution audit only when the user explicitly invokes $requirement-plan-audit or selects this skill and asks for a plan audit. Decompose the requirement, propose a solution, critically recheck or replace the proposal, and ask the user to approve the final plan before making changes. Never invoke implicitly for ordinary implementation, change, repair, refactoring, informational, or read-only requests.
 ---
 
 # 需求拆解、方案复核与执行确认
 
-默认把用户的首次实施型请求视为“开始制定方案”，而不是实施授权；完成本流程并取得最终确认后再实施。唯一例外是用户对当前任务给出明确的直接执行指令，此时按下述规则跳过整个流程。
+本 skill 仅在用户显式调用 `$requirement-plan-audit`（或在界面中选择本 skill）并要求方案审计时运行。不得因普通的实现、修改、修复、重构、咨询或只读请求自动应用本流程。
 
-## 直接执行例外
-
-当用户明确要求“直接做”“直接执行”“跳过流程”“不用拆解或出方案”“不用审计或再次确认”，或以同等清晰的措辞要求立即实施当前需求时：
-
-- 跳过需求拆解、方案输出、自我复核和最终确认，直接开始实施与验证。
-- 把它视为对当前已说明范围的实施授权，不得据此扩大任务范围或推定其他外部写入权限。
-- 仍须遵守安全、权限及破坏性操作边界；存在无法合理推定的关键歧义、互相矛盾的要求或需要新增重大授权时，简洁说明阻碍并询问用户。
-- 实施中仍可自我质疑、撤回假设或更换做法，但无需恢复本 skill 的正式三阶段流程。
-
-直接执行必须是针对当前任务的明确指令。引述这些词、举例、假设句、讨论本 skill 的规则，或仅在需求正文中出现“直接”等字样，都不构成跳过指令。语义不明确时使用正常流程。
+一旦被显式调用，把当前实施型需求视为“开始制定与审计方案”，而不是实施授权；完成本流程并取得最终确认后再实施。
 
 ## 工作边界
 
 - 方案阶段可以读取仓库、配置、历史和现有测试，以事实支撑判断。
-- 正常流程中，在用户批准最终方案前，不修改项目文件，不提交代码，不执行部署、迁移、外部写入或其他实施动作；直接执行例外生效时不受这项二次确认要求约束。
+- 在用户批准最终方案前，不修改项目文件，不提交代码，不执行部署、迁移、外部写入或其他实施动作。
 - 只分析当前需求，不借机扩大范围。明确区分已知事实、推断、假设和待确认项。
 - 全程允许并鼓励自我质疑：可以撤回假设、推翻初稿、更换推荐方案。不得为了保持前后一致而维护已被证据否定的判断。
 
@@ -63,4 +54,4 @@ description: Analyze new implementation, change, repair, or refactoring requirem
 5. 风险、验证、回滚和仍需用户决定的事项。
 6. 明确说明此时尚未执行任何实施改动，并询问用户是否批准按最终方案执行。
 
-在正常流程中，只有用户在看到最终方案后明确表示批准，下一轮才可进入实施。若用户要求调整方案，更新受影响部分；调整实质改变设计或风险时，重新执行自我复核，再次请求批准。直接执行例外生效时无需执行本阶段。
+只有用户在看到最终方案后明确表示批准，下一轮才可进入实施。若用户要求调整方案，更新受影响部分；调整实质改变设计或风险时，重新执行自我复核，再次请求批准。

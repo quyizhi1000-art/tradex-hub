@@ -1,6 +1,6 @@
 ---
 name: tradex-architecture-review
-description: Review Tradex changes for business-boundary, provider-neutrality, refresh/cache ownership, and interface-layer violations. Use for architecture reviews, significant refactors, paid-source integrations, or changes spanning dashboard, MCP, gateway, providers, or data lake. Do not use as a mandatory ceremony for isolated copy or documentation edits.
+description: Review Tradex changes for business-boundary, provider-neutrality, refresh/cache ownership, and interface-layer violations. Use for architecture reviews, significant refactors, paid-source integrations, or changes spanning dashboard, MCP, gateway, providers, or data lake. Do not use as a mandatory ceremony for UI-only layout, styling, copy, client-side interaction, or presentation changes that preserve existing contracts and runtime ownership.
 ---
 
 # Tradex Architecture Review
@@ -8,6 +8,8 @@ description: Review Tradex changes for business-boundary, provider-neutrality, r
 Review the repository evidence, not the conversation's intended design. A good plan does not compensate for code that crosses the boundary.
 
 When the user asks only for review or diagnosis, remain read-only. Do not implement fixes, update the baseline, or create external actions without separate authorization.
+
+When a Dashboard change preserves existing contracts, data semantics, routing, refresh/cache ownership, and layer imports, treat it as UI-only. Do not expand it into an end-to-end architecture review.
 
 ## Review procedure
 
@@ -25,6 +27,7 @@ When the user asks only for review or diagnosis, remain read-only. Do not implem
 - Versioned canonical contracts and quality validation execute before data is accepted for consumers.
 - Data lake does not depend on dashboard modules; both consume provider-neutral services.
 - MCP and Web adapters serialize results but do not own routing, retry, fallback, business calculation, or duplicate caches.
+- UI code may own presentation state, client-side interaction, layout, visualization, and sorting or filtering of already delivered data when those behaviors do not redefine business semantics.
 - One runtime owner defines TTL, stale-while-revalidate, single-flight, and trading-session refresh behavior for a feature.
 - A provider switch does not require consumer-field or page changes.
 

@@ -1,6 +1,6 @@
 ---
 name: tradex-feature-slice
-description: Plan or implement Tradex desktop-web market-data features as provider-neutral vertical slices. Use when adding or changing a dashboard capability, refreshable metric, paid/free data source, canonical data contract, Web API, MCP exposure, or data-lake feed. Do not use for documentation-only or unrelated operational work.
+description: Plan or implement Tradex desktop-web market-data features as provider-neutral vertical slices. Use when a change adds or alters market-data semantics, a refreshable metric, source routing, freshness/cache/fallback behavior, a canonical contract, a Web API payload, MCP exposure, or a data-lake feed. Do not use for UI-only layout, styling, copy, client-side interaction, or presentation changes that consume an existing stable API, or for unrelated operational work.
 ---
 
 # Tradex Feature Slice
@@ -9,7 +9,7 @@ Keep the user-visible capability stable when providers, prices, or routing prior
 
 ## Establish the slice
 
-Before editing, inspect the affected consumer, gateway contract, provider registrations, refresh path, and nearest tests. State or record:
+Inspect only the layers affected by the requested behavior. For a data-capability change, inspect the affected consumer, gateway contract, provider registrations, refresh path, and nearest tests. State or record:
 
 - consumer behavior and required fields;
 - field semantics, units, timezone, ordering, and stable identifiers;
@@ -19,6 +19,8 @@ Before editing, inspect the affected consumer, gateway contract, provider regist
 - compatibility obligations for existing Web or MCP payloads.
 
 Ask only about ambiguity that materially changes observable behavior or cost. Preserve the user's approved architecture and avoid broad rewrites that are not required by the feature.
+
+If a consumer-only change preserves the existing business contract, data semantics, routing, and refresh/cache ownership, keep the work in the consumer layer. Do not expand it into provider, gateway, MCP, or data-lake changes. UI code may own presentation state, client-side interaction, layout, visualization, and sorting or filtering of already delivered data when those behaviors do not redefine business semantics.
 
 When the slice adds or changes a provider or canonical market-data contract, read [references/provider-contract.md](references/provider-contract.md) before designing or editing it.
 
