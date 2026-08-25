@@ -10,6 +10,8 @@ import logging
 
 import requests as _requests
 
+from .free_source_budget import wait_for_free_source
+
 from .anti_ban_client import em_get
 from .smart_router import SourceBusyError
 
@@ -181,6 +183,14 @@ def get_limit_up_insight(code: str = "") -> dict:
         url = "https://data.10jqka.com.cn/dataapi/limit_up/limit_up_detail"
         params = {"code": code} if code else {}
         headers = {"User-Agent": _UA}
+        wait_for_free_source(
+            "free:ths:web",
+            interval_env="THS_FREE_RATE_LIMIT_INTERVAL",
+            default_interval=0.5,
+            max_wait_env="THS_FREE_MAX_QUEUE_WAIT",
+            default_max_wait=4.0,
+            label="THS free",
+        )
         r = _requests.get(url, params=params, headers=headers, timeout=10)
         data = r.json()
         if data.get("code", 0) != 0:

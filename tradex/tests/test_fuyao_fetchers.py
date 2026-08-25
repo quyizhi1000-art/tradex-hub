@@ -19,6 +19,14 @@ _SNAPSHOT_PATH = "/api/a-share/prices/snapshot"
 _HISTORICAL_PATH = "/api/a-share/prices/historical"
 
 
+@pytest.fixture(autouse=True)
+def _isolated_rate_budget(monkeypatch, tmp_path):
+    monkeypatch.setenv(
+        "TRADEX_RATE_LIMIT_STATE_FILE",
+        str(tmp_path / "provider-rate-limits.sqlite3"),
+    )
+
+
 class _FakeResponse:
     def __init__(
         self,
@@ -176,6 +184,24 @@ def test_request_capacity_is_nonblocking_and_falls_back(monkeypatch):
         gate.release()
 
     assert calls == []
+
+
+def test_request_shared_rate_budget_is_nonblocking(monkeypatch):
+    _set_fuyao_config(monkeypatch)
+    monkeypatch.setenv("FUYAO_RATE_LIMIT_PER_MINUTE", "1")
+    data = {"timestamp": 1784275991000, "total": 0, "item": []}
+    calls = []
+
+    def fake_get(*args, **kwargs):
+        calls.append((args, kwargs))
+        return _FakeResponse(_success(data))
+
+    _patch_session(monkeypatch, fake_get)
+
+    assert fuyao_client._request(_SNAPSHOT_PATH) == data
+    with pytest.raises(SourceBusyError, match="rate budget is full"):
+        fuyao_client._request(_SNAPSHOT_PATH)
+    assert len(calls) == 1
 
 
 def test_request_reads_key_file_lazily_and_strips_whitespace(monkeypatch, tmp_path):

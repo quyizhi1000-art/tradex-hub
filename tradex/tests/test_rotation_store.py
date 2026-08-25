@@ -214,6 +214,70 @@ def test_per_day_cap_and_two_trade_day_retention(tmp_path: Path):
         store.close()
 
 
+def test_sector_flow_trajectory_keeps_the_full_day_outside_the_bounded_radar_replay(
+    tmp_path: Path,
+):
+    store = RotationRadarStore(
+        tmp_path / "full-flow.sqlite3",
+        max_points=256,
+        replay_steps=5,
+    )
+    try:
+        for offset in range(50):
+            minute = START + timedelta(minutes=offset)
+            industry = [
+                *[
+                    _board(
+                        f"I{index:04d}",
+                        f"行业背景{index}",
+                        minute,
+                        change=-2.0 + index,
+                    )
+                    for index in range(7)
+                ],
+                _board(
+                    "POWER",
+                    "电力",
+                    minute,
+                    change=5.0,
+                    breadth=0.8,
+                    flow=1.0 + offset,
+                ),
+            ]
+            concept = [
+                _board(
+                    f"C{index:04d}",
+                    f"概念背景{index}",
+                    minute,
+                    change=-2.0 + index,
+                )
+                for index in range(7)
+            ]
+            store.record_snapshot(
+                trade_date=TRADE_DATE,
+                minute_bucket=minute,
+                industry_records=industry,
+                concept_records=concept,
+                sources={"industry": "push2", "concept": "push2"},
+            )
+
+        current = store.get_current(TRADE_DATE)
+        electric_power = next(
+            item
+            for item in current["sector_flow_trajectory"]["sectors"]
+            if item["sector_key"] == "electric_power"
+        )
+
+        assert current["storage"]["stored_points"] == 50
+        assert current["storage"]["replayed_points"] == 5
+        assert current["sector_flow_trajectory"]["direction"] == "defense"
+        assert current["offense_sector_flow_trajectory"]["direction"] == "offense"
+        assert len(electric_power["points"]) == 50
+        assert electric_power["latest"]["delta_5m_cny"] == 500_000_000
+    finally:
+        store.close()
+
+
 def test_opening_is_stored_but_does_not_confirm(tmp_path: Path):
     store = RotationRadarStore(tmp_path / "opening.sqlite3")
     try:

@@ -402,12 +402,12 @@ docker compose up -d
 
 ## 🔄 SmartRouter 全量路由（v3.1.0）
 
-data_sources 数据源层注册到 SmartRouter，L1 工具通过 `SmartRouter.route()` 统一获取数据，自动健康评分/降级/故障隔离。配置必盈许可证后，等价能力统一采用“必盈主源 → Fuyao 二级源 → 原有源”；没有 Fuyao 等价接口的能力直接降级到原有源。未配置必盈时保持原路由。
+data_sources 数据源层注册到 SmartRouter，L1 工具通过 SmartRouter 统一获取数据，自动健康评分/降级/故障隔离。配置并验证 Tushare 付费源后，在语义等价的 A 股实时日线、历史 K 线、当日实时分钟和最终开盘竞价汇总上采用“Tushare → 其他等价源”。版本化行情契约使用 `route_validated()`，字段、单位或标的校验失败会在记录主源成功前降级。
 
 ```
-请求 → SmartRouter.route() → 固定优先级候选
-         ↓                    ├── 必盈（配置后，priority=1）
-         ↓                    ├── 同花顺 Fuyao 等价能力（priority=50）
+请求 → SmartRouter.route_validated() → 固定优先级候选
+         ↓                    ├── Tushare（已验证能力，priority=1）
+         ↓                    ├── 必盈 / 同花顺 Fuyao 等价能力
          ↓                    ├── eltdx / akshare / 东财 / 腾讯（priority>=100）
          ↓ 失败降级            └── 独占源（exclusive）不降级
        返回错误
@@ -415,10 +415,11 @@ data_sources 数据源层注册到 SmartRouter，L1 工具通过 `SmartRouter.ro
 
 | 数据类型 | 主源 | 备选源 | 独占 |
 |:---------|:----:|:------:|:----:|
-| 实时行情 | 必盈 | Fuyao / eltdx / akshare / 腾讯 | - |
-| 历史 K 线 | 必盈 | Fuyao / eltdx / akshare | - |
-| 分时数据 | eltdx | 腾讯 / akshare | - |
-| 集合竞价 | eltdx | 无 | ✅ 独占 |
+| A 股实时行情 | Tushare | 必盈 / Fuyao / eltdx / akshare / 腾讯 | - |
+| A 股历史 K 线 | Tushare | 必盈 / Fuyao / eltdx / akshare | - |
+| 当日 1 分钟序列 | Tushare `rt_min_daily` | eltdx（缺交易日时降级标记） | - |
+| 最终开盘竞价汇总 | Tushare | eltdx | - |
+| 竞价过程点 | eltdx | 无 | ✅ 独占 |
 | 逐笔成交 | eltdx | 无 | ✅ 独占 |
 | F10 资料 | eltdx | 无 | ✅ 独占 |
 | 涨停板 | 必盈 | Fuyao / 东财 push2 | - |
@@ -426,22 +427,46 @@ data_sources 数据源层注册到 SmartRouter，L1 工具通过 `SmartRouter.ro
 | 信号数据 | 混合源（东财/同花顺/akshare） | akshare 备用 | - |
 | 财务/估值 | 必盈（等价子能力） | akshare / eltdx F10 | - |
 
-必盈建议使用文件配置，避免许可证进入命令行、日志或版本库：
+Tushare 与必盈都建议使用文件配置，避免 token/许可证进入命令行、MCP URL、日志或版本库：
 
 ```dotenv
+TUSHARE_ENABLED=true
+TUSHARE_BASE_URL=https://api.tushare.pro
+TUSHARE_TOKEN_FILE=../key/tushare-token.txt
+# 15000 积分接口与各独立权限产品分别使用跨进程共享桶
+TUSHARE_POINTS_RATE_LIMIT_PER_MINUTE=500
+TUSHARE_REALTIME_DAILY_RATE_LIMIT_PER_MINUTE=50
+TUSHARE_REALTIME_MINUTE_RATE_LIMIT_PER_MINUTE=500
+TUSHARE_AUCTION_RATE_LIMIT_PER_MINUTE=500
+# sector_quotes 仅在账号已单独开通 rt_sw_k 后加入
+TUSHARE_PRIMARY_CAPABILITIES=realtime_quote,historical_kline,auction_data,market_universe,etf_quotes,stock_fund_flow,dragon_tiger_market_day,minute_data
+
 BIYING_ENABLED=true
 BIYING_LICENCE_FILE=../key/必营key.txt
+# 本机 dashboard、MCP 和诊断进程共享该额度
 BIYING_RATE_LIMIT_PER_MINUTE=300
 # 从此列表删除单项即可仅回滚对应能力
 BIYING_PRIMARY_CAPABILITIES=realtime_quote,historical_kline,market_overview
 ```
 
-完整配置项见 `.env.example`；客户端不会自动重试，异常信息不会包含许可证所在
-URL。没有精确语义对应的子能力会在当前请求内继续降级，不会用近似数据冒充。
+客户端不会自动重试付费调用，异常信息不会包含 token、许可证或带密钥 URL。
+共享限流状态默认只在 `%LOCALAPPDATA%/Tradex/provider-rate-limits.sqlite3`
+保存固定桶名和时间戳，不保存 URL、参数、凭证或响应。付费源使用 `paid:*`
+独立滑窗；东财、AKShare、腾讯行情等高频免费入口使用 `free:*` 独立时间线，
+免费源拥塞只触发该次路由回退，不会占用或压低任何付费额度。
+`rt_k` 官方文档标注成交量为股，但兼容端点可能返回手；适配器会用成交额、
+候选股数和当日高低价唯一判定 ×1/×100，无法判定时立即降级而不猜测。
+eltdx 的竞价成交量也会在 provider mapper 内从手统一换算为股。
+没有精确语义对应的子能力会在当前请求内继续降级，不会用近似数据冒充。
+`rt_k` 不等于实时指数、ETF、分钟、板块或资金流。当日完整分钟曲线独立使用
+`rt_min_daily(freq="1MIN")`；成交量按股、成交额按元进入
+`intraday_minute_series.v1`，并用逐分钟量额和高低价复核 ×1/×100。30 秒缓存
+和同标的 single-flight 只由分钟网关持有。实时分钟权限不代表已经拥有
+`stk_mins` 跨日历史分钟权限。
 估值快照、同花顺指数、行业实时行情、每日龙虎榜和限售解禁当前仍以
 Fuyao/原有源为主，因为必盈现有字段不足以满足这些工具的完整契约。
 
-> **数据源看板**：`python -m tradex.dashboard`（端口 8765），HTML 可视化查看数据源健康/路由/工具分布；MCP 工具 `get_data_source_dashboard` 可在 Agent 对话中查询。
+> **盘面刹车器（桌面）**：`python -m tradex.dashboard`（端口 8765）。首页统一展示四类角色指数、全市场广度、昨日同期成交额、板块轮动、行为约束和 5–15 分钟条件情景；`/api/market-watch` 返回严格的 `market_watch.v1`。原有行情、风险偏好与数据源诊断 API 保持兼容，MCP 工具 `get_data_source_dashboard` 仍可在 Agent 对话中查询。
 
 ---
 
@@ -494,9 +519,10 @@ tradex/
 │   │   ├── eltdx_fetchers.py
 │   │   ├── http_fetchers.py
 │   │   └── astock_signals_fetchers.py
-│   ├── dashboard/                    # 数据源看板 🆕 v3.1.0
+│   ├── market_watch/                 # provider-neutral 盘面契约、分析、提醒与刷新服务
+│   ├── dashboard/                    # 桌面盘面刹车器与兼容 API
 │   │   ├── __main__.py        # python -m tradex.dashboard（端口 8765）
-│   │   └── index.html         # HTML 可视化
+│   │   └── watch/              # 构建免依赖的桌面 HTML/CSS/JS
 │   └── utils/
 │       ├── cache.py          # TTL 缓存
 │       ├── fallback.py       # 多源 fallback

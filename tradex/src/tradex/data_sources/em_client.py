@@ -20,7 +20,7 @@ from astock_signals import anti_ban_client as _shared_em_throttle
 
 logger = __import__("logging").getLogger("tradex.em")
 
-# Compatibility aliases make the single process-wide scheduler observable to
+# Compatibility aliases keep the machine-local scheduler observable to
 # existing diagnostics without creating a second mutable state owner.
 _em_next_slot = _shared_em_throttle._em_next_slot
 _EM_REQUEST_LOCK = _shared_em_throttle._lock
@@ -45,7 +45,7 @@ def _get_session():
 
 
 def _reserve_request_slot() -> float:
-    """Reserve the shared process-wide Eastmoney/IP request slot."""
+    """Reserve the shared cross-process Eastmoney/IP request slot."""
     return _shared_em_throttle.reserve_em_request_slot()
 
 

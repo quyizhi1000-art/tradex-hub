@@ -29,7 +29,6 @@ from mcp.server.fastmcp import FastMCP
 
 import pandas as pd
 from ..data_sources import get_router
-from ..data_sources.akshare_fetchers import fetch_index_daily_amount
 from ..utils.cache import TTL_DAILY, TTL_REALTIME, cache
 from ..utils.formatter import df_to_json, error_response, slim_df
 from ..utils.symbol import normalize_symbol
@@ -106,9 +105,13 @@ def register(mcp: FastMCP):
         result: dict = {}
         for code, name in indices:
             try:
-                # v3.3.2: fetch_index_daily_amount 主源改为东财 push2his 直连
-                # （返回真实成交额 f57），腾讯 tx 降级为备源；不再走 SmartRouter 的 12s 硬超时。
-                data = fetch_index_daily_amount(symbol=code, days=days)
+                # 统一走 provider-neutral 路由，使排队、供应商调用和本工具的
+                # 总请求共享同一个 deadline。
+                data, _source = _router.route(
+                    "index_daily_amount",
+                    symbol=code,
+                    days=days,
+                )
                 series = []
                 for d in (data or []):
                     vol = float(d.get("volume", 0) or 0)

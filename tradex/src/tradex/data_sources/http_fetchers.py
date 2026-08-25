@@ -11,16 +11,25 @@ HTTP 直连数据源 fetch_fn 包装器。
 from __future__ import annotations
 
 import logging
+import os
+import re
+import time
 import urllib.request
-from datetime import datetime
+from datetime import date, datetime
 from zoneinfo import ZoneInfo
 
 import pandas as pd
 
-from astock_signals.smart_router import SourceBusyError
+from astock_signals.shared_rate_limit import (
+    SharedRateLimitExceeded,
+    SharedRateLimitUnavailable,
+    reserve_shared_request_slot,
+)
+from astock_signals.smart_router import RequestValidationError, SourceBusyError
 
 logger = logging.getLogger("tradex.http")
 _SHANGHAI_TZ = ZoneInfo("Asia/Shanghai")
+_EASTMONEY_BOARD_CODE = re.compile(r"^BK\d+$")
 
 # 全局直连 opener（绕过系统代理，避免代理失败）
 _NO_PROXY_OPENER = urllib.request.build_opener(
@@ -30,7 +39,22 @@ _NO_PROXY_OPENER = urllib.request.build_opener(
 
 
 def _urlopen_no_proxy(url: str, timeout: int = 10) -> object:
-    """使用直连 opener 发起请求，绕过系统代理配置。"""
+    """Throttle the free Tencent endpoint across processes, then connect."""
+    try:
+        interval = float(os.getenv("TENCENT_RATE_LIMIT_INTERVAL", "0.5"))
+        max_wait = float(os.getenv("TENCENT_MAX_QUEUE_WAIT", "4.0"))
+    except ValueError:
+        interval, max_wait = 0.5, 4.0
+    try:
+        wait = reserve_shared_request_slot(
+            "free:tencent:qt",
+            min_interval=max(0.0, interval),
+            max_wait=max(0.0, max_wait),
+        )
+    except (SharedRateLimitExceeded, SharedRateLimitUnavailable):
+        raise SourceBusyError("Tencent request queue is busy") from None
+    if wait > 0:
+        time.sleep(wait)
     req = urllib.request.Request(url)
     req.add_header("User-Agent", "Mozilla/5.0")
     return _NO_PROXY_OPENER.open(req, timeout=timeout)
@@ -104,6 +128,114 @@ def _optional_text(value) -> str | None:
         return None
     result = str(value).strip()
     return result if result and result not in {"-", "--"} else None
+
+
+def fetch_sector_intraday_fund_flow_eastmoney(
+    provider_sector_code: str = "",
+    trade_date: date | str | None = None,
+    **_kwargs,
+) -> pd.DataFrame:
+    """Fetch the exact Eastmoney board minute main-net-flow curve.
+
+    This is deliberately a distinct capability from daily board fund flow and
+    from price/turnover minute data.  A successful response therefore always
+    contains provider timestamps plus cumulative main-net amounts in yuan.
+    """
+
+    code = str(provider_sector_code).strip().upper()
+    if not _EASTMONEY_BOARD_CODE.fullmatch(code):
+        raise RequestValidationError("provider_sector_code must match BK plus digits")
+    if trade_date is None:
+        requested_date = datetime.now(_SHANGHAI_TZ).date()
+    elif isinstance(trade_date, date):
+        requested_date = trade_date
+    else:
+        try:
+            requested_date = date.fromisoformat(str(trade_date))
+        except ValueError as exc:
+            raise RequestValidationError("trade_date must be ISO YYYY-MM-DD") from exc
+
+    from tradex.data_sources.em_client import em_get
+
+    params = {
+        "secid": f"90.{code}",
+        "klt": 1,
+        "lmt": 500,
+        "fields1": "f1,f2,f3,f7",
+        "fields2": "f51,f52,f53,f54,f55,f56,f57",
+    }
+    headers = {
+        "Referer": "https://data.eastmoney.com/",
+        "User-Agent": "Mozilla/5.0",
+    }
+    rows: list[dict[str, object]] = []
+    response = None
+    provider_transport = None
+    for transport, host in (
+        ("push2", "https://push2.eastmoney.com"),
+        ("push2delay", "https://push2delay.eastmoney.com"),
+    ):
+        try:
+            candidate = em_get(
+                f"{host}/api/qt/stock/fflow/kline/get",
+                params=params,
+                headers=headers,
+                timeout=10,
+            )
+            candidate.raise_for_status()
+            payload = candidate.json()
+        except SourceBusyError:
+            raise
+        except Exception as exc:  # noqa: BLE001 - mirror is the bounded fallback
+            logger.warning(
+                "sector minute fund flow %s failed for %s: %s",
+                transport,
+                code,
+                exc,
+            )
+            continue
+
+        candidate_rows: list[dict[str, object]] = []
+        for raw in ((payload.get("data") or {}).get("klines") or []):
+            parts = str(raw).split(",")
+            if len(parts) < 2:
+                continue
+            try:
+                provider_time = datetime.strptime(
+                    parts[0], "%Y-%m-%d %H:%M"
+                ).replace(tzinfo=_SHANGHAI_TZ)
+                cumulative = float(parts[1])
+            except (TypeError, ValueError):
+                continue
+            if provider_time.date() != requested_date:
+                continue
+            candidate_rows.append(
+                {
+                    "provider_as_of": provider_time.isoformat(timespec="seconds"),
+                    "main_net_inflow_cny": cumulative,
+                }
+            )
+        if not candidate_rows:
+            logger.warning(
+                "sector minute fund flow %s returned no rows for %s on %s",
+                transport,
+                code,
+                requested_date,
+            )
+            continue
+        rows = candidate_rows
+        response = candidate
+        provider_transport = transport
+        break
+    if not rows:
+        raise RuntimeError(
+            f"Eastmoney returned no sector minute fund flow for {code} on {requested_date}"
+        )
+    frame = pd.DataFrame(rows)
+    frame.attrs["provider_sector_code"] = code
+    frame.attrs["provider_request_id"] = response.headers.get("x-request-id")
+    frame.attrs["provider_transport"] = provider_transport
+    return frame
 
 
 def _tencent_quote_vals(code: str) -> list:

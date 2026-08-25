@@ -151,21 +151,51 @@ class TestServerSetup:
     def test_stock_list_uses_a_dedicated_complete_snapshot_route(self, mcp_server):
         """全市场列表不与字段较少的扶摇单标的行情混用。"""
         from astock_signals.smart_router import get_router
+        from tradex.data_sources.tushare_client import provides
 
-        entries = [
-            entry
-            for entry in get_router().get_registry_report()
+        report = get_router().get_registry_report()
+        stock_list = [
+            (entry["source_name"], entry["priority"])
+            for entry in report
             if entry["data_type"] == "stock_list"
         ]
-        assert [(entry["source_name"], entry["priority"]) for entry in entries] == [
-            ("akshare", 1)
+        universe = [
+            (entry["source_name"], entry["priority"])
+            for entry in report
+            if entry["data_type"] == "market_universe"
         ]
+        assert stock_list == [("akshare", 1)]
+        expected = [("akshare", 1)]
+        if provides("market_universe"):
+            expected = [("tushare", 1), ("akshare", 100)]
+        assert universe == expected
+
+    def test_market_overview_prefers_tencent_before_akshare(self, mcp_server):
+        """指数主源失败后先用带源时间的腾讯，AkShare 只作末级兜底。"""
+        from astock_signals.smart_router import get_router
+        from tradex.data_sources.biying_client import provides as biying_provides
+
+        entries = [
+            (entry["source_name"], entry["priority"])
+            for entry in get_router().get_registry_report()
+            if entry["data_type"] == "market_overview"
+        ]
+        has_biying = biying_provides("market_overview")
+        expected = [
+            ("tencent_http", 100 if has_biying else 1),
+            ("akshare", 200 if has_biying else 100),
+        ]
+        if has_biying:
+            expected.insert(0, ("biying", 1))
+
+        assert entries == expected
 
     def test_fuyao_sources_follow_key_configuration(self, mcp_server):
         """有密钥时注册扶摇路由与可切换源，无密钥时不注入。"""
         from astock_signals.smart_router import get_router
         from tradex.data_sources.fuyao_client import is_configured
         from tradex.data_sources.biying_client import provides as biying_provides
+        from tradex.data_sources.tushare_client import provides as tushare_provides
 
         entries = [
             entry
@@ -188,15 +218,67 @@ class TestServerSetup:
             ("ths_index_constituents", 50 if biying_provides("ths_index_constituents") else 1),
             ("limit_up_ladder", 1),
             ("stock_anomaly_analysis", 1),
-            ("dragon_tiger_market_day", 50 if biying_provides("dragon_tiger_market_day") else 1),
+            (
+                "dragon_tiger_market_day",
+                50
+                if tushare_provides("dragon_tiger_market_day")
+                or biying_provides("dragon_tiger_market_day")
+                else 1,
+            ),
             ("limit_up_board", 50 if biying_provides("limit_up_board") else 1),
             ("market_breadth", 1),
         }
+
+    def test_tushare_sources_follow_token_and_capability_configuration(self, mcp_server):
+        """Tushare owns only live-verified, independently switchable routes."""
+        from astock_signals.smart_router import get_router
+        from tradex.data_sources.tushare_client import provides
+
+        entries = [
+            entry
+            for entry in get_router().get_registry_report()
+            if entry["source_name"] == "tushare"
+        ]
+        route_by_capability = {
+            "realtime_quote": "realtime_quote",
+            "historical_kline": "historical_kline",
+            "auction_data": "auction_data",
+            "minute_data": "minute_data",
+            "market_universe": "market_universe",
+            "etf_quotes": "etf_quotes",
+            "sector_quotes": "industry_quotes",
+            "stock_fund_flow": "stock_fund_flow_day",
+            "dragon_tiger_market_day": "dragon_tiger_market_day",
+        }
+        expected = {
+            (route, 1)
+            for capability, route in route_by_capability.items()
+            if provides(capability)
+        }
+        assert {
+            (entry["data_type"], entry["priority"]) for entry in entries
+        } == expected
+
+    def test_minute_route_uses_exact_series_sources_only(self, mcp_server):
+        """逐笔成交接口不能冒充完整的一分钟序列备源。"""
+        from astock_signals.smart_router import get_router
+        from tradex.data_sources.tushare_client import provides
+
+        entries = [
+            (entry["source_name"], entry["priority"])
+            for entry in get_router().get_registry_report()
+            if entry["data_type"] == "minute_data"
+        ]
+        expected = [("eltdx", 1)]
+        if provides("minute_data"):
+            expected = [("tushare", 1), ("eltdx", 100)]
+        assert entries == expected
 
     def test_dragon_tiger_contracts_use_separate_routes(self, mcp_server):
         from astock_signals.smart_router import get_router
         from tradex.data_sources.fuyao_client import is_configured
         from tradex.data_sources.biying_client import provides as biying_provides
+        from tradex.data_sources.tushare_client import provides as tushare_provides
 
         report = get_router().get_registry_report()
         multi_day = [
@@ -212,12 +294,20 @@ class TestServerSetup:
 
         assert multi_day == [("em_datacenter", 1), ("akshare", 100)]
         expected_market_day = [("akshare_exact_day", 100)]
+        has_tushare = tushare_provides("dragon_tiger_market_day")
+        if has_tushare:
+            expected_market_day.insert(0, ("tushare", 1))
         if biying_provides("dragon_tiger_market_day"):
-            expected_market_day.insert(0, ("biying", 1))
+            expected_market_day.insert(1 if has_tushare else 0, ("biying", 25 if has_tushare else 1))
         if is_configured():
             expected_market_day.insert(
-                1 if biying_provides("dragon_tiger_market_day") else 0,
-                ("ths_fuyao", 50 if biying_provides("dragon_tiger_market_day") else 1),
+                int(has_tushare) + int(biying_provides("dragon_tiger_market_day")),
+                (
+                    "ths_fuyao",
+                    50
+                    if has_tushare or biying_provides("dragon_tiger_market_day")
+                    else 1,
+                ),
             )
         assert market_day == expected_market_day
 

@@ -14,6 +14,11 @@ from typing import Any
 
 import requests
 
+from astock_signals.shared_rate_limit import (
+    SharedRateLimitExceeded,
+    SharedRateLimitUnavailable,
+    consume_shared_rate_budget,
+)
 from astock_signals.smart_router import SourceBusyError
 
 from ..config import config
@@ -67,6 +72,28 @@ def _configured_value(env_name: str, config_name: str) -> str:
     if env_value is not None:
         return env_value.strip()
     return str(getattr(config, config_name, "") or "").strip()
+
+
+def _configured_rate_limit() -> int:
+    raw = _configured_value(
+        "FUYAO_RATE_LIMIT_PER_MINUTE", "FUYAO_RATE_LIMIT_PER_MINUTE"
+    )
+    try:
+        value = int(raw)
+    except (TypeError, ValueError):
+        value = 300
+    return value if value > 0 else 300
+
+
+def _consume_rate_budget() -> None:
+    try:
+        consume_shared_rate_budget(
+            "paid:fuyao:standard", _configured_rate_limit()
+        )
+    except (SharedRateLimitExceeded, SharedRateLimitUnavailable):
+        raise SourceBusyError(
+            "ths_fuyao shared rate budget is full; use this request's fallback"
+        ) from None
 
 
 def _get_session() -> requests.Session:
@@ -202,6 +229,7 @@ def request(path: str, params: dict[str, Any] | None = None) -> dict[str, Any]:
             "ths_fuyao request capacity is busy; use this request's fallback"
         )
     try:
+        _consume_rate_budget()
         try:
             response = _get_session().get(
                 url,

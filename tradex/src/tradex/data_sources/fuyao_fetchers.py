@@ -843,6 +843,7 @@ def _validate_pool_item(
     item: dict[str, Any],
     *,
     index: int,
+    allow_empty_limit_up_reason: bool = False,
 ) -> dict[str, Any]:
     context = f"{board_type} 池 item[{index}]"
     missing = _POOL_REQUIRED_FIELDS[board_type].difference(item)
@@ -873,6 +874,9 @@ def _validate_pool_item(
     }
 
     if board_type == "zt":
+        limit_up_reason = item["limit_up_reason"]
+        if allow_empty_limit_up_reason and limit_up_reason is None:
+            limit_up_reason = ""
         for field in ("is_st", "is_new"):
             if not isinstance(item[field], bool):
                 raise RuntimeError(f"同花顺扶摇 {context}.{field} 必须是布尔值")
@@ -891,9 +895,9 @@ def _validate_pool_item(
                     allow_empty=True,
                 ),
                 "limit_up_reason": _required_text(
-                    item["limit_up_reason"],
+                    limit_up_reason,
                     context=f"{context}.limit_up_reason",
-                    allow_empty=True,
+                    allow_empty=allow_empty_limit_up_reason,
                 ),
                 "continue_day_text": _required_text(
                     item["continue_day_text"],
@@ -955,6 +959,7 @@ def _fetch_pool_records(
     board_type: str,
     *,
     date_ms: int | None = None,
+    allow_empty_limit_up_reason: bool = False,
 ) -> tuple[list[dict[str, Any]], str | None]:
     path = _POOL_PATHS[board_type]
     base_params: dict[str, Any] = {"size": _POOL_PAGE_SIZE}
@@ -1018,7 +1023,12 @@ def _fetch_pool_records(
             raise RuntimeError(f"同花顺扶摇 {board_type} 池跨页元数据不一致")
 
         for item in page_items:
-            row = _validate_pool_item(board_type, item, index=len(records))
+            row = _validate_pool_item(
+                board_type,
+                item,
+                index=len(records),
+                allow_empty_limit_up_reason=allow_empty_limit_up_reason,
+            )
             if row["thscode"] in seen:
                 raise RuntimeError(f"同花顺扶摇 {board_type} 池包含重复股票")
             seen.add(row["thscode"])
@@ -1073,7 +1083,9 @@ def fetch_market_breadth(**kwargs: Any) -> pd.DataFrame:
             unclassified_count += 1
         else:
             changes.append(change)
-    up_records, up_as_of = _fetch_pool_records("zt")
+    up_records, up_as_of = _fetch_pool_records(
+        "zt", allow_empty_limit_up_reason=True
+    )
     down_records, down_as_of = _fetch_pool_records("dt")
 
     component_dates = {

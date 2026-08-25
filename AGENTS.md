@@ -8,6 +8,13 @@
 - Do not add a full suite, build, browser run, online check, repeated passing test, or speculative follow-up audit to a small task. A failed focused check may be rerun only after its concrete cause has changed.
 - If the initial read shows that the task crosses one of the excluded boundaries, leave the small-task path and state the concrete reason before expanding execution.
 
+## Tradex MCP tool profiles
+
+- The default `tradex` MCP entry exposes only the eight core discovery and market-read tools in `.codex/config.toml`.
+- `tradex_ops`, `tradex_market`, `tradex_research`, `tradex_provider`, and `tradex_lake` are disabled capability profiles with non-overlapping allowlists. Enable only the profile needed by a new task; never preload every profile merely for discovery.
+- Keep `MCP_DOCKER` disabled in this project. It is the LMGameDev Docker gateway and is not a Tradex dependency.
+- MCP configuration is frozen when a task starts. After changing an enabled profile, start a new task so the tool snapshot is rebuilt.
+
 ## Temporary mobile exclusion
 
 - Until the project owner explicitly revokes this section, treat desktop web pages and desktop user experience as the only UI target for the project.

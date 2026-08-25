@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import threading
+import time
 from concurrent.futures import ThreadPoolExecutor
 
 import pytest
@@ -10,6 +11,7 @@ import pytest
 import astock_signals.smart_router as router_module
 from astock_signals.smart_router import (
     RequestValidationError,
+    RouteDeadlineExceeded,
     SmartRouter,
     SourceBusyError,
     SourceCapabilityError,
@@ -231,3 +233,131 @@ def test_get_router_singleton_is_thread_safe(monkeypatch):
         routers = list(pool.map(lambda _: router_module.get_router(), range(128)))
 
     assert len({id(router) for router in routers}) == 1
+
+
+def test_slow_provider_deadline_falls_back_and_late_result_never_records_success():
+    router = SmartRouter(
+        route_deadline_seconds=0.5,
+        provider_deadline_seconds=0.05,
+        max_provider_calls=2,
+    )
+    slow_started = threading.Event()
+    release_slow = threading.Event()
+
+    def slow_provider():
+        slow_started.set()
+        assert release_slow.wait(timeout=2)
+        return "late"
+
+    router.register("quote", "slow", slow_provider, priority=1)
+    router.register("quote", "fast", lambda: "fast", priority=2)
+
+    started_at = time.monotonic()
+    try:
+        assert router.route("quote") == ("fast", "fast")
+        assert slow_started.is_set()
+        assert time.monotonic() - started_at < 0.3
+
+        health = _health_by_source(router)
+        assert health["quote:slow"]["fail_count"] == 1
+        assert health["quote:slow"]["success_rate"] == 0.0
+    finally:
+        release_slow.set()
+
+    time.sleep(0.02)
+    health = _health_by_source(router)
+    assert health["quote:slow"]["fail_count"] == 1
+    assert health["quote:slow"]["success_rate"] == 0.0
+
+
+def test_route_deadline_caps_cumulative_provider_fallback_time():
+    router = SmartRouter(
+        route_deadline_seconds=0.08,
+        provider_deadline_seconds=0.05,
+        max_provider_calls=2,
+    )
+    release = threading.Event()
+    third_started = threading.Event()
+
+    def slow_provider():
+        assert release.wait(timeout=2)
+        return "late"
+
+    router.register("quote", "slow-a", slow_provider, priority=1)
+    router.register("quote", "slow-b", slow_provider, priority=2)
+    router.register(
+        "quote",
+        "must-not-start",
+        lambda: third_started.set(),
+        priority=3,
+    )
+
+    started_at = time.monotonic()
+    try:
+        with pytest.raises(RouteDeadlineExceeded, match="deadline expired"):
+            router.route("quote")
+        assert time.monotonic() - started_at < 0.3
+        assert third_started.is_set() is False
+    finally:
+        release.set()
+
+
+def test_provider_capacity_queue_obeys_the_callers_route_deadline():
+    router = SmartRouter(
+        route_deadline_seconds=1.0,
+        provider_deadline_seconds=1.0,
+        max_provider_calls=1,
+    )
+    first_started = threading.Event()
+    release_first = threading.Event()
+    queued_started = threading.Event()
+
+    def held_provider():
+        first_started.set()
+        assert release_first.wait(timeout=2)
+        return "first"
+
+    router.register("held", "provider", held_provider)
+    router.register("queued", "provider", lambda: queued_started.set())
+
+    with ThreadPoolExecutor(max_workers=1) as caller_pool:
+        first = caller_pool.submit(router.route, "held")
+        assert first_started.wait(timeout=1)
+        started_at = time.monotonic()
+        try:
+            with pytest.raises(RouteDeadlineExceeded, match="deadline expired"):
+                router.route(
+                    "queued",
+                    deadline_seconds=0.05,
+                    provider_deadline_seconds=0.05,
+                )
+            assert time.monotonic() - started_at < 0.3
+            assert queued_started.is_set() is False
+        finally:
+            release_first.set()
+        assert first.result(timeout=1) == ("first", "provider")
+
+
+def test_validator_is_included_in_each_provider_attempt_deadline():
+    router = SmartRouter(
+        route_deadline_seconds=0.5,
+        provider_deadline_seconds=0.05,
+        max_provider_calls=2,
+    )
+    release_validator = threading.Event()
+
+    router.register("example", "slow-validation", lambda: "raw", priority=1)
+    router.register("example", "fast-validation", lambda: "raw", priority=2)
+
+    def validate(value, source):
+        if source == "slow-validation":
+            assert release_validator.wait(timeout=2)
+        return f"{value}:{source}"
+
+    try:
+        assert router.route_validated("example", validate) == (
+            "raw:fast-validation",
+            "fast-validation",
+        )
+    finally:
+        release_validator.set()

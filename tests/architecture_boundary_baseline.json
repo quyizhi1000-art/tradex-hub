@@ -13,7 +13,6 @@
     "tradex.tools.local_data -> tradex.data_sources.tdx_local:fetch_local_kline",
     "tradex.tools.local_data -> tradex.data_sources.tdx_local:fetch_local_minute",
     "tradex.tools.macro_fx -> tradex.data_sources:get_router",
-    "tradex.tools.market -> tradex.data_sources.akshare_fetchers:fetch_index_daily_amount",
     "tradex.tools.market -> tradex.data_sources:get_router",
     "tradex.tools.news_events -> tradex.data_sources:get_router",
     "tradex.tools.price_data -> tradex.data_sources:get_router",
@@ -24,9 +23,7 @@
     "tradex.tools.signal_data_flow -> tradex.data_sources:get_router",
     "tradex.tools.valuation -> tradex.data_sources:get_router"
   ],
-  "gateway_must_not_import_provider_implementations": [
-    "tradex.data_gateway.market -> tradex.data_sources.akshare_fetchers:fetch_index_intraday_amount"
-  ],
+  "gateway_must_not_import_provider_implementations": [],
   "data_lake_must_not_import_dashboard": [
     "tradex.data_lake.live_source -> tradex.dashboard.__main__:get_market_data",
     "tradex.data_lake.live_source -> tradex.dashboard.risk_service:get_risk_appetite_data",

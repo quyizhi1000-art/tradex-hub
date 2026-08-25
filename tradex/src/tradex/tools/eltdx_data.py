@@ -32,6 +32,14 @@ from mcp.server.fastmcp import FastMCP
 
 from ..data_sources import get_router
 from ..data_sources.eltdx_stream import get_stream_manager
+from ..data_gateway.auctions import (
+    fetch_opening_auction_snapshot,
+    opening_auction_to_legacy_payload,
+)
+from ..data_gateway.intraday import (
+    fetch_intraday_minute_series,
+    intraday_minute_to_legacy_payload,
+)
 
 logger = logging.getLogger("tradex.eltdx")
 
@@ -298,7 +306,7 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def eltdx_get_minutes(code: str) -> str:
         """
-        获取股票当日分时数据（SmartRouter 路由，优先 eltdx 数据源）。
+        获取股票当日分时数据（统一分钟网关与付费主源路由）。
 
         1 分钟一根 K 线的价量数据。
 
@@ -307,34 +315,14 @@ def register(mcp: FastMCP):
         """
         try:
             start = time.time()
-            df, _src = _router.route("minute_data", code=code)
+            series = fetch_intraday_minute_series(code, router=_router)
             latency_ms = round((time.time() - start) * 1000, 1)
-
-            if df is None or df.empty:
-                return _no_data("no minute points")
-
-            points = []
-            for _, row in df.iterrows():
-                time_val = str(row.get("时间", row.get("time", "")))
-                price_val = float(row.get("价格", row.get("收盘", row.get("close", 0))) or 0)
-                avg_val = float(row.get("均价", row.get("avg_price", 0)) or 0)
-                vol_val = float(row.get("成交量", row.get("volume", 0)) or 0)
-                if time_val:
-                    points.append({
-                        "time": time_val,
-                        "price": price_val,
-                        "avg_price": avg_val,
-                        "volume": vol_val,
-                    })
-
-            if not points:
-                return _no_data("no minute points")
-
+            legacy = intraday_minute_to_legacy_payload(series)
             return _ok({
-                "code": _strip_prefix(code),
+                "code": legacy["code"],
                 "latency_ms": latency_ms,
-                "point_count": len(points),
-                "points": points,
+                "point_count": legacy["point_count"],
+                "points": legacy["points"],
             })
         except Exception as e:
             logger.exception("eltdx_get_minutes failed")
@@ -453,10 +441,11 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def eltdx_get_security_codes(market: str = "all", category: str = "") -> str:
         """
-        获取全市场证券代码表（eltdx 精确分类，v3.3.7 新增）。
+        获取全市场证券代码表。
 
         返回权威证券代码清单，含代码、名称、类别（a_share/etf/index/bond 等）、
-        板块（主板/创业板/科创板）。相比行情快照更权威：含停牌股、精确分类。
+        板块（主板/创业板/科创板）。A 股全量清单优先使用必盈付费接口，
+        其余精细分类继续使用 eltdx；两者都包含停牌证券。
 
         Args:
             market: 市场，'sh' / 'sz' / 'bj' / 'all'（默认 all，沪深京三市场）
@@ -464,13 +453,21 @@ def register(mcp: FastMCP):
         """
         try:
             start = time.time()
-            df, _src = _router.route("security_codes", market=market)
+            use_a_share_route = category == "a_share"
+            if use_a_share_route:
+                df, _src = _router.route("all_a_shares")
+            else:
+                df, _src = _router.route("security_codes", market=market)
             latency_ms = round((time.time() - start) * 1000, 1)
 
             if df is None or df.empty:
                 return _no_data(f"no securities for market={market}")
 
-            if category:
+            if use_a_share_route and market in {"sh", "sz", "bj"}:
+                df = df[
+                    df["代码"].astype(str).str.lower().str.startswith(market)
+                ]
+            elif category:
                 df = df[df["类别"] == category]
 
             items = []
@@ -478,13 +475,16 @@ def register(mcp: FastMCP):
                 items.append({
                     "code": str(row.get("代码", "")),
                     "name": str(row.get("名称", "")),
-                    "category": str(row.get("类别", "")),
+                    "category": (
+                        "a_share" if use_a_share_route else str(row.get("类别", ""))
+                    ),
                     "board": str(row.get("板块", "")),
                 })
 
             return _ok({
                 "market": market,
                 "category": category,
+                "source": _src,
                 "latency_ms": latency_ms,
                 "count": len(items),
                 "items": items,
@@ -1088,32 +1088,21 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def eltdx_get_auction_data(code: str) -> str:
         """
-        获取股票竞价汇总（eltdx helpers，v3.3.7 新增）。
+        获取股票最终开盘竞价汇总（保留旧工具名兼容现有调用方）。
 
-        返回开盘集合竞价汇总：开盘价/开盘量/开盘额/开盘涨跌幅/昨收。
-        聚合竞价序列 + 9:25 快照 + 行情。
+        通过版本化 provider-neutral 契约返回开盘价/开盘量/开盘额/
+        开盘涨跌幅/昨收；实际主备源由 SmartRouter 决定。
 
         Args:
             code: 股票代码，如 "600170"
         """
         try:
             start = time.time()
-            df, _src = _router.route("auction_data", code=code)
+            snapshot = fetch_opening_auction_snapshot(code, router=_router)
             latency_ms = round((time.time() - start) * 1000, 1)
-
-            if df is None or df.empty:
-                return _no_data(f"no auction data for {code}")
-
-            row = df.iloc[0]
-            return _ok({
-                "code": str(row.get("代码", "")),
-                "latency_ms": latency_ms,
-                "open_price": row.get("开盘价"),
-                "open_volume": row.get("开盘量"),
-                "open_amount": row.get("开盘额"),
-                "open_change_pct": row.get("开盘涨跌幅"),
-                "pre_close": row.get("昨收"),
-            })
+            payload = opening_auction_to_legacy_payload(snapshot)
+            payload["latency_ms"] = latency_ms
+            return _ok(payload)
         except Exception as e:
             logger.exception("eltdx_get_auction_data failed")
             return _err(f"auction data query failed: {e}")

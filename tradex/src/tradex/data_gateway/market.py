@@ -3,12 +3,23 @@
 from __future__ import annotations
 
 from collections.abc import Callable
-from datetime import datetime
+from dataclasses import dataclass
+from datetime import date, datetime, time, timedelta
+from threading import Condition
 from typing import Any
 from zoneinfo import ZoneInfo
 
+from tradex.market_calendar import (
+    CalendarDayStatus,
+    a_share_session,
+    calendar_day_status,
+)
+
 from .contracts import (
     ContractMetadata,
+    IndexDailyAmountSeriesV1,
+    IndexIntradayAmountSeriesV1,
+    IndexQuoteV1,
     MarketOverviewV1,
     MarketStateV1,
     MarketTurnoverV1,
@@ -20,7 +31,11 @@ from .providers.market_overview import (
     parse_provider_time,
     provider_watermark,
 )
-from .quality import assess_market_overview
+from .providers.market_turnover import (
+    map_index_daily_amount,
+    map_index_intraday_amount,
+)
+from .quality import DataQualityError, assess_market_overview
 
 
 _SHANGHAI = ZoneInfo("Asia/Shanghai")
@@ -35,21 +50,120 @@ _SOURCE_LABELS = {
     "ths_fuyao": "同花顺扶摇",
     "biying": "必盈",
 }
+_TURNOVER_INSTRUMENTS = {
+    "000001.SH": "sh000001",
+    "399001.SZ": "sz399001",
+}
+
+
+class TurnoverBaselineUnavailable(RuntimeError):
+    """The immutable previous-day turnover baseline could not be acquired."""
+
+
+@dataclass(frozen=True)
+class PreviousTurnoverBaseline:
+    cache_key: date
+    previous_date: date
+    series: tuple[IndexIntradayAmountSeriesV1, ...] = ()
+    today_close_amount_cny: float | None = None
+    previous_close_amount_cny: float | None = None
+
+    def __post_init__(self) -> None:
+        minute_mode = bool(self.series)
+        close_mode = (
+            self.today_close_amount_cny is not None
+            and self.previous_close_amount_cny is not None
+        )
+        if minute_mode == close_mode:
+            raise ValueError("turnover baseline must use exactly one comparison mode")
+        if close_mode and (
+            self.today_close_amount_cny <= 0
+            or self.previous_close_amount_cny <= 0
+        ):
+            raise ValueError("completed-session turnover amounts must be positive")
+
+
+@dataclass(frozen=True)
+class _MarketOverviewCandidate:
+    records: tuple[dict[str, Any], ...]
+    indices: tuple[IndexQuoteV1, ...]
+    provider_as_of: datetime | None
+    provider_request_id: str | None
+
+
+class TurnoverBaselineCache:
+    """Own the once-per-trading-day historical baseline and its single-flight."""
+
+    def __init__(self) -> None:
+        self._condition = Condition()
+        self._entry: PreviousTurnoverBaseline | None = None
+        self._loading_key: date | None = None
+        self._generation = 0
+        self._failures: dict[tuple[date, int], Exception] = {}
+
+    def get_or_load(
+        self,
+        *,
+        trading_date: date,
+        loader: Callable[[], PreviousTurnoverBaseline],
+    ) -> PreviousTurnoverBaseline:
+        """Return one atomic baseline; a failed cohort retries next request."""
+
+        waited_generation: int | None = None
+        with self._condition:
+            while True:
+                failed_key = (
+                    (trading_date, waited_generation)
+                    if waited_generation is not None
+                    else None
+                )
+                if failed_key is not None and failed_key in self._failures:
+                    error = self._failures[failed_key]
+                    raise TurnoverBaselineUnavailable(
+                        "previous turnover baseline unavailable"
+                    ) from error
+                if self._entry is not None and self._entry.cache_key == trading_date:
+                    return self._entry
+                if self._loading_key is None:
+                    self._loading_key = trading_date
+                    self._generation += 1
+                    generation = self._generation
+                    break
+                if self._loading_key == trading_date:
+                    waited_generation = self._generation
+                self._condition.wait()
+
+        try:
+            entry = loader()
+            if entry.cache_key != trading_date:
+                raise ValueError("turnover baseline cache key mismatch")
+        except Exception as error:
+            with self._condition:
+                self._failures[(trading_date, generation)] = error
+                failures_for_date = sorted(
+                    key for key in self._failures if key[0] == trading_date
+                )
+                for old_key in failures_for_date[:-4]:
+                    self._failures.pop(old_key, None)
+                self._loading_key = None
+                self._condition.notify_all()
+            raise TurnoverBaselineUnavailable(
+                "previous turnover baseline unavailable"
+            ) from error
+
+        with self._condition:
+            self._entry = entry
+            self._loading_key = None
+            self._condition.notify_all()
+            return entry
+
+
+_TURNOVER_BASELINE_CACHE = TurnoverBaselineCache()
 
 
 def market_state(now: datetime) -> MarketStateV1:
-    minute = now.hour * 60 + now.minute
-    if now.weekday() >= 5:
-        return MarketStateV1(label="周末休市", is_open=False)
-    if minute < 9 * 60 + 15:
-        return MarketStateV1(label="等待开盘", is_open=False)
-    if minute < 9 * 60 + 30:
-        return MarketStateV1(label="集合竞价", is_open=False)
-    if minute <= 11 * 60 + 30 or 13 * 60 <= minute <= 15 * 60:
-        return MarketStateV1(label="盘中交易", is_open=True)
-    if minute < 13 * 60:
-        return MarketStateV1(label="午间休市", is_open=False)
-    return MarketStateV1(label="今日收盘", is_open=False)
+    session = a_share_session(now)
+    return MarketStateV1(label=session.label, is_open=session.is_open)
 
 
 def _sum_amount_until(series: list[dict[str, Any]], trading_date: str, as_of: str) -> float:
@@ -127,11 +241,269 @@ def build_market_turnover(
     )
 
 
+def _unavailable_turnover(reason: str) -> MarketTurnoverV1:
+    return MarketTurnoverV1(available=False, reason=reason)
+
+
+def _direction(difference: float) -> tuple[str, str]:
+    if difference > 0:
+        return "expand", "放量"
+    if difference < 0:
+        return "shrink", "缩量"
+    return "flat", "持平"
+
+
+def _latest_completed_trading_date(reference_date: date) -> date | None:
+    candidate = reference_date - timedelta(days=1)
+    while True:
+        status = calendar_day_status(candidate)
+        if status is CalendarDayStatus.VERIFIED_TRADING_DAY:
+            return candidate
+        if status is CalendarDayStatus.UNVERIFIED:
+            return None
+        candidate -= timedelta(days=1)
+
+
+def _uses_completed_session_turnover(trading_date: date, now: datetime) -> bool:
+    reference_date = now.astimezone(_SHANGHAI).date()
+    return trading_date < reference_date or (
+        trading_date == reference_date
+        and a_share_session(now).phase.value == "closed"
+    )
+
+
+def _live_turnover_context(
+    indices: tuple[IndexQuoteV1, ...],
+    now: datetime,
+) -> tuple[date, time, float] | MarketTurnoverV1:
+    by_instrument = {item.instrument_id: item for item in indices}
+    required = [by_instrument.get(item) for item in _TURNOVER_INSTRUMENTS]
+    if any(item is None or not item.available for item in required):
+        return _unavailable_turnover("沪深实时成交额数据不完整")
+    if any(item.amount_cny is None or item.amount_cny <= 0 for item in required):
+        return _unavailable_turnover("沪深实时成交额暂缺")
+    if any(item.provider_as_of is None for item in required):
+        return _unavailable_turnover("沪深成交额更新时间暂缺")
+
+    local_times = [item.provider_as_of.astimezone(_SHANGHAI) for item in required]
+    provider_dates = {item.date() for item in local_times}
+    if len(provider_dates) != 1:
+        return _unavailable_turnover("沪深成交额交易日不一致")
+    trading_date = next(iter(provider_dates))
+    reference_date = now.astimezone(_SHANGHAI).date()
+    if calendar_day_status(trading_date) is not CalendarDayStatus.VERIFIED_TRADING_DAY:
+        return _unavailable_turnover("沪深成交额不是有效交易日数据")
+    if trading_date != reference_date and (
+        _requires_live_turnover(now)
+        or trading_date != _latest_completed_trading_date(reference_date)
+    ):
+        return _unavailable_turnover("沪深成交额不是当前交易日数据")
+    provider_minutes = {
+        item.time().replace(second=0, microsecond=0) for item in local_times
+    }
+    if len(provider_minutes) != 1:
+        return _unavailable_turnover("沪深成交额更新时间不一致")
+    as_of = (
+        time(15, 0)
+        if _uses_completed_session_turnover(trading_date, now)
+        else next(iter(provider_minutes))
+    )
+    today_amount = sum(float(item.amount_cny) for item in required)
+    return trading_date, as_of, today_amount
+
+
+def _requires_live_turnover(now: datetime) -> bool:
+    session = a_share_session(now)
+    local_time = now.astimezone(_SHANGHAI).time().replace(tzinfo=None)
+    return session.is_trading_day and local_time >= time(9, 30)
+
+
+def _map_market_overview_candidate(
+    payload: Any,
+    provider: str,
+    *,
+    now: datetime,
+) -> _MarketOverviewCandidate:
+    if payload is None or not hasattr(payload, "to_dict"):
+        raise DataQualityError("行情源返回了无法识别的数据")
+    records = payload.to_dict(orient="records")
+    frame_provider_as_of = parse_provider_time(
+        getattr(payload, "attrs", {}).get("provider_as_of")
+    )
+    provider_as_of = provider_watermark(records) or frame_provider_as_of
+    indices = map_indices(records, provider)
+    required_indices = [
+        item for item in indices if item.instrument_id in _TURNOVER_INSTRUMENTS
+    ]
+    if (
+        frame_provider_as_of is not None
+        and required_indices
+        and all(item.provider_as_of is None for item in required_indices)
+    ):
+        indices = tuple(
+            item.model_copy(update={"provider_as_of": frame_provider_as_of})
+            if item.available and item.provider_as_of is None
+            else item
+            for item in indices
+        )
+    if _requires_live_turnover(now):
+        context = _live_turnover_context(indices, now)
+        if isinstance(context, MarketTurnoverV1):
+            raise DataQualityError(context.reason or "沪深实时成交额不可用")
+    request_id = getattr(payload, "attrs", {}).get("request_id")
+    return _MarketOverviewCandidate(
+        records=tuple(records),
+        indices=indices,
+        provider_as_of=provider_as_of,
+        provider_request_id=str(request_id) if request_id else None,
+    )
+
+
+def _load_previous_turnover_baseline(
+    *,
+    router: Any,
+    trading_date: date,
+    fetched_at: datetime,
+    turnover_fetcher: Callable[..., list[dict[str, Any]]] | None = None,
+) -> PreviousTurnoverBaseline:
+    series: list[IndexIntradayAmountSeriesV1] = []
+    for instrument_id, symbol in _TURNOVER_INSTRUMENTS.items():
+        validator = lambda payload, provider, instrument_id=instrument_id: (
+            map_index_intraday_amount(
+                payload,
+                provider,
+                instrument_id=instrument_id,
+                fetched_at=fetched_at,
+            )
+        )
+        if turnover_fetcher is None:
+            canonical, _provider = router.route_validated(
+                "index_intraday_amount",
+                validator,
+                symbol=symbol,
+                days=5,
+            )
+        else:
+            canonical = validator(
+                turnover_fetcher(symbol=symbol, days=5),
+                "injected_fixture",
+            )
+        series.append(canonical)
+
+    dates_by_instrument = [
+        {point.trading_date for point in item.points}
+        for item in series
+    ]
+    common_dates = set.intersection(*dates_by_instrument)
+    previous_dates = sorted(item for item in common_dates if item < trading_date)
+    if not previous_dates:
+        raise ValueError("no common previous trading date in turnover history")
+    return PreviousTurnoverBaseline(
+        cache_key=trading_date,
+        previous_date=previous_dates[-1],
+        series=tuple(series),
+    )
+
+
+def _load_completed_turnover_baseline(
+    *,
+    router: Any,
+    trading_date: date,
+    fetched_at: datetime,
+) -> PreviousTurnoverBaseline:
+    series: list[IndexDailyAmountSeriesV1] = []
+    for instrument_id, symbol in _TURNOVER_INSTRUMENTS.items():
+        canonical, _provider = router.route_validated(
+            "index_daily_amount",
+            lambda payload, provider, instrument_id=instrument_id: (
+                map_index_daily_amount(
+                    payload,
+                    provider,
+                    instrument_id=instrument_id,
+                    fetched_at=fetched_at,
+                )
+            ),
+            symbol=symbol,
+            days=5,
+        )
+        series.append(canonical)
+
+    amounts_by_instrument = [
+        {point.trading_date: point.amount_cny for point in item.points}
+        for item in series
+    ]
+    common_dates = set.intersection(
+        *(set(item) for item in amounts_by_instrument)
+    )
+    if trading_date not in common_dates:
+        raise ValueError("completed turnover history does not include the current session")
+    previous_dates = sorted(item for item in common_dates if item < trading_date)
+    if not previous_dates:
+        raise ValueError("completed turnover history has no previous session")
+    previous_date = previous_dates[-1]
+    return PreviousTurnoverBaseline(
+        cache_key=trading_date,
+        previous_date=previous_date,
+        today_close_amount_cny=sum(
+            item[trading_date] for item in amounts_by_instrument
+        ),
+        previous_close_amount_cny=sum(
+            item[previous_date] for item in amounts_by_instrument
+        ),
+    )
+
+
+def build_market_turnover_from_indices(
+    indices: tuple[IndexQuoteV1, ...],
+    baseline: PreviousTurnoverBaseline,
+    now: datetime,
+) -> MarketTurnoverV1:
+    """Combine live canonical amounts with one immutable prior-day curve."""
+
+    context = _live_turnover_context(indices, now)
+    if isinstance(context, MarketTurnoverV1):
+        return context
+    trading_date, as_of, today_amount = context
+    if baseline.cache_key != trading_date:
+        raise ValueError("turnover baseline belongs to another trading date")
+
+    if baseline.today_close_amount_cny is not None:
+        as_of = time(15, 0)
+        today_amount = baseline.today_close_amount_cny
+        previous_amount = baseline.previous_close_amount_cny or 0.0
+    else:
+        previous_amount = sum(
+            point.amount_cny
+            for series in baseline.series
+            for point in series.points
+            if point.trading_date == baseline.previous_date and point.minute <= as_of
+        )
+    if previous_amount <= 0:
+        return _unavailable_turnover("上一交易日同期成交额暂缺")
+
+    difference = today_amount - previous_amount
+    direction, label = _direction(difference)
+    return MarketTurnoverV1(
+        available=True,
+        scope="all_a_shares",
+        metric="amount_cny",
+        as_of=as_of.strftime("%H:%M"),
+        today_date=trading_date.isoformat(),
+        previous_date=baseline.previous_date.isoformat(),
+        today_amount_cny=today_amount,
+        previous_same_time_amount_cny=previous_amount,
+        difference_cny=difference,
+        direction=direction,
+        label=label,
+    )
+
+
 def fetch_market_overview(
     *,
     now: datetime | None = None,
     router: Any | None = None,
     turnover_fetcher: Callable[..., list[dict[str, Any]]] | None = None,
+    turnover_cache: TurnoverBaselineCache | None = None,
 ) -> MarketOverviewV1:
     """Fetch providers once and return a validated provider-neutral snapshot."""
 
@@ -146,41 +518,56 @@ def fetch_market_overview(
         register_all_sources()
         router = get_router()
 
-    frame, provider = router.route("market_overview")
-    if frame is None or not hasattr(frame, "to_dict"):
-        raise RuntimeError("行情源返回了无法识别的数据")
-    records = frame.to_dict(orient="records")
-
-    if turnover_fetcher is None:
-        from tradex.data_sources.akshare_fetchers import fetch_index_intraday_amount
-
-        turnover_fetcher = fetch_index_intraday_amount
-
-    try:
-        series = {
-            "000001.SH": turnover_fetcher(symbol="sh000001", days=5),
-            "399001.SZ": turnover_fetcher(symbol="sz399001", days=5),
-        }
-    except Exception:
-        turnover = MarketTurnoverV1(
-            available=False,
-            reason="全市场同期成交额暂不可用",
-        )
+    candidate, provider = router.route_validated(
+        "market_overview",
+        lambda payload, source: _map_market_overview_candidate(
+            payload,
+            source,
+            now=now,
+        ),
+    )
+    records = list(candidate.records)
+    indices = candidate.indices
+    context = _live_turnover_context(indices, now)
+    if isinstance(context, MarketTurnoverV1):
+        turnover = context
     else:
-        # Contract or calculation failures are implementation defects and must
-        # remain visible; only provider-fetch failures degrade this component.
-        turnover = build_market_turnover(series, now)
+        trading_date, _as_of, _today_amount = context
+        cache = turnover_cache or (
+            TurnoverBaselineCache()
+            if turnover_fetcher is not None
+            else _TURNOVER_BASELINE_CACHE
+        )
+        try:
+            baseline = cache.get_or_load(
+                trading_date=trading_date,
+                loader=lambda: (
+                    _load_completed_turnover_baseline(
+                        router=router,
+                        trading_date=trading_date,
+                        fetched_at=now,
+                    )
+                    if _uses_completed_session_turnover(trading_date, now)
+                    else _load_previous_turnover_baseline(
+                        router=router,
+                        trading_date=trading_date,
+                        fetched_at=now,
+                        turnover_fetcher=turnover_fetcher,
+                    )
+                ),
+            )
+        except TurnoverBaselineUnavailable:
+            turnover = _unavailable_turnover(
+                "上一交易日同期成交额暂不可用，稍后自动重试"
+            )
+        else:
+            # Calculation and contract failures remain visible as defects.  Only
+            # provider/baseline acquisition is allowed to degrade this component.
+            turnover = build_market_turnover_from_indices(indices, baseline, now)
 
-    indices = map_indices(records, provider)
     participation = map_participation_indices(records)
-    provider_as_of = provider_watermark(records) or parse_provider_time(
-        getattr(frame, "attrs", {}).get("provider_as_of")
-    )
-    provider_request_id = (
-        str(request_id)
-        if (request_id := getattr(frame, "attrs", {}).get("request_id"))
-        else None
-    )
+    provider_as_of = candidate.provider_as_of
+    provider_request_id = candidate.provider_request_id
     quality, flags = assess_market_overview(
         indices=indices,
         participation_indices=participation,
@@ -219,6 +606,11 @@ def index_quotes_to_legacy(indices: Any) -> list[dict[str, Any]]:
             "code": _legacy_code(item.instrument_id),
             "name": item.name,
             "available": item.available,
+            "provider_as_of": (
+                item.provider_as_of.isoformat(timespec="seconds")
+                if item.provider_as_of
+                else None
+            ),
             **(
                 {
                     "price": item.value,
@@ -303,7 +695,10 @@ def market_overview_to_legacy_payload(snapshot: MarketOverviewV1) -> dict[str, A
 
 
 __all__ = [
+    "PreviousTurnoverBaseline",
+    "TurnoverBaselineCache",
     "build_market_turnover",
+    "build_market_turnover_from_indices",
     "fetch_market_overview",
     "index_quotes_to_legacy",
     "market_overview_to_legacy_payload",

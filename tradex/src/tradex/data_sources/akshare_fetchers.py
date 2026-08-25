@@ -14,16 +14,62 @@ AKShare 数据源 fetch_fn 包装器。
 from __future__ import annotations
 
 import logging
+import os
+import time
 from datetime import datetime, timedelta
 from typing import Any
 
 import pandas as pd
 
+from astock_signals.shared_rate_limit import (
+    SharedRateLimitExceeded,
+    SharedRateLimitUnavailable,
+    reserve_shared_request_slot,
+)
+from astock_signals.smart_router import SourceBusyError
+
 logger = logging.getLogger("tradex.akshare")
 
 
+def _free_source_number(name: str, default: float) -> float:
+    try:
+        value = float(os.getenv(name, str(default)))
+    except ValueError:
+        value = default
+    return value if value >= 0 else default
+
+
+def _wait_for_free_source(
+    bucket: str,
+    interval_name: str,
+    default_interval: float,
+    max_wait_name: str,
+    default_max_wait: float,
+) -> None:
+    try:
+        wait = reserve_shared_request_slot(
+            bucket,
+            min_interval=_free_source_number(interval_name, default_interval),
+            max_wait=_free_source_number(max_wait_name, default_max_wait),
+        )
+    except (SharedRateLimitExceeded, SharedRateLimitUnavailable):
+        raise SourceBusyError(f"{bucket} request queue is busy") from None
+    if wait > 0:
+        time.sleep(wait)
+
+
 def _ak():
-    """延迟导入 akshare，避免模块加载时副作用。"""
+    """Reserve the free-source bucket, then lazily import AKShare."""
+    try:
+        _wait_for_free_source(
+            "free:akshare:aggregate",
+            "AKSHARE_RATE_LIMIT_INTERVAL",
+            1.0,
+            "AKSHARE_MAX_QUEUE_WAIT",
+            8.0,
+        )
+    except SourceBusyError:
+        raise SourceBusyError("AKShare request queue is busy") from None
     import akshare as ak
     return ak
 
@@ -933,6 +979,13 @@ def fetch_profit_forecast(symbol: str = "", **kwargs) -> dict:
         ),
         "Referer": "https://basic.10jqka.com.cn/",
     }
+    _wait_for_free_source(
+        "free:ths:web",
+        "THS_FREE_RATE_LIMIT_INTERVAL",
+        0.5,
+        "THS_FREE_MAX_QUEUE_WAIT",
+        4.0,
+    )
     resp = _rq.get(url, headers=_headers, timeout=15)
     resp.encoding = "gbk"
     html = resp.text
@@ -1005,6 +1058,13 @@ def fetch_profit_forecast(symbol: str = "", **kwargs) -> dict:
         import urllib.request as _ur
         prefix = "sh" if code.startswith("6") else "sz"
         quote_url = f"https://qt.gtimg.cn/q={prefix}{code}"
+        _wait_for_free_source(
+            "free:tencent:qt",
+            "TENCENT_RATE_LIMIT_INTERVAL",
+            0.5,
+            "TENCENT_MAX_QUEUE_WAIT",
+            4.0,
+        )
         req = _ur.Request(quote_url)
         req.add_header("User-Agent", "Mozilla/5.0")
         quote_resp = _ur.urlopen(req, timeout=5)

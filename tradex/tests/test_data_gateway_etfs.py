@@ -44,7 +44,7 @@ def _payload(*, provider_as_of: str | None = "2026-08-19T10:30:00+08:00"):
 
 def _router(provider: str, payload) -> SmartRouter:
     router = SmartRouter()
-    router.register("etf_data", provider, lambda **_kwargs: payload, priority=1)
+    router.register("etf_quotes", provider, lambda **_kwargs: payload, priority=1)
     return router
 
 
@@ -101,9 +101,9 @@ def test_etf_invalid_primary_payload_falls_back_before_recording_success() -> No
         ]
     }
     router = SmartRouter()
-    router.register("etf_data", "bad_paid", lambda **_kwargs: bad_payload, priority=1)
+    router.register("etf_quotes", "bad_paid", lambda **_kwargs: bad_payload, priority=1)
     router.register(
-        "etf_data", "astock_signals", lambda **_kwargs: good_payload, priority=2
+        "etf_quotes", "astock_signals", lambda **_kwargs: good_payload, priority=2
     )
 
     series = fetch_etf_quotes(router=router, now=_NOW)
@@ -111,15 +111,15 @@ def test_etf_invalid_primary_payload_falls_back_before_recording_success() -> No
     assert series.metadata.provider == "astock_signals"
     assert series.quotes[0].instrument_id == "159915.SZ"
     health = {item["source"]: item for item in router.get_health_report()}
-    assert health["etf_data:bad_paid"]["fail_count"] == 1
-    assert health["etf_data:bad_paid"]["success_rate"] == 0.0
+    assert health["etf_quotes:bad_paid"]["fail_count"] == 1
+    assert health["etf_quotes:bad_paid"]["success_rate"] == 0.0
 
 
 def test_etf_contract_rejects_duplicate_instruments() -> None:
     payload = _payload()
     payload["etfs"][1]["etf_code"] = "513500"
 
-    with pytest.raises(RuntimeError, match="All sources for 'etf_data' failed"):
+    with pytest.raises(RuntimeError, match="All sources for 'etf_quotes' failed"):
         fetch_etf_quotes(router=_router("astock_signals", payload), now=_NOW)
 
 

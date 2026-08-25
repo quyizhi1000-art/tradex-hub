@@ -31,10 +31,11 @@ class _Session:
 
 
 @pytest.fixture(autouse=True)
-def _reset_rate_budget():
-    biying_client._REQUEST_TIMES.clear()
-    yield
-    biying_client._REQUEST_TIMES.clear()
+def _isolated_rate_budget(monkeypatch, tmp_path):
+    monkeypatch.setenv(
+        "TRADEX_RATE_LIMIT_STATE_FILE",
+        str(tmp_path / "provider-rate-limits.sqlite3"),
+    )
 
 
 def test_request_appends_licence_internally_and_returns_direct_payload(monkeypatch):

@@ -6,8 +6,7 @@ ETF 实时行情、ETF 历史 K 线。
 
 V0.8 品种扩展层。
 
-v3.1.0 起：所有数据获取通过 SmartRouter.route() 路由，
-不再直接 import astock_signals 数据源函数。
+实时行情通过 provider-neutral ETF 网关；历史 K 线保留 SmartRouter 路由。
 
 Tools (共 2 个):
   get_etf_realtime_data - ETF实时行情（AKShare fund_etf_spot_em）
@@ -19,6 +18,7 @@ from __future__ import annotations
 from mcp.server.fastmcp import FastMCP
 
 from ..data_sources import get_router
+from ..data_gateway.etfs import etf_quotes_to_legacy_records, fetch_etf_quotes
 from ..utils.cache import TTL_DAILY, TTL_REALTIME, cache
 from ..utils.formatter import error_response, dict_to_json
 
@@ -40,15 +40,14 @@ def register(mcp: FastMCP):
         """
         获取ETF实时行情（全部ETF按成交额/涨跌幅排序）。
 
-        数据源：AKShare fund_etf_spot_em（东方财富）。
-        提供 IOPV估值、折价率、换手率等ETF特有字段。
+        数据源优先级：TuShare 付费 rt_etf_k → 规范化后备源。
 
         Args:
             top_n: 返回前N只ETF，默认50。
             sort_by: 排序字段，默认成交额，可选涨跌幅。
 
         Returns:
-            ETF实时行情 (JSON)，含代码/名称/价格/涨跌幅/IOPV/成交额。
+            ETF实时行情 (JSON)，含代码/名称/价格/涨跌幅/成交额和源时间。
         """
         cache_key = f"etf_realtime:{top_n}:{sort_by}"
         cached = cache.get(cache_key)
@@ -56,10 +55,20 @@ def register(mcp: FastMCP):
             return cached
 
         try:
-            # etf_data: symbol="" → get_etf_realtime_json(top_n, sort_by)
-            result, _src = _router.route(
-                "etf_data", symbol="", top_n=top_n, sort_by=sort_by
-            )
+            series = fetch_etf_quotes(limit=top_n, router=_router)
+            rows = etf_quotes_to_legacy_records(series)
+            if sort_by == "涨跌幅":
+                rows.sort(key=lambda row: row["change_pct"], reverse=True)
+            result = {
+                "source": series.metadata.provider,
+                "data_type": "etf_realtime",
+                "timestamp": (
+                    series.metadata.provider_as_of.isoformat(timespec="seconds")
+                    if series.metadata.provider_as_of
+                    else None
+                ),
+                "etfs": rows,
+            }
             output = dict_to_json(result)
             if result.get("etfs"):
                 cache.set(cache_key, output, TTL_REALTIME)

@@ -59,6 +59,7 @@ packages = ["src/tradex", "src/astock_signals"]
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 testpaths = ["tests"]
+addopts = '-m "not network"'
 markers = [
     'network: marks tests that require network access (deselect with -m "not network")',
 ]

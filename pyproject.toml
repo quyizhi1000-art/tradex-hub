@@ -1,6 +1,6 @@
 [tool.pytest.ini_options]
 testpaths = ["tests", "tradex/tests"]
-addopts = "-v --tb=short"
+addopts = '-v --tb=short -m "not network"'
 asyncio_mode = "auto"
 markers = [
     "network: marks tests that require network access (deselect with '-m \"not network\"')",

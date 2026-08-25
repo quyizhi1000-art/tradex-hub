@@ -25,6 +25,7 @@ from urllib.parse import urlencode
 import pandas as pd
 from curl_cffi import requests as curl_requests
 
+from astock_signals.free_source_budget import wait_for_free_source
 from astock_signals.smart_router import SourceBusyError
 
 logger = logging.getLogger("tradex.news")
@@ -180,6 +181,14 @@ def fetch_cls_telegraph(num_results: int = 20, **kwargs) -> pd.DataFrame:
             "User-Agent": _UA,
             "Referer": "https://www.cls.cn/telegraph",
         }
+        wait_for_free_source(
+            "free:cls:web",
+            interval_env="CLS_FREE_RATE_LIMIT_INTERVAL",
+            default_interval=1.0,
+            max_wait_env="CLS_FREE_MAX_QUEUE_WAIT",
+            default_max_wait=4.0,
+            label="CLS free",
+        )
         resp = curl_requests.get(url, params=params, headers=headers, timeout=_TIMEOUT, impersonate="chrome120")
         resp.raise_for_status()
 
@@ -277,6 +286,14 @@ def fetch_cninfo_direct(
                 post_data["stock"] = f"{sym},{org_id}"
                 post_data["column"] = "szse"
 
+        wait_for_free_source(
+            "free:cninfo:web",
+            interval_env="CNINFO_FREE_RATE_LIMIT_INTERVAL",
+            default_interval=1.0,
+            max_wait_env="CNINFO_FREE_MAX_QUEUE_WAIT",
+            default_max_wait=4.0,
+            label="CNInfo free",
+        )
         resp = curl_requests.post(url, data=post_data, headers=headers, timeout=_TIMEOUT)
         resp.raise_for_status()
 
@@ -342,6 +359,14 @@ def _resolve_org_id(symbol: str) -> str:
             "X-Requested-With": "XMLHttpRequest",
         }
         data = {"keyWord": symbol, "maxNum": 5}
+        wait_for_free_source(
+            "free:cninfo:web",
+            interval_env="CNINFO_FREE_RATE_LIMIT_INTERVAL",
+            default_interval=1.0,
+            max_wait_env="CNINFO_FREE_MAX_QUEUE_WAIT",
+            default_max_wait=4.0,
+            label="CNInfo free",
+        )
         resp = curl_requests.post(url, data=data, headers=headers, timeout=_TIMEOUT)
         resp.raise_for_status()
         result = resp.json()
@@ -395,6 +420,14 @@ def fetch_sina_finance_news(num_results: int = 20, **kwargs) -> pd.DataFrame:
             "Referer": "https://finance.sina.com.cn/",
             "Accept": "application/json",
         }
+        wait_for_free_source(
+            "free:sina:web",
+            interval_env="SINA_FREE_RATE_LIMIT_INTERVAL",
+            default_interval=1.0,
+            max_wait_env="SINA_FREE_MAX_QUEUE_WAIT",
+            default_max_wait=4.0,
+            label="Sina free",
+        )
         resp = curl_requests.get(url, params=params, headers=headers, timeout=_TIMEOUT)
         resp.raise_for_status()
 

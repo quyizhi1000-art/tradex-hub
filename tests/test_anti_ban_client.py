@@ -21,8 +21,12 @@ from astock_signals.smart_router import SourceBusyError
 
 
 @pytest.fixture(autouse=True)
-def reset_state():
+def reset_state(monkeypatch, tmp_path):
     """每个测试前后重置全局状态。"""
+    monkeypatch.setenv(
+        "TRADEX_RATE_LIMIT_STATE_FILE",
+        str(tmp_path / "provider-rate-limits.sqlite3"),
+    )
     _em_next_slot[0] = 0.0
     original_interval = anti_ban_client._EM_MIN_INTERVAL
     original_jitter = (
@@ -64,9 +68,6 @@ def test_em_get_single_call_returns_response():
 
 def test_concurrent_reservations_are_atomic_and_evenly_spaced(monkeypatch):
     """Concurrent callers reserve one deterministic provider/IP timeline."""
-    fake_clock = MagicMock()
-    fake_clock.monotonic.return_value = 100.0
-    monkeypatch.setattr(anti_ban_client, "time", fake_clock)
     waits: list[float] = []
     waits_lock = threading.Lock()
 
@@ -82,7 +83,7 @@ def test_concurrent_reservations_are_atomic_and_evenly_spaced(monkeypatch):
         thread.join()
 
     expected = [index * anti_ban_client._EM_MIN_INTERVAL for index in range(10)]
-    assert sorted(waits) == pytest.approx(expected)
+    assert sorted(waits) == pytest.approx(expected, abs=0.03)
 
 
 def test_set_min_interval_updates_global():
@@ -170,8 +171,9 @@ def test_sessions_are_worker_local(monkeypatch):
 def test_busy_queue_fails_fast_without_network_call():
     """A saturated provider slot falls back instead of occupying a worker."""
 
+    set_min_interval(1.0)
     anti_ban_client._EM_MAX_QUEUE_WAIT = 0.01
-    _em_next_slot[0] = time.monotonic() + 1.0
+    reserve_em_request_slot()
     mock_session = MagicMock()
 
     with patch(
@@ -192,9 +194,6 @@ def test_tradex_client_uses_the_same_process_wide_slot(monkeypatch):
     set_min_interval(1.0)
     set_jitter_range(0.0, 0.0)
     anti_ban_client._EM_MAX_QUEUE_WAIT = 0.1
-    fake_clock = MagicMock()
-    fake_clock.monotonic.return_value = 100.0
-    monkeypatch.setattr(anti_ban_client, "time", fake_clock)
 
     requests_session = MagicMock()
     curl_session = MagicMock()

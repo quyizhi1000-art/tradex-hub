@@ -91,6 +91,11 @@ class Config:
     FUYAO_TIMEOUT: int = _get_env("FUYAO_TIMEOUT", 15, int)
     """同花顺扶摇 API 请求超时时间（秒）"""
 
+    FUYAO_RATE_LIMIT_PER_MINUTE: int = _get_env(
+        "FUYAO_RATE_LIMIT_PER_MINUTE", 300, int
+    )
+    """跨进程共享的扶摇本地安全预算；可按实际合同频次覆盖"""
+
     BIYING_ENABLED: bool = _get_env("BIYING_ENABLED", True, bool)
     """是否允许注册必盈数据源；可按能力独立回滚"""
 
@@ -114,7 +119,7 @@ class Config:
     BIYING_RATE_LIMIT_PER_MINUTE: int = _get_env(
         "BIYING_RATE_LIMIT_PER_MINUTE", 300, int
     )
-    """进程内必盈普通接口每分钟请求上限"""
+    """跨进程共享的必盈普通接口每分钟请求上限"""
 
     BIYING_PRIMARY_CAPABILITIES: str = _get_env(
         "BIYING_PRIMARY_CAPABILITIES",
@@ -127,6 +132,53 @@ class Config:
         ),
     )
     """以逗号分隔的必盈主源能力；移除单项即可独立回滚"""
+
+    TUSHARE_ENABLED: bool = _get_env("TUSHARE_ENABLED", True, bool)
+    """是否允许注册 Tushare 数据源；未配置 token 时不会注册"""
+
+    TUSHARE_BASE_URL: str = _get_env(
+        "TUSHARE_BASE_URL", "https://api.tushare.pro"
+    )
+    """Tushare Pro 兼容 HTTP API 根地址"""
+
+    TUSHARE_TOKEN_FILE: str = _get_env("TUSHARE_TOKEN_FILE", "")
+    """保存 Tushare token 的本地文件路径"""
+
+    TUSHARE_TIMEOUT: int = _get_env("TUSHARE_TIMEOUT", 15, int)
+    """Tushare HTTP 请求超时时间（秒）"""
+
+    TUSHARE_MAX_INFLIGHT: int = _get_env("TUSHARE_MAX_INFLIGHT", 4, int)
+    """进程内 Tushare 请求最大并发数"""
+
+    TUSHARE_POINTS_RATE_LIMIT_PER_MINUTE: int = _get_env(
+        "TUSHARE_POINTS_RATE_LIMIT_PER_MINUTE", 500, int
+    )
+    """15000 积分型接口的跨进程共享频次"""
+
+    TUSHARE_REALTIME_DAILY_RATE_LIMIT_PER_MINUTE: int = _get_env(
+        "TUSHARE_REALTIME_DAILY_RATE_LIMIT_PER_MINUTE", 50, int
+    )
+    """实时日线类独立权限的频次；不同产品使用独立共享桶"""
+
+    TUSHARE_REALTIME_MINUTE_RATE_LIMIT_PER_MINUTE: int = _get_env(
+        "TUSHARE_REALTIME_MINUTE_RATE_LIMIT_PER_MINUTE", 500, int
+    )
+    """实时分钟独立权限的跨进程共享频次"""
+
+    TUSHARE_AUCTION_RATE_LIMIT_PER_MINUTE: int = _get_env(
+        "TUSHARE_AUCTION_RATE_LIMIT_PER_MINUTE", 500, int
+    )
+    """集合竞价独立权限的跨进程共享频次"""
+
+    TUSHARE_PRIMARY_CAPABILITIES: str = _get_env(
+        "TUSHARE_PRIMARY_CAPABILITIES",
+        (
+            "realtime_quote,historical_kline,auction_data,market_universe,"
+            "etf_quotes,stock_fund_flow,dragon_tiger_market_day,"
+            "minute_data"
+        ),
+    )
+    """已验证且可逐项回滚的 Tushare priority=1 能力"""
 
     # ── 智能路由 ────────────────────────────────────────────
     ROUTER_HEALTH_CHECK_INTERVAL: int = _get_env("ROUTER_HEALTH_CHECK_INTERVAL", 60, int)

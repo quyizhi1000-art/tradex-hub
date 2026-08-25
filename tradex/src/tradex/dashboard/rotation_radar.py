@@ -16,6 +16,99 @@ ROTATION_SCHEMA_VERSION = "rotation-radar-v1"
 ROTATION_CONFIG_VERSION = "rotation-radar-config-v1"
 CORE_OFFENSE_SCHEMA_VERSION = "core-offense-v1"
 CORE_OFFENSE_CONFIG_VERSION = "core-offense-config-v1"
+SECTOR_FLOW_CONTRACT = "sector_flow_trajectory.v1"
+SECTOR_FLOW_SCHEMA_VERSION = 1
+SECTOR_FLOW_MAX_POINTS = 256
+SECTOR_FLOW_MAX_SERIES = 48
+DEFENSE_SECTOR_FLOW_SERIES = 16
+
+
+SECTOR_FLOW_CATEGORY_LABELS = {
+    "steady_defense": "稳态防御",
+    "event_hedge": "事件与避险",
+    "transport_defense": "运输防御",
+    "stable_consumption": "稳定消费",
+    "weight_support": "权重承接",
+    "utility_defense": "公用事业",
+    "medical_defense": "医疗防御",
+    "technology_growth": "科技成长",
+    "new_energy": "新能源",
+    "event_elasticity": "事件弹性",
+}
+
+SECTOR_FLOW_TIER_LABELS = {
+    "confirmed_strengthening": "同步增强",
+    "strong_pending": "强势待确认",
+    "funds_leading": "资金先行",
+    "divergence": "出现背离",
+    "retreat": "退潮观察",
+    "observing": "继续观察",
+    "unavailable": "证据不足",
+}
+
+
+# Optional directions enlarge the user-selectable desktop observation pool
+# without changing the legacy risk-appetite model or multiplying intraday
+# curve-backfill calls.  Eastmoney board codes are only identity hints for its
+# taxonomy; exact names remain the cross-provider fallback.
+_OPTIONAL_SECTOR_FLOW_DEFINITIONS: tuple[dict[str, Any], ...] = (
+    {
+        "key": "coal",
+        "name": "煤炭",
+        "category_key": "event_hedge",
+        "board_codes": ("BK0437",),
+        "industry_aliases": ("煤炭", "煤炭行业"),
+    },
+    {
+        "key": "food_beverage",
+        "name": "食品饮料",
+        "category_key": "stable_consumption",
+        "board_codes": ("BK0438",),
+        "industry_aliases": ("食品饮料",),
+    },
+    {
+        "key": "insurance",
+        "name": "保险",
+        "category_key": "weight_support",
+        "board_codes": ("BK0474",),
+        "industry_aliases": ("保险", "保险Ⅱ"),
+    },
+    {
+        "key": "gas",
+        "name": "燃气",
+        "category_key": "utility_defense",
+        "board_codes": ("BK1028",),
+        "industry_aliases": ("燃气", "燃气Ⅱ", "燃气行业"),
+    },
+    {
+        "key": "traditional_chinese_medicine",
+        "name": "中药",
+        "category_key": "medical_defense",
+        "board_codes": ("BK1040",),
+        "industry_aliases": ("中药", "中药Ⅱ"),
+    },
+    {
+        "key": "white_goods",
+        "name": "白色家电",
+        "category_key": "stable_consumption",
+        "board_codes": ("BK1239",),
+        "industry_aliases": ("白色家电",),
+    },
+    {
+        "key": "water_utilities",
+        "name": "水务",
+        "category_key": "utility_defense",
+        "board_codes": ("BK1390",),
+        "industry_aliases": ("水务及水治理", "水务", "水务行业"),
+    },
+    {
+        "key": "highway",
+        "name": "高速公路",
+        "category_key": "transport_defense",
+        "board_codes": ("BK1483", "BK0421"),
+        "industry_aliases": ("高速公路", "铁路公路"),
+    },
+)
 
 
 # Stable industry anchors are always present in the core-offense view.  Board
@@ -188,6 +281,50 @@ CORE_OFFENSE_DEFINITIONS: tuple[dict[str, Any], ...] = (
             },
         ),
     },
+)
+
+
+# Provider-neutral business taxonomy for the tradable concept layer beneath
+# the eight stable industry anchors. Runtime board codes are resolved from the
+# current canonical sector snapshot; the catalog never invents a provider ID.
+OFFENSE_CONCEPT_DEFINITIONS: tuple[tuple[str, str, str], ...] = (
+    ("semiconductor_concept", "半导体概念", "semiconductor"),
+    ("domestic_chip", "国产芯片", "semiconductor"),
+    ("lithography_machine", "光刻机", "semiconductor"),
+    ("advanced_packaging", "先进封装", "semiconductor"),
+    ("ai_chip", "AI芯片", "semiconductor"),
+    ("storage_chip", "存储芯片", "semiconductor"),
+    ("third_generation_semiconductor", "第三代半导体", "semiconductor"),
+    ("photoresist", "光刻胶", "semiconductor"),
+    ("ai_application", "AI应用", "software_development"),
+    ("artificial_intelligence", "人工智能", "software_development"),
+    ("aigc", "AIGC概念", "software_development"),
+    ("multimodal_ai", "多模态AI", "software_development"),
+    ("ai_agent", "AI智能体", "software_development"),
+    ("compute", "算力概念", "communication_equipment"),
+    ("cpo", "CPO概念", "communication_equipment"),
+    ("data_center", "数据中心", "communication_equipment"),
+    ("liquid_cooling_server", "液冷服务器", "communication_equipment"),
+    ("robotics", "机器人概念", "automation_equipment"),
+    ("humanoid_robot", "人形机器人", "automation_equipment"),
+    ("machine_vision", "机器视觉", "automation_equipment"),
+    ("reducer", "减速器", "automation_equipment"),
+    ("robot_actuator", "机器人执行器", "automation_equipment"),
+    ("consumer_electronics_concept", "消费电子概念", "consumer_electronics"),
+    ("apple_concept", "苹果概念", "consumer_electronics"),
+    ("smart_wearable", "智能穿戴", "consumer_electronics"),
+    ("ai_phone", "AI手机", "consumer_electronics"),
+    ("ai_glasses", "AI眼镜", "consumer_electronics"),
+    ("lithium_battery", "锂电池概念", "battery"),
+    ("solid_state_battery", "固态电池", "battery"),
+    ("energy_storage", "储能概念", "battery"),
+    ("photovoltaic_concept", "光伏概念", "photovoltaic_equipment"),
+    ("topcon_battery", "TOPCon电池", "photovoltaic_equipment"),
+    ("hjt_battery", "HJT电池", "photovoltaic_equipment"),
+    ("military", "军工", "defense"),
+    ("aerospace", "航天航空", "defense"),
+    ("commercial_spaceflight", "商业航天", "defense"),
+    ("satellite_internet", "卫星互联网", "defense"),
 )
 
 TAXONOMIES = ("industry", "concept")
@@ -714,7 +851,7 @@ def _temporal_metrics(
     fund_delta = None
     previous_provider_as_of = None
     fund_direction = "unknown"
-    if history:
+    if history and history[-1].get("segment") == segment:
         previous = history[-1]["metrics"]
         fund_delta = _delta(item.get("flow_amount"), previous.get("flow_amount"))
         previous_provider_as_of = previous.get("provider_as_of")
@@ -772,6 +909,780 @@ def _temporal_metrics(
         "ranking_improved": ranking_improved,
         "rotation_signal": rotation_signal,
         "attack_signal": attack_signal,
+    }
+
+
+def _sector_flow_definitions() -> tuple[dict[str, Any], ...]:
+    """Return the stable defensive observation pool.
+
+    Exact aliases stay owned by ``risk_appetite``.  This adapter only adds the
+    display category and whether a direction may enter the follow-observation
+    order. Optional definitions expand user choice but do not change legacy
+    risk classification or request extra provider curve backfills.
+    """
+
+    from .risk_appetite import DEFENSE_FOCUS_DEFINITIONS, SECTOR_DEFINITIONS
+
+    definitions = {
+        item.key: item for item in (*SECTOR_DEFINITIONS, *DEFENSE_FOCUS_DEFINITIONS)
+    }
+    specs = (
+        ("electric_power", "steady_defense", True),
+        ("agriculture", "event_hedge", True),
+        ("precious_metals", "event_hedge", True),
+        ("oil_gas", "event_hedge", True),
+        ("ports", "transport_defense", True),
+        ("baijiu", "stable_consumption", True),
+        ("retail", "stable_consumption", True),
+        ("bank", "weight_support", False),
+    )
+    result: list[dict[str, Any]] = []
+    for key, category_key, follow_eligible in specs:
+        item = definitions[key]
+        result.append({
+            "key": item.key,
+            "name": item.label,
+            "category_key": category_key,
+            "category_name": SECTOR_FLOW_CATEGORY_LABELS[category_key],
+            "follow_eligible": follow_eligible,
+            "coverage_required": True,
+            "backfill_eligible": True,
+            "layer": "anchor",
+            "parent_sector_key": None,
+            "parent_name": None,
+            "board_codes": (),
+            "industry_aliases": tuple(item.industry_aliases),
+            "concept_aliases": tuple(item.concept_aliases),
+        })
+    for item in _OPTIONAL_SECTOR_FLOW_DEFINITIONS:
+        result.append({
+            **item,
+            "category_name": SECTOR_FLOW_CATEGORY_LABELS[str(item["category_key"])],
+            "follow_eligible": True,
+            "coverage_required": False,
+            "backfill_eligible": False,
+            "layer": "anchor",
+            "parent_sector_key": None,
+            "parent_name": None,
+            "concept_aliases": (),
+        })
+    if len(result) != DEFENSE_SECTOR_FLOW_SERIES:
+        raise ValueError("sector flow definition count must match contract maximum")
+    return tuple(result)
+
+
+def _offense_sector_flow_definitions() -> tuple[dict[str, Any], ...]:
+    """Return stable industry anchors for the offensive trajectory surface."""
+
+    category_keys = {
+        "科技成长": "technology_growth",
+        "新能源": "new_energy",
+        "事件弹性": "event_elasticity",
+    }
+    parents = {str(item["key"]): item for item in CORE_OFFENSE_DEFINITIONS}
+    result: list[dict[str, Any]] = []
+    for item in CORE_OFFENSE_DEFINITIONS:
+        anchor = item["anchor"]
+        category_key = category_keys[str(item["category"])]
+        result.append({
+            "key": item["key"],
+            "name": item["name"],
+            "category_key": category_key,
+            "category_name": SECTOR_FLOW_CATEGORY_LABELS[category_key],
+            "follow_eligible": True,
+            "coverage_required": True,
+            "backfill_eligible": True,
+            "layer": "anchor",
+            "parent_sector_key": None,
+            "parent_name": None,
+            "board_codes": tuple(anchor.get("board_codes", ())),
+            "industry_aliases": tuple(anchor.get("exact_names", ())),
+            "concept_aliases": (),
+        })
+    for key, name, parent_key in OFFENSE_CONCEPT_DEFINITIONS:
+        parent = parents[parent_key]
+        category_key = category_keys[str(parent["category"])]
+        result.append({
+            "key": key,
+            "name": name,
+            "category_key": category_key,
+            "category_name": SECTOR_FLOW_CATEGORY_LABELS[category_key],
+            "follow_eligible": True,
+            "coverage_required": False,
+            # Concept trajectories replay the shared full-market minute store.
+            # Avoid multiplying exact-curve provider calls for a large catalog.
+            "backfill_eligible": False,
+            "layer": "concept",
+            "parent_sector_key": parent_key,
+            "parent_name": str(parent["name"]),
+            "board_codes": (),
+            "industry_aliases": (),
+            "concept_aliases": (name,),
+        })
+    if len(result) > SECTOR_FLOW_MAX_SERIES:
+        raise ValueError("offense sector flow definition count exceeds contract maximum")
+    return tuple(result)
+
+
+def _sector_flow_definitions_for(direction: str) -> tuple[dict[str, Any], ...]:
+    if direction == "defense":
+        return _sector_flow_definitions()
+    if direction == "offense":
+        return _offense_sector_flow_definitions()
+    raise ValueError("sector flow direction must be defense or offense")
+
+
+def _sector_flow_source_family(value: Any) -> str:
+    source = str(value or "unknown").strip().lower()
+    if any(token in source for token in ("eastmoney", "push2", "em_")):
+        return "eastmoney"
+    if "tushare" in source:
+        return "tushare"
+    if any(token in source for token in ("fuyao", "tonghuashun", "ths")):
+        return "fuyao"
+    return source or "unknown"
+
+
+def _sector_flow_match(
+    ranked: Mapping[str, Mapping[str, Any]],
+    definition: Mapping[str, Any],
+) -> dict[str, Any] | None:
+    for taxonomy, alias_field in (
+        ("industry", "industry_aliases"),
+        ("concept", "concept_aliases"),
+    ):
+        board_codes = tuple(str(value).strip().upper() for value in definition.get("board_codes", ()))
+        if board_codes:
+            code_order = {code: position for position, code in enumerate(board_codes)}
+            code_matches = [
+                dict(item)
+                for item in ranked.values()
+                if item.get("taxonomy") == taxonomy
+                and str(item.get("board_code") or "").strip().upper() in code_order
+                and _sector_flow_source_family(item.get("source")) == "eastmoney"
+            ]
+            if code_matches:
+                return max(
+                    code_matches,
+                    key=lambda item: (
+                        bool(item.get("effective")),
+                        -code_order[str(item.get("board_code") or "").strip().upper()],
+                        _choice_key(item),
+                    ),
+                )
+        aliases = tuple(str(value).strip() for value in definition.get(alias_field, ()))
+        if not aliases:
+            continue
+        alias_order = {name: position for position, name in enumerate(aliases)}
+        matches = [
+            dict(item)
+            for item in ranked.values()
+            if item.get("taxonomy") == taxonomy and item.get("name") in alias_order
+        ]
+        if matches:
+            return max(
+                matches,
+                key=lambda item: (
+                    bool(item.get("effective")),
+                    -alias_order[str(item.get("name"))],
+                    _choice_key(item),
+                ),
+            )
+    return None
+
+
+def sector_flow_backfill_targets(
+    industry_records: Iterable[Mapping[str, Any]],
+    concept_records: Iterable[Mapping[str, Any]],
+    *,
+    minute_bucket: datetime,
+    sources: Mapping[str, str] | None = None,
+) -> tuple[dict[str, str], ...]:
+    """Resolve the fixed sector pool to explicit provider board identities."""
+
+    snapshot = normalize_rotation_snapshot(
+        industry_records,
+        concept_records,
+        minute_bucket=minute_bucket,
+        sources=sources,
+        market_phase="trading",
+    )
+    ranked = _rank_snapshot(snapshot)
+    targets: list[dict[str, str]] = []
+    definitions = (
+        *_sector_flow_definitions_for("defense"),
+        *_sector_flow_definitions_for("offense"),
+    )
+    seen_sector_keys: set[str] = set()
+    for definition in definitions:
+        if not definition.get("backfill_eligible"):
+            continue
+        sector_key = str(definition["key"])
+        if sector_key in seen_sector_keys:
+            continue
+        matched = _sector_flow_match(ranked, definition)
+        if matched is None:
+            continue
+        board_code = str(matched.get("board_code") or "").strip().upper()
+        source_family = _sector_flow_source_family(matched.get("source"))
+        # BK is an Eastmoney provider identity.  Never guess a cross-vendor
+        # mapping when a paid source uses another taxonomy/code system.
+        if not board_code.startswith("BK") or source_family != "eastmoney":
+            continue
+        targets.append({
+            "sector_key": sector_key,
+            "name": str(definition["name"]),
+            "taxonomy": str(matched["taxonomy"]),
+            "provider_sector_code": board_code,
+            "source_family": source_family,
+        })
+        seen_sector_keys.add(sector_key)
+    return tuple(targets)
+
+
+def _sector_flow_baseline(
+    points: Sequence[Mapping[str, Any]],
+    provider_as_of: datetime,
+    session_segment: str,
+    minutes: int,
+) -> Mapping[str, Any] | None:
+    cutoff = provider_as_of - timedelta(minutes=minutes)
+    for point in reversed(points):
+        if (
+            point.get("session_segment") == session_segment
+            and point.get("provider_as_of") <= cutoff
+        ):
+            return point
+    return None
+
+
+def _sector_flow_evidence_strength(value: str | None) -> str:
+    return {
+        "strong": "strong",
+        "medium": "moderate",
+        "weak": "weak",
+    }.get(str(value), "unknown")
+
+
+def _sector_flow_current_strength(item: Mapping[str, Any]) -> str:
+    price = str(item.get("price_state") or "unknown")
+    breadth = str(item.get("breadth_state") or "unknown")
+    if price == "strong" and breadth == "strong":
+        return "strong"
+    if price == "weak" and breadth == "weak":
+        return "weak"
+    if price == "unknown" and breadth == "unknown":
+        return "unknown"
+    return "moderate"
+
+
+def _sector_flow_tier(
+    *,
+    current_strength: str,
+    fund_strength: str,
+    delta_5m: float | None,
+    delta_10m: float | None,
+    rank_delta_5m: float | None,
+    breadth_delta_5m: float | None,
+) -> str:
+    recent_delta = delta_5m if delta_5m is not None else delta_10m
+    positive_flow = recent_delta is not None and recent_delta > 0
+    negative_flow = recent_delta is not None and recent_delta < 0
+    price_or_breadth_improving = bool(
+        (rank_delta_5m is not None and rank_delta_5m >= 0)
+        or (breadth_delta_5m is not None and breadth_delta_5m >= 0)
+    )
+    if (
+        current_strength == "strong"
+        and (fund_strength == "weak" or negative_flow)
+    ) or (
+        current_strength == "weak"
+        and fund_strength == "strong"
+        and positive_flow
+    ):
+        return "divergence"
+    if (
+        current_strength == "strong"
+        and fund_strength == "strong"
+        and positive_flow
+        and price_or_breadth_improving
+    ):
+        return "confirmed_strengthening"
+    if current_strength == "strong" and fund_strength != "weak":
+        return "strong_pending"
+    if fund_strength == "strong" and positive_flow:
+        return "funds_leading"
+    if current_strength == "weak" or (negative_flow and fund_strength == "weak"):
+        return "retreat"
+    return "observing"
+
+
+def _sector_flow_series(
+    ordered: Sequence[Mapping[str, Any]],
+    ranked_snapshots: Sequence[Mapping[str, Mapping[str, Any]]],
+    definition: Mapping[str, Any],
+    supplemental_points: Sequence[Mapping[str, Any]] = (),
+) -> dict[str, Any]:
+    latest_ranked = ranked_snapshots[-1]
+    latest_match = _sector_flow_match(latest_ranked, definition)
+    base = {
+        "sector_key": definition["key"],
+        "name": definition["name"],
+        "category_key": definition["category_key"],
+        "category_name": definition["category_name"],
+        "layer": definition.get("layer", "anchor"),
+        "parent_sector_key": definition.get("parent_sector_key"),
+        "parent_name": definition.get("parent_name"),
+        "leader_board_code": None,
+        "leader_snapshot": None,
+        "follow_eligible": bool(definition["follow_eligible"]),
+        "eligible_for_rank": False,
+        "observation_rank": None,
+        "rank_total": 0,
+        "observation_tier": "unavailable",
+        "tier_label": SECTOR_FLOW_TIER_LABELS["unavailable"],
+        "latest": None,
+        "points": [],
+        "supporting_evidence": [],
+        "counter_evidence": [],
+        "flags": [],
+        "reason": None,
+    }
+    if latest_match is None:
+        return {
+            **base,
+            "taxonomy": None,
+            "status": "unavailable",
+            "reason": "configured_sector_not_found",
+        }
+
+    identity = str(latest_match["id"])
+    taxonomy = str(latest_match["taxonomy"])
+    board_code = str(latest_match.get("board_code") or "").strip().upper()
+    leader_board_code = (
+        board_code
+        if board_code.startswith("BK") and board_code[2:].isdigit()
+        else None
+    )
+    points: list[dict[str, Any]] = []
+    flags: set[str] = set()
+    latest_source_family = _sector_flow_source_family(latest_match.get("source"))
+    series_date = _as_shanghai(str(ordered[-1]["minute_bucket"])).date()
+    first_live_provider: datetime | None = None
+    for snapshot, ranked in zip(ordered, ranked_snapshots, strict=True):
+        minute = _as_shanghai(str(snapshot["minute_bucket"]))
+        item = ranked.get(identity)
+        if item is None or not item.get("effective") or item.get("flow_amount") is None:
+            continue
+        provider = _provider_datetime(item.get("provider_as_of"))
+        if (
+            provider is not None
+            and provider.date() == minute.date()
+            and _sector_flow_source_family(item.get("source")) == latest_source_family
+        ):
+            first_live_provider = provider
+            break
+    if first_live_provider is not None or supplemental_points:
+        accepted_backfill: list[tuple[datetime, float]] = []
+        seen_backfill: set[datetime] = set()
+        for raw in sorted(
+            supplemental_points,
+            key=lambda item: str(item.get("provider_as_of") or ""),
+        ):
+            provider = _provider_datetime(raw.get("provider_as_of"))
+            if (
+                provider is None
+                or (
+                    first_live_provider is not None
+                    and provider.replace(second=0, microsecond=0)
+                    >= first_live_provider.replace(second=0, microsecond=0)
+                )
+                or provider.date() != series_date
+                or provider in seen_backfill
+                or _sector_flow_source_family(raw.get("source_family") or raw.get("provider"))
+                != latest_source_family
+            ):
+                continue
+            segment = _segment(provider)
+            cumulative = raw.get("cumulative_cny")
+            if segment not in {"am", "pm"} or not isinstance(cumulative, (int, float)):
+                continue
+            accepted_backfill.append((provider, float(cumulative)))
+            seen_backfill.add(provider)
+        for index, (provider, cumulative) in enumerate(accepted_backfill):
+            segment = _segment(provider)
+            five = _sector_flow_baseline(points, provider, segment, 5)
+            ten = _sector_flow_baseline(points, provider, segment, 10)
+            metrics: dict[str, Any] = {}
+            if first_live_provider is None and index == len(accepted_backfill) - 1:
+                metrics = dict(latest_match)
+                metrics["flow_amount"] = cumulative
+            points.append({
+                "sampled_at": provider,
+                "provider_as_of": provider,
+                "session_segment": segment,
+                "cumulative_cny": cumulative,
+                "delta_5m_cny": _delta(
+                    cumulative,
+                    five.get("cumulative_cny") if five else None,
+                ),
+                "delta_5m_baseline_as_of": five.get("provider_as_of") if five else None,
+                "delta_10m_cny": _delta(
+                    cumulative,
+                    ten.get("cumulative_cny") if ten else None,
+                ),
+                "delta_10m_baseline_as_of": ten.get("provider_as_of") if ten else None,
+                "metrics": metrics,
+            "rank_delta_5m": None,
+            "breadth_delta_5m": None,
+            "change_delta_5m_pct": None,
+        })
+        if points:
+            flags.add("intraday_history_backfilled")
+    active_source: str | None = latest_source_family if points else None
+    observed_other_identity = False
+    for snapshot, ranked in zip(ordered, ranked_snapshots, strict=True):
+        minute = _as_shanghai(str(snapshot["minute_bucket"]))
+        segment = str(snapshot.get("session_segment") or _segment(minute))
+        matched = _sector_flow_match(ranked, definition)
+        if matched is not None and matched.get("id") != identity:
+            observed_other_identity = True
+        item = ranked.get(identity)
+        if item is None:
+            continue
+        source = _sector_flow_source_family(item.get("source"))
+        if active_source is not None and source != active_source:
+            points.clear()
+            flags.add("source_changed_baseline_reset")
+        active_source = source
+        provider = _provider_datetime(item.get("provider_as_of"))
+        if provider is None or provider.date() != minute.date():
+            flags.add("provider_time_unavailable")
+            continue
+        if points:
+            last_provider = points[-1]["provider_as_of"]
+            if provider == last_provider:
+                flags.add("repeated_provider_time_ignored")
+                continue
+            if (
+                provider.replace(second=0, microsecond=0)
+                == last_provider.replace(second=0, microsecond=0)
+            ):
+                if provider < last_provider:
+                    flags.add("repeated_provider_time_ignored")
+                    continue
+                points.pop()
+                flags.add("same_minute_provider_time_replaced")
+            elif provider < last_provider:
+                flags.add("repeated_provider_time_ignored")
+                continue
+        if not item.get("effective") or item.get("flow_amount") is None:
+            flags.add("incomplete_sample_ignored")
+            continue
+        five = _sector_flow_baseline(points, provider, segment, 5)
+        ten = _sector_flow_baseline(points, provider, segment, 10)
+        delta_5m = _delta(
+            item.get("flow_amount"),
+            five.get("cumulative_cny") if five else None,
+        )
+        delta_10m = _delta(
+            item.get("flow_amount"),
+            ten.get("cumulative_cny") if ten else None,
+        )
+        point = {
+            "sampled_at": minute,
+            "provider_as_of": provider,
+            "session_segment": segment,
+            "cumulative_cny": item.get("flow_amount"),
+            "delta_5m_cny": delta_5m,
+            "delta_5m_baseline_as_of": five.get("provider_as_of") if five else None,
+            "delta_10m_cny": delta_10m,
+            "delta_10m_baseline_as_of": ten.get("provider_as_of") if ten else None,
+            "metrics": dict(item),
+            "rank_delta_5m": _delta(
+                item.get("price_percentile"),
+                five.get("metrics", {}).get("price_percentile") if five else None,
+            ),
+            "breadth_delta_5m": _delta(
+                item.get("breadth_ratio"),
+                five.get("metrics", {}).get("breadth_ratio") if five else None,
+            ),
+            "change_delta_5m_pct": _delta(
+                item.get("change_pct"),
+                five.get("metrics", {}).get("change_pct") if five else None,
+            ),
+        }
+        points.append(point)
+        if len(points) > SECTOR_FLOW_MAX_POINTS:
+            del points[:-SECTOR_FLOW_MAX_POINTS]
+
+    if observed_other_identity:
+        flags.add("board_identity_changed_baseline_reset")
+    if not points:
+        return {
+            **base,
+            "taxonomy": taxonomy,
+            "status": "unavailable",
+            "flags": sorted(flags),
+            "reason": "no_comparable_flow_samples",
+        }
+
+    final = points[-1]
+    metrics = final["metrics"]
+    current_provider = _provider_datetime(latest_match.get("provider_as_of"))
+    current_usable = bool(
+        latest_match.get("effective")
+        and current_provider is not None
+        and current_provider == final["provider_as_of"]
+        and _sector_flow_source_family(latest_match.get("source")) == active_source
+    )
+    current_strength = _sector_flow_current_strength(metrics)
+    fund_strength = _sector_flow_evidence_strength(metrics.get("fund_state"))
+    delta_5m = final["delta_5m_cny"]
+    delta_10m = final["delta_10m_cny"]
+    recent_delta = delta_5m if delta_5m is not None else delta_10m
+    incremental_direction = (
+        "inflow" if recent_delta is not None and recent_delta > 0
+        else "outflow" if recent_delta is not None and recent_delta < 0
+        else "flat" if recent_delta == 0
+        else "unknown"
+    )
+    tier = _sector_flow_tier(
+        current_strength=current_strength,
+        fund_strength=fund_strength,
+        delta_5m=delta_5m,
+        delta_10m=delta_10m,
+        rank_delta_5m=final["rank_delta_5m"],
+        breadth_delta_5m=final["breadth_delta_5m"],
+    )
+    complete_current = all(
+        metrics.get(field) is not None
+        for field in ("change_pct", "breadth_ratio", "flow_amount", "flow_ratio")
+    )
+    eligible_for_rank = bool(
+        definition["follow_eligible"]
+        and current_usable
+        and metrics.get("flow_percentile") is not None
+        and current_strength != "unknown"
+    )
+    if not current_usable:
+        status = "partial"
+        flags.add("latest_snapshot_incomplete")
+        eligible_for_rank = False
+    elif not complete_current:
+        status = "partial"
+        flags.add("partial_current_evidence")
+    elif delta_5m is None:
+        status = "collecting"
+        flags.add("five_minute_baseline_collecting")
+    else:
+        status = "ready"
+
+    supporting: list[str] = []
+    counter: list[str] = []
+    cumulative = metrics.get("flow_amount")
+    if isinstance(cumulative, (int, float)):
+        target = supporting if cumulative > 0 else counter
+        target.append("当日累计估算净流入" if cumulative > 0 else "当日累计估算净流出")
+    flow_percentile = metrics.get("flow_percentile")
+    if isinstance(flow_percentile, (int, float)):
+        if flow_percentile >= 0.70:
+            supporting.append(f"资金位置处于同类{flow_percentile:.0%}分位")
+        elif flow_percentile <= 0.30:
+            counter.append(f"资金位置仅处于同类{flow_percentile:.0%}分位")
+    if delta_5m is not None:
+        (supporting if delta_5m > 0 else counter).append(
+            "近5分钟边际流入" if delta_5m > 0 else "近5分钟边际流出"
+        )
+    else:
+        counter.append("近5分钟同源基线仍在积累")
+    if tier == "divergence":
+        counter.append("价格、广度与资金未形成同步确认")
+    if not definition["follow_eligible"]:
+        counter.append("权重承接仅作盘面背景，不进入跟随观察顺位")
+
+    latest = {
+        "provider_as_of": final["provider_as_of"],
+        "change_pct": metrics.get("change_pct"),
+        "breadth_ratio": metrics.get("breadth_ratio"),
+        "cumulative_cny": cumulative,
+        "main_net_inflow_pct": metrics.get("flow_ratio"),
+        "price_percentile": metrics.get("price_percentile"),
+        "flow_percentile": flow_percentile,
+        "delta_5m_cny": delta_5m,
+        "delta_10m_cny": delta_10m,
+        "delta_5m_baseline_as_of": final["delta_5m_baseline_as_of"],
+        "delta_10m_baseline_as_of": final["delta_10m_baseline_as_of"],
+        "change_delta_5m_pct": final["change_delta_5m_pct"],
+        "current_strength": current_strength,
+        "fund_strength": fund_strength,
+        "incremental_direction": incremental_direction,
+    }
+    public_points = [
+        {
+            key: point.get(key)
+            for key in (
+                "sampled_at",
+                "provider_as_of",
+                "session_segment",
+                "cumulative_cny",
+                "delta_5m_cny",
+                "delta_5m_baseline_as_of",
+            )
+        }
+        for point in points
+    ]
+    return {
+        **base,
+        "taxonomy": taxonomy,
+        "leader_board_code": leader_board_code,
+        "status": status,
+        "eligible_for_rank": eligible_for_rank,
+        "observation_tier": tier,
+        "tier_label": SECTOR_FLOW_TIER_LABELS[tier],
+        "latest": latest,
+        "points": public_points,
+        "supporting_evidence": supporting[:4],
+        "counter_evidence": counter[:4],
+        "flags": sorted(flags),
+    }
+
+
+def analyze_sector_flow_snapshots(
+    snapshots: Iterable[Mapping[str, Any]],
+    supplemental_points: Mapping[str, Sequence[Mapping[str, Any]]] | None = None,
+    *,
+    direction: str = "defense",
+) -> dict[str, Any]:
+    """Build one stable, provider-neutral directional fund-flow trajectory."""
+
+    definitions = _sector_flow_definitions_for(direction)
+
+    ordered = sorted(
+        (dict(snapshot) for snapshot in snapshots),
+        key=lambda snapshot: str(snapshot.get("minute_bucket", "")),
+    )
+    if not ordered:
+        return {
+            "contract": SECTOR_FLOW_CONTRACT,
+            "schema_version": SECTOR_FLOW_SCHEMA_VERSION,
+            "direction": direction,
+            "status": "unavailable",
+            "trade_date": None,
+            "as_of": None,
+            "market_phase": "unknown",
+            "trajectory_scope": "trading_session_to_as_of",
+            "marginal_window_minutes": 5,
+            "sectors": [],
+            "flags": ["no_rotation_samples"],
+            "reason": "no_rotation_samples",
+        }
+    latest_date = _as_shanghai(str(ordered[-1]["minute_bucket"])).date()
+    ordered = [
+        snapshot
+        for snapshot in ordered
+        if _as_shanghai(str(snapshot["minute_bucket"])).date() == latest_date
+    ]
+    ranked_snapshots = [_rank_snapshot(snapshot) for snapshot in ordered]
+    supplements = supplemental_points or {}
+    sectors = [
+        _sector_flow_series(
+            ordered,
+            ranked_snapshots,
+            definition,
+            supplements.get(str(definition["key"]), ()),
+        )
+        for definition in definitions
+    ]
+    required_keys = {
+        str(definition["key"])
+        for definition in definitions
+        if definition.get("coverage_required")
+    }
+    tier_order = {
+        "confirmed_strengthening": 0,
+        "strong_pending": 1,
+        "funds_leading": 2,
+        "observing": 3,
+        "divergence": 4,
+        "retreat": 5,
+        "unavailable": 6,
+    }
+
+    def rank_key(item: Mapping[str, Any]) -> tuple[Any, ...]:
+        latest = item.get("latest") or {}
+        status_band = {"ready": 0, "collecting": 1, "partial": 2}.get(
+            str(item.get("status")), 3
+        )
+        return (
+            status_band,
+            tier_order.get(str(item.get("observation_tier")), 9),
+            -(latest.get("flow_percentile") if latest.get("flow_percentile") is not None else -1),
+            -(latest.get("breadth_ratio") if latest.get("breadth_ratio") is not None else -1),
+            -(latest.get("price_percentile") if latest.get("price_percentile") is not None else -1),
+            str(item.get("sector_key")),
+        )
+
+    ranked = sorted(
+        (item for item in sectors if item.get("eligible_for_rank")),
+        key=rank_key,
+    )
+    rank_by_key = {
+        item["sector_key"]: position
+        for position, item in enumerate(ranked, start=1)
+    }
+    rank_total = len(ranked)
+    for item in sectors:
+        item["rank_total"] = rank_total
+        item["observation_rank"] = rank_by_key.get(item["sector_key"])
+    sectors.sort(key=lambda item: (
+        item.get("observation_rank") is None,
+        item.get("observation_rank") or 99,
+        str(item.get("category_key")),
+        str(item.get("sector_key")),
+    ))
+
+    available = [item for item in sectors if item.get("latest") is not None]
+    required = [item for item in sectors if item.get("sector_key") in required_keys]
+    if not available:
+        status = "unavailable"
+        reason = "no_comparable_flow_samples"
+    elif not any(
+        (item.get("latest") or {}).get("delta_5m_cny") is not None
+        for item in available
+    ):
+        status = "collecting"
+        reason = None
+    elif any(item.get("status") in {"partial", "unavailable"} for item in required):
+        status = "partial"
+        reason = None
+    else:
+        status = "ready"
+        reason = None
+    flags = [
+        "provider_estimated_flow",
+        "taxonomy_local_percentiles",
+    ]
+    if status == "collecting":
+        flags.append("five_minute_baseline_collecting")
+    if status == "partial":
+        flags.append("partial_sector_coverage")
+    if any("intraday_history_backfilled" in item.get("flags", ()) for item in sectors):
+        flags.append("intraday_history_backfilled")
+    latest = ordered[-1]
+    return {
+        "contract": SECTOR_FLOW_CONTRACT,
+        "schema_version": SECTOR_FLOW_SCHEMA_VERSION,
+        "direction": direction,
+        "status": status,
+        "trade_date": latest_date.isoformat(),
+        "as_of": str(latest["minute_bucket"]),
+        "market_phase": str(latest.get("market_phase") or "unknown"),
+        "trajectory_scope": "trading_session_to_as_of",
+        "marginal_window_minutes": 5,
+        "sectors": sectors,
+        "flags": flags,
+        "reason": reason,
     }
 
 
@@ -1409,6 +2320,7 @@ def _empty_view() -> dict[str, Any]:
         "unclassified": [],
         "events": [],
         "core": _analyze_core_offense([]),
+        "sector_flow_trajectory": analyze_sector_flow_snapshots([]),
     }
 
 
@@ -1701,6 +2613,7 @@ def analyze_rotation_snapshots(
         "unclassified": unclassified[:3],
         "events": events[-12:],
         "core": core,
+        "sector_flow_trajectory": analyze_sector_flow_snapshots(ordered),
     }
 
 
@@ -1713,6 +2626,9 @@ __all__ = [
     "ROTATION_CONFIG_VERSION",
     "ROTATION_SCHEMA_VERSION",
     "STATE_LABELS",
+    "SECTOR_FLOW_CONTRACT",
+    "SECTOR_FLOW_SCHEMA_VERSION",
+    "analyze_sector_flow_snapshots",
     "analyze_rotation_snapshots",
     "canonical_family",
     "normalize_rotation_snapshot",

@@ -330,7 +330,17 @@ def fetch_market_overview(symbol: str = "", **kwargs: Any) -> pd.DataFrame:
     if symbol:
         targets = [_index_symbol(symbol)]
     else:
-        targets = ["000001.SH", "399001.SZ", "399006.SZ"]
+        # Keep the legacy Shanghai/Shenzhen pair while also supplying the four
+        # role indices used by the desktop market-watch view: broad market,
+        # large-cap, small-cap and growth.  Provider codes remain confined to
+        # this mapper; consumers select canonical instrument ids by role.
+        targets = [
+            "000001.SH",
+            "399001.SZ",
+            "000300.SH",
+            "399852.SZ",
+            "399006.SZ",
+        ]
     rows = [_index_quote(target) for target in targets]
     timestamps = [row["更新时间"] for row in rows if row.get("更新时间")]
     return _frame(rows, provider_as_of=max(timestamps, default=None))

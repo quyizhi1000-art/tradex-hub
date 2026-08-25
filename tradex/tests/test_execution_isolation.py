@@ -6,14 +6,18 @@ import asyncio
 import ast
 import functools
 import threading
+import time
 from collections.abc import Callable
 from pathlib import Path
 
 import pytest
 
 from tradex.execution import (
+    BlockingDeadlineExceeded,
+    BlockingExecutor,
     DEFAULT_MAX_BLOCKING_CALLS,
     IsolatedFastMCP,
+    RequestDeadlineExceeded,
     current_execution_context,
     current_request_id,
     native_async,
@@ -164,7 +168,7 @@ async def test_global_blocking_concurrency_is_bounded():
 
 
 @_async_test
-async def test_cancellation_drains_worker_before_releasing_capacity():
+async def test_cancellation_returns_but_worker_keeps_capacity_until_completion():
     mcp = IsolatedFastMCP("cancellation-test", max_blocking_calls=1)
     first_started = threading.Event()
     second_started = threading.Event()
@@ -189,19 +193,20 @@ async def test_cancellation_drains_worker_before_releasing_capacity():
     second = asyncio.create_task(mcp.call_tool("held", {"tag": "second"}))
 
     try:
+        with pytest.raises(asyncio.CancelledError):
+            await asyncio.wait_for(first, timeout=0.2)
         await _wait_until(
             lambda: second_started.is_set()
             or mcp.blocking_statistics.tasks_waiting == 1
         )
         assert not second_started.is_set()
-        assert not first.done()
+        assert first.done()
+        assert mcp.blocking_statistics.borrowed_tokens == 1
 
         release_first.set()
         await _wait_until(second_started.is_set)
         release_second.set()
 
-        with pytest.raises(asyncio.CancelledError):
-            await first
         assert _result_text(await second) == "second"
     finally:
         release_first.set()
@@ -209,6 +214,70 @@ async def test_cancellation_drains_worker_before_releasing_capacity():
         await asyncio.gather(first, second, return_exceptions=True)
 
     assert mcp.blocking_statistics.borrowed_tokens == 0
+
+
+@_async_test
+async def test_blocking_queue_wait_is_part_of_the_total_deadline():
+    executor = BlockingExecutor(max_calls=1)
+    first_started = threading.Event()
+    release_first = threading.Event()
+    queued_started = threading.Event()
+
+    def held() -> str:
+        first_started.set()
+        if not release_first.wait(2):
+            raise TimeoutError("test did not release first worker")
+        return "first"
+
+    first = asyncio.create_task(
+        executor.run(held, deadline_at=time.monotonic() + 1.0)
+    )
+    await _wait_until(first_started.is_set)
+    started_at = time.monotonic()
+    try:
+        with pytest.raises(BlockingDeadlineExceeded, match="queue"):
+            await executor.run(
+                lambda: queued_started.set(),
+                deadline_at=time.monotonic() + 0.05,
+            )
+        assert time.monotonic() - started_at < 0.3
+        assert queued_started.is_set() is False
+        assert executor.statistics.borrowed_tokens == 1
+    finally:
+        release_first.set()
+
+    assert await first == "first"
+    await _wait_until(lambda: executor.statistics.borrowed_tokens == 0)
+
+
+@_async_test
+async def test_request_deadline_returns_while_started_worker_keeps_its_token():
+    mcp = IsolatedFastMCP(
+        "deadline-test",
+        max_blocking_calls=1,
+        request_deadline_seconds=0.05,
+    )
+    started = threading.Event()
+    release = threading.Event()
+
+    @mcp.tool()
+    async def held() -> str:
+        started.set()
+        if not release.wait(2):
+            raise TimeoutError("test did not release held worker")
+        return "late"
+
+    started_at = time.monotonic()
+    try:
+        with pytest.raises(RequestDeadlineExceeded, match="request deadline"):
+            await mcp.call_tool("held", {})
+        assert started.is_set()
+        assert time.monotonic() - started_at < 0.3
+        assert mcp.blocking_statistics.borrowed_tokens == 1
+    finally:
+        release.set()
+
+    await _wait_until(lambda: mcp.blocking_statistics.borrowed_tokens == 0)
 
 
 def test_blocking_limit_is_configurable_from_environment(monkeypatch):

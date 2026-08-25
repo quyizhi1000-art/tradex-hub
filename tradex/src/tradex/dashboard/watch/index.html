@@ -1,0 +1,607 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>盘面刹车器 · Tradex</title>
+    <link rel="stylesheet" href="/watch/styles.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand-lockup">
+          <div class="brand-mark" aria-hidden="true">止</div>
+          <div>
+            <div class="brand-line">
+              <h1>盘面刹车器</h1>
+              <span class="contract-chip" id="contract-chip">market_watch.v1</span>
+            </div>
+            <p>先看市场，再做动作 · 只约束决策节奏，不提供个股买卖指令</p>
+          </div>
+        </div>
+        <div class="toolbar" aria-label="刷新与提醒控制">
+          <span class="poll-status" id="poll-status">等待首份盘面</span>
+          <button class="button button-secondary" id="notification-button" type="button">
+            开启系统通知
+          </button>
+          <button class="button button-secondary" id="sound-button" type="button" aria-pressed="false">
+            声音：关
+          </button>
+          <button class="button button-secondary" id="mute-button" type="button" aria-pressed="false">
+            提醒：正常
+          </button>
+          <button class="button button-primary" id="refresh-button" type="button">
+            立即刷新
+          </button>
+        </div>
+      </header>
+
+      <aside class="risk-overlay is-visible" id="data-risk-overlay" role="alert" aria-live="assertive">
+        <span class="risk-overlay__icon" aria-hidden="true">!</span>
+        <div>
+          <strong id="data-risk-title">等待实时数据</strong>
+          <span id="data-risk-detail">首份快照到达前，不要依据此页判断盘面。</span>
+        </div>
+        <span class="risk-overlay__lock" id="alert-lock-label">盘面变化提醒已锁定</span>
+      </aside>
+
+      <section class="decision-strip" id="decision-bar" aria-labelledby="decision-heading">
+        <div class="decision-strip__status">
+          <span class="eyebrow">市场状态</span>
+          <div class="status-row">
+            <span class="state-pill state-unknown" id="market-state-pill">等待数据</span>
+            <span class="as-of" id="market-as-of">统一时点 --</span>
+          </div>
+          <span class="freshness-line" id="freshness-label">数据新鲜度：未知</span>
+        </div>
+        <div class="decision-strip__regime">
+          <span class="eyebrow">盘面体感 · 硬指标</span>
+          <div class="regime-row">
+            <h2 id="decision-heading">尚未形成判断</h2>
+            <span class="severity-badge severity-unknown" id="severity-badge">未评级</span>
+          </div>
+          <p id="guardrail-current-state">正在等待涨跌家数、关键指数与成交额的同一时点快照。</p>
+        </div>
+        <div class="decision-strip__constraint">
+          <span class="eyebrow">此刻行为约束</span>
+          <p id="behavioral-constraint">数据确认前，暂停新增主观判断。</p>
+          <span class="evidence-strength" id="conclusion-strength">证据强度：未确认</span>
+        </div>
+      </section>
+
+      <section class="index-dock" id="index-dock" aria-label="主要指数持续快览">
+        <div class="index-dock__item" data-index-dock-role="broad_market">
+          <span class="index-dock__name" data-index-dock-field="name">上证指数</span>
+          <strong class="index-dock__level" data-index-dock-field="level">--</strong>
+          <span class="index-dock__change" data-index-dock-field="change">--</span>
+        </div>
+        <div class="index-dock__item" data-index-dock-role="large_cap">
+          <span class="index-dock__name" data-index-dock-field="name">沪深300</span>
+          <strong class="index-dock__level" data-index-dock-field="level">--</strong>
+          <span class="index-dock__change" data-index-dock-field="change">--</span>
+        </div>
+        <div class="index-dock__item" data-index-dock-role="small_cap">
+          <span class="index-dock__name" data-index-dock-field="name">中证1000</span>
+          <strong class="index-dock__level" data-index-dock-field="level">--</strong>
+          <span class="index-dock__change" data-index-dock-field="change">--</span>
+        </div>
+        <div class="index-dock__item" data-index-dock-role="growth">
+          <span class="index-dock__name" data-index-dock-field="name">创业板指</span>
+          <strong class="index-dock__level" data-index-dock-field="level">--</strong>
+          <span class="index-dock__change" data-index-dock-field="change">--</span>
+        </div>
+      </section>
+
+      <main>
+        <section class="section-block sector-flow-block" id="sector-flow-section" aria-label="防御与进攻方向资金轨迹">
+          <article class="sector-flow-panel" data-flow-scope="defense" aria-labelledby="sector-flow-defense-heading">
+            <div class="section-heading sector-flow-heading">
+              <div>
+                <span class="section-kicker">DEFENSIVE FUND-FLOW TRAJECTORY</span>
+                <h2 id="sector-flow-defense-heading">防御方向资金轨迹 <small>估计 / 辅助</small></h2>
+                <p>累计净额看防御资金驻留，近 5 分钟变化看此刻边际；强度与持续性分开确认。</p>
+              </div>
+              <div class="sector-flow-controls">
+                <details class="sector-flow-picker" id="sector-flow-defense-picker">
+                  <summary>
+                    <span>显示板块</span>
+                    <strong id="sector-flow-defense-selection-count">默认 / --</strong>
+                  </summary>
+                  <div class="sector-flow-picker__panel">
+                    <div class="sector-flow-picker__head">
+                      <strong>日常显示</strong>
+                      <span>
+                        <button class="button button-secondary" type="button" data-flow-scope="defense" data-sector-flow-action="select-all">全选</button>
+                        <button class="button button-secondary" type="button" data-flow-scope="defense" data-sector-flow-action="reset-selection">恢复默认</button>
+                      </span>
+                    </div>
+                    <div class="sector-flow-picker__options" id="sector-flow-defense-picker-options" data-flow-scope="defense" data-sector-flow-picker-options role="group" aria-label="选择日常显示的防御板块"></div>
+                    <label class="sector-flow-threshold" for="sector-flow-defense-surge-threshold">
+                      <span>5 分钟突变阈值</span>
+                      <select id="sector-flow-defense-surge-threshold" data-sector-flow-surge-threshold>
+                        <option value="0.3">±0.30 个百分点</option>
+                        <option value="0.5" selected>±0.50 个百分点</option>
+                        <option value="0.8">±0.80 个百分点</option>
+                        <option value="1.2">±1.20 个百分点</option>
+                      </select>
+                    </label>
+                    <p>未选择板块达到阈值时会自动出现；回落到阈值内后退出临时显示。</p>
+                  </div>
+                </details>
+                <span class="sector-flow-auto-count" id="sector-flow-defense-auto-count">突变越权 0</span>
+                <span class="panel-state" id="sector-flow-defense-status">等待同源分钟快照</span>
+              </div>
+            </div>
+
+            <div class="sector-flow-layout">
+              <details class="sector-flow-visual" id="sector-flow-defense-chart-card" data-flow-scope="defense" data-sector-flow-chart-card>
+                <summary class="sector-flow-chart-summary">
+                  <span class="sector-flow-chart-summary__title">
+                    <span class="eyebrow">DEFENSIVE FUND-FLOW CHART</span>
+                    <strong id="sector-flow-defense-chart-caption">等待防御板块资金轨迹</strong>
+                  </span>
+                  <span class="sector-flow-chart-summary__time" id="sector-flow-defense-chart-as-of">统一时点 --</span>
+                  <span class="sector-flow-chart-toggle" aria-hidden="true"></span>
+                  <svg class="sector-flow-mini-chart" id="sector-flow-defense-mini-chart" viewBox="0 0 420 64" preserveAspectRatio="none" role="img" aria-label="收起态防御方向资金轨迹缩略图"></svg>
+                </summary>
+                <div class="sector-flow-chart-body">
+                  <div class="flow-mode-switch" role="group" aria-label="防御方向资金轨迹口径">
+                    <button class="button button-secondary flow-mode-button is-active" type="button" data-flow-mode="cumulative" aria-pressed="true">当日累计</button>
+                    <button class="button button-secondary flow-mode-button" type="button" data-flow-mode="delta_5m" aria-pressed="false">近 5 分钟</button>
+                  </div>
+                  <div class="sector-flow-chart-shell" id="sector-flow-defense-chart-shell">
+                    <svg id="sector-flow-defense-chart" viewBox="0 0 980 360" preserveAspectRatio="xMidYMid meet" role="img" aria-label="防御方向板块资金轨迹"></svg>
+                    <p class="sector-flow-empty" id="sector-flow-defense-empty">资金轨迹暂不可用，不会依据单点涨幅补画。</p>
+                    <div class="sector-flow-tooltip" id="sector-flow-defense-tooltip" role="status" aria-live="polite" hidden></div>
+                  </div>
+                  <div class="sector-flow-legend" id="sector-flow-defense-legend" aria-label="防御板块曲线图例"></div>
+                </div>
+              </details>
+
+              <aside class="sector-flow-observation" aria-labelledby="sector-flow-defense-observation-heading">
+                <div class="sector-flow-observation__head">
+                  <div>
+                    <span class="eyebrow">DEFENSIVE SECTORS</span>
+                    <h3 id="sector-flow-defense-observation-heading">防御板块涨幅</h3>
+                  </div>
+                  <span>上涨方向优先，领涨股始终可见</span>
+                </div>
+                <div class="sector-flow-observation-list" id="sector-flow-defense-observation-list">
+                  <p class="empty-state">等待可比较的防御方向证据</p>
+                </div>
+              </aside>
+            </div>
+
+            <p class="definition-note sector-flow-note" id="sector-flow-defense-note">资金为供应商口径下的日内累计估计；行业与概念仅按各自同类分位比较，不代表资金从一个板块确定转移到另一个板块，也不构成买卖建议。</p>
+          </article>
+
+          <article class="sector-flow-panel sector-flow-panel--offense" data-flow-scope="offense" aria-labelledby="sector-flow-offense-heading">
+            <div class="section-heading sector-flow-heading">
+              <div>
+                <span class="section-kicker">OFFENSIVE FUND-FLOW TRAJECTORY</span>
+                <h2 id="sector-flow-offense-heading">进攻方向资金轨迹 <small>行业锚 / 细分概念</small></h2>
+                <p>行业锚判断主线，细分概念寻找资金最集中的主攻点；与上方防御轨迹同时观察。</p>
+              </div>
+              <div class="sector-flow-controls">
+                <details class="sector-flow-picker" id="sector-flow-offense-picker">
+                  <summary>
+                    <span>显示板块</span>
+                    <strong id="sector-flow-offense-selection-count">默认 / --</strong>
+                  </summary>
+                  <div class="sector-flow-picker__panel">
+                    <div class="sector-flow-picker__head">
+                      <strong>日常显示</strong>
+                      <span>
+                        <button class="button button-secondary" type="button" data-flow-scope="offense" data-sector-flow-action="select-all">全选</button>
+                        <button class="button button-secondary" type="button" data-flow-scope="offense" data-sector-flow-action="reset-selection">恢复默认</button>
+                      </span>
+                    </div>
+                    <div class="sector-flow-picker__options" id="sector-flow-offense-picker-options" data-flow-scope="offense" data-sector-flow-picker-options role="group" aria-label="选择日常显示的进攻行业与细分概念"></div>
+                    <label class="sector-flow-threshold" for="sector-flow-offense-surge-threshold">
+                      <span>5 分钟突变阈值</span>
+                      <select id="sector-flow-offense-surge-threshold" data-sector-flow-surge-threshold>
+                        <option value="0.3">±0.30 个百分点</option>
+                        <option value="0.5" selected>±0.50 个百分点</option>
+                        <option value="0.8">±0.80 个百分点</option>
+                        <option value="1.2">±1.20 个百分点</option>
+                      </select>
+                    </label>
+                    <p>未选择板块达到阈值时会自动出现；回落到阈值内后退出临时显示。</p>
+                  </div>
+                </details>
+                <span class="sector-flow-auto-count" id="sector-flow-offense-auto-count">突变越权 0</span>
+                <span class="panel-state" id="sector-flow-offense-status">等待同源分钟快照</span>
+              </div>
+            </div>
+
+            <div class="sector-flow-layout">
+              <details class="sector-flow-visual" id="sector-flow-offense-chart-card" data-flow-scope="offense" data-sector-flow-chart-card>
+                <summary class="sector-flow-chart-summary">
+                  <span class="sector-flow-chart-summary__title">
+                    <span class="eyebrow">OFFENSIVE FUND-FLOW CHART</span>
+                    <strong id="sector-flow-offense-chart-caption">等待进攻板块资金轨迹</strong>
+                  </span>
+                  <span class="sector-flow-chart-summary__time" id="sector-flow-offense-chart-as-of">统一时点 --</span>
+                  <span class="sector-flow-chart-toggle" aria-hidden="true"></span>
+                  <svg class="sector-flow-mini-chart" id="sector-flow-offense-mini-chart" viewBox="0 0 420 64" preserveAspectRatio="none" role="img" aria-label="收起态进攻方向资金轨迹缩略图"></svg>
+                </summary>
+                <div class="sector-flow-chart-body">
+                  <div class="flow-mode-switch" role="group" aria-label="进攻方向资金轨迹口径">
+                    <button class="button button-secondary flow-mode-button is-active" type="button" data-flow-mode="cumulative" aria-pressed="true">当日累计</button>
+                    <button class="button button-secondary flow-mode-button" type="button" data-flow-mode="delta_5m" aria-pressed="false">近 5 分钟</button>
+                  </div>
+                  <div class="sector-flow-chart-shell" id="sector-flow-offense-chart-shell">
+                    <svg id="sector-flow-offense-chart" viewBox="0 0 980 360" preserveAspectRatio="xMidYMid meet" role="img" aria-label="进攻方向板块资金轨迹"></svg>
+                    <p class="sector-flow-empty" id="sector-flow-offense-empty">资金轨迹暂不可用，不会依据单点涨幅补画。</p>
+                    <div class="sector-flow-tooltip" id="sector-flow-offense-tooltip" role="status" aria-live="polite" hidden></div>
+                  </div>
+                  <div class="sector-flow-legend" id="sector-flow-offense-legend" aria-label="进攻板块曲线图例"></div>
+                </div>
+              </details>
+
+              <aside class="sector-flow-observation" aria-labelledby="sector-flow-offense-observation-heading">
+                <div class="sector-flow-observation__head">
+                  <div>
+                    <span class="eyebrow">OFFENSIVE SECTORS</span>
+                    <h3 id="sector-flow-offense-observation-heading">进攻行业与细分概念</h3>
+                  </div>
+                  <span>上涨方向优先，领涨股始终可见</span>
+                </div>
+                <div class="sector-flow-observation-list" id="sector-flow-offense-observation-list">
+                  <p class="empty-state">等待可比较的进攻方向证据</p>
+                </div>
+              </aside>
+            </div>
+
+            <p class="definition-note sector-flow-note" id="sector-flow-offense-note">行业锚与细分概念复用同一全市场分钟快照；领涨股来自板块快照并由成分行情补全。资金仍是估计 / 辅助，不构成买卖建议。</p>
+          </article>
+        </section>
+
+        <section class="facts-grid" aria-label="市场广度与成交额事实">
+          <article class="panel breadth-panel">
+            <div class="panel-heading">
+              <div>
+                <span class="section-kicker">BREADTH</span>
+                <h2>市场广度</h2>
+              </div>
+              <span class="panel-state" id="breadth-state">待更新</span>
+            </div>
+            <div class="breadth-ratio">
+              <strong id="breadth-up-ratio">--</strong>
+              <span>上涨占比</span>
+            </div>
+            <div class="breadth-bar" aria-hidden="true">
+              <span class="breadth-bar__up" id="breadth-bar-up"></span>
+              <span class="breadth-bar__flat" id="breadth-bar-flat"></span>
+              <span class="breadth-bar__down" id="breadth-bar-down"></span>
+              <span class="breadth-bar__unclassified" id="breadth-bar-unclassified"></span>
+            </div>
+            <dl class="metric-list metric-list--four">
+              <div><dt>上涨</dt><dd class="tone-positive" id="breadth-up">--</dd></div>
+              <div><dt>平盘</dt><dd id="breadth-flat">--</dd></div>
+              <div><dt>下跌</dt><dd class="tone-negative" id="breadth-down">--</dd></div>
+              <div><dt>未分类</dt><dd id="breadth-unclassified">--</dd></div>
+            </dl>
+            <div class="submetric-row">
+              <span>上涨占比按上涨 + 下跌计算</span>
+              <span>总样本 <strong id="breadth-total">--</strong></span>
+            </div>
+          </article>
+
+          <article class="panel turnover-panel">
+            <div class="panel-heading">
+              <div>
+                <span class="section-kicker">TURNOVER</span>
+                <h2>全 A 成交额 · 昨日同期</h2>
+              </div>
+              <span class="direction-badge direction-unknown" id="turnover-direction">待判断</span>
+            </div>
+            <div class="turnover-primary">
+              <div>
+                <span>今日累计</span>
+                <strong id="turnover-today">--</strong>
+              </div>
+              <div class="turnover-delta">
+                <span>同比差值</span>
+                <strong id="turnover-ratio">--</strong>
+              </div>
+            </div>
+            <dl class="metric-list metric-list--two">
+              <div><dt>昨日同刻</dt><dd id="turnover-previous">--</dd></div>
+              <div><dt>金额差</dt><dd id="turnover-difference">--</dd></div>
+            </dl>
+            <p class="definition-note" id="turnover-note">仅比较昨日同一交易分钟，不与昨日全天成交额混比。</p>
+          </article>
+
+          <article class="panel pulse-panel">
+            <div class="panel-heading">
+              <div>
+                <span class="section-kicker">ROTATION PULSE</span>
+                <h2>资金与风格脉冲</h2>
+              </div>
+              <span class="panel-state" id="rotation-regime">待更新</span>
+            </div>
+            <div class="pulse-summary" id="rotation-summary">等待轮动证据</div>
+            <dl class="metric-list metric-list--two">
+              <div><dt>增强板块</dt><dd id="rotation-strengthening-count">--</dd></div>
+              <div><dt>减弱板块</dt><dd id="rotation-weakening-count">--</dd></div>
+            </dl>
+            <p class="definition-note">资金流字段统一标记为“估计 / 辅助”，不等同于确定的主力行为。</p>
+          </article>
+        </section>
+
+        <section class="analysis-grid" aria-label="盘面分析与条件情景">
+          <article class="panel interpretation-panel">
+            <div class="panel-heading">
+              <div>
+                <span class="section-kicker">INTERPRETATION</span>
+                <h2>此刻盘面在做什么</h2>
+              </div>
+              <span class="evidence-strength" id="analysis-strength">证据强度：未确认</span>
+            </div>
+            <p class="interpretation-summary" id="what-is-happening">等待完整快照后再形成结论。</p>
+            <div class="evidence-columns">
+              <div>
+                <h3><span class="evidence-mark evidence-mark--support">+</span>支持证据</h3>
+                <ul id="supporting-evidence">
+                  <li class="muted-item">暂无已确认支持证据</li>
+                </ul>
+              </div>
+              <div>
+                <h3><span class="evidence-mark evidence-mark--counter">−</span>反证 / 保留意见</h3>
+                <ul id="counter-evidence">
+                  <li class="muted-item">暂无已确认反证</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
+          <article class="panel scenarios-panel">
+            <div class="panel-heading">
+              <div>
+                <span class="section-kicker">NEXT 5–15 MIN</span>
+                <h2>接下来最值得盯的条件</h2>
+              </div>
+              <span class="panel-state">最多 2 条</span>
+            </div>
+            <div class="scenario-list" id="scenario-list">
+              <p class="empty-state">等待条件证据。这里不展示精确概率，只展示 if / then 与失效条件。</p>
+            </div>
+          </article>
+        </section>
+
+        <section class="bottom-grid" aria-label="变化确认与提醒记录">
+          <article class="panel change-panel">
+            <div class="panel-heading">
+              <div>
+                <span class="section-kicker">CONFIRMED CHANGE</span>
+                <h2>最近确认变化</h2>
+              </div>
+              <span class="panel-state" id="change-as-of">尚无</span>
+            </div>
+            <div class="change-content" id="confirmed-change">
+              <span class="change-icon" aria-hidden="true">↔</span>
+              <div>
+                <strong>尚未确认状态切换</strong>
+                <p>需要连续快照支持，单次抖动不会作为变化提醒。</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="panel alerts-panel">
+            <div class="panel-heading">
+              <div>
+                <span class="section-kicker">ALERTS</span>
+                <h2>盘面变化提醒</h2>
+              </div>
+              <button class="text-button" id="mark-read-button" type="button">全部已读</button>
+            </div>
+            <div class="alert-status-row">
+              <span id="alert-delivery-state">数据确认前不发送提醒</span>
+              <span id="unread-count">0 条未读</span>
+            </div>
+            <div class="alert-list" id="alert-list">
+              <p class="empty-state">后端确认变化后，提醒会出现在这里。</p>
+            </div>
+          </article>
+        </section>
+
+        <section class="section-block daily-review-block" id="daily-review-section" aria-labelledby="daily-review-heading">
+          <div class="section-heading daily-review-heading">
+            <div>
+              <span class="section-kicker">POST-MARKET REVIEW</span>
+              <h2 id="daily-review-heading">每日收盘复盘 <small>20:30 后可生成</small></h2>
+              <p>读取已存档的全市场证据、明日条件情景与历史校准；页面不自行补造缺失数据。</p>
+            </div>
+            <div class="daily-review-toolbar">
+              <label for="daily-review-date-select">历史日期</label>
+              <select id="daily-review-date-select" aria-label="选择日复盘交易日">
+                <option value="">尚无存档</option>
+              </select>
+              <button class="button button-primary" id="daily-review-generate-button" type="button" disabled>
+                20:30 后生成
+              </button>
+              <span class="panel-state" id="daily-review-status">滚动到此处时读取存档</span>
+            </div>
+          </div>
+
+          <div class="daily-review-schedule" id="daily-review-schedule" role="status" aria-live="polite">
+            上海时间 20:30 后可手动生成；当日缺失时 21:00 自动生成。
+          </div>
+
+          <div class="daily-review-empty" id="daily-review-empty">
+            尚无可展示的存档复盘。到达计划时间后可手动生成，或等待21:00后台补齐。
+          </div>
+
+          <div class="daily-review-content" id="daily-review-content" hidden>
+            <article class="daily-review-article">
+              <header class="daily-review-article__header">
+                <div class="daily-review-article__eyebrow">
+                  <span>A股每日复盘</span>
+                  <span id="daily-review-report-contract">post_market_review_presentation.v4</span>
+                </div>
+                <h3 id="daily-review-report-title">今日盘面发生了什么</h3>
+                <p id="daily-review-report-deck">文章正文未随档案返回。</p>
+                <div class="daily-review-article__byline" aria-label="复盘档案信息">
+                  <span><strong id="daily-review-trade-date">--</strong></span>
+                  <span>证据截至 <strong id="daily-review-as-of">--</strong></span>
+                  <span><strong id="daily-review-quality">--</strong></span>
+                  <span><strong id="daily-review-trigger">--</strong></span>
+                </div>
+              </header>
+
+              <div class="daily-review-article__body" id="daily-review-report-sections" aria-live="polite">
+                <p class="empty-state">文章正文未随档案返回。</p>
+              </div>
+
+              <section class="daily-review-watch" aria-labelledby="daily-review-watch-heading">
+                <p class="daily-review-watch__kicker">NEXT SESSION</p>
+                <h4 id="daily-review-watch-heading">明天只盯这几件事</h4>
+                <ol id="daily-review-watch-list">
+                  <li>观察项未随档案返回。</li>
+                </ol>
+              </section>
+
+              <details class="daily-review-appendix" id="daily-review-data-appendix">
+                <summary>
+                  <span>数据底稿与口径</span>
+                  <small>详细行情、榜单和数据质量，默认收起</small>
+                </summary>
+                <div class="daily-review-appendix__content">
+                  <div class="daily-review-report-sections" id="daily-review-appendix-sections"></div>
+
+                  <div class="daily-review-coverage" aria-label="全市场复盘证据覆盖">
+                    <article data-review-component="market_universe"><span>全 A 个股</span><strong id="daily-review-coverage-universe">未随档案返回</strong></article>
+                    <article data-review-component="etfs"><span>场内 ETF</span><strong id="daily-review-coverage-etfs">未随档案返回</strong></article>
+                    <article data-review-component="sectors"><span>行业 / 概念板块</span><strong id="daily-review-coverage-sectors">未随档案返回</strong></article>
+                    <article data-review-component="money_flow"><span>个股 / 板块资金</span><strong id="daily-review-coverage-money-flow">未随档案返回</strong></article>
+                    <article data-review-component="dragon_tiger"><span>龙虎榜</span><strong id="daily-review-coverage-dragon-tiger">未随档案返回</strong></article>
+                    <article data-review-component="limit_events"><span>涨停 / 连板</span><strong id="daily-review-coverage-limit-events">未随档案返回</strong></article>
+                    <article data-review-component="intraday_history"><span>盘中轨迹</span><strong id="daily-review-coverage-intraday">未随档案返回</strong></article>
+                  </div>
+
+                  <section class="daily-review-calibration" id="daily-review-calibration" aria-labelledby="daily-review-calibration-heading">
+                    <div class="panel-heading">
+                      <h3 id="daily-review-calibration-heading">历史校准与缺失披露</h3>
+                      <span class="panel-state" id="daily-review-outcome">尚未回看</span>
+                    </div>
+                    <div class="daily-review-learning" id="daily-review-learning">尚无可评估历史。</div>
+                    <ul class="daily-review-limitations" id="daily-review-limitations">
+                      <li>未随档案返回。</li>
+                    </ul>
+                  </section>
+                </div>
+              </details>
+            </article>
+          </div>
+        </section>
+
+        <section class="section-block replay-block" id="replay-section" aria-labelledby="replay-heading">
+          <div class="section-heading replay-heading">
+            <div>
+              <span class="section-kicker">SESSION REPLAY</span>
+              <h2 id="replay-heading">全天记录、提醒历史与阈值验收</h2>
+              <p>评估盘面信号的覆盖与稳定性，不计算个股收益。</p>
+            </div>
+            <div class="replay-toolbar">
+              <label for="replay-date-select">交易日</label>
+              <select id="replay-date-select" aria-label="选择回放交易日">
+                <option value="">尚无记录</option>
+              </select>
+              <label for="evaluation-scope-select">验收窗口</label>
+              <select id="evaluation-scope-select" aria-label="选择验收窗口">
+                <option value="">单日</option>
+                <option value="3">近 3 日</option>
+                <option value="10">近 10 日</option>
+                <option value="20">近 20 日</option>
+              </select>
+              <button class="button button-secondary" id="replay-refresh-button" type="button">
+                刷新回放
+              </button>
+              <span class="panel-state" id="replay-status">滚动到此处时读取记录</span>
+            </div>
+          </div>
+
+          <div class="replay-metrics" aria-label="回放验收指标">
+            <article class="replay-metric">
+              <span>有记录的交易分钟</span>
+              <strong id="replay-observed-minutes">--</strong>
+              <small id="replay-coverage-detail">覆盖待计算</small>
+            </article>
+            <article class="replay-metric">
+              <span>Fresh 覆盖</span>
+              <strong id="replay-fresh-ratio">--</strong>
+              <small>降级与陈旧会单独计数</small>
+            </article>
+            <article class="replay-metric">
+              <span>最长数据缺口</span>
+              <strong id="replay-max-gap">--</strong>
+              <small>用于发现掉线与冻结</small>
+            </article>
+            <article class="replay-metric">
+              <span>状态切换</span>
+              <strong id="replay-transition-count">--</strong>
+              <small>盘面结论切换次数</small>
+            </article>
+            <article class="replay-metric">
+              <span>快速反转代理</span>
+              <strong id="replay-reversal-count">--</strong>
+              <small>仅用于识别噪声，不等于收益</small>
+            </article>
+          </div>
+
+          <div class="replay-grid">
+            <article class="panel replay-verdict-panel">
+              <div class="panel-heading">
+                <div>
+                  <span class="section-kicker">ACCEPTANCE</span>
+                  <h3>实盘验收与校准提示</h3>
+                </div>
+                <span class="evaluation-badge evaluation-unknown" id="evaluation-verdict">数据不足</span>
+              </div>
+              <p class="evaluation-detail" id="evaluation-detail">
+                需要盘中分钟快照后才能判断覆盖、稳定性与误报代理。
+              </p>
+              <ul class="calibration-notes" id="calibration-notes">
+                <li>尚无可用的校准建议。</li>
+              </ul>
+            </article>
+
+            <article class="panel replay-timeline-panel">
+              <div class="panel-heading">
+                <div>
+                  <span class="section-kicker">TIMELINE</span>
+                  <h3>盘中状态轨迹</h3>
+                </div>
+                <span class="panel-state" id="replay-sample-count">0 个分钟样本</span>
+              </div>
+              <div class="replay-timeline" id="replay-timeline">
+                <p class="empty-state">服务器会在交易时段自动记录，网页未打开也不影响。</p>
+              </div>
+            </article>
+
+            <article class="panel replay-alerts-panel">
+              <div class="panel-heading">
+                <div>
+                  <span class="section-kicker">ALERT HISTORY</span>
+                  <h3>已发出的盘面提醒</h3>
+                </div>
+                <span class="panel-state" id="replay-alert-count">0 条</span>
+              </div>
+              <div class="replay-alert-list" id="replay-alert-list">
+                <p class="empty-state">该交易日尚无持久化提醒。</p>
+              </div>
+            </article>
+          </div>
+        </section>
+      </main>
+
+      <footer>
+        <span id="snapshot-meta">snapshot -- · sequence --</span>
+        <span>所有金额为人民币；百分比为百分点或比例化展示，以接口契约为准。</span>
+      </footer>
+    </div>
+
+    <script src="/watch/app.js" defer></script>
+  </body>
+</html>

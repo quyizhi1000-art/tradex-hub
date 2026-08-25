@@ -16,7 +16,9 @@ from tradex.dashboard.__main__ import (
 
 
 def test_get_html_reflects_file_changes(tmp_path, monkeypatch):
-    html_path = tmp_path / "index.html"
+    watch_path = tmp_path / "watch"
+    watch_path.mkdir()
+    html_path = watch_path / "index.html"
     monkeypatch.setattr(dashboard_app, "__file__", str(tmp_path / "__main__.py"))
 
     html_path.write_text("version-1", encoding="utf-8")
@@ -46,43 +48,11 @@ def test_html_response_disables_browser_cache(monkeypatch):
     assert handler.wfile.getvalue() == body.encode("utf-8")
 
 
-def test_desktop_sentiment_table_renders_limit_up_attribution_separately():
-    html = Path(dashboard_app.__file__).with_name("index.html").read_text(encoding="utf-8")
+def test_legacy_dashboard_entrypoint_is_removed():
+    dashboard_dir = Path(dashboard_app.__file__).parent
 
-    assert "function normaliseLeadershipPool(value)" in html
-    assert "盘前或休市，未参与判断" in html
-    assert "function renderLimitUpLeader(leader, sectorKey)" in html
-    assert "短线梯队 ${count}只" in html
-    assert "最高${maxBoard}板" in html
-    assert "${rankTotal}板块第${rank}" in html
-    assert "核心梯队强、扩散偏弱" in html
-    assert "涨停原因 + 股票基础行业（非官方板块分类）" in html
-    assert "原因 + 股票行业归属参与判断" in html
-    assert "原因归因参与；行业归属降级" in html
-    assert 'createText("strong", "", "股票行业归属")' in html
-    assert "item.matched_tag || item.canonical_tag" in html
-    assert "${tag} → ${node}" in html
-    assert "静态板块互证" in html
-    assert "后台日缓存核验中，不参与评分" in html
-    assert "暂不可用，将自动重试；不参与评分" in html
-    assert 'createText("strong", "", "代表标的")' in html
-    assert "renderSentimentGroups(data.groups, dynamicStatus, data.leadership_pool)" in html
-
-
-def test_desktop_offense_sections_keep_fixed_anchors_and_stock_leaders_separate():
-    html = Path(dashboard_app.__file__).with_name("index.html").read_text(encoding="utf-8")
-
-    assert 'id="core-offense"' in html
-    assert 'id="offense-radar"' in html
-    assert html.index('id="core-offense"') < html.index('id="offense-radar"')
-    assert "function renderCoreOffense(core)" in html
-    assert "function renderOffenseStockLeaders(snapshotValue" in html
-    assert "有效证据 ${evidenceCount}/${evidenceTotal}" in html
-    assert "实际领涨，不构成买入建议" in html
-    assert '"概念证据 · " + confirmation' in html
-    assert 'status === "active" || status === "closed"' in html
-    assert 'tradeFlag = "ST"' in html
-    assert 'tradeFlag = "北交所"' in html
+    assert not (dashboard_dir / "index.html").exists()
+    assert (dashboard_dir / "watch" / "index.html").is_file()
 
 
 def test_normalise_indices_supports_primary_source_fields():
@@ -111,7 +81,13 @@ def test_normalise_indices_supports_primary_source_fields():
 
     result = _normalise_indices(records, "akshare")
 
-    assert [item["code"] for item in result] == ["sh000001", "sz399001"]
+    assert [item["code"] for item in result] == [
+        "sh000001",
+        "sz399001",
+        "sh000300",
+        "sh000852",
+        "sz399006",
+    ]
     assert result[0]["price"] == 3990.30
     assert result[0]["amount"] == 1135187666395
     assert result[1]["change_pct"] == -0.56

@@ -271,12 +271,27 @@ def fetch_minute_data(code: str = "", symbol: str = "", **kwargs):
     rows = []
     for p in points:
         rows.append({
+            "代码": norm_code,
             "时间": getattr(p, "time_label", None) or getattr(p, "time", None),
             "价格": getattr(p, "price", None),
             "均价": getattr(p, "avg_price", None),
             "成交量": getattr(p, "volume", None),
         })
-    return pd.DataFrame(rows)
+    frame = pd.DataFrame(rows)
+    trading_date = getattr(result, "trading_date", None)
+    frame.attrs.update(
+        {
+            "source_valid": True,
+            "trading_date": (
+                trading_date.isoformat()
+                if hasattr(trading_date, "isoformat")
+                else trading_date
+            ),
+            "frequency_minutes": 1,
+            "volume_unit": "lots",
+        }
+    )
+    return frame
 
 
 def fetch_security_codes(market: str = "all", **kwargs):

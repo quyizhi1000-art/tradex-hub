@@ -12,14 +12,30 @@ from ..contracts import OHLCVBarV1
 from .market_overview import field, finite_number, parse_provider_time
 
 
-_KNOWN_PROVIDERS = {"akshare", "biying", "eltdx", "tencent_http", "ths_fuyao"}
+_KNOWN_PROVIDERS = {
+    "akshare",
+    "biying",
+    "eltdx",
+    "tencent_http",
+    "ths_fuyao",
+    "tushare",
+}
 
 
 def canonical_instrument_id(symbol: str) -> str:
-    bare = normalize_symbol(symbol)
+    raw = str(symbol or "").strip().upper()
+    suffix = re.fullmatch(r"(\d{6})\.(SH|SZ|BJ)", raw)
+    prefix = re.fullmatch(r"(SH|SZ|BJ)\.?([0-9]{6})", raw)
+    if suffix:
+        bare, exchange = suffix.groups()
+    elif prefix:
+        exchange, bare = prefix.groups()
+    else:
+        bare = normalize_symbol(raw)
+        exchange = get_exchange(raw).upper()
     if not re.fullmatch(r"\d{6}", bare):
         raise ValueError(f"invalid A-share symbol: {symbol!r}")
-    return f"{bare}.{get_exchange(symbol).upper()}"
+    return f"{bare}.{exchange}"
 
 
 def _record_code(row: dict[str, Any]) -> str | None:
@@ -91,7 +107,7 @@ def map_quote_frame(
     if frame is None or not hasattr(frame, "to_dict"):
         raise RuntimeError("quote provider returned an unsupported payload")
     records = frame.to_dict(orient="records")
-    requested = normalize_symbol(requested_symbol)
+    requested = canonical_instrument_id(requested_symbol)[:6]
     matches = [row for row in records if _record_code(row) == requested]
     if not matches:
         raise RuntimeError(f"quote provider did not return requested symbol {requested}")

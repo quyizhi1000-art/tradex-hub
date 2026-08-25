@@ -18,6 +18,8 @@ from datetime import datetime
 
 import requests as _requests
 
+from .free_source_budget import wait_for_free_source
+
 logger = logging.getLogger(__name__)
 
 _HSGT_HEADERS = {
@@ -106,6 +108,14 @@ def get_northbound_flow(
 
     try:
         url_rt = "https://data.hexin.cn/market/hsgtApi/method/dayChart/"
+        wait_for_free_source(
+            "free:ths:web",
+            interval_env="THS_FREE_RATE_LIMIT_INTERVAL",
+            default_interval=0.5,
+            max_wait_env="THS_FREE_MAX_QUEUE_WAIT",
+            default_max_wait=4.0,
+            label="THS free",
+        )
         r = _requests.get(url_rt, headers=_HSGT_HEADERS, timeout=10)
         d = r.json()
 
@@ -196,6 +206,14 @@ def get_northbound_flow_json(
 
     try:
         url_rt = "https://data.hexin.cn/market/hsgtApi/method/dayChart/"
+        wait_for_free_source(
+            "free:ths:web",
+            interval_env="THS_FREE_RATE_LIMIT_INTERVAL",
+            default_interval=0.5,
+            max_wait_env="THS_FREE_MAX_QUEUE_WAIT",
+            default_max_wait=4.0,
+            label="THS free",
+        )
         r = _requests.get(url_rt, headers=_HSGT_HEADERS, timeout=10)
         d = r.json()
 

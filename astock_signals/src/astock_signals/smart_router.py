@@ -11,13 +11,54 @@
 
 from __future__ import annotations
 
+import contextvars
+import functools
 import logging
+import os
 import threading
 import time
+from concurrent.futures import ThreadPoolExecutor, TimeoutError as FutureTimeoutError
+from contextlib import contextmanager
 from dataclasses import dataclass, field
-from typing import Any, Callable
+from typing import Any, Callable, Iterator
 
 logger = logging.getLogger(__name__)
+
+DEFAULT_ROUTE_DEADLINE_SECONDS = 30.0
+DEFAULT_PROVIDER_DEADLINE_SECONDS = 15.0
+DEFAULT_MAX_PROVIDER_CALLS = 8
+ROUTE_DEADLINE_ENV = "TRADEX_ROUTE_DEADLINE_SECONDS"
+PROVIDER_DEADLINE_ENV = "TRADEX_PROVIDER_DEADLINE_SECONDS"
+MAX_PROVIDER_CALLS_ENV = "TRADEX_MAX_PROVIDER_CALLS"
+
+
+def _configured_positive_float(name: str, default: float) -> float:
+    raw = os.getenv(name, "").strip()
+    if not raw:
+        return default
+    try:
+        value = float(raw)
+    except ValueError:
+        return default
+    return value if value > 0 else default
+
+
+def _configured_positive_int(name: str, default: int) -> int:
+    raw = os.getenv(name, "").strip()
+    if not raw:
+        return default
+    try:
+        value = int(raw)
+    except ValueError:
+        return default
+    return value if value > 0 else default
+
+
+def _positive_seconds(value: float, name: str) -> float:
+    seconds = float(value)
+    if seconds <= 0:
+        raise ValueError(f"{name} must be greater than zero")
+    return seconds
 
 
 class RequestValidationError(ValueError):
@@ -39,8 +80,105 @@ class SourcePayloadError(RuntimeError):
     """当前源的返回值未通过调用方的数据契约校验。"""
 
 
+class RouteDeadlineExceeded(TimeoutError):
+    """SmartRouter 的请求总 deadline 已耗尽。"""
+
+
+class ProviderDeadlineExceeded(TimeoutError):
+    """单个供应商调用（包括排队）超过本次调用的 deadline。"""
+
+    def __init__(self, message: str, *, started: bool) -> None:
+        super().__init__(message)
+        self.started = started
+
+
 SourceEntry = tuple[str, Callable[..., Any], int, bool]
 ResultValidator = Callable[[Any, str], Any]
+
+_current_deadline: contextvars.ContextVar[float | None] = contextvars.ContextVar(
+    "tradex_current_deadline",
+    default=None,
+)
+
+
+def current_deadline() -> float | None:
+    """返回当前调用继承的绝对 monotonic deadline。"""
+
+    return _current_deadline.get()
+
+
+@contextmanager
+def deadline_scope(deadline_at: float) -> Iterator[None]:
+    """向线程和嵌套路由传播一个只会收紧的绝对 deadline。"""
+
+    inherited = current_deadline()
+    effective = min(deadline_at, inherited) if inherited is not None else deadline_at
+    token = _current_deadline.set(effective)
+    try:
+        yield
+    finally:
+        _current_deadline.reset(token)
+
+
+class _BoundedProviderExecutor:
+    """用固定线程数执行供应商调用，并让排队计入总 deadline。
+
+    Python/Windows 不能安全强杀正在执行的线程。调用方到期后立即返回，
+    但 admission token 只在真实 Future 结束时释放，因此慢调用不会通过
+    超时不断制造替代线程或无界队列。
+    """
+
+    def __init__(self, max_calls: int) -> None:
+        if max_calls <= 0:
+            raise ValueError("max_calls must be greater than zero")
+        self._slots = threading.BoundedSemaphore(max_calls)
+        self._pool = ThreadPoolExecutor(
+            max_workers=max_calls,
+            thread_name_prefix="tradex-provider",
+        )
+
+    def run(
+        self,
+        func: Callable[[], Any],
+        *,
+        deadline_at: float,
+        label: str,
+    ) -> Any:
+        remaining = deadline_at - time.monotonic()
+        if remaining <= 0 or not self._slots.acquire(timeout=max(0.0, remaining)):
+            raise ProviderDeadlineExceeded(
+                f"{label} deadline expired while waiting for provider capacity",
+                started=False,
+            )
+
+        context = contextvars.copy_context()
+        call = functools.partial(context.run, func)
+        try:
+            future = self._pool.submit(call)
+        except BaseException:
+            self._slots.release()
+            raise
+        future.add_done_callback(lambda _future: self._slots.release())
+
+        remaining = deadline_at - time.monotonic()
+        if remaining <= 0:
+            started = future.running()
+            future.cancel()
+            raise ProviderDeadlineExceeded(
+                f"{label} deadline expired before provider execution",
+                started=started,
+            )
+        try:
+            return future.result(timeout=remaining)
+        except FutureTimeoutError as exc:
+            if future.done():
+                return future.result()
+            started = future.running()
+            future.cancel()
+            raise ProviderDeadlineExceeded(
+                f"{label} exceeded its total provider deadline",
+                started=started,
+            ) from exc
 
 
 @dataclass
@@ -132,12 +270,45 @@ class SmartRouter:
         result = router.route("auction", code="600519")
     """
 
-    def __init__(self):
+    def __init__(
+        self,
+        *,
+        route_deadline_seconds: float | None = None,
+        provider_deadline_seconds: float | None = None,
+        max_provider_calls: int | None = None,
+    ):
         # Copy-on-write tuples let every request retain a stable candidate snapshot.
         # _sources: data_type -> tuple[(source_name, fetch_fn, priority, exclusive), ...]
         self._sources: dict[str, tuple[SourceEntry, ...]] = {}
         self._health: dict[str, SourceHealth] = {}
         self._lock = threading.Lock()
+        self._route_deadline_seconds = _positive_seconds(
+            route_deadline_seconds
+            if route_deadline_seconds is not None
+            else _configured_positive_float(
+                ROUTE_DEADLINE_ENV,
+                DEFAULT_ROUTE_DEADLINE_SECONDS,
+            ),
+            "route_deadline_seconds",
+        )
+        self._provider_deadline_seconds = _positive_seconds(
+            provider_deadline_seconds
+            if provider_deadline_seconds is not None
+            else _configured_positive_float(
+                PROVIDER_DEADLINE_ENV,
+                DEFAULT_PROVIDER_DEADLINE_SECONDS,
+            ),
+            "provider_deadline_seconds",
+        )
+        provider_limit = (
+            max_provider_calls
+            if max_provider_calls is not None
+            else _configured_positive_int(
+                MAX_PROVIDER_CALLS_ENV,
+                DEFAULT_MAX_PROVIDER_CALLS,
+            )
+        )
+        self._provider_executor = _BoundedProviderExecutor(provider_limit)
 
     def register(
         self,
@@ -177,7 +348,14 @@ class SmartRouter:
                 sorted((*current, entry), key=lambda item: item[2])
             )
 
-    def route(self, data_type: str, **kwargs) -> tuple[Any, str]:
+    def route(
+        self,
+        data_type: str,
+        *,
+        deadline_seconds: float | None = None,
+        provider_deadline_seconds: float | None = None,
+        **kwargs,
+    ) -> tuple[Any, str]:
         """请求隔离路由：按固定优先级快照选源，失败仅在本请求降级。
 
         独占源（exclusive=True）失败后不降级，直接 raise。
@@ -187,12 +365,21 @@ class SmartRouter:
         Raises:
             RuntimeError: 所有数据源都失败（或独占源失败）
         """
-        return self._route(data_type, validator=None, **kwargs)
+        return self._route(
+            data_type,
+            validator=None,
+            deadline_seconds=deadline_seconds,
+            provider_deadline_seconds=provider_deadline_seconds,
+            **kwargs,
+        )
 
     def route_validated(
         self,
         data_type: str,
         validator: ResultValidator,
+        *,
+        deadline_seconds: float | None = None,
+        provider_deadline_seconds: float | None = None,
         **kwargs,
     ) -> tuple[Any, str]:
         """路由并在记录成功前把源返回值转换为调用方的规范契约。
@@ -203,15 +390,40 @@ class SmartRouter:
         """
         if not callable(validator):
             raise TypeError("validator must be callable")
-        return self._route(data_type, validator=validator, **kwargs)
+        return self._route(
+            data_type,
+            validator=validator,
+            deadline_seconds=deadline_seconds,
+            provider_deadline_seconds=provider_deadline_seconds,
+            **kwargs,
+        )
 
     def _route(
         self,
         data_type: str,
         *,
         validator: ResultValidator | None,
+        deadline_seconds: float | None,
+        provider_deadline_seconds: float | None,
         **kwargs,
     ) -> tuple[Any, str]:
+        route_window = _positive_seconds(
+            deadline_seconds
+            if deadline_seconds is not None
+            else self._route_deadline_seconds,
+            "deadline_seconds",
+        )
+        provider_window = _positive_seconds(
+            provider_deadline_seconds
+            if provider_deadline_seconds is not None
+            else self._provider_deadline_seconds,
+            "provider_deadline_seconds",
+        )
+        route_deadline = time.monotonic() + route_window
+        inherited_deadline = current_deadline()
+        if inherited_deadline is not None:
+            route_deadline = min(route_deadline, inherited_deadline)
+
         # Take an immutable snapshot under the lock. Registration after this point
         # cannot alter the order or membership observed by the current request.
         with self._lock:
@@ -222,15 +434,32 @@ class SmartRouter:
         errors = []
         legacy_validation_errors: list[ValueError] = []
         for source_name, fetch_fn, _priority, exclusive in candidates:
+            if time.monotonic() >= route_deadline:
+                raise RouteDeadlineExceeded(
+                    f"SmartRouter deadline expired for '{data_type}'"
+                )
             key = f"{data_type}:{source_name}"
             t0 = time.perf_counter()
             try:
-                result = fetch_fn(**kwargs)
-                if validator is not None:
-                    try:
-                        result = validator(result, source_name)
-                    except Exception as exc:
-                        raise SourcePayloadError(str(exc)) from exc
+                def invoke_provider() -> Any:
+                    result = fetch_fn(**kwargs)
+                    if validator is not None:
+                        try:
+                            return validator(result, source_name)
+                        except Exception as exc:
+                            raise SourcePayloadError(str(exc)) from exc
+                    return result
+
+                provider_deadline = min(
+                    route_deadline,
+                    time.monotonic() + provider_window,
+                )
+                with deadline_scope(provider_deadline):
+                    result = self._provider_executor.run(
+                        invoke_provider,
+                        deadline_at=provider_deadline,
+                        label=f"{data_type}:{source_name}",
+                    )
                 latency_ms = (time.perf_counter() - t0) * 1000
                 with self._lock:
                     self._health[key].record_success(latency_ms)
@@ -271,6 +500,27 @@ class SmartRouter:
                 )
                 if exclusive:
                     raise
+            except ProviderDeadlineExceeded as exc:
+                if exc.started:
+                    with self._lock:
+                        self._health[key].record_failure()
+                errors.append(f"{source_name}: {exc}")
+                logger.warning(
+                    "SmartRouter: %s via %s DEADLINE: %s",
+                    data_type,
+                    source_name,
+                    exc,
+                )
+                if exclusive:
+                    raise RuntimeError(
+                        f"Exclusive source '{source_name}' for '{data_type}' "
+                        f"exceeded its deadline: {exc}"
+                    ) from exc
+                if time.monotonic() >= route_deadline:
+                    raise RouteDeadlineExceeded(
+                        f"SmartRouter deadline expired for '{data_type}': "
+                        f"{'; '.join(errors)}"
+                    ) from exc
             except Exception as e:
                 with self._lock:
                     self._health[key].record_failure()
@@ -283,6 +533,12 @@ class SmartRouter:
                     raise RuntimeError(
                         f"Exclusive source '{source_name}' for '{data_type}' failed: {e}"
                     ) from e
+
+        if time.monotonic() >= route_deadline:
+            raise RouteDeadlineExceeded(
+                f"SmartRouter deadline expired for '{data_type}': "
+                f"{'; '.join(errors)}"
+            )
 
         if legacy_validation_errors and len(legacy_validation_errors) == len(candidates):
             first = legacy_validation_errors[0]

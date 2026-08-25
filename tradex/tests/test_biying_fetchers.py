@@ -44,6 +44,33 @@ def test_quote_falls_back_to_lots_when_raw_share_volume_is_absent(monkeypatch):
     assert frame.loc[0, "成交量"] == 123_400
 
 
+def test_market_overview_fetches_the_four_decision_roles_and_legacy_shenzhen(monkeypatch):
+    requested = []
+
+    def fake_index_quote(symbol):
+        requested.append(symbol)
+        return {
+            "代码": symbol,
+            "指数名称": biying_fetchers._INDEX_NAMES[symbol],
+            "最新价": 1000,
+            "涨跌幅": 0.1,
+            "更新时间": "2026-08-20T10:30:00+08:00",
+        }
+
+    monkeypatch.setattr(biying_fetchers, "_index_quote", fake_index_quote)
+
+    frame = biying_fetchers.fetch_market_overview()
+
+    assert requested == [
+        "000001.SH",
+        "399001.SZ",
+        "000300.SH",
+        "399852.SZ",
+        "399006.SZ",
+    ]
+    assert set(frame["指数名称"]) >= {"上证指数", "沪深300", "中证1000", "创业板指"}
+
+
 def test_history_converts_lots_to_shares_and_declares_contract_basis(monkeypatch):
     monkeypatch.setattr(
         biying_fetchers,

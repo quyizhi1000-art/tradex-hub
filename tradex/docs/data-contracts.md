@@ -266,7 +266,7 @@ A 股目录、全量/复权 K 线、公司基本信息、三大财报与财务�
 `BIYING_LICENCE_FILE` 读取，并在客户端内部拼入 URL 最后一个路径段。异常、
 日志、测试输出和 provider metadata 均不得包含完整 URL 或许可证。客户端不
 自动重试，只接受 HTTPS 根地址并拒绝自动重定向；默认普通接口预算为每分钟
-300 次，并发预算满时立即交给路由回退。
+300 次，并由本机所有 Tradex 进程共享，并发预算满时立即交给路由回退。
 移除单个 `BIYING_PRIMARY_CAPABILITIES` 项即可只回滚该能力；
 `BIYING_ENABLED=false` 可整体停用。
 

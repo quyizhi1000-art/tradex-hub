@@ -5,14 +5,17 @@ from __future__ import annotations
 import os
 import re
 import threading
-import time
-from collections import deque
 from pathlib import Path
 from typing import Any, Iterable
 from urllib.parse import quote, urlsplit
 
 import requests
 
+from astock_signals.shared_rate_limit import (
+    SharedRateLimitExceeded,
+    SharedRateLimitUnavailable,
+    consume_shared_rate_budget,
+)
 from astock_signals.smart_router import SourceBusyError
 
 from ..config import config
@@ -27,8 +30,6 @@ class BiyingAPIError(RuntimeError):
 
 
 _SESSION_LOCAL = threading.local()
-_RATE_LOCK = threading.Lock()
-_REQUEST_TIMES: deque[float] = deque()
 _LICENCE_ASSIGNMENT = re.compile(
     r"^(?:BIYING_LICENCE|BIYING_KEY|LICENCE|LICENSE)\s*=\s*(.+)$",
     re.IGNORECASE,
@@ -156,16 +157,12 @@ def _consume_rate_budget() -> None:
     limit = _positive_int(
         "BIYING_RATE_LIMIT_PER_MINUTE", "BIYING_RATE_LIMIT_PER_MINUTE", 300
     )
-    now = time.monotonic()
-    cutoff = now - 60.0
-    with _RATE_LOCK:
-        while _REQUEST_TIMES and _REQUEST_TIMES[0] <= cutoff:
-            _REQUEST_TIMES.popleft()
-        if len(_REQUEST_TIMES) >= limit:
-            raise SourceBusyError(
-                "biying process rate budget is full; use this request's fallback"
-            )
-        _REQUEST_TIMES.append(now)
+    try:
+        consume_shared_rate_budget("paid:biying:standard", limit)
+    except (SharedRateLimitExceeded, SharedRateLimitUnavailable):
+        raise SourceBusyError(
+            "biying shared rate budget is full; use this request's fallback"
+        ) from None
 
 
 def _normalise_segments(path: str | Iterable[str]) -> list[str]:

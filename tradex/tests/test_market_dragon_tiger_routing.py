@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import asyncio
+import json
 
 import pandas as pd
 
@@ -74,3 +75,27 @@ def test_multi_day_view_never_enters_single_day_fuyao_contract(monkeypatch):
             {"code": "", "trade_date": "2026-08-19", "look_back_days": 10},
         )
     ]
+
+
+def test_index_volume_compare_uses_the_deadline_aware_router(monkeypatch):
+    calls = []
+
+    def route(_self, data_type, **kwargs):
+        calls.append((data_type, kwargs))
+        return ([{"date": "2026-08-21", "volume": 100, "amount": 200}], "eastmoney")
+
+    capture = _CaptureMCP()
+    monkeypatch.setattr(market, "_router", type("Router", (), {"route": route})())
+    monkeypatch.setattr(market, "cache", _NoCache())
+    market.register(capture)
+
+    payload = json.loads(asyncio.run(capture.tools["get_index_volume_compare"](days=3)))
+
+    assert [call[0] for call in calls] == ["index_daily_amount"] * 3
+    assert [call[1]["symbol"] for call in calls] == [
+        "sh000001",
+        "sz399001",
+        "sz399006",
+    ]
+    assert all(call[1]["days"] == 3 for call in calls)
+    assert payload["sh000001"]["series"][0]["amount_yuan"] == 200.0

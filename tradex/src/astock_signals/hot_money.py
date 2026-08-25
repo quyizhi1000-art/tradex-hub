@@ -16,6 +16,8 @@ import logging
 
 import requests as _requests
 
+from .free_source_budget import wait_for_free_source
+
 logger = logging.getLogger(__name__)
 
 _UA = (
@@ -45,6 +47,14 @@ def get_hot_stocks(curr_date: str = "") -> str:
             f"date/{curr_date}/orderby/date/orderway/desc/charset/GBK/"
         )
         headers = {"User-Agent": _UA}
+        wait_for_free_source(
+            "free:ths:web",
+            interval_env="THS_FREE_RATE_LIMIT_INTERVAL",
+            default_interval=0.5,
+            max_wait_env="THS_FREE_MAX_QUEUE_WAIT",
+            default_max_wait=4.0,
+            label="THS free",
+        )
         r = _requests.get(url, headers=headers, timeout=10)
         data = r.json()
 
@@ -116,6 +126,14 @@ def get_hot_stocks_json(curr_date: str = "") -> dict:
             f"date/{curr_date}/orderby/date/orderway/desc/charset/GBK/"
         )
         headers = {"User-Agent": _UA}
+        wait_for_free_source(
+            "free:ths:web",
+            interval_env="THS_FREE_RATE_LIMIT_INTERVAL",
+            default_interval=0.5,
+            max_wait_env="THS_FREE_MAX_QUEUE_WAIT",
+            default_max_wait=4.0,
+            label="THS free",
+        )
         r = _requests.get(url, headers=headers, timeout=10)
         data = r.json()
 

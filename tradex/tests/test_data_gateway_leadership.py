@@ -195,6 +195,7 @@ def test_board_leader_mapping_failure_falls_back_to_next_provider() -> None:
         "method": "board_constituents",
         "items": [
             {
+                "instrument_id": "600030.SH",
                 "code": "600030",
                 "name": "中信证券",
                 "price": 30.0,

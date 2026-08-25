@@ -560,6 +560,19 @@ def test_limit_up_board_paginates_and_rejects_duplicate_stocks(monkeypatch):
         fuyao_fetchers.fetch_limit_up_board("zt")
 
 
+def test_limit_up_board_keeps_limit_up_reason_strict_for_detail_rows(monkeypatch):
+    item = _limit_up_item()
+    item["limit_up_reason"] = ""
+    monkeypatch.setattr(
+        fuyao_fetchers,
+        "_request",
+        lambda path, params=None: _pool_payload([deepcopy(item)]),
+    )
+
+    with pytest.raises(RuntimeError, match=r"limit_up_reason.*非空字符串"):
+        fuyao_fetchers.fetch_limit_up_board("zt")
+
+
 def test_limit_up_board_preserves_valid_empty_and_skips_unsupported_capability(
     monkeypatch,
 ):
@@ -588,7 +601,9 @@ def test_market_breadth_combines_snapshot_with_exact_pool_counts(monkeypatch):
     snapshot.attrs["provider_as_of"] = "2026-08-19T15:00:00+08:00"
     monkeypatch.setattr(fuyao_fetchers, "fetch_realtime_quote", lambda: snapshot)
 
-    def fake_pool(board_type, *, date_ms=None):
+    def fake_pool(
+        board_type, *, date_ms=None, allow_empty_limit_up_reason=False
+    ):
         if board_type == "zt":
             return ([{"code": "600519"}, {"code": "000001"}], "2026-08-19T15:00:00+08:00")
         return ([{"code": "300750"}], "2026-08-19T15:00:00+08:00")
@@ -608,6 +623,31 @@ def test_market_breadth_combines_snapshot_with_exact_pool_counts(monkeypatch):
     assert result.attrs["source"] == "ths_fuyao"
 
 
+@pytest.mark.parametrize("limit_up_reason", [None, ""])
+def test_market_breadth_allows_empty_limit_up_reason_for_count_only(
+    monkeypatch, limit_up_reason
+):
+    snapshot = pd.DataFrame({"涨跌幅": [1.2, -0.5, 0.0]})
+    snapshot.attrs["provider_as_of"] = fuyao_fetchers._timestamp_iso(_TIMESTAMP)
+    monkeypatch.setattr(fuyao_fetchers, "fetch_realtime_quote", lambda: snapshot)
+    limit_up = _limit_up_item()
+    limit_up["limit_up_reason"] = limit_up_reason
+
+    def fake_request(path, params=None):
+        if path == _LIMIT_UP_POOL_PATH:
+            return _pool_payload([deepcopy(limit_up)])
+        if path == _LIMIT_DOWN_POOL_PATH:
+            return _pool_payload([_limit_down_item()])
+        raise AssertionError(f"unexpected path: {path}")
+
+    monkeypatch.setattr(fuyao_fetchers, "_request", fake_request)
+
+    result = fuyao_fetchers.fetch_market_breadth()
+
+    assert result.loc[0, "涨停"] == 1
+    assert result.loc[0, "跌停"] == 1
+
+
 def test_market_breadth_preserves_unclassified_snapshot_rows(monkeypatch):
     snapshot = pd.DataFrame({"涨跌幅": [1.2, -0.5, float("nan"), 0.0]})
     snapshot.attrs["provider_as_of"] = "2026-08-19T15:00:00+08:00"
@@ -615,7 +655,7 @@ def test_market_breadth_preserves_unclassified_snapshot_rows(monkeypatch):
     monkeypatch.setattr(
         fuyao_fetchers,
         "_fetch_pool_records",
-        lambda board_type, *, date_ms=None: (
+        lambda board_type, *, date_ms=None, allow_empty_limit_up_reason=False: (
             [],
             "2026-08-19T15:00:00+08:00",
         ),

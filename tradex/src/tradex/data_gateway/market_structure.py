@@ -51,27 +51,34 @@ def fetch_market_breadth_snapshot(
     router: Any | None = None,
     now: datetime | None = None,
 ) -> MarketBreadthV1:
-    frame, provider = _router(router).route("market_breadth")
-    _require_valid_source(frame, provider)
-    mapped = map_market_breadth_frame(frame, provider=provider)
-    provider_as_of = mapped.pop("provider_as_of")
-    quality, flags = assess_market_breadth(
-        provider_as_of=provider_as_of,
-        unclassified_count=mapped["unclassified_count"],
-        universe_verified=provider == "ths_fuyao",
-    )
-    return MarketBreadthV1(
-        metadata=ContractMetadata(
-            contract="market_breadth.v1",
-            provider=provider,
-            provider_request_id=frame_request_id(frame),
+    fetched_at = _now(now)
+
+    def validate(frame: Any, provider: str) -> MarketBreadthV1:
+        _require_valid_source(frame, provider)
+        mapped = map_market_breadth_frame(frame, provider=provider)
+        provider_as_of = mapped.pop("provider_as_of")
+        quality, flags = assess_market_breadth(
             provider_as_of=provider_as_of,
-            fetched_at=_now(now),
-            quality=quality,
-            quality_flags=flags,
-        ),
-        **mapped,
+            unclassified_count=mapped["unclassified_count"],
+            universe_verified=provider == "ths_fuyao",
+        )
+        return MarketBreadthV1(
+            metadata=ContractMetadata(
+                contract="market_breadth.v1",
+                provider=provider,
+                provider_request_id=frame_request_id(frame),
+                provider_as_of=provider_as_of,
+                fetched_at=fetched_at,
+                quality=quality,
+                quality_flags=flags,
+            ),
+            **mapped,
+        )
+
+    snapshot, _provider = _router(router).route_validated(
+        "market_breadth", validate
     )
+    return snapshot
 
 
 def fetch_sector_quotes(
@@ -81,36 +88,42 @@ def fetch_sector_quotes(
     router: Any | None = None,
     now: datetime | None = None,
 ) -> SectorQuoteSeriesV1:
-    frame, provider = _router(router).route(
+    fetched_at = _now(now)
+
+    def validate(frame: Any, provider: str) -> SectorQuoteSeriesV1:
+        _require_valid_source(frame, provider)
+        quotes = map_sector_quote_frame(
+            frame,
+            provider=provider,
+            sector_type=sector_type,
+        )
+        provider_as_of = sector_provider_watermark(quotes)
+        quality, flags = assess_sector_quotes(
+            quotes=quotes,
+            provider_as_of=provider_as_of,
+            provider_units_verified=sector_units_verified(provider),
+        )
+        return SectorQuoteSeriesV1(
+            metadata=ContractMetadata(
+                contract="sector_quote.v1",
+                provider=provider,
+                provider_request_id=frame_request_id(frame),
+                provider_as_of=provider_as_of,
+                fetched_at=fetched_at,
+                quality=quality,
+                quality_flags=flags,
+            ),
+            sector_type=sector_type,
+            quotes=quotes,
+        )
+
+    series, _provider = _router(router).route_validated(
         "industry_quotes",
+        validate,
         board_type=sector_type,
         exact=exact,
     )
-    _require_valid_source(frame, provider)
-    quotes = map_sector_quote_frame(
-        frame,
-        provider=provider,
-        sector_type=sector_type,
-    )
-    provider_as_of = sector_provider_watermark(quotes)
-    quality, flags = assess_sector_quotes(
-        quotes=quotes,
-        provider_as_of=provider_as_of,
-        provider_units_verified=sector_units_verified(provider),
-    )
-    return SectorQuoteSeriesV1(
-        metadata=ContractMetadata(
-            contract="sector_quote.v1",
-            provider=provider,
-            provider_request_id=frame_request_id(frame),
-            provider_as_of=provider_as_of,
-            fetched_at=_now(now),
-            quality=quality,
-            quality_flags=flags,
-        ),
-        sector_type=sector_type,
-        quotes=quotes,
-    )
+    return series
 
 
 def market_breadth_to_legacy_records(snapshot: MarketBreadthV1) -> list[dict[str, Any]]:
@@ -153,6 +166,7 @@ def sector_quotes_to_legacy_records(
                 "下跌家数": item.down_count,
                 "领涨股代码": leader_code,
                 "领涨股市场": leader_market,
+                "leader_instrument_id": item.leader_instrument_id,
                 "领涨股票": item.leader_name,
                 "领涨股涨幅": item.leader_change_pct,
                 "更新时间": (

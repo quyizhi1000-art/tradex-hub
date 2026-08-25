@@ -263,6 +263,7 @@ def board_leader_snapshot_to_legacy_payload(
         "method": "board_constituents",
         "items": [
             {
+                "instrument_id": item.instrument_id,
                 "code": item.instrument_id[:6],
                 "name": item.name,
                 "price": item.price,

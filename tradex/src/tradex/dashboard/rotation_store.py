@@ -17,6 +17,7 @@ from .rotation_radar import (
     ROTATION_CONFIG_VERSION,
     ROTATION_SCHEMA_VERSION,
     analyze_rotation_snapshots,
+    analyze_sector_flow_snapshots,
     normalize_rotation_snapshot,
 )
 
@@ -185,6 +186,7 @@ class RotationRadarStore:
         market_phase: str = "trading",
         received_at: datetime | str | None = None,
         config_version: str = ROTATION_CONFIG_VERSION,
+        supplemental_points: Mapping[str, Iterable[Mapping[str, Any]]] | None = None,
     ) -> dict[str, Any]:
         normalized_date = _trade_date(trade_date)
         minute = _minute_iso(minute_bucket)
@@ -195,7 +197,11 @@ class RotationRadarStore:
             raise ValueError("config_version must not be empty")
         phase = str(market_phase)
         if phase not in _STORING_PHASES:
-            current = self.get_current(normalized_date, version)
+            current = self.get_current(
+                normalized_date,
+                version,
+                supplemental_points=supplemental_points,
+            )
             current["status"] = "paused" if phase in {"pre_open", "midday_break"} else "closed"
             current["status_label"] = "轮动观察暂停" if current["status"] == "paused" else "轮动信号已定格"
             return {"inserted": False, "reason": current["status"], "current": current}
@@ -224,7 +230,11 @@ class RotationRadarStore:
                 return {
                     "inserted": False,
                     "reason": "duplicate_minute",
-                    "current": self._get_current_locked(normalized_date, version),
+                    "current": self._get_current_locked(
+                        normalized_date,
+                        version,
+                        supplemental_points=supplemental_points,
+                    ),
                 }
             latest = self._connection.execute(
                 """
@@ -238,13 +248,21 @@ class RotationRadarStore:
                 return {
                     "inserted": False,
                     "reason": "out_of_order",
-                    "current": self._get_current_locked(normalized_date, version),
+                    "current": self._get_current_locked(
+                        normalized_date,
+                        version,
+                        supplemental_points=supplemental_points,
+                    ),
                 }
             if latest is not None and digest == latest["provider_digest"]:
                 return {
                     "inserted": False,
                     "reason": "duplicate_provider_digest",
-                    "current": self._get_current_locked(normalized_date, version),
+                    "current": self._get_current_locked(
+                        normalized_date,
+                        version,
+                        supplemental_points=supplemental_points,
+                    ),
                 }
 
             self._connection.execute(
@@ -289,7 +307,11 @@ class RotationRadarStore:
                 """
             )
             self._connection.commit()
-            current = self._get_current_locked(normalized_date, version)
+            current = self._get_current_locked(
+                normalized_date,
+                version,
+                supplemental_points=supplemental_points,
+            )
             current["storage"] = {
                 "board_count": len(snapshot["boards"]),
                 "payload_bytes": len(payload),
@@ -306,11 +328,15 @@ class RotationRadarStore:
             (trade_date, ROTATION_SCHEMA_VERSION, config_version),
         ).fetchall()
 
-    def _recent_snapshots(self, rows: list[sqlite3.Row]) -> list[dict[str, Any]]:
-        decoded = [
+    def _decoded_snapshots(self, rows: list[sqlite3.Row]) -> list[dict[str, Any]]:
+        return [
             _expand_payload(row["payload_blob"], row["minute_bucket"], row["market_phase"])
             for row in rows
         ]
+
+    def _recent_decoded_snapshots(
+        self, decoded: list[dict[str, Any]]
+    ) -> list[dict[str, Any]]:
         effective_seen = {"industry": 0, "concept": 0}
         start = 0
         for index in range(len(decoded) - 1, -1, -1):
@@ -325,10 +351,32 @@ class RotationRadarStore:
                 break
         return decoded[start:] if decoded else []
 
-    def _get_current_locked(self, trade_date: str, config_version: str) -> dict[str, Any]:
+    def _recent_snapshots(self, rows: list[sqlite3.Row]) -> list[dict[str, Any]]:
+        return self._recent_decoded_snapshots(self._decoded_snapshots(rows))
+
+    def _get_current_locked(
+        self,
+        trade_date: str,
+        config_version: str,
+        *,
+        supplemental_points: Mapping[str, Iterable[Mapping[str, Any]]] | None = None,
+    ) -> dict[str, Any]:
         rows = self._rows(trade_date, config_version)
-        snapshots = self._recent_snapshots(rows)
+        decoded = self._decoded_snapshots(rows)
+        snapshots = self._recent_decoded_snapshots(decoded)
         result = analyze_rotation_snapshots(snapshots, config_version=config_version)
+        # Lifecycle replay stays bounded, while the fund-flow chart needs the
+        # complete current trading session.  Both views consume the same
+        # decoded owner snapshot and never trigger another provider request.
+        result["sector_flow_trajectory"] = analyze_sector_flow_snapshots(
+            decoded,
+            supplemental_points,
+        )
+        result["offense_sector_flow_trajectory"] = analyze_sector_flow_snapshots(
+            decoded,
+            supplemental_points,
+            direction="offense",
+        )
         if rows:
             latest = rows[-1]
             result["storage"] = {
@@ -350,10 +398,16 @@ class RotationRadarStore:
         self,
         trade_date: date | str,
         config_version: str = ROTATION_CONFIG_VERSION,
+        *,
+        supplemental_points: Mapping[str, Iterable[Mapping[str, Any]]] | None = None,
     ) -> dict[str, Any]:
         normalized_date = _trade_date(trade_date)
         with self._lock:
-            return self._get_current_locked(normalized_date, str(config_version))
+            return self._get_current_locked(
+                normalized_date,
+                str(config_version),
+                supplemental_points=supplemental_points,
+            )
 
     def get_snapshot_stats(
         self,

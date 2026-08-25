@@ -9,9 +9,12 @@ from tradex.dashboard.rotation_radar import (
     CORE_OFFENSE_CONFIG_VERSION,
     CORE_OFFENSE_DEFINITIONS,
     analyze_rotation_snapshots,
+    analyze_sector_flow_snapshots,
     canonical_family,
     normalize_rotation_snapshot,
+    sector_flow_backfill_targets,
 )
+from tradex.market_watch import SectorFlowTrajectoryV1
 
 
 SHANGHAI = ZoneInfo("Asia/Shanghai")
@@ -170,6 +173,33 @@ def _core_snapshot(
     anchor["source"] = source
     return normalize_rotation_snapshot(
         [*_background("industry", minute, "I"), anchor],
+        _background("concept", minute, "C"),
+        minute_bucket=minute,
+    )
+
+
+def _defense_flow_snapshot(
+    minute: datetime,
+    *,
+    flow: float,
+    change: float = 5.0,
+    board_code: str = "POWER",
+    provider: datetime | None = None,
+    source: str = "industry-source",
+) -> dict:
+    electric_power = _board(
+        "industry",
+        board_code,
+        "电力",
+        minute,
+        change=change,
+        breadth=0.80,
+        flow=flow,
+        provider=provider,
+    )
+    electric_power["source"] = source
+    return normalize_rotation_snapshot(
+        [*_background("industry", minute, "I"), electric_power],
         _background("concept", minute, "C"),
         minute_bucket=minute,
     )
@@ -395,6 +425,384 @@ def test_lunch_resets_confirmation_and_temporal_baseline():
     view = analyze_rotation_snapshots([*morning, afternoon])
     assert view["rotating"] == []
     assert view["events"] == []
+
+
+def test_sector_flow_trajectory_uses_a_same_session_five_minute_baseline():
+    snapshots = [
+        _defense_flow_snapshot(
+            START + timedelta(minutes=offset),
+            flow=1.0 + offset,
+            change=4.0 + 0.2 * offset,
+        )
+        for offset in range(6)
+    ]
+
+    trajectory = analyze_sector_flow_snapshots(snapshots)
+    canonical = SectorFlowTrajectoryV1.model_validate(trajectory)
+    electric_power = next(
+        item for item in canonical.sectors if item.sector_key == "electric_power"
+    )
+
+    assert electric_power.latest is not None
+    assert electric_power.latest.cumulative_cny == 600_000_000
+    assert electric_power.latest.delta_5m_cny == 500_000_000
+    assert electric_power.latest.delta_5m_baseline_as_of == START
+    assert electric_power.latest.change_delta_5m_pct == 1.0
+    assert electric_power.observation_tier.value == "confirmed_strengthening"
+    assert electric_power.observation_rank == 1
+    assert len(canonical.sectors) == 16
+
+
+def test_expanded_sector_flow_pool_does_not_expand_paid_or_free_backfill_calls():
+    minute = START
+    electric_power = _board(
+        "industry", "BK0428", "电力", minute, change=1.0, breadth=0.6, flow=1.0
+    )
+    coal = _board(
+        "industry", "BK0437", "煤炭", minute, change=2.0, breadth=0.7, flow=2.0
+    )
+    electric_power["source"] = "push2delay"
+    coal["source"] = "push2delay"
+    industry = [*_background("industry", minute, "I"), electric_power, coal]
+    concept = _background("concept", minute, "C")
+
+    trajectory = analyze_sector_flow_snapshots([
+        normalize_rotation_snapshot(industry, concept, minute_bucket=minute)
+    ])
+    coal_series = next(
+        item for item in trajectory["sectors"] if item["sector_key"] == "coal"
+    )
+    targets = sector_flow_backfill_targets(
+        industry,
+        concept,
+        minute_bucket=minute,
+        sources={"industry": "push2delay", "concept": "push2delay"},
+    )
+
+    assert coal_series["latest"]["change_pct"] == 2.0
+    assert "coal" not in {item["sector_key"] for item in targets}
+
+
+def test_sector_flow_trajectory_exposes_only_an_explicit_bk_leader_identity():
+    with_bk = analyze_sector_flow_snapshots([
+        _defense_flow_snapshot(START, flow=1.0, board_code="BK0428"),
+    ])
+    without_bk = analyze_sector_flow_snapshots([
+        _defense_flow_snapshot(START, flow=1.0, board_code="POWER"),
+    ])
+
+    assert next(
+        item for item in with_bk["sectors"] if item["sector_key"] == "electric_power"
+    )["leader_board_code"] == "BK0428"
+    assert next(
+        item for item in without_bk["sectors"] if item["sector_key"] == "electric_power"
+    )["leader_board_code"] is None
+
+
+def test_sector_flow_trajectory_does_not_bridge_the_midday_break():
+    morning = [
+        _defense_flow_snapshot(
+            datetime(2026, 8, 19, 11, 25, tzinfo=SHANGHAI) + timedelta(minutes=offset),
+            flow=1.0 + offset,
+        )
+        for offset in range(6)
+    ]
+    afternoon = _defense_flow_snapshot(
+        datetime(2026, 8, 19, 13, 0, tzinfo=SHANGHAI),
+        flow=9.0,
+    )
+
+    trajectory = analyze_sector_flow_snapshots([*morning, afternoon])
+    electric_power = next(
+        item for item in trajectory["sectors"] if item["sector_key"] == "electric_power"
+    )
+
+    assert electric_power["latest"]["delta_5m_cny"] is None
+    assert electric_power["latest"]["delta_10m_cny"] is None
+    assert electric_power["points"][-1]["session_segment"] == "pm"
+    assert electric_power["status"] == "collecting"
+
+
+def test_sector_flow_trajectory_ignores_repeated_watermarks_and_resets_source():
+    same_provider = [
+        _defense_flow_snapshot(START, flow=1.0),
+        _defense_flow_snapshot(
+            START + timedelta(minutes=1),
+            flow=3.0,
+            provider=START,
+        ),
+    ]
+    repeated = analyze_sector_flow_snapshots(same_provider)
+    electric_power = next(
+        item for item in repeated["sectors"] if item["sector_key"] == "electric_power"
+    )
+    assert len(electric_power["points"]) == 1
+    assert "repeated_provider_time_ignored" in electric_power["flags"]
+
+    switched = [
+        *[
+            _defense_flow_snapshot(START + timedelta(minutes=offset), flow=1.0 + offset)
+            for offset in range(6)
+        ],
+        _defense_flow_snapshot(
+            START + timedelta(minutes=6),
+            flow=8.0,
+            source="industry-fallback",
+        ),
+    ]
+    reset = analyze_sector_flow_snapshots(switched)
+    electric_power = next(
+        item for item in reset["sectors"] if item["sector_key"] == "electric_power"
+    )
+    assert len(electric_power["points"]) == 1
+    assert electric_power["latest"]["delta_5m_cny"] is None
+    assert "source_changed_baseline_reset" in electric_power["flags"]
+
+
+def test_sector_flow_trajectory_is_deterministic_for_reversed_snapshot_input():
+    snapshots = [
+        _defense_flow_snapshot(START + timedelta(minutes=offset), flow=1.0 + offset)
+        for offset in range(6)
+    ]
+
+    assert analyze_sector_flow_snapshots(snapshots) == analyze_sector_flow_snapshots(
+        reversed(snapshots)
+    )
+
+
+def test_offense_sector_flow_trajectory_reuses_the_eight_stable_core_anchors():
+    snapshots = [
+        _core_snapshot(
+            START + timedelta(minutes=offset),
+            change=1.0 + offset * 0.1,
+            breadth=0.62 + offset * 0.01,
+            flow=2.0 + offset,
+            source="push2delay",
+        )
+        for offset in range(6)
+    ]
+
+    trajectory = analyze_sector_flow_snapshots(snapshots, direction="offense")
+    canonical = SectorFlowTrajectoryV1.model_validate(trajectory)
+    semiconductor = next(
+        item for item in trajectory["sectors"] if item["sector_key"] == "semiconductor"
+    )
+
+    assert canonical.direction == "offense"
+    assert {
+        item["sector_key"]
+        for item in trajectory["sectors"]
+        if item["layer"] == "anchor"
+    } == {
+        definition["key"] for definition in CORE_OFFENSE_DEFINITIONS
+    }
+    assert semiconductor["latest"]["delta_5m_cny"] == 500_000_000
+    assert semiconductor["category_name"] == "科技成长"
+
+
+def test_offense_sector_flow_trajectory_adds_hierarchical_concept_children():
+    snapshots = []
+    for offset in range(6):
+        minute = START + timedelta(minutes=offset)
+        semiconductor = _board(
+            "industry", "BK1036", "半导体", minute,
+            change=1.0 + offset * 0.1, breadth=0.62, flow=2.0 + offset,
+        )
+        advanced_packaging = _board(
+            "concept", "BK1101", "先进封装", minute,
+            change=1.5 + offset * 0.2, breadth=0.68, flow=3.0 + offset,
+        )
+        for item in (semiconductor, advanced_packaging):
+            item["source"] = "push2delay"
+        snapshots.append(normalize_rotation_snapshot(
+            [*_background("industry", minute, "I"), semiconductor],
+            [*_background("concept", minute, "C"), advanced_packaging],
+            minute_bucket=minute,
+        ))
+
+    trajectory = analyze_sector_flow_snapshots(snapshots, direction="offense")
+    canonical = SectorFlowTrajectoryV1.model_validate(trajectory)
+    concept = next(
+        item
+        for item in trajectory["sectors"]
+        if item["sector_key"] == "advanced_packaging"
+    )
+
+    assert canonical.direction == "offense"
+    assert len(trajectory["sectors"]) > len(CORE_OFFENSE_DEFINITIONS) * 4
+    assert concept["layer"] == "concept"
+    assert concept["parent_sector_key"] == "semiconductor"
+    assert concept["parent_name"] == "半导体"
+    assert concept["taxonomy"] == "concept"
+    assert concept["latest"]["delta_5m_cny"] == 500_000_000
+
+
+def test_sector_flow_backfill_targets_cover_defense_and_core_offense_without_duplicates():
+    minute = START
+    electric_power = _board(
+        "industry", "BK0428", "电力", minute,
+        change=1.0, breadth=0.6, flow=1.0,
+    )
+    semiconductor = _board(
+        "industry", "BK1036", "半导体", minute,
+        change=2.0, breadth=0.7, flow=2.0,
+    )
+    for item in (electric_power, semiconductor):
+        item["source"] = "push2delay"
+
+    targets = sector_flow_backfill_targets(
+        [*_background("industry", minute, "I"), electric_power, semiconductor],
+        _background("concept", minute, "C"),
+        minute_bucket=minute,
+        sources={"industry": "push2delay", "concept": "push2delay"},
+    )
+
+    assert [(item["sector_key"], item["provider_sector_code"]) for item in targets] == [
+        ("electric_power", "BK0428"),
+        ("semiconductor", "BK1036"),
+    ]
+
+
+def test_sector_flow_backfill_merges_with_push2delay_live_points():
+    live_minute = START + timedelta(minutes=10)
+    live = _defense_flow_snapshot(
+        live_minute,
+        flow=11.0,
+        source="push2delay",
+    )
+    supplements = {
+        "electric_power": [
+            {
+                "provider_as_of": START + timedelta(minutes=offset),
+                "cumulative_cny": (1.0 + offset) * 100_000_000,
+                "source_family": "eastmoney",
+            }
+            for offset in range(10)
+        ]
+    }
+
+    trajectory = analyze_sector_flow_snapshots([live], supplements)
+    electric_power = next(
+        item for item in trajectory["sectors"] if item["sector_key"] == "electric_power"
+    )
+
+    assert trajectory["status"] in {"ready", "partial"}
+    assert electric_power["status"] == "ready"
+    assert electric_power["latest"]["provider_as_of"] == live_minute
+    assert electric_power["latest"]["delta_5m_cny"] == 500_000_000
+    assert electric_power["points"][0]["provider_as_of"] == START
+    assert "intraday_history_backfilled" in electric_power["flags"]
+
+
+def test_sector_flow_backfill_prefers_live_sample_at_the_same_minute():
+    first_live_minute = START + timedelta(minutes=10, seconds=18)
+    latest_live_minute = START + timedelta(minutes=10, seconds=57)
+    first_live = _defense_flow_snapshot(
+        first_live_minute,
+        flow=11.0,
+        source="push2delay",
+    )
+    latest_live = _defense_flow_snapshot(
+        latest_live_minute,
+        flow=12.0,
+        source="push2delay",
+    )
+    supplements = {
+        "electric_power": [
+            {
+                "provider_as_of": START + timedelta(minutes=offset),
+                "cumulative_cny": (1.0 + offset) * 100_000_000,
+                "source_family": "eastmoney",
+            }
+            for offset in range(11)
+        ]
+    }
+
+    trajectory = analyze_sector_flow_snapshots(
+        [first_live, latest_live],
+        supplements,
+    )
+    electric_power = next(
+        item
+        for item in trajectory["sectors"]
+        if item["sector_key"] == "electric_power"
+    )
+    join_minute = latest_live_minute.replace(second=0, microsecond=0)
+    joined = [
+        point
+        for point in electric_power["points"]
+        if point["provider_as_of"].replace(second=0, microsecond=0) == join_minute
+    ]
+
+    assert len(joined) == 1
+    assert joined[0]["provider_as_of"] == latest_live_minute
+    assert joined[0]["cumulative_cny"] == 1_200_000_000
+    assert len(electric_power["points"]) == 11
+    assert "same_minute_provider_time_replaced" in electric_power["flags"]
+
+
+def test_sector_flow_can_display_exact_backfill_without_a_live_flow_amount():
+    minute = START + timedelta(minutes=10)
+    electric_power = _board(
+        "industry",
+        "BK0428",
+        "电力",
+        minute,
+        change=2.0,
+        breadth=0.70,
+        flow=0.0,
+    )
+    electric_power.pop("主力净流入")
+    electric_power.pop("主力净流入-占比")
+    electric_power["source"] = "push2delay"
+    snapshot = normalize_rotation_snapshot(
+        [*_background("industry", minute, "I"), electric_power],
+        _background("concept", minute, "C"),
+        minute_bucket=minute,
+    )
+    supplements = {
+        "electric_power": [
+            {
+                "provider_as_of": START + timedelta(minutes=offset),
+                "cumulative_cny": (1.0 + offset) * 100_000_000,
+                "source_family": "eastmoney",
+            }
+            for offset in range(11)
+        ]
+    }
+
+    trajectory = analyze_sector_flow_snapshots([snapshot], supplements)
+    result = next(
+        item for item in trajectory["sectors"] if item["sector_key"] == "electric_power"
+    )
+
+    assert result["status"] == "partial"
+    assert result["latest"]["cumulative_cny"] == 1_100_000_000
+    assert result["latest"]["delta_5m_cny"] == 500_000_000
+    assert result["reason"] is None
+
+
+def test_sector_flow_backfill_targets_accept_only_matching_eastmoney_board_ids():
+    minute = START
+    eastmoney = _board(
+        "industry", "BK0428", "电力", minute, change=1.0, breadth=0.6, flow=1.0
+    )
+    eastmoney["source"] = "push2delay"
+    foreign = _board(
+        "industry", "BK0732", "贵金属", minute, change=1.0, breadth=0.6, flow=1.0
+    )
+    foreign["source"] = "ths_fuyao"
+
+    targets = sector_flow_backfill_targets(
+        [*_background("industry", minute, "I"), eastmoney, foreign],
+        _background("concept", minute, "C"),
+        minute_bucket=minute,
+        sources={"industry": "push2delay", "concept": "push2delay"},
+    )
+
+    assert [item["sector_key"] for item in targets] == ["electric_power"]
+    assert targets[0]["provider_sector_code"] == "BK0428"
+    assert targets[0]["source_family"] == "eastmoney"
 
 
 def test_cross_day_history_is_not_used_for_speed_or_confirmation():

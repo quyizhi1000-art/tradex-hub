@@ -12,6 +12,7 @@ from tradex.data_gateway.market import (
     fetch_market_overview,
     market_overview_to_legacy_payload,
 )
+from tradex.data_gateway.providers.market_overview import map_indices
 from tradex.data_gateway.quality import DataQualityError
 
 
@@ -24,6 +25,10 @@ class _Router:
     def route(self, data_type: str):
         self.calls.append(data_type)
         return self.frame, self.provider
+
+    def route_validated(self, data_type: str, validator, **_kwargs):
+        self.calls.append(data_type)
+        return validator(self.frame, self.provider), self.provider
 
 
 def _records() -> pd.DataFrame:
@@ -49,6 +54,7 @@ def _records() -> pd.DataFrame:
                 "涨跌额": -81.77,
                 "涨跌幅": -0.56,
                 "昨收": 14704.27,
+                "成交额": 700_000_000_000,
                 "更新时间": "2026-08-19T10:30:01+08:00",
             },
             {
@@ -58,13 +64,31 @@ def _records() -> pd.DataFrame:
                 "涨跌幅": 1.4,
                 "更新时间": "2026-08-19T10:30:01+08:00",
             },
+            {
+                "代码": "sh000300",
+                "名称": "沪深300",
+                "最新价": 4800.0,
+                "涨跌幅": 0.8,
+                "更新时间": "2026-08-19T10:30:01+08:00",
+            },
+            {
+                "代码": "sz399852",
+                "名称": "中证1000",
+                "最新价": 7600.0,
+                "涨跌幅": 1.1,
+                "更新时间": "2026-08-19T10:30:01+08:00",
+            },
         ]
     )
 
 
 def _turnover(*, symbol: str, days: int):
     assert days == 5
-    previous, today = (8, 10) if symbol == "sh000001" else (4, 5)
+    previous, today = (
+        (800_000_000_000, 10)
+        if symbol == "sh000001"
+        else (700_000_000_000, 5)
+    )
     return [
         {"date": "2026-08-18", "time": "10:30", "amount": previous},
         {"date": "2026-08-19", "time": "10:30", "amount": today},
@@ -89,16 +113,21 @@ def test_gateway_returns_provider_neutral_contract_and_legacy_view():
     assert [item.instrument_id for item in snapshot.indices] == [
         "000001.SH",
         "399001.SZ",
+        "000300.SH",
+        "000852.SH",
+        "399006.SZ",
     ]
     assert snapshot.indices[0].amount_cny == 1_135_187_666_395
-    assert snapshot.market_turnover.difference_cny == 3
+    assert snapshot.indices[0].provider_as_of.isoformat() == "2026-08-19T10:30:00+08:00"
+    assert snapshot.market_turnover.difference_cny == 335_187_666_395
 
     payload = market_overview_to_legacy_payload(snapshot)
     assert payload["indices"][0]["code"] == "sh000001"
     assert payload["indices"][0]["amount"] == 1_135_187_666_395
+    assert payload["indices"][0]["provider_as_of"] == "2026-08-19T10:30:00+08:00"
     assert payload["participation_indices"][2]["代码"] == "sz399006"
     assert payload["market_turnover"]["metric"] == "amount"
-    assert payload["market_turnover"]["difference"] == 3
+    assert payload["market_turnover"]["difference"] == 335_187_666_395
     assert payload["contract"] == "market_overview.v1"
     assert payload["quality"] == "accepted"
 
@@ -108,7 +137,7 @@ def test_gateway_rejects_payload_without_a_required_index():
         [{"代码": "sz399006", "名称": "创业板指", "涨跌幅": 1.0}]
     )
 
-    with pytest.raises(DataQualityError, match="上证指数或深证成指"):
+    with pytest.raises(DataQualityError, match="沪深实时成交额数据不完整"):
         fetch_market_overview(
             now=datetime(2026, 8, 19, 10, 30, tzinfo=ZoneInfo("Asia/Shanghai")),
             router=_Router(frame),
@@ -134,6 +163,18 @@ def test_gateway_preserves_provider_metadata_from_frame_attributes():
     assert snapshot.metadata.provider_as_of.isoformat() == "2026-08-19T10:30:01+08:00"
     assert snapshot.metadata.provider_request_id == "provider-request-1"
     assert snapshot.metadata.quality is QualityStatus.ACCEPTED
+    assert snapshot.metadata.quality_flags == ()
+
+
+def test_csi1000_accepts_both_official_exchange_code_variants():
+    mapped = map_indices(
+        [{"代码": "sh000852", "名称": "provider-label", "最新价": 7600.0}],
+        "fixture",
+    )
+
+    csi1000 = next(item for item in mapped if item.instrument_id == "000852.SH")
+    assert csi1000.available is True
+    assert csi1000.value == 7600.0
 
 
 def test_contract_rejects_semantically_impossible_high_low():

@@ -20,6 +20,11 @@ import threading
 
 import requests as _requests
 
+from .shared_rate_limit import (
+    SharedRateLimitExceeded,
+    SharedRateLimitUnavailable,
+    reserve_shared_request_slot,
+)
 from .smart_router import SourceBusyError
 
 logger = logging.getLogger(__name__)
@@ -32,7 +37,7 @@ _EM_MIN_INTERVAL: float = float(os.environ.get("EM_RATE_LIMIT_INTERVAL", os.envi
 _EM_JITTER_MIN: float = float(os.environ.get("EM_JITTER_MIN", "0.1"))
 _EM_JITTER_MAX: float = float(os.environ.get("EM_JITTER_MAX", "0.5"))
 _EM_MAX_RETRY: int = int(os.environ.get("EM_MAX_RETRY", "1"))
-_EM_MAX_QUEUE_WAIT: float = float(os.environ.get("EM_MAX_QUEUE_WAIT", "2.0"))
+_EM_MAX_QUEUE_WAIT: float = float(os.environ.get("EM_MAX_QUEUE_WAIT", "8.0"))
 _em_next_slot: list[float] = [0.0]  # mutable for inner func access
 _lock = threading.Lock()  # 仅保护 IP 级限流时隙
 _session_local = threading.local()
@@ -107,22 +112,27 @@ def em_get(
 
 
 def reserve_em_request_slot() -> float:
-    """Reserve the single process-wide Eastmoney request slot.
+    """Reserve the machine-local cross-process Eastmoney/IP request slot.
 
     Both the requests-based astock client and Tradex's curl_cffi client call
     this function.  HTTP sessions remain worker-local in their owning module;
     only the provider/IP admission budget is shared.
     """
     with _lock:
-        now = time.monotonic()
-        slot = max(now, _em_next_slot[0])
-        wait = slot - now
-        if wait > _EM_MAX_QUEUE_WAIT:
-            raise SourceBusyError(
-                f"Eastmoney request queue is busy ({wait:.2f}s wait)"
-            )
-        jitter = random.uniform(_EM_JITTER_MIN, _EM_JITTER_MAX)
-        _em_next_slot[0] = slot + max(0.0, _EM_MIN_INTERVAL) + jitter
+        interval = max(0.0, _EM_MIN_INTERVAL) + random.uniform(
+            _EM_JITTER_MIN, _EM_JITTER_MAX
+        )
+        max_wait = max(0.0, _EM_MAX_QUEUE_WAIT)
+    try:
+        wait = reserve_shared_request_slot(
+            "free:eastmoney:ip",
+            min_interval=interval,
+            max_wait=max_wait,
+        )
+    except (SharedRateLimitExceeded, SharedRateLimitUnavailable):
+        raise SourceBusyError("Eastmoney request queue is busy") from None
+    with _lock:
+        _em_next_slot[0] = time.monotonic() + wait + interval
     return wait
 
 

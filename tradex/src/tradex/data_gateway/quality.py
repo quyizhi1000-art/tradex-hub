@@ -6,9 +6,11 @@ from collections.abc import Sequence
 from datetime import datetime
 
 from .contracts import (
+    AShareUniverseQuoteV1,
     BoardLeaderV1,
     EtfQuoteV1,
     IndexQuoteV1,
+    IntradayMinutePointV1,
     LeaderQuoteV1,
     LimitEventTradeStatusV1,
     LimitUpEventV1,
@@ -17,6 +19,7 @@ from .contracts import (
     ParticipationIndexV1,
     QualityStatus,
     SectorQuoteV1,
+    StockFundFlowV1,
     StockSectorProfileV1,
 )
 
@@ -35,7 +38,11 @@ def assess_market_overview(
     """Return a deterministic quality status without inventing missing data."""
 
     available = [item for item in indices if item.available]
-    if not available:
+    broad_market_ids = {"000001.SH", "399001.SZ"}
+    if not any(
+        item.available and item.instrument_id in broad_market_ids
+        for item in indices
+    ):
         raise DataQualityError("行情结果中未找到可用的上证指数或深证成指")
 
     flags: list[str] = []
@@ -72,6 +79,93 @@ def assess_quote_snapshot(
         flags.append("volume_missing")
     if amount_cny is None:
         flags.append("amount_missing")
+    if provider_as_of is None:
+        flags.append("provider_timestamp_missing")
+    if not provider_units_verified:
+        flags.append("provider_units_unverified")
+    return (
+        QualityStatus.DEGRADED if flags else QualityStatus.ACCEPTED,
+        tuple(flags),
+    )
+
+
+def assess_a_share_universe(
+    *,
+    quotes: Sequence[AShareUniverseQuoteV1],
+    provider_row_count: int,
+    excluded_row_count: int,
+    provider_as_of: datetime | None,
+    provider_units_verified: bool,
+) -> tuple[QualityStatus, tuple[str, ...]]:
+    if not quotes:
+        raise DataQualityError("A 股全市场行情结果为空")
+    if provider_row_count != len(quotes) + excluded_row_count:
+        raise DataQualityError("A 股全市场覆盖计数不一致")
+
+    flags: list[str] = []
+    if len(quotes) < 1000:
+        flags.append("active_universe_coverage_low")
+    if excluded_row_count:
+        flags.append("suspended_or_incomplete_rows_excluded")
+    if provider_as_of is None:
+        flags.append("provider_timestamp_missing")
+    if not provider_units_verified:
+        flags.append("provider_units_unverified")
+    if any(item.turnover_pct is None for item in quotes):
+        flags.append("turnover_partial")
+    return (
+        QualityStatus.DEGRADED if flags else QualityStatus.ACCEPTED,
+        tuple(flags),
+    )
+
+
+def assess_opening_auction_snapshot(
+    *,
+    trading_date_missing: bool,
+    turnover_pct: float | None,
+    volume_ratio: float | None,
+    provider_as_of: datetime | None,
+    provider_units_verified: bool,
+) -> tuple[QualityStatus, tuple[str, ...]]:
+    flags: list[str] = []
+    if trading_date_missing:
+        flags.append("trading_date_missing")
+    if turnover_pct is None:
+        flags.append("turnover_missing")
+    if volume_ratio is None:
+        flags.append("volume_ratio_missing")
+    if provider_as_of is None:
+        flags.append("provider_timestamp_missing")
+    if not provider_units_verified:
+        flags.append("provider_units_unverified")
+    return (
+        QualityStatus.DEGRADED if flags else QualityStatus.ACCEPTED,
+        tuple(flags),
+    )
+
+
+def assess_intraday_minute_series(
+    *,
+    points: Sequence[IntradayMinutePointV1],
+    trading_date_missing: bool,
+    provider_as_of: datetime | None,
+    provider_units_verified: bool,
+) -> tuple[QualityStatus, tuple[str, ...]]:
+    if not points:
+        raise DataQualityError("分时分钟结果为空")
+
+    flags: list[str] = []
+    if trading_date_missing:
+        flags.append("trading_date_missing")
+    if any(
+        point.open is None or point.high is None or point.low is None
+        for point in points
+    ):
+        flags.append("ohlc_partial")
+    if any(point.amount_cny is None for point in points):
+        flags.append("amount_partial")
+    if any(point.cumulative_average_price is None for point in points):
+        flags.append("cumulative_average_partial")
     if provider_as_of is None:
         flags.append("provider_timestamp_missing")
     if not provider_units_verified:
@@ -167,6 +261,47 @@ def assess_etf_quotes(
         flags.append("provider_timestamp_missing")
     elif any(item.provider_as_of is None for item in quotes):
         flags.append("provider_timestamp_partial")
+    if not provider_units_verified:
+        flags.append("provider_units_unverified")
+    return (
+        QualityStatus.DEGRADED if flags else QualityStatus.ACCEPTED,
+        tuple(flags),
+    )
+
+
+def assess_stock_fund_flows(
+    *,
+    flows: Sequence[StockFundFlowV1],
+    provider_as_of: datetime | None,
+    provider_units_verified: bool,
+) -> tuple[QualityStatus, tuple[str, ...]]:
+    if not flows:
+        raise DataQualityError("全市场个股资金流结果为空")
+
+    flags: list[str] = []
+    if len(flows) < 1000:
+        flags.append("stock_flow_coverage_low")
+    if provider_as_of is None:
+        flags.append("provider_timestamp_missing")
+    if not provider_units_verified:
+        flags.append("provider_units_unverified")
+    return (
+        QualityStatus.DEGRADED if flags else QualityStatus.ACCEPTED,
+        tuple(flags),
+    )
+
+
+def assess_dragon_tiger_day(
+    *,
+    valid_empty: bool,
+    provider_as_of: datetime | None,
+    provider_units_verified: bool,
+) -> tuple[QualityStatus, tuple[str, ...]]:
+    flags: list[str] = []
+    if valid_empty:
+        flags.append("verified_empty_day")
+    if provider_as_of is None:
+        flags.append("provider_timestamp_missing")
     if not provider_units_verified:
         flags.append("provider_units_unverified")
     return (
@@ -284,8 +419,11 @@ def assess_limit_events(
 
 __all__ = [
     "DataQualityError",
+    "assess_a_share_universe",
     "assess_board_leaders",
     "assess_etf_quotes",
+    "assess_dragon_tiger_day",
+    "assess_intraday_minute_series",
     "assess_leader_quotes",
     "assess_limit_events",
     "assess_market_breadth",
@@ -293,5 +431,6 @@ __all__ = [
     "assess_ohlcv_series",
     "assess_quote_snapshot",
     "assess_sector_quotes",
+    "assess_stock_fund_flows",
     "assess_stock_sector_profiles",
 ]

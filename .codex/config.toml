@@ -1,4 +1,197 @@
 [mcp_servers.tradex]
 url = "http://127.0.0.1:8000/mcp"
 startup_timeout_sec = 15.0
+tool_timeout_sec = 50.0
 required = false
+enabled = true
+enabled_tools = [
+    "get_data_source_health",
+    "list_all_tools",
+    "search_stock",
+    "get_realtime_quote",
+    "get_historical_price",
+    "get_market_overview",
+    "get_index_volume_compare",
+    "get_money_flow",
+]
+
+# Capability profiles are separate disabled MCP entries so Codex never loads
+# their schemas until a new task explicitly enables the profile it needs.
+[mcp_servers.tradex_ops]
+url = "http://127.0.0.1:8000/mcp"
+startup_timeout_sec = 15.0
+tool_timeout_sec = 50.0
+required = false
+enabled = false
+enabled_tools = [
+    "get_cache_stats",
+    "health_check",
+    "get_data_source_dashboard",
+]
+
+[mcp_servers.tradex_market]
+url = "http://127.0.0.1:8000/mcp"
+startup_timeout_sec = 15.0
+tool_timeout_sec = 50.0
+required = false
+enabled = false
+enabled_tools = [
+    "get_company_info",
+    "get_company_profile",
+    "get_competitors",
+    "get_intraday_data",
+    "get_market_capitalization",
+    "get_stock_list",
+    "get_north_bound_flow",
+    "get_limit_up_down",
+    "get_dragon_tiger",
+    "get_global_market_quote",
+    "get_industry_list",
+    "get_industry_stocks",
+    "get_concept_list",
+    "get_sector_fund_flow",
+    "get_industry_pe",
+    "get_stock_news",
+    "get_financial_calendar",
+    "get_company_announcements",
+    "get_telegraph_news",
+    "search_news",
+    "get_market_sentiment",
+    "get_futures_news",
+    "get_hot_rank",
+    "get_hot_keywords",
+    "get_xueqiu_hot",
+    "get_fund_hold",
+    "get_hot_search",
+    "get_wencai_query",
+    "get_wencai_news",
+    "get_macro_gdp",
+    "get_macro_cpi",
+    "get_macro_pmi",
+    "get_macro_money_supply",
+    "get_fx_rate",
+    "get_bond_yield_curve",
+    "get_margin_trading",
+    "get_insider_trading",
+    "get_income_statement",
+    "get_balance_sheet",
+    "get_cash_flow_statement",
+    "get_financial_line_item",
+    "get_financial_indicators",
+    "get_growth_rates",
+    "get_per_share_data",
+    "get_segments_revenue",
+    "get_valuation_metrics",
+    "get_dividend_data",
+    "get_institutional_holdings",
+    "get_analyst_rating",
+]
+
+[mcp_servers.tradex_research]
+url = "http://127.0.0.1:8000/mcp"
+startup_timeout_sec = 15.0
+tool_timeout_sec = 50.0
+required = false
+enabled = false
+enabled_tools = [
+    "analyze_technical",
+    "analyze_stock_comprehensive",
+    "analyze_industry_comparison",
+    "analyze_market_overview",
+    "calculate_factor_score",
+    "get_factor_catalog",
+    "calculate_performance",
+    "list_performance_metrics",
+    "generate_trading_signal",
+    "scan_stocks_for_signals",
+    "validate_signal_quality",
+    "screen_stocks",
+    "get_screening_conditions",
+    "calculate_ma_ema",
+    "calculate_macd",
+    "calculate_kdj",
+    "calculate_rsi",
+    "calculate_boll",
+    "calculate_atr",
+    "get_hot_stocks",
+    "get_lockup_expiry",
+    "get_concept_attribution",
+    "get_profit_forecast",
+    "get_technical_indicator",
+    "list_technical_indicators",
+    "get_northbound_flow_signal",
+    "get_fund_flow_signal",
+    "get_dragon_tiger_signal",
+    "get_industry_comparison_signal",
+    "get_etf_realtime_data",
+    "get_etf_kline_data",
+    "get_cb_realtime_data",
+    "get_cb_value_analysis_data",
+    "get_limit_up_board",
+    "get_board_sentiment",
+    "get_limit_up_insight",
+]
+
+[mcp_servers.tradex_provider]
+url = "http://127.0.0.1:8000/mcp"
+startup_timeout_sec = 15.0
+tool_timeout_sec = 50.0
+required = false
+enabled = false
+enabled_tools = [
+    "eltdx_get_auction",
+    "eltdx_get_ticks",
+    "eltdx_get_f10",
+    "eltdx_get_minutes",
+    "eltdx_get_kline",
+    "eltdx_get_depth",
+    "eltdx_stream_health",
+    "eltdx_get_security_codes",
+    "eltdx_get_minute_history",
+    "eltdx_get_buy_sell_strength",
+    "eltdx_get_today_ticks",
+    "eltdx_get_opening_match",
+    "eltdx_get_full_kline",
+    "eltdx_get_adjusted_kline",
+    "eltdx_get_stock_profile",
+    "eltdx_get_shortline_indicators",
+    "eltdx_get_finance_batch",
+    "eltdx_get_special_limits",
+    "eltdx_get_finance_report",
+    "eltdx_get_dividend_financing",
+    "eltdx_get_company_news",
+    "eltdx_get_northbound_holding",
+    "eltdx_get_stock_topics",
+    "eltdx_get_topic_stocks",
+    "eltdx_get_auction_data",
+    "eltdx_get_category_quotes",
+    "eltdx_get_trading_day",
+    "eltdx_get_opening_match_history",
+    "eltdx_get_capital_changes",
+    "eltdx_get_special_limits_scan",
+    "eltdx_get_f10_extra",
+    "get_valuation_snapshot",
+    "get_ths_index_catalog",
+    "get_ths_index_constituents",
+    "get_limit_up_ladder",
+    "get_stock_anomaly_analysis",
+    "get_local_kline",
+    "get_local_minute",
+]
+
+[mcp_servers.tradex_lake]
+url = "http://127.0.0.1:8000/mcp"
+startup_timeout_sec = 15.0
+tool_timeout_sec = 50.0
+required = false
+enabled = false
+enabled_tools = [
+    "get_data_lake_status",
+    "get_lake_daily_bars",
+    "replay_lake_capture",
+]
+
+# This global server points at the LMGameDev Docker gateway and must never be
+# inherited by Tradex tasks.
+[mcp_servers.MCP_DOCKER]
+enabled = false

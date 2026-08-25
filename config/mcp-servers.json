@@ -8,7 +8,7 @@
       "tools": 89,
       "modules": ["company_info(4)", "price_data(5)", "financial_stmt(8)", "valuation(4)", "industry(5)", "market(5)", "news_events(4)", "macro_fx(8)", "signal_data(17)", "eltdx_data(5)", "technical_indicators(6)", "performance_metrics(2)", "signal_generation(3)", "factor_analysis(2)", "stock_screening(2)", "diagnostics(5)", "composite_analysis(3)", "analysis_engine(1)"],
       "version": "3.1.4",
-      "note": "eltdx行情类第一主源+AKShare第二源+东财/同花顺备用，89个MCP工具，三层架构(L1数据/L2计算/L3决策)，SmartRouter 25类型34源全量覆盖，数据源看板 python -m tradex.dashboard"
+      "note": "配置后按能力使用Tushare付费主源；A股实时日线/历史K线/当日实时分钟/最终开盘竞价汇总优先，指数/ETF/板块等保留原路由"
     },
     "tdx-connector": {
       "name": "通达信 MCP",
@@ -20,19 +20,23 @@
   },
   "routing": {
     "realtime_quote": {
-      "primary": "SmartRouter: eltdx(TCP) → akshare → tencent_http",
+      "primary": "SmartRouter: tushare → biying → ths_fuyao → eltdx → akshare → tencent_http",
       "fallback": ["tdx-connector"]
     },
     "historical_kline": {
-      "primary": "SmartRouter: eltdx → akshare",
+      "primary": "SmartRouter: tushare → biying → ths_fuyao → eltdx → akshare",
       "fallback": ["tdx-connector"]
     },
     "minute_data": {
-      "primary": "SmartRouter: eltdx → akshare",
+      "primary": "SmartRouter: tushare(rt_min_daily/1MIN) → eltdx",
       "fallback": []
     },
     "call_auction": {
       "primary": "SmartRouter: eltdx [exclusive]",
+      "fallback": []
+    },
+    "auction_data": {
+      "primary": "SmartRouter: tushare → eltdx",
       "fallback": []
     },
     "tick_data": {

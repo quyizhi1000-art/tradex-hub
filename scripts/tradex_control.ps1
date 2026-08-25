@@ -58,7 +58,8 @@ function Read-ComponentState {
         return Get-Content -LiteralPath $path -Raw -Encoding UTF8 | ConvertFrom-Json
     }
     catch {
-        throw "运行状态文件损坏：$path"
+        Write-Host "[警告] 运行状态文件损坏或不可读，按未受管实例处理：$path" -ForegroundColor Yellow
+        return $null
     }
 }
 
@@ -67,7 +68,23 @@ function Write-ComponentState {
     if (-not (Test-Path -LiteralPath $RuntimeDir -PathType Container)) {
         New-Item -ItemType Directory -Path $RuntimeDir -Force | Out-Null
     }
-    $State | ConvertTo-Json | Set-Content -LiteralPath (Get-StatePath $Name) -Encoding UTF8
+    $path = Get-StatePath $Name
+    $temporaryPath = "{0}.{1}.tmp" -f $path, [Guid]::NewGuid().ToString("N")
+    try {
+        $json = $State | ConvertTo-Json
+        [IO.File]::WriteAllText($temporaryPath, $json, [Text.UTF8Encoding]::new($true))
+        if (Test-Path -LiteralPath $path -PathType Leaf) {
+            [IO.File]::Replace($temporaryPath, $path, $null)
+        }
+        else {
+            [IO.File]::Move($temporaryPath, $path)
+        }
+    }
+    finally {
+        if (Test-Path -LiteralPath $temporaryPath -PathType Leaf) {
+            Remove-Item -LiteralPath $temporaryPath -Force
+        }
+    }
 }
 
 function Remove-ComponentState {
@@ -211,6 +228,101 @@ function Test-ComponentState {
     return Test-ExpectedProcess $Name ([int]$State.process_pid) $State.process_start_utc
 }
 
+function Get-ProjectLauncherProcess {
+    param(
+        [string]$Name,
+        [int]$ProcessId
+    )
+
+    $currentId = $ProcessId
+    $visited = @{}
+    while ($currentId -gt 0) {
+        if ($visited.ContainsKey($currentId)) { return $null }
+        $visited[$currentId] = $true
+
+        $processInfo = Get-CimInstance Win32_Process -Filter "ProcessId=$currentId" -ErrorAction SilentlyContinue
+        if ($null -eq $processInfo) { return $null }
+
+        $executablePath = [string]$processInfo.ExecutablePath
+        if (-not [string]::IsNullOrWhiteSpace($executablePath)) {
+            try {
+                $isProjectPython = [string]::Equals(
+                    [IO.Path]::GetFullPath($executablePath),
+                    [IO.Path]::GetFullPath($PythonPath),
+                    [StringComparison]::OrdinalIgnoreCase
+                )
+            }
+            catch {
+                $isProjectPython = $false
+            }
+            if ($isProjectPython -and (Test-ExpectedProcess $Name $currentId $null)) {
+                return $processInfo
+            }
+        }
+
+        $currentId = [int]$processInfo.ParentProcessId
+    }
+    return $null
+}
+
+function Test-DashboardHealth {
+    param([int]$Port)
+
+    try {
+        $expectedHtmlPath = Join-Path $ProjectRoot "tradex\src\tradex\dashboard\watch\index.html"
+        if (-not (Test-Path -LiteralPath $expectedHtmlPath -PathType Leaf)) { return $false }
+        $expectedHtml = [IO.File]::ReadAllText($expectedHtmlPath, [Text.Encoding]::UTF8)
+        $response = Invoke-WebRequest `
+            -UseBasicParsing `
+            -Uri ("http://127.0.0.1:{0}/" -f $Port) `
+            -TimeoutSec 5
+        $contentType = [string]$response.Headers["Content-Type"]
+        return (
+            [int]$response.StatusCode -eq 200 -and
+            $contentType -match "(?i)^text/html(?:;|$)" -and
+            [string]$response.Content -match "(?is)<title>[^<]*Tradex[^<]*</title>" -and
+            [string]$response.Content -ceq $expectedHtml
+        )
+    }
+    catch {
+        return $false
+    }
+}
+
+function Test-CompatibleDashboardProcess {
+    param(
+        [int]$Port,
+        [int]$ProcessId
+    )
+
+    # A matching module name alone is not sufficient: another checkout can run
+    # the same module. Require the listener to descend from this project's exact
+    # virtual-environment executable and verify the live Tradex HTML response.
+    if (-not (Test-ExpectedProcess "dashboard" $ProcessId $null)) { return $false }
+    $launcherInfo = Get-ProjectLauncherProcess "dashboard" $ProcessId
+    if ($null -eq $launcherInfo) { return $false }
+    try {
+        $processStartUtc = (Get-Process -Id $ProcessId -ErrorAction Stop).StartTime.ToUniversalTime()
+        $launcherStartUtc = (
+            Get-Process -Id ([int]$launcherInfo.ProcessId) -ErrorAction Stop
+        ).StartTime.ToUniversalTime()
+    }
+    catch {
+        return $false
+    }
+    if (-not (Test-DashboardHealth $Port)) { return $false }
+
+    # Recheck identity after HTTP I/O so a listener swap cannot be mistaken for
+    # the process that was inspected before the request.
+    $confirmedOwner = Get-PortOwner $Port
+    return (
+        $null -ne $confirmedOwner -and
+        [int]$confirmedOwner -eq $ProcessId -and
+        (Test-ExpectedProcess "dashboard" $ProcessId $processStartUtc) -and
+        (Test-ExpectedProcess "dashboard" ([int]$launcherInfo.ProcessId) $launcherStartUtc)
+    )
+}
+
 function Get-LatestDashboardSource {
     $sourceRoot = Join-Path $ProjectRoot "tradex\src\tradex\dashboard"
     if (-not (Test-Path -LiteralPath $sourceRoot -PathType Container)) {
@@ -261,6 +373,12 @@ function Start-Component {
             $restartForSourceUpdate = (
                 $latestSource.LastWriteTimeUtc -gt $runningProcess.StartTime.ToUniversalTime()
             )
+            if (-not $restartForSourceUpdate -and (
+                -not (Test-DashboardHealth ([int]$state.port)) -or
+                -not (Test-ComponentState $Name $state)
+            )) {
+                throw "$label 的受管进程仍占用端口，但未通过当前页面健康校验；未自动停止或重启。"
+            }
         }
 
         if ($restartForSourceUpdate) {
@@ -297,7 +415,27 @@ function Start-Component {
 
     $existingOwner = Get-PortOwner $Port
     if ($null -ne $existingOwner) {
-        throw "端口 $Port 已被 PID $existingOwner 占用；为避免误操作，未启动 $label。"
+        $compatibleDashboard = (
+            $Name -eq "dashboard" -and
+            (Test-CompatibleDashboardProcess $Port $existingOwner)
+        )
+        if ($compatibleDashboard) {
+            $latestSource = Get-LatestDashboardSource
+            $runningProcess = Get-Process -Id $existingOwner -ErrorAction Stop
+            if ($latestSource.LastWriteTimeUtc -gt $runningProcess.StartTime.ToUniversalTime()) {
+                throw "端口 $Port 上是本项目的旧版 $label，但它未受启动器管理；请先手动停止该实例，再重新启动。"
+            }
+            else {
+                Write-Host "[已运行] $label 已由本项目进程提供，端口 $Port，PID $existingOwner（未接管）" -ForegroundColor Green
+                if ($OpenBrowser -and -not $NoBrowser) {
+                    Start-Process ("http://127.0.0.1:{0}/" -f $Port)
+                }
+                return
+            }
+        }
+        else {
+            throw "端口 $Port 已被 PID $existingOwner 占用；未能确认它是本项目的健康 $label，为避免误操作，未启动。"
+        }
     }
 
     if (-not (Test-Path -LiteralPath $RuntimeDir -PathType Container)) {
@@ -353,6 +491,13 @@ function Start-Component {
 
         $runningProcess = Get-Process -Id $owner -ErrorAction Stop
         $ownedProcessStartUtc = $runningProcess.StartTime.ToUniversalTime().ToString("o")
+        if ($Name -eq "dashboard" -and (
+            -not (Test-DashboardHealth $Port) -or
+            (Get-PortOwner $Port) -ne $owner -or
+            -not (Test-ExpectedProcess $Name $owner $ownedProcessStartUtc)
+        )) {
+            throw "$label 已监听端口，但未通过当前页面健康校验；已放弃本次启动。"
+        }
         $componentState = [ordered]@{
             name = $Name
             port = $Port
@@ -466,6 +611,32 @@ function Stop-Component {
     }
 }
 
+function Open-Dashboard {
+    param([int]$DefaultPort)
+
+    $state = Read-ComponentState "dashboard"
+    if (Test-ComponentState "dashboard" $state) {
+        if (-not (Test-DashboardHealth ([int]$state.port)) -or
+            -not (Test-ComponentState "dashboard" $state)) {
+            throw "网页看板的受管进程未通过当前页面健康校验。"
+        }
+        Start-Process ("http://127.0.0.1:{0}/" -f [int]$state.port)
+        return
+    }
+
+    $owner = Get-PortOwner $DefaultPort
+    if ($null -eq $owner -or -not (Test-CompatibleDashboardProcess $DefaultPort $owner)) {
+        throw "网页看板尚未通过本工具启动，也未发现可安全复用的本项目实例。"
+    }
+
+    $latestSource = Get-LatestDashboardSource
+    $runningProcess = Get-Process -Id $owner -ErrorAction Stop
+    if ($latestSource.LastWriteTimeUtc -gt $runningProcess.StartTime.ToUniversalTime()) {
+        throw "端口 $DefaultPort 上是本项目的旧版网页看板，但它未受启动器管理；请先手动停止该实例，再重新启动。"
+    }
+    Start-Process ("http://127.0.0.1:{0}/" -f $DefaultPort)
+}
+
 function Show-ComponentStatus {
     param([string]$Name, [int]$DefaultPort)
 
@@ -487,7 +658,12 @@ function Show-ComponentStatus {
         Write-Host ("{0,-10} 异常     PID {1} 仍在，但端口 {2} 未由它监听" -f $label, $state.process_pid, $port) -ForegroundColor Red
     }
     elseif ($null -ne $owner) {
-        Write-Host ("{0,-10} 未受管理 端口 {1}   PID {2}" -f $label, $port, $owner) -ForegroundColor Yellow
+        if ($Name -eq "dashboard" -and (Test-CompatibleDashboardProcess $port $owner)) {
+            Write-Host ("{0,-10} 项目实例 端口 {1}   PID {2}（未接管）" -f $label, $port, $owner) -ForegroundColor Green
+        }
+        else {
+            Write-Host ("{0,-10} 未受管理 端口 {1}   PID {2}" -f $label, $port, $owner) -ForegroundColor Yellow
+        }
     }
     elseif ($null -ne $state) {
         Write-Host ("{0,-10} 已停止   （存在过期状态记录）" -f $label) -ForegroundColor DarkYellow
@@ -512,6 +688,12 @@ function Invoke-AllSteps {
     if ($errors.Count -gt 0) {
         throw ("部分操作失败：{0}" -f ($errors -join " | "))
     }
+}
+
+# Dot-sourcing loads the functions for focused tests without executing an
+# action or calling exit. Normal .cmd and -File invocation paths are unchanged.
+if ($MyInvocation.InvocationName -eq ".") {
+    return
 }
 
 $mutexBytes = [Text.Encoding]::UTF8.GetBytes($ProjectRoot.ToLowerInvariant())
@@ -571,11 +753,7 @@ try {
             Write-Host "日志目录：$RuntimeDir"
         }
         "open-dashboard" {
-            $state = Read-ComponentState "dashboard"
-            if (-not (Test-ComponentState "dashboard" $state)) {
-                throw "网页看板尚未通过本工具启动。"
-            }
-            Start-Process ("http://127.0.0.1:{0}/" -f [int]$state.port)
+            Open-Dashboard $DashboardPort
         }
     }
 }

@@ -17,10 +17,13 @@ from tradex.dashboard.sector_attribution import SECTOR_KEYS, attribute_limit_up_
 from tradex.data_sources.ths_fetchers import fetch_ths_limit_up_pool
 
 
-pytestmark = pytest.mark.skipif(
-    os.environ.get("TRADEX_LIVE_HISTORY") != "1",
-    reason="set TRADEX_LIVE_HISTORY=1 for the audited provider replay",
-)
+pytestmark = [
+    pytest.mark.network,
+    pytest.mark.skipif(
+        os.environ.get("TRADEX_LIVE_HISTORY") != "1",
+        reason="set TRADEX_LIVE_HISTORY=1 for the audited provider replay",
+    ),
+]
 
 
 def _levels(**nonzero):

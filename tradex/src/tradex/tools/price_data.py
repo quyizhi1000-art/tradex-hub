@@ -9,11 +9,11 @@ Tools:
   9. get_stock_list            - Full A-share list with basic data
 
 Data source routing (via SmartRouter):
-  实时行情(A股): eltdx(priority=1) → ths_fuyao(priority=50) → akshare(priority=100) → tencent_http(priority=200)
+  实时行情(A股): tushare(priority=1，配置后) → biying → ths_fuyao → eltdx → akshare → tencent_http
   实时行情(全球): tencent_http(priority=1)  [global_market_quote]
-  历史K线:  eltdx(priority=1) → ths_fuyao(priority=50) → akshare(priority=100)
-  分时数据: eltdx(priority=1) → akshare(priority=100)
-  股票列表: stock_list 独立路由 → akshare(全量行情快照)
+  历史K线:  tushare(priority=1，配置后) → biying → ths_fuyao → eltdx → akshare
+  分时数据: tushare(rt_min_daily, priority=1，配置后) → eltdx
+  股票列表: market_universe 规范网关 → tushare(rt_k，全市场) → akshare
 """
 
 from __future__ import annotations
@@ -23,6 +23,14 @@ import logging
 from mcp.server.fastmcp import FastMCP
 
 from ..data_sources import get_router
+from ..data_gateway.intraday import (
+    fetch_intraday_minute_series,
+    intraday_minute_to_legacy_payload,
+)
+from ..data_gateway.market_universe import (
+    a_share_universe_to_legacy_records,
+    fetch_a_share_universe_snapshot,
+)
 from ..data_gateway.securities import (
     fetch_ohlcv_series,
     fetch_quote_snapshot,
@@ -177,60 +185,12 @@ def register(mcp: FastMCP):
             分时数据 (JSON)，包含时间、价格、均价、成交量。
         """
         symbol = normalize_symbol(symbol)
-        cache_key = f"intraday:{symbol}"
-        cached = cache.get(cache_key)
-        if cached is not None:
-            return cached
-
         try:
-            df, _src = _router.route("minute_data", symbol=symbol)
-            if df is None or df.empty:
-                return error_response(
-                    f"获取分时数据失败 ({symbol}): 数据源返回空数据",
-                    "get_intraday_data",
-                )
-
-            # 兼容 akshare(时间/开盘/收盘/均价/成交量) 与 eltdx(时间/价格/均价/成交量) 列名
-            col_map = {
-                "时间": "time", "time": "time",
-                "开盘": "open", "open": "open",
-                "收盘": "close", "close": "close", "价格": "close", "price": "close",
-                "最高": "high", "high": "high",
-                "最低": "low", "low": "low",
-                "均价": "avg_price", "avg_price": "avg_price",
-                "成交量": "volume", "volume": "volume",
-                "成交额": "amount", "amount": "amount",
-            }
-            df = df.rename(columns={k: v for k, v in col_map.items() if k in df.columns})
-
-            points = []
-            for _, row in df.iterrows():
-                time_val = str(row.get("time", ""))
-                price_val = float(row.get("close", row.get("price", 0)) or 0)
-                avg_val = float(row.get("avg_price", 0) or 0)
-                vol_val = int(row.get("volume", 0) or 0)
-
-                if time_val and price_val > 0:
-                    points.append({
-                        "time": time_val,
-                        "price": price_val,
-                        "avg_price": avg_val,
-                        "volume": vol_val,
-                    })
-
-            if points:
-                data = {
-                    "code": symbol,
-                    "point_count": len(points),
-                    "points": points,
-                }
-                result_json = dict_to_json(data)
-                cache.set(cache_key, result_json, TTL_REALTIME)
-                return result_json
-
-            return error_response(
-                f"获取分时数据失败 ({symbol}): 无有效数据点", "get_intraday_data"
+            series = fetch_intraday_minute_series(
+                symbol,
+                router=_router,
             )
+            return dict_to_json(intraday_minute_to_legacy_payload(series))
         except Exception as e:
             return error_response(
                 f"获取分时数据失败 ({symbol}): {e}", "get_intraday_data"
@@ -322,29 +282,23 @@ def register(mcp: FastMCP):
             return cached
 
         try:
-            # 全市场列表使用独立路由，避免只有价格字段的单标的备源
-            # 返回“成功”后截断 AKShare 的名称/行业/市值完整快照。
-            df, _src = _router.route("stock_list", symbol="")
-            if df is None or df.empty:
-                return error_response(
-                    "获取股票列表失败: 数据源返回空数据", "get_stock_list"
-                )
-
-            cap_col = None
-            for c in df.columns:
-                if "总市值" in c or "mktcap" in c.lower() or "market_cap" in c.lower():
-                    cap_col = c
-                    break
-
-            if min_market_cap > 0 and cap_col:
+            snapshot = fetch_a_share_universe_snapshot(
+                require_market_cap=min_market_cap > 0,
+                router=_router,
+            )
+            records = a_share_universe_to_legacy_records(snapshot)
+            if min_market_cap > 0:
                 threshold = min_market_cap * 1e8
-                df = df[df[cap_col] >= threshold]
-
-            if cap_col:
-                df = df.sort_values(cap_col, ascending=False)
-
-            df = slim_df(df)
-            result = df_to_json(df, max_rows=max_results)
+                records = [
+                    row
+                    for row in records
+                    if row["总市值"] is not None and row["总市值"] >= threshold
+                ]
+            records.sort(
+                key=lambda row: row["总市值"] if row["总市值"] is not None else -1,
+                reverse=True,
+            )
+            result = dict_to_json(records[:max_results])
             cache.set(cache_key, result, TTL_DAILY)
             return result
         except Exception as e:

@@ -6,7 +6,7 @@ import copy
 import threading
 import time
 from concurrent.futures import Future
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from zoneinfo import ZoneInfo
 
 import pytest
@@ -193,6 +193,49 @@ def test_sector_flow_components_are_derived_from_quote_components():
     assert set(risk_service._context_jobs()) == {"etfs", "leaders"}
 
 
+def test_provider_sensitive_fast_components_are_refreshed_in_order(monkeypatch):
+    _install_component_fakes(monkeypatch)
+    active = 0
+    overlapped = False
+    calls: list[str] = []
+    lock = threading.Lock()
+
+    def fetched(name: str, records: list[dict], source: str):
+        nonlocal active, overlapped
+        with lock:
+            overlapped = overlapped or active > 0
+            active += 1
+            calls.append(name)
+        time.sleep(0.01)
+        with lock:
+            active -= 1
+        return records, source
+
+    monkeypatch.setattr(
+        risk_service,
+        "_fetch_market_breadth",
+        lambda: fetched(
+            "market_breadth",
+            [{"上涨家数": 3300, "下跌家数": 1700}],
+            "breadth",
+        ),
+    )
+    monkeypatch.setattr(
+        risk_service,
+        "_fetch_board_quotes",
+        lambda board_type: fetched(
+            f"{board_type}_quotes",
+            [{"板块名称": board_type, "涨跌幅": 1.0}],
+            board_type,
+        ),
+    )
+
+    risk_service.get_risk_appetite_data(_market_data(), force=True)
+
+    assert calls == ["market_breadth", "industry_quotes", "concept_quotes"]
+    assert overlapped is False
+
+
 class _DeferredFuture(Future):
     """A deterministic future whose submitted work starts when it is awaited."""
 
@@ -264,6 +307,7 @@ def _offense_leader_result(core_count: int = 4, radar_count: int = 4) -> dict:
 
 
 def _ready_leader_snapshot(code: str, *, name: str = "成分领涨") -> dict:
+    exchange = "SH" if code.startswith("6") else "SZ"
     return {
         "status": "ready",
         "source": "push2",
@@ -272,6 +316,7 @@ def _ready_leader_snapshot(code: str, *, name: str = "成分领涨") -> dict:
         "stale": False,
         "method": "board_constituents",
         "items": [{
+            "instrument_id": f"{code}.{exchange}",
             "code": code,
             "name": name,
             "price": 20.0,
@@ -284,6 +329,39 @@ def _ready_leader_snapshot(code: str, *, name: str = "成分领涨") -> dict:
             "source": "push2",
         }],
     }
+
+
+def _defense_flow_leader_result() -> dict:
+    result = _offense_leader_result(core_count=5, radar_count=5)
+    result["sector_flow_trajectory"] = {
+        "sectors": [
+            {
+                "sector_key": f"defense-{index}",
+                "name": f"防守板块{index}",
+                "taxonomy": "industry",
+                "leader_board_code": f"BK3{index:03d}",
+                "latest": {"change_pct": 3.0 - index * 0.2},
+                "leader_snapshot": None,
+            }
+            for index in range(3)
+        ],
+    }
+    return result
+
+
+def _two_direction_flow_leader_result() -> dict:
+    result = _defense_flow_leader_result()
+    result["offense_sector_flow_trajectory"] = {
+        "sectors": [{
+            "sector_key": "advanced_packaging",
+            "name": "先进封装",
+            "taxonomy": "concept",
+            "leader_board_code": "BK1101",
+            "latest": {"change_pct": 4.2},
+            "leader_snapshot": None,
+        }],
+    }
+    return result
 
 
 def test_service_builds_frontend_view_without_recounting_confirmations(monkeypatch):
@@ -1082,7 +1160,73 @@ def test_provider_leader_fallback_reaches_core_radar_and_summary():
     }
 
 
-def test_board_leader_enrichment_caps_six_distinct_single_flight_requests(monkeypatch):
+def test_provider_leader_fallback_reaches_defense_flow_with_canonical_instrument():
+    result = _defense_flow_leader_result()
+    records = [{
+        "板块代码": "BK3000",
+        "板块名称": "防守板块0",
+        "leader_instrument_id": "600900.SH",
+        "领涨股代码": "600900",
+        "领涨股票": "长江电力",
+        "领涨股涨幅": 2.8,
+        "更新时间": "2026-08-19T10:30:00+08:00",
+        "source": "push2",
+    }]
+
+    risk_service._attach_provider_leader_fallbacks(
+        result,
+        records,
+        {"industry_quotes": {
+            "source": "push2",
+            "fetched_at": "2026-08-19T10:30:01+08:00",
+            "stale": False,
+        }},
+    )
+
+    snapshot = result["sector_flow_trajectory"]["sectors"][0]["leader_snapshot"]
+    assert snapshot["status"] == "fallback"
+    assert snapshot["leaders"] == [{
+        "instrument_id": "600900.SH",
+        "name": "长江电力",
+        "change_pct": 2.8,
+        "price": None,
+        "provider_as_of": "2026-08-19T10:30:00+08:00",
+    }]
+
+
+def test_provider_leader_fallback_reaches_offense_concept_flow():
+    result = _two_direction_flow_leader_result()
+    records = [{
+        "板块代码": "BK1101",
+        "板块名称": "先进封装",
+        "leader_instrument_id": "688041.SH",
+        "领涨股代码": "688041",
+        "领涨股票": "海光信息",
+        "领涨股涨幅": 8.6,
+        "更新时间": "2026-08-19T10:30:00+08:00",
+        "source": "push2",
+    }]
+
+    risk_service._attach_provider_leader_fallbacks(
+        result,
+        records,
+        {"concept_quotes": {
+            "source": "push2",
+            "fetched_at": "2026-08-19T10:30:01+08:00",
+            "stale": False,
+        }},
+    )
+
+    snapshot = result["offense_sector_flow_trajectory"]["sectors"][0][
+        "leader_snapshot"
+    ]
+    assert snapshot["status"] == "fallback"
+    assert snapshot["leaders"][0]["instrument_id"] == "688041.SH"
+    assert snapshot["leaders"][0]["name"] == "海光信息"
+    assert "BK1101" in risk_service._board_leader_targets(result)
+
+
+def test_board_leader_enrichment_caps_fourteen_distinct_single_flight_requests(monkeypatch):
     gate = threading.Event()
     started = []
 
@@ -1092,7 +1236,7 @@ def test_board_leader_enrichment_caps_six_distinct_single_flight_requests(monkey
         return _ready_leader_snapshot("600001", name=board_code)
 
     monkeypatch.setattr(risk_service, "_fetch_board_leader_snapshot", blocking_fetch)
-    result = _offense_leader_result(core_count=5, radar_count=5)
+    result = _offense_leader_result(core_count=8, radar_count=8)
 
     first = risk_service._overlay_board_leaders(
         copy.deepcopy(result), "2026-08-19"
@@ -1103,18 +1247,23 @@ def test_board_leader_enrichment_caps_six_distinct_single_flight_requests(monkey
         keys = list(risk_service._board_leader_futures)
         futures = list(risk_service._board_leader_futures.values())
     assert [key[1] for key in keys] == [
-        "BK1000", "BK1001", "BK1002", "BK2000", "BK2001", "BK2002"
+        "BK1000", "BK1001", "BK1002", "BK2000", "BK2001", "BK2002",
+        "BK1003", "BK1004", "BK1005", "BK1006", "BK1007",
+        "BK2003", "BK2004", "BK2005",
     ]
-    assert len(set(keys)) == 6
+    assert len(set(keys)) == 14
     assert first["offense"]["core"]["items"][0]["leader_snapshot"]["status"] == "loading"
 
     gate.set()
     for future in futures:
         future.result(timeout=5)
-    assert len(started) == 6
+    assert len(started) == 14
 
 
-def test_main_snapshot_cache_gets_a_fresh_leader_overlay_without_rebuild():
+def test_main_snapshot_cache_gets_a_fresh_leader_overlay_without_rebuild(monkeypatch):
+    # This test exercises cache overlay, not live-session lag. Keep it stable
+    # when the suite runs on a later trading day during market hours.
+    monkeypatch.setattr(risk_service, "_board_leader_market_open", lambda _now: False)
     trade_date = "2026-08-19"
     result = _offense_leader_result(core_count=1, radar_count=0)
     result["offense"]["core"]["items"][0]["leader_snapshot"] = {
@@ -1251,7 +1400,19 @@ def test_board_leader_targets_prioritise_strong_and_strengthening_core():
     core[4].update(level="medium", direction="weakening")
 
     assert risk_service._board_leader_targets(result) == [
-        "BK1002", "BK1003", "BK1001", "BK2000", "BK2001", "BK2002"
+        "BK1002", "BK1003", "BK1001", "BK2000", "BK2001", "BK2002",
+        "BK1004", "BK1000",
+    ]
+
+
+def test_board_leader_targets_put_rising_defense_cards_first_without_dropping_groups():
+    result = _defense_flow_leader_result()
+
+    assert risk_service._board_leader_targets(result) == [
+        "BK3000", "BK3001", "BK3002",
+        "BK1000", "BK1001", "BK1002",
+        "BK2000", "BK2001", "BK2002",
+        "BK1003", "BK1004", "BK2003", "BK2004",
     ]
 
 
@@ -1636,3 +1797,166 @@ def test_rotation_sampler_records_while_ordinary_reads_do_not_advance():
     assert len(stats) == 1
     assert recorded["offense"]["sample_count"] == 1
     assert read_only["offense"]["sample_count"] == 1
+    assert recorded["sector_flow_trajectory"]["contract"] == "sector_flow_trajectory.v1"
+    assert recorded["sector_flow_trajectory"]["direction"] == "defense"
+    assert recorded["offense_sector_flow_trajectory"]["direction"] == "offense"
+    assert read_only["sector_flow_trajectory"]["schema_version"] == 1
+
+
+def test_rotation_sampler_loads_backfill_while_reads_reuse_it(monkeypatch):
+    china = ZoneInfo("Asia/Shanghai")
+    observed = datetime(2026, 8, 19, 10, 40, tzinfo=china)
+
+    def background(prefix: str) -> list[dict]:
+        return [
+            {
+                "板块代码": f"{prefix}{index:03d}",
+                "板块名称": f"{prefix}背景{index}",
+                "涨跌幅": float(index - 3),
+                "上涨家数": 50,
+                "下跌家数": 50,
+                "主力净流入": float(index) * 10_000_000,
+                "主力净流入-占比": float(index),
+                "主力净流入排名": index + 1,
+                "更新时间": observed.isoformat(timespec="seconds"),
+            }
+            for index in range(7)
+        ]
+
+    industry = [
+        *background("I"),
+        {
+            "板块代码": "BK0428",
+            "板块名称": "电力",
+            "涨跌幅": 5.0,
+            "上涨家数": 80,
+            "下跌家数": 20,
+            "主力净流入": 1_100_000_000,
+            "主力净流入-占比": 8.0,
+            "主力净流入排名": 1,
+            "更新时间": observed.isoformat(timespec="seconds"),
+        },
+    ]
+    values = {"industry_quotes": industry, "concept_quotes": background("C")}
+    statuses = {
+        "industry_quotes": {"source": "push2delay"},
+        "concept_quotes": {"source": "push2delay"},
+    }
+    calls = []
+    supplemental = {
+        "electric_power": tuple(
+            {
+                "provider_as_of": observed.replace(hour=10, minute=30) + timedelta(minutes=offset),
+                "cumulative_cny": (1.0 + offset) * 100_000_000,
+                "source_family": "eastmoney",
+            }
+            for offset in range(10)
+        )
+    }
+
+    def backfill(targets, **kwargs):
+        calls.append((tuple(targets), kwargs["load_missing"]))
+        return supplemental
+
+    monkeypatch.setattr(
+        risk_service,
+        "fetch_sector_intraday_fund_flow_backfill",
+        backfill,
+    )
+    market = {
+        "provider_as_of": observed.isoformat(timespec="seconds"),
+        "market_state": {"label": "盘中交易", "is_open": True},
+    }
+
+    recorded = risk_service._attach_rotation_radar(
+        {"dynamics": {"axes": {}}},
+        values,
+        statuses,
+        market,
+        observed,
+        record=True,
+    )
+    read_only = risk_service._attach_rotation_radar(
+        {"dynamics": {"axes": {}}},
+        values,
+        statuses,
+        market,
+        observed,
+        record=False,
+    )
+
+    sector = next(
+        item
+        for item in recorded["sector_flow_trajectory"]["sectors"]
+        if item["sector_key"] == "electric_power"
+    )
+    assert [load_missing for _targets, load_missing in calls] == [True, False]
+    assert calls[0][0][0]["provider_sector_code"] == "BK0428"
+    assert sector["status"] == "ready"
+    assert sector["latest"]["delta_5m_cny"] == 500_000_000
+    assert read_only["sector_flow_trajectory"] == recorded["sector_flow_trajectory"]
+
+
+def test_rotation_flow_reads_the_effective_provider_trade_date(monkeypatch):
+    requested = []
+
+    class Store:
+        def get_current(self, trade_date, config_version, **_kwargs):
+            requested.append((trade_date, config_version))
+            return risk_service.analyze_rotation_snapshots([])
+
+    monkeypatch.setattr(risk_service, "_get_rotation_store", lambda: Store())
+    observed = datetime(2026, 8, 24, 10, 0, tzinfo=ZoneInfo("Asia/Shanghai"))
+    market = {
+        "provider_as_of": "2026-08-21T15:00:00+08:00",
+        "market_state": {"label": "今日收盘", "is_open": False},
+    }
+
+    result = risk_service._attach_rotation_radar(
+        {"dynamics": {"axes": {}}},
+        {"industry_quotes": [], "concept_quotes": []},
+        {
+            "industry_quotes": {"source": "push2"},
+            "concept_quotes": {"source": "push2"},
+        },
+        market,
+        observed,
+        record=False,
+    )
+
+    assert requested == [("2026-08-21", risk_service.ROTATION_CONFIG_VERSION)]
+    assert result["sector_flow_trajectory"]["market_phase"] == "closed"
+
+
+def test_closed_rotation_read_can_cold_load_exact_backfill(monkeypatch):
+    calls = []
+
+    class Store:
+        def get_current(self, *_args, **_kwargs):
+            return risk_service.analyze_rotation_snapshots([])
+
+    def backfill(targets, **kwargs):
+        calls.append((tuple(targets), kwargs["load_missing"]))
+        return {}
+
+    monkeypatch.setattr(risk_service, "_get_rotation_store", lambda: Store())
+    monkeypatch.setattr(
+        risk_service,
+        "fetch_sector_intraday_fund_flow_backfill",
+        backfill,
+    )
+    observed = datetime(2026, 8, 24, 15, 10, tzinfo=ZoneInfo("Asia/Shanghai"))
+
+    risk_service._attach_rotation_radar(
+        {"dynamics": {"axes": {}}},
+        {"industry_quotes": [], "concept_quotes": []},
+        {"industry_quotes": {}, "concept_quotes": {}},
+        {
+            "provider_as_of": "2026-08-24T15:00:00+08:00",
+            "market_state": {"label": "今日收盘", "is_open": False},
+        },
+        observed,
+        record=False,
+    )
+
+    assert calls == [((), True)]

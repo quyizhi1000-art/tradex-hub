@@ -66,36 +66,45 @@ def fetch_quote_snapshot(
     router: Any | None = None,
     now: datetime | None = None,
 ) -> QuoteSnapshotV1:
-    frame, provider = _router(router).route("realtime_quote", symbol=symbol)
-    mapped = map_quote_frame(
-        frame,
-        provider=provider,
-        requested_symbol=symbol,
-    )
-    provider_as_of = mapped.pop("provider_as_of")
-    _, provider_request_id = _provider_metadata(frame)
-    quality, flags = assess_quote_snapshot(
-        previous_close=mapped["previous_close"],
-        open=mapped["open"],
-        high=mapped["high"],
-        low=mapped["low"],
-        volume_shares=mapped["volume_shares"],
-        amount_cny=mapped["amount_cny"],
-        provider_as_of=provider_as_of,
-        provider_units_verified=provider_units_verified(provider),
-    )
-    return QuoteSnapshotV1(
-        metadata=ContractMetadata(
-            contract="quote_snapshot.v1",
+    fetched_at = _now(now)
+
+    def validate(frame: Any, provider: str) -> QuoteSnapshotV1:
+        mapped = map_quote_frame(
+            frame,
             provider=provider,
-            provider_request_id=provider_request_id,
+            requested_symbol=symbol,
+        )
+        provider_as_of = mapped.pop("provider_as_of")
+        _, provider_request_id = _provider_metadata(frame)
+        quality, flags = assess_quote_snapshot(
+            previous_close=mapped["previous_close"],
+            open=mapped["open"],
+            high=mapped["high"],
+            low=mapped["low"],
+            volume_shares=mapped["volume_shares"],
+            amount_cny=mapped["amount_cny"],
             provider_as_of=provider_as_of,
-            fetched_at=_now(now),
-            quality=quality,
-            quality_flags=flags,
-        ),
-        **mapped,
+            provider_units_verified=provider_units_verified(provider),
+        )
+        return QuoteSnapshotV1(
+            metadata=ContractMetadata(
+                contract="quote_snapshot.v1",
+                provider=provider,
+                provider_request_id=provider_request_id,
+                provider_as_of=provider_as_of,
+                fetched_at=fetched_at,
+                quality=quality,
+                quality_flags=flags,
+            ),
+            **mapped,
+        )
+
+    snapshot, _provider = _router(router).route_validated(
+        "realtime_quote",
+        validate,
+        symbol=symbol,
     )
+    return snapshot
 
 
 def _normalize_period(value: str) -> str:
@@ -141,51 +150,57 @@ def fetch_ohlcv_series(
     if start is not None and end is not None and start > end:
         raise ValueError("start_date cannot be later than end_date")
 
-    frame, provider = _router(router).route(
+    fetched_at = _now(now)
+
+    def validate(frame: Any, provider: str) -> OHLCVSeriesV1:
+        attrs = getattr(frame, "attrs", {})
+        if attrs.get("period") and attrs["period"] != normalized_period:
+            raise DataQualityError("provider returned a different OHLCV period")
+        if attrs.get("adjust") and attrs["adjust"] != normalized_adjustment:
+            raise DataQualityError("provider returned a different adjustment basis")
+
+        bars = map_ohlcv_frame(frame, provider=provider)
+        bars = tuple(
+            bar
+            for bar in bars
+            if (start is None or bar.trading_date >= start)
+            and (end is None or bar.trading_date <= end)
+        )
+        if not bars:
+            raise DataQualityError("requested date range contains no OHLCV bars")
+
+        provider_as_of, provider_request_id = _provider_metadata(frame)
+        quality, flags = assess_ohlcv_series(
+            bars=bars,
+            provider_as_of=provider_as_of,
+            provider_units_verified=provider_units_verified(provider),
+        )
+        return OHLCVSeriesV1(
+            metadata=ContractMetadata(
+                contract="ohlcv_bar.v1",
+                provider=provider,
+                provider_request_id=provider_request_id,
+                provider_as_of=provider_as_of,
+                fetched_at=fetched_at,
+                quality=quality,
+                quality_flags=flags,
+            ),
+            instrument_id=canonical_instrument_id(symbol),
+            period=normalized_period,
+            adjustment=normalized_adjustment,
+            bars=bars,
+        )
+
+    series, _provider = _router(router).route_validated(
         "historical_kline",
+        validate,
         symbol=symbol,
         period=period,
         start_date=start_date,
         end_date=end_date,
         adjust=adjust,
     )
-    attrs = getattr(frame, "attrs", {})
-    if attrs.get("period") and attrs["period"] != normalized_period:
-        raise DataQualityError("provider returned a different OHLCV period")
-    if attrs.get("adjust") and attrs["adjust"] != normalized_adjustment:
-        raise DataQualityError("provider returned a different adjustment basis")
-
-    bars = map_ohlcv_frame(frame, provider=provider)
-    bars = tuple(
-        bar
-        for bar in bars
-        if (start is None or bar.trading_date >= start)
-        and (end is None or bar.trading_date <= end)
-    )
-    if not bars:
-        raise DataQualityError("requested date range contains no OHLCV bars")
-
-    provider_as_of, provider_request_id = _provider_metadata(frame)
-    quality, flags = assess_ohlcv_series(
-        bars=bars,
-        provider_as_of=provider_as_of,
-        provider_units_verified=provider_units_verified(provider),
-    )
-    return OHLCVSeriesV1(
-        metadata=ContractMetadata(
-            contract="ohlcv_bar.v1",
-            provider=provider,
-            provider_request_id=provider_request_id,
-            provider_as_of=provider_as_of,
-            fetched_at=_now(now),
-            quality=quality,
-            quality_flags=flags,
-        ),
-        instrument_id=canonical_instrument_id(symbol),
-        period=normalized_period,
-        adjustment=normalized_adjustment,
-        bars=bars,
-    )
+    return series
 
 
 def quote_snapshot_to_legacy_records(snapshot: QuoteSnapshotV1) -> list[dict[str, Any]]:

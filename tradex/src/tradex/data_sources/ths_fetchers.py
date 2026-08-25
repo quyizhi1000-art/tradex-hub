@@ -1,19 +1,28 @@
 """同花顺数据源 —— 一致预期 / 热点归因 / 涨停揭秘 / 热榜（零鉴权）。
 
 借鉴 a-stock-data 的同花顺实现，均为零鉴权直连接口。
-同花顺是不封 IP 的低风险源，东财被封时的备选。
+作为免费网页源仍使用独立的跨进程保守频次，避免多进程同时冲击站点。
 """
 from __future__ import annotations
 
 import logging
 import math
+import os
 import re
 import threading
+import time
 from datetime import datetime
 from io import StringIO
 
 import pandas as pd
 import requests
+
+from astock_signals.shared_rate_limit import (
+    SharedRateLimitExceeded,
+    SharedRateLimitUnavailable,
+    reserve_shared_request_slot,
+)
+from astock_signals.smart_router import SourceBusyError
 
 logger = logging.getLogger("tradex.ths")
 
@@ -43,6 +52,21 @@ def _session() -> requests.Session:
 
 
 def _get(url: str, params: dict | None = None, headers: dict | None = None, timeout: int = 10, **kw):
+    try:
+        interval = float(os.getenv("THS_FREE_RATE_LIMIT_INTERVAL", "0.5"))
+        max_wait = float(os.getenv("THS_FREE_MAX_QUEUE_WAIT", "4.0"))
+    except ValueError:
+        interval, max_wait = 0.5, 4.0
+    try:
+        wait = reserve_shared_request_slot(
+            "free:ths:web",
+            min_interval=max(0.0, interval),
+            max_wait=max(0.0, max_wait),
+        )
+    except (SharedRateLimitExceeded, SharedRateLimitUnavailable):
+        raise SourceBusyError("THS free request queue is busy") from None
+    if wait > 0:
+        time.sleep(wait)
     h = {"User-Agent": _UA}
     if headers:
         h.update(headers)

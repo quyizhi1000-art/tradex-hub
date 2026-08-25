@@ -70,7 +70,7 @@ def fetch_etf_quotes(
         )
 
     series, _provider = _router(router).route_validated(
-        "etf_data",
+        "etf_quotes",
         validate,
         symbol="",
         top_n=limit,

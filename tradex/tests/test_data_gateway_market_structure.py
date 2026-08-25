@@ -5,6 +5,7 @@ from zoneinfo import ZoneInfo
 
 import pandas as pd
 import pytest
+from astock_signals.smart_router import SmartRouter, SourceCapabilityError
 
 from tradex.dashboard import risk_service
 from tradex.data_gateway.contracts import QualityStatus
@@ -29,6 +30,10 @@ class _Router:
     def route(self, data_type: str, **kwargs: object):
         self.calls.append((data_type, kwargs))
         return self.frame, self.provider
+
+    def route_validated(self, data_type: str, validator, **kwargs: object):
+        self.calls.append((data_type, kwargs))
+        return validator(self.frame, self.provider), self.provider
 
 
 def test_market_breadth_preserves_counts_and_provider_metadata() -> None:
@@ -129,6 +134,34 @@ def test_market_breadth_rejects_inconsistent_limit_counts() -> None:
         )
 
 
+def test_invalid_paid_breadth_falls_back_before_success_is_recorded() -> None:
+    invalid = pd.DataFrame(
+        [{"上涨": 10, "下跌": 5, "平盘": 0, "未分类": 0, "涨停": 11, "跌停": 0}]
+    )
+    valid = pd.DataFrame(
+        [
+            {
+                "上涨": 3200,
+                "下跌": 1800,
+                "平盘": 100,
+                "未分类": 0,
+                "涨停": 80,
+                "跌停": 12,
+            }
+        ]
+    )
+    router = SmartRouter()
+    router.register("market_breadth", "ths_fuyao", lambda: invalid, priority=1)
+    router.register("market_breadth", "em_push2ex", lambda: valid, priority=2)
+
+    snapshot = fetch_market_breadth_snapshot(router=router, now=_NOW)
+
+    assert snapshot.metadata.provider == "em_push2ex"
+    health = {item["source"]: item for item in router.get_health_report()}
+    assert health["market_breadth:ths_fuyao"]["fail_count"] == 1
+    assert health["market_breadth:ths_fuyao"]["success_rate"] == 0.0
+
+
 def _eastmoney_sector_frame() -> pd.DataFrame:
     return pd.DataFrame(
         [
@@ -186,7 +219,27 @@ def test_eastmoney_sector_quotes_map_to_stable_contract() -> None:
     assert legacy["板块名称"] == "银行"
     assert legacy["领涨股代码"] == "600928"
     assert legacy["领涨股市场"] == "SH"
+    assert legacy["leader_instrument_id"] == "600928.SH"
     assert legacy["source"] == "push2"
+
+
+def test_unsupported_paid_concept_route_falls_back_to_exact_free_source() -> None:
+    def unsupported_paid(**_kwargs):
+        raise SourceCapabilityError("paid provider has industry only")
+
+    concept = _eastmoney_sector_frame().iloc[[0]].copy()
+    concept.loc[:, "板块名称"] = "机器人"
+    router = SmartRouter()
+    router.register("industry_quotes", "tushare", unsupported_paid, priority=1)
+    router.register(
+        "industry_quotes", "em_push2", lambda **_kwargs: concept, priority=100
+    )
+
+    series = fetch_sector_quotes("concept", router=router, now=_NOW)
+
+    assert series.metadata.provider == "em_push2"
+    assert series.sector_type == "concept"
+    assert series.quotes[0].name == "机器人"
 
 
 def test_biying_sector_quote_keeps_missing_fields_explicit_and_degraded() -> None:
@@ -228,6 +281,26 @@ def test_sector_quotes_reject_duplicate_canonical_names() -> None:
     frame.loc[1, "板块名称"] = "银行"
     with pytest.raises(ValueError, match="duplicate sector keys"):
         fetch_sector_quotes("industry", router=_Router(frame, "em_push2"), now=_NOW)
+
+
+def test_sector_quotes_collapse_exact_provider_pagination_overlap() -> None:
+    frame = _eastmoney_sector_frame()
+    duplicate = frame.iloc[[0]].copy()
+    duplicate.loc[:, "涨跌幅"] = 2.8
+    duplicate.loc[:, "更新时间"] = "2026-08-19T10:30:02+08:00"
+    frame = pd.concat([frame, duplicate], ignore_index=True)
+
+    series = fetch_sector_quotes(
+        "industry", router=_Router(frame, "em_push2"), now=_NOW
+    )
+
+    assert len(series.quotes) == 2
+    bank = next(item for item in series.quotes if item.name == "银行")
+    assert bank.provider_sector_code == "BK0475"
+    assert bank.change_pct == 2.8
+    assert bank.provider_as_of == datetime.fromisoformat(
+        "2026-08-19T10:30:02+08:00"
+    )
 
 
 def test_dashboard_fetchers_expose_gateway_quality(monkeypatch) -> None:

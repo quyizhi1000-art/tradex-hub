@@ -30,6 +30,10 @@ class _Router:
         self.calls.append((data_type, kwargs))
         return self.frame, self.provider
 
+    def route_validated(self, data_type: str, validator, **kwargs: object):
+        self.calls.append((data_type, kwargs))
+        return validator(self.frame, self.provider), self.provider
+
 
 @pytest.mark.parametrize(
     ("provider", "raw_volume", "raw_amount"),
@@ -39,6 +43,7 @@ class _Router:
         ("eltdx", 1_000, 180_000_000),
         ("akshare", 1_000, 180_000_000),
         ("tencent_http", 1_000, 18_000),
+        ("tushare", 100_000, 180_000_000),
     ],
 )
 def test_quote_sources_have_identical_canonical_units(
@@ -91,6 +96,7 @@ def test_quote_requires_exact_symbol_even_for_single_row() -> None:
         ("biying", 50_000),
         ("eltdx", 500),
         ("akshare", 500),
+        ("tushare", 50_000),
     ],
 )
 def test_ohlcv_sources_have_identical_canonical_volume(
@@ -218,3 +224,101 @@ def test_eltdx_adjustment_skip_does_not_mark_source_unhealthy() -> None:
         item["source"]: item for item in router.get_health_report()
     }
     assert health["historical_kline:eltdx"]["fail_count"] == 0
+
+
+def test_quote_rejected_primary_payload_falls_back_before_success() -> None:
+    invalid = pd.DataFrame([{"代码": "999999", "最新价": 10}])
+    fallback = pd.DataFrame(
+        [
+            {
+                "代码": "600519",
+                "名称": "贵州茅台",
+                "最新价": 1800,
+                "今开": 1790,
+                "最高": 1810,
+                "最低": 1780,
+                "昨收": 1795,
+                "成交量": 100_000,
+                "成交额": 180_000_000,
+                "更新时间": "2026-08-19T10:30:00+08:00",
+            }
+        ]
+    )
+    router = SmartRouter()
+    router.register("realtime_quote", "tushare", lambda **_kwargs: invalid, priority=1)
+    router.register("realtime_quote", "fallback", lambda **_kwargs: fallback, priority=2)
+
+    snapshot = fetch_quote_snapshot("600519", router=router, now=_NOW)
+
+    assert snapshot.metadata.provider == "fallback"
+    assert snapshot.instrument_id == "600519.SH"
+    health = {item["source"]: item for item in router.get_health_report()}
+    assert health["realtime_quote:tushare"]["fail_count"] == 1
+    assert health["realtime_quote:fallback"]["success_rate"] == 100.0
+
+
+def test_quote_volume_amount_unit_mismatch_falls_back_before_success() -> None:
+    invalid = pd.DataFrame(
+        [
+            {
+                "代码": "000001",
+                "名称": "平安银行",
+                "最新价": 11.41,
+                "今开": 11.36,
+                "最高": 11.46,
+                "最低": 11.32,
+                "昨收": 11.40,
+                "成交量": 869_128,
+                "成交额": 990_112_100,
+                "更新时间": "2026-08-21T15:00:00+08:00",
+            }
+        ]
+    )
+    fallback = invalid.copy()
+    fallback.loc[0, "成交量"] = 86_912_800
+    router = SmartRouter()
+    router.register("realtime_quote", "tushare", lambda **_kwargs: invalid, priority=1)
+    router.register("realtime_quote", "fallback", lambda **_kwargs: fallback, priority=2)
+
+    snapshot = fetch_quote_snapshot("000001", router=router, now=_NOW)
+
+    assert snapshot.metadata.provider == "fallback"
+    assert snapshot.volume_shares == 86_912_800
+    assert snapshot.amount_cny == 990_112_100
+    health = {item["source"]: item for item in router.get_health_report()}
+    assert health["realtime_quote:tushare"]["fail_count"] == 1
+    assert health["realtime_quote:fallback"]["success_rate"] == 100.0
+
+
+def test_ohlcv_rejected_primary_payload_falls_back_before_success() -> None:
+    invalid = pd.DataFrame(
+        [{"日期": "2025-01-02", "开盘": 10, "收盘": 11, "最高": 9, "最低": 8}]
+    )
+    fallback = pd.DataFrame(
+        [
+            {
+                "日期": "2025-01-02",
+                "开盘": 10,
+                "收盘": 11,
+                "最高": 12,
+                "最低": 9,
+                "成交量": 10_000,
+                "成交额": 105_000,
+            }
+        ]
+    )
+    fallback.attrs.update(
+        {"period": "daily", "adjust": "none", "provider_as_of": "2025-01-02"}
+    )
+    router = SmartRouter()
+    router.register("historical_kline", "tushare", lambda **_kwargs: invalid, priority=1)
+    router.register("historical_kline", "fallback", lambda **_kwargs: fallback, priority=2)
+
+    series = fetch_ohlcv_series(
+        "600519", adjust="", router=router, now=_NOW
+    )
+
+    assert series.metadata.provider == "fallback"
+    assert series.bars[0].volume_shares == 10_000
+    health = {item["source"]: item for item in router.get_health_report()}
+    assert health["historical_kline:tushare"]["fail_count"] == 1

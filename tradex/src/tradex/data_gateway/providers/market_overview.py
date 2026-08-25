@@ -22,6 +22,28 @@ _INDEX_SPECS = (
         "name": "深证成指",
         "aliases": ("深证成指", "深证指数"),
     },
+    {
+        "provider_code": "sh000300",
+        "instrument_id": "000300.SH",
+        "name": "沪深300",
+        "aliases": ("沪深300", "沪深300指数"),
+    },
+    {
+        # The same CSI 1000 series is distributed as 000852/399852 by
+        # different quote vendors.  Canonical consumers use 000852.SH while
+        # the mapper accepts either provider code through the name alias.
+        "provider_code": "sz399852",
+        "provider_codes": ("sz399852", "sh000852"),
+        "instrument_id": "000852.SH",
+        "name": "中证1000",
+        "aliases": ("中证1000", "中证1000指数"),
+    },
+    {
+        "provider_code": "sz399006",
+        "instrument_id": "399006.SZ",
+        "name": "创业板指",
+        "aliases": ("创业板指", "创业板指数"),
+    },
 )
 
 
@@ -60,8 +82,13 @@ def parse_provider_time(value: Any) -> datetime | None:
 def _matches_index(row: dict[str, Any], spec: dict[str, Any]) -> bool:
     raw_code = str(field(row, "代码", "指数代码", "code", "symbol") or "").lower()
     compact_code = raw_code.replace(".", "").replace("_", "")
-    expected = spec["provider_code"]
-    if compact_code in (expected, expected[2:], expected[2:] + expected[:2]):
+    expected_codes = spec.get("provider_codes", (spec["provider_code"],))
+    code_aliases = {
+        alias
+        for expected in expected_codes
+        for alias in (expected, expected[2:], expected[2:] + expected[:2])
+    }
+    if compact_code in code_aliases:
         return True
     raw_name = str(field(row, "指数名称", "名称", "name") or "")
     return any(alias in raw_name for alias in spec["aliases"])
@@ -110,6 +137,9 @@ def map_indices(records: list[dict[str, Any]], provider: str) -> tuple[IndexQuot
                 high=finite_number(field(row, "最高", "最高价", "high")),
                 low=finite_number(field(row, "最低", "最低价", "low")),
                 amount_cny=amount,
+                provider_as_of=parse_provider_time(
+                    field(row, "更新时间", "provider_as_of")
+                ),
             )
         )
     return tuple(indices)

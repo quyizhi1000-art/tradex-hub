@@ -9,7 +9,7 @@ from ..contracts import EtfQuoteV1
 from .market_overview import field, finite_number, parse_provider_time
 
 
-_VERIFIED_UNIT_PROVIDERS = {"astock_signals"}
+_VERIFIED_UNIT_PROVIDERS = {"astock_signals", "tushare"}
 
 
 def _records(payload: Any) -> list[dict[str, Any]]:
@@ -54,6 +54,19 @@ def _required_number(row: dict[str, Any], field_name: str, *aliases: str) -> flo
     return value
 
 
+def _amount_cny(row: dict[str, Any], provider: str) -> float:
+    if provider == "tushare":
+        return _required_number(row, "amount", "amount")
+    return _required_number(
+        row,
+        "amount_cny",
+        "amount_cny",
+        "amount",
+        "成交额",
+        "成交额(元)",
+    )
+
+
 def map_etf_quote_payload(
     payload: Any,
     *,
@@ -61,14 +74,25 @@ def map_etf_quote_payload(
     limit: int,
 ) -> tuple[EtfQuoteV1, ...]:
     quotes: list[EtfQuoteV1] = []
+    frame_as_of = parse_provider_time(
+        (getattr(payload, "attrs", {}) or {}).get("provider_as_of")
+    )
     for row in _records(payload):
         provider_as_of = parse_provider_time(
-            field(row, "provider_as_of", "更新时间", "数据时间")
-        )
+            field(row, "provider_as_of", "更新时间", "数据时间", "trade_time")
+        ) or frame_as_of
         quotes.append(
             EtfQuoteV1(
                 instrument_id=_instrument_id(
-                    field(row, "instrument_id", "etf_code", "代码", "code", "symbol")
+                    field(
+                        row,
+                        "instrument_id",
+                        "etf_code",
+                        "代码",
+                        "code",
+                        "symbol",
+                        "ts_code",
+                    )
                 ),
                 name=_text(field(row, "name", "名称"), field_name="name"),
                 last=_required_number(
@@ -78,6 +102,7 @@ def map_etf_quote_payload(
                     "最新价",
                     "最新",
                     "last",
+                    "close",
                 ),
                 change_pct=_required_number(
                     row,
@@ -85,15 +110,9 @@ def map_etf_quote_payload(
                     "change_pct",
                     "涨跌幅",
                     "涨跌幅(%)",
+                    "pct_chg",
                 ),
-                amount_cny=_required_number(
-                    row,
-                    "amount_cny",
-                    "amount_cny",
-                    "amount",
-                    "成交额",
-                    "成交额(元)",
-                ),
+                amount_cny=_amount_cny(row, provider),
                 provider_as_of=provider_as_of,
                 provider_variant=(
                     str(field(row, "source", "数据源") or provider).strip() or provider

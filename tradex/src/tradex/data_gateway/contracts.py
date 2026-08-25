@@ -6,6 +6,7 @@ import math
 from datetime import date, datetime, time
 from enum import Enum
 from typing import Literal
+from zoneinfo import ZoneInfo
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
@@ -68,12 +69,20 @@ class IndexQuoteV1(ContractModel):
     high: float | None = Field(default=None, ge=0)
     low: float | None = Field(default=None, ge=0)
     amount_cny: float | None = Field(default=None, ge=0)
+    provider_as_of: datetime | None = None
 
     @field_validator("value", "change", "change_pct", "previous_close", "open", "high", "low", "amount_cny")
     @classmethod
     def require_finite_number(cls, value: float | None) -> float | None:
         if value is not None and not math.isfinite(value):
             raise ValueError("market numbers must be finite")
+        return value
+
+    @field_validator("provider_as_of")
+    @classmethod
+    def require_provider_timezone(cls, value: datetime | None) -> datetime | None:
+        if value is not None and value.tzinfo is None:
+            raise ValueError("index provider_as_of must include a timezone")
         return value
 
     @model_validator(mode="after")
@@ -144,6 +153,140 @@ class MarketTurnoverV1(ContractModel):
             expected = self.today_amount_cny - self.previous_same_time_amount_cny
             if not math.isclose(expected, self.difference_cny, rel_tol=1e-9, abs_tol=1e-6):
                 raise ValueError("turnover difference does not match its amounts")
+        return self
+
+
+class IndexDailyAmountV1(ContractModel):
+    """One provider-neutral completed-session amount for an exchange index."""
+
+    trading_date: date
+    amount_cny: float = Field(gt=0)
+
+    @field_validator("amount_cny")
+    @classmethod
+    def require_finite_amount(cls, value: float) -> float:
+        if not math.isfinite(value):
+            raise ValueError("index daily amount must be finite")
+        return value
+
+
+class IndexDailyAmountSeriesV1(ContractModel):
+    """Validated daily amounts for one canonical index."""
+
+    metadata: ContractMetadata
+    instrument_id: str = Field(pattern=r"^\d{6}\.(?:SH|SZ)$")
+    points: tuple[IndexDailyAmountV1, ...]
+
+    @model_validator(mode="after")
+    def validate_series(self) -> "IndexDailyAmountSeriesV1":
+        if (
+            self.metadata.contract != "index_daily_amount.v1"
+            or self.metadata.schema_version != 1
+        ):
+            raise ValueError("index daily amount requires index_daily_amount.v1 metadata")
+        if not self.points:
+            raise ValueError("index daily amount series cannot be empty")
+        dates = [item.trading_date for item in self.points]
+        if dates != sorted(dates):
+            raise ValueError("index daily amount points must be ordered")
+        if len(dates) != len(set(dates)):
+            raise ValueError("index daily amount points must be unique")
+        return self
+
+
+class IndexMinuteAmountV1(ContractModel):
+    """One provider-neutral minute amount for an exchange index."""
+
+    trading_date: date
+    minute: time
+    amount_cny: float = Field(ge=0)
+
+    @field_validator("amount_cny")
+    @classmethod
+    def require_finite_amount(cls, value: float) -> float:
+        if not math.isfinite(value):
+            raise ValueError("index minute amount must be finite")
+        return value
+
+
+class IndexIntradayAmountSeriesV1(ContractModel):
+    """Validated historical minute amounts for one canonical index."""
+
+    metadata: ContractMetadata
+    instrument_id: str = Field(pattern=r"^\d{6}\.(?:SH|SZ)$")
+    points: tuple[IndexMinuteAmountV1, ...]
+
+    @model_validator(mode="after")
+    def validate_series(self) -> "IndexIntradayAmountSeriesV1":
+        if (
+            self.metadata.contract != "index_intraday_amount.v1"
+            or self.metadata.schema_version != 1
+        ):
+            raise ValueError(
+                "index intraday amount requires index_intraday_amount.v1 metadata"
+            )
+        if not self.points:
+            raise ValueError("index intraday amount series cannot be empty")
+        keys = [(item.trading_date, item.minute) for item in self.points]
+        if keys != sorted(keys):
+            raise ValueError("index intraday amount points must be ordered")
+        if len(keys) != len(set(keys)):
+            raise ValueError("index intraday amount points must be unique")
+        return self
+
+
+class SectorFundFlowMinuteV1(ContractModel):
+    """One exact minute observation of cumulative main-net sector flow."""
+
+    provider_as_of: datetime
+    cumulative_cny: float
+
+    @field_validator("provider_as_of")
+    @classmethod
+    def require_provider_timezone(cls, value: datetime) -> datetime:
+        if value.tzinfo is None:
+            raise ValueError("sector fund-flow provider_as_of must include a timezone")
+        return value
+
+    @field_validator("cumulative_cny")
+    @classmethod
+    def require_finite_amount(cls, value: float) -> float:
+        if not math.isfinite(value):
+            raise ValueError("sector fund-flow amount must be finite")
+        return value
+
+
+class SectorFundFlowIntradayV1(ContractModel):
+    """Provider-neutral intraday main-net-flow curve for one canonical sector."""
+
+    metadata: ContractMetadata
+    sector_key: str = Field(pattern=r"^[a-z][a-z0-9_]*$")
+    name: str = Field(min_length=1)
+    taxonomy: Literal["industry", "concept"]
+    trading_date: date
+    points: tuple[SectorFundFlowMinuteV1, ...] = Field(min_length=1, max_length=256)
+
+    @model_validator(mode="after")
+    def validate_series(self) -> "SectorFundFlowIntradayV1":
+        if (
+            self.metadata.contract != "sector_intraday_fund_flow.v1"
+            or self.metadata.schema_version != 1
+        ):
+            raise ValueError(
+                "sector fund flow requires sector_intraday_fund_flow.v1 metadata"
+            )
+        times = [item.provider_as_of for item in self.points]
+        if times != sorted(times) or len(times) != len(set(times)):
+            raise ValueError("sector fund-flow points must be unique and ordered")
+        for point in self.points:
+            local = point.provider_as_of.astimezone(ZoneInfo("Asia/Shanghai"))
+            minute = local.hour * 60 + local.minute
+            if local.date() != self.trading_date:
+                raise ValueError("sector fund-flow point belongs to another trading date")
+            if not (570 <= minute <= 690 or 780 <= minute <= 900):
+                raise ValueError("sector fund-flow point is outside A-share sessions")
+        if self.metadata.provider_as_of != times[-1]:
+            raise ValueError("sector fund-flow metadata time must match the final point")
         return self
 
 
@@ -223,6 +366,253 @@ class QuoteSnapshotV1(ContractModel):
             raise ValueError("quote snapshot requires quote_snapshot.v1 metadata")
         if self.high is not None and self.low is not None and self.high < self.low:
             raise ValueError("quote high cannot be lower than quote low")
+        if (
+            self.volume_shares == 0
+            and self.amount_cny not in (None, 0)
+        ):
+            raise ValueError("quote zero volume is inconsistent with positive amount")
+        if (
+            self.volume_shares is not None
+            and self.volume_shares > 0
+            and self.amount_cny is not None
+            and self.low is not None
+            and self.low > 0
+            and self.high is not None
+        ):
+            implied_average = self.amount_cny / self.volume_shares
+            tolerance = 0.01
+            if not (
+                self.low - tolerance
+                <= implied_average
+                <= self.high + tolerance
+            ):
+                raise ValueError(
+                    "quote amount and volume imply a price outside session range"
+                )
+        return self
+
+
+class AShareUniverseQuoteV1(ContractModel):
+    """One actively quoted A-share row in the whole-market close scan."""
+
+    instrument_id: str = Field(pattern=r"^\d{6}\.(?:SH|SZ|BJ)$")
+    name: str = Field(min_length=1)
+    last: float = Field(gt=0)
+    change_pct: float
+    amount_cny: float = Field(ge=0)
+    open: float | None = Field(default=None, ge=0)
+    high: float | None = Field(default=None, ge=0)
+    low: float | None = Field(default=None, ge=0)
+    previous_close: float | None = Field(default=None, gt=0)
+    turnover_pct: float | None = Field(default=None, ge=0)
+    amplitude_pct: float | None = Field(default=None, ge=0)
+    total_market_cap_cny: float | None = Field(default=None, ge=0)
+    float_market_cap_cny: float | None = Field(default=None, ge=0)
+
+    @field_validator(
+        "last",
+        "change_pct",
+        "amount_cny",
+        "open",
+        "high",
+        "low",
+        "previous_close",
+        "turnover_pct",
+        "amplitude_pct",
+        "total_market_cap_cny",
+        "float_market_cap_cny",
+    )
+    @classmethod
+    def require_finite_universe_number(cls, value: float | None) -> float | None:
+        if value is not None and not math.isfinite(value):
+            raise ValueError("A-share universe quote numbers must be finite")
+        return value
+
+    @model_validator(mode="after")
+    def validate_session_range(self) -> "AShareUniverseQuoteV1":
+        if self.high is not None and self.low is not None and self.high < self.low:
+            raise ValueError("A-share universe high cannot be lower than low")
+        return self
+
+
+class AShareUniverseSnapshotV1(ContractModel):
+    """Provider-neutral all-market quote surface scanned by the daily review."""
+
+    metadata: ContractMetadata
+    scope: Literal["provider_a_share_active_quotes"] = (
+        "provider_a_share_active_quotes"
+    )
+    provider_row_count: int = Field(gt=0)
+    active_quote_count: int = Field(gt=0)
+    excluded_row_count: int = Field(ge=0)
+    quotes: tuple[AShareUniverseQuoteV1, ...] = Field(min_length=1)
+
+    @model_validator(mode="after")
+    def validate_universe(self) -> "AShareUniverseSnapshotV1":
+        if (
+            self.metadata.contract != "a_share_universe_quote.v1"
+            or self.metadata.schema_version != 1
+        ):
+            raise ValueError(
+                "A-share universe requires a_share_universe_quote.v1 metadata"
+            )
+        if self.active_quote_count != len(self.quotes):
+            raise ValueError("active_quote_count must equal quote count")
+        if self.provider_row_count != self.active_quote_count + self.excluded_row_count:
+            raise ValueError("provider row count must equal active plus excluded rows")
+        ids = [item.instrument_id for item in self.quotes]
+        if ids != sorted(ids) or len(ids) != len(set(ids)):
+            raise ValueError(
+                "A-share universe quotes must have unique sorted instrument ids"
+            )
+        return self
+
+
+class OpeningAuctionSnapshotV1(ContractModel):
+    """Final 9:25 opening-auction match for one A-share instrument."""
+
+    metadata: ContractMetadata
+    instrument_id: str = Field(pattern=r"^\d{6}\.(?:SH|SZ|BJ)$")
+    trading_date: date | None = None
+    currency: Literal["CNY"] = "CNY"
+    price: float = Field(gt=0)
+    volume_shares: float = Field(ge=0)
+    amount_cny: float = Field(ge=0)
+    previous_close: float = Field(gt=0)
+    change_pct: float | None = None
+    turnover_pct: float | None = Field(default=None, ge=0)
+    volume_ratio: float | None = Field(default=None, ge=0)
+    float_shares: float | None = Field(default=None, ge=0)
+
+    @field_validator(
+        "price",
+        "volume_shares",
+        "amount_cny",
+        "previous_close",
+        "change_pct",
+        "turnover_pct",
+        "volume_ratio",
+        "float_shares",
+    )
+    @classmethod
+    def require_finite_auction_number(cls, value: float | None) -> float | None:
+        if value is not None and not math.isfinite(value):
+            raise ValueError("opening-auction numbers must be finite")
+        return value
+
+    @model_validator(mode="after")
+    def validate_snapshot(self) -> "OpeningAuctionSnapshotV1":
+        if (
+            self.metadata.contract != "opening_auction_snapshot.v1"
+            or self.metadata.schema_version != 1
+        ):
+            raise ValueError(
+                "opening auction requires opening_auction_snapshot.v1 metadata"
+            )
+        if self.volume_shares > 0 and not math.isclose(
+            self.amount_cny,
+            self.price * self.volume_shares,
+            rel_tol=0.02,
+            abs_tol=10.0,
+        ):
+            raise ValueError("opening-auction amount is inconsistent with price and volume")
+        return self
+
+
+class IntradayMinutePointV1(ContractModel):
+    """One normalized A-share minute; volume is shares and amount is CNY."""
+
+    minute: time
+    price: float = Field(gt=0)
+    cumulative_average_price: float | None = Field(default=None, gt=0)
+    volume_shares: float = Field(ge=0)
+    amount_cny: float | None = Field(default=None, ge=0)
+    open: float | None = Field(default=None, gt=0)
+    high: float | None = Field(default=None, gt=0)
+    low: float | None = Field(default=None, gt=0)
+
+    @field_validator(
+        "price",
+        "cumulative_average_price",
+        "volume_shares",
+        "amount_cny",
+        "open",
+        "high",
+        "low",
+    )
+    @classmethod
+    def require_finite_minute_number(cls, value: float | None) -> float | None:
+        if value is not None and not math.isfinite(value):
+            raise ValueError("intraday minute numbers must be finite")
+        return value
+
+    @model_validator(mode="after")
+    def validate_minute(self) -> "IntradayMinutePointV1":
+        if self.minute.second or self.minute.microsecond:
+            raise ValueError("intraday minute timestamps must be minute-aligned")
+        minute_of_day = self.minute.hour * 60 + self.minute.minute
+        if not (570 <= minute_of_day <= 690 or 780 <= minute_of_day <= 900):
+            raise ValueError("intraday point is outside A-share sessions")
+
+        ohl = (self.open, self.high, self.low)
+        if any(value is not None for value in ohl) and any(
+            value is None for value in ohl
+        ):
+            raise ValueError("intraday OHLC fields must be complete when present")
+        if self.high is not None and self.low is not None:
+            if self.high + 1e-8 < max(self.open, self.price, self.low):
+                raise ValueError("intraday high is inconsistent with OHLC values")
+            if self.low - 1e-8 > min(self.open, self.price, self.high):
+                raise ValueError("intraday low is inconsistent with OHLC values")
+
+        if self.volume_shares == 0 and self.amount_cny not in (None, 0):
+            raise ValueError("intraday zero volume conflicts with positive amount")
+        if (
+            self.volume_shares > 0
+            and self.amount_cny is not None
+            and self.high is not None
+            and self.low is not None
+        ):
+            implied_average = self.amount_cny / self.volume_shares
+            if not self.low - 0.01 <= implied_average <= self.high + 0.01:
+                raise ValueError(
+                    "intraday amount and volume imply a price outside the bar"
+                )
+        return self
+
+
+class IntradayMinuteSeriesV1(ContractModel):
+    """Current-session A-share minute series with an explicit timezone."""
+
+    metadata: ContractMetadata
+    instrument_id: str = Field(pattern=r"^\d{6}\.(?:SH|SZ|BJ)$")
+    trading_date: date | None = None
+    timezone: Literal["Asia/Shanghai"] = "Asia/Shanghai"
+    frequency_minutes: Literal[1] = 1
+    points: tuple[IntradayMinutePointV1, ...] = Field(
+        min_length=1, max_length=1000
+    )
+
+    @model_validator(mode="after")
+    def validate_series(self) -> "IntradayMinuteSeriesV1":
+        if (
+            self.metadata.contract != "intraday_minute_series.v1"
+            or self.metadata.schema_version != 1
+        ):
+            raise ValueError(
+                "intraday minutes require intraday_minute_series.v1 metadata"
+            )
+        times = [item.minute for item in self.points]
+        if times != sorted(times):
+            raise ValueError("intraday minute points must be ordered")
+        if len(times) != len(set(times)):
+            raise ValueError("intraday minute points must be unique")
+        if self.trading_date is not None and self.metadata.provider_as_of is not None:
+            provider_date = self.metadata.provider_as_of.astimezone(
+                ZoneInfo(self.timezone)
+            ).date()
+            if provider_date != self.trading_date:
+                raise ValueError("intraday provider timestamp belongs to another date")
         return self
 
 
@@ -447,6 +837,102 @@ class EtfQuoteSeriesV1(ContractModel):
         amounts = [item.amount_cny for item in self.quotes]
         if amounts != sorted(amounts, reverse=True):
             raise ValueError("ETF quotes must be sorted by amount_cny descending")
+        return self
+
+
+class StockFundFlowV1(ContractModel):
+    """One A-share's normalized post-close active-order fund flow."""
+
+    instrument_id: str = Field(pattern=r"^\d{6}\.(?:SH|SZ|BJ)$")
+    net_amount_cny: float
+    large_net_amount_cny: float
+    extra_large_net_amount_cny: float
+
+    @field_validator(
+        "net_amount_cny",
+        "large_net_amount_cny",
+        "extra_large_net_amount_cny",
+    )
+    @classmethod
+    def require_finite_stock_flow_number(cls, value: float) -> float:
+        if not math.isfinite(value):
+            raise ValueError("stock fund-flow numbers must be finite")
+        return value
+
+
+class StockFundFlowSeriesV1(ContractModel):
+    metadata: ContractMetadata
+    trade_date: date
+    flows: tuple[StockFundFlowV1, ...] = Field(min_length=1)
+
+    @model_validator(mode="after")
+    def validate_stock_flow_series(self) -> "StockFundFlowSeriesV1":
+        if (
+            self.metadata.contract != "stock_fund_flow_day.v1"
+            or self.metadata.schema_version != 1
+        ):
+            raise ValueError(
+                "stock fund flows require stock_fund_flow_day.v1 metadata"
+            )
+        ids = [item.instrument_id for item in self.flows]
+        if ids != sorted(ids) or len(ids) != len(set(ids)):
+            raise ValueError("stock fund flows must use unique sorted instruments")
+        return self
+
+
+class DragonTigerTradeV1(ContractModel):
+    """One market-wide dragon-tiger list entry for an exact trading day."""
+
+    instrument_id: str = Field(pattern=r"^\d{6}\.(?:SH|SZ|BJ)$")
+    name: str = Field(min_length=1)
+    close: float | None = Field(default=None, gt=0)
+    change_pct: float
+    turnover_pct: float | None = Field(default=None, ge=0)
+    market_amount_cny: float | None = Field(default=None, ge=0)
+    buy_amount_cny: float = Field(ge=0)
+    sell_amount_cny: float = Field(ge=0)
+    net_amount_cny: float
+    reason: str | None = Field(default=None, min_length=1)
+
+    @field_validator(
+        "close",
+        "change_pct",
+        "turnover_pct",
+        "market_amount_cny",
+        "buy_amount_cny",
+        "sell_amount_cny",
+        "net_amount_cny",
+    )
+    @classmethod
+    def require_finite_dragon_tiger_number(cls, value: float | None):
+        if value is not None and not math.isfinite(value):
+            raise ValueError("dragon-tiger numbers must be finite")
+        return value
+
+
+class DragonTigerSeriesV1(ContractModel):
+    metadata: ContractMetadata
+    trade_date: date
+    valid_empty: bool = False
+    trades: tuple[DragonTigerTradeV1, ...] = ()
+
+    @model_validator(mode="after")
+    def validate_dragon_tiger_series(self) -> "DragonTigerSeriesV1":
+        if (
+            self.metadata.contract != "dragon_tiger_market_day.v1"
+            or self.metadata.schema_version != 1
+        ):
+            raise ValueError(
+                "dragon-tiger list requires dragon_tiger_market_day.v1 metadata"
+            )
+        if self.valid_empty != (not self.trades):
+            raise ValueError("dragon-tiger valid_empty must match the trade list")
+        ordering = [
+            (-item.net_amount_cny, item.instrument_id, item.reason or "")
+            for item in self.trades
+        ]
+        if ordering != sorted(ordering):
+            raise ValueError("dragon-tiger trades must be net-buy sorted")
         return self
 
 

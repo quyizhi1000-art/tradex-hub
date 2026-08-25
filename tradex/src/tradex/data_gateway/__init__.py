@@ -6,12 +6,18 @@ versioned canonical models instead of DataFrames or vendor field names.
 """
 
 from .contracts import (
+    AShareUniverseQuoteV1,
+    AShareUniverseSnapshotV1,
     BoardLeaderSnapshotV1,
     BoardLeaderV1,
     ContractMetadata,
+    DragonTigerSeriesV1,
+    DragonTigerTradeV1,
     EtfQuoteSeriesV1,
     EtfQuoteV1,
     IndexQuoteV1,
+    IntradayMinutePointV1,
+    IntradayMinuteSeriesV1,
     LeaderQuoteSeriesV1,
     LeaderQuoteV1,
     LimitEventSeriesV1,
@@ -21,6 +27,7 @@ from .contracts import (
     MarketBreadthV1,
     MarketStateV1,
     MarketTurnoverV1,
+    OpeningAuctionSnapshotV1,
     OHLCVBarV1,
     OHLCVSeriesV1,
     ParticipationIndexV1,
@@ -28,9 +35,15 @@ from .contracts import (
     QuoteSnapshotV1,
     SectorQuoteSeriesV1,
     SectorQuoteV1,
+    SectorFundFlowIntradayV1,
+    SectorFundFlowMinuteV1,
+    StockFundFlowSeriesV1,
+    StockFundFlowV1,
     StockSectorProfileSeriesV1,
     StockSectorProfileV1,
 )
+from .daily_review import fetch_dragon_tiger_day, fetch_stock_fund_flow_day
+from .auctions import fetch_opening_auction_snapshot, opening_auction_to_legacy_payload
 from .etfs import etf_quotes_to_legacy_records, fetch_etf_quotes
 from .leadership import (
     board_leader_snapshot_to_legacy_payload,
@@ -46,6 +59,12 @@ from .limit_events import (
     limit_event_series_to_legacy_records,
 )
 from .market import fetch_market_overview, market_overview_to_legacy_payload
+from .intraday import (
+    IntradayMinuteCache,
+    fetch_intraday_minute_series,
+    intraday_minute_to_legacy_payload,
+)
+from .market_universe import fetch_a_share_universe_snapshot
 from .market_structure import (
     fetch_market_breadth_snapshot,
     fetch_sector_quotes,
@@ -59,14 +78,26 @@ from .securities import (
     ohlcv_series_to_legacy_records,
     quote_snapshot_to_legacy_records,
 )
+from .sector_flow import (
+    SectorFundFlowBackfillCache,
+    fetch_sector_intraday_fund_flow,
+    fetch_sector_intraday_fund_flow_backfill,
+)
 
 __all__ = [
+    "AShareUniverseQuoteV1",
+    "AShareUniverseSnapshotV1",
     "BoardLeaderSnapshotV1",
     "BoardLeaderV1",
     "ContractMetadata",
+    "DragonTigerSeriesV1",
+    "DragonTigerTradeV1",
     "EtfQuoteSeriesV1",
     "EtfQuoteV1",
     "IndexQuoteV1",
+    "IntradayMinuteCache",
+    "IntradayMinutePointV1",
+    "IntradayMinuteSeriesV1",
     "LeaderQuoteSeriesV1",
     "LeaderQuoteV1",
     "LimitEventSeriesV1",
@@ -76,6 +107,7 @@ __all__ = [
     "MarketBreadthV1",
     "MarketStateV1",
     "MarketTurnoverV1",
+    "OpeningAuctionSnapshotV1",
     "OHLCVBarV1",
     "OHLCVSeriesV1",
     "ParticipationIndexV1",
@@ -83,27 +115,41 @@ __all__ = [
     "QuoteSnapshotV1",
     "SectorQuoteSeriesV1",
     "SectorQuoteV1",
+    "SectorFundFlowIntradayV1",
+    "SectorFundFlowMinuteV1",
+    "SectorFundFlowBackfillCache",
+    "StockFundFlowSeriesV1",
+    "StockFundFlowV1",
     "StockSectorProfileSeriesV1",
     "StockSectorProfileV1",
     "board_leader_snapshot_to_legacy_payload",
     "fetch_board_leader_snapshot",
+    "fetch_a_share_universe_snapshot",
+    "fetch_dragon_tiger_day",
     "fetch_etf_quotes",
     "fetch_leader_quotes",
     "fetch_limit_up_events",
     "fetch_market_breadth_snapshot",
     "fetch_market_overview",
+    "fetch_intraday_minute_series",
+    "fetch_opening_auction_snapshot",
     "fetch_ohlcv_series",
     "fetch_quote_snapshot",
     "fetch_sector_quotes",
+    "fetch_sector_intraday_fund_flow",
+    "fetch_sector_intraday_fund_flow_backfill",
     "fetch_stock_sector_profiles",
+    "fetch_stock_fund_flow_day",
     "leader_quotes_to_legacy_records",
     "etf_quotes_to_legacy_records",
     "limit_event_series_to_component_metadata",
     "limit_event_series_to_legacy_records",
     "market_breadth_to_legacy_records",
     "market_overview_to_legacy_payload",
+    "intraday_minute_to_legacy_payload",
     "metadata_to_component_status",
     "ohlcv_series_to_legacy_records",
+    "opening_auction_to_legacy_payload",
     "quote_snapshot_to_legacy_records",
     "sector_quotes_to_legacy_records",
     "stock_sector_profiles_to_legacy_records",

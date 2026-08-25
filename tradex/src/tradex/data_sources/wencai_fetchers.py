@@ -19,6 +19,8 @@ from typing import Any
 
 import pandas as pd
 
+from astock_signals.free_source_budget import wait_for_free_source
+
 logger = logging.getLogger("tradex.wencai")
 
 # iwencai OpenAPI 配置
@@ -78,6 +80,14 @@ def fetch_wencai_query(
             params["sort_key"] = sort_key
             params["sort_order"] = sort_order
 
+        wait_for_free_source(
+            "free:iwencai:web",
+            interval_env="IWENCAI_FREE_RATE_LIMIT_INTERVAL",
+            default_interval=2.0,
+            max_wait_env="IWENCAI_FREE_MAX_QUEUE_WAIT",
+            default_max_wait=6.0,
+            label="iWencai free",
+        )
         df = pywencai.get(**params)
         if df is None or df.empty:
             logger.debug("fetch_wencai_query(%s): empty", query[:50])

@@ -6,7 +6,7 @@ import copy
 import logging
 import threading
 import time
-from concurrent.futures import Future, ThreadPoolExecutor, as_completed
+from concurrent.futures import Future, ThreadPoolExecutor
 from datetime import date, datetime, time as clock_time, timedelta
 from typing import Any, Callable
 from zoneinfo import ZoneInfo
@@ -32,6 +32,7 @@ from tradex.data_gateway.market_structure import (
     metadata_to_component_status,
     sector_quotes_to_legacy_records,
 )
+from tradex.data_gateway.sector_flow import fetch_sector_intraday_fund_flow_backfill
 
 from .risk_appetite import (
     CONFIG_VERSION,
@@ -45,7 +46,9 @@ from .sector_attribution import attribute_board_names
 from .rotation_radar import (
     ROTATION_CONFIG_VERSION,
     analyze_rotation_snapshots,
+    analyze_sector_flow_snapshots,
     normalize_rotation_snapshot,
+    sector_flow_backfill_targets,
 )
 from .rotation_store import RotationRadarStore
 
@@ -56,8 +59,9 @@ _MIN_FORCE_INTERVAL = 30
 _BOARD_LEADER_TTL = 90
 _BOARD_LEADER_MAX_STALE = 300
 _BOARD_LEADER_RETRY_INTERVAL = 30
-_BOARD_LEADER_MAX_TARGETS = 6
+_BOARD_LEADER_MAX_TARGETS = 14
 _BOARD_LEADER_GROUP_TARGETS = 3
+_BOARD_LEADER_FLOW_TARGETS = 8
 _DEFENSE_FOCUS_KEYS = (
     "agriculture",
     "ports",
@@ -677,7 +681,7 @@ def _candidate_board_code(candidate: dict[str, Any]) -> str | None:
         )
         if code:
             return code
-    for field in ("representative_board_code", "board_code"):
+    for field in ("leader_board_code", "representative_board_code", "board_code"):
         code = _normalise_board_code(candidate.get(field))
         if code:
             return code
@@ -739,6 +743,25 @@ def _all_offense_leader_objects(result: dict[str, Any]) -> list[dict[str, Any]]:
     ]
 
 
+def _sector_flow_leader_objects(result: dict[str, Any]) -> list[dict[str, Any]]:
+    values: list[dict[str, Any]] = []
+    # Prioritise offense concepts for constituent enrichment while still
+    # applying the provider snapshot fallback to every directional series.
+    for field in (
+        "offense_sector_flow_trajectory",
+        "sector_flow_trajectory",
+    ):
+        trajectory = result.get(field) or {}
+        if not isinstance(trajectory, dict):
+            continue
+        values.extend(
+            item
+            for item in trajectory.get("sectors") or []
+            if isinstance(item, dict)
+        )
+    return values
+
+
 def _provider_leader_snapshot(
     candidate: dict[str, Any],
     board_by_code: dict[str, dict[str, Any]],
@@ -755,10 +778,16 @@ def _provider_leader_snapshot(
     leader_name = _first_present(row, "leader_name", "领涨股票")
     leader_code = _first_present(row, "leader_code", "领涨股代码")
     leader_market = _first_present(row, "leader_market", "领涨股市场")
+    leader_instrument_id = _first_present(
+        row,
+        "leader_instrument_id",
+        "instrument_id",
+    )
     leader_change = _first_present(row, "leader_change_pct", "领涨股涨幅")
     items = []
     if leader_name or leader_code:
         items.append({
+            "instrument_id": leader_instrument_id,
             "code": str(leader_code).strip() if leader_code else None,
             "name": str(leader_name).strip() if leader_name else None,
             "price": None,
@@ -781,6 +810,66 @@ def _provider_leader_snapshot(
         "stale": bool(status.get("stale") or status.get("expired")),
         "method": "provider_leader",
         "items": items,
+    }
+
+
+def _sector_flow_leader_snapshot(snapshot: dict[str, Any]) -> dict[str, Any]:
+    raw_items = snapshot.get("leaders") or snapshot.get("items") or []
+    leaders: list[dict[str, Any]] = []
+    for item in raw_items:
+        if not isinstance(item, dict):
+            continue
+        instrument_id = str(
+            item.get("instrument_id") or item.get("leader_instrument_id") or ""
+        ).strip().upper()
+        name = str(item.get("name") or "").strip()
+        if (
+            len(instrument_id) != 9
+            or instrument_id[6] != "."
+            or not instrument_id[:6].isdigit()
+            or instrument_id[7:] not in {"SH", "SZ", "BJ"}
+            or not name
+        ):
+            continue
+        leaders.append({
+            "instrument_id": instrument_id,
+            "name": name,
+            "change_pct": item.get("change_pct"),
+            "price": item.get("price"),
+            "provider_as_of": item.get("provider_as_of"),
+        })
+        if len(leaders) >= 3:
+            break
+
+    raw_status = str(snapshot.get("status") or "unavailable")
+    refreshing = bool(snapshot.get("refreshing"))
+    stale = bool(snapshot.get("stale"))
+    if leaders:
+        status = (
+            "stale" if stale or raw_status == "stale"
+            else "fallback" if raw_status == "fallback"
+            else "full"
+        )
+    else:
+        status = "loading" if refreshing or raw_status == "loading" else (
+            "error" if raw_status == "error" else "unavailable"
+        )
+    default_label = {
+        "full": "领涨股已更新",
+        "fallback": "当前领涨股",
+        "loading": "领涨股加载中",
+        "stale": "领涨股数据延迟",
+        "error": "领涨股暂不可用",
+        "unavailable": "领涨股暂缺",
+    }[status]
+    return {
+        "status": status,
+        "status_label": str(snapshot.get("status_label") or default_label),
+        "source": str(snapshot.get("source")) if snapshot.get("source") else None,
+        "provider_as_of": snapshot.get("provider_as_of"),
+        "stale": stale,
+        "refreshing": refreshing,
+        "leaders": leaders,
     }
 
 
@@ -808,6 +897,15 @@ def _attach_provider_leader_fallbacks(
             board_by_code,
             board_by_name,
             statuses,
+        )
+    for candidate in _sector_flow_leader_objects(result):
+        candidate["leader_snapshot"] = _sector_flow_leader_snapshot(
+            _provider_leader_snapshot(
+                candidate,
+                board_by_code,
+                board_by_name,
+                statuses,
+            )
         )
     return result
 
@@ -1031,7 +1129,10 @@ def _core_leader_priority(item: dict[str, Any]) -> tuple[int, int, int, str]:
 
 def _board_leader_source_hints(result: dict[str, Any]) -> dict[str, str]:
     hints: dict[str, str] = {}
-    for item in _all_offense_leader_objects(result):
+    for item in (
+        *_sector_flow_leader_objects(result),
+        *_all_offense_leader_objects(result),
+    ):
         code = _candidate_board_code(item)
         snapshot = item.get("leader_snapshot")
         source = snapshot.get("source") if isinstance(snapshot, dict) else None
@@ -1049,7 +1150,15 @@ def _board_leader_targets(result: dict[str, Any]) -> list[str]:
         if code not in radar_codes:
             radar_codes.append(code)
 
-    selected: list[str] = []
+    flow_items = [
+        item
+        for item in _sector_flow_leader_objects(result)
+        if isinstance((item.get("latest") or {}).get("change_pct"), (int, float))
+        and (item.get("latest") or {}).get("change_pct") > 0
+    ]
+    flow_codes = _unique_board_codes(flow_items)[:_BOARD_LEADER_FLOW_TARGETS]
+
+    selected: list[str] = list(flow_codes)
     for code in core_codes[:_BOARD_LEADER_GROUP_TARGETS]:
         if code not in selected:
             selected.append(code)
@@ -1132,6 +1241,39 @@ def _overlay_board_leaders(
                 else "领涨数据暂缺"
             )
             fallback["error"] = error
+        candidate["leader_snapshot"] = fallback
+    for candidate in _sector_flow_leader_objects(result):
+        code = _candidate_board_code(candidate)
+        if code not in snapshots:
+            continue
+        enriched, error, pending = snapshots[code]
+        if enriched is not None:
+            candidate["leader_snapshot"] = _sector_flow_leader_snapshot(enriched)
+            continue
+        fallback = copy.deepcopy(candidate.get("leader_snapshot") or {
+            "status": "unavailable",
+            "status_label": "领涨股暂缺",
+            "source": None,
+            "provider_as_of": None,
+            "stale": False,
+            "refreshing": False,
+            "leaders": [],
+        })
+        leaders = list(fallback.get("leaders") or [])
+        if pending:
+            fallback["status"] = "fallback" if leaders else "loading"
+            fallback["status_label"] = (
+                "当前领涨股，成分股补全中"
+                if leaders else "领涨股加载中"
+            )
+            fallback["refreshing"] = True
+        elif error:
+            fallback["status"] = "fallback" if leaders else "error"
+            fallback["status_label"] = (
+                "当前领涨股，成分股补全失败"
+                if leaders else "领涨股暂不可用"
+            )
+            fallback["refreshing"] = False
         candidate["leader_snapshot"] = fallback
     return result
 
@@ -2150,12 +2292,35 @@ def _attach_rotation_radar(
     now: datetime,
     *,
     record: bool,
+    trade_date: str | None = None,
 ) -> dict[str, Any]:
     phase = _market_phase(now, market_data)
+    effective_trade_date = trade_date or _effective_trade_date(market_data, now)
     store = _get_rotation_store()
+    targets = sector_flow_backfill_targets(
+        values.get("industry_quotes", []),
+        values.get("concept_quotes", []),
+        minute_bucket=now,
+        sources={
+            "industry": statuses.get("industry_quotes", {}).get("source") or "unknown",
+            "concept": statuses.get("concept_quotes", {}).get("source") or "unknown",
+        },
+    )
+    supplemental_points = fetch_sector_intraday_fund_flow_backfill(
+        targets,
+        trading_date=effective_trade_date,
+        now=now,
+        # During trading the sampler owns network loading. After the sampler
+        # stops at the close, one ordinary read may cold-load the exact curve;
+        # the gateway success cache prevents repeated provider calls.
+        load_missing=bool(
+            (record and phase == "trading")
+            or (not record and phase == "closed")
+        ),
+    )
     if record:
         current = store.record_snapshot(
-            trade_date=now.date(),
+            trade_date=effective_trade_date,
             minute_bucket=now,
             industry_records=values.get("industry_quotes", []),
             concept_records=values.get("concept_quotes", []),
@@ -2166,9 +2331,14 @@ def _attach_rotation_radar(
             market_phase=phase,
             received_at=now,
             config_version=ROTATION_CONFIG_VERSION,
+            supplemental_points=supplemental_points,
         )["current"]
     else:
-        current = store.get_current(now.date(), ROTATION_CONFIG_VERSION)
+        current = store.get_current(
+            effective_trade_date,
+            ROTATION_CONFIG_VERSION,
+            supplemental_points=supplemental_points,
+        )
         if int(current.get("sample_count") or 0) == 0:
             # A dashboard first opened after the session still gets a static
             # closing cross-section. It is never persisted or treated as a
@@ -2176,7 +2346,7 @@ def _attach_rotation_radar(
             transient = normalize_rotation_snapshot(
                 values.get("industry_quotes", []),
                 values.get("concept_quotes", []),
-                minute_bucket=now,
+                minute_bucket=market_data.get("provider_as_of") or now,
                 sources={
                     "industry": statuses.get("industry_quotes", {}).get("source") or "unknown",
                     "concept": statuses.get("concept_quotes", {}).get("source") or "unknown",
@@ -2186,6 +2356,15 @@ def _attach_rotation_radar(
             current = analyze_rotation_snapshots(
                 [transient],
                 config_version=ROTATION_CONFIG_VERSION,
+            )
+            current["sector_flow_trajectory"] = analyze_sector_flow_snapshots(
+                [transient],
+                supplemental_points,
+            )
+            current["offense_sector_flow_trajectory"] = analyze_sector_flow_snapshots(
+                [transient],
+                supplemental_points,
+                direction="offense",
             )
     market_direction = (
         result.get("dynamics", {})
@@ -2198,6 +2377,30 @@ def _attach_rotation_radar(
         phase=phase,
         market_direction=market_direction,
     )
+    for field, direction in (
+        ("sector_flow_trajectory", "defense"),
+        ("offense_sector_flow_trajectory", "offense"),
+    ):
+        sector_flow = copy.deepcopy(current.get(field) or {})
+        if sector_flow:
+            sector_flow["direction"] = direction
+            sector_flow["market_phase"] = phase
+        else:
+            sector_flow = {
+                "contract": "sector_flow_trajectory.v1",
+                "schema_version": 1,
+                "direction": direction,
+                "status": "unavailable",
+                "trade_date": None,
+                "as_of": None,
+                "market_phase": phase,
+                "trajectory_scope": "trading_session_to_as_of",
+                "marginal_window_minutes": 5,
+                "sectors": [],
+                "flags": ["rotation_flow_view_unavailable"],
+                "reason": "rotation_flow_view_unavailable",
+            }
+        result[field] = sector_flow
     return result
 
 
@@ -2254,34 +2457,40 @@ def get_risk_appetite_data(
                         copy.deepcopy(_snapshot_cache),
                         trade_date,
                     )
-        jobs = {
-            "market_breadth": _fetch_market_breadth,
-            "industry_quotes": lambda: _fetch_board_quotes("industry"),
-            "concept_quotes": lambda: _fetch_board_quotes("concept"),
-            "leadership_pool": lambda: _fetch_leadership_pool(trade_date),
-        }
         values: dict[str, list[dict[str, Any]]] = {}
         statuses: dict[str, dict[str, Any]] = {}
-        with ThreadPoolExecutor(max_workers=4, thread_name_prefix="risk-data") as executor:
-            futures = {
-                executor.submit(
-                    _component,
+        # Breadth and both sector quote fetchers can all fall back to the same
+        # machine-local Eastmoney admission timeline. Submitting them together
+        # makes the third request exceed the bounded queue wait by design. Keep
+        # that provider-sensitive group ordered while the independent THS
+        # leadership request runs in parallel.
+        with ThreadPoolExecutor(max_workers=1, thread_name_prefix="risk-leadership") as executor:
+            leadership_future = executor.submit(
+                _component,
+                "leadership_pool",
+                lambda: _fetch_leadership_pool(trade_date),
+                force=force,
+                cache_identity=trade_date,
+            )
+            for name, fetcher in (
+                ("market_breadth", _fetch_market_breadth),
+                ("industry_quotes", lambda: _fetch_board_quotes("industry")),
+                ("concept_quotes", lambda: _fetch_board_quotes("concept")),
+            ):
+                values[name], statuses[name] = _component(
                     name,
                     fetcher,
                     force=force,
-                    cache_identity=trade_date if name == "leadership_pool" else None,
                     closed_trade_date=(
                         trade_date
                         if market_phase == "closed"
                         and name in {"industry_quotes", "concept_quotes"}
                         else None
                     ),
-                ): name
-                for name, fetcher in jobs.items()
-            }
-            for future in as_completed(futures):
-                name = futures[future]
-                values[name], statuses[name] = future.result()
+                )
+            values["leadership_pool"], statuses["leadership_pool"] = (
+                leadership_future.result()
+            )
 
         _derive_sector_flow_components(values, statuses)
         context_futures = _refresh_context_async(
@@ -2508,6 +2717,24 @@ def get_risk_appetite_data(
                 "events": [],
                 "error": str(exc),
             }
+            for field, direction in (
+                ("sector_flow_trajectory", "defense"),
+                ("offense_sector_flow_trajectory", "offense"),
+            ):
+                result[field] = {
+                    "contract": "sector_flow_trajectory.v1",
+                    "schema_version": 1,
+                    "direction": direction,
+                    "status": "unavailable",
+                    "trade_date": None,
+                    "as_of": None,
+                    "market_phase": market_phase,
+                    "trajectory_scope": "trading_session_to_as_of",
+                    "marginal_window_minutes": 5,
+                    "sectors": [],
+                    "flags": [f"rotation_flow_error:{type(exc).__name__}"],
+                    "reason": "rotation_flow_view_unavailable",
+                }
         result = _attach_provider_leader_fallbacks(
             result,
             board_records,

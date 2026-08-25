@@ -522,13 +522,19 @@ def test_em_get_uses_worker_local_sessions_without_serialising_network(monkeypat
     assert len(session_ids) == 2
 
 
-def test_em_get_fails_fast_when_the_provider_queue_is_busy(monkeypatch):
+def test_em_get_fails_fast_when_the_provider_queue_is_busy(
+    monkeypatch, tmp_path
+):
     from astock_signals.smart_router import SourceBusyError
 
-    monkeypatch.setattr(
-        anti_ban_client, "_em_next_slot", [time.monotonic() + 5.0]
+    monkeypatch.setenv(
+        "TRADEX_RATE_LIMIT_STATE_FILE",
+        str(tmp_path / "provider-rate-limits.sqlite3"),
     )
+    monkeypatch.setattr(anti_ban_client, "_EM_MIN_INTERVAL", 1.0)
     monkeypatch.setattr(anti_ban_client, "_EM_MAX_QUEUE_WAIT", 0.01)
+    monkeypatch.setattr(anti_ban_client.random, "uniform", lambda *_: 0.0)
+    anti_ban_client.reserve_em_request_slot()
 
     with pytest.raises(SourceBusyError, match="queue is busy"):
         em_client.em_get("https://example.test/busy")
