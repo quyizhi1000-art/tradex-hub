@@ -8,6 +8,17 @@
 - Do not add a full suite, build, browser run, online check, repeated passing test, or speculative follow-up audit to a small task. A failed focused check may be rerun only after its concrete cause has changed.
 - If the initial read shows that the task crosses one of the excluded boundaries, leave the small-task path and state the concrete reason before expanding execution.
 
+## Regression safety and causal verification
+
+- Treat preservation of relevant existing correct behavior as part of every fix or optimization's acceptance criteria, not as an optional follow-up. Before editing, identify the exact requested change, the real entrypoint and runtime owner, the affected callers or consumers, and the closest behaviors that must remain unchanged.
+- Establish causality before changing code whenever the issue can be reproduced safely. Use the smallest deterministic test, probe, log, API readback, or visible-state check that distinguishes a regression caused by the current code from a pre-existing defect, stale process, cache, browser asset, or changed data state. Do not roll back or modify code based only on temporal correlation.
+- Make the narrowest coherent diff that satisfies the request. Do not combine it with unrelated refactors, renames, formatting, cleanup, dependency changes, or silent changes to defaults, fallback behavior, error handling, timestamps, units, freshness, or data semantics.
+- For changes to shared functions, contracts, refresh/cache/single-flight ownership, persisted state, or interface payloads, inspect the relevant callers before editing. If that inspection reveals a cross-boundary impact, leave the small-task path and state the concrete expanded risk before proceeding.
+- When meaningful, add or update a regression test that proves the requested scenario and the nearest protected sibling behavior. If a useful automated test is not feasible, state why and use the closest deterministic evidence instead; never present an untested assumption as proof.
+- After one coherent edit batch, run the nearest affected test or domain suite once. For runtime or user-visible defects, also use the cheapest direct readback that proves the active entrypoint, served asset, API, or managed process actually loaded the change; add a browser run only when the affected interaction or layout cannot be verified more cheaply. Source inspection or local test success alone is not live-runtime proof.
+- Before handoff, inspect the final diff for unintended deletions, broadened conditions, changed defaults, and edits outside the declared scope. Report the files changed, protected behaviors checked, validations passed or failed, layers intentionally not verified, and what remains for CI. Do not promise zero regressions or describe an unverified layer as working.
+- If the requested optimization conflicts with an existing correct behavior or business invariant, challenge the request with concrete evidence before changing that behavior. Do not silently choose one side of the conflict.
+
 ## Tradex MCP tool profiles
 
 - The default `tradex` MCP entry exposes only the eight core discovery and market-read tools in `.codex/config.toml`.

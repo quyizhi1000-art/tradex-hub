@@ -221,6 +221,7 @@ def test_fetch_board_leaders_uses_a_bounded_first_page_and_preserves_missing(mon
                     "f14": "领涨一号",
                     "f2": 12.3,
                     "f3": 9.9,
+                    "f22": 1.2,
                     "f6": 800_000_000,
                     "f8": 7.1,
                     "f62": 50_000_000,
@@ -245,14 +246,15 @@ def test_fetch_board_leaders_uses_a_bounded_first_page_and_preserves_missing(mon
     assert calls[0][1]["pn"] == "1"
     assert calls[0][1]["pz"] == "2"
     assert calls[0][1]["po"] == "1"
-    assert calls[0][1]["fid"] == "f3"
+    assert calls[0][1]["fid"] == "f22"
     assert calls[0][1]["fs"] == "b:BK1036 f:!50"
-    assert calls[0][1]["fields"] == "f12,f14,f2,f3,f6,f8,f62,f184,f124"
+    assert calls[0][1]["fields"] == "f12,f14,f2,f3,f22,f6,f8,f62,f184,f124"
     assert records[0] == {
         "code": "600001",
         "name": "领涨一号",
         "price": 12.3,
         "change_pct": 9.9,
+        "speed_pct": 1.2,
         "amount": 800_000_000.0,
         "turnover": 7.1,
         "flow_amount": 50_000_000.0,
@@ -261,6 +263,7 @@ def test_fetch_board_leaders_uses_a_bounded_first_page_and_preserves_missing(mon
         "source": "push2",
     }
     assert records[1]["price"] is None
+    assert records[1]["speed_pct"] is None
     assert records[1]["amount"] is None
     assert records[1]["provider_as_of"] is None
     assert result.attrs["source"] == "push2"

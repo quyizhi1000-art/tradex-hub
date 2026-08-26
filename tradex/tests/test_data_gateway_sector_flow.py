@@ -10,6 +10,7 @@ import pytest
 
 from tradex.data_gateway import (
     SectorFundFlowBackfillCache,
+    SectorFundFlowStore,
     fetch_sector_intraday_fund_flow,
     fetch_sector_intraday_fund_flow_backfill,
 )
@@ -248,3 +249,160 @@ def test_backfill_cache_is_success_only_and_read_paths_do_not_start_network_call
     assert loaded == cached
     assert len(loaded["electric_power"]) == 6
     assert loaded["electric_power"][0]["source_family"] == "eastmoney"
+
+
+def test_backfill_success_survives_process_cache_restart(tmp_path):
+    db_path = tmp_path / "sector-flow.sqlite3"
+    first_router = _Router()
+    with SectorFundFlowStore(db_path) as first_store:
+        first_cache = SectorFundFlowBackfillCache(store=first_store)
+        first = fetch_sector_intraday_fund_flow_backfill(
+            (TARGET,),
+            trading_date=TRADE_DATE,
+            now=NOW,
+            router=first_router,
+            cache=first_cache,
+            load_missing=True,
+        )
+
+    second_router = _Router()
+    with SectorFundFlowStore(db_path) as second_store:
+        second_cache = SectorFundFlowBackfillCache(store=second_store)
+        restored = fetch_sector_intraday_fund_flow_backfill(
+            (TARGET,),
+            trading_date=TRADE_DATE,
+            now=NOW,
+            router=second_router,
+            cache=second_cache,
+            load_missing=False,
+        )
+
+    assert len(first_router.calls) == 1
+    assert second_router.calls == []
+    assert restored == first
+
+
+def test_persistent_backfill_store_never_replaces_a_longer_curve_with_shorter_data(
+    tmp_path,
+):
+    full = fetch_sector_intraday_fund_flow(
+        **TARGET,
+        trading_date=TRADE_DATE,
+        now=NOW,
+        router=_Router(),
+    )
+    short_points = full.points[:2]
+    shorter = full.model_copy(
+        update={
+            "metadata": full.metadata.model_copy(
+                update={
+                    "provider_as_of": short_points[-1].provider_as_of,
+                    "fetched_at": NOW + timedelta(minutes=1),
+                }
+            ),
+            "points": short_points,
+        }
+    )
+
+    with SectorFundFlowStore(tmp_path / "preserve.sqlite3") as store:
+        assert store.record(full)["action"] == "inserted"
+        preserved = store.record(shorter)
+        restored = store.get_best(TRADE_DATE, TARGET["sector_key"])
+
+    assert preserved["action"] == "preserved"
+    assert restored is not None
+    assert restored.points == full.points
+
+
+def test_explicit_backfill_refresh_is_bounded_and_keeps_last_success_on_failure():
+    cache = SectorFundFlowBackfillCache(refresh_min_interval_seconds=300)
+    router = _Router()
+
+    first = fetch_sector_intraday_fund_flow_backfill(
+        (TARGET,),
+        trading_date=TRADE_DATE,
+        now=NOW,
+        router=router,
+        cache=cache,
+        load_missing=True,
+    )
+    bounded = fetch_sector_intraday_fund_flow_backfill(
+        (TARGET,),
+        trading_date=TRADE_DATE,
+        now=NOW + timedelta(minutes=1),
+        router=router,
+        cache=cache,
+        refresh_existing=True,
+    )
+    router.fail_first = False
+    original_route = router.route_validated
+
+    def fail_refresh(*args, **kwargs):
+        raise RuntimeError("refresh unavailable")
+
+    router.route_validated = fail_refresh
+    stale_success = fetch_sector_intraday_fund_flow_backfill(
+        (TARGET,),
+        trading_date=TRADE_DATE,
+        now=NOW + timedelta(minutes=6),
+        router=router,
+        cache=cache,
+        refresh_existing=True,
+    )
+    router.route_validated = original_route
+
+    assert len(router.calls) == 1
+    assert bounded == first
+    assert stale_success == first
+
+
+def test_collector_refresh_repairs_missing_curve_minutes_and_persists_them(
+    tmp_path,
+):
+    class GrowingRouter:
+        def __init__(self) -> None:
+            self.calls = 0
+
+        def route_validated(self, _data_type, validator, **kwargs):
+            self.calls += 1
+            frame = _frame(kwargs["trade_date"])
+            if self.calls == 1:
+                frame = frame.iloc[[0, 2]].reset_index(drop=True)
+                frame.attrs["provider_request_id"] = "partial-curve"
+            else:
+                frame.attrs["provider_request_id"] = "repaired-curve"
+            return validator(frame, "eastmoney"), "eastmoney"
+
+    db_path = tmp_path / "gap-repair.sqlite3"
+    router = GrowingRouter()
+    with SectorFundFlowStore(db_path) as store:
+        cache = SectorFundFlowBackfillCache(
+            store=store,
+            refresh_min_interval_seconds=0,
+        )
+        partial = fetch_sector_intraday_fund_flow_backfill(
+            (TARGET,),
+            trading_date=TRADE_DATE,
+            now=NOW,
+            router=router,
+            cache=cache,
+            load_missing=True,
+        )
+        repaired = fetch_sector_intraday_fund_flow_backfill(
+            (TARGET,),
+            trading_date=TRADE_DATE,
+            now=NOW + timedelta(minutes=5),
+            router=router,
+            cache=cache,
+            refresh_existing=True,
+        )
+
+    with SectorFundFlowStore(db_path) as reopened:
+        restored = reopened.get_best(TRADE_DATE, TARGET["sector_key"])
+
+    assert router.calls == 2
+    assert len(partial[TARGET["sector_key"]]) == 2
+    assert len(repaired[TARGET["sector_key"]]) == 6
+    assert repaired[TARGET["sector_key"]][1]["provider_as_of"].minute == 32
+    assert restored is not None
+    assert len(restored.points) == 6

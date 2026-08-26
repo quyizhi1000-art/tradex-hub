@@ -175,7 +175,9 @@ class Config:
         (
             "realtime_quote,historical_kline,auction_data,market_universe,"
             "etf_quotes,stock_fund_flow,dragon_tiger_market_day,"
-            "minute_data"
+            "minute_data,stock_selection_calendar,stock_selection_daily,"
+            "stock_selection_daily_basic,stock_selection_master,"
+            "stock_selection_financial_period"
         ),
     )
     """已验证且可逐项回滚的 Tushare priority=1 能力"""

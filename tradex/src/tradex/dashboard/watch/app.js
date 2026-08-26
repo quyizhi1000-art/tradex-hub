@@ -1,20 +1,47 @@
 (() => {
   "use strict";
 
-  const API_ENDPOINT = "/api/market-watch";
+  const COLLECTION_STATUS_ENDPOINT = "/api/market-watch/collection-status";
+  const DAILY_RECOVERY_ENDPOINT = "/api/market-watch/daily-recovery";
+  const SUMMARY_ENDPOINT = "/api/market-watch/summary";
+  const TRAJECTORY_ENDPOINT = "/api/market-watch/trajectory";
   const HISTORY_ENDPOINT = "/api/market-watch/history";
   const EVALUATION_ENDPOINT = "/api/market-watch/evaluation";
   const REVIEW_HISTORY_ENDPOINT = "/api/post-market-review/history";
   const REVIEW_GENERATE_ENDPOINT = "/api/post-market-review";
+  const STOCK_SELECTION_HISTORY_ENDPOINT = "/api/daily-stock-selection/history";
+  const STOCK_SELECTION_GENERATE_ENDPOINT = "/api/daily-stock-selection";
+  const STOCK_SELECTION_GENERATION_ENDPOINT = "/api/daily-stock-selection/generation";
+  const CURRENT_STOCK_SELECTION_CONFIG = "daily-stock-selection-balanced.v2";
   const POLL_INTERVAL_MS = 15_000;
+  const POLL_WATCHDOG_INTERVAL_MS = 1_000;
   const REPLAY_REFRESH_INTERVAL_MS = 60_000;
   const REVIEW_REFRESH_INTERVAL_MS = 60_000;
+  const STOCK_SELECTION_REFRESH_INTERVAL_MS = 60_000;
+  const COLLECTOR_HEARTBEAT_STALE_MS = 90_000;
   const ALERT_COOLDOWN_MS = 5 * 60 * 1000;
+  const SECTOR_MOVE_MAX_AGE_MS = 120_000;
   const MAX_STORED_ALERT_KEYS = 200;
   const MAX_SECTOR_FLOW_SERIES = 48;
-  const MAX_SECTOR_FLOW_CHART_SERIES = 16;
-  const SECTOR_FLOW_SYMLOG_CONSTANT_CNY = 100_000_000;
+  const MAX_SECTOR_FLOW_CHART_SERIES = 48;
+  const MAX_SECTOR_FLOW_ENDPOINT_LABELS = 48;
+  const SECTOR_FLOW_ENDPOINT_DENSITY_WEIGHT = 0.65;
   const SECTOR_FLOW_ENDPOINT_GAP_PX = 15;
+  const SECTOR_FLOW_HIT_STROKE_PX = 10;
+  const SECTOR_FLOW_LUNCH_GAP_MINUTES = 18;
+  const MAX_SECTOR_FLOW_SAMPLE_GAP_MINUTES = 5;
+  const SECTOR_FLOW_COLOR_SLOT_COUNT = 72;
+  const SECTOR_FLOW_HUE_ORDER = [
+    0, 8, 4, 12, 2, 10, 6, 14,
+    1, 9, 5, 13, 3, 11, 7, 15,
+  ];
+  const SECTOR_FLOW_COLOR_BANDS = [
+    [94, 62],
+    [72, 76],
+    [100, 50],
+    [62, 66],
+    [88, 84],
+  ];
   const DEFAULT_SECTOR_FLOW_SELECTIONS = {
     defense: [
       "electric_power", "agriculture", "precious_metals", "oil_gas",
@@ -28,32 +55,6 @@
   };
   const DEFAULT_SECTOR_FLOW_SURGE_THRESHOLD = 0.5;
   const SVG_NAMESPACE = "http://www.w3.org/2000/svg";
-  const SECTOR_FLOW_COLORS = {
-    electric_power: "#ff7c79",
-    agriculture: "#f4bb5f",
-    precious_metals: "#c58cff",
-    oil_gas: "#ff9b69",
-    ports: "#55c8d2",
-    baijiu: "#f0cf65",
-    retail: "#78a9ff",
-    bank: "#8799a4",
-    coal: "#d6a764",
-    food_beverage: "#ff9fb2",
-    insurance: "#98a8ff",
-    gas: "#6bc8a4",
-    traditional_chinese_medicine: "#9dd27d",
-    white_goods: "#78b7de",
-    water_utilities: "#65ced8",
-    highway: "#bd9e7b",
-    semiconductor: "#ff7c79",
-    software_development: "#c58cff",
-    communication_equipment: "#55c8d2",
-    automation_equipment: "#f4bb5f",
-    consumer_electronics: "#78a9ff",
-    battery: "#ff9b69",
-    photovoltaic_equipment: "#f0cf65",
-    defense: "#d98b72",
-  };
   const STORAGE_KEYS = {
     deliveredAlerts: "tradex.marketWatch.deliveredAlerts.v1",
     readAlerts: "tradex.marketWatch.readAlerts.v1",
@@ -85,7 +86,11 @@
   const state = {
     alerts: [],
     audioContext: null,
-    backgroundRefresh: false,
+    collectionStatus: null,
+    collectionStatusEtag: null,
+    recoveryRequestInFlight: false,
+    detailEtags: new Map(),
+    detailPayloads: new Map(),
     deliveredAlertKeys: loadStoredObject(STORAGE_KEYS.deliveredAlerts),
     evaluationDays: null,
     fetchFailed: false,
@@ -93,6 +98,7 @@
     lastFetchError: null,
     lastAlertAt: Number(readStoredText(STORAGE_KEYS.lastAlertAt, "0")) || 0,
     lastSnapshot: null,
+    lastSummary: null,
     lastSuccessAt: 0,
     muted: readStoredText(STORAGE_KEYS.muted) === "true",
     nextPollAt: 0,
@@ -108,15 +114,33 @@
     reviewGenerateInFlight: false,
     reviewHasLoaded: false,
     reviewHistory: null,
+    reviewHighlightTerms: new Map(),
     reviewSchedule: {
-      manual_after: "20:30",
+      manual_after: "17:30",
       automatic_if_missing_after: "21:00",
       timezone: "Asia/Shanghai",
     },
     reviewTradeDate: null,
+    stockSelectionFetchInFlight: false,
+    stockSelectionGenerateInFlight: false,
+    stockSelectionGenerationPhase: "idle",
+    stockSelectionGenerationPollInFlight: false,
+    stockSelectionHasLoaded: false,
+    stockSelectionHistory: null,
+    stockSelectionSchedule: {
+      manual_after: "18:00",
+      automatic_if_missing_after: "18:30",
+      timezone: "Asia/Shanghai",
+    },
+    stockSelectionTradeDate: null,
     sectorFlowMode: {
       defense: "cumulative",
       offense: "cumulative",
+    },
+    summaryEtag: null,
+    trajectoryDetails: {
+      defense: new Map(),
+      offense: new Map(),
     },
     sectorFlowSelection: readStoredText(STORAGE_KEYS.sectorFlowSelection) === null
       ? null
@@ -592,24 +616,21 @@
     const directionLabels = { expand: "放量", shrink: "缩量", flat: "持平", unknown: "待判断" };
     const ratio = available ? ratioAsPercent(comparison.difference_ratio) : null;
     const neutralBand = available ? ratioAsPercent(comparison.neutral_band_ratio) : null;
+    const dock = document.querySelector("[data-turnover-dock]");
+    if (!dock) return;
 
     byId("turnover-today").textContent = available ? formatCny(comparison.today_amount_cny) : "--";
     byId("turnover-previous").textContent = available ? formatCny(comparison.previous_same_time_amount_cny) : "--";
-    const difference = byId("turnover-difference");
-    difference.textContent = available ? formatCny(comparison.difference_cny, true) : "--";
-    setTone(difference, available ? comparison.difference_cny : null);
     const ratioNode = byId("turnover-ratio");
-    ratioNode.textContent = available ? formatRatio(comparison.difference_ratio) : "--";
-    setTone(ratioNode, available ? ratio : null);
-
+    const differenceNode = byId("turnover-difference");
     const badgeDirection = available ? comparison.direction : "unknown";
-    const badge = byId("turnover-direction");
-    badge.textContent = stale
-      ? `延迟 · ${directionLabels[badgeDirection]}`
-      : available
-        ? directionLabels[badgeDirection]
-        : "不可用";
-    badge.className = `direction-badge direction-${badgeDirection}`;
+    ratioNode.textContent = available
+      ? `${stale ? "延迟 · " : ""}${directionLabels[badgeDirection]} ${formatRatio(comparison.difference_ratio)}`
+      : "不可用";
+    differenceNode.textContent = available ? `差 ${formatCny(comparison.difference_cny, true)}` : "差 --";
+    setTone(ratioNode, available ? ratio : null);
+    setTone(differenceNode, available ? comparison.difference_cny : null);
+    dock.classList.toggle("is-unavailable", !available);
     const definition = neutralBand === null
       ? "仅比较昨日同一交易分钟，不与昨日全天成交额混比。"
       : `仅比较昨日同一交易分钟；±${neutralBand.toFixed(1)}% 以内按持平处理。`;
@@ -618,11 +639,16 @@
       : comparison === null && turnover.available === true
         ? "成交额数据字段不完整，暂时无法显示。"
         : "成交额数据暂不可用。";
-    byId("turnover-note").textContent = !available
+    const detail = !available
       ? unavailableReason
       : stale
         ? `数据延迟；截至 ${comparison.as_of}。${definition}`
         : definition;
+    const accessibleSummary = available
+      ? `全 A 成交额今日累计 ${formatCny(comparison.today_amount_cny)}，昨日同期 ${formatCny(comparison.previous_same_time_amount_cny)}，${directionLabels[badgeDirection]} ${formatRatio(comparison.difference_ratio)}，金额差 ${formatCny(comparison.difference_cny, true)}。${detail}`
+      : `全 A 成交额与昨日同期：${detail}`;
+    dock.setAttribute("aria-label", accessibleSummary);
+    dock.setAttribute("title", accessibleSummary);
   }
 
   function createSvgElement(tag, attributes = {}) {
@@ -656,16 +682,22 @@
     return `${sign}${absolute.toFixed(0)}`;
   }
 
-  function sectorFlowSymlog(value) {
-    if (!Number.isFinite(value) || value === 0) return 0;
-    return Math.sign(value)
-      * Math.log1p(Math.abs(value) / SECTOR_FLOW_SYMLOG_CONSTANT_CNY);
-  }
-
-  function sectorFlowSymlogInverse(value) {
-    if (!Number.isFinite(value) || value === 0) return 0;
-    return Math.sign(value)
-      * Math.expm1(Math.abs(value)) * SECTOR_FLOW_SYMLOG_CONSTANT_CNY;
+  function sectorFlowEndpointRank(value, endpointValues) {
+    if (endpointValues.length < 2) return 0.5;
+    if (value <= endpointValues[0]) return 0;
+    const finalIndex = endpointValues.length - 1;
+    if (value >= endpointValues[finalIndex]) return 1;
+    let lowerIndex = 0;
+    let upperIndex = finalIndex;
+    while (upperIndex - lowerIndex > 1) {
+      const middleIndex = Math.floor((lowerIndex + upperIndex) / 2);
+      if (endpointValues[middleIndex] <= value) lowerIndex = middleIndex;
+      else upperIndex = middleIndex;
+    }
+    const lowerValue = endpointValues[lowerIndex];
+    const upperValue = endpointValues[upperIndex];
+    const ratio = upperValue === lowerValue ? 0 : (value - lowerValue) / (upperValue - lowerValue);
+    return (lowerIndex + ratio) / finalIndex;
   }
 
   function sectorFlowPayload(snapshot, scope) {
@@ -791,12 +823,24 @@
       );
       options.append(label);
     });
+    updateSectorFlowPickerSummary(payload, displayPayload, scope);
+  }
+
+  function updateSectorFlowPickerSummary(payload, displayPayload, scope) {
+    const selected = ensureSectorFlowSelection(payload);
     const selectedAvailable = payload.sectors.filter((item) => (
       selected.has(text(item.sector_key, ""))
     )).length;
     sectorFlowElement(scope, "selection-count").textContent = `${selectedAvailable} / ${payload.sectors.length}`;
     sectorFlowElement(scope, "auto-count").textContent = `突变越权 ${displayPayload.overrideCount}`;
     sectorFlowElement(scope, "surge-threshold").value = String(state.sectorFlowSurgeThreshold);
+    const keys = payload.sectors.map((item) => text(item.sector_key, "")).filter(Boolean);
+    const allSelected = keys.length > 0 && keys.every((key) => selected.has(key));
+    const button = document.querySelector(
+      `[data-sector-flow-action="select-all"][data-flow-scope="${scope}"]`,
+    );
+    button.textContent = allSelected ? "取消全选" : "全选";
+    button.setAttribute("aria-pressed", String(allSelected));
   }
 
   function sectorFlowPointValue(point, mode) {
@@ -824,7 +868,7 @@
       return minute - (9 * 60 + 30);
     }
     if (segment === "pm" && minute >= 13 * 60 && minute <= 15 * 60) {
-      return 120 + minute - 13 * 60;
+      return 120 + SECTOR_FLOW_LUNCH_GAP_MINUTES + minute - 13 * 60;
     }
     return null;
   }
@@ -836,10 +880,12 @@
 
   function formatSectorFlowTradingMinute(value) {
     if (!Number.isFinite(value)) return "--";
-    if (Math.abs(value - 120) < 0.01) return "11:30 / 13:00";
+    if (value >= 120 && value <= 120 + SECTOR_FLOW_LUNCH_GAP_MINUTES) {
+      return "11:30 / 13:00";
+    }
     return value < 120
       ? formatMinuteOfDay(9 * 60 + 30 + value)
-      : formatMinuteOfDay(13 * 60 + value - 120);
+      : formatMinuteOfDay(13 * 60 + value - 120 - SECTOR_FLOW_LUNCH_GAP_MINUTES);
   }
 
   function sectorFlowSegments(item, mode) {
@@ -870,7 +916,16 @@
       }
       if (
         current.length
-        && (segment !== previousSegment || (previousTime !== null && time <= previousTime))
+        && (
+          segment !== previousSegment
+          || (
+            previousTime !== null
+            && (
+              time <= previousTime
+              || (time - previousTime) / 60_000 > MAX_SECTOR_FLOW_SAMPLE_GAP_MINUTES
+            )
+          )
+        )
       ) {
         flush();
       }
@@ -882,15 +937,64 @@
     return segments;
   }
 
+  function sectorFlowPathData(segments, x, y) {
+    const commands = [];
+    let previousEndpoint = null;
+    asArray(segments).forEach((segment) => {
+      if (!Array.isArray(segment) || segment.length < 2) return;
+      const first = segment[0];
+      const canBridgeLunch = previousEndpoint
+        && previousEndpoint.segment === "am"
+        && first.segment === "pm"
+        && previousEndpoint.tradingMinute >= 120 - MAX_SECTOR_FLOW_SAMPLE_GAP_MINUTES
+        && first.tradingMinute <= 120 + SECTOR_FLOW_LUNCH_GAP_MINUTES
+          + MAX_SECTOR_FLOW_SAMPLE_GAP_MINUTES;
+      if (canBridgeLunch) {
+        const startX = x(previousEndpoint.tradingMinute);
+        const startY = y(previousEndpoint.value);
+        const endX = x(first.tradingMinute);
+        const endY = y(first.value);
+        const bridgeSpan = Math.max(0, endX - startX);
+        const controlX1 = startX + bridgeSpan * 0.42;
+        const controlX2 = endX - bridgeSpan * 0.42;
+        commands.push(`C${controlX1.toFixed(2)},${startY.toFixed(2)} ${controlX2.toFixed(2)},${endY.toFixed(2)} ${endX.toFixed(2)},${endY.toFixed(2)}`);
+        segment.slice(1).forEach((point) => {
+          commands.push(`L${x(point.tradingMinute).toFixed(2)},${y(point.value).toFixed(2)}`);
+        });
+      } else {
+        segment.forEach((point, index) => {
+          commands.push(`${index ? "L" : "M"}${x(point.tradingMinute).toFixed(2)},${y(point.value).toFixed(2)}`);
+        });
+      }
+      previousEndpoint = segment[segment.length - 1];
+    });
+    return commands.join(" ");
+  }
+
   function hasRenderableSectorFlow(item, mode) {
     return sectorFlowSegments(item, mode).some((segment) => segment.length >= 2);
   }
 
-  function sectorFlowColor(item, index) {
-    return SECTOR_FLOW_COLORS[text(item.sector_key, "")] || [
-      "#ff7c79", "#f4bb5f", "#55c8d2", "#c58cff",
-      "#78a9ff", "#ff9b69", "#f0cf65", "#8799a4",
-    ][index % 8];
+  function sectorFlowPaletteColor(slot) {
+    const hueSlot = SECTOR_FLOW_HUE_ORDER[slot % SECTOR_FLOW_HUE_ORDER.length];
+    const band = Math.floor(slot / SECTOR_FLOW_HUE_ORDER.length);
+    const hue = hueSlot * (360 / SECTOR_FLOW_HUE_ORDER.length);
+    const [saturation, lightness] = SECTOR_FLOW_COLOR_BANDS[band];
+    return `hsl(${hue.toFixed(1)} ${saturation}% ${lightness}%)`;
+  }
+
+  function sectorFlowSeries(payload, mode) {
+    return asArray(payload?.sectors)
+      .map((item) => ({
+        item,
+        segments: sectorFlowSegments(item, mode),
+      }))
+      .filter((entry) => entry.segments.some((segment) => segment.length >= 2))
+      .slice(0, MAX_SECTOR_FLOW_CHART_SERIES)
+      .map((entry, index) => ({
+        ...entry,
+        color: sectorFlowPaletteColor(index),
+      }));
   }
 
   function hideSectorFlowTooltip(scope) {
@@ -917,14 +1021,70 @@
     tooltip.style.top = `${top}px`;
   }
 
+  function nearestSectorFlowObservedPoint(event, svg, entry, x) {
+    const matrix = svg.getScreenCTM();
+    if (!matrix) return null;
+    const pointer = svg.createSVGPoint();
+    pointer.x = event.clientX;
+    pointer.y = event.clientY;
+    const pointerX = pointer.matrixTransform(matrix.inverse()).x;
+    return entry.segments.flat().reduce((nearest, point) => {
+      const distance = Math.abs(x(point.tradingMinute) - pointerX);
+      return !nearest || distance < nearest.distance ? { point, distance } : nearest;
+    }, null)?.point || null;
+  }
+
+  function focusSectorFlowSeries(svg, sectorKey = null) {
+    const groups = [...svg.querySelectorAll("[data-sector-flow]")];
+    groups.forEach((group) => {
+      const active = !sectorKey || group.dataset.sectorFlow === sectorKey;
+      const line = group.querySelector("[data-sector-flow-line]");
+      const endpoint = group.querySelector("[data-sector-flow-endpoint]");
+      const label = group.querySelector("[data-sector-flow-endpoint-label]");
+      if (line) {
+        line.setAttribute(
+          "stroke-opacity",
+          sectorKey
+            ? (active ? "1" : "0")
+            : text(group.dataset.defaultStrokeOpacity, "0.88"),
+        );
+        line.setAttribute(
+          "stroke-width",
+          sectorKey
+            ? (active ? "2.9" : "1.15")
+            : text(group.dataset.defaultStrokeWidth, "2.1"),
+        );
+      }
+      if (endpoint) endpoint.setAttribute("fill-opacity", sectorKey && !active ? "0" : "1");
+      if (label) label.setAttribute("fill-opacity", sectorKey && !active ? "0" : "1");
+    });
+  }
+
+  function setSectorFlowSeriesLock(svg, sectorKey = null) {
+    const lockedSectorKey = sectorKey && [...svg.querySelectorAll("[data-sector-flow]")]
+      .some((group) => group.dataset.sectorFlow === sectorKey)
+      ? sectorKey
+      : null;
+    if (lockedSectorKey) svg.dataset.lockedSectorFlow = lockedSectorKey;
+    else delete svg.dataset.lockedSectorFlow;
+    focusSectorFlowSeries(svg, lockedSectorKey);
+  }
+
   function renderSectorFlowLegend(series, scope) {
     const legend = sectorFlowElement(scope, "legend");
+    const svg = sectorFlowElement(scope, "chart");
     legend.replaceChildren();
     series.forEach(({ item, color }) => {
+      const sectorKey = text(item.sector_key, "unknown");
       const entry = createElement("span", "sector-flow-legend-item");
       const swatch = createElement("i");
       swatch.style.background = color;
       entry.append(swatch, document.createTextNode(text(item.name, item.sector_key)));
+      entry.tabIndex = 0;
+      entry.addEventListener("click", (event) => {
+        event.stopPropagation();
+        setSectorFlowSeriesLock(svg, sectorKey);
+      });
       legend.append(entry);
     });
   }
@@ -934,14 +1094,7 @@
     svg.replaceChildren();
 
     const mode = state.sectorFlowMode[scope];
-    const series = asArray(payload?.sectors)
-      .map((item, index) => ({
-        color: sectorFlowColor(item, index),
-        item,
-        segments: sectorFlowSegments(item, mode),
-      }))
-      .filter((entry) => entry.segments.some((segment) => segment.length >= 2))
-      .slice(0, MAX_SECTOR_FLOW_CHART_SERIES);
+    const series = sectorFlowSeries(payload, mode);
     if (!series.length) {
       const message = createSvgElement("text", {
         x: 210,
@@ -996,11 +1149,8 @@
       const group = createSvgElement("g", {
         "data-mini-sector-flow": text(entry.item.sector_key, "unknown"),
       });
-      entry.segments.forEach((segment) => {
-        if (segment.length < 2) return;
-        const pathData = segment
-          .map((point, index) => `${index ? "L" : "M"}${x(point.tradingMinute).toFixed(2)},${y(point.value).toFixed(2)}`)
-          .join(" ");
+      const pathData = sectorFlowPathData(entry.segments, x, y);
+      if (pathData) {
         group.append(createSvgElement("path", {
           d: pathData,
           fill: "none",
@@ -1011,26 +1161,20 @@
           "stroke-width": 1.55,
           "vector-effect": "non-scaling-stroke",
         }));
-      });
+      }
       svg.append(group);
     });
   }
 
   function renderSectorFlowChart(payload, scope) {
     const svg = sectorFlowElement(scope, "chart");
+    const shell = sectorFlowElement(scope, "chart-shell");
     const empty = sectorFlowElement(scope, "empty");
     svg.replaceChildren();
     hideSectorFlowTooltip(scope);
 
     const mode = state.sectorFlowMode[scope];
-    const series = payload.sectors
-      .map((item, index) => ({
-        color: sectorFlowColor(item, index),
-        item,
-        segments: sectorFlowSegments(item, mode),
-      }))
-      .filter((entry) => entry.segments.some((segment) => segment.length >= 2))
-      .slice(0, MAX_SECTOR_FLOW_CHART_SERIES);
+    const series = sectorFlowSeries(payload, mode);
     if (!series.length) {
       empty.hidden = false;
       empty.textContent = mode === "delta_5m"
@@ -1042,9 +1186,18 @@
     empty.hidden = true;
 
     const width = 980;
-    const height = 360;
     const margin = { top: 24, right: 185, bottom: 38, left: 72 };
-    const plotRight = width - margin.right;
+    const endpointLabelCount = series.filter((entry) => (
+      [...entry.segments].reverse().some((segment) => segment.length >= 2)
+    )).length;
+    const height = Math.max(
+      360,
+      margin.top + margin.bottom + 14
+        + Math.max(0, endpointLabelCount - 1) * SECTOR_FLOW_ENDPOINT_GAP_PX,
+    );
+    svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
+    shell.style.height = `${height}px`;
+    svg.style.height = `${height}px`;
     const plotBottom = height - margin.bottom;
     const allPoints = series.flatMap((entry) => entry.segments.flat());
     let xMin = Math.min(...allPoints.map((point) => point.tradingMinute));
@@ -1054,11 +1207,10 @@
       xMax += 1;
     }
     const values = [0, ...allPoints.map((point) => point.value)];
-    const transformedValues = values.map(sectorFlowSymlog);
-    let yScaleMin = Math.min(...transformedValues);
-    let yScaleMax = Math.max(...transformedValues);
+    let yScaleMin = Math.min(...values);
+    let yScaleMax = Math.max(...values);
     if (yScaleMin === yScaleMax) {
-      const pad = Math.max(Math.abs(yScaleMin) * 0.1, Math.log(2));
+      const pad = Math.max(Math.abs(yScaleMin) * 0.1, 100_000_000);
       yScaleMin -= pad;
       yScaleMax += pad;
     } else {
@@ -1066,94 +1218,32 @@
       yScaleMin -= pad;
       yScaleMax += pad;
     }
-    const x = (value) => margin.left + ((value - xMin) / (xMax - xMin)) * (plotRight - margin.left);
-    const baseY = (transformedValue) => margin.top
-      + ((yScaleMax - transformedValue) / (yScaleMax - yScaleMin))
-        * (plotBottom - margin.top);
-    const endpointScaleRows = series
-      .map((entry) => {
-        const finalSegment = [...entry.segments].reverse().find((segment) => segment.length >= 2);
-        const endpoint = finalSegment ? finalSegment[finalSegment.length - 1] : null;
-        if (!endpoint) return null;
-        const transformedValue = sectorFlowSymlog(endpoint.value);
-        return { transformedValue, baseY: baseY(transformedValue) };
-      })
-      .filter(Boolean)
-      .sort((left, right) => left.baseY - right.baseY);
-    const effectiveEndpointGap = endpointScaleRows.length > 1
-      ? Math.min(
-        SECTOR_FLOW_ENDPOINT_GAP_PX,
-        (plotBottom - margin.top - 14) / (endpointScaleRows.length - 1),
-      )
-      : SECTOR_FLOW_ENDPOINT_GAP_PX;
-    endpointScaleRows.forEach((row, index) => {
-      const minimum = index === 0
-        ? margin.top + 7
-        : endpointScaleRows[index - 1].allocatedY + effectiveEndpointGap;
-      row.allocatedY = Math.max(row.baseY, minimum);
-    });
-    if (endpointScaleRows.length) {
-      const overflow = endpointScaleRows[endpointScaleRows.length - 1].allocatedY - (plotBottom - 7);
-      if (overflow > 0) {
-        endpointScaleRows[endpointScaleRows.length - 1].allocatedY = plotBottom - 7;
-        for (let index = endpointScaleRows.length - 2; index >= 0; index -= 1) {
-          endpointScaleRows[index].allocatedY = Math.min(
-            endpointScaleRows[index].allocatedY,
-            endpointScaleRows[index + 1].allocatedY - effectiveEndpointGap,
-          );
-        }
-      }
-    }
-    const endpointScaleKnots = [
-      { transformedValue: yScaleMax, allocatedY: margin.top },
-      ...endpointScaleRows,
-      { transformedValue: yScaleMin, allocatedY: plotBottom },
-    ].sort((left, right) => right.transformedValue - left.transformedValue);
-    const distinctScaleKnots = endpointScaleKnots.filter((knot, index) => (
-      index === 0
-      || Math.abs(knot.transformedValue - endpointScaleKnots[index - 1].transformedValue) > 1e-9
-    ));
-    const yFromTransformed = (transformedValue) => {
-      if (transformedValue >= distinctScaleKnots[0].transformedValue) return distinctScaleKnots[0].allocatedY;
-      for (let index = 1; index < distinctScaleKnots.length; index += 1) {
-        const upper = distinctScaleKnots[index - 1];
-        const lower = distinctScaleKnots[index];
-        if (transformedValue >= lower.transformedValue) {
-          const ratio = (upper.transformedValue - transformedValue)
-            / (upper.transformedValue - lower.transformedValue);
-          return upper.allocatedY + ratio * (lower.allocatedY - upper.allocatedY);
-        }
-      }
-      return distinctScaleKnots[distinctScaleKnots.length - 1].allocatedY;
+    const endpointScaleValues = [...new Set(series.flatMap((entry) => {
+      const finalSegment = [...entry.segments].reverse().find((segment) => segment.length >= 2);
+      return finalSegment ? [finalSegment[finalSegment.length - 1].value] : [];
+    }))].sort((left, right) => left - right);
+    const y = (value) => {
+      const amountPosition = (value - yScaleMin) / (yScaleMax - yScaleMin);
+      const densityPosition = sectorFlowEndpointRank(value, endpointScaleValues);
+      const blendedPosition = (1 - SECTOR_FLOW_ENDPOINT_DENSITY_WEIGHT) * amountPosition
+        + SECTOR_FLOW_ENDPOINT_DENSITY_WEIGHT * densityPosition;
+      return plotBottom - blendedPosition * (plotBottom - margin.top);
     };
-    const transformedFromY = (yPosition) => {
-      if (yPosition <= distinctScaleKnots[0].allocatedY) return distinctScaleKnots[0].transformedValue;
-      for (let index = 1; index < distinctScaleKnots.length; index += 1) {
-        const upper = distinctScaleKnots[index - 1];
-        const lower = distinctScaleKnots[index];
-        if (yPosition <= lower.allocatedY) {
-          const ratio = (yPosition - upper.allocatedY) / (lower.allocatedY - upper.allocatedY);
-          return upper.transformedValue
-            + ratio * (lower.transformedValue - upper.transformedValue);
-        }
-      }
-      return distinctScaleKnots[distinctScaleKnots.length - 1].transformedValue;
-    };
-    const y = (value) => yFromTransformed(sectorFlowSymlog(value));
+    const plotRight = width - margin.right;
+    const x = (value) => margin.left
+      + ((value - xMin) / (xMax - xMin)) * (plotRight - margin.left);
 
     const grid = createSvgElement("g", { "aria-hidden": "true" });
     const zeroY = y(0);
-    const plotHeight = plotBottom - margin.top;
-    const tickPositions = [zeroY];
+    const tickValues = [0];
     [0, 0.25, 0.5, 0.75, 1].forEach((ratio) => {
-      const candidate = margin.top + ratio * plotHeight;
-      if (tickPositions.every((position) => Math.abs(position - candidate) >= 16)) {
-        tickPositions.push(candidate);
+      const candidate = yScaleMax - ratio * (yScaleMax - yScaleMin);
+      if (tickValues.every((value) => Math.abs(y(value) - y(candidate)) >= 16)) {
+        tickValues.push(candidate);
       }
     });
-    tickPositions.sort((left, right) => left - right).forEach((yPosition) => {
-      const transformedValue = transformedFromY(yPosition);
-      const value = sectorFlowSymlogInverse(transformedValue);
+    tickValues.sort((left, right) => y(left) - y(right)).forEach((value) => {
+      const yPosition = y(value);
       if (Math.abs(yPosition - zeroY) >= 1) {
         grid.append(createSvgElement("line", {
           x1: margin.left,
@@ -1180,7 +1270,7 @@
       fill: "#708692",
       "font-size": 8,
     });
-    scaleLabel.textContent = "Y 轴密度自适应 · 刻度为真实金额";
+    scaleLabel.textContent = "金额比例 + 终点密度混合 Y 轴 · 刻度为真实金额";
     grid.append(scaleLabel);
     grid.append(createSvgElement("line", {
       x1: margin.left,
@@ -1204,8 +1294,13 @@
     });
     const includesMorning = allPoints.some((point) => point.segment === "am");
     const includesAfternoon = allPoints.some((point) => point.segment === "pm");
-    if (includesMorning && includesAfternoon && xMin <= 120 && xMax >= 120) {
-      const breakX = x(120);
+    if (
+      includesMorning
+      && includesAfternoon
+      && xMin <= 120
+      && xMax >= 120 + SECTOR_FLOW_LUNCH_GAP_MINUTES
+    ) {
+      const breakX = x(120 + SECTOR_FLOW_LUNCH_GAP_MINUTES / 2);
       grid.append(createSvgElement("line", {
         x1: breakX,
         x2: breakX,
@@ -1227,78 +1322,106 @@
     }
     svg.append(grid);
 
-    const endpointLabels = [];
-    series.forEach((entry) => {
-      const lineGroup = createSvgElement("g", { "data-sector-flow": text(entry.item.sector_key, "unknown") });
-      entry.segments.forEach((segment) => {
-        if (segment.length < 2) return;
-        const pathData = segment
-          .map((point, index) => `${index ? "L" : "M"}${x(point.tradingMinute).toFixed(2)},${y(point.value).toFixed(2)}`)
-          .join(" ");
+    series.forEach((entry, seriesIndex) => {
+      const sectorKey = text(entry.item.sector_key, "unknown");
+      const lineGroup = createSvgElement("g", { "data-sector-flow": sectorKey });
+      lineGroup.dataset.defaultStrokeOpacity = "0.96";
+      lineGroup.dataset.defaultStrokeWidth = "2";
+      const pathData = sectorFlowPathData(entry.segments, x, y);
+      if (pathData) {
         lineGroup.append(createSvgElement("path", {
           d: pathData,
           fill: "none",
           stroke: entry.color,
           "stroke-linecap": "round",
           "stroke-linejoin": "round",
-          "stroke-width": 2.1,
+          "stroke-opacity": lineGroup.dataset.defaultStrokeOpacity,
+          "stroke-width": lineGroup.dataset.defaultStrokeWidth,
           "vector-effect": "non-scaling-stroke",
+          "data-sector-flow-line": sectorKey,
         }));
-        segment.forEach((point) => {
-          const target = createSvgElement("circle", {
-            cx: x(point.tradingMinute),
-            cy: y(point.value),
-            r: 6,
-            fill: "transparent",
-            "data-provider-as-of": point.point.provider_as_of,
-          });
-          target.addEventListener("pointerenter", (event) => (
-            showSectorFlowTooltip(event, entry.item, point.point, mode, scope)
-          ));
-          target.addEventListener("pointermove", (event) => (
-            showSectorFlowTooltip(event, entry.item, point.point, mode, scope)
-          ));
-          target.addEventListener("pointerleave", () => hideSectorFlowTooltip(scope));
-          lineGroup.append(target);
+        const hitPath = createSvgElement("path", {
+          d: pathData,
+          fill: "none",
+          stroke: entry.color,
+          "stroke-linecap": "round",
+          "stroke-linejoin": "round",
+          "stroke-opacity": 0,
+          "stroke-width": SECTOR_FLOW_HIT_STROKE_PX,
+          "pointer-events": "stroke",
+          cursor: "crosshair",
+          "data-sector-flow-hit-target": text(entry.item.sector_key, "unknown"),
+          "data-sector-flow-click-target": sectorKey,
         });
-      });
+        const showLineTooltip = (event) => {
+          const observedPoint = nearestSectorFlowObservedPoint(event, svg, entry, x);
+          if (observedPoint) {
+            showSectorFlowTooltip(event, entry.item, observedPoint.point, mode, scope);
+          }
+        };
+        hitPath.addEventListener("pointerenter", showLineTooltip);
+        hitPath.addEventListener("pointermove", showLineTooltip);
+        hitPath.addEventListener("pointerleave", () => {
+          hideSectorFlowTooltip(scope);
+        });
+        hitPath.addEventListener("click", (event) => {
+          event.stopPropagation();
+          setSectorFlowSeriesLock(svg, sectorKey);
+        });
+        lineGroup.append(hitPath);
+      }
       const finalSegment = [...entry.segments].reverse().find((segment) => segment.length >= 2);
       if (finalSegment) {
         const endpoint = finalSegment[finalSegment.length - 1];
-        lineGroup.append(createSvgElement("circle", {
+        const endpointNode = createSvgElement("circle", {
           cx: x(endpoint.tradingMinute),
           cy: y(endpoint.value),
-          r: 3.3,
+          r: 4.5,
           fill: entry.color,
           stroke: "#071016",
           "stroke-width": 1.2,
           "data-sector-flow-endpoint": text(entry.item.sector_key, "unknown"),
-        }));
-        endpointLabels.push({
-          actualY: y(endpoint.value),
-          color: entry.color,
-          item: entry.item,
-          value: endpoint.value,
-          x: x(endpoint.tradingMinute),
+          "data-sector-flow-click-target": sectorKey,
         });
+        const showEndpointTooltip = (event) => {
+          showSectorFlowTooltip(event, entry.item, endpoint.point, mode, scope);
+        };
+        endpointNode.addEventListener("pointerenter", showEndpointTooltip);
+        endpointNode.addEventListener("pointermove", showEndpointTooltip);
+        endpointNode.addEventListener("pointerleave", () => {
+          hideSectorFlowTooltip(scope);
+        });
+        endpointNode.addEventListener("click", (event) => {
+          event.stopPropagation();
+          setSectorFlowSeriesLock(svg, sectorKey);
+        });
+        lineGroup.append(endpointNode);
+        if (seriesIndex < MAX_SECTOR_FLOW_ENDPOINT_LABELS) {
+          const textNode = createSvgElement("text", {
+            x: x(endpoint.tradingMinute) + 9,
+            y: y(endpoint.value) + 3,
+            fill: entry.color,
+            "font-size": 10,
+            "font-weight": 700,
+            "data-sector-flow-endpoint-label": sectorKey,
+            "data-sector-flow-click-target": sectorKey,
+          });
+          textNode.textContent = `${text(entry.item.name, entry.item.sector_key)} ${formatChartCny(endpoint.value)}`;
+          textNode.addEventListener("pointerenter", showEndpointTooltip);
+          textNode.addEventListener("pointermove", showEndpointTooltip);
+          textNode.addEventListener("pointerleave", () => {
+            hideSectorFlowTooltip(scope);
+          });
+          textNode.addEventListener("click", (event) => {
+            event.stopPropagation();
+            setSectorFlowSeriesLock(svg, sectorKey);
+          });
+          lineGroup.append(textNode);
+        }
       }
       svg.append(lineGroup);
     });
-
-    endpointLabels.sort((left, right) => left.actualY - right.actualY);
-    endpointLabels.forEach((label) => {
-      const textX = plotRight + 12;
-      const textNode = createSvgElement("text", {
-        x: textX,
-        y: label.actualY + 3,
-        fill: label.color,
-        "font-size": 10,
-        "font-weight": 700,
-        "data-sector-flow-endpoint-label": text(label.item.sector_key, "unknown"),
-      });
-      textNode.textContent = `${text(label.item.name, label.item.sector_key)} ${formatChartCny(label.value)}`;
-      svg.append(textNode);
-    });
+    setSectorFlowSeriesLock(svg, text(svg.dataset.lockedSectorFlow, "") || null);
     renderSectorFlowLegend(series, scope);
   }
 
@@ -1306,15 +1429,19 @@
     const snapshot = item.leader_snapshot && typeof item.leader_snapshot === "object"
       ? item.leader_snapshot
       : {};
-    const leaders = asArray(snapshot.leaders).slice(0, 3);
+    const isResonanceSnapshot = snapshot.selection_method === "sector_fund_flow_minute_correlation.v1";
+    const leaders = isResonanceSnapshot ? asArray(snapshot.leaders).slice(0, 1) : [];
     const block = createElement("div", "sector-flow-observation-item__leaders");
-    block.append(createElement("span", "sector-flow-observation-item__leaders-label", "领涨股"));
+    block.title = "共振领涨股：板块每分钟资金增量与个股每分钟收益率相关系数不低于0.60，且板块近5分钟净流入、个股近5分钟涨幅不低于0.10%。";
+    block.append(createElement("span", "sector-flow-observation-item__leaders-label", "共振领涨股"));
     const list = createElement("div", "sector-flow-observation-item__leaders-list");
     if (!leaders.length) {
       list.append(createElement(
         "span",
         "sector-flow-leaders-empty",
-        text(snapshot.status_label, "领涨股数据暂缺"),
+        isResonanceSnapshot
+          ? text(snapshot.status_label, "暂无高共振快涨股")
+          : "共振回溯暂缺",
       ));
       block.append(list);
       return block;
@@ -1323,6 +1450,8 @@
       const instrumentId = text(leader.instrument_id, "");
       const code = instrumentId.includes(".") ? instrumentId.split(".")[0] : instrumentId;
       const leaderChange = finiteNumber(leader.change_pct);
+      const leaderSpeed = finiteNumber(leader.speed_pct);
+      const correlation = finiteNumber(leader.resonance_correlation);
       const chip = createElement("span", "sector-flow-leader");
       chip.append(
         createElement("strong", "", text(leader.name, code || "未命名股票")),
@@ -1332,11 +1461,267 @@
           leaderChange === null ? "" : toneClass(leaderChange),
           leaderChange === null ? "--" : formatChangePct(leaderChange),
         ),
+        createElement(
+          "span",
+          leaderSpeed === null ? "sector-flow-leader__speed" : `sector-flow-leader__speed ${toneClass(leaderSpeed)}`,
+          leaderSpeed === null ? "5分 --" : `5分 ${formatChangePct(leaderSpeed)}`,
+        ),
+        createElement(
+          "span",
+          "sector-flow-leader__correlation",
+          correlation === null ? "相关 --" : `相关 ${correlation.toFixed(2)}`,
+        ),
       );
       list.append(chip);
     });
     block.append(list);
     return block;
+  }
+
+  function sectorMoveRadarAvailability(snapshot, now = Date.now()) {
+    const marketState = normalizeMarketState(snapshot);
+    if (!marketState.isOpen) {
+      return {
+        available: false,
+        message: "盘中异动雷达仅在 A 股连续竞价时段运行。",
+        status: "非交易时段 · 已暂停",
+        usableScopes: new Set(),
+      };
+    }
+    const usableScopes = new Set(["defense", "offense"].filter((scope) => {
+      const payload = sectorFlowPayload(snapshot, scope);
+      if (!payload || !(payload.status === "ready" || payload.status === "partial")) {
+        return false;
+      }
+      const asOf = Date.parse(payload.asOf);
+      const age = now - asOf;
+      return Number.isFinite(asOf) && age >= -30_000 && age <= SECTOR_MOVE_MAX_AGE_MS;
+    }));
+    if (!usableScopes.size) {
+      return {
+        available: false,
+        message: "板块轨迹不可用或已超过 2 分钟；等待轨迹自身刷新，不受其他盘面组件影响。",
+        status: "板块轨迹陈旧 · 雷达锁定",
+        usableScopes,
+      };
+    }
+    return {
+      available: true,
+      message: "",
+      status: normalizeFreshness(snapshot).status === "fresh"
+        ? "板块轨迹新鲜"
+        : "板块轨迹可用 · 全局降级不锁雷达",
+      usableScopes,
+    };
+  }
+
+  function sectorMoveCandidates(snapshot) {
+    const availability = sectorMoveRadarAvailability(snapshot);
+    if (!availability.available) return [];
+    const candidates = ["defense", "offense"].flatMap((scope) => {
+      if (!availability.usableScopes.has(scope)) return [];
+      const payload = sectorFlowPayload(snapshot, scope);
+      if (!payload || payload.status === "unavailable") return [];
+      return payload.sectors.flatMap((item) => {
+        const latest = item?.latest && typeof item.latest === "object"
+          ? item.latest
+          : {};
+        const changeDelta = finiteNumber(latest.change_delta_5m_pct);
+        if (
+          changeDelta === null
+          || Math.abs(changeDelta) < state.sectorFlowSurgeThreshold
+        ) return [];
+        return [{
+          ...item,
+          _move: {
+            changeDelta,
+            direction: changeDelta > 0 ? "strengthening" : "weakening",
+            scope,
+          },
+        }];
+      });
+    });
+    return candidates
+      .sort((left, right) => (
+        Math.abs(right._move.changeDelta) - Math.abs(left._move.changeDelta)
+        || text(left.name, left.sector_key).localeCompare(text(right.name, right.sector_key), "zh-CN")
+      ))
+      .slice(0, 6);
+  }
+
+  function renderSectorMoveMiniChart(item) {
+    const svg = createSvgElement("svg", {
+      class: "sector-move-card__chart",
+      viewBox: "0 0 360 66",
+      preserveAspectRatio: "none",
+      role: "img",
+      "aria-label": `${text(item.name, item.sector_key)}实时资金轨迹`,
+    });
+    const deltaSegments = sectorFlowSegments(item, "delta_5m");
+    const mode = deltaSegments.some((segment) => segment.length >= 2)
+      ? "delta_5m"
+      : "cumulative";
+    const segments = mode === "delta_5m" ? deltaSegments : sectorFlowSegments(item, mode);
+    const points = segments.flat();
+    if (points.length < 2) {
+      const message = createSvgElement("text", {
+        x: 180,
+        y: 37,
+        fill: "#708692",
+        "font-size": 9,
+        "text-anchor": "middle",
+      });
+      message.textContent = "真实资金轨迹积累中";
+      svg.append(message);
+      return svg;
+    }
+
+    const width = 360;
+    const height = 66;
+    const margin = { top: 8, right: 5, bottom: 8, left: 5 };
+    let xMin = Math.min(...points.map((point) => point.tradingMinute));
+    let xMax = Math.max(...points.map((point) => point.tradingMinute));
+    if (xMin === xMax) {
+      xMin -= 1;
+      xMax += 1;
+    }
+    const values = [0, ...points.map((point) => point.value)];
+    let yMin = Math.min(...values);
+    let yMax = Math.max(...values);
+    if (yMin === yMax) {
+      const pad = Math.max(Math.abs(yMin) * 0.1, 100_000_000);
+      yMin -= pad;
+      yMax += pad;
+    }
+    const x = (value) => margin.left
+      + ((value - xMin) / (xMax - xMin)) * (width - margin.left - margin.right);
+    const y = (value) => margin.top
+      + ((yMax - value) / (yMax - yMin)) * (height - margin.top - margin.bottom);
+    svg.append(createSvgElement("line", {
+      x1: margin.left,
+      x2: width - margin.right,
+      y1: y(0),
+      y2: y(0),
+      stroke: "#8799a4",
+      "stroke-opacity": 0.32,
+      "stroke-width": 1,
+      "vector-effect": "non-scaling-stroke",
+    }));
+    const pathData = sectorFlowPathData(segments, x, y);
+    if (pathData) {
+      svg.append(createSvgElement("path", {
+        d: pathData,
+        fill: "none",
+        stroke: item._move.direction === "strengthening" ? "#ff7c79" : "#4dd19b",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round",
+        "stroke-width": 2,
+        "vector-effect": "non-scaling-stroke",
+      }));
+    }
+    return svg;
+  }
+
+  function renderSectorMoveRadar(snapshot) {
+    const target = byId("sector-move-radar-list");
+    const status = byId("sector-move-radar-status");
+    const availability = sectorMoveRadarAvailability(snapshot);
+    document.querySelectorAll("[data-sector-flow-surge-threshold]").forEach((select) => {
+      select.value = String(state.sectorFlowSurgeThreshold);
+    });
+    target.replaceChildren();
+    if (!availability.available) {
+      status.textContent = availability.status;
+      target.append(createElement("p", "empty-state", availability.message));
+      return;
+    }
+
+    const candidates = sectorMoveCandidates(snapshot);
+    status.textContent = candidates.length
+      ? `${candidates.length} 个板块达到阈值 · ${availability.status}`
+      : `扫描中 · ±${state.sectorFlowSurgeThreshold.toFixed(2)}pp · ${availability.status}`;
+    if (!candidates.length) {
+      target.append(createElement("p", "empty-state", "尚未发现达到阈值的板块异动。"));
+      return;
+    }
+
+    const confirmedAlerts = asArray(snapshot.alerts).filter((alert) => (
+      alert && alert.kind === "sector_move"
+    ));
+    candidates.forEach((item) => {
+      const latest = item.latest && typeof item.latest === "object" ? item.latest : {};
+      const move = item._move;
+      const confirmed = confirmedAlerts.some((alert) => (
+        text(alert.sector_key, "") === text(item.sector_key, "")
+        && text(alert.sector_direction, "") === move.scope
+        && text(alert.move_direction, "") === move.direction
+      ));
+      const card = createElement("article", `sector-move-card is-${move.direction}`);
+      card.dataset.sectorMove = text(item.sector_key, "unknown");
+      card.dataset.sectorMoveScope = move.scope;
+      const head = createElement("div", "sector-move-card__head");
+      const title = createElement("div");
+      title.append(
+        createElement("span", "eyebrow", text(item.category_name, "板块异动")),
+        createElement("h3", "", text(item.name, item.sector_key)),
+      );
+      const badges = createElement("div", "sector-move-card__badges");
+      badges.append(
+        createElement("span", "sector-move-card__scope", move.scope === "offense" ? "进攻" : "防御"),
+        createElement(
+          "span",
+          `sector-move-card__state${confirmed ? " is-confirmed" : ""}`,
+          confirmed ? "提醒已确认" : move.direction === "strengthening" ? "突然增强" : "突然走弱",
+        ),
+      );
+      head.append(title, badges);
+      const metrics = createElement("div", "sector-move-card__metrics");
+      const values = [
+        ["5分突变", formatChangePct(move.changeDelta), toneClass(move.changeDelta)],
+        ["板块涨幅", formatChangePct(latest.change_pct), toneClass(finiteNumber(latest.change_pct))],
+        ["5分资金", formatCny(latest.delta_5m_cny, true), toneClass(finiteNumber(latest.delta_5m_cny))],
+      ];
+      values.forEach(([label, value, tone]) => {
+        const metric = createElement("div");
+        metric.append(
+          createElement("span", "", label),
+          createElement("strong", tone, value),
+        );
+        metrics.append(metric);
+      });
+      card.append(
+        head,
+        metrics,
+        renderSectorMoveMiniChart(item),
+        renderSectorFlowLeaders(item, latest),
+      );
+      target.append(card);
+    });
+  }
+
+  function compareSectorFlowByCurrentAmount(left, right) {
+    const leftAmount = finiteNumber(left?.latest?.cumulative_cny);
+    const rightAmount = finiteNumber(right?.latest?.cumulative_cny);
+    if (leftAmount === null && rightAmount === null) {
+      return text(left?.name, left?.sector_key).localeCompare(
+        text(right?.name, right?.sector_key),
+        "zh-CN",
+      );
+    }
+    if (leftAmount === null) return 1;
+    if (rightAmount === null) return -1;
+    if (leftAmount !== rightAmount) return rightAmount - leftAmount;
+    return text(left?.name, left?.sector_key).localeCompare(
+      text(right?.name, right?.sector_key),
+      "zh-CN",
+    );
+  }
+
+  function sectorFlowCurrentAmountLabel(value) {
+    const amount = finiteNumber(value);
+    if (amount === null) return "当前资金 --";
+    const direction = amount > 0 ? "当前流入" : amount < 0 ? "当前流出" : "当前净流";
+    return `${direction} ${formatCny(Math.abs(amount))}`;
   }
 
   function renderSectorFlowObservations(payload, scope) {
@@ -1347,25 +1732,11 @@
       target.append(createElement("p", "empty-state", `等待可比较的${scopeLabel}方向证据`));
       return;
     }
-    const sectors = [...payload.sectors].sort((left, right) => {
-      const leftAutomatic = Boolean(left?._display?.automatic);
-      const rightAutomatic = Boolean(right?._display?.automatic);
-      if (leftAutomatic !== rightAutomatic) return rightAutomatic ? 1 : -1;
-      if (leftAutomatic && rightAutomatic) {
-        const leftDelta = Math.abs(finiteNumber(left?._display?.changeDelta) || 0);
-        const rightDelta = Math.abs(finiteNumber(right?._display?.changeDelta) || 0);
-        if (leftDelta !== rightDelta) return rightDelta - leftDelta;
-      }
-      const leftChange = finiteNumber(left?.latest?.change_pct);
-      const rightChange = finiteNumber(right?.latest?.change_pct);
-      if (leftChange === null && rightChange === null) return 0;
-      if (leftChange === null) return 1;
-      if (rightChange === null) return -1;
-      return rightChange - leftChange;
-    });
+    const sectors = [...payload.sectors].sort(compareSectorFlowByCurrentAmount);
     sectors.forEach((item, index) => {
       const latest = item.latest && typeof item.latest === "object" ? item.latest : {};
       const change = finiteNumber(latest.change_pct);
+      const currentAmount = finiteNumber(latest.cumulative_cny);
       const rising = change !== null && change > 0;
       const display = item._display && typeof item._display === "object" ? item._display : {};
       const changeDelta = finiteNumber(display.changeDelta);
@@ -1373,8 +1744,10 @@
       const triggered = Boolean(display.triggered) && changeDelta !== null;
       const card = createElement(
         "article",
-        `sector-flow-observation-item ${rising ? "is-rising" : "is-non-rising"}${automatic ? " is-automatic" : ""}`,
+        `sector-flow-observation-item ${rising ? "is-rising" : "is-non-rising"}${automatic ? " is-automatic" : ""}${triggered ? ` is-surge is-surge-${changeDelta > 0 ? "up" : "down"}` : ""}`,
       );
+      card.dataset.currentFlowCny = currentAmount === null ? "" : String(currentAmount);
+      if (triggered) card.dataset.sectorFlowSurge = changeDelta > 0 ? "up" : "down";
       const rank = createElement("span", "sector-flow-rank", `#${index + 1}`);
       const body = createElement("div", "sector-flow-observation-item__body");
       const top = createElement("div", "sector-flow-observation-item__top");
@@ -1389,8 +1762,20 @@
             ? `${parentName} · 细分概念`
             : text(item.category_name, "分类待确认"),
         ),
+        createElement(
+          "span",
+          `sector-flow-current-flow ${toneClass(currentAmount)}`,
+          sectorFlowCurrentAmountLabel(currentAmount),
+        ),
       );
       if (automatic) title.append(createElement("span", "sector-flow-auto-badge", "自动出现"));
+      if (triggered) {
+        title.append(createElement(
+          "span",
+          `sector-flow-surge-badge is-${changeDelta > 0 ? "up" : "down"}`,
+          `⚡涨速突变 ${changeDelta > 0 ? "+" : ""}${changeDelta.toFixed(2)}pp/5分`,
+        ));
+      }
       const moveKey = triggered
         ? changeDelta > 0 ? "confirmed_strengthening" : "retreat"
         : change === null ? "unavailable" : rising ? "confirmed_strengthening" : change < 0 ? "retreat" : "observing";
@@ -1440,7 +1825,14 @@
     sectorFlowElement(scope, "chart-as-of").textContent = "统一时点 --";
   }
 
-  function renderSectorFlowTrajectory(snapshot, scope) {
+  function clearSectorFlowExpandedChart(scope) {
+    sectorFlowElement(scope, "chart").replaceChildren();
+    sectorFlowElement(scope, "legend").replaceChildren();
+    sectorFlowElement(scope, "empty").hidden = true;
+    hideSectorFlowTooltip(scope);
+  }
+
+  function renderSectorFlowTrajectory(snapshot, scope, { renderPicker = true } = {}) {
     const payload = sectorFlowPayload(snapshot, scope);
     const scopeLabel = scope === "offense" ? "进攻" : "防御";
     if (!payload) {
@@ -1448,7 +1840,8 @@
       return;
     }
     const displayPayload = sectorFlowDisplayPayload(payload);
-    renderSectorFlowPicker(payload, displayPayload, scope);
+    if (renderPicker) renderSectorFlowPicker(payload, displayPayload, scope);
+    else updateSectorFlowPickerSummary(payload, displayPayload, scope);
     renderSectorFlowObservations(displayPayload, scope);
     const deltaAvailable = displayPayload.sectors.some((item) => hasRenderableSectorFlow(item, "delta_5m"));
     if (state.sectorFlowMode[scope] === "delta_5m" && !deltaAvailable) {
@@ -1485,12 +1878,48 @@
         ? "进攻方向按行业锚与其细分概念分层；概念轨迹复用同一全市场分钟快照，领涨股来自板块快照并由成分行情补全。资金仍是估计 / 辅助，不构成买卖建议。"
         : "资金为供应商口径下的日内累计估计；行业与概念仅按各自同类分位比较，不代表资金从一个板块确定转移到另一个板块，也不构成买卖建议。";
     renderSectorFlowMiniChart(displayPayload, scope);
-    renderSectorFlowChart(displayPayload, scope);
+    const chartCard = sectorFlowElement(scope, "chart-card");
+    if (chartCard.open) renderSectorFlowChart(displayPayload, scope);
+    else clearSectorFlowExpandedChart(scope);
   }
 
   function renderSectorFlowTrajectories(snapshot) {
     renderSectorFlowTrajectory(snapshot, "defense");
     renderSectorFlowTrajectory(snapshot, "offense");
+  }
+
+  const pendingSectorFlowRenders = new Map();
+
+  function scheduleSectorFlowRender(scope, { renderPicker = false } = {}) {
+    const pending = pendingSectorFlowRenders.get(scope);
+    if (pending) {
+      pending.renderPicker = pending.renderPicker || renderPicker;
+      return;
+    }
+    const request = { renderPicker };
+    pendingSectorFlowRenders.set(scope, request);
+    window.requestAnimationFrame(async () => {
+      pendingSectorFlowRenders.delete(scope);
+      if (!state.lastSnapshot) return;
+      try {
+        await hydrateCurrentSectorFlow(scope);
+      } catch (error) {
+        if (error.discardBatch || error.noAcceptedReal) {
+          discardMarketWatchBatch();
+          fetchSnapshot({ force: true });
+          return;
+        }
+        renderSectorFlowUnavailable(
+          `精确轨迹读取失败：${text(error.message, "等待自动重试")}`,
+          scope,
+        );
+        return;
+      }
+      renderSectorFlowTrajectory(state.lastSnapshot, scope, {
+        renderPicker: request.renderPicker,
+      });
+      renderSectorMoveRadar(state.lastSnapshot);
+    });
   }
 
   function sectorDirection(value) {
@@ -1632,6 +2061,11 @@
   function alertListFromSnapshot(snapshot) {
     return asArray(snapshot.alerts)
       .filter((item) => item && typeof item === "object")
+      .filter((item) => (
+        item.kind !== "sector_move"
+        || Math.abs(finiteNumber(item.change_delta_5m_pct) || 0)
+          >= state.sectorFlowSurgeThreshold
+      ))
       .slice(0, 12);
   }
 
@@ -1669,7 +2103,10 @@
   function replayPayload(item) {
     if (!item || typeof item !== "object" || Array.isArray(item)) return null;
     const payload = item.payload && typeof item.payload === "object" ? item.payload : item;
-    return payload && payload.contract === "market_watch.v1" ? payload : null;
+    return payload && (
+      payload.contract === "market_watch.v1"
+      || payload.contract === "market_watch_replay_sample.v1"
+    ) ? payload : null;
   }
 
   function renderReplayDates(history) {
@@ -1728,7 +2165,11 @@
           "",
           REGIME_LABELS[text(guardrail.regime, "uncertain").toLowerCase()] || "方向未确认",
         ),
-        createElement("span", "", text(guardrail.current_state, "暂无盘面摘要")),
+        createElement(
+          "span",
+          "",
+          text(guardrail.current_state, "该分钟仅保留回放状态元数据"),
+        ),
         createElement("small", "", freshness),
       );
       target.append(row);
@@ -1890,6 +2331,7 @@
     byId("contract-chip").textContent = text(snapshot.contract, "market_watch.v1");
     byId("snapshot-meta").textContent = `snapshot ${text(snapshot.snapshot_id)} · sequence ${text(snapshot.sequence)}`;
     renderDecision(snapshot);
+    renderSectorMoveRadar(snapshot);
     renderSectorFlowTrajectories(snapshot);
     renderIndexDock(snapshot);
     renderBreadth(snapshot);
@@ -1905,10 +2347,19 @@
   function alertEligibility(snapshot) {
     const freshness = normalizeFreshness(snapshot);
     const marketState = normalizeMarketState(snapshot);
-    if (freshness.status !== "fresh") return { allowed: false, reason: "数据非新鲜，变化提醒已锁定" };
     if (!marketState.isOpen) return { allowed: false, reason: "当前非交易时段，不发送盘中变化提醒" };
     if (state.muted) return { allowed: false, reason: "提醒已手动静音" };
-    return { allowed: true, reason: "仅发送后端确认的变化" };
+    if (freshness.status === "fresh") {
+      return { allowed: true, reason: "仅发送后端确认的变化" };
+    }
+    if (sectorMoveRadarAvailability(snapshot).available) {
+      return { allowed: true, reason: "板块轨迹可用，异动提醒独立运行" };
+    }
+    return { allowed: false, reason: "板块轨迹非新鲜，异动提醒已锁定" };
+  }
+
+  function isSectorMoveAlert(alert) {
+    return alert && alert.kind === "sector_move";
   }
 
   function isDataRiskAlert(alert) {
@@ -1922,6 +2373,9 @@
     const marketState = normalizeMarketState(snapshot);
     if (!marketState.isOpen || state.muted) return false;
     if (isDataRiskAlert(alert)) return freshness.status !== "fresh";
+    if (isSectorMoveAlert(alert)) {
+      return sectorMoveRadarAvailability(snapshot).available;
+    }
     return freshness.status === "fresh";
   }
 
@@ -1931,16 +2385,18 @@
       return;
     }
     const freshness = normalizeFreshness(snapshot);
+    const marketState = normalizeMarketState(snapshot);
     const overlay = byId("data-risk-overlay");
     const eligibility = alertEligibility(snapshot);
-    if (freshness.status === "fresh") {
+    const blocksCurrentJudgment = marketState.isOpen && new Set([
+      "stale", "unavailable", "unknown",
+    ]).has(freshness.status);
+    if (!blocksCurrentJudgment) {
       overlay.classList.remove("is-visible", "is-warning");
     } else {
       overlay.classList.add("is-visible");
-      overlay.classList.toggle("is-warning", ["degraded", "stale"].includes(freshness.status));
-      const title = freshness.status === "degraded"
-        ? "盘面数据部分降级"
-        : freshness.status === "stale"
+      overlay.classList.toggle("is-warning", freshness.status === "stale");
+      const title = freshness.status === "stale"
           ? "盘面数据已经陈旧"
         : freshness.status === "unavailable"
           ? "盘面数据不可用"
@@ -1956,6 +2412,10 @@
   }
 
   function renderFetchRisk(error) {
+    keepMarketWatchSurfacesVisible();
+    if (!state.lastSnapshot) {
+      renderMarketWatchUnavailableShell("实时盘面暂不可用；图表区域保留，等待下一次完整快照。");
+    }
     const overlay = byId("data-risk-overlay");
     overlay.classList.add("is-visible");
     overlay.classList.remove("is-warning");
@@ -2002,6 +2462,23 @@
     window.setTimeout(() => notification.close(), 8000);
   }
 
+  function showSectorMoveNotification(sectorAlerts) {
+    if (!sectorAlerts.length) return;
+    const top = sectorAlerts.slice(0, 3);
+    const title = sectorAlerts.length === 1
+      ? text(top[0].title, "板块出现异动")
+      : `${sectorAlerts.length} 个板块出现异动`;
+    const message = top.map((alert) => {
+      const delta = finiteNumber(alert.change_delta_5m_pct);
+      return `${text(alert.sector_label, "板块")} ${delta === null ? "" : formatChangePct(delta)}`.trim();
+    }).join(" · ");
+    showSystemNotification({
+      title,
+      message: sectorAlerts.length > 3 ? `${message} 等` : message,
+      dedupe_key: `market_watch:sector_move_batch:${top.map(alertKey).join("|")}`,
+    });
+  }
+
   function playAlertTone() {
     if (!state.soundEnabled || !state.audioContext) return;
     const context = state.audioContext;
@@ -2024,11 +2501,24 @@
     // a delivery key until at least one external delivery channel is enabled.
     if (!state.notificationEnabled && !state.soundEnabled) return;
     const now = Date.now();
-    if (now - state.lastAlertAt < ALERT_COOLDOWN_MS) return;
-
-    const pending = state.alerts.find((alert) => (
+    const pendingAlerts = state.alerts.filter((alert) => (
       alertCanDeliver(snapshot, alert) && !wasDeliveredRecently(alert, now)
     ));
+    const sectorAlerts = pendingAlerts.filter((alert) => alert.kind === "sector_move");
+    if (sectorAlerts.length) {
+      sectorAlerts.forEach((alert) => {
+        state.deliveredAlertKeys[alertKey(alert)] = now;
+      });
+      state.lastAlertAt = now;
+      storeText(STORAGE_KEYS.lastAlertAt, String(now));
+      pruneDeliveredKeys(now);
+      showSectorMoveNotification(sectorAlerts);
+      playAlertTone();
+      return;
+    }
+    if (now - state.lastAlertAt < ALERT_COOLDOWN_MS) return;
+
+    const pending = pendingAlerts[0];
     if (!pending) return;
     const key = alertKey(pending);
     state.deliveredAlertKeys[key] = now;
@@ -2122,39 +2612,460 @@
     return value && typeof value === "object" && !Array.isArray(value) ? value : {};
   }
 
-  function shanghaiClock(now = new Date()) {
-    const parts = Object.fromEntries(
-      new Intl.DateTimeFormat("en-CA", {
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: false,
-        hourCycle: "h23",
-        timeZone: "Asia/Shanghai",
-      }).formatToParts(now).filter((part) => part.type !== "literal")
-        .map((part) => [part.type, part.value]),
-    );
-    return {
-      date: `${parts.year}-${parts.month}-${parts.day}`,
-      minutes: Number(parts.hour) * 60 + Number(parts.minute),
+  function validateStockSelectionHistory(payload) {
+    if (!payload || typeof payload !== "object" || Array.isArray(payload)) {
+      throw new Error("返回内容不是每日选股档案");
+    }
+    if (payload.contract !== "daily_stock_selection_archive.v1" || payload.schema_version !== 1) {
+      throw new Error(`选股档案契约不匹配：${text(payload.contract, "缺少契约")}`);
+    }
+    return payload;
+  }
+
+  function validateStockSelectionResult(payload) {
+    if (!payload || typeof payload !== "object" || Array.isArray(payload)) {
+      throw new Error("返回内容不是每日选股生成结果");
+    }
+    if (payload.contract !== "daily_stock_selection_result.v1" || payload.schema_version !== 1) {
+      throw new Error(`选股生成契约不匹配：${text(payload.contract, "缺少契约")}`);
+    }
+    return payload;
+  }
+
+  function validateStockSelectionGeneration(payload) {
+    if (!payload || typeof payload !== "object" || Array.isArray(payload)) {
+      throw new Error("返回内容不是每日选股任务状态");
+    }
+    if (
+      payload.contract !== "daily_stock_selection_generation.v1"
+      || payload.schema_version !== 1
+    ) {
+      throw new Error(`选股任务契约不匹配：${text(payload.contract, "缺少契约")}`);
+    }
+    if (!["idle", "running", "succeeded", "failed"].includes(payload.state)) {
+      throw new Error("选股任务返回了未知状态");
+    }
+    return payload;
+  }
+
+  function renderStockSelectionDateOptions(history) {
+    const select = byId("stock-selection-date-select");
+    const dates = asArray(history.dates)
+      .map((item) => text(objectValue(item).trade_date, text(item, "")))
+      .filter(Boolean);
+    const selected = text(history.trade_date, state.stockSelectionTradeDate || dates[0] || "");
+    select.replaceChildren();
+    if (!dates.length) {
+      select.append(createElement("option", "", "尚无存档"));
+      select.disabled = true;
+      state.stockSelectionTradeDate = null;
+      return;
+    }
+    dates.forEach((tradeDate) => {
+      const option = createElement("option", "", tradeDate);
+      option.value = tradeDate;
+      option.selected = tradeDate === selected;
+      select.append(option);
+    });
+    select.disabled = false;
+    state.stockSelectionTradeDate = dates.includes(selected) ? selected : dates[0];
+  }
+
+  function renderStockSelectionExclusions(
+    excludedCounts,
+    targetId = "stock-selection-exclusions",
+  ) {
+    const labels = {
+      special_treatment: "ST / 退市风险",
+      missing_listing_date: "缺少上市日期",
+      recent_listing: "上市不足 120 日",
+      delisted: "已退市",
+      low_price: "低价过滤",
+      low_liquidity: "成交额不足",
+      missing_market_cap: "缺少市值",
+      small_market_cap: "市值不足",
+      insufficient_factor_coverage: "因子覆盖不足",
+      not_main_board: "非主板",
+      incomplete_candlestick_window: "15 日证据不完整",
+      insufficient_occurrences: "长上影少于 2 次",
     };
+    const target = byId(targetId);
+    target.replaceChildren();
+    const entries = Object.entries(objectValue(excludedCounts))
+      .filter(([, value]) => finiteNumber(value) !== null)
+      .sort((left, right) => Number(right[1]) - Number(left[1]));
+    entries.forEach(([key, value]) => {
+      const wrapper = createElement("div");
+      wrapper.append(
+        createElement("dt", "", labels[key] || key),
+        createElement("dd", "", formatCount(value)),
+      );
+      target.append(wrapper);
+    });
+  }
+
+  function renderStockPatternCandidates(candidates) {
+    const target = byId("stock-pattern-table-body");
+    target.replaceChildren();
+    const records = asArray(candidates).map(objectValue).filter((item) => Object.keys(item).length);
+    if (!records.length) {
+      const row = createElement("tr");
+      const cell = createElement("td", "stock-selection-table-empty", "该交易日没有股票命中完整规则。");
+      cell.colSpan = 6;
+      row.append(cell);
+      target.append(row);
+      return;
+    }
+    records.forEach((candidate) => {
+      const row = createElement("tr");
+      const nameCell = createElement("td");
+      const name = createElement("div", "stock-selection-name");
+      name.append(
+        createElement("strong", "", text(candidate.name)),
+        createElement("small", "", text(candidate.instrument_id)),
+      );
+      nameCell.append(name);
+      row.append(nameCell);
+      row.append(createElement("td", "", text(candidate.industry, "未分类")));
+      row.append(createElement("td", "stock-selection-score", formatCount(candidate.occurrence_count)));
+      row.append(createElement("td", "", text(candidate.latest_occurrence_date, "--")));
+      row.append(createElement("td", "", formatLevel(candidate.reference_close)));
+      const evidenceCell = createElement("td");
+      const evidenceList = createElement("div", "stock-pattern-evidence");
+      asArray(candidate.evidence).map(objectValue).forEach((evidence) => {
+        const pct = finiteNumber(evidence.upper_shadow_pct_of_close);
+        const body = finiteNumber(evidence.upper_shadow_body_multiple);
+        const range = finiteNumber(evidence.upper_shadow_range_ratio);
+        evidenceList.append(createElement(
+          "span",
+          "",
+          `${text(evidence.trade_date, "--")} · 上影/收盘 ${pct === null ? "--" : `${pct.toFixed(1)}%`}`
+            + ` · 实体 ${body === null ? "十字" : `${body.toFixed(1)}×`}`
+            + ` · 振幅占比 ${range === null ? "--" : `${(range * 100).toFixed(0)}%`}`,
+        ));
+      });
+      evidenceCell.append(evidenceList);
+      row.append(evidenceCell);
+      target.append(row);
+    });
+  }
+
+  function renderStockPatternScreen(patternScreens) {
+    const screen = asArray(patternScreens)
+      .map(objectValue)
+      .find((item) => item.screen_version === "long-upper-shadow-main-board.v1");
+    const empty = byId("stock-pattern-empty");
+    const content = byId("stock-pattern-content");
+    if (!screen || screen.contract !== "stock_pattern_screen.v1" || screen.schema_version !== 1) {
+      empty.hidden = false;
+      content.hidden = true;
+      return;
+    }
+    empty.hidden = true;
+    content.hidden = false;
+    const eligible = finiteNumber(screen.board_eligible_count);
+    const evaluated = finiteNumber(screen.evaluated_count);
+    const coverage = eligible && evaluated !== null ? evaluated / eligible : null;
+    const qualityLabels = { accepted: "完备", degraded: "降级", unavailable: "不可用" };
+    byId("stock-pattern-eligible-count").textContent = formatCount(eligible);
+    byId("stock-pattern-evaluated-count").textContent = formatCount(evaluated);
+    byId("stock-pattern-matched-count").textContent = formatCount(screen.matched_count);
+    byId("stock-pattern-quality").textContent = qualityLabels[screen.quality] || "未知";
+    byId("stock-pattern-coverage").textContent = coverage === null
+      ? "覆盖 --"
+      : `覆盖 ${(coverage * 100).toFixed(1)}%`;
+    renderStockPatternCandidates(screen.candidates);
+    replaceTextList("stock-pattern-methodology", screen.methodology, "方法尚未随档案返回。");
+    replaceTextList("stock-pattern-limitations", screen.limitations, "长上影线只是一种形态代理。");
+    renderStockSelectionExclusions(screen.excluded_counts, "stock-pattern-exclusions");
+  }
+
+  function renderStockSelectionCandidates(candidates) {
+    const target = byId("stock-selection-table-body");
+    target.replaceChildren();
+    const records = asArray(candidates).map(objectValue).filter((item) => Object.keys(item).length);
+    if (!records.length) {
+      const row = createElement("tr");
+      const cell = createElement("td", "stock-selection-table-empty", "该交易日没有可展示候选。");
+      cell.colSpan = 9;
+      row.append(cell);
+      target.append(row);
+      return;
+    }
+    records.forEach((candidate) => {
+      const row = createElement("tr");
+      row.append(createElement("td", "stock-selection-rank", text(candidate.rank)));
+      const nameCell = createElement("td");
+      const name = createElement("div", "stock-selection-name");
+      name.append(
+        createElement("strong", "", text(candidate.name)),
+        createElement("small", "", text(candidate.instrument_id)),
+      );
+      nameCell.append(name);
+      row.append(nameCell);
+      row.append(createElement("td", "", text(candidate.industry, "未分类")));
+      const score = finiteNumber(candidate.score);
+      row.append(createElement("td", "stock-selection-score", score === null ? "--" : score.toFixed(1)));
+      const coverage = finiteNumber(candidate.factor_coverage);
+      row.append(createElement("td", "", coverage === null ? "--" : `${(coverage * 100).toFixed(0)}%`));
+      row.append(createElement("td", "", formatLevel(candidate.reference_close)));
+      row.append(createElement("td", "", formatCny(candidate.amount_cny)));
+      row.append(createElement("td", "", formatCny(candidate.total_market_cap_cny)));
+      const evidenceCell = createElement("td");
+      const evidence = createElement("div", "stock-selection-evidence");
+      const reason = stringList(candidate.reasons)[0] || "综合因子进入候选池";
+      const risk = stringList(candidate.risks)[0] || "需继续核查个股风险";
+      evidence.append(createElement("span", "", reason), createElement("small", "", `风险：${risk}`));
+      evidenceCell.append(evidence);
+      row.append(evidenceCell);
+      target.append(row);
+    });
+  }
+
+  function renderStockSelectionOutcome(history) {
+    const direct = objectValue(history.outcome);
+    const latest = Object.keys(direct).length
+      ? direct
+      : objectValue(asArray(history.recent_outcomes)[0]);
+    const status = byId("stock-selection-outcome-status");
+    const detail = byId("stock-selection-outcome-detail");
+    status.classList.remove("tone-positive", "tone-negative", "tone-flat");
+    if (!Object.keys(latest).length) {
+      status.textContent = "尚未验证";
+      status.classList.add("tone-flat");
+      detail.textContent = "新候选池会从下一交易日开盘成交假设开始验证，并计入双边成本。";
+      return;
+    }
+    const labels = {
+      supported: "跑赢基准",
+      not_supported: "未跑赢基准",
+      mixed: "接近基准",
+      unverifiable: "覆盖不足",
+    };
+    const excess = finiteNumber(latest.excess_return_pct);
+    status.textContent = `${text(latest.evaluation_trade_date)} · ${labels[latest.verdict] || text(latest.verdict)}`;
+    status.classList.add(excess === null || excess === 0 ? "tone-flat" : excess > 0 ? "tone-positive" : "tone-negative");
+    detail.textContent = excess === null
+      ? `可验证覆盖 ${(Number(latest.coverage || 0) * 100).toFixed(0)}%，未达到收益判断门槛。`
+      : `候选池 ${formatChangePct(latest.portfolio_return_pct)}，沪深300 ${formatChangePct(latest.benchmark_return_pct)}，超额 ${formatChangePct(excess)}。`;
+  }
+
+  function renderStockSelection(selection, history = {}) {
+    const canonical = objectValue(selection);
+    byId("stock-selection-empty").hidden = true;
+    byId("stock-selection-content").hidden = false;
+    byId("stock-selection-universe-count").textContent = formatCount(canonical.universe_count);
+    byId("stock-selection-eligible-count").textContent = formatCount(canonical.eligible_count);
+    byId("stock-selection-selected-count").textContent = formatCount(canonical.selected_count);
+    byId("stock-selection-quality").textContent = canonical.source_quality === "accepted" ? "完备" : "降级";
+    byId("stock-selection-as-of").textContent = `证据时间 ${formatTimestamp(canonical.source_provider_as_of || canonical.generated_at, true)}`;
+    byId("stock-selection-trade-date").textContent = text(canonical.trade_date);
+    renderStockSelectionCandidates(canonical.candidates);
+    replaceTextList(
+      "stock-selection-methodology",
+      canonical.methodology,
+      "方法尚未随档案返回。",
+    );
+    replaceTextList(
+      "stock-selection-limitations",
+      canonical.limitations,
+      "候选池不是投资建议。",
+    );
+    renderStockSelectionExclusions(canonical.excluded_counts);
+    renderStockSelectionOutcome(history);
+    renderStockPatternScreen(canonical.pattern_screens);
+  }
+
+  function updateStockSelectionSchedule() {
+    const schedule = objectValue(state.stockSelectionSchedule);
+    const manualAfter = text(schedule.manual_after, "18:00");
+    const automaticAfter = text(schedule.automatic_if_missing_after, "18:30");
+    const clock = shanghaiClock();
+    const selection = objectValue(objectValue(state.stockSelectionHistory).selection);
+    const todayExists = (
+      text(selection.trade_date, "") === clock.date
+      && text(selection.config_version, "") === CURRENT_STOCK_SELECTION_CONFIG
+    )
+      || asArray(objectValue(state.stockSelectionHistory).dates).some((item) => (
+        text(objectValue(item).trade_date, text(item, "")) === clock.date
+        && text(objectValue(item).config_version, "") === CURRENT_STOCK_SELECTION_CONFIG
+      ));
+    const due = clock.minutes >= reviewScheduleMinutes(manualAfter, "18:00");
+    const button = byId("stock-selection-generate-button");
+    button.disabled = state.stockSelectionGenerateInFlight || !due || todayExists;
+    const phaseLabels = {
+      queued: "等待执行…",
+      acquiring: "正在获取数据…",
+      selecting: "正在筛选…",
+      archiving: "正在存档…",
+    };
+    if (state.stockSelectionGenerateInFlight) {
+      button.textContent = phaseLabels[state.stockSelectionGenerationPhase] || "正在生成…";
+    }
+    else if (todayExists) button.textContent = "今日已存档";
+    else if (!due) button.textContent = `${manualAfter} 后生成`;
+    else button.textContent = "生成今日候选池";
+    byId("stock-selection-schedule").textContent = (
+      `上海时间 ${manualAfter} 后可手动生成；`
+      + `当日缺失时 ${automaticAfter} 由后台自动生成。`
+    );
+  }
+
+  function renderStockSelectionHistory(history) {
+    state.stockSelectionHistory = history;
+    state.stockSelectionSchedule = objectValue(history.schedule);
+    renderStockSelectionDateOptions(history);
+    const selection = objectValue(history.selection);
+    if (!Object.keys(selection).length) {
+      byId("stock-selection-content").hidden = true;
+      byId("stock-selection-empty").hidden = false;
+      if (!state.stockSelectionGenerateInFlight) {
+        byId("stock-selection-status").textContent = "尚无存档";
+        byId("stock-selection-launch-status").textContent = "尚无存档";
+      }
+      byId("stock-pattern-content").hidden = true;
+      byId("stock-pattern-empty").hidden = false;
+    } else {
+      renderStockSelection(selection, history);
+      byId("stock-selection-status").textContent = `${text(selection.trade_date)} · 已存档`;
+      byId("stock-selection-launch-status").textContent = (
+        `${text(selection.trade_date)} · ${formatCount(selection.selected_count)} 只量化候选`
+      );
+    }
+    updateStockSelectionSchedule();
+  }
+
+  async function fetchStockSelectionHistory({ tradeDate = null, silent = false } = {}) {
+    state.stockSelectionHasLoaded = true;
+    if (state.stockSelectionFetchInFlight) return;
+    state.stockSelectionFetchInFlight = true;
+    if (!silent) {
+      byId("stock-selection-status").textContent = "正在读取存档…";
+      byId("stock-selection-launch-status").textContent = "正在读取存档…";
+    }
+    try {
+      const query = tradeDate ? `?trade_date=${encodeURIComponent(tradeDate)}` : "";
+      const response = await fetch(`${STOCK_SELECTION_HISTORY_ENDPOINT}${query}`, {
+        cache: "no-store",
+        headers: { Accept: "application/json" },
+      });
+      const payload = await response.json();
+      if (!response.ok) throw new Error(text(payload.error, `服务返回 ${response.status}`));
+      renderStockSelectionHistory(validateStockSelectionHistory(payload));
+    } catch (error) {
+      byId("stock-selection-status").textContent = `档案暂不可用：${text(error.message, "等待重试")}`;
+      byId("stock-selection-launch-status").textContent = "档案暂不可用";
+    } finally {
+      state.stockSelectionFetchInFlight = false;
+      updateStockSelectionSchedule();
+    }
+  }
+
+  function renderStockSelectionGenerationStatus(generation) {
+    const phaseLabels = {
+      queued: "任务已进入后台队列",
+      acquiring: "后台正在获取 15 个交易日全市场数据",
+      selecting: "数据已取得，正在执行选股与形态筛选",
+      archiving: "筛选完成，正在写入不可变档案",
+    };
+    state.stockSelectionGenerateInFlight = generation.state === "running";
+    state.stockSelectionGenerationPhase = text(generation.phase, "idle");
+    if (generation.state === "running") {
+      const label = phaseLabels[generation.phase] || "后台正在生成选股档案";
+      byId("stock-selection-status").textContent = `${label}；页面可继续使用`;
+      byId("stock-selection-launch-status").textContent = label;
+    } else if (generation.state === "failed") {
+      byId("stock-selection-status").textContent = text(
+        generation.error,
+        "每日选股后台任务失败",
+      );
+      byId("stock-selection-launch-status").textContent = "生成失败";
+    }
+    updateStockSelectionSchedule();
+  }
+
+  async function readStockSelectionGeneration() {
+    const response = await fetch(STOCK_SELECTION_GENERATION_ENDPOINT, {
+      cache: "no-store",
+      headers: { Accept: "application/json" },
+    });
+    const payload = await response.json();
+    if (!response.ok) throw new Error(text(payload.error, `服务返回 ${response.status}`));
+    return validateStockSelectionGeneration(payload);
+  }
+
+  async function pollStockSelectionGeneration(initial = null) {
+    if (state.stockSelectionGenerationPollInFlight) return;
+    state.stockSelectionGenerationPollInFlight = true;
+    try {
+      let generation = initial || await readStockSelectionGeneration();
+      renderStockSelectionGenerationStatus(generation);
+      while (generation.state === "running") {
+        await new Promise((resolve) => window.setTimeout(resolve, 1500));
+        generation = await readStockSelectionGeneration();
+        renderStockSelectionGenerationStatus(generation);
+      }
+      if (generation.state === "succeeded" && generation.result) {
+        const result = validateStockSelectionResult(generation.result);
+        renderStockSelection(result.selection, result);
+        byId("stock-selection-status").textContent = result.action === "existing"
+          ? "今日候选池已存在，已读取存档"
+          : "今日候选池已生成并存档";
+        byId("stock-selection-launch-status").textContent = "今日选股档案已就绪";
+        await fetchStockSelectionHistory({
+          tradeDate: text(objectValue(result.selection).trade_date, null),
+          silent: true,
+        });
+      }
+    } catch (error) {
+      state.stockSelectionGenerateInFlight = false;
+      byId("stock-selection-status").textContent = `任务状态暂不可用：${text(error.message, "等待重试")}`;
+      byId("stock-selection-launch-status").textContent = "任务状态暂不可用";
+    } finally {
+      state.stockSelectionGenerationPollInFlight = false;
+      updateStockSelectionSchedule();
+    }
+  }
+
+  async function generateStockSelection() {
+    if (state.stockSelectionGenerateInFlight) return;
+    state.stockSelectionGenerateInFlight = true;
+    updateStockSelectionSchedule();
+    state.stockSelectionGenerationPhase = "queued";
+    byId("stock-selection-status").textContent = "正在提交后台选股任务…";
+    byId("stock-selection-launch-status").textContent = "正在提交选股任务…";
+    try {
+      const response = await fetch(STOCK_SELECTION_GENERATE_ENDPOINT, {
+        method: "POST",
+        cache: "no-store",
+        headers: { Accept: "application/json" },
+      });
+      const payload = await response.json();
+      if (!response.ok) throw new Error(text(payload.error, `服务返回 ${response.status}`));
+      const generation = validateStockSelectionGeneration(payload);
+      state.stockSelectionGenerateInFlight = false;
+      await pollStockSelectionGeneration(generation);
+    } catch (error) {
+      state.stockSelectionGenerateInFlight = false;
+      byId("stock-selection-status").textContent = text(error.message, "每日选股生成失败");
+      byId("stock-selection-launch-status").textContent = "生成失败";
+      updateStockSelectionSchedule();
+    }
   }
 
   function reviewScheduleMinutes(value, fallback) {
     const match = /^(\d{1,2}):(\d{2})$/.exec(text(value, fallback));
-    if (!match) return reviewScheduleMinutes(fallback, "20:30");
+    if (!match) return reviewScheduleMinutes(fallback, "17:30");
     const hours = Number(match[1]);
     const minutes = Number(match[2]);
     return hours >= 0 && hours <= 23 && minutes >= 0 && minutes <= 59
       ? hours * 60 + minutes
-      : reviewScheduleMinutes(fallback, "20:30");
+      : reviewScheduleMinutes(fallback, "17:30");
   }
 
   function updateReviewSchedule() {
     const schedule = objectValue(state.reviewSchedule);
-    const manualAfter = text(schedule.manual_after, "20:30");
+    const manualAfter = text(schedule.manual_after, "17:30");
     const automaticAfter = text(schedule.automatic_if_missing_after, "21:00");
     const clock = shanghaiClock();
     const currentReview = objectValue(objectValue(state.reviewHistory).review);
@@ -2162,7 +3073,7 @@
       || asArray(objectValue(state.reviewHistory).dates).some((item) => (
         text(objectValue(item).trade_date, text(item, "")) === clock.date
       ));
-    const due = clock.minutes >= reviewScheduleMinutes(manualAfter, "20:30");
+    const due = clock.minutes >= reviewScheduleMinutes(manualAfter, "17:30");
     const button = byId("daily-review-generate-button");
     button.disabled = state.reviewGenerateInFlight || !due || todayExists;
     if (state.reviewGenerateInFlight) {
@@ -2369,6 +3280,138 @@
     return "tone-flat";
   }
 
+  const REVIEW_HIGHLIGHT_PATTERN = /([+\-−]?\d+(?:,\d{3})*(?:\.\d+)?(?:%|％|万亿|亿元|亿|万元|万|元|只|家|个|倍|点|分钟|日|板|连板)|\d{1,2}:\d{2}|赚钱效应|亏钱效应|净流入|净流出|涨停|跌停|领涨|领跌|上涨|下跌|回血|修复|回撤|偏强|偏弱|走强|走弱|主线|机会|风险|分歧|放量|缩量|扩散|确认|失效|证伪)/g;
+  const REVIEW_UP_CONTEXT = /上涨|涨停|领涨|净流入|流入|回血|修复|偏强|走强|扩散|赚钱|涨|升/;
+  const REVIEW_DOWN_CONTEXT = /下跌|跌停|领跌|净流出|流出|回撤|偏弱|走弱|亏钱|跌|降/;
+
+  function reviewHighlightTone(token, source, offset) {
+    const value = text(token, "");
+    const before = source.slice(Math.max(0, offset - 7), offset);
+    const after = source.slice(offset + value.length, offset + value.length + 7);
+    const configuredTone = state.reviewHighlightTerms.get(value);
+    if (configuredTone) return `daily-review-highlight--${configuredTone}`;
+    if (/^\+/.test(value)) return "daily-review-highlight--up";
+    if (/^[\-−]/.test(value)) return "daily-review-highlight--down";
+    if (
+      REVIEW_DOWN_CONTEXT.test(value)
+      || /(?:下跌|跌停|领跌|流出|回撤|偏弱|走弱|亏钱|跌|降)[^，。；：]*$/.test(before)
+      || /^[^，。；：]*(?:下跌|跌停|领跌|流出|回撤|偏弱|走弱|亏钱|跌|降)/.test(after)
+    ) {
+      return "daily-review-highlight--down";
+    }
+    if (
+      REVIEW_UP_CONTEXT.test(value)
+      || /(?:上涨|涨停|领涨|流入|回血|修复|偏强|走强|扩散|赚钱|涨|升)[^，。；：]*$/.test(before)
+      || /^[^，。；：]*(?:上涨|涨停|领涨|流入|回血|修复|偏强|走强|扩散|赚钱|涨|升)/.test(after)
+    ) return "daily-review-highlight--up";
+    if (/风险|分歧|缩量|失效|证伪/.test(value)) return "daily-review-highlight--warning";
+    if (/主线|机会|确认|放量/.test(value)) return "daily-review-highlight--focus";
+    return "daily-review-highlight--metric";
+  }
+
+  function reviewHighlightPattern() {
+    const terms = [...state.reviewHighlightTerms.keys()]
+      .filter((term) => term.length >= 2)
+      .sort((left, right) => right.length - left.length)
+      .map((term) => term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
+    return new RegExp(
+      terms.length ? `${terms.join("|")}|${REVIEW_HIGHLIGHT_PATTERN.source}` : REVIEW_HIGHLIGHT_PATTERN.source,
+      "g",
+    );
+  }
+
+  function configureReviewHighlightTerms(review) {
+    const terms = new Map();
+    const add = (value, tone = "focus") => {
+      text(value, "").split(/[、，,\/]/).map((item) => item.trim()).filter(Boolean).forEach((item) => {
+        if (item.length >= 2) terms.set(item, tone);
+      });
+    };
+    asArray(review.themes).map(objectValue).forEach((theme) => {
+      const tone = /亏钱|风险|回避|抛压/.test(text(theme.role, "")) ? "down" : "focus";
+      add(theme.name, tone);
+      asArray(theme.representatives).forEach((name) => add(name, tone));
+    });
+    asArray(review.opportunity_sectors).map(objectValue).forEach((sector) => {
+      add(sector.name, "focus");
+      add(sector.leader_name, "focus");
+    });
+    state.reviewHighlightTerms = terms;
+  }
+
+  function appendReviewHighlights(element, value, fallback = "") {
+    const content = reviewReportText(value, fallback);
+    element.replaceChildren();
+    let cursor = 0;
+    for (const match of content.matchAll(reviewHighlightPattern())) {
+      const offset = match.index ?? 0;
+      if (offset > cursor) element.append(document.createTextNode(content.slice(cursor, offset)));
+      element.append(createElement(
+        "strong",
+        `daily-review-highlight ${reviewHighlightTone(match[0], content, offset)}`,
+        match[0],
+      ));
+      cursor = offset + match[0].length;
+    }
+    if (cursor < content.length) element.append(document.createTextNode(content.slice(cursor)));
+    return element;
+  }
+
+  function createReviewHighlightedElement(tag, className, content, fallback = "") {
+    return appendReviewHighlights(createElement(tag, className), content, fallback);
+  }
+
+  function reviewReadingBlocks(value) {
+    const content = reviewReportText(value, "").trim();
+    if (!content) return [];
+    const semicolonCount = (content.match(/；/g) || []).length;
+    const hasIntroducedList = content.includes("：") && semicolonCount >= 2;
+    const blocks = [];
+    let start = 0;
+    let relation = "start";
+    let listActive = false;
+    const pushBlock = (end, nextRelation) => {
+      const blockText = content.slice(start, end).trim();
+      if (blockText) blocks.push({ relation, text: blockText });
+      start = end;
+      relation = nextRelation;
+    };
+    for (let index = 0; index < content.length; index += 1) {
+      const character = content[index];
+      const end = index + 1;
+      const length = content.slice(start, end).trim().length;
+      const hasRemainder = content.slice(end).trim().length > 0;
+      if (!hasRemainder) continue;
+      if (/[。！？]/.test(character)) {
+        pushBlock(end, "sentence");
+        listActive = false;
+      } else if (character === "；" && length >= 18) {
+        pushBlock(end, listActive ? "list-item" : "semicolon");
+      } else if (character === "：" && hasIntroducedList && length >= 12) {
+        pushBlock(end, "list-item");
+        listActive = true;
+      }
+    }
+    pushBlock(content.length, relation);
+    return blocks;
+  }
+
+  function createReviewReadingGroup(paragraph, lead = false) {
+    const group = createElement(
+      "div",
+      `daily-review-reading-group${lead ? " daily-review-article-section__lead" : ""}`,
+    );
+    reviewReadingBlocks(paragraph).forEach((block) => {
+      const item = createReviewHighlightedElement(
+        "p",
+        `daily-review-reading-block daily-review-reading-block--${block.relation}`,
+        block.text,
+      );
+      group.append(item);
+    });
+    return group;
+  }
+
   function reviewSectionAnchor(section, index) {
     const raw = text(section.section_id || section.id || section.key, "")
       .trim()
@@ -2467,14 +3510,15 @@
       const titleValue = text(section.title || section.heading, `第 ${index + 1} 节`);
       const article = createElement("section", "daily-review-article-section");
       article.id = reviewSectionAnchor(section, index);
-      article.append(createElement("h4", "", titleValue));
+      article.dataset.sectionNumber = String(index + 1).padStart(2, "0");
+      article.append(createReviewHighlightedElement("h4", "", titleValue));
       const paragraphs = asArray(section.paragraphs)
         .map((paragraph) => reviewReportText(paragraph, ""))
         .filter(Boolean);
       const legacyLead = reviewReportText(section.lead ?? section.summary, "");
       if (!paragraphs.length && legacyLead) paragraphs.push(legacyLead);
-      paragraphs.forEach((paragraph) => {
-        article.append(createElement("p", "", paragraph));
+      paragraphs.forEach((paragraph, paragraphIndex) => {
+        article.append(createReviewReadingGroup(paragraph, paragraphIndex === 0));
       });
       target.append(article);
     });
@@ -2490,16 +3534,30 @@
     }
     records.forEach((item, index) => {
       const entry = createElement("li", "daily-review-watch-item");
-      const heading = createElement("h5", "", text(item.title, `观察项 ${index + 1}`));
+      const heading = createReviewHighlightedElement("h5", "", item.title, `观察项 ${index + 1}`);
       entry.append(heading);
       const why = reviewReportText(item.why_it_matters, "");
-      if (why) entry.append(createElement("p", "", why));
+      if (why) entry.append(createReviewHighlightedElement("p", "", why));
       const conditions = createElement("dl");
+      const confirmationLabel = createElement("dt", "daily-review-watch-item__confirmation-label", "看到什么算确认");
+      const confirmation = createReviewHighlightedElement(
+        "dd",
+        "daily-review-watch-item__confirmation",
+        item.confirmation,
+        "未披露",
+      );
+      const invalidationLabel = createElement("dt", "daily-review-watch-item__invalidation-label", "什么情况算失效");
+      const invalidation = createReviewHighlightedElement(
+        "dd",
+        "daily-review-watch-item__invalidation",
+        item.invalidation,
+        "未披露",
+      );
       conditions.append(
-        createElement("dt", "", "看到什么算确认"),
-        createElement("dd", "", reviewReportText(item.confirmation, "未披露")),
-        createElement("dt", "", "什么情况算失效"),
-        createElement("dd", "", reviewReportText(item.invalidation, "未披露")),
+        confirmationLabel,
+        confirmation,
+        invalidationLabel,
+        invalidation,
       );
       entry.append(conditions);
       target.append(entry);
@@ -2550,18 +3608,23 @@
     const triggerLabels = { manual: "手动", automatic: "21:00 自动" };
     byId("daily-review-empty").hidden = true;
     byId("daily-review-content").hidden = false;
+    configureReviewHighlightTerms(canonical);
     byId("daily-review-trade-date").textContent = text(canonical.trade_date);
-    byId("daily-review-quality").textContent = qualityLabels[canonical.quality] || text(canonical.quality);
+    const quality = byId("daily-review-quality");
+    quality.textContent = qualityLabels[canonical.quality] || text(canonical.quality);
+    quality.dataset.quality = text(canonical.quality, "unknown");
     byId("daily-review-trigger").textContent = triggerLabels[canonical.trigger] || text(canonical.trigger);
     byId("daily-review-as-of").textContent = formatTimestamp(
       canonical.source_snapshot_as_of || canonical.generated_at,
       true,
     );
-    byId("daily-review-report-title").textContent = text(
+    appendReviewHighlights(
+      byId("daily-review-report-title"),
       canonical.title,
       text(recap.headline, "盘后结构化复盘"),
     );
-    byId("daily-review-report-deck").textContent = text(
+    appendReviewHighlights(
+      byId("daily-review-report-deck"),
       canonical.standfirst || canonical.deck,
       text(canonical.core_conclusion || recap.summary, "报告正文未随档案返回。"),
     );
@@ -2680,6 +3743,591 @@
     }
   }
 
+  const REVISION_PATTERN = /^[0-9a-f]{64}$/;
+
+  function isRevision(value) {
+    return typeof value === "string" && REVISION_PATTERN.test(value);
+  }
+
+  async function marketWatchResponseError(response) {
+    let payload = {};
+    try {
+      payload = await response.json();
+    } catch (_error) {
+      payload = {};
+    }
+    const error = new Error(text(payload.error, `服务返回 ${response.status}`));
+    error.status = response.status;
+    error.discardBatch = response.status === 409
+      && payload.action === "discard_batch_and_retry";
+    error.noAcceptedReal = response.status === 503
+      && payload.reason === "no_accepted_real";
+    return error;
+  }
+
+  function marketWatchHeaders(etag, force) {
+    const headers = { Accept: "application/json" };
+    if (!force && etag) headers["If-None-Match"] = etag;
+    return headers;
+  }
+
+  function validateCollectionStatus(payload) {
+    if (
+      !payload
+      || typeof payload !== "object"
+      || Array.isArray(payload)
+      || payload.contract !== "market_watch_collector_envelope.v1"
+      || payload.schema_version !== 1
+    ) {
+      throw new Error("采集状态契约不匹配");
+    }
+    const completeness = payload.collection_completeness;
+    if (!completeness || typeof completeness !== "object") {
+      throw new Error("采集完整性状态缺失");
+    }
+    const counts = [
+      completeness.accepted_real,
+      completeness.pending,
+      completeness.retrying,
+      completeness.unresolved,
+    ];
+    const expected = completeness.expected_minute_buckets;
+    if (
+      !Number.isInteger(expected)
+      || expected < 0
+      || counts.some((value) => !Number.isInteger(value) || value < 0)
+      || counts.reduce((total, value) => total + value, 0) !== expected
+    ) {
+      throw new Error("采集完整性恒等式不成立");
+    }
+    const accepted = payload.latest_accepted_real;
+    if (accepted !== null && (
+      !accepted
+      || typeof accepted !== "object"
+      || !isRevision(accepted.source_snapshot_revision)
+      || !text(accepted.snapshot_id, "")
+      || !text(accepted.minute_bucket, "")
+    )) {
+      throw new Error("最新真实快照指针不完整");
+    }
+    const recovery = payload.daily_recovery;
+    if (recovery !== null && recovery !== undefined && (
+      !recovery
+      || typeof recovery !== "object"
+      || recovery.contract !== "market_watch_daily_recovery.v1"
+      || recovery.schema_version !== 1
+      || !Number.isInteger(recovery.remaining_gaps)
+      || recovery.remaining_gaps < 0
+      || recovery.expected_minute_buckets - recovery.accepted_after !== recovery.remaining_gaps
+    )) {
+      throw new Error("收盘完整性检查状态不匹配");
+    }
+    return payload;
+  }
+
+  function shanghaiClock(now = new Date()) {
+    const parts = Object.fromEntries(new Intl.DateTimeFormat("en-GB", {
+      timeZone: "Asia/Shanghai",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      hourCycle: "h23",
+    }).formatToParts(now).filter((item) => item.type !== "literal").map((item) => [
+      item.type,
+      item.value,
+    ]));
+    const minutes = Number(parts.hour) * 60 + Number(parts.minute);
+    return {
+      date: `${parts.year}-${parts.month}-${parts.day}`,
+      minutes,
+      minuteOfDay: minutes,
+    };
+  }
+
+  function renderCollectionRecoveryStatus(payload) {
+    const shell = document.querySelector(".collection-recovery-strip");
+    const completeness = payload?.collection_completeness || {};
+    const expected = Number.isInteger(completeness.expected_minute_buckets)
+      ? completeness.expected_minute_buckets
+      : 0;
+    const accepted = Number.isInteger(completeness.accepted_real)
+      ? completeness.accepted_real
+      : 0;
+    const gaps = Math.max(0, expected - accepted);
+    const recovery = payload?.daily_recovery || null;
+    const clock = shanghaiClock();
+    const isToday = text(completeness.trade_date, "") === clock.date;
+    const afterClose = isToday && clock.minuteOfDay > 15 * 60;
+    const active = recovery && new Set(["pending", "running"]).has(recovery.status);
+    const statusLabels = {
+      pending: "手动检查已排队",
+      running: "正在检查并追补",
+      complete: "收盘数据完整",
+      retrying: "自动追补中",
+      needs_attention: "仍有缺口 · 建议手动重试",
+      failed: "检查失败 · 可手动重试",
+    };
+    let status = recovery ? text(recovery.status, "") : "";
+    if (!status) status = expected === 0 ? "not_due" : afterClose ? "pending_auto" : "before_close";
+    const label = statusLabels[status]
+      || (status === "not_due" ? "今日无交易日检查" : "15:05 后自动检查");
+    byId("collection-recovery-accepted").textContent = expected ? `${accepted} / ${expected}` : "--";
+    byId("collection-recovery-gaps").textContent = expected ? String(gaps) : "--";
+    byId("collection-recovery-checked-at").textContent = recovery
+      ? formatTimestamp(recovery.completed_at || recovery.started_at || recovery.requested_at)
+      : "--";
+    byId("collection-recovery-status").textContent = label;
+    const detail = byId("collection-recovery-detail");
+    if (recovery) {
+      const trigger = recovery.trigger === "manual" ? "手动" : "自动";
+      detail.textContent = gaps === 0
+        ? `${trigger}检查已完成；${expected} 个交易分钟均有可用真实快照。`
+        : `${trigger}检查已尝试 ${Number(recovery.attempted_slots || 0)} 个缺口，仍有 ${gaps} 个分钟由采集进程继续追补；不会用当前值伪造历史。`;
+    } else if (expected) {
+      detail.textContent = "交易日 15:05 后自动扫描 240 个盘中分钟；缺口只接受精确历史快照。";
+    } else {
+      detail.textContent = "非交易日不创建空检查；下一交易日收盘后自动执行。";
+    }
+    shell.classList.remove("is-complete", "is-retrying", "is-attention", "is-failed");
+    if (status === "complete") shell.classList.add("is-complete");
+    if (status === "pending" || status === "running" || status === "retrying") shell.classList.add("is-retrying");
+    if (status === "needs_attention") shell.classList.add("is-attention");
+    if (status === "failed") shell.classList.add("is-failed");
+    const button = byId("collection-recovery-button");
+    button.disabled = state.recoveryRequestInFlight || active || !expected || !afterClose;
+    button.textContent = state.recoveryRequestInFlight
+      ? "正在排队…"
+      : active
+        ? "已排队"
+        : recovery
+          ? "重新检查并追补"
+          : "检查并追补";
+  }
+
+  async function fetchCollectionStatus({ force = false } = {}) {
+    const response = await fetch(COLLECTION_STATUS_ENDPOINT, {
+      cache: "no-cache",
+      headers: marketWatchHeaders(state.collectionStatusEtag, force),
+    });
+    if (response.status === 304) {
+      if (!state.collectionStatus) throw new Error("采集状态 304 缺少本地基线");
+      return state.collectionStatus;
+    }
+    if (!response.ok) throw await marketWatchResponseError(response);
+    const status = validateCollectionStatus(await response.json());
+    state.collectionStatus = status;
+    state.collectionStatusEtag = response.headers.get("ETag");
+    renderCollectionRecoveryStatus(status);
+    return status;
+  }
+
+  async function requestDailyRecovery() {
+    if (state.recoveryRequestInFlight) return;
+    state.recoveryRequestInFlight = true;
+    renderCollectionRecoveryStatus(state.collectionStatus);
+    try {
+      const response = await fetch(DAILY_RECOVERY_ENDPOINT, {
+        method: "POST",
+        cache: "no-store",
+        headers: { Accept: "application/json" },
+      });
+      if (!response.ok) throw await marketWatchResponseError(response);
+      const result = await response.json();
+      if (result?.recovery && state.collectionStatus) {
+        state.collectionStatus = {
+          ...state.collectionStatus,
+          daily_recovery: result.recovery,
+        };
+      }
+      renderCollectionRecoveryStatus(state.collectionStatus);
+      const refreshed = await fetchCollectionStatus({ force: true });
+      renderCollectionRecoveryStatus(refreshed);
+    } catch (error) {
+      byId("collection-recovery-status").textContent = text(
+        error?.message,
+        "收盘完整性检查暂时无法排队",
+      );
+    } finally {
+      state.recoveryRequestInFlight = false;
+      renderCollectionRecoveryStatus(state.collectionStatus);
+    }
+  }
+
+  function trajectorySummary(summary, scope) {
+    return scope === "offense"
+      ? summary.offense_sector_flow_trajectory
+      : summary.sector_flow_trajectory;
+  }
+
+  function validateTrajectorySummary(summary, scope) {
+    const trajectory = trajectorySummary(summary, scope);
+    const integrity = summary.payload_integrity?.[scope];
+    if (trajectory === null && integrity === null) return;
+    if (!trajectory || !integrity) throw new Error(`${scope} 轨迹 manifest 缺失`);
+    if (
+      trajectory.contract !== "sector_flow_trajectory_summary.v1"
+      || trajectory.schema_version !== 1
+      || trajectory.direction !== scope
+      || trajectory.source_snapshot_revision !== summary.source_snapshot_revision
+      || trajectory.trajectory_revision !== integrity.trajectory_revision
+      || !isRevision(trajectory.trajectory_revision)
+    ) {
+      throw new Error(`${scope} 轨迹 revision 不一致`);
+    }
+    const sectors = asArray(trajectory.sectors);
+    const keys = sectors.map((item) => text(item?.sector_key, ""));
+    if (
+      sectors.length !== trajectory.sector_count
+      || keys.some((key) => !key)
+      || new Set(keys).size !== keys.length
+      || sectors.some((item) => Object.hasOwn(item, "points"))
+      || sectors.reduce((total, item) => total + Number(item.point_count || 0), 0)
+        !== trajectory.point_count
+    ) {
+      throw new Error(`${scope} 轨迹摘要 manifest 不完整`);
+    }
+  }
+
+  function validateSummary(payload, expectedRevision, response) {
+    if (
+      !payload
+      || typeof payload !== "object"
+      || Array.isArray(payload)
+      || payload.contract !== "market_watch_summary.v1"
+      || payload.schema_version !== 1
+      || payload.snapshot_contract !== "market_watch.v1"
+      || payload.snapshot_schema_version !== 1
+      || payload.source_snapshot_revision !== expectedRevision
+      || payload.payload_integrity?.source_snapshot_revision !== expectedRevision
+      || (payload.resonance_revision !== null && !isRevision(payload.resonance_revision))
+      || (payload.resonance_revision !== null && !isRevision(payload.resonance_source_snapshot_revision))
+      || (payload.resonance_revision !== null && !text(payload.resonance_as_of, ""))
+      || (payload.resonance_revision === null && (
+        payload.resonance_source_snapshot_revision !== null
+        || payload.resonance_as_of !== null
+      ))
+      || response.headers.get("X-Source-Snapshot-Revision") !== expectedRevision
+    ) {
+      throw new Error("盘面摘要与 accepted-real revision 不一致");
+    }
+    validateTrajectorySummary(payload, "defense");
+    validateTrajectorySummary(payload, "offense");
+    return payload;
+  }
+
+  async function fetchSummary(expectedRevision, { force = false } = {}) {
+    const query = new URLSearchParams({
+      source_snapshot_revision: expectedRevision,
+    });
+    const response = await fetch(`${SUMMARY_ENDPOINT}?${query}`, {
+      cache: "no-cache",
+      headers: marketWatchHeaders(state.summaryEtag, force),
+    });
+    if (response.status === 304) {
+      if (state.lastSummary?.source_snapshot_revision !== expectedRevision) {
+        const error = new Error("盘面摘要 304 与本地 revision 不一致");
+        error.discardBatch = true;
+        throw error;
+      }
+      return state.lastSummary;
+    }
+    if (!response.ok) throw await marketWatchResponseError(response);
+    const summary = validateSummary(await response.json(), expectedRevision, response);
+    state.summaryEtag = response.headers.get("ETag");
+    return summary;
+  }
+
+  function requiredSectorKeys(summary, scope) {
+    const trajectory = trajectorySummary(summary, scope);
+    if (!trajectory) return [];
+    const payload = {
+      ...trajectory,
+      direction: scope,
+      sectors: asArray(trajectory.sectors),
+    };
+    const selected = ensureSectorFlowSelection(payload);
+    const required = new Set(selected);
+    payload.sectors.forEach((item) => {
+      const changeDelta = finiteNumber(item?.latest?.change_delta_5m_pct);
+      if (
+        changeDelta !== null
+        && Math.abs(changeDelta) >= state.sectorFlowSurgeThreshold
+      ) {
+        required.add(text(item.sector_key, ""));
+      }
+    });
+    return payload.sectors
+      .map((item) => text(item.sector_key, ""))
+      .filter((key) => key && required.has(key));
+  }
+
+  function validateTrajectoryDetail(payload, summary, scope, requestedKeys, response) {
+    const trajectory = trajectorySummary(summary, scope);
+    if (!trajectory) throw new Error(`${scope} 轨迹摘要缺失`);
+    const expectedKeys = new Set(requestedKeys);
+    const sectorKeys = asArray(payload?.sector_keys);
+    const sectors = asArray(payload?.sectors);
+    const integrity = asArray(payload?.sector_integrity);
+    if (
+      !payload
+      || payload.contract !== "sector_flow_trajectory_detail.v1"
+      || payload.schema_version !== 1
+      || payload.direction !== scope
+      || payload.source_snapshot_revision !== summary.source_snapshot_revision
+      || payload.trajectory_revision !== trajectory.trajectory_revision
+      || response.headers.get("X-Source-Snapshot-Revision")
+        !== summary.source_snapshot_revision
+      || response.headers.get("X-Trajectory-Revision")
+        !== trajectory.trajectory_revision
+      || sectorKeys.length !== expectedKeys.size
+      || sectorKeys.some((key) => !expectedKeys.has(key))
+      || sectors.length !== sectorKeys.length
+      || integrity.length !== sectorKeys.length
+      || sectors.some((item, index) => item?.sector_key !== sectorKeys[index])
+      || integrity.some((item, index) => item?.sector_key !== sectorKeys[index])
+    ) {
+      throw new Error(`${scope} 精确轨迹与摘要 revision 不一致`);
+    }
+    const summaryByKey = new Map(
+      asArray(trajectory.sectors).map((item) => [item.sector_key, item]),
+    );
+    let pointCount = 0;
+    sectors.forEach((item, index) => {
+      const manifest = summaryByKey.get(item.sector_key);
+      const proof = integrity[index];
+      const points = asArray(item.points);
+      pointCount += points.length;
+      if (
+        !manifest
+        || points.length !== manifest.point_count
+        || points.length !== proof.point_count
+        || proof.points_revision !== manifest.points_revision
+        || text(proof.first_provider_as_of, "")
+          !== text(manifest.first_provider_as_of, "")
+        || text(proof.last_provider_as_of, "")
+          !== text(manifest.last_provider_as_of, "")
+        || (points.length > 0 && (
+          text(points[0].provider_as_of, "") !== text(proof.first_provider_as_of, "")
+          || text(points.at(-1).provider_as_of, "") !== text(proof.last_provider_as_of, "")
+        ))
+      ) {
+        throw new Error(`${scope}/${text(item.sector_key, "unknown")} 盘中点 manifest 不一致`);
+      }
+    });
+    if (pointCount !== payload.point_count) {
+      throw new Error(`${scope} 盘中点数不一致`);
+    }
+    return payload;
+  }
+
+  function detailCacheKey(summary, scope, sectorKeys) {
+    const trajectory = trajectorySummary(summary, scope);
+    return [
+      summary.source_snapshot_revision,
+      trajectory.trajectory_revision,
+      scope,
+      [...sectorKeys].sort().join(","),
+    ].join(":");
+  }
+
+  async function fetchTrajectoryDetail(summary, scope, sectorKeys, { force = false } = {}) {
+    if (!sectorKeys.length) return { cacheKey: null, etag: null, map: new Map() };
+    const trajectory = trajectorySummary(summary, scope);
+    const cacheKey = detailCacheKey(summary, scope, sectorKeys);
+    const query = new URLSearchParams({
+      direction: scope,
+      sector_keys: sectorKeys.join(","),
+      source_snapshot_revision: summary.source_snapshot_revision,
+      trajectory_revision: trajectory.trajectory_revision,
+    });
+    const response = await fetch(`${TRAJECTORY_ENDPOINT}?${query}`, {
+      cache: "no-cache",
+      headers: marketWatchHeaders(state.detailEtags.get(cacheKey), force),
+    });
+    let payload;
+    if (response.status === 304) {
+      payload = state.detailPayloads.get(cacheKey);
+      if (!payload) {
+        const error = new Error("轨迹 304 缺少本地精确批次");
+        error.discardBatch = true;
+        throw error;
+      }
+    } else {
+      if (!response.ok) throw await marketWatchResponseError(response);
+      payload = await response.json();
+    }
+    validateTrajectoryDetail(payload, summary, scope, sectorKeys, response);
+    return {
+      cacheKey,
+      etag: response.status === 304
+        ? state.detailEtags.get(cacheKey)
+        : response.headers.get("ETag"),
+      map: new Map(payload.sectors.map((item) => [item.sector_key, item])),
+      payload,
+    };
+  }
+
+  function hydratedTrajectory(summary, scope, exactByKey) {
+    const trajectory = trajectorySummary(summary, scope);
+    if (!trajectory) return null;
+    return {
+      ...trajectory,
+      contract: "sector_flow_trajectory.v1",
+      schema_version: 1,
+      sectors: asArray(trajectory.sectors).map((manifest) => {
+        const exact = exactByKey.get(manifest.sector_key) || {};
+        return {
+          ...manifest,
+          ...exact,
+          leader_snapshot: manifest.leader_snapshot || exact.leader_snapshot || null,
+          points: asArray(exact.points),
+        };
+      }),
+    };
+  }
+
+  function hydratedSnapshot(summary, details) {
+    return {
+      ...summary,
+      contract: summary.snapshot_contract,
+      schema_version: summary.snapshot_schema_version,
+      sector_flow_trajectory: hydratedTrajectory(
+        summary,
+        "defense",
+        details.defense,
+      ),
+      offense_sector_flow_trajectory: hydratedTrajectory(
+        summary,
+        "offense",
+        details.offense,
+      ),
+    };
+  }
+
+  function keepMarketWatchSurfacesVisible() {
+    const selectors = [
+      "#decision-bar",
+      "#index-dock",
+      "#sector-move-radar",
+      "#sector-flow-section",
+      "main > .facts-grid",
+      "main > .analysis-grid",
+      "main > .bottom-grid",
+    ];
+    selectors.forEach((selector) => {
+      document.querySelectorAll(selector).forEach((element) => {
+        element.hidden = false;
+      });
+    });
+  }
+
+  function renderMarketWatchUnavailableShell(message) {
+    keepMarketWatchSurfacesVisible();
+    if (state.lastSnapshot) return;
+    byId("sector-move-radar-status").textContent = "等待真实盘中快照";
+    byId("sector-move-radar-list").replaceChildren(
+      createElement("p", "empty-state", message),
+    );
+    ["defense", "offense"].forEach((scope) => {
+      renderSectorFlowUnavailable(message, scope);
+    });
+  }
+
+  function discardMarketWatchAttempt() {
+    state.summaryEtag = null;
+    state.detailEtags.clear();
+    state.detailPayloads.clear();
+  }
+
+  function renderNoAcceptedReal(status) {
+    keepMarketWatchSurfacesVisible();
+    const hasLastSnapshot = Boolean(state.lastSnapshot);
+    const cursor = status.collection_cursor || status.latest_published_status || {};
+    if (!hasLastSnapshot) {
+      byId("contract-chip").textContent = "collector_waiting.v1";
+      byId("snapshot-meta").textContent = `collection ${text(cursor.status, "unknown")}`;
+      renderMarketWatchUnavailableShell("暂无已接收的真实盘中快照；图表区域保留并等待采集恢复。");
+    }
+    const overlay = byId("data-risk-overlay");
+    overlay.classList.add("is-visible");
+    overlay.classList.remove("is-warning");
+    byId("data-risk-title").textContent = "暂无已接收的真实盘中快照";
+    byId("data-risk-detail").textContent = hasLastSnapshot
+      ? `本轮未取得新快照；保留最后一份已核验画面（${formatTimestamp(state.lastSnapshot.as_of)}），仅供回看，不代表当前盘面。`
+      : "页面结构和图表占位继续显示；不会把缺口心跳当成盘面数值。";
+    byId("alert-lock-label").textContent = "盘面变化提醒已锁定";
+    byId("alert-delivery-state").textContent = "等待 accepted_real";
+    byId("alert-delivery-state").parentElement.classList.add("is-locked");
+  }
+
+  function rememberDetailResult(result) {
+    if (!result.cacheKey) return;
+    state.detailEtags.set(result.cacheKey, result.etag);
+    state.detailPayloads.set(result.cacheKey, result.payload);
+  }
+
+  async function loadMarketWatchBatch({ force = false } = {}) {
+    const status = await fetchCollectionStatus({ force });
+    const accepted = status.latest_accepted_real;
+    if (!accepted) {
+      renderNoAcceptedReal(status);
+      return { changed: true, snapshot: null };
+    }
+    const sourceRevision = accepted.source_snapshot_revision;
+    if (
+      !force
+      && state.lastSummary?.source_snapshot_revision === sourceRevision
+      && state.lastSnapshot
+    ) {
+      keepMarketWatchSurfacesVisible();
+      return { changed: false, snapshot: state.lastSnapshot };
+    }
+    const summary = await fetchSummary(sourceRevision, { force });
+    const scopes = ["defense", "offense"];
+    const results = await Promise.all(scopes.map((scope) => (
+      fetchTrajectoryDetail(
+        summary,
+        scope,
+        requiredSectorKeys(summary, scope),
+        { force },
+      )
+    )));
+    const details = {
+      defense: results[0].map,
+      offense: results[1].map,
+    };
+    const snapshot = validateSnapshot(hydratedSnapshot(summary, details));
+    results.forEach(rememberDetailResult);
+    state.lastSummary = summary;
+    state.trajectoryDetails = details;
+    state.lastSnapshot = snapshot;
+    keepMarketWatchSurfacesVisible();
+    return { changed: true, snapshot };
+  }
+
+  async function hydrateCurrentSectorFlow(scope) {
+    const summary = state.lastSummary;
+    if (!summary) return;
+    const sectorKeys = requiredSectorKeys(summary, scope);
+    const current = state.trajectoryDetails[scope];
+    if (sectorKeys.every((key) => current.has(key))) return;
+    const result = await fetchTrajectoryDetail(summary, scope, sectorKeys);
+    if (state.lastSummary?.source_snapshot_revision !== summary.source_snapshot_revision) {
+      return;
+    }
+    rememberDetailResult(result);
+    state.trajectoryDetails = {
+      ...state.trajectoryDetails,
+      [scope]: new Map([...current, ...result.map]),
+    };
+    state.lastSnapshot = validateSnapshot(hydratedSnapshot(
+      summary,
+      state.trajectoryDetails,
+    ));
+  }
+
   function validateSnapshot(payload) {
     if (!payload || typeof payload !== "object" || Array.isArray(payload)) {
       throw new Error("返回内容不是盘面快照");
@@ -2698,21 +4346,30 @@
     document.body.classList.add("is-fetching");
     byId("poll-status").textContent = "正在更新…";
     try {
-      const response = await fetch(`${API_ENDPOINT}${force ? "?refresh=1" : ""}`, {
-        cache: "no-store",
-        headers: { Accept: "application/json" },
-      });
-      if (!response.ok) throw new Error(`服务返回 ${response.status}`);
-      state.backgroundRefresh = (
-        response.headers.get("X-Tradex-Refresh-State") === "background"
-      );
-      const snapshot = validateSnapshot(await response.json());
+      let loaded = null;
+      for (let attempt = 0; attempt < 2; attempt += 1) {
+        try {
+          loaded = await loadMarketWatchBatch({ force: force || attempt > 0 });
+          break;
+        } catch (error) {
+          if (
+            attempt === 0
+            && (error.discardBatch || error.noAcceptedReal)
+          ) {
+            if (error.discardBatch) discardMarketWatchAttempt();
+            continue;
+          }
+          throw error;
+        }
+      }
+      if (!loaded) throw new Error("盘面批次未完成");
       state.fetchFailed = false;
       state.lastFetchError = null;
-      state.lastSnapshot = snapshot;
       state.lastSuccessAt = Date.now();
-      renderSnapshot(snapshot);
-      processBackendAlerts(snapshot);
+      if (loaded.snapshot && loaded.changed) {
+        renderSnapshot(loaded.snapshot);
+        processBackendAlerts(loaded.snapshot);
+      }
       const replayReference = Math.max(
         state.replayLastAttemptAt,
         state.replayLastFetchedAt,
@@ -2725,7 +4382,6 @@
         fetchReplayData({ silent: true });
       }
     } catch (error) {
-      state.backgroundRefresh = false;
       state.fetchFailed = true;
       state.lastFetchError = error;
       renderFetchRisk(error);
@@ -2737,14 +4393,28 @@
     }
   }
 
+  function runScheduledPoll() {
+    if (document.visibilityState !== "visible" || state.fetchInFlight) return;
+    if (!state.nextPollAt || Date.now() < state.nextPollAt) return;
+    fetchSnapshot();
+  }
+
+  function resumeSnapshotPolling() {
+    if (document.visibilityState !== "visible") return;
+    state.nextPollAt = Date.now();
+    runScheduledPoll();
+  }
+
+  function bindPollingRecovery() {
+    document.addEventListener("visibilitychange", resumeSnapshotPolling);
+    window.addEventListener("focus", resumeSnapshotPolling);
+    window.addEventListener("pageshow", resumeSnapshotPolling);
+  }
+
   function updatePollStatus() {
     const target = byId("poll-status");
     if (state.fetchInFlight) {
       target.textContent = "正在更新…";
-      return;
-    }
-    if (state.backgroundRefresh) {
-      target.textContent = "已显示上次快照 · 后台更新中…";
       return;
     }
     if (!state.nextPollAt) {
@@ -2752,11 +4422,55 @@
       return;
     }
     const seconds = Math.max(0, Math.ceil((state.nextPollAt - Date.now()) / 1000));
-    target.textContent = `${seconds} 秒后自动刷新`;
+    const collectorState = text(state.collectionStatus?.collector_state, "unknown");
+    const heartbeatAt = Date.parse(text(
+      state.collectionStatus?.collector_heartbeat_at,
+      "",
+    ));
+    const heartbeatFresh = Number.isFinite(heartbeatAt)
+      && Date.now() - heartbeatAt <= COLLECTOR_HEARTBEAT_STALE_MS;
+    const collectorHealthy = heartbeatFresh && collectorState === "running";
+    const collectorLabel = collectorHealthy
+      ? "采集心跳正常"
+      : heartbeatFresh
+        ? `采集状态 ${collectorState}`
+        : "采集心跳超时";
+    const cursor = state.collectionStatus?.collection_cursor
+      || state.collectionStatus?.latest_published_status;
+    const cursorStatus = text(cursor?.status, "");
+    const collectionLabel = new Set(["retrying", "capturing", "expected"]).has(cursorStatus)
+      ? "当前分钟采集/追补中"
+      : cursorStatus === "unresolved"
+        ? "当前分钟缺口未解决"
+        : cursorStatus === "accepted_real" || cursorStatus === "repaired"
+          ? "真实快照已接收"
+          : "等待采集状态";
+    target.textContent = `${collectorLabel} · ${collectionLabel} · ${seconds} 秒后检查`;
+  }
+
+  function selectStockSelectionTab(tabName, { focus = false } = {}) {
+    const requested = tabName === "long-upper-shadow" ? tabName : "daily";
+    document.querySelectorAll("[data-stock-selection-tab]").forEach((button) => {
+      const selected = button.dataset.stockSelectionTab === requested;
+      button.setAttribute("aria-selected", String(selected));
+      button.tabIndex = selected ? 0 : -1;
+      if (selected && focus) button.focus();
+    });
+    document.querySelectorAll("[data-stock-selection-panel]").forEach((panel) => {
+      panel.hidden = panel.dataset.stockSelectionPanel !== requested;
+    });
+  }
+
+  function openStockSelectionDialog() {
+    const dialog = byId("stock-selection-dialog");
+    if (!dialog.open) dialog.showModal();
+    if (!state.stockSelectionHasLoaded) fetchStockSelectionHistory();
+    pollStockSelectionGeneration();
   }
 
   function bindUserActions() {
     byId("refresh-button").addEventListener("click", () => fetchSnapshot({ force: true }));
+    byId("collection-recovery-button").addEventListener("click", requestDailyRecovery);
     byId("notification-button").addEventListener("click", handleNotificationOptIn);
     byId("sound-button").addEventListener("click", handleSoundToggle);
     byId("mute-button").addEventListener("click", handleMuteToggle);
@@ -2785,7 +4499,7 @@
         if (event.target.checked) selected.add(key);
         else selected.delete(key);
         storeJson(sectorFlowSelectionStorageKey(scope), [...selected]);
-        if (state.lastSnapshot) renderSectorFlowTrajectory(state.lastSnapshot, scope);
+        scheduleSectorFlowRender(scope, { renderPicker: false });
       });
     });
     document.querySelectorAll("[data-sector-flow-action]").forEach((button) => {
@@ -2793,12 +4507,15 @@
         const scope = button.dataset.flowScope;
         const payload = sectorFlowPayload(state.lastSnapshot, scope);
         if (!payload) return;
+        const keys = payload.sectors.map((item) => text(item.sector_key, "")).filter(Boolean);
+        const current = ensureSectorFlowSelection(payload);
+        const allSelected = keys.length > 0 && keys.every((key) => current.has(key));
         const selected = button.dataset.sectorFlowAction === "select-all"
-          ? new Set(payload.sectors.map((item) => text(item.sector_key, "")).filter(Boolean))
+          ? allSelected ? new Set() : new Set(keys)
           : new Set(defaultSectorFlowSelection(payload));
         setSectorFlowSelection(scope, selected);
         storeJson(sectorFlowSelectionStorageKey(scope), [...selected]);
-        renderSectorFlowTrajectory(state.lastSnapshot, scope);
+        scheduleSectorFlowRender(scope, { renderPicker: true });
       });
     });
     document.querySelectorAll("[data-sector-flow-surge-threshold]").forEach((select) => {
@@ -2807,16 +4524,37 @@
         if (threshold === null || threshold <= 0) return;
         state.sectorFlowSurgeThreshold = threshold;
         storeText(STORAGE_KEYS.sectorFlowSurgeThreshold, String(threshold));
-        if (state.lastSnapshot) renderSectorFlowTrajectories(state.lastSnapshot);
+        if (state.lastSnapshot) {
+          scheduleSectorFlowRender("defense", { renderPicker: false });
+          scheduleSectorFlowRender("offense", { renderPicker: false });
+        }
       });
     });
     document.querySelectorAll("[data-sector-flow-chart-card]").forEach((chartCard) => {
       const chartLayout = chartCard.closest(".sector-flow-layout");
+      const scope = chartCard.dataset.flowScope;
       const syncChartLayout = () => {
         chartLayout.classList.toggle("is-chart-open", chartCard.open);
+        if (chartCard.open) scheduleSectorFlowRender(scope, { renderPicker: false });
+        else clearSectorFlowExpandedChart(scope);
       };
       chartCard.addEventListener("toggle", syncChartLayout);
       syncChartLayout();
+    });
+    document.addEventListener("pointerdown", (event) => {
+      document.querySelectorAll(".sector-flow-picker[open]").forEach((picker) => {
+        if (!picker.contains(event.target)) picker.open = false;
+      });
+    });
+    document.addEventListener("click", () => {
+      document.querySelectorAll(".sector-flow-chart-shell > svg[data-locked-sector-flow]")
+        .forEach((svg) => setSectorFlowSeriesLock(svg));
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key !== "Escape") return;
+      document.querySelectorAll(".sector-flow-picker[open]").forEach((picker) => {
+        picker.open = false;
+      });
     });
     byId("replay-refresh-button").addEventListener("click", () => fetchReplayData({
       tradeDate: byId("replay-date-select").value || null,
@@ -2829,6 +4567,33 @@
     byId("daily-review-date-select").addEventListener("change", (event) => {
       state.reviewTradeDate = event.target.value || null;
       fetchPostMarketReviewHistory({ tradeDate: state.reviewTradeDate });
+    });
+    byId("stock-selection-generate-button").addEventListener("click", generateStockSelection);
+    byId("stock-selection-open-button").addEventListener("click", openStockSelectionDialog);
+    byId("stock-selection-close-button").addEventListener("click", () => {
+      byId("stock-selection-dialog").close();
+      byId("stock-selection-open-button").focus();
+    });
+    document.querySelectorAll("[data-stock-selection-tab]").forEach((button) => {
+      button.addEventListener("click", () => {
+        selectStockSelectionTab(button.dataset.stockSelectionTab);
+      });
+      button.addEventListener("keydown", (event) => {
+        if (!new Set(["ArrowLeft", "ArrowRight", "Home", "End"]).has(event.key)) return;
+        event.preventDefault();
+        const tabs = [...document.querySelectorAll("[data-stock-selection-tab]")];
+        const current = tabs.indexOf(button);
+        const target = event.key === "Home"
+          ? 0
+          : event.key === "End"
+            ? tabs.length - 1
+            : (current + (event.key === "ArrowRight" ? 1 : -1) + tabs.length) % tabs.length;
+        selectStockSelectionTab(tabs[target].dataset.stockSelectionTab, { focus: true });
+      });
+    });
+    byId("stock-selection-date-select").addEventListener("change", (event) => {
+      state.stockSelectionTradeDate = event.target.value || null;
+      fetchStockSelectionHistory({ tradeDate: state.stockSelectionTradeDate });
     });
     byId("evaluation-scope-select").addEventListener("change", (event) => {
       const parsed = Number(event.target.value);
@@ -2852,6 +4617,10 @@
   }
 
   function setupDeferredPanelLoading() {
+    loadPanelWhenVisible("stock-selection-section", () => {
+      fetchStockSelectionHistory();
+      pollStockSelectionGeneration();
+    });
     loadPanelWhenVisible("daily-review-section", () => {
       fetchPostMarketReviewHistory();
     });
@@ -2861,13 +4630,16 @@
   }
 
   function start() {
+    keepMarketWatchSurfacesVisible();
     bindUserActions();
     renderControls();
     setupDeferredPanelLoading();
+    bindPollingRecovery();
     fetchSnapshot();
-    window.setInterval(fetchSnapshot, POLL_INTERVAL_MS);
+    window.setInterval(runScheduledPoll, POLL_WATCHDOG_INTERVAL_MS);
     window.setInterval(updatePollStatus, 1000);
     window.setInterval(updateReviewSchedule, 30_000);
+    window.setInterval(updateStockSelectionSchedule, 30_000);
     window.setInterval(
       () => {
         if (state.reviewHasLoaded) {
@@ -2875,6 +4647,18 @@
         }
       },
       REVIEW_REFRESH_INTERVAL_MS,
+    );
+    window.setInterval(
+      () => {
+        if (state.stockSelectionHasLoaded) {
+          fetchStockSelectionHistory({
+            tradeDate: state.stockSelectionTradeDate,
+            silent: true,
+          });
+          pollStockSelectionGeneration();
+        }
+      },
+      STOCK_SELECTION_REFRESH_INTERVAL_MS,
     );
   }
 

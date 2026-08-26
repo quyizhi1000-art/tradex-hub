@@ -17,17 +17,30 @@ import zlib
 from collections.abc import Callable, Mapping
 from datetime import date, datetime
 from pathlib import Path
-from typing import Any
+from typing import Any, Literal
 from zoneinfo import ZoneInfo
+
+from pydantic import model_validator
 
 from tradex.market_calendar import CalendarDayStatus, calendar_day_status
 
-from .contracts import AlertV1, MarketWatchSnapshotV1
+from .contracts import (
+    AlertV1,
+    ContractModel,
+    FreshnessStatus,
+    GuardrailSeverity,
+    MarketPhase,
+    MarketRegime,
+    MarketStateV1,
+    MarketWatchSnapshotV1,
+)
 from .policy import DEFAULT_MARKET_WATCH_POLICY
 
 
 HISTORY_CONTRACT = "market_watch_history.v1"
 HISTORY_SCHEMA_VERSION = 1
+REPLAY_SAMPLE_CONTRACT = "market_watch_replay_sample.v1"
+REPLAY_SAMPLE_SCHEMA_VERSION = 1
 DEFAULT_CONFIG_VERSION = DEFAULT_MARKET_WATCH_POLICY.config_version
 DEFAULT_RETENTION_TRADE_DAYS = (
     DEFAULT_MARKET_WATCH_POLICY.history_retention_trade_days
@@ -36,6 +49,54 @@ DEFAULT_DATE_LIMIT = 90
 ENV_DB_PATH = "TRADEX_MARKET_WATCH_DB"
 
 _SHANGHAI = ZoneInfo("Asia/Shanghai")
+
+
+class ReplayFreshnessV1(ContractModel):
+    """Freshness fields required by replay display and evaluation only."""
+
+    status: FreshnessStatus
+
+
+class ReplayGuardrailV1(ContractModel):
+    """Guardrail fields required by replay display and evaluation only."""
+
+    regime: MarketRegime
+    severity: GuardrailSeverity
+
+
+class MarketWatchReplaySampleV1(ContractModel):
+    """Lossless metadata projection for bounded replay and evaluation."""
+
+    contract: Literal["market_watch_replay_sample.v1"] = REPLAY_SAMPLE_CONTRACT
+    schema_version: Literal[1] = REPLAY_SAMPLE_SCHEMA_VERSION
+    snapshot_id: str
+    sequence: int
+    as_of: datetime
+    market_state: MarketStateV1
+    freshness: ReplayFreshnessV1
+    guardrail: ReplayGuardrailV1
+    alerts: tuple[AlertV1, ...] = ()
+
+    @model_validator(mode="after")
+    def validate_replay_sample(self) -> "MarketWatchReplaySampleV1":
+        if self.as_of.tzinfo is None or self.as_of.utcoffset() is None:
+            raise ValueError("replay as_of must include a timezone")
+        if self.market_state.trading_date != self.as_of.astimezone(_SHANGHAI).date():
+            raise ValueError("replay trading_date must match Shanghai as_of")
+        if self.freshness.status in {
+            FreshnessStatus.STALE,
+            FreshnessStatus.UNAVAILABLE,
+        } and not (
+            self.guardrail.regime == MarketRegime.UNCERTAIN
+            and self.guardrail.severity == GuardrailSeverity.STOP
+        ):
+            raise ValueError("stale replay data must preserve uncertain stop guardrail")
+        if (
+            self.freshness.status == FreshnessStatus.DEGRADED
+            and self.guardrail.severity == GuardrailSeverity.CALM
+        ):
+            raise ValueError("degraded replay data cannot preserve a calm guardrail")
+        return self
 
 
 def _json_bytes(value: Any) -> bytes:
@@ -104,6 +165,7 @@ class MarketWatchHistoryStore:
         config_version: str = DEFAULT_CONFIG_VERSION,
         retention_trade_days: int = DEFAULT_RETENTION_TRADE_DAYS,
         clock: Callable[[], datetime] | None = None,
+        read_only: bool = False,
     ) -> None:
         version = str(config_version).strip()
         if not version:
@@ -117,11 +179,15 @@ class MarketWatchHistoryStore:
         configured = db_path or os.environ.get(ENV_DB_PATH)
         if configured is None:
             configured = Path.home() / ".tradex" / "market_watch.sqlite3"
+        self.read_only = bool(read_only)
         if str(configured) == ":memory:":
+            if self.read_only:
+                raise ValueError("read-only history store requires a file path")
             self.db_path = ":memory:"
         else:
             resolved = Path(configured).expanduser().resolve()
-            resolved.parent.mkdir(parents=True, exist_ok=True)
+            if not self.read_only:
+                resolved.parent.mkdir(parents=True, exist_ok=True)
             self.db_path = str(resolved)
 
         self.config_version = version
@@ -129,6 +195,12 @@ class MarketWatchHistoryStore:
         self._clock = clock or (lambda: datetime.now(_SHANGHAI))
         self._lock = threading.RLock()
         self._closed = False
+        self._schema_available = False
+        self._connection: sqlite3.Connection | None = None
+        if self.read_only:
+            with self._lock:
+                self._open_read_only_locked()
+            return
         self._connection = sqlite3.connect(
             self.db_path,
             check_same_thread=False,
@@ -141,10 +213,81 @@ class MarketWatchHistoryStore:
                 self._connection.execute("PRAGMA journal_mode = WAL")
             self._connection.execute("PRAGMA synchronous = NORMAL")
             self._initialize()
+            self._schema_available = True
         except Exception:
             self._connection.close()
             self._closed = True
             raise
+
+    def _open_read_only_locked(self) -> bool:
+        """Open a newly available history database without writing to it."""
+
+        if self._connection is not None and self._schema_available:
+            return True
+        if self._connection is not None:
+            self._connection.close()
+            self._connection = None
+        self._schema_available = False
+        target = Path(self.db_path)
+        if not target.exists():
+            return False
+
+        connection: sqlite3.Connection | None = None
+        try:
+            connection = sqlite3.connect(
+                f"{target.as_uri()}?mode=ro",
+                check_same_thread=False,
+                timeout=5,
+                uri=True,
+            )
+            connection.row_factory = sqlite3.Row
+            connection.execute("PRAGMA busy_timeout = 5000")
+            connection.execute("PRAGMA query_only = ON")
+            required = {
+                "market_watch_history_meta",
+                "market_watch_snapshots",
+                "market_watch_alert_events",
+            }
+            present = {
+                row["name"]
+                for row in connection.execute(
+                    "SELECT name FROM sqlite_master WHERE type = 'table'"
+                ).fetchall()
+            }
+            if not required <= present:
+                connection.close()
+                return False
+            expected = {
+                "contract": HISTORY_CONTRACT,
+                "schema_version": str(HISTORY_SCHEMA_VERSION),
+            }
+            stored = {
+                row["key"]: row["value"]
+                for row in connection.execute(
+                    "SELECT key, value FROM market_watch_history_meta "
+                    "WHERE key IN ('contract', 'schema_version')"
+                ).fetchall()
+            }
+            if not expected.keys() <= stored.keys():
+                connection.close()
+                return False
+            for key, value in expected.items():
+                if stored[key] != value:
+                    raise RuntimeError(
+                        f"incompatible market-watch history {key}: {stored[key]}"
+                    )
+        except sqlite3.OperationalError:
+            if connection is not None:
+                connection.close()
+            return False
+        except Exception:
+            if connection is not None:
+                connection.close()
+            raise
+
+        self._connection = connection
+        self._schema_available = True
+        return True
 
     def _initialize(self) -> None:
         with self._lock, self._connection:
@@ -232,19 +375,37 @@ class MarketWatchHistoryStore:
         if self._closed:
             raise RuntimeError("market-watch history store is closed")
 
+    def _ensure_writable(self) -> None:
+        self._ensure_open()
+        if self.read_only:
+            raise RuntimeError("market-watch history store is read-only")
+
+    def _can_read(self) -> bool:
+        self._ensure_open()
+        if self._connection is not None and self._schema_available:
+            return True
+        if not self.read_only:
+            return False
+        with self._lock:
+            return self._open_read_only_locked()
+
     def record(
         self,
         snapshot: MarketWatchSnapshotV1 | Mapping[str, Any],
+        *,
+        overwrite: bool = True,
     ) -> dict[str, Any]:
         """Insert or update one Shanghai-minute snapshot and append its alerts.
 
         Re-recording byte-identical content is idempotent.  Different content
         for the same trade date, minute and config version replaces the replay
         snapshot, while alert events already observed in that minute remain.
+        ``overwrite=False`` is reserved for collection-gap heartbeats: a real
+        same-minute row always wins over the derived stale continuity row.
         """
 
         with self._lock:
-            self._ensure_open()
+            self._ensure_writable()
         canonical = MarketWatchSnapshotV1.model_validate(snapshot)
         local_as_of = canonical.as_of.astimezone(_SHANGHAI)
         trade_date = canonical.market_state.trading_date.isoformat()
@@ -280,7 +441,8 @@ class MarketWatchHistoryStore:
             with self._connection:
                 existing = self._connection.execute(
                     """
-                    SELECT payload_digest FROM market_watch_snapshots
+                    SELECT payload_digest, payload_bytes, snapshot_id
+                    FROM market_watch_snapshots
                     WHERE trade_date = ? AND minute_bucket = ?
                         AND config_version = ?
                     """,
@@ -293,6 +455,24 @@ class MarketWatchHistoryStore:
                     if existing["payload_digest"] == payload_digest
                     else "updated"
                 )
+
+                if existing is not None and not overwrite:
+                    return {
+                        "history_contract": HISTORY_CONTRACT,
+                        "history_schema_version": HISTORY_SCHEMA_VERSION,
+                        "config_version": self.config_version,
+                        "action": "preserved",
+                        "inserted": False,
+                        "updated": False,
+                        "unchanged": False,
+                        "trade_date": trade_date,
+                        "minute_bucket": minute_bucket,
+                        "snapshot_id": existing["snapshot_id"],
+                        "payload_digest": existing["payload_digest"],
+                        "payload_bytes": existing["payload_bytes"],
+                        "alerts_added": 0,
+                        "retention": None,
+                    }
 
                 self._connection.execute(
                     """
@@ -424,7 +604,8 @@ class MarketWatchHistoryStore:
 
         normalized_limit = _positive_limit(limit, name="limit", allow_none=False)
         with self._lock:
-            self._ensure_open()
+            if not self._can_read():
+                return []
             rows = self._connection.execute(
                 """
                 WITH alert_counts AS (
@@ -499,10 +680,179 @@ class MarketWatchHistoryStore:
             params.append(normalized_limit)
 
         with self._lock:
-            self._ensure_open()
+            if not self._can_read():
+                return []
             rows = self._connection.execute(query, params).fetchall()
 
         return [self._timeline_item(row) for row in reversed(rows)]
+
+    def get_replay_timeline(
+        self,
+        trade_date: date | str,
+        limit: int | None = None,
+    ) -> list[dict[str, Any]]:
+        """Return compact replay metadata without selecting snapshot blobs.
+
+        The complete canonical payload remains available through ``get_timeline``
+        for bounded domain consumers. Desktop Web replay and evaluation need
+        only fields already indexed beside the compressed payload, so this path
+        never decompresses unrelated trajectory or provider data.
+        """
+
+        with self._lock:
+            self._ensure_open()
+        normalized_date = _normalize_trade_date(trade_date)
+        if (
+            calendar_day_status(date.fromisoformat(normalized_date))
+            is not CalendarDayStatus.VERIFIED_TRADING_DAY
+        ):
+            return []
+        normalized_limit = _positive_limit(limit, name="limit", allow_none=True)
+        params: list[Any] = [normalized_date, self.config_version]
+        query = """
+            SELECT trade_date, minute_bucket, history_schema_version,
+                   config_version, snapshot_id, sequence, as_of,
+                   market_phase, freshness_status, regime, severity,
+                   payload_digest, payload_bytes, recorded_at, updated_at
+            FROM market_watch_snapshots
+            WHERE trade_date = ? AND config_version = ?
+            ORDER BY minute_bucket DESC
+        """
+        if normalized_limit is not None:
+            query += " LIMIT ?"
+            params.append(normalized_limit)
+
+        with self._lock:
+            if not self._can_read():
+                return []
+            rows = self._connection.execute(query, params).fetchall()
+
+        return [self._replay_timeline_item(row) for row in reversed(rows)]
+
+    def get_collection_records(
+        self,
+        trade_date: date | str,
+    ) -> list[dict[str, Any]]:
+        """Return lightweight ordered rows for collector-ledger reconciliation.
+
+        This path deliberately does not select or decompress ``payload_blob``.
+        A derived gap heartbeat is identified by its reserved deterministic
+        snapshot-id prefix, not merely by a stale freshness status.
+        """
+
+        normalized_date = _normalize_trade_date(trade_date)
+        if (
+            calendar_day_status(date.fromisoformat(normalized_date))
+            is not CalendarDayStatus.VERIFIED_TRADING_DAY
+        ):
+            return []
+        with self._lock:
+            if not self._can_read():
+                return []
+            rows = self._connection.execute(
+                """
+                SELECT trade_date, minute_bucket, config_version, snapshot_id,
+                    sequence, as_of, market_phase, freshness_status,
+                    payload_digest, payload_bytes, recorded_at, updated_at
+                FROM market_watch_snapshots
+                WHERE trade_date = ? AND config_version = ?
+                ORDER BY minute_bucket ASC
+                """,
+                (normalized_date, self.config_version),
+            ).fetchall()
+        return [
+            {
+                **dict(row),
+                "record_kind": (
+                    "derived_gap_heartbeat"
+                    if str(row["snapshot_id"]).startswith("mw-heartbeat:")
+                    else "accepted_real"
+                    if row["freshness_status"] in {
+                        "fresh",
+                        "degraded",
+                    }
+                    else "stale_snapshot"
+                ),
+            }
+            for row in rows
+        ]
+
+    def get_snapshot_by_pointer(
+        self,
+        *,
+        trade_date: date | str,
+        minute_bucket: datetime | str,
+        snapshot_id: str,
+        payload_digest: str,
+    ) -> dict[str, Any] | None:
+        """Read exactly one strict snapshot identified by a ledger pointer.
+
+        Pointer fields are checked against row metadata before decompression.
+        The stored canonical bytes and the revalidated canonical model are both
+        hashed so corruption or non-canonical storage cannot cross the facade.
+        """
+
+        normalized_date = _normalize_trade_date(trade_date)
+        parsed_minute = (
+            minute_bucket
+            if isinstance(minute_bucket, datetime)
+            else datetime.fromisoformat(str(minute_bucket))
+        )
+        minute_iso = _minute_iso(parsed_minute)
+        if minute_iso[:10] != normalized_date:
+            raise ValueError("minute_bucket must belong to trade_date")
+        expected_snapshot_id = str(snapshot_id).strip()
+        if not expected_snapshot_id:
+            raise ValueError("snapshot_id must not be empty")
+        expected_digest = str(payload_digest).strip().lower()
+        if len(expected_digest) != 64 or any(
+            character not in "0123456789abcdef" for character in expected_digest
+        ):
+            raise ValueError("payload_digest must be a SHA-256 digest")
+        with self._lock:
+            if not self._can_read():
+                return None
+            row = self._connection.execute(
+                """
+                SELECT * FROM market_watch_snapshots
+                WHERE trade_date = ? AND minute_bucket = ? AND config_version = ?
+                LIMIT 1
+                """,
+                (normalized_date, minute_iso, self.config_version),
+            ).fetchone()
+        if row is None:
+            return None
+        if (
+            row["snapshot_id"] != expected_snapshot_id
+            or row["payload_digest"] != expected_digest
+        ):
+            return None
+        raw = zlib.decompress(row["payload_blob"])
+        if hashlib.sha256(raw).hexdigest() != expected_digest:
+            raise RuntimeError("market-watch history raw payload digest mismatch")
+        decoded = json.loads(raw.decode("utf-8"))
+        if _json_bytes(decoded) != raw:
+            raise RuntimeError("market-watch history payload bytes are not canonical JSON")
+        validated = MarketWatchSnapshotV1.model_validate(decoded)
+        if (
+            decoded.get("snapshot_id") != expected_snapshot_id
+            or validated.snapshot_id != expected_snapshot_id
+        ):
+            raise RuntimeError("market-watch history snapshot_id mismatch")
+        return {
+            "history_contract": HISTORY_CONTRACT,
+            "history_schema_version": row["history_schema_version"],
+            "config_version": row["config_version"],
+            "trade_date": row["trade_date"],
+            "minute_bucket": row["minute_bucket"],
+            "recorded_at": row["recorded_at"],
+            "updated_at": row["updated_at"],
+            "payload_digest": row["payload_digest"],
+            "payload_bytes": row["payload_bytes"],
+            # Preserve the exact historical JSON shape. Current-model default
+            # fields may be newer than the bytes whose digest is the pointer.
+            "payload": decoded,
+        }
 
     def find_latest_snapshot(
         self,
@@ -516,7 +866,8 @@ class MarketWatchHistoryStore:
             raise TypeError("snapshot predicate must be callable")
         normalized_limit = _positive_limit(limit, name="limit", allow_none=False)
         with self._lock:
-            self._ensure_open()
+            if not self._can_read():
+                return None
             rows = self._connection.execute(
                 """
                 SELECT * FROM market_watch_snapshots
@@ -552,6 +903,41 @@ class MarketWatchHistoryStore:
             "payload": payload,
         }
 
+    @staticmethod
+    def _replay_timeline_item(row: sqlite3.Row) -> dict[str, Any]:
+        phase = MarketPhase(row["market_phase"])
+        payload = MarketWatchReplaySampleV1(
+            snapshot_id=row["snapshot_id"],
+            sequence=row["sequence"],
+            as_of=row["as_of"],
+            market_state=MarketStateV1(
+                phase=phase,
+                is_open=phase
+                in {MarketPhase.OPENING_OBSERVATION, MarketPhase.TRADING},
+                trading_date=row["trade_date"],
+            ),
+            freshness=ReplayFreshnessV1(status=row["freshness_status"]),
+            guardrail=ReplayGuardrailV1(
+                regime=row["regime"],
+                severity=row["severity"],
+            ),
+        ).model_dump(mode="json")
+        return {
+            "history_contract": HISTORY_CONTRACT,
+            "history_schema_version": row["history_schema_version"],
+            "config_version": row["config_version"],
+            "trade_date": row["trade_date"],
+            "minute_bucket": row["minute_bucket"],
+            "snapshot_id": row["snapshot_id"],
+            "sequence": row["sequence"],
+            "as_of": row["as_of"],
+            "recorded_at": row["recorded_at"],
+            "updated_at": row["updated_at"],
+            "payload_digest": row["payload_digest"],
+            "payload_bytes": row["payload_bytes"],
+            "payload": payload,
+        }
+
     def get_alerts(
         self,
         trade_date: date | str,
@@ -579,7 +965,8 @@ class MarketWatchHistoryStore:
             params.append(normalized_limit)
 
         with self._lock:
-            self._ensure_open()
+            if not self._can_read():
+                return []
             rows = self._connection.execute(query, params).fetchall()
 
         return [
@@ -611,7 +998,7 @@ class MarketWatchHistoryStore:
         keep = self.retention_trade_days if retention_trade_days is None else retention_trade_days
         _positive_limit(keep, name="retention_trade_days", allow_none=False)
         with self._lock:
-            self._ensure_open()
+            self._ensure_writable()
             with self._connection:
                 return self._apply_retention_locked(int(keep))
 
@@ -659,7 +1046,8 @@ class MarketWatchHistoryStore:
         with self._lock:
             if self._closed:
                 return
-            self._connection.close()
+            if self._connection is not None:
+                self._connection.close()
             self._closed = True
 
     def __enter__(self) -> "MarketWatchHistoryStore":

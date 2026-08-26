@@ -1090,6 +1090,62 @@ class BoardLeaderSnapshotV1(ContractModel):
         return self
 
 
+class BoardLeaderV2(ContractModel):
+    """One speed-sorted board constituent used for resonance selection."""
+
+    instrument_id: str = Field(pattern=r"^\d{6}\.(?:SH|SZ|BJ)$")
+    name: str = Field(min_length=1)
+    price: float | None = Field(default=None, ge=0)
+    change_pct: float | None = None
+    speed_pct: float
+    amount_cny: float | None = Field(default=None, ge=0)
+    turnover_pct: float | None = Field(default=None, ge=0)
+    main_net_inflow_cny: float | None = None
+    main_net_inflow_pct: float | None = None
+    provider_as_of: datetime | None = None
+    provider_variant: str = Field(min_length=1)
+
+    @field_validator(
+        "price",
+        "change_pct",
+        "speed_pct",
+        "amount_cny",
+        "turnover_pct",
+        "main_net_inflow_cny",
+        "main_net_inflow_pct",
+    )
+    @classmethod
+    def require_finite_board_number(cls, value: float | None) -> float | None:
+        if value is not None and not math.isfinite(value):
+            raise ValueError("board resonance numbers must be finite")
+        return value
+
+    @field_validator("provider_as_of")
+    @classmethod
+    def require_board_timezone(cls, value: datetime | None) -> datetime | None:
+        if value is not None and value.tzinfo is None:
+            raise ValueError("board resonance provider_as_of must include a timezone")
+        return value
+
+
+class BoardLeaderSnapshotV2(ContractModel):
+    metadata: ContractMetadata
+    board_code: str = Field(pattern=r"^BK\d+$")
+    leaders: tuple[BoardLeaderV2, ...] = Field(min_length=1, max_length=10)
+
+    @model_validator(mode="after")
+    def validate_board_snapshot(self) -> "BoardLeaderSnapshotV2":
+        if (
+            self.metadata.contract != "board_leader.v2"
+            or self.metadata.schema_version != 2
+        ):
+            raise ValueError("board resonance candidates require board_leader.v2 metadata")
+        ids = [item.instrument_id for item in self.leaders]
+        if len(ids) != len(set(ids)):
+            raise ValueError("board resonance candidates cannot contain duplicates")
+        return self
+
+
 class LimitEventTradeStatusV1(ContractModel):
     """Provider-neutral market phase attached to a daily limit-event pool."""
 

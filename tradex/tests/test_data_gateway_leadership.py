@@ -139,7 +139,12 @@ def test_stock_sector_profiles_reject_wrong_trade_date_inside_route() -> None:
         )
 
 
-def _board_frame(*, name: str | None, source: str) -> pd.DataFrame:
+def _board_frame(
+    *,
+    name: str | None,
+    source: str,
+    speed_pct: float | None = 0.8,
+) -> pd.DataFrame:
     frame = pd.DataFrame(
         [
             {
@@ -147,6 +152,7 @@ def _board_frame(*, name: str | None, source: str) -> pd.DataFrame:
                 "name": name,
                 "price": 30.0,
                 "change_pct": 3.2,
+                "speed_pct": speed_pct,
                 "amount": 5_000_000_000,
                 "turnover": 2.1,
                 "flow_amount": 500_000_000,
@@ -165,7 +171,11 @@ def test_board_leader_mapping_failure_falls_back_to_next_provider() -> None:
     router.register(
         "board_leaders",
         "bad_primary",
-        lambda **kwargs: _board_frame(name=None, source="bad_primary"),
+        lambda **kwargs: _board_frame(
+            name="缺少涨速",
+            source="bad_primary",
+            speed_pct=None,
+        ),
         priority=1,
     )
     router.register(
@@ -183,7 +193,8 @@ def test_board_leader_mapping_failure_falls_back_to_next_provider() -> None:
     )
     payload = board_leader_snapshot_to_legacy_payload(snapshot)
 
-    assert snapshot.metadata.contract == "board_leader.v1"
+    assert snapshot.metadata.contract == "board_leader.v2"
+    assert snapshot.metadata.schema_version == 2
     assert snapshot.metadata.provider == "push2delay"
     assert snapshot.metadata.quality is QualityStatus.ACCEPTED
     assert payload == {
@@ -200,6 +211,7 @@ def test_board_leader_mapping_failure_falls_back_to_next_provider() -> None:
                 "name": "中信证券",
                 "price": 30.0,
                 "change_pct": 3.2,
+                "speed_pct": 0.8,
                 "amount": 5_000_000_000.0,
                 "turnover": 2.1,
                 "flow_amount": 500_000_000.0,

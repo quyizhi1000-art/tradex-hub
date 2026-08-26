@@ -1,0 +1,7 @@
+interface:
+  display_name: "Tradex 每日选股研究"
+  short_description: "生成、读取并解释 Tradex 每日 A 股候选池"
+  default_prompt: "Use $tradex-daily-stock-research to inspect today's Tradex candidate pool and explain its evidence, outcomes, and risks."
+
+policy:
+  allow_implicit_invocation: true

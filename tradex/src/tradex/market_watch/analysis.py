@@ -47,6 +47,8 @@ from .contracts import (
 
 SHANGHAI = ZoneInfo("Asia/Shanghai")
 DEFAULT_TURNOVER_FLAT_THRESHOLD_PCT = 3.0
+SECTOR_MOVE_ALERT_THRESHOLDS_PCT = (1.2, 0.8, 0.5, 0.3)
+MAX_SECTOR_MOVE_ALERTS = 12
 _INTRADAY_MAX_AGE_SECONDS = {
     "indices": 120,
     "breadth": 120,
@@ -247,7 +249,6 @@ def _normalize_indices(
     ]
     by_role: dict[IndexRole, IndexSnapshotV1] = {}
     top_provider_time = _datetime(market_data.get("provider_as_of"))
-    top_quality = market_data.get("quality")
     for raw_value in raw_records:
         raw = _mapping(raw_value)
         instrument_id = _canonical_instrument(
@@ -289,7 +290,7 @@ def _normalize_indices(
                 else ComponentQuality.DEGRADED
                 if partial
                 else _component_quality(
-                    _first(raw, "quality") or top_quality,
+                    _first(raw, "quality"),
                     available=available,
                 )
             ),
@@ -1221,7 +1222,7 @@ def build_scenarios(
     ),)
 
 
-def _candidate_alerts(
+def _market_state_alert(
     guardrail: GuardrailV1, freshness: FreshnessV1
 ) -> tuple[AlertV1, ...]:
     if guardrail.severity == GuardrailSeverity.CALM:
@@ -1242,12 +1243,113 @@ def _candidate_alerts(
         else "market_watch:market_state"
     )
     return (AlertV1(
+        kind="data_quality" if code.startswith("data_") else "market_state",
         code=code,
         severity=guardrail.severity,
         title=title,
         message=guardrail.behavioral_constraint,
         dedupe_key=dedupe_key,
     ),)
+
+
+def _sector_move_alerts(
+    *,
+    freshness: FreshnessV1,
+    market_state: MarketStateV1,
+    trajectories: Sequence[SectorFlowTrajectoryV1 | None],
+) -> tuple[AlertV1, ...]:
+    if freshness.status in {
+        FreshnessStatus.STALE,
+        FreshnessStatus.UNAVAILABLE,
+    } or not market_state.is_open:
+        return ()
+
+    candidates: list[tuple[float, AlertV1]] = []
+    for trajectory in trajectories:
+        if trajectory is None or trajectory.status not in {
+            SectorFlowTrajectoryStatus.READY,
+            SectorFlowTrajectoryStatus.PARTIAL,
+        }:
+            continue
+        for sector in trajectory.sectors:
+            latest = sector.latest
+            if latest is None or latest.change_delta_5m_pct is None:
+                continue
+            magnitude = abs(latest.change_delta_5m_pct)
+            threshold = next(
+                (
+                    value
+                    for value in SECTOR_MOVE_ALERT_THRESHOLDS_PCT
+                    if magnitude >= value
+                ),
+                None,
+            )
+            if threshold is None:
+                continue
+            move_direction = (
+                "strengthening" if latest.change_delta_5m_pct > 0 else "weakening"
+            )
+            code = "sector_move_up" if move_direction == "strengthening" else "sector_move_down"
+            move_label = "突然增强" if move_direction == "strengthening" else "突然走弱"
+            delta_label = f"{latest.change_delta_5m_pct:+.2f}个百分点"
+            flow_label = (
+                f"，近5分钟资金变化{latest.delta_5m_cny / 100_000_000:+.1f}亿元"
+                if latest.delta_5m_cny is not None
+                else ""
+            )
+            threshold_key = str(threshold).replace(".", "_")
+            leaders = (
+                sector.leader_snapshot.leaders
+                if sector.leader_snapshot is not None
+                else ()
+            )
+            candidates.append((
+                magnitude,
+                AlertV1(
+                    kind="sector_move",
+                    code=code,
+                    severity=GuardrailSeverity.CAUTION,
+                    title=f"{sector.name}{move_label}",
+                    message=f"5分钟板块涨幅变化{delta_label}{flow_label}。",
+                    dedupe_key=(
+                        f"market_watch:sector_move:{trajectory.direction}:"
+                        f"{sector.sector_key}:{move_direction}:{threshold_key}"
+                    ),
+                    sector_key=sector.sector_key,
+                    sector_label=sector.name,
+                    sector_direction=trajectory.direction,
+                    move_direction=move_direction,
+                    trigger_threshold_pct=threshold,
+                    change_delta_5m_pct=latest.change_delta_5m_pct,
+                    change_pct=latest.change_pct,
+                    flow_delta_5m_cny=latest.delta_5m_cny,
+                    provider_as_of=latest.provider_as_of,
+                    leaders=leaders,
+                ),
+            ))
+    candidates.sort(key=lambda item: (-item[0], item[1].dedupe_key))
+    return tuple(item[1] for item in candidates[:MAX_SECTOR_MOVE_ALERTS])
+
+
+def _candidate_alerts(
+    *,
+    guardrail: GuardrailV1,
+    freshness: FreshnessV1,
+    market_state: MarketStateV1,
+    sector_flow_trajectory: SectorFlowTrajectoryV1 | None,
+    offense_sector_flow_trajectory: SectorFlowTrajectoryV1 | None,
+) -> tuple[AlertV1, ...]:
+    return (
+        *_market_state_alert(guardrail, freshness),
+        *_sector_move_alerts(
+            freshness=freshness,
+            market_state=market_state,
+            trajectories=(
+                sector_flow_trajectory,
+                offense_sector_flow_trajectory,
+            ),
+        ),
+    )
 
 
 def _normalize_change(
@@ -1420,7 +1522,15 @@ def build_market_watch_snapshot(
         ],
         scenarios=scenarios,
         change=normalized["change"],
-        alerts=_candidate_alerts(guardrail, normalized["freshness"]),
+        alerts=_candidate_alerts(
+            guardrail=guardrail,
+            freshness=normalized["freshness"],
+            market_state=normalized["market_state"],
+            sector_flow_trajectory=normalized["sector_flow_trajectory"],
+            offense_sector_flow_trajectory=normalized[
+                "offense_sector_flow_trajectory"
+            ],
+        ),
     )
 
 

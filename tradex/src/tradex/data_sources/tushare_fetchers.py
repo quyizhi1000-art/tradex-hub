@@ -5,6 +5,7 @@ from __future__ import annotations
 import math
 import re
 from bisect import bisect_right
+from concurrent.futures import ThreadPoolExecutor
 from datetime import date, datetime, time, timedelta
 from typing import Any, Iterable, Mapping
 from zoneinfo import ZoneInfo
@@ -110,6 +111,7 @@ _DAILY_BASIC_FIELDS = (
     "turnover_rate",
     "volume_ratio",
     "pe",
+    "pe_ttm",
     "pb",
     "ps",
     "dv_ratio",
@@ -127,6 +129,7 @@ _STOCK_BASIC_FIELDS = (
     "industry",
     "market",
     "list_date",
+    "delist_date",
     "list_status",
 )
 _FUND_DAILY_FIELDS = _BAR_FIELDS
@@ -206,6 +209,24 @@ _TOP_LIST_FIELDS = (
     "float_values",
     "reason",
 )
+_TRADE_CAL_FIELDS = (
+    "exchange",
+    "cal_date",
+    "is_open",
+    "pretrade_date",
+)
+_FINANCIAL_INDICATOR_FIELDS = (
+    "ts_code",
+    "ann_date",
+    "end_date",
+    "roe",
+    "roe_waa",
+    "grossprofit_margin",
+    "debt_to_assets",
+    "or_yoy",
+    "netprofit_yoy",
+    "update_flag",
+)
 
 
 def _number(value: Any) -> float | int | None:
@@ -236,16 +257,31 @@ def _turnover_volume_shares(
     inside the provider's own price range.
     """
 
+    raw_volume, multipliers = _turnover_volume_multiplier_candidates(
+        item, context=context
+    )
+    if raw_volume in (None, 0):
+        return raw_volume
+    if len(multipliers) != 1:
+        raise RuntimeError(f"TuShare {context}成交量单位无法唯一判定")
+    return raw_volume * multipliers[0]
+
+
+def _turnover_volume_multiplier_candidates(
+    item: Mapping[str, Any], *, context: str
+) -> tuple[float | int | None, tuple[int, ...]]:
+    """Return the safe x1/x100 interpretations for one turnover row."""
+
     raw_volume = _number(item.get("vol"))
     amount = _number(item.get("amount"))
     if raw_volume is None:
-        return None
+        return None, ()
     if raw_volume < 0:
         raise RuntimeError(f"TuShare {context}成交量无效")
     if raw_volume == 0:
         if amount not in (None, 0):
             raise RuntimeError(f"TuShare {context}零成交量与成交额冲突")
-        return 0
+        return 0, ()
     if amount is None or amount <= 0:
         raise RuntimeError(f"TuShare {context}缺少可校验的成交额")
 
@@ -254,7 +290,7 @@ def _turnover_volume_shares(
     if low is None or high is None or low <= 0 or high + 1e-8 < low:
         raise RuntimeError(f"TuShare {context}缺少可校验的价格区间")
 
-    candidates: list[float | int] = []
+    candidates: list[int] = []
     for multiplier in (1, 100):
         normalized = raw_volume * multiplier
         implied_average = amount / normalized
@@ -264,10 +300,56 @@ def _turnover_volume_shares(
         # while accepting that documented rounding noise.
         tolerance = max(0.01, float(high) * 0.02, 1.0 / normalized)
         if float(low) - tolerance <= implied_average <= float(high) + tolerance:
-            candidates.append(normalized)
-    if len(candidates) != 1:
+            candidates.append(multiplier)
+    return raw_volume, tuple(candidates)
+
+
+def _turnover_volume_shares_batch(
+    items: Iterable[Mapping[str, Any]], *, context: str
+) -> tuple[list[float | int | None], int]:
+    """Normalize a cross-section without one rounded sparse row poisoning it.
+
+    Every row first uses the strict amount/price-range check.  A row with no
+    unique interpretation may borrow the dominant multiplier only when at
+    least twenty other rows from the same provider request agree and at least
+    95 percent of all resolved evidence supports that multiplier.
+    """
+
+    rows = list(items)
+    resolved: list[float | int | None] = [None] * len(rows)
+    candidates_by_index: dict[int, tuple[float | int, tuple[int, ...]]] = {}
+    evidence = {1: 0, 100: 0}
+    unresolved: list[int] = []
+    for index, item in enumerate(rows):
+        raw_volume, multipliers = _turnover_volume_multiplier_candidates(
+            item, context=context
+        )
+        if raw_volume in (None, 0):
+            resolved[index] = raw_volume
+            continue
+        candidates_by_index[index] = (raw_volume, multipliers)
+        if len(multipliers) == 1:
+            multiplier = multipliers[0]
+            evidence[multiplier] += 1
+            resolved[index] = raw_volume * multiplier
+        else:
+            unresolved.append(index)
+
+    if not unresolved:
+        return resolved, 0
+
+    winner = max(evidence, key=evidence.get)
+    evidence_total = sum(evidence.values())
+    winner_count = evidence[winner]
+    if (
+        evidence_total < 20
+        or winner_count / evidence_total < 0.95
+    ):
         raise RuntimeError(f"TuShare {context}成交量单位无法唯一判定")
-    return candidates[0]
+    for index in unresolved:
+        raw_volume, _multipliers = candidates_by_index[index]
+        resolved[index] = raw_volume * winner
+    return resolved, len(unresolved)
 
 
 def _realtime_volume_shares(item: Mapping[str, Any]) -> float | int | None:
@@ -434,6 +516,58 @@ def _request_id_bundle(*items: tuple[str, str | None]) -> str | None:
     return "|".join(parts) or None
 
 
+def _paged_records(
+    api_name: str,
+    params: Mapping[str, Any],
+    fields: Iterable[str],
+    *,
+    context: str,
+    allow_empty: bool = False,
+    page_size: int = 6000,
+    max_pages: int = 3,
+) -> tuple[list[dict[str, Any]], list[tuple[str, str | None]]]:
+    """Read one bounded full-market table without silently truncating it."""
+
+    rows: list[dict[str, Any]] = []
+    request_ids: list[tuple[str, str | None]] = []
+    for page in range(max_pages):
+        offset = page * page_size
+        payload = _request(
+            api_name,
+            {**dict(params), "limit": page_size, "offset": offset},
+            fields=fields,
+        )
+        batch, request_id = _records(
+            payload,
+            context,
+            allow_empty=True,
+        )
+        request_ids.append((f"{api_name}:{offset}", request_id))
+        rows.extend(batch)
+        if len(batch) < page_size:
+            break
+    else:
+        raise RuntimeError(f"TuShare {context}超过受控分页上限")
+    if not rows and not allow_empty:
+        raise RuntimeError(f"TuShare {context}返回空数据")
+    return rows, request_ids
+
+
+def _quarter_periods(target: date, count: int = 8) -> tuple[str, ...]:
+    candidates: list[date] = []
+    for year in range(target.year, target.year - 4, -1):
+        candidates.extend(
+            date(year, month, day)
+            for month, day in ((12, 31), (9, 30), (6, 30), (3, 31))
+        )
+    return tuple(
+        item.strftime("%Y%m%d")
+        for item in sorted((item for item in candidates if item <= target), reverse=True)[
+            :count
+        ]
+    )
+
+
 def _exact_day_records(
     records: Iterable[dict[str, Any]],
     *,
@@ -481,6 +615,311 @@ def _matching_records(
     if not matches:
         raise RuntimeError(f"TuShare {context}未返回请求的证券 {requested}")
     return matches
+
+
+def _stock_selection_dates(
+    compact: str,
+    trading_date: date,
+) -> tuple[str, str, tuple[str, ...], str | None]:
+    calendar_start = (trading_date - timedelta(days=220)).strftime("%Y%m%d")
+    payload = _request(
+        "trade_cal",
+        {"exchange": "SSE", "start_date": calendar_start, "end_date": compact},
+        fields=_TRADE_CAL_FIELDS,
+    )
+    rows, request_id = _records(payload, "选股交易日历")
+    open_dates = sorted(
+        {
+            _compact_date(row.get("cal_date"), "trade_cal.cal_date", allow_empty=False)
+            for row in rows
+            if int(_number(row.get("is_open")) or 0) == 1
+        }
+    )
+    if compact not in open_dates:
+        raise SourceCapabilityError("stock_selection_calendar requires an open trade date")
+    target_index = open_dates.index(compact)
+    if target_index < 60:
+        raise RuntimeError("TuShare 选股交易日历不足 60 个历史交易日")
+    candlestick_window = tuple(open_dates[target_index - 14 : target_index + 1])
+    if len(candlestick_window) != 15:
+        raise RuntimeError("TuShare 选股交易日历不足 15 个形态观察日")
+    return (
+        open_dates[target_index - 20],
+        open_dates[target_index - 60],
+        candlestick_window,
+        request_id,
+    )
+
+
+def fetch_stock_selection_calendar(
+    trade_date: str = "",
+    code: str = "",
+    symbol: str = "",
+    **kwargs: Any,
+) -> dict[str, Any]:
+    """Resolve exact comparison sessions and the benchmark for one signal day."""
+    del kwargs
+    if code or symbol:
+        raise SourceCapabilityError("stock_selection_calendar is a whole-market route")
+    compact, trading_date = _daily_trade_date(trade_date, required=True)
+    with ThreadPoolExecutor(max_workers=2, thread_name_prefix="tushare-selection-calendar") as executor:
+        dates_job = executor.submit(_stock_selection_dates, compact, trading_date)
+        benchmark_job = executor.submit(
+            _paged_records,
+            "index_daily",
+            {"ts_code": "000300.SH", "trade_date": compact},
+            _BAR_FIELDS,
+            context="选股基准",
+            page_size=100,
+            max_pages=1,
+        )
+        (
+            prior_20d,
+            prior_60d,
+            candlestick_window,
+            calendar_request_id,
+        ) = dates_job.result()
+        benchmark, benchmark_ids = benchmark_job.result()
+    request_ids: list[tuple[str, str | None]] = [("trade_cal", calendar_request_id)]
+    request_ids.extend((f"benchmark:{label}", value) for label, value in benchmark_ids)
+    return {
+        "trade_date": trading_date.isoformat(),
+        "prior_20d_trade_date": datetime.strptime(prior_20d, "%Y%m%d").date().isoformat(),
+        "prior_60d_trade_date": datetime.strptime(prior_60d, "%Y%m%d").date().isoformat(),
+        "candlestick_window_trade_dates": [
+            datetime.strptime(value, "%Y%m%d").date().isoformat()
+            for value in candlestick_window
+        ],
+        "provider_as_of": _market_time(trading_date, time(18, 0)),
+        "request_id": _request_id_bundle(*request_ids),
+        "benchmark": benchmark,
+    }
+
+
+def fetch_stock_selection_daily(
+    trade_date: str = "",
+    session_date: str = "",
+    code: str = "",
+    symbol: str = "",
+    **kwargs: Any,
+) -> dict[str, Any]:
+    """Fetch the exact current full-market daily table."""
+    del kwargs
+    if code or symbol:
+        raise SourceCapabilityError("stock_selection_daily is a whole-market route")
+    compact, trading_date = _daily_trade_date(trade_date, required=True)
+    session_compact = _compact_date(
+        session_date or compact, "session_date", allow_empty=False
+    )
+    if session_compact > compact:
+        raise ValueError("stock-selection session_date cannot follow trade_date")
+    daily, request_ids = _paged_records(
+        "daily",
+        {"trade_date": session_compact},
+        _BAR_FIELDS,
+        context="选股全市场日线",
+        page_size=6000,
+        max_pages=2,
+    )
+    return {
+        "trade_date": trading_date.isoformat(),
+        "session_date": datetime.strptime(session_compact, "%Y%m%d").date().isoformat(),
+        "request_id": _request_id_bundle(
+            *((f"daily:{label}", value) for label, value in request_ids)
+        ),
+        "daily": daily,
+    }
+
+
+def fetch_stock_selection_daily_basic(
+    trade_date: str = "",
+    code: str = "",
+    symbol: str = "",
+    **kwargs: Any,
+) -> dict[str, Any]:
+    """Fetch the exact current valuation and liquidity table."""
+    del kwargs
+    if code or symbol:
+        raise SourceCapabilityError("stock_selection_daily_basic is a whole-market route")
+    compact, trading_date = _daily_trade_date(trade_date, required=True)
+    daily_basic, request_ids = _paged_records(
+        "daily_basic",
+        {"trade_date": compact},
+        _DAILY_BASIC_FIELDS,
+        context="选股每日指标",
+        page_size=6000,
+        max_pages=2,
+    )
+    return {
+        "trade_date": trading_date.isoformat(),
+        "request_id": _request_id_bundle(
+            *((f"daily_basic:{label}", value) for label, value in request_ids)
+        ),
+        "daily_basic": daily_basic,
+    }
+
+
+def fetch_stock_selection_master(
+    trade_date: str = "",
+    code: str = "",
+    symbol: str = "",
+    **kwargs: Any,
+) -> dict[str, Any]:
+    """Fetch active, delisted and paused security master rows concurrently."""
+    del kwargs
+    if code or symbol:
+        raise SourceCapabilityError("stock_selection_master is a whole-market route")
+    _compact, trading_date = _daily_trade_date(trade_date, required=True)
+    with ThreadPoolExecutor(max_workers=3, thread_name_prefix="tushare-selection-master") as executor:
+        jobs = {
+            status: executor.submit(
+                _paged_records,
+                "stock_basic",
+                {"exchange": "", "list_status": status},
+                _STOCK_BASIC_FIELDS,
+                context=f"选股证券主数据:{status}",
+                allow_empty=status != "L",
+            )
+            for status in ("L", "D", "P")
+        }
+        results = {status: future.result() for status, future in jobs.items()}
+    request_ids: list[tuple[str, str | None]] = []
+    stock_basic: list[dict[str, Any]] = []
+    for status in ("L", "D", "P"):
+        rows, ids = results[status]
+        stock_basic.extend(rows)
+        request_ids.extend((f"stock_basic:{status}:{label}", value) for label, value in ids)
+    return {
+        "trade_date": trading_date.isoformat(),
+        "request_id": _request_id_bundle(*request_ids),
+        "stock_basic": stock_basic,
+    }
+
+
+def fetch_stock_selection_financial_period(
+    trade_date: str = "",
+    period: str = "",
+    code: str = "",
+    symbol: str = "",
+    **kwargs: Any,
+) -> dict[str, Any]:
+    """Fetch one exact full-market quarterly indicator table."""
+    del kwargs
+    if code or symbol:
+        raise SourceCapabilityError(
+            "stock_selection_financial_period is a whole-market route"
+        )
+    _compact, trading_date = _daily_trade_date(trade_date, required=True)
+    compact_period = _compact_date(period, "period", allow_empty=False)
+    if compact_period not in _quarter_periods(trading_date):
+        raise ValueError("stock-selection period is outside the bounded quarter set")
+    financials, request_ids = _paged_records(
+        "fina_indicator_vip",
+        {"period": compact_period},
+        _FINANCIAL_INDICATOR_FIELDS,
+        context=f"选股财务指标:{compact_period}",
+        allow_empty=True,
+    )
+    return {
+        "trade_date": trading_date.isoformat(),
+        "period": compact_period,
+        "request_id": _request_id_bundle(
+            *((f"fina_indicator_vip:{compact_period}:{label}", value) for label, value in request_ids)
+        ),
+        "financials": financials,
+    }
+
+
+def fetch_daily_stock_factors(
+    trade_date: str = "",
+    code: str = "",
+    symbol: str = "",
+    **kwargs: Any,
+) -> dict[str, Any]:
+    """Compatibility composition for the provider-neutral factor mapper."""
+    if code or symbol:
+        raise SourceCapabilityError("daily_stock_factors is a whole-market route")
+    calendar = fetch_stock_selection_calendar(trade_date=trade_date, **kwargs)
+    daily = fetch_stock_selection_daily(trade_date=trade_date, **kwargs)
+    daily_basic = fetch_stock_selection_daily_basic(trade_date=trade_date, **kwargs)
+    daily_20d = fetch_stock_selection_daily(
+        trade_date=trade_date,
+        session_date=calendar["prior_20d_trade_date"],
+        **kwargs,
+    )
+    daily_60d = fetch_stock_selection_daily(
+        trade_date=trade_date,
+        session_date=calendar["prior_60d_trade_date"],
+        **kwargs,
+    )
+    daily_window = [daily]
+    for session_date in calendar["candlestick_window_trade_dates"]:
+        if session_date == calendar["trade_date"]:
+            continue
+        daily_window.append(
+            fetch_stock_selection_daily(
+                trade_date=trade_date,
+                session_date=session_date,
+                **kwargs,
+            )
+        )
+    daily_window.sort(key=lambda item: item["session_date"])
+    master = fetch_stock_selection_master(trade_date=trade_date, **kwargs)
+    periods = _quarter_periods(_daily_trade_date(trade_date, required=True)[1])
+    with ThreadPoolExecutor(
+        max_workers=4,
+        thread_name_prefix="tushare-selection-financial-compose",
+    ) as executor:
+        jobs = {
+            period: executor.submit(
+                fetch_stock_selection_financial_period,
+                trade_date=trade_date,
+                period=period,
+                **kwargs,
+            )
+            for period in periods
+        }
+        financial_slices = {period: jobs[period].result() for period in periods}
+    financial_rows = [
+        row
+        for period in periods
+        for row in financial_slices[period]["financials"]
+    ]
+
+    return {
+        **calendar,
+        "daily": daily["daily"],
+        "daily_basic": daily_basic["daily_basic"],
+        "daily_20d": daily_20d["daily"],
+        "daily_60d": daily_60d["daily"],
+        "daily_window": daily_window,
+        "provider_as_of": calendar["provider_as_of"],
+        "request_id": _request_id_bundle(
+            ("calendar", calendar.get("request_id")),
+            ("daily", daily.get("request_id")),
+            ("daily_basic", daily_basic.get("request_id")),
+            ("daily_20d", daily_20d.get("request_id")),
+            ("daily_60d", daily_60d.get("request_id")),
+            *(
+                (f"daily_window:{item['session_date']}", item.get("request_id"))
+                for item in daily_window
+                if item["session_date"] != calendar["trade_date"]
+            ),
+            ("master", master.get("request_id")),
+            *(
+                (f"financials:{period}", financial_slices[period].get("request_id"))
+                for period in periods
+            ),
+        ),
+        "stock_basic": master["stock_basic"],
+        "financials": financial_rows,
+        "unit_contract": {
+            "daily.amount": "thousand_CNY",
+            "daily.vol": "lots",
+            "daily_basic.*_mv": "ten_thousand_CNY",
+            "percentage_fields": "percentage_points",
+        },
+    }
 
 
 def fetch_realtime_quote(
@@ -699,17 +1138,22 @@ def fetch_etf_quotes(
         ("sh", {"ts_code": "5*.SH", "topic": "HQ_FND_TICK"}),
     )
     request_ids: list[tuple[str, str | None]] = []
-    records: list[dict[str, Any]] = []
+    records: list[tuple[dict[str, Any], float | int | None]] = []
+    volume_consensus_fallback_count = 0
     for label, params in requests:
         payload = _request("rt_etf_k", params, fields=_RT_FIELDS)
         batch, request_id = _records(payload, f"{label.upper()} ETF实时日线")
-        records.extend(batch)
+        batch_volumes, fallback_count = _turnover_volume_shares_batch(
+            batch, context=f"{label.upper()} ETF实时日线"
+        )
+        records.extend(zip(batch, batch_volumes))
+        volume_consensus_fallback_count += fallback_count
         request_ids.append((f"rt_etf_k_{label}", request_id))
 
     rows: list[dict[str, Any]] = []
     seen: set[str] = set()
     provider_times: list[str] = []
-    for item in records:
+    for item, volume_shares in records:
         instrument_id = _fund_code(item.get("ts_code"))
         if instrument_id in seen:
             raise RuntimeError(f"TuShare ETF实时日线返回重复证券 {instrument_id}")
@@ -733,7 +1177,7 @@ def fetch_etf_quotes(
                 "ts_code": instrument_id,
                 "name": name,
                 "pct_chg": change_pct,
-                "vol": _turnover_volume_shares(item, context="ETF实时日线"),
+                "vol": volume_shares,
                 "amount": _number(item.get("amount")),
                 "provider_as_of": provider_as_of,
             }
@@ -745,6 +1189,7 @@ def fetch_etf_quotes(
         provider_as_of=max(provider_times, default=None),
         request_id=_request_id_bundle(*request_ids),
         unit_contract={"vol": "shares", "amount": "CNY"},
+        volume_consensus_fallback_count=volume_consensus_fallback_count,
     )
 
 

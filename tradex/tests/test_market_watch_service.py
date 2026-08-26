@@ -531,3 +531,90 @@ def test_cold_start_recovers_latest_completed_turnover_as_stale() -> None:
     assert recovered.guardrail.conclusion_strength is ConclusionStrength.ABSTAIN
     assert "仅供回看" in recovered.guardrail.current_state
     assert recovered.guardrail.supporting_evidence == ()
+
+
+def test_post_close_recovers_complete_same_session_turnover_as_degraded() -> None:
+    shanghai = ZoneInfo("Asia/Shanghai")
+    previous_at = datetime(2026, 8, 25, 20, 50, tzinfo=shanghai)
+    current_at = datetime(2026, 8, 25, 21, 0, tzinfo=shanghai)
+    provider_at = datetime(2026, 8, 25, 15, 0, tzinfo=shanghai)
+
+    def snapshot(observed_at: datetime, *, turnover_available: bool, sequence: int):
+        market = {
+            "timestamp": observed_at.isoformat(),
+            "provider_as_of": provider_at.isoformat(),
+            "market_state": {"phase": "closed", "is_open": False},
+            "indices": [
+                {
+                    "role": role,
+                    "instrument_id": instrument_id,
+                    "name": name,
+                    "available": True,
+                    "level": level,
+                    "change_pct": 0.1,
+                    "provider_as_of": provider_at.isoformat(),
+                    "quality": "accepted",
+                }
+                for role, instrument_id, name, level in (
+                    ("broad_market", "000001.SH", "上证指数", 3400.0),
+                    ("large_cap", "000300.SH", "沪深300", 4100.0),
+                    ("small_cap", "000852.SH", "中证1000", 6800.0),
+                    ("growth", "399006.SZ", "创业板指", 2250.0),
+                )
+            ],
+            "market_turnover": (
+                {
+                    "available": True,
+                    "today_date": "2026-08-25",
+                    "previous_date": "2026-08-24",
+                    "as_of": "15:00",
+                    "today_amount": 180.0,
+                    "previous_same_time_amount": 200.0,
+                }
+                if turnover_available
+                else {"available": False, "reason": "fixture unavailable"}
+            ),
+        }
+        risk = {
+            "timestamp": observed_at.isoformat(),
+            "breadth": {
+                "up_count": 3000,
+                "down_count": 1800,
+                "flat_count": 100,
+                "unclassified_count": 0,
+                "total_count": 4900,
+            },
+            "rotation": {"sectors": []},
+        }
+        return build_market_watch_snapshot(
+            market,
+            risk,
+            as_of=observed_at,
+            sequence=sequence,
+            snapshot_id=f"canonical-{sequence}",
+        )
+
+    previous = snapshot(previous_at, turnover_available=True, sequence=41)
+    candidate = snapshot(current_at, turnover_available=False, sequence=1)
+    service = MarketWatchService(
+        lambda: {},
+        lambda _payload: candidate,
+        initial_snapshot=previous,
+        clock=lambda: current_at,
+        monotonic=lambda: 100.0,
+        market_open=lambda _now: False,
+        snapshot_id_factory=lambda sequence: f"canonical-{sequence}",
+    )
+
+    recovered = service.get()
+
+    assert recovered.turnover == previous.turnover
+    turnover_freshness = next(
+        item for item in recovered.freshness.components if item.component == "turnover"
+    )
+    assert turnover_freshness.status is FreshnessStatus.DEGRADED
+    assert turnover_freshness.quality is ComponentQuality.DEGRADED
+    assert "same_session_closed_turnover_recovered" in turnover_freshness.flags
+    assert recovered.freshness.status is FreshnessStatus.DEGRADED
+    assert recovered.guardrail.severity is not GuardrailSeverity.STOP
+    assert recovered.guardrail.conclusion_strength is not ConclusionStrength.ABSTAIN

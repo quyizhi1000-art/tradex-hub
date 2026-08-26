@@ -2,7 +2,7 @@
 
 > 状态：第三阶段；当前实现 `market_overview.v1`、`quote_snapshot.v1`、
 > `ohlcv_bar.v1`、`market_breadth.v1`、`sector_quote.v1`、
-> `etf_quote.v1`、`leader_quote.v1`、`stock_sector_profile.v1` 和 `board_leader.v1`。
+> `etf_quote.v1`、`leader_quote.v1`、`stock_sector_profile.v1`、`board_leader.v1` 和 `board_leader.v2`。
 > 当前也已实现 `limit_event.v1`。
 
 ## 目标
@@ -216,9 +216,25 @@ Dashboard 的领涨股展示不再直接调用 Tencent 或 Eastmoney 抓取函�
 - `stock_sector_profile.v1`：涨停池股票的行业、地域和概念标签。它是归因输入，
   必须一次完整覆盖请求代码、代码不重复、数据时间属于指定交易日；任何一项不符
   都拒绝整个批次，不能让部分分类结果扭曲板块计数。
-- `board_leader.v1`：板块内有限数量的领涨成分，金额统一为人民币元、比例统一为
+- `board_leader.v1`：兼容既有按当日涨幅排序的板块领涨成分。
+- `board_leader.v2`：板块内有限数量的涨速领先成分，金额统一为人民币元、比例统一为
   百分点。名称或代码缺失会拒绝该 Provider；资金流、成交额或供应商时间缺失可
   返回降级快照，并保留明确质量标志。
+
+板块标签中的“共振领涨股”使用独立的 `sector_resonance_batch.v1` 结果，不再把
+某一时刻的板块净流入和个股涨速并列就视为共振。计算方法
+`sector_fund_flow_minute_correlation.v1` 在同一组实际分钟区间上比较板块累计资金
+增量与成分股分钟收益率：近 5 分钟板块资金增量必须为正、个股收益率至少为
+`0.10` 个百分点、Pearson 相关系数至少为 `0.60`。至少需要 4 个共同区间；允许
+双方共同缺失一个分钟点并使用同一段不超过 2 分钟的区间，但不跨不同缺口拼接。
+不满足门槛返回 `no_match`，证据不足返回 `unavailable`，两者都不生成候选股。
+
+共振批次由采集侧回溯生成并以原始 accepted-real 的
+`source_snapshot_revision` 绑定、独立 `resonance_revision` 持久化。Web 只读叠加
+完全匹配原快照版本或不超过 6 分钟的同日批次，不调用行情 Provider，也不改写
+原始轨迹及其摘要版本。采集器盘中每 5 分钟生成一次，收盘后再对最后一份真实
+快照补算一次；页面同时返回批次的证据时间和原始快照版本，不能把旧批次伪装成
+当前分钟。
 
 这三类调用使用 `route_validated`：Provider 响应只有在 Mapper、契约和质量门禁
 全部通过后才计为成功。字段漂移或语义错误会计入该候选源失败，并在同一次请求内
@@ -269,6 +285,33 @@ A 股目录、全量/复权 K 线、公司基本信息、三大财报与财务�
 300 次，并由本机所有 Tradex 进程共享，并发预算满时立即交给路由回退。
 移除单个 `BIYING_PRIMARY_CAPABILITIES` 项即可只回滚该能力；
 `BIYING_ENABLED=false` 可整体停用。
+
+## `stock_pattern_screen.v1`
+
+每日选股档案在 `daily-stock-selection-balanced.v2` 中附带独立的条件筛选结果，
+首个规则版本为 `long-upper-shadow-main-board.v1`。它读取信号日及此前 14 个已完成
+交易日的全市场 OHLC；普通历史读取只消费不可变归档，不触发 Provider 请求。
+
+“长上影”固定判定为：上影长度不低于收盘价 3%、不低于实体 2 倍，并占当日
+最高最低振幅至少 50%。股票需在 15 个交易日内至少命中 2 次、规范化市场字段为
+`主板`、名称不含 ST 或退市标识，并具有完整的 15 日有效 K 线。停牌、缺失或
+不一致的日线不会被填补；该股票以 `incomplete_candlestick_window` 排除。
+
+结果保留每只命中股票的全部命中日期、OHLC、上影/收盘比例、上影/实体倍数和
+上影/振幅比例。`quality` 按主板非 ST 股票的完整窗口覆盖标记为 `accepted`、
+`degraded` 或 `unavailable`。这个契约只表达可复现的形态代理，不证明资金主体
+真实试盘，也不表达买入建议、目标价或收益概率。
+
+## `daily_stock_selection_generation.v1`
+
+每日选股生成由既有 `DailyStockSelectionService` 单独拥有。`POST
+/api/daily-stock-selection` 只启动或复用当日唯一后台任务，并立即返回任务状态；
+`GET /api/daily-stock-selection/generation` 只读返回同一状态，不触发 Provider。
+
+任务状态为 `idle`、`running`、`succeeded` 或 `failed`。运行阶段进一步标记
+`queued`、`acquiring`、`selecting`、`archiving`；完成后嵌入原有
+`daily_stock_selection_result.v1`，失败时只返回安全错误、失败阶段和非敏感失败类型。手动
+生成与 18:30 自动补生成共享这个 single-flight，不会并行消耗付费请求或竞争归档。
 
 ## 换源准入流程
 

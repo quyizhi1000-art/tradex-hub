@@ -483,6 +483,52 @@ def _latest_completed_trading_date(reference_date: date) -> date | None:
         candidate -= timedelta(days=1)
 
 
+def _is_complete_same_session_close_turnover(
+    turnover: Any,
+    *,
+    current_date: date,
+    phase: str | None,
+) -> bool:
+    if phase != "closed" or getattr(turnover, "today_date", None) != current_date:
+        return False
+    baseline_date = getattr(turnover, "previous_date", None)
+    if not isinstance(baseline_date, date) or baseline_date >= current_date:
+        return False
+    raw_as_of = getattr(turnover, "as_of", None)
+    if not isinstance(raw_as_of, str):
+        return False
+    try:
+        close_as_of = datetime_time.fromisoformat(raw_as_of)
+    except ValueError:
+        return False
+    if close_as_of < datetime_time(15, 0):
+        return False
+    return all(
+        isinstance(value, (int, float)) and value > 0
+        for value in (
+            getattr(turnover, "today_amount_cny", None),
+            getattr(turnover, "previous_same_time_amount_cny", None),
+        )
+    )
+
+
+def _freshness_status_from_components(components: tuple[Any, ...], fallback: Any) -> Any:
+    statuses = {
+        getattr(getattr(item, "status", None), "value", getattr(item, "status", None))
+        for item in components
+    }
+    value = (
+        "stale"
+        if "stale" in statuses
+        else "unavailable"
+        if statuses == {"unavailable"}
+        else "degraded"
+        if statuses - {"fresh"}
+        else "fresh"
+    )
+    return _typed_value(fallback, value)
+
+
 def _recover_unavailable_turnover(
     candidate: Snapshot,
     *,
@@ -511,6 +557,11 @@ def _recover_unavailable_turnover(
     if not isinstance(current_date, date) or not isinstance(previous_date, date):
         return candidate
     same_session = previous_date == current_date
+    complete_same_session_close = _is_complete_same_session_close_turnover(
+        previous_turnover,
+        current_date=current_date,
+        phase=phase,
+    )
     latest_completed = (
         phase in {"pre_open", "non_trading"}
         and previous_date == _latest_completed_trading_date(current_date)
@@ -546,28 +597,65 @@ def _recover_unavailable_turnover(
         recovered_components.append(
             _copy_with(
                 component,
-                status=_typed_value(getattr(component, "status", None), "stale"),
+                status=_typed_value(
+                    getattr(component, "status", None),
+                    "degraded" if complete_same_session_close else "stale",
+                ),
                 quality=_typed_value(getattr(component, "quality", None), "degraded"),
                 provider_as_of=provider_as_of,
                 flags=_append_flag(
                     getattr(component, "flags", ()),
-                    "last_good_turnover_recovered",
+                    (
+                        "same_session_closed_turnover_recovered"
+                        if complete_same_session_close
+                        else "last_good_turnover_recovered"
+                    ),
                 ),
             )
         )
     if not found_turnover:
         return candidate
 
+    recovered_components_tuple = tuple(recovered_components)
+    recovered_flag = (
+        "same_session_closed_turnover_recovered"
+        if complete_same_session_close
+        else "last_good_turnover_recovered"
+    )
     recovered_freshness = _copy_with(
         freshness,
-        status=_typed_value(getattr(freshness, "status", None), "stale"),
-        components=tuple(recovered_components),
+        status=_freshness_status_from_components(
+            recovered_components_tuple,
+            getattr(freshness, "status", None),
+        ),
+        components=recovered_components_tuple,
         flags=_append_flag(
             getattr(freshness, "flags", ()),
-            "last_good_turnover_recovered",
+            recovered_flag,
         ),
     )
     guardrail = getattr(candidate, "guardrail", None)
+    if complete_same_session_close:
+        counter_evidence = tuple(
+            item
+            for item in getattr(guardrail, "counter_evidence", ())
+            if item not in {"turnover:unavailable", "昨日同期成交额比较不可用"}
+        )
+        counter_evidence = (
+            *counter_evidence,
+            "成交额使用同交易日完整收盘快照恢复，刷新路径已降级。",
+        )
+        recovered_guardrail = _copy_with(
+            guardrail,
+            counter_evidence=counter_evidence,
+        )
+        return _copy_with(
+            candidate,
+            turnover=recovered_turnover,
+            freshness=recovered_freshness,
+            guardrail=recovered_guardrail,
+        )
+
     counter_evidence = tuple(
         "turnover:stale" if item == "turnover:unavailable" else item
         for item in getattr(guardrail, "counter_evidence", ())

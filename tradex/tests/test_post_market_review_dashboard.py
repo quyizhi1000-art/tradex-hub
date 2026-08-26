@@ -62,7 +62,7 @@ def test_post_market_review_history_handler_returns_archive_fixture(monkeypatch)
         "outcome": None,
         "learning": {"evaluated_count": 0},
         "schedule": {
-            "manual_after": "20:30",
+            "manual_after": "17:30",
             "automatic_if_missing_after": "21:00",
             "timezone": "Asia/Shanghai",
         },
@@ -95,7 +95,7 @@ def test_post_market_review_post_rejects_too_early_with_safe_message(monkeypatch
         dashboard_app,
         "generate_post_market_review",
         lambda: (_ for _ in ()).throw(
-            ReviewTooEarlyError("当日 20:30 后才允许生成这份日复盘。")
+            ReviewTooEarlyError("当日 17:30 后才允许生成这份日复盘。")
         ),
     )
     responses = []
@@ -105,7 +105,7 @@ def test_post_market_review_post_rejects_too_early_with_safe_message(monkeypatch
     handler._handle_post_market_review_api()
 
     assert responses == [
-        (409, {"error": "当日 20:30 后才允许生成这份日复盘。"})
+        (409, {"error": "当日 17:30 后才允许生成这份日复盘。"})
     ]
 
 
@@ -177,8 +177,27 @@ def test_desktop_review_page_exposes_honest_archive_controls_and_sections():
     assert 'id="daily-review-learning"' in HTML
     assert 'id="daily-review-outcome"' in HTML
     assert "renderReviewArticleSections(canonical.sections)" in JS
+    assert JS.count("function shanghaiClock(") == 1
+    assert "minutes," in JS
+    assert "minuteOfDay: minutes" in JS
     assert "renderReviewWatchItems(canonical.watch_items)" in JS
     assert "renderReviewAppendixSections(canonical.appendix_sections)" in JS
+    assert "appendReviewHighlights" in JS
+    assert "configureReviewHighlightTerms(canonical)" in JS
+    assert "daily-review-highlight--up" in JS + CSS
+    assert "daily-review-highlight--down" in JS + CSS
+    assert "daily-review-highlight--metric" in JS + CSS
+    assert "daily-review-highlight--focus" in JS + CSS
+    assert "daily-review-highlight--warning" in JS + CSS
+    assert "daily-review-article-section__lead" in JS + CSS
+    assert "reviewReadingBlocks" in JS
+    assert "createReviewReadingGroup" in JS
+    assert "daily-review-reading-block--list-item" in JS + CSS
+    assert "line-break: strict" in CSS
+    assert "text-wrap: pretty" in CSS
+    assert "white-space: nowrap" in CSS
+    assert "daily-review-watch-item__confirmation" in JS + CSS
+    assert "daily-review-watch-item__invalidation" in JS + CSS
     assert "reviewReportToneClass(cellRecord.tone)" in JS
     assert 'createElement("table", "daily-review-report-table")' in JS
     assert 'createElement("caption", "", captionText)' in JS
@@ -190,7 +209,7 @@ def test_desktop_review_page_exposes_honest_archive_controls_and_sections():
     assert "appendix_sections: current.appendix_sections || current.sections" in JS
     assert "contract: current.contract || canonical.contract" in JS
     assert "limitations: current.limitations || canonical.limitations" in JS
-    assert "20:30" in HTML + JS
+    assert "17:30" in HTML + JS
     assert "21:00" in HTML + JS
     assert "未随档案返回" in HTML + JS
     assert '"stock_fund_flow"' in JS

@@ -218,6 +218,36 @@ def test_complete_fresh_session_passes_and_reports_both_coverage_units() -> None
     assert confirmation.status.value == "not_applicable"
 
 
+def test_compact_replay_samples_preserve_full_snapshot_evaluation_semantics() -> None:
+    trade_date = date(2026, 8, 24)
+    snapshots = tuple(
+        _snapshot(observed_at, index + 1)
+        for index, observed_at in enumerate(_session_times(trade_date)[:30])
+    )
+    replay_samples = tuple(
+        {
+            "contract": "market_watch_replay_sample.v1",
+            "schema_version": 1,
+            "snapshot_id": snapshot.snapshot_id,
+            "sequence": snapshot.sequence,
+            "as_of": snapshot.as_of.isoformat(),
+            "market_state": snapshot.market_state.model_dump(mode="json"),
+            "freshness": {"status": snapshot.freshness.status.value},
+            "guardrail": {
+                "regime": snapshot.guardrail.regime.value,
+                "severity": snapshot.guardrail.severity.value,
+            },
+            "alerts": [item.model_dump(mode="json") for item in snapshot.alerts],
+        }
+        for snapshot in snapshots
+    )
+
+    full = evaluate_market_watch_session(snapshots, trade_date=trade_date)
+    compact = evaluate_market_watch_session(replay_samples, trade_date=trade_date)
+
+    assert compact.model_dump(mode="json") == full.model_dump(mode="json")
+
+
 def test_partial_session_is_honestly_insufficient_and_never_passes() -> None:
     samples = _complete_session(date(2026, 8, 24))[:30]
 

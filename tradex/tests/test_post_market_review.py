@@ -39,6 +39,7 @@ def _closing_snapshot(
     *,
     direction: str = "up",
     snapshot_id: str = "closing-1",
+    market_phase: str = "closed",
 ):
     positive = direction == "up"
     changes = (0.7, 0.8, 1.1, 1.2) if positive else (-0.8, -0.7, -1.2, -1.0)
@@ -54,7 +55,10 @@ def _closing_snapshot(
     market = {
         "timestamp": observed_at.isoformat(),
         "provider_as_of": observed_at.isoformat(),
-        "market_state": {"phase": "closed", "is_open": False},
+        "market_state": {
+            "phase": market_phase,
+            "is_open": market_phase == "trading",
+        },
         "quality": "accepted",
         "indices": [
             {
@@ -73,7 +77,11 @@ def _closing_snapshot(
             "available": True,
             "today_date": observed_at.date().isoformat(),
             "previous_date": "2026-08-21" if observed_at.day == 24 else "2026-08-24",
-            "as_of": "15:00",
+            "as_of": (
+                observed_at.strftime("%H:%M")
+                if market_phase == "trading"
+                else "15:00"
+            ),
             "today_amount": 112_000_000_000.0 if positive else 92_000_000_000.0,
             "previous_same_time_amount": 100_000_000_000.0,
         },
@@ -280,13 +288,13 @@ def test_opportunity_list_collapses_repeated_market_themes():
     )
 
 
-def test_manual_review_is_gated_at_2030_and_does_not_fetch_early(tmp_path: Path):
+def test_manual_review_is_gated_at_1730_and_does_not_fetch_early(tmp_path: Path):
     calls = []
     store = PostMarketReviewStore(tmp_path / "review.sqlite3")
     service = PostMarketReviewService(lambda: calls.append(True) or {}, store)
     try:
-        with pytest.raises(ReviewTooEarlyError, match="20:30"):
-            service.generate(now=datetime(2026, 8, 24, 20, 29, tzinfo=SHANGHAI))
+        with pytest.raises(ReviewTooEarlyError, match="17:30"):
+            service.generate(now=datetime(2026, 8, 24, 17, 29, tzinfo=SHANGHAI))
         assert calls == []
         assert store.list_dates() == []
     finally:
@@ -321,6 +329,20 @@ def test_manual_review_is_immutable_and_uses_cross_market_evidence(tmp_path: Pat
         ]
         assert first["presentation"]["money_making_effect"]
         assert first["presentation"]["loss_making_effect"]
+        article_text = "".join(
+            paragraph
+            for section in first["presentation"]["sections"]
+            for paragraph in section["paragraphs"]
+        )
+        assert "实打实的回撤" not in first["presentation"]["standfirst"]
+        assert "普遍撤退" not in article_text
+        assert "个股面并没有跟上" not in article_text
+        assert "这里赚的是逆势抱团的钱" not in "".join(
+            first["presentation"]["money_making_effect"]
+        )
+        assert "亏钱效应是主导项" not in "".join(
+            first["presentation"]["loss_making_effect"]
+        )
         sections = {
             section["section_id"]: section
             for section in first["presentation"]["sections"]
@@ -374,7 +396,7 @@ def test_manual_review_is_immutable_and_uses_cross_market_evidence(tmp_path: Pat
         assert len(review["opportunity_sectors"][0]["evidence_chain"]) >= 4
         assert "证券板块" in review["opportunity_sectors"][0]["next_day_confirmation"]
         history = service.history()
-        assert history["schedule"]["manual_after"] == "20:30"
+        assert history["schedule"]["manual_after"] == "17:30"
         assert history["presentation"]["review_id"] == review["review_id"]
     finally:
         store.close()
@@ -391,6 +413,69 @@ def test_automatic_backstop_generates_at_2100_only_when_missing(tmp_path: Path):
         assert generated["action"] == "inserted"
         assert generated["review"]["trigger"] == "automatic"
         assert repeated["action"] == "existing"
+    finally:
+        store.close()
+
+
+def test_automatic_backstop_archives_incomplete_close_as_abstained(tmp_path: Path):
+    snapshot = _closing_snapshot(
+        datetime(2026, 8, 24, 14, 57, tzinfo=SHANGHAI),
+        market_phase="trading",
+    )
+    store = PostMarketReviewStore(tmp_path / "review.sqlite3")
+    service = _service(snapshot, store)
+    try:
+        generated = service.maybe_generate_automatic(
+            now=datetime(2026, 8, 24, 21, 0, tzinfo=SHANGHAI)
+        )
+
+        assert generated["action"] == "inserted"
+        assert generated["review"]["trigger"] == "automatic"
+        assert generated["review"]["quality"] == "abstained"
+        assert generated["review"]["source_snapshot_as_of"].startswith(
+            "2026-08-24T14:57:"
+        )
+        assert (
+            generated["review"]["evidence"]["market_watch"]["market_state"][
+                "phase"
+            ]
+            == "trading"
+        )
+        assert generated["review"]["next_day_outlook"]["bias"] == "uncertain"
+        assert generated["review"]["next_day_outlook"]["confidence"] == "abstain"
+        assert generated["review"]["opportunity_sectors"] == []
+        assert (
+            "market_watch:degraded:closing_snapshot_incomplete"
+            in generated["review"]["limitations"]
+        )
+    finally:
+        store.close()
+
+
+def test_archive_prefers_current_policy_without_hiding_older_dates(tmp_path: Path):
+    generated_at = datetime(2026, 8, 24, 20, 30, tzinfo=SHANGHAI)
+    snapshot = _closing_snapshot(datetime(2026, 8, 24, 15, 1, tzinfo=SHANGHAI))
+    current = build_post_market_review(
+        _evidence(snapshot, generated_at),
+        generated_at=generated_at,
+        trigger=ReviewTrigger.MANUAL,
+    )
+    older = current.model_copy(update={
+        "config_version": "post-market-review-policy.v2",
+        "review_id": f"{current.review_id}-v2",
+    })
+    store = PostMarketReviewStore(tmp_path / "review.sqlite3")
+    try:
+        assert store.record(older)[0] == "inserted"
+        assert store.get(current.trade_date) is None
+        assert store.get_current_or_latest(current.trade_date) == older
+        assert store.list_dates()[0]["review_id"] == older.review_id
+
+        assert store.record(current)[0] == "inserted"
+        assert store.get(current.trade_date) == current
+        assert store.get_current_or_latest(current.trade_date) == current
+        assert len(store.list_dates()) == 1
+        assert store.list_dates()[0]["review_id"] == current.review_id
     finally:
         store.close()
 

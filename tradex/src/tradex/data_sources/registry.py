@@ -142,6 +142,24 @@ def _register_all_sources_unlocked() -> None:
         router.register(
             "historical_kline", "tushare", tsf.fetch_historical_kline, priority=1
         )
+    for capability, fetcher in (
+        ("stock_selection_calendar", tsf.fetch_stock_selection_calendar),
+        ("stock_selection_daily", tsf.fetch_stock_selection_daily),
+        ("stock_selection_daily_basic", tsf.fetch_stock_selection_daily_basic),
+        ("stock_selection_master", tsf.fetch_stock_selection_master),
+        (
+            "stock_selection_financial_period",
+            tsf.fetch_stock_selection_financial_period,
+        ),
+    ):
+        if tushare_provides(capability):
+            router.register(
+                capability,
+                "tushare",
+                fetcher,
+                priority=1,
+                exclusive=True,
+            )
     biying_history = biying_provides("historical_kline")
     if biying_history:
         router.register(

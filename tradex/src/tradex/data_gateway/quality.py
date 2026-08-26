@@ -7,7 +7,7 @@ from datetime import datetime
 
 from .contracts import (
     AShareUniverseQuoteV1,
-    BoardLeaderV1,
+    BoardLeaderV2,
     EtfQuoteV1,
     IndexQuoteV1,
     IntradayMinutePointV1,
@@ -349,7 +349,7 @@ def assess_stock_sector_profiles(
 
 def assess_board_leaders(
     *,
-    leaders: Sequence[BoardLeaderV1],
+    leaders: Sequence[BoardLeaderV2],
     provider_as_of: datetime | None,
 ) -> tuple[QualityStatus, tuple[str, ...]]:
     if not leaders:
@@ -362,6 +362,7 @@ def assess_board_leaders(
             for value in (
                 item.price,
                 item.change_pct,
+                item.speed_pct,
                 item.amount_cny,
                 item.turnover_pct,
                 item.main_net_inflow_cny,

@@ -31,6 +31,7 @@ class StructuredAlert:
     title: str
     message: str
     dedupe_key: str
+    kind: str = "market_state"
 
 
 def _field(value: Any, name: str, default: Any = None) -> Any:
@@ -66,6 +67,7 @@ def _candidate_identity(candidate: Any) -> tuple[str, tuple[str, str]] | None:
 def _risk_alert(code: str) -> Any:
     if code == "data_unavailable":
         values = {
+            "kind": "data_quality",
             "code": code,
             "severity": "stop",
             "title": "盘面数据暂不可用",
@@ -74,6 +76,7 @@ def _risk_alert(code: str) -> Any:
         }
     elif code == "data_degraded":
         values = {
+            "kind": "data_quality",
             "code": code,
             "severity": "caution",
             "title": "盘面数据部分降级",
@@ -82,6 +85,7 @@ def _risk_alert(code: str) -> Any:
         }
     else:
         values = {
+            "kind": "data_quality",
             "code": "data_stale",
             "severity": "stop",
             "title": "盘面数据已陈旧",
@@ -152,9 +156,10 @@ class MarketAlertEngine:
     def evaluate(self, snapshot: Any, *, now: datetime | None = None) -> tuple[Any, ...]:
         """Return alert events for one snapshot.
 
-        Fresh market candidates require consecutive confirmation.  A
-        degraded, stale or unavailable sample interrupts an in-progress
-        confirmation and can emit an immediate data-risk alert instead.
+        Market-state candidates require globally fresh samples.  Sector-move
+        candidates may still confirm on a globally degraded snapshot because
+        their own canonical trajectory has already passed its feature-level
+        quality gate.  Stale or unavailable snapshots interrupt everything.
         """
 
         observed_at = now or self._clock()
@@ -162,15 +167,13 @@ class MarketAlertEngine:
         status = freshness_status(snapshot)
 
         with self._lock:
-            if status != "fresh":
+            if status in {"stale", "unavailable"}:
                 self._pending.clear()
                 self._confirmed.clear()
                 self._missing_samples.clear()
                 risk_code = (
                     "data_unavailable"
                     if status == "unavailable"
-                    else "data_degraded"
-                    if status == "degraded"
                     else "data_stale"
                 )
                 alert = _risk_alert(risk_code)
@@ -181,9 +184,32 @@ class MarketAlertEngine:
                 self._record_emission(_field(alert, "dedupe_key"), timestamp)
                 return (alert,)
 
-            candidates = tuple(_field(snapshot, "alerts", ()) or ())
+            snapshot_candidates = tuple(_field(snapshot, "alerts", ()) or ())
+            candidates = (
+                tuple(
+                    candidate
+                    for candidate in snapshot_candidates
+                    if _enum_value(_field(candidate, "kind", "")) == "sector_move"
+                )
+                if status == "degraded"
+                else snapshot_candidates
+            )
             active_keys: set[str] = set()
             emitted: list[Any] = []
+
+            if status == "degraded":
+                for key in tuple(self._pending):
+                    if not key.startswith("market_watch:sector_move:"):
+                        self._pending.pop(key, None)
+                for key in tuple(self._confirmed):
+                    if not key.startswith("market_watch:sector_move:"):
+                        self._confirmed.pop(key, None)
+                        self._missing_samples.pop(key, None)
+                risk_alert = _risk_alert("data_degraded")
+                risk_key = _field(risk_alert, "dedupe_key")
+                if not self._muted and self._cooldown_allows(risk_key, timestamp):
+                    self._record_emission(risk_key, timestamp)
+                    emitted.append(risk_alert)
 
             for candidate in candidates:
                 identity = _candidate_identity(candidate)

@@ -10,20 +10,24 @@ CSS = (WATCH_DIR / "styles.css").read_text(encoding="utf-8")
 JS = (WATCH_DIR / "app.js").read_text(encoding="utf-8")
 
 
-def test_watch_page_consumes_one_versioned_market_watch_endpoint():
-    assert JS.count('"/api/market-watch"') == 1
-    assert "const API_ENDPOINT" in JS
-    assert 'payload.contract !== "market_watch.v1"' in JS
-    assert "payload.schema_version !== 1" in JS
+def test_watch_page_consumes_versioned_status_summary_and_exact_detail_endpoints():
+    assert 'const COLLECTION_STATUS_ENDPOINT = "/api/market-watch/collection-status"' in JS
+    assert 'const SUMMARY_ENDPOINT = "/api/market-watch/summary"' in JS
+    assert 'const TRAJECTORY_ENDPOINT = "/api/market-watch/trajectory"' in JS
+    assert 'payload.contract !== "market_watch_collector_envelope.v1"' in JS
+    assert 'payload.contract !== "market_watch_summary.v1"' in JS
+    assert 'payload.contract !== "sector_flow_trajectory_detail.v1"' in JS
     assert 'text(snapshot.contract, "market_watch.v1")' in JS
     assert "POLL_INTERVAL_MS = 15_000" in JS
-    assert 'cache: "no-store"' in JS
+    assert 'cache: "no-cache"' in JS
+    assert '"/api/market-watch"' not in JS
 
 
 def test_watch_page_exposes_server_side_history_and_honest_replay_evaluation():
     assert 'const HISTORY_ENDPOINT = "/api/market-watch/history"' in JS
     assert 'const EVALUATION_ENDPOINT = "/api/market-watch/evaluation"' in JS
     assert 'history.contract !== "market_watch_history.v1"' in JS
+    assert 'payload.contract === "market_watch_replay_sample.v1"' in JS
     assert 'report.contract !== "market_watch_evaluation.v1"' in JS
     assert 'id="replay-date-select"' in HTML
     assert 'id="evaluation-scope-select"' in HTML
@@ -59,15 +63,86 @@ def test_secondary_archives_load_only_when_their_sections_enter_view():
     assert "state.reviewHasLoaded" in JS
 
 
-def test_background_refresh_state_is_visible_without_hiding_the_cached_snapshot():
-    assert 'response.headers.get("X-Tradex-Refresh-State")' in JS
-    assert "后台更新中" in JS
+def test_collection_status_is_visible_but_never_used_as_numeric_snapshot():
+    assert "state.collectionStatus = status" in JS
+    assert "const accepted = status.latest_accepted_real" in JS
+    assert "const sourceRevision = accepted.source_snapshot_revision" in JS
+    assert "当前分钟采集/追补中" in JS
+    assert "当前分钟缺口未解决" in JS
+    assert 'response.headers.get("X-Tradex-Refresh-State")' not in JS
 
 
-def test_index_data_only_uses_the_always_visible_non_blocking_sticky_strip():
+def test_post_close_recovery_has_audited_status_and_one_manual_command():
+    assert 'const DAILY_RECOVERY_ENDPOINT = "/api/market-watch/daily-recovery"' in JS
+    assert 'id="collection-recovery-heading"' in HTML
+    assert 'id="collection-recovery-accepted"' in HTML
+    assert 'id="collection-recovery-gaps"' in HTML
+    assert 'id="collection-recovery-checked-at"' in HTML
+    assert 'id="collection-recovery-status"' in HTML
+    assert 'id="collection-recovery-button"' in HTML
+    assert 'recovery.contract !== "market_watch_daily_recovery.v1"' in JS
+    assert 'method: "POST"' in JS
+    assert "state.recoveryRequestInFlight" in JS
+    assert "不会用当前值伪造历史" in JS
+    assert ".collection-recovery-strip.is-attention" in CSS
+
+
+def test_collector_health_comes_from_envelope_heartbeat_not_process_presence():
+    assert "COLLECTOR_HEARTBEAT_STALE_MS = 90_000" in JS
+    assert "state.collectionStatus?.collector_heartbeat_at" in JS
+    assert "state.collectionStatus?.collector_state" in JS
+    assert "Date.now() - heartbeatAt <= COLLECTOR_HEARTBEAT_STALE_MS" in JS
+    assert "采集心跳超时" in JS
+    assert "process" not in re.search(
+        r"function updatePollStatus\(\) \{(?P<body>.*?)\n  \}",
+        JS,
+        re.DOTALL,
+    ).group("body")
+
+
+def test_watch_polling_recovers_when_the_page_returns_to_the_foreground():
+    scheduled = re.search(
+        r"function runScheduledPoll\(\) \{(?P<body>.*?)\n  \}", JS, re.DOTALL
+    )
+    resumed = re.search(
+        r"function resumeSnapshotPolling\(\) \{(?P<body>.*?)\n  \}", JS, re.DOTALL
+    )
+    start = re.search(r"function start\(\) \{(?P<body>.*?)\n  \}", JS, re.DOTALL)
+
+    assert "POLL_WATCHDOG_INTERVAL_MS = 1_000" in JS
+    assert scheduled is not None
+    assert 'document.visibilityState !== "visible"' in scheduled.group("body")
+    assert "state.fetchInFlight" in scheduled.group("body")
+    assert "Date.now() < state.nextPollAt" in scheduled.group("body")
+    assert "fetchSnapshot();" in scheduled.group("body")
+    assert resumed is not None
+    assert "state.nextPollAt = Date.now();" in resumed.group("body")
+    assert "runScheduledPoll();" in resumed.group("body")
+    assert 'document.addEventListener("visibilitychange", resumeSnapshotPolling)' in JS
+    assert 'window.addEventListener("focus", resumeSnapshotPolling)' in JS
+    assert 'window.addEventListener("pageshow", resumeSnapshotPolling)' in JS
+    assert start is not None
+    assert "bindPollingRecovery();" in start.group("body")
+    assert (
+        "window.setInterval(runScheduledPoll, POLL_WATCHDOG_INTERVAL_MS);"
+        in start.group("body")
+    )
+    assert "window.setInterval(fetchSnapshot, POLL_INTERVAL_MS);" not in JS
+
+
+def test_indices_and_turnover_use_the_always_visible_non_blocking_sticky_strip():
     assert 'id="index-dock"' in HTML
     dock_roles = re.findall(r'data-index-dock-role="([^"]+)"', HTML)
     assert dock_roles == ["broad_market", "large_cap", "small_cap", "growth"]
+    assert "data-turnover-dock" in HTML
+    assert "全 A 成交额 · 昨日同期" in HTML
+    assert 'id="turnover-today"' in HTML
+    assert 'id="turnover-previous"' in HTML
+    assert 'id="turnover-ratio"' in HTML
+    assert 'id="turnover-difference"' in HTML
+    assert '<article class="panel turnover-panel">' not in HTML
+    assert 'id="turnover-direction"' not in HTML
+    assert 'id="turnover-note"' not in HTML
     assert "data-index-role" not in HTML
     assert 'id="indices-grid"' not in HTML
     assert "index-card" not in HTML + CSS + JS
@@ -119,13 +194,13 @@ def test_watch_page_keeps_the_decision_path_and_evidence_boundaries_visible():
     anchors = [
         'id="decision-bar"',
         'id="index-dock"',
+        'id="turnover-today"',
         'id="sector-flow-section"',
         'id="sector-flow-defense-chart"',
         'id="sector-flow-defense-observation-list"',
         'id="sector-flow-offense-chart"',
         'id="sector-flow-offense-observation-list"',
         'id="breadth-up-ratio"',
-        'id="turnover-today"',
         'id="rotation-summary"',
         'id="what-is-happening"',
         'id="supporting-evidence"',
@@ -176,8 +251,8 @@ def test_sector_flow_chart_is_versioned_bounded_and_honestly_degraded():
     assert 'raw.contract !== "sector_flow_trajectory.v1"' in JS
     assert 'raw.schema_version !== 1' in JS
     assert 'MAX_SECTOR_FLOW_SERIES = 48' in JS
-    assert 'MAX_SECTOR_FLOW_CHART_SERIES = 16' in JS
-    assert 'SECTOR_FLOW_SYMLOG_CONSTANT_CNY = 100_000_000' in JS
+    assert 'MAX_SECTOR_FLOW_CHART_SERIES = 48' in JS
+    assert 'MAX_SECTOR_FLOW_ENDPOINT_LABELS = 48' in JS
     assert 'data-flow-mode="cumulative"' in HTML
     assert 'data-flow-mode="delta_5m"' in HTML
     assert 'data-flow-scope="defense"' in HTML
@@ -199,6 +274,8 @@ def test_sector_flow_chart_is_versioned_bounded_and_honestly_degraded():
     assert "function renderSectorFlowMiniChart(payload, scope)" in JS
     assert '"data-mini-sector-flow"' in JS
     assert "renderSectorFlowMiniChart(displayPayload, scope)" in JS
+    assert "if (chartCard.open)" in JS
+    assert "clearSectorFlowExpandedChart(scope)" in JS
     assert ".sector-flow-visual[open] .sector-flow-mini-chart" in CSS
     assert "document.createElementNS" in JS
     assert "point.session_segment" in JS
@@ -206,28 +283,79 @@ def test_sector_flow_chart_is_versioned_bounded_and_honestly_degraded():
     assert "function sectorFlowTradingMinute" in JS
     assert 'segment === "am" && minute >= 9 * 60 + 30 && minute <= 11 * 60 + 30' in JS
     assert 'segment === "pm" && minute >= 13 * 60 && minute <= 15 * 60' in JS
+    assert "const SECTOR_FLOW_LUNCH_GAP_MINUTES = 18" in JS
+    assert "const MAX_SECTOR_FLOW_SAMPLE_GAP_MINUTES = 5" in JS
+    assert "return 120 + SECTOR_FLOW_LUNCH_GAP_MINUTES + minute - 13 * 60" in JS
     assert "point.tradingMinute" in JS
+    assert "function sectorFlowPathData(segments, x, y)" in JS
+    assert "(time - previousTime) / 60_000 > MAX_SECTOR_FLOW_SAMPLE_GAP_MINUTES" in JS
+    assert 'previousEndpoint.segment === "am"' in JS
+    assert 'first.segment === "pm"' in JS
+    assert "const bridgeSpan = Math.max(0, endX - startX)" in JS
+    assert 'commands.push(`C${controlX1.toFixed(2)},${startY.toFixed(2)}' in JS
+    assert JS.count("const pathData = sectorFlowPathData(entry.segments, x, y)") == 2
     assert 'breakLabel.textContent = "午间断点"' in JS
     assert 'return "11:30 / 13:00"' in JS
     assert "point.delta_5m_cny" in JS
-    assert "function sectorFlowSymlog(value)" in JS
-    assert "function sectorFlowSymlogInverse(value)" in JS
-    assert "Math.log1p(Math.abs(value) / SECTOR_FLOW_SYMLOG_CONSTANT_CNY)" in JS
-    assert "Math.expm1(Math.abs(value)) * SECTOR_FLOW_SYMLOG_CONSTANT_CNY" in JS
+    assert "sectorFlowSymlog" not in JS
     assert "const SECTOR_FLOW_ENDPOINT_GAP_PX = 15" in JS
-    assert "const endpointScaleKnots" in JS
-    assert "const transformedFromY" in JS
-    assert 'scaleLabel.textContent = "Y 轴密度自适应 · 刻度为真实金额"' in JS
+    assert "const SECTOR_FLOW_COLOR_SLOT_COUNT = 72" in JS
+    assert "const SECTOR_FLOW_HUE_ORDER = [" in JS
+    assert "0, 8, 4, 12, 2, 10, 6, 14" in JS
+    assert "1, 9, 5, 13, 3, 11, 7, 15" in JS
+    assert "const SECTOR_FLOW_COLOR_BANDS = [" in JS
+    assert "function sectorFlowPaletteColor(slot)" in JS
+    assert "function sectorFlowSeries(payload, mode)" in JS
+    assert "color: sectorFlowPaletteColor(index)" in JS
+    assert JS.count("const series = sectorFlowSeries(payload, mode)") == 2
+    assert "sectorFlowStableHash" not in JS
+    assert "sectorFlowColorAssignments" not in JS
+    assert "[index % 8]" not in JS
+    assert "const height = Math.max(" in JS
+    assert 'svg.setAttribute("viewBox", `0 0 ${width} ${height}`)' in JS
+    assert 'shell.style.height = `${height}px`' in JS
+    assert "const endpointScaleKnots" not in JS
+    assert "const endpointScaleRows" not in JS
+    assert "const transformedFromY" not in JS
+    assert "const SECTOR_FLOW_ENDPOINT_DENSITY_WEIGHT = 0.65" in JS
+    assert "function sectorFlowEndpointRank(value, endpointValues)" in JS
+    assert "while (upperIndex - lowerIndex > 1)" in JS
+    assert "const endpointScaleValues = [...new Set" in JS
+    assert "const amountPosition = (value - yScaleMin) / (yScaleMax - yScaleMin)" in JS
+    assert "const densityPosition = sectorFlowEndpointRank(value, endpointScaleValues)" in JS
+    assert "const blendedPosition = (1 - SECTOR_FLOW_ENDPOINT_DENSITY_WEIGHT)" in JS
+    assert 'scaleLabel.textContent = "金额比例 + 终点密度混合 Y 轴 · 刻度为真实金额"' in JS
+    assert "endpointLabelTitle" not in JS
+    assert "layoutSectorFlowEndpointLabel" not in JS
     assert '"data-sector-flow-endpoint": text(entry.item.sector_key' in JS
-    assert '"data-sector-flow-endpoint-label": text(label.item.sector_key' in JS
-    assert "y: label.actualY + 3" in JS
-    assert "label.labelY" not in JS
-    assert "data-sector-flow-endpoint-connector" not in JS
+    assert '"data-sector-flow-endpoint-label": sectorKey' in JS
+    assert "x: x(endpoint.tradingMinute) + 9" in JS
+    assert "y: y(endpoint.value) + 3" in JS
+    assert "lineGroup.append(textNode)" in JS
+    assert "const textX" not in JS
+    assert '"data-sector-flow-endpoint-connector"' not in JS
+    assert "labelColumn" not in JS
+    assert "function focusSectorFlowSeries(svg, sectorKey = null)" in JS
+    assert "function setSectorFlowSeriesLock(svg, sectorKey = null)" in JS
+    assert "defaultFocusSector" not in JS
+    assert '? (active ? "1" : "0")' in JS
+    assert 'label.setAttribute("fill-opacity", sectorKey && !active ? "0" : "1")' in JS
+    assert 'lineGroup.dataset.defaultStrokeOpacity = "0.96"' in JS
+    assert 'lineGroup.dataset.defaultStrokeWidth = "2"' in JS
+    assert "const crowdedChart" not in JS
+    assert 'entry.addEventListener("pointerenter", () => focusSectorFlowSeries(svg, sectorKey))' not in JS
+    assert 'entry.addEventListener("focus", () => focusSectorFlowSeries(svg, sectorKey))' not in JS
+    assert 'entry.addEventListener("click", (event) =>' in JS
+    assert '"data-sector-flow-click-target": sectorKey' in JS
+    assert 'hitPath.addEventListener("click", (event) =>' in JS
+    assert 'setSectorFlowSeriesLock(svg, sectorKey)' in JS
+    assert 'svg[data-locked-sector-flow]' in JS
+    assert ".sector-flow-chart-shell > svg" in CSS
     assert "labelColumns" not in JS
     assert "不会依据单点涨幅补画" in HTML + JS
     assert "近 5 分钟同源基线仍在积累" in JS
     assert "renderSectorFlowTrajectories(snapshot)" in JS
-    assert "fetch(`${API_ENDPOINT}" in JS
+    assert "fetch(`${TRAJECTORY_ENDPOINT}?${query}`" in JS
     assert "sectorFlowCache" not in JS
 
 
@@ -241,6 +369,38 @@ def test_sector_flow_chart_expand_reuses_the_pre_rendered_svg():
     assert toggle_handler is not None
     assert 'classList.toggle("is-chart-open", chartCard.open)' in toggle_handler.group("body")
     assert "renderSectorFlowTrajectory" not in toggle_handler.group("body")
+
+
+def test_sector_flow_line_hover_shows_the_nearest_observed_amount():
+    tooltip_handler = re.search(
+        r"const showLineTooltip = \(event\) => \{(?P<body>.*?)\n\s*\};",
+        JS,
+        re.DOTALL,
+    )
+    pointer_leave_handler = re.search(
+        r'hitPath\.addEventListener\("pointerleave", \(\) => \{(?P<body>.*?)\n\s*\}\);',
+        JS,
+        re.DOTALL,
+    )
+
+    assert tooltip_handler is not None
+    assert pointer_leave_handler is not None
+    assert "const SECTOR_FLOW_HIT_STROKE_PX = 10" in JS
+    assert "function nearestSectorFlowObservedPoint(event, svg, entry, x)" in JS
+    assert "const matrix = svg.getScreenCTM()" in JS
+    assert "pointer.matrixTransform(matrix.inverse()).x" in JS
+    assert "entry.segments.flat().reduce" in JS
+    assert '"data-sector-flow-hit-target": text(entry.item.sector_key' in JS
+    assert '"pointer-events": "stroke"' in JS
+    assert '"stroke-width": SECTOR_FLOW_HIT_STROKE_PX' in JS
+    assert 'hitPath.addEventListener("pointerenter", showLineTooltip)' in JS
+    assert 'hitPath.addEventListener("pointermove", showLineTooltip)' in JS
+    assert 'hitPath.addEventListener("pointerleave"' in JS
+    assert "showSectorFlowTooltip(event, entry.item, observedPoint.point, mode, scope)" in JS
+    assert "focusSectorFlowSeries" not in tooltip_handler.group("body")
+    assert "setSectorFlowSeriesLock" not in tooltip_handler.group("body")
+    assert "focusSectorFlowSeries" not in pointer_leave_handler.group("body")
+    assert "setSectorFlowSeriesLock" not in pointer_leave_handler.group("body")
 
 
 def test_sector_flow_defense_and_offense_are_stacked_and_rendered_together():
@@ -278,8 +438,43 @@ def test_sector_flow_selection_and_sudden_move_override_are_local_and_explicit()
     assert "5分涨速" in JS
     assert "storeJson(sectorFlowSelectionStorageKey(scope)" in JS
     assert "storeText(STORAGE_KEYS.sectorFlowSurgeThreshold" in JS
-    assert "fetch(`${API_ENDPOINT}" in JS
+    assert "fetch(`${TRAJECTORY_ENDPOINT}?${query}`" in JS
+    assert "hydrateCurrentSectorFlow(scope)" in JS
     assert "sectorFlowSelectionCache" not in JS
+
+
+def test_sector_flow_cards_rank_by_current_funds_and_make_sudden_moves_visible():
+    sorter = JS.split("function compareSectorFlowByCurrentAmount", 1)[1].split(
+        "function sectorFlowCurrentAmountLabel", 1
+    )[0]
+
+    assert "left?.latest?.cumulative_cny" in sorter
+    assert "right?.latest?.cumulative_cny" in sorter
+    assert "return rightAmount - leftAmount" in sorter
+    assert "change_pct" not in sorter
+    assert ".sort(compareSectorFlowByCurrentAmount)" in JS
+    assert "sectorFlowCurrentAmountLabel(currentAmount)" in JS
+    assert "当前流入" in JS
+    assert "当前流出" in JS
+    assert "sector-flow-surge-badge" in JS + CSS
+    assert "is-surge-up" in JS + CSS
+    assert "is-surge-down" in JS + CSS
+    assert "⚡涨速突变" in JS
+    assert HTML.count("当前净流入额从高到低，突变板块高亮") == 2
+
+
+def test_sector_flow_large_selection_is_deferred_toggleable_and_dismissible():
+    assert "function scheduleSectorFlowRender(scope" in JS
+    assert "window.requestAnimationFrame" in JS
+    assert "renderPicker: false" in JS
+    assert "const allSelected = keys.length > 0 && keys.every" in JS
+    assert 'button.textContent = allSelected ? "取消全选" : "全选"' in JS
+    assert "allSelected ? new Set() : new Set(keys)" in JS
+    assert 'document.addEventListener("pointerdown"' in JS
+    assert 'document.addEventListener("keydown"' in JS
+    assert 'event.key !== "Escape"' in JS
+    assert "!picker.contains(event.target)" in JS
+    assert "segment.forEach((point)" not in JS
 
 
 def test_sector_flow_observations_keep_sector_change_and_leaders_visible():
@@ -297,7 +492,7 @@ def test_sector_flow_observations_keep_sector_change_and_leaders_visible():
     assert observations is not None
     assert leaders is not None
     assert "板块涨幅" in observations.group("body")
-    assert "rightChange - leftChange" in observations.group("body")
+    assert ".sort(compareSectorFlowByCurrentAmount)" in observations.group("body")
     assert "板块上涨" in observations.group("body")
     assert "item.tier_label" not in observations.group("body")
     assert "净流占比" not in observations.group("body")
@@ -305,18 +500,77 @@ def test_sector_flow_observations_keep_sector_change_and_leaders_visible():
     assert "renderSectorFlowLeaders(item, latest)" in observations.group("body")
     assert 'text(item.parent_name, "")' in observations.group("body")
     assert "snapshot.leaders" in leaders.group("body")
+    assert 'snapshot.selection_method === "sector_fund_flow_minute_correlation.v1"' in leaders.group("body")
+    assert 'isResonanceSnapshot ? asArray(snapshot.leaders).slice(0, 1) : []' in leaders.group("body")
+    assert '"共振回溯暂缺"' in leaders.group("body")
     assert "change <= 0" not in leaders.group("body")
-    assert 'text(snapshot.status_label, "领涨股数据暂缺")' in leaders.group("body")
-    assert ".slice(0, 3)" in leaders.group("body")
+    assert 'text(snapshot.status_label, "暂无高共振快涨股")' in leaders.group("body")
+    assert '"共振领涨股"' in leaders.group("body")
+    assert 'leader.speed_pct' in leaders.group("body")
+    assert '5分 ${formatChangePct(leaderSpeed)}' in leaders.group("body")
+    assert 'leader.resonance_correlation' in leaders.group("body")
+    assert '相关 ${correlation.toFixed(2)}' in leaders.group("body")
+    assert ".slice(0, 1)" in leaders.group("body")
     assert "leader.instrument_id" in leaders.group("body")
 
 
-def test_stale_or_failed_data_is_prominent_and_locks_change_alerts():
+def test_intraday_sector_move_radar_has_live_trajectory_leaders_and_alert_delivery():
+    assert 'id="sector-move-radar"' in HTML
+    assert 'id="sector-move-radar-list"' in HTML
+    assert 'id="sector-move-radar-threshold"' in HTML
+    assert "function sectorMoveCandidates(snapshot)" in JS
+    assert "function renderSectorMoveMiniChart(item)" in JS
+    assert "function renderSectorMoveRadar(snapshot)" in JS
+    assert '["defense", "offense"].flatMap((scope)' in JS
+    assert "sectorFlowPayload(snapshot, scope)" in JS
+    assert "Math.abs(changeDelta) >= state.sectorFlowSurgeThreshold" in JS
+    assert 'sectorFlowSegments(item, "delta_5m")' in JS
+    assert "renderSectorFlowLeaders(item, latest)" in JS
+    assert "renderSectorMoveRadar(snapshot);" in JS
+    assert 'alert.kind === "sector_move"' in JS
+    assert "showSectorMoveNotification(sectorAlerts)" in JS
+    assert ".sector-move-radar-list" in CSS
+    assert ".sector-move-card__chart" in CSS
+
+
+def test_sector_move_radar_treats_null_latest_as_missing_delta():
+    candidates = re.search(
+        r"function sectorMoveCandidates\(snapshot\) \{(?P<body>.*?)\n  \}",
+        JS,
+        re.DOTALL,
+    )
+
+    assert candidates is not None
+    assert 'item?.latest && typeof item.latest === "object"' in candidates.group("body")
+
+
+def test_sector_move_radar_uses_trajectory_freshness_not_global_snapshot_freshness():
+    assert "const SECTOR_MOVE_MAX_AGE_MS = 120_000" in JS
+    assert "function sectorMoveRadarAvailability(snapshot" in JS
+    start = JS.index("function renderSectorMoveRadar(snapshot)")
+    end = JS.index("\n  function renderSectorFlowObservations", start)
+    radar = JS[start:end]
+    assert "sectorMoveRadarAvailability(snapshot)" in radar
+    assert 'freshness.status !== "fresh"' not in radar
+    assert 'payload.status === "ready" || payload.status === "partial"' in JS
+    assert "Date.parse(payload.asOf)" in JS
+    assert "SECTOR_MOVE_MAX_AGE_MS" in JS
+    assert "isSectorMoveAlert(alert)" in JS
+    assert "sectorMoveRadarAvailability(snapshot).available" in JS
+
+
+def test_only_open_session_stale_or_unavailable_data_is_prominent():
     assert 'id="data-risk-overlay"' in HTML
     assert 'aria-live="assertive"' in HTML
     assert "盘面数据已经陈旧" in JS
-    assert "盘面数据部分降级" in JS
     assert "盘面数据不可用" in JS
+    risk = re.search(
+        r"function updateDataRisk\(snapshot\) \{(?P<body>.*?)\n  \}", JS, re.DOTALL
+    )
+    assert risk is not None
+    assert "marketState.isOpen" in risk.group("body")
+    assert '"stale", "unavailable", "unknown"' in risk.group("body")
+    assert "if (!blocksCurrentJudgment)" in risk.group("body")
     assert "最后画面已保留" in JS
     assert 'freshness.status !== "fresh"' in JS
     assert "盘面变化提醒已锁定" in JS
@@ -337,7 +591,7 @@ def test_turnover_uses_component_freshness_and_validates_the_complete_payload():
         re.DOTALL,
     )
     rendering = re.search(
-        r"function renderTurnover\(snapshot\) \{(?P<body>.*?)\n  \}\n\n  function sectorDirection",
+        r"function renderTurnover\(snapshot\) \{(?P<body>.*?)\n  \}\n\n  function createSvgElement",
         JS,
         re.DOTALL,
     )
@@ -367,6 +621,13 @@ def test_turnover_uses_component_freshness_and_validates_the_complete_payload():
     assert "validateAvailableTurnover(turnover)" in rendering.group("body")
     assert "数据延迟；截至 ${comparison.as_of}" in rendering.group("body")
     assert "turnover.reason" in rendering.group("body")
+    assert 'document.querySelector("[data-turnover-dock]")' in rendering.group("body")
+    assert 'dock.classList.toggle("is-unavailable", !available)' in rendering.group("body")
+    assert 'dock.setAttribute("aria-label", accessibleSummary)' in rendering.group("body")
+    assert 'byId("turnover-difference")' in rendering.group("body")
+    assert 'formatCny(comparison.difference_cny, true)' in rendering.group("body")
+    assert 'byId("turnover-direction")' not in rendering.group("body")
+    assert 'byId("turnover-note")' not in rendering.group("body")
     assert "lastGoodTurnover" not in JS
     assert "turnoverCache" not in JS
 
@@ -415,9 +676,64 @@ def test_sound_defaults_off_and_can_only_be_enabled_by_a_button_action():
     assert "if (state.soundEnabled) ensureAudioContext()" in JS
 
 
-def test_manual_refresh_requests_the_bounded_force_endpoint():
-    assert 'force ? "?refresh=1" : ""' in JS
+def test_manual_refresh_revalidates_read_only_views_without_provider_refresh():
+    assert 'if (!force && etag) headers["If-None-Match"] = etag' in JS
     assert 'fetchSnapshot({ force: true })' in JS
+    assert 'refresh=1' not in JS
+
+
+def test_split_payloads_commit_only_after_revision_and_point_manifest_proofs():
+    assert "function validateSummary(payload, expectedRevision, response)" in JS
+    assert "function validateTrajectoryDetail(payload, summary, scope, requestedKeys, response)" in JS
+    assert 'response.headers.get("X-Source-Snapshot-Revision")' in JS
+    assert 'response.headers.get("X-Trajectory-Revision")' in JS
+    assert "proof.points_revision !== manifest.points_revision" in JS
+    assert "points.length !== manifest.point_count" in JS
+    assert "const results = await Promise.all" in JS
+    assert JS.index("const results = await Promise.all") < JS.index("state.lastSummary = summary")
+    assert "state.trajectoryDetails = details" in JS
+    assert "state.lastSnapshot = snapshot" in JS
+
+
+def test_revision_conflict_discards_only_the_in_flight_attempt_and_retries_once():
+    assert 'payload.action === "discard_batch_and_retry"' in JS
+    attempt_reset = re.search(
+        r"function discardMarketWatchAttempt\(\) \{(?P<body>.*?)\n  \}", JS, re.DOTALL
+    )
+    assert attempt_reset is not None
+    assert "state.summaryEtag = null" in attempt_reset.group("body")
+    assert "state.detailEtags.clear()" in attempt_reset.group("body")
+    assert "state.detailPayloads.clear()" in attempt_reset.group("body")
+    assert "state.lastSummary = null" not in attempt_reset.group("body")
+    assert "state.lastSnapshot = null" not in attempt_reset.group("body")
+    assert "for (let attempt = 0; attempt < 2; attempt += 1)" in JS
+    assert "(error.discardBatch || error.noAcceptedReal)" in JS
+    assert "discardMarketWatchAttempt();" in JS
+
+
+def test_no_accepted_real_keeps_the_shell_and_last_verified_batch_visible():
+    keep_visible = re.search(
+        r"function keepMarketWatchSurfacesVisible\(\) \{(?P<body>.*?)\n  \}",
+        JS,
+        re.DOTALL,
+    )
+    assert keep_visible is not None
+    assert "element.hidden = false" in keep_visible.group("body")
+    assert "setNumericSurfacesVisible(false)" not in JS
+    no_data = re.search(
+        r"function renderNoAcceptedReal\(status\) \{(?P<body>.*?)\n  \}",
+        JS,
+        re.DOTALL,
+    )
+    assert no_data is not None
+    assert "discardMarketWatch" not in no_data.group("body")
+    assert "keepMarketWatchSurfacesVisible();" in no_data.group("body")
+    assert "renderMarketWatchUnavailableShell" in no_data.group("body")
+    assert "state.lastSnapshot" in no_data.group("body")
+    assert "暂无已接收的真实盘中快照" in JS
+    assert "保留最后一份已核验画面" in JS
+    assert "不会把缺口心跳当成盘面数值" in JS
+    assert "latest_accepted_real" in JS
 
 
 def test_watch_page_reads_only_canonical_v1_fields_and_event_reads_are_scoped():

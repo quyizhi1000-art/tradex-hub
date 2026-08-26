@@ -137,6 +137,92 @@ def test_etf_quotes_use_paid_rt_etf_k_for_both_markets_with_cny_units(
     assert quotes[0].provider_as_of.isoformat() == "2026-08-21T15:00:00+08:00"
 
 
+def test_etf_quotes_use_batch_unit_evidence_for_sparse_rounding_outlier(
+    monkeypatch,
+) -> None:
+    def fake_request(api_name, params=None, fields=None):
+        assert api_name == "rt_etf_k"
+        if params == {"ts_code": "1*.SZ"}:
+            return _result(
+                {
+                    "ts_code": "159915.SZ",
+                    "name": "创业板ETF",
+                    "pre_close": 1.0,
+                    "open": 1.0,
+                    "high": 1.03,
+                    "low": 0.99,
+                    "close": 1.02,
+                    "vol": 10_000,
+                    "amount": 10_200,
+                    "trade_time": "2026-08-21 11:29:59",
+                }
+            )
+        regular = [
+            {
+                "ts_code": f"510{index:03d}.SH",
+                "name": f"单位证据ETF{index}",
+                "pre_close": 1.0,
+                "open": 1.0,
+                "high": 1.01,
+                "low": 0.99,
+                "close": 1.0,
+                "vol": 1_000,
+                "amount": 100_000,
+                "trade_time": "2026-08-21 11:29:59",
+            }
+            for index in range(20)
+        ]
+        return _result(
+            *regular,
+            {
+                "ts_code": "516720.SH",
+                "name": "轻量成交ETF",
+                "pre_close": 1.14,
+                "open": 1.148,
+                "high": 1.155,
+                "low": 1.148,
+                "close": 1.155,
+                "vol": 5,
+                # 实盘低成交样本按百元取整，逐行均价无法落入日内区间。
+                "amount": 600,
+                "trade_time": "2026-08-21 11:29:59",
+            },
+        )
+
+    monkeypatch.setattr(tushare_fetchers, "_request", fake_request)
+
+    frame = tushare_fetchers.fetch_etf_quotes(trade_date=TRADE_DATE)
+
+    assert frame.loc[frame["ts_code"] == "516720.SH", "vol"].item() == 500
+    assert frame.attrs["volume_consensus_fallback_count"] == 1
+
+
+def test_etf_quotes_reject_unresolved_unit_without_batch_evidence(monkeypatch) -> None:
+    def fake_request(api_name, params=None, fields=None):
+        assert api_name == "rt_etf_k"
+        suffix = "SZ" if params == {"ts_code": "1*.SZ"} else "SH"
+        code = "159915.SZ" if suffix == "SZ" else "516720.SH"
+        return _result(
+            {
+                "ts_code": code,
+                "name": "单位未知ETF",
+                "pre_close": 1.14,
+                "open": 1.148,
+                "high": 1.155,
+                "low": 1.148,
+                "close": 1.155,
+                "vol": 5,
+                "amount": 600,
+                "trade_time": "2026-08-21 11:29:59",
+            }
+        )
+
+    monkeypatch.setattr(tushare_fetchers, "_request", fake_request)
+
+    with pytest.raises(RuntimeError, match="成交量单位无法唯一判定"):
+        tushare_fetchers.fetch_etf_quotes(trade_date=TRADE_DATE)
+
+
 def test_sector_quotes_use_paid_rt_sw_k_and_preserve_cny(monkeypatch) -> None:
     calls = []
 

@@ -681,9 +681,10 @@ def fetch_board_leaders(
     source_hint: str | None = None,
     **kwargs,
 ) -> pd.DataFrame:
-    """Fetch a small, gain-sorted constituent page for one Eastmoney board.
+    """Fetch a small, speed-sorted constituent page for one Eastmoney board.
 
-    This is intentionally a bounded display enrichment. It does not crawl the
+    The provider's ``f22`` field is its current price-speed percentage-point
+    metric. This remains a bounded display enrichment: it does not crawl the
     complete constituent universe and missing provider fields remain ``None``.
     """
     from tradex.data_sources.em_client import em_get
@@ -706,15 +707,16 @@ def fetch_board_leaders(
         "ut": "bd1d9ddb04089700cf9c27f6f7426281",
         "fltt": "2",
         "invt": "2",
-        "fid": "f3",
+        "fid": "f22",
         "fs": f"b:{code} f:!50",
-        "fields": "f12,f14,f2,f3,f6,f8,f62,f184,f124",
+        "fields": "f12,f14,f2,f3,f22,f6,f8,f62,f184,f124",
     }
     columns = [
         "code",
         "name",
         "price",
         "change_pct",
+        "speed_pct",
         "amount",
         "turnover",
         "flow_amount",
@@ -748,6 +750,7 @@ def fetch_board_leaders(
                     "name": _optional_text(item.get("f14")),
                     "price": _optional_float(item.get("f2")),
                     "change_pct": _optional_float(item.get("f3")),
+                    "speed_pct": _optional_float(item.get("f22")),
                     "amount": _optional_float(item.get("f6")),
                     "turnover": _optional_float(item.get("f8")),
                     "flow_amount": _optional_float(item.get("f62")),

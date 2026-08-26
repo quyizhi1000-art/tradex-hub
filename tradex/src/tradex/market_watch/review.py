@@ -13,7 +13,12 @@ from zoneinfo import ZoneInfo
 
 from pydantic import Field, field_validator, model_validator
 
-from tradex.market_calendar import CalendarDayStatus, calendar_day_status
+from tradex.market_calendar import (
+    CalendarDayStatus,
+    TradingSessionPhase,
+    a_share_session,
+    calendar_day_status,
+)
 
 from .contracts import (
     ConclusionStrength,
@@ -33,11 +38,10 @@ from .review_evidence import (
 
 
 SHANGHAI = ZoneInfo("Asia/Shanghai")
-# The whole-market evidence contract and opportunity audit trail are not
-# backward-compatible with the earlier lightweight policy.  A new policy key
-# preserves those immutable rows while allowing a full-evidence review for the
-# same trade date.
-REVIEW_CONFIG_VERSION = "post-market-review-policy.v2"
+# Policy v3 keeps the immutable evidence contract but accepts a complete,
+# same-session 15:00 turnover snapshot recovered after the close as degraded
+# evidence.  Older policy rows remain readable and are never overwritten.
+REVIEW_CONFIG_VERSION = "post-market-review-policy.v3"
 
 
 class ReviewTrigger(str, Enum):
@@ -166,7 +170,7 @@ class ReviewLearningV1(ContractModel):
 class PostMarketReviewV1(ContractModel):
     contract: Literal["post_market_review.v1"] = "post_market_review.v1"
     schema_version: Literal[1] = 1
-    config_version: Literal[REVIEW_CONFIG_VERSION] = REVIEW_CONFIG_VERSION
+    config_version: str = Field(default=REVIEW_CONFIG_VERSION, min_length=1)
     review_id: str = Field(min_length=1)
     trade_date: date
     generated_at: datetime
@@ -440,7 +444,9 @@ def _watch_signals(snapshot: MarketWatchSnapshotV1) -> tuple[float | None, float
 def _quality(evidence: DailyMarketReviewEvidenceV1) -> ReviewQuality:
     snapshot = evidence.market_watch
     if (
-        snapshot.freshness.status in {FreshnessStatus.STALE, FreshnessStatus.UNAVAILABLE}
+        snapshot.market_state.phase != MarketPhase.CLOSED
+        or snapshot.freshness.status
+        in {FreshnessStatus.STALE, FreshnessStatus.UNAVAILABLE}
         or evidence.universe is None
         or sum(item.available for item in snapshot.indices) < 2
     ):
@@ -1107,19 +1113,33 @@ def _session_story(evidence: DailyMarketReviewEvidenceV1) -> tuple[str, ...]:
         and intraday.min_advance_ratio is not None
         and last_ratio is not None
     ):
-        ending = (
-            "尾盘有回拉，但没有扭转弱势。"
-            if last_ratio >= intraday.min_advance_ratio + 0.05 and last_ratio < 0.45
-            else "弱势一直延续到收盘。"
-            if last_ratio < 0.35
-            else "收盘参与度重新回到中性区域。"
+        improved_from_low = (
+            intraday.weakest_as_of is not None
+            and intraday.strongest_as_of is not None
+            and intraday.weakest_as_of < intraday.strongest_as_of
+            and last_ratio >= 0.55
         )
-        story.append(
-            f"盘中节奏上，{strongest_time or '早盘'}上涨股票一度占{intraday.max_advance_ratio * 100:.1f}%，"
-            f"午盘只剩{intraday.morning_close_advance_ratio * 100:.1f}%；"
-            f"{weakest_time or '午后'}降到全天最低{intraday.min_advance_ratio * 100:.1f}%，"
-            f"收盘回到{last_ratio * 100:.1f}%。{ending}"
-        )
+        if improved_from_low:
+            story.append(
+                f"盘中节奏上，{weakest_time or '开盘'}上涨股票最低只有{intraday.min_advance_ratio * 100:.1f}%，"
+                f"午盘已经回到{intraday.morning_close_advance_ratio * 100:.1f}%；"
+                f"{strongest_time or '午后'}一度升到{intraday.max_advance_ratio * 100:.1f}%，"
+                f"收盘仍有{last_ratio * 100:.1f}%。个股参与度从低开后的低点持续扩散。"
+            )
+        else:
+            ending = (
+                "尾盘有回拉，但没有扭转弱势。"
+                if last_ratio >= intraday.min_advance_ratio + 0.05 and last_ratio < 0.45
+                else "弱势一直延续到收盘。"
+                if last_ratio < 0.35
+                else "收盘参与度重新回到中性区域。"
+            )
+            story.append(
+                f"盘中节奏上，{strongest_time or '早盘'}上涨股票一度占{intraday.max_advance_ratio * 100:.1f}%，"
+                f"午盘只剩{intraday.morning_close_advance_ratio * 100:.1f}%；"
+                f"{weakest_time or '午后'}降到全天最低{intraday.min_advance_ratio * 100:.1f}%，"
+                f"收盘回到{last_ratio * 100:.1f}%。{ending}"
+            )
     elif intraday.first_advance_ratio is not None and last_ratio is not None:
         movement = last_ratio - intraday.first_advance_ratio
         shape = "越走越强" if movement >= 0.08 else "越走越弱" if movement <= -0.08 else "以震荡为主"
@@ -1141,8 +1161,13 @@ def _session_story(evidence: DailyMarketReviewEvidenceV1) -> tuple[str, ...]:
         turnover_note = f"两市股票成交约{universe.total_amount_cny / 1_000_000_000_000:.2f}万亿元。"
         if not evidence.market_watch.turnover.available:
             turnover_note += "由于上一交易日同口径数据缺失，今天不判断放量还是缩量。"
+        cross_section = (
+            "收盘的核心是个股普遍修复"
+            if universe.advance_ratio >= 0.6 and universe.median_change_pct > 0
+            else "收盘不是指数单独难看"
+        )
         story.append(
-            f"收盘不是指数单独难看：{universe.down_count}只下跌、{universe.up_count}只上涨，"
+            f"{cross_section}：{universe.down_count}只下跌、{universe.up_count}只上涨，"
             f"全A中位数{universe.median_change_pct:+.2f}%。{comparison}{turnover_note}"
         )
     else:
@@ -1154,11 +1179,18 @@ def _session_story(evidence: DailyMarketReviewEvidenceV1) -> tuple[str, ...]:
         outflow_names = "、".join(
             (item.name or item.instrument_id) for item in flow.top_outflows[:4]
         ) or "未形成清晰集中方向"
-        story.append(
-            f"按个股资金流口径，只有{ratio * 100:.1f}%的股票录得净流入，"
-            f"合计{_plain_net_flow(flow.total_net_amount_cny)}；净流出靠前的是{outflow_names}。"
-            "这说明资金更像在撤退和换仓，而不是普遍回流。"
-        )
+        if ratio >= 0.55 and flow.total_net_amount_cny > 0:
+            story.append(
+                f"按个股资金流口径，{ratio * 100:.1f}%的股票录得净流入，"
+                f"合计{_plain_net_flow(flow.total_net_amount_cny)}；净流出靠前的是{outflow_names}。"
+                "资金已经回到多数股票，但高成交核心仍有明显分化。"
+            )
+        else:
+            story.append(
+                f"按个股资金流口径，只有{ratio * 100:.1f}%的股票录得净流入，"
+                f"合计{_plain_net_flow(flow.total_net_amount_cny)}；净流出靠前的是{outflow_names}。"
+                "这说明资金更像在撤退和换仓，而不是普遍回流。"
+            )
     else:
         story.append("个股资金流缺失，今天只判断价格强弱，不给资金行为强行归因。")
     return tuple(story[:4])
@@ -1244,18 +1276,35 @@ def _money_making_effect(
     opportunities: tuple[OpportunitySectorV1, ...],
 ) -> tuple[str, ...]:
     result: list[str] = []
+    universe = evidence.universe
+    broad_repair = bool(
+        universe is not None
+        and universe.advance_ratio >= 0.6
+        and universe.median_change_pct > 0
+    )
     if opportunities:
         names = "、".join(item.name for item in opportunities[:3])
         leaders = "、".join(item.leader_name for item in opportunities[:3] if item.leader_name)
-        result.append(
-            f"板块赚钱效应集中在{names}，代表股是{leaders or '板块前排'}；"
-            "这里赚的是逆势抱团的钱，不是普涨的钱。"
-        )
+        if broad_repair:
+            result.append(
+                f"板块主线集中在{names}，代表股是{leaders or '板块前排'}；"
+                f"同时全A有{universe.up_count}只上涨，赚钱效应已经从前排扩散到多数股票。"
+            )
+        else:
+            result.append(
+                f"板块赚钱效应集中在{names}，代表股是{leaders or '板块前排'}；"
+                "这里赚的是逆势抱团的钱，不是普涨的钱。"
+            )
     if evidence.limit_events is not None:
         limits = evidence.limit_events
+        suffix = (
+            "首板和个股广度同步扩散，短线活跃度与全市场修复方向一致。"
+            if broad_repair
+            else "但高度由少数前排维持，不能据此判断大多数股票已经转强。"
+        )
         result.append(
             f"按当前涨停池，短线高度还在：{limits.limit_up_count}只涨停、最高{limits.max_board_count or 1}板。"
-            "但高度由少数前排维持，不能据此判断大多数股票已经转强。"
+            + suffix
         )
     if evidence.etfs is not None and evidence.etfs.top_gainers:
         opportunity_names = {item.name for item in opportunities}
@@ -1276,10 +1325,16 @@ def _loss_making_effect(evidence: DailyMarketReviewEvidenceV1) -> tuple[str, ...
     universe = evidence.universe
     if universe is not None:
         deep_loss = _distribution_count(evidence, "down_5_plus")
-        result.append(
-            f"个股亏钱效应是主导项：{universe.down_count}只下跌，其中{deep_loss}只跌幅超过5%，"
-            f"全A中位数{universe.median_change_pct:+.2f}%。"
-        )
+        if universe.advance_ratio >= 0.6 and universe.median_change_pct > 0:
+            result.append(
+                f"普涨中仍有局部亏钱区：{universe.down_count}只下跌，其中{deep_loss}只跌幅超过5%，"
+                f"但全A中位数{universe.median_change_pct:+.2f}%，亏钱效应不是当天主导。"
+            )
+        else:
+            result.append(
+                f"个股亏钱效应是主导项：{universe.down_count}只下跌，其中{deep_loss}只跌幅超过5%，"
+                f"全A中位数{universe.median_change_pct:+.2f}%。"
+            )
         crowded = [item for item in universe.most_traded if item.change_pct < 0][:4]
         if crowded:
             result.append(
@@ -1293,10 +1348,16 @@ def _loss_making_effect(evidence: DailyMarketReviewEvidenceV1) -> tuple[str, ...
     if evidence.stock_fund_flow is not None:
         flow = evidence.stock_fund_flow
         ratio = flow.positive_count / flow.scanned_count
-        result.append(
-            f"资金净流入覆盖只有{ratio * 100:.1f}%，说明多数股票缺少主动承接，"
-            "反弹时也要先看资金是否回流。"
-        )
+        if ratio >= 0.55 and flow.total_net_amount_cny > 0:
+            result.append(
+                f"资金净流入覆盖达到{ratio * 100:.1f}%，多数股票已有主动承接；"
+                "需要防的是高成交核心内部仍在分化。"
+            )
+        else:
+            result.append(
+                f"资金净流入覆盖只有{ratio * 100:.1f}%，说明多数股票缺少主动承接，"
+                "反弹时也要先看资金是否回流。"
+            )
     return tuple(result or ["亏钱效应数据不完整，无法可靠判断风险主要来自哪里。"])[:4]
 
 
@@ -1396,21 +1457,35 @@ def _core_conclusion(
     themes = "、".join(item.name for item in opportunities[:3])
     if universe is None:
         return "全A分布缺失，今天只能确认局部强弱，不能把指数涨跌当成完整市场结论。"
-    opening = (
-        f"今天最关键的不是某一个指数涨跌，而是{universe.down_count}只股票收跌、"
-        f"全A中位数{universe.median_change_pct:+.2f}%"
-    )
-    if weakest is not None:
-        opening += f"，{weakest[0]}{weakest[1]:+.2f}%是主要拖累"
-    if themes:
-        opening += f"。{themes}撑住了局部赚钱效应，但没有改变全市场偏弱的事实"
+    broad_repair = universe.advance_ratio >= 0.6 and universe.median_change_pct > 0
+    if broad_repair:
+        opening = (
+            f"今天最关键的是{universe.up_count}只股票收涨、全A中位数"
+            f"{universe.median_change_pct:+.2f}%，个股面完成了明显修复"
+        )
+        if weakest is not None and weakest[1] < 0:
+            opening += f"；虽然{weakest[0]}{weakest[1]:+.2f}%拖累指数，仍没有打断广度扩散"
+        if themes:
+            opening += f"。{themes}形成了价格、广度和资金相互确认的当日主线"
+        else:
+            opening += "。市场普遍回暖，但尚未形成经过多类证据确认的集中主线"
     else:
-        opening += "。市场没有形成经过多类证据确认的强势主线"
+        opening = (
+            f"今天最关键的不是某一个指数涨跌，而是{universe.down_count}只股票收跌、"
+            f"全A中位数{universe.median_change_pct:+.2f}%"
+        )
+        if weakest is not None:
+            opening += f"，{weakest[0]}{weakest[1]:+.2f}%是主要拖累"
+        if themes:
+            opening += f"。{themes}撑住了局部赚钱效应，但没有改变全市场偏弱的事实"
+        else:
+            opening += "。市场没有形成经过多类证据确认的强势主线"
     if evidence.limit_events is not None:
         opening += (
-            f"；按当前涨停池，{evidence.limit_events.limit_up_count}只涨停和{evidence.limit_events.max_board_count or 1}板高度说明"
-            "短线资金仍在，但高度在、广度不在"
+            f"；按当前涨停池，{evidence.limit_events.limit_up_count}只涨停和"
+            f"{evidence.limit_events.max_board_count or 1}板高度说明短线资金仍在"
         )
+        opening += "，并与普涨广度相互印证" if broad_repair else "，但高度在、广度不在"
     return opening + "。"
 
 
@@ -2227,6 +2302,15 @@ def _article_clock(value: datetime | None) -> str:
     return value.astimezone(SHANGHAI).strftime("%H:%M")
 
 
+def _article_broad_repair(evidence: DailyMarketReviewEvidenceV1) -> bool:
+    universe = evidence.universe
+    return bool(
+        universe is not None
+        and universe.advance_ratio >= 0.6
+        and universe.median_change_pct > 0
+    )
+
+
 def _article_title(
     evidence: DailyMarketReviewEvidenceV1,
     opportunities: tuple[OpportunitySectorV1, ...],
@@ -2243,11 +2327,21 @@ def _article_title(
         and intraday.min_advance_ratio is not None
         and intraday.max_advance_ratio - intraday.min_advance_ratio >= 0.25
     ):
+        improved_from_low = (
+            intraday.weakest_as_of is not None
+            and intraday.strongest_as_of is not None
+            and intraday.weakest_as_of < intraday.strongest_as_of
+        )
         ending = ""
-        if weakest is not None:
+        if weakest is not None and weakest[1] < 0:
             ending = f"，{weakest[0]}跌{abs(weakest[1]):.2f}%"
         if themes:
-            ending += f"，{themes}成了避风港"
+            ending += f"，{themes}{'领涨' if improved_from_low else '成了避风港'}"
+        if improved_from_low:
+            return (
+                f"开盘仅{intraday.min_advance_ratio * 100:.0f}%个股上涨，"
+                f"午后扩散到{intraday.max_advance_ratio * 100:.0f}%{ending}"
+            )
         return (
             f"早盘还有{intraday.max_advance_ratio * 100:.0f}%个股上涨，"
             f"午后最低只剩{intraday.min_advance_ratio * 100:.0f}%{ending}"
@@ -2267,35 +2361,66 @@ def _article_standfirst(
     themes = "、".join(item.name for item in opportunities[:3])
     if universe is None:
         return "今天的全市场个股分布没有完整取得，正文只写能够被现有证据确认的盘面变化，不拿指数替代个股体感。"
-    text = (
-        f"今天不是“指数跌了多少”这么简单。收盘有{universe.down_count}只股票下跌，"
-        f"全A中位数{universe.median_change_pct:+.2f}%，说明多数持仓承受的是一场实打实的回撤。"
-    )
-    if themes:
-        text += f"{themes}守住了局部赚钱效应，但它们更像资金撤退时寻找的落脚点，还不是新一轮普涨的起点。"
+    if _article_broad_repair(evidence):
+        text = (
+            f"今天不能只看指数涨跌不一。收盘有{universe.up_count}只股票上涨，"
+            f"全A中位数{universe.median_change_pct:+.2f}%，多数持仓体感是明显回血。"
+        )
+        if themes:
+            text += f"{themes}成为资金最集中的进攻方向，但成交缩量意味着明天仍要接受第一次分歧检验。"
+    else:
+        text = (
+            f"今天不是“指数跌了多少”这么简单。收盘有{universe.down_count}只股票下跌，"
+            f"全A中位数{universe.median_change_pct:+.2f}%，说明多数持仓承受的是一场实打实的回撤。"
+        )
+        if themes:
+            text += f"{themes}守住了局部赚钱效应，但它们更像资金撤退时寻找的落脚点，还不是新一轮普涨的起点。"
     return text
 
 
 def _article_session_section(evidence: DailyMarketReviewEvidenceV1) -> ArticleSectionV4:
     paragraphs: list[str] = []
     intraday = evidence.intraday
+    broad_repair = _article_broad_repair(evidence)
     if (
         intraday is not None
         and intraday.max_advance_ratio is not None
         and intraday.min_advance_ratio is not None
         and intraday.last_advance_ratio is not None
     ):
-        path = (
-            f"{_article_clock(intraday.strongest_as_of)}是全天最强的一刻，"
-            f"一度有{intraday.max_advance_ratio * 100:.1f}%的股票上涨。"
+        improved_from_low = (
+            intraday.weakest_as_of is not None
+            and intraday.strongest_as_of is not None
+            and intraday.weakest_as_of < intraday.strongest_as_of
+            and intraday.last_advance_ratio >= 0.55
         )
-        if intraday.morning_close_advance_ratio is not None:
-            path += f"到了午间，上涨占比已经降到{intraday.morning_close_advance_ratio * 100:.1f}%；"
-        path += (
-            f"{_article_clock(intraday.weakest_as_of)}最低只剩{intraday.min_advance_ratio * 100:.1f}%，"
-            f"收盘也只有{intraday.last_advance_ratio * 100:.1f}%。"
-            "全天最值得记住的不是尾盘有没有反抽，而是早盘的普遍尝试最终变成了午后的普遍撤退。"
-        )
+        if improved_from_low:
+            path = (
+                f"{_article_clock(intraday.weakest_as_of)}上涨股票最低只有{intraday.min_advance_ratio * 100:.1f}%，"
+            )
+            if intraday.morning_close_advance_ratio is not None:
+                path += f"到了午间已经回到{intraday.morning_close_advance_ratio * 100:.1f}%；"
+            path += (
+                f"{_article_clock(intraday.strongest_as_of)}最高升到{intraday.max_advance_ratio * 100:.1f}%，"
+                f"收盘仍有{intraday.last_advance_ratio * 100:.1f}%。"
+                "这不是指数硬撑出来的假反弹，而是个股参与度从开盘低点一路扩散。"
+            )
+        else:
+            path = (
+                f"{_article_clock(intraday.strongest_as_of)}是全天最强的一刻，"
+                f"一度有{intraday.max_advance_ratio * 100:.1f}%的股票上涨。"
+            )
+            if intraday.morning_close_advance_ratio is not None:
+                path += f"到了午间，上涨占比已经降到{intraday.morning_close_advance_ratio * 100:.1f}%；"
+            path += (
+                f"{_article_clock(intraday.weakest_as_of)}最低只剩{intraday.min_advance_ratio * 100:.1f}%，"
+                f"收盘也只有{intraday.last_advance_ratio * 100:.1f}%。"
+                + (
+                    "盘中虽然反复，收盘仍是多数股票上涨，参与度没有被局部回落打散。"
+                    if broad_repair
+                    else "全天最值得记住的不是尾盘有没有反抽，而是早盘的普遍尝试最终变成了午后的普遍撤退。"
+                )
+            )
         paragraphs.append(path)
     else:
         paragraphs.append(
@@ -2317,7 +2442,7 @@ def _article_session_section(evidence: DailyMarketReviewEvidenceV1) -> ArticleSe
     paragraphs.append(close)
     return ArticleSectionV4(
         section_id="session",
-        title="今天是怎么走坏的",
+        title="今天是怎么走强的" if broad_repair else "今天是怎么走坏的",
         paragraphs=tuple(paragraphs),
     )
 
@@ -2327,6 +2452,7 @@ def _article_mainline_section(
     opportunities: tuple[OpportunitySectorV1, ...],
 ) -> ArticleSectionV4:
     paragraphs: list[str] = []
+    broad_repair = _article_broad_repair(evidence)
     if opportunities:
         parts: list[str] = []
         for item in opportunities[:3]:
@@ -2340,11 +2466,18 @@ def _article_mainline_section(
             if item.leader_name:
                 detail += f"，前排是{item.leader_name}"
             parts.append(detail)
-        paragraphs.append(
-            "逆势最硬的不是一个含糊的“防守”标签，而是几条能够由板块涨幅、内部广度和资金互相印证的线："
-            + "；".join(parts)
-            + "。它们解释了今天的钱往哪里躲，却还不能把整个市场带强——因为个股面并没有跟上。"
-        )
+        if broad_repair:
+            paragraphs.append(
+                "今天的强势不是靠一两只股票硬拉，而是几条能够由板块涨幅、内部广度和资金互相印证的进攻线："
+                + "；".join(parts)
+                + "。它们和全A普遍上涨同时出现，说明赚钱效应已经扩散；创业板仍弱、成交缩量，则说明这还不是毫无分歧的全面进攻。"
+            )
+        else:
+            paragraphs.append(
+                "逆势最硬的不是一个含糊的“防守”标签，而是几条能够由板块涨幅、内部广度和资金互相印证的线："
+                + "；".join(parts)
+                + "。它们解释了今天的钱往哪里躲，却还不能把整个市场带强——因为个股面并没有跟上。"
+            )
     else:
         paragraphs.append("今天没有出现能被板块涨幅、内部广度和资金同时确认的主线，硬找一个热门题材只会把偶然脉冲当成趋势。")
 
@@ -2354,16 +2487,22 @@ def _article_mainline_section(
             f"{item.name}{item.board_count}板" if item.board_count else item.name
             for item in limits.representative_events[:5]
         )
-        paragraphs.append(
-            f"短线这边并没有完全熄火，前排还有{representatives}。"
-            "但这些高标分散在不同题材里，说明活跃资金仍愿意做少数辨识度品种，并不等于主线已经带动全市场。"
-        )
+        if broad_repair:
+            paragraphs.append(
+                f"短线前排还有{representatives}。高标分散在不同题材，首板数量同时增加，"
+                "说明活跃资金不仅维护高度，也开始向更多方向试错；明天要看这种扩散能否承受分歧。"
+            )
+        else:
+            paragraphs.append(
+                f"短线这边并没有完全熄火，前排还有{representatives}。"
+                "但这些高标分散在不同题材里，说明活跃资金仍愿意做少数辨识度品种，并不等于主线已经带动全市场。"
+            )
     paragraphs.append(
         "本档案能确认的是盘面结构，不能确认当天上涨背后的全部新闻原因；没有进入可靠新闻证据的催化，不会在复盘里补故事。"
     )
     return ArticleSectionV4(
         section_id="mainline",
-        title="逆势主线有，但不是全面进攻",
+        title="主线开始扩散，但指数仍有分化" if broad_repair else "逆势主线有，但不是全面进攻",
         paragraphs=tuple(paragraphs[:4]),
     )
 
@@ -2372,6 +2511,7 @@ def _article_payoff_section(evidence: DailyMarketReviewEvidenceV1) -> ArticleSec
     paragraphs: list[str] = []
     limits = evidence.limit_events
     universe = evidence.universe
+    broad_repair = _article_broad_repair(evidence)
     if limits is not None:
         first_boards = next(
             (item.count for item in limits.board_heights if item.board_count == 1),
@@ -2382,28 +2522,37 @@ def _article_payoff_section(evidence: DailyMarketReviewEvidenceV1) -> ArticleSec
             if first_boards is not None
             else "涨停数量不少，但真正站上连板梯队的仍是少数前排"
         )
-        paragraphs.append(
-            f"今天能赚钱的人，主要集中在逆势板块和少数高标股。涨停{limits.limit_up_count}只、"
-            f"跌停{limits.limit_down_count if limits.limit_down_count is not None else '未取得'}只、最高{limits.max_board_count or 1}板，"
-            f"说明短线高度还在；但{ladder}，赚钱效应没有大面积铺开。"
-        )
+        if broad_repair:
+            paragraphs.append(
+                f"今天的赚钱效应不只在高标股。涨停{limits.limit_up_count}只、"
+                f"跌停{limits.limit_down_count if limits.limit_down_count is not None else '未取得'}只、最高{limits.max_board_count or 1}板；"
+                f"{ladder}。首板扩散与多数个股上涨同时出现，说明风险偏好确实回暖。"
+            )
+        else:
+            paragraphs.append(
+                f"今天能赚钱的人，主要集中在逆势板块和少数高标股。涨停{limits.limit_up_count}只、"
+                f"跌停{limits.limit_down_count if limits.limit_down_count is not None else '未取得'}只、最高{limits.max_board_count or 1}板，"
+                f"说明短线高度还在；但{ladder}，赚钱效应没有大面积铺开。"
+            )
     if universe is not None:
         deep_loss = _distribution_count(evidence, "down_5_plus")
         crowded = [item for item in universe.most_traded if item.change_pct < 0][:5]
         names = "、".join(f"{item.name}{item.change_pct:+.2f}%" for item in crowded)
         paragraph = (
-            f"更普遍的体感在另一边：{universe.down_count}只股票收跌，其中{deep_loss}只跌幅超过5%。"
+            f"普涨并不等于没有亏钱区：{universe.down_count}只股票收跌，其中{deep_loss}只跌幅超过5%。"
+            if broad_repair
+            else f"更普遍的体感在另一边：{universe.down_count}只股票收跌，其中{deep_loss}只跌幅超过5%。"
         )
         if names:
             paragraph += f"成交最拥挤的一批股票里，{names}都在下跌，亏钱效应集中在原本最热门的成长和科技方向。"
         paragraphs.append(paragraph)
     if evidence.etfs is not None and evidence.etfs.top_losers:
-        losers = "、".join(
-            f"{item.name}{item.change_pct:+.2f}%" for item in evidence.etfs.top_losers[:4]
-        )
+        etf_losers = evidence.etfs.top_losers[:4]
+        losers = "、".join(f"{item.name}{item.change_pct:+.2f}%" for item in etf_losers)
+        loss_families = "、".join(dict.fromkeys(_theme_family(item.name) for item in etf_losers))
         paragraphs.append(
             f"ETF把这种分化照得更清楚：{losers}排在跌幅前列。"
-            "也就是说，今天难受的不只是几只高位股，而是医药成长等整条风险偏好链条都在退潮。"
+            f"也就是说，今天的主要亏钱区集中在{loss_families or '这些方向'}，并不是所有板块都跟着个股普涨。"
         )
     return ArticleSectionV4(
         section_id="payoff",
@@ -2421,11 +2570,17 @@ def _article_flow_section(
     if flow is not None:
         ratio = flow.positive_count / flow.scanned_count
         outflows = "、".join((item.name or item.instrument_id) for item in flow.top_outflows[:5])
+        prefix = "" if ratio >= 0.55 and flow.total_net_amount_cny > 0 else "只有"
+        conclusion = (
+            "资金已经回到多数股票；净流出榜仍集中在部分高成交核心，说明普涨内部还存在明显换仓。"
+            if ratio >= 0.55 and flow.total_net_amount_cny > 0
+            else "这不是资金普遍回流，而是从高拥挤方向撤出后，向少数权重和防守资产重新落位。"
+        )
         paragraphs.append(
-            f"个股资金流给出的答案很直接：只有{ratio * 100:.1f}%的股票录得净流入，"
+            f"个股资金流给出的答案很直接：{prefix}{ratio * 100:.1f}%的股票录得净流入，"
             f"全市场合计{_plain_net_flow(flow.total_net_amount_cny)}。"
             + (f"净流出最集中的包括{outflows}。" if outflows else "")
-            + "这不是资金普遍回流，而是从高拥挤方向撤出后，向少数权重和防守资产重新落位。"
+            + conclusion
         )
     etfs = evidence.etfs
     if etfs is not None and etfs.top_gainers:
@@ -2437,22 +2592,33 @@ def _article_flow_section(
             for item in etfs.top_gainers
             if _theme_family(item.name) in opportunity_families
         ][:5]
+        matched_opportunity = bool(matched)
         if not matched:
             matched = list(etfs.top_gainers[:3])
         leaders = "、".join(
             f"{item.name}{item.change_pct:+.2f}%" for item in matched
         )
         paragraphs.append(
-            f"ETF端的相对强势也对得上：{leaders}。"
-            "这些方向和股票板块的强势线能够互相印证，不是单一数据源制造的假象。"
+            (
+                f"ETF端的相对强势也对得上：{leaders}。这些方向和股票板块的强势线能够互相印证，"
+                "不是单一数据源制造的假象。"
+                if matched_opportunity
+                else f"ETF端走强的是另一条线：{leaders}。它和股票主线并不完全重合，说明资金仍在快速轮动，"
+                "还没有收敛成唯一共识。"
+            )
         )
     dragon = evidence.dragon_tiger
     if dragon is not None:
         names = "、".join(item.name for item in dragon.top_net_buys[:4])
+        broad_inflow = bool(flow is not None and flow.positive_count / flow.scanned_count >= 0.55 and flow.total_net_amount_cny > 0)
         paragraphs.append(
             f"龙虎榜共有{dragon.listed_count}条，合计{_plain_net_flow(dragon.total_net_amount_cny)}；"
             f"净买入靠前的是{names or '未形成集中方向'}。"
-            "局部游资和机构席位仍在出手，但这只能说明少数票还有交易热度，不能抵消全市场资金面偏弱。"
+            + (
+                "龙虎榜和全市场资金流同向转正，为当天修复增加了一层确认。"
+                if broad_inflow
+                else "局部游资和机构席位仍在出手，但这只能说明少数票还有交易热度，不能抵消全市场资金面偏弱。"
+            )
         )
     return ArticleSectionV4(
         section_id="flow",
@@ -2468,13 +2634,14 @@ def _article_tomorrow_section(
     scenario_map = {item.scenario_id: item for item in scenarios}
     repair = scenario_map["repair"]
     risk = scenario_map["risk"]
+    constructive = outlook.bias == OutlookBias.CONSTRUCTIVE
     return ArticleSectionV4(
         section_id="tomorrow",
         title="明天怎么看",
         paragraphs=(
             f"我的基准判断是：{outlook.thesis}{outlook.expected_shape}{outlook.risk_control}",
-            f"什么情况才算真正修复？{repair.trigger}{repair.interpretation}{repair.response}",
-            f"什么情况说明风险还没出清？{risk.trigger}{risk.interpretation}{risk.response}",
+            f"{'什么情况会让强势进一步升级？' if constructive else '什么情况才算真正修复？'}{repair.trigger}{repair.interpretation}{repair.response}",
+            f"{'什么情况说明今天的强势被证伪？' if constructive else '什么情况说明风险还没出清？'}{risk.trigger}{risk.interpretation}{risk.response}",
         ),
     )
 
@@ -2572,7 +2739,10 @@ def build_post_market_review(
         raise ValueError("generated_at must include a timezone")
     local_generated = generated_at.astimezone(SHANGHAI)
     snapshot = canonical.market_watch
-    if snapshot.market_state.phase != MarketPhase.CLOSED:
+    if (
+        snapshot.market_state.phase != MarketPhase.CLOSED
+        and a_share_session(local_generated).phase != TradingSessionPhase.CLOSED
+    ):
         raise ValueError("post-market review requires a closed-market snapshot")
     quality = _quality(canonical)
     learning_context = learning or empty_learning()

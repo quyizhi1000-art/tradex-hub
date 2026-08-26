@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from copy import deepcopy
-from datetime import datetime
+from datetime import datetime, timedelta
 import json
 from zoneinfo import ZoneInfo
 
@@ -9,6 +9,7 @@ import pytest
 from pydantic import ValidationError
 
 from tradex.market_watch import (
+    ComponentQuality,
     EvidenceStrength,
     FreshnessStatus,
     GuardrailSeverity,
@@ -236,6 +237,26 @@ def test_replay_broad_rally_with_expanding_turnover_is_confirmed_attack() -> Non
     assert snapshot.guardrail.severity == GuardrailSeverity.CALM
     assert snapshot.turnover.direction == TurnoverDirection.EXPAND
     assert snapshot.rotation.sectors[0].evidence_strength == EvidenceStrength.STRONG
+
+
+def test_unrelated_overview_degradation_does_not_contaminate_complete_indices() -> None:
+    market, risk = _inputs(
+        changes=(0.9, 1.0, 1.6, 1.8),
+        breadth_ratio=0.68,
+        today_amount=112_000_000_000.0,
+        sectors=[_sector("industry:证券", "证券", ["attack"], 2.4, 0.74, 8e9)],
+    )
+    market["quality"] = "degraded"
+    market["quality_flags"] = ["participation_indices_missing"]
+
+    snapshot = _build(market, risk)
+
+    indices = next(
+        item for item in snapshot.freshness.components if item.component == "indices"
+    )
+    assert indices.status == FreshnessStatus.FRESH
+    assert indices.quality == ComponentQuality.ACCEPTED
+    assert snapshot.freshness.status == FreshnessStatus.FRESH
 
 
 def test_replay_index_up_while_breadth_narrows_triggers_divergence_brake() -> None:
@@ -785,6 +806,57 @@ def test_offense_sector_flow_trajectory_is_independent_and_direction_checked():
     })
     with pytest.raises(ValidationError):
         SectorFlowTrajectoryV1.model_validate(concept)
+
+
+def test_sector_move_candidates_are_structured_and_keep_leaders():
+    market, risk = _inputs(
+        changes=(0.5, 0.6, 0.7, 0.8),
+        breadth_ratio=0.60,
+        today_amount=106_000_000_000.0,
+        sectors=[_sector("industry:半导体", "半导体", ["attack"], 1.8, 0.68, 4e9)],
+    )
+    trajectory = _sector_flow_trajectory(direction="offense")
+    trajectory["status"] = "ready"
+    latest = trajectory["sectors"][0]["latest"]
+    latest.update({
+        "delta_5m_cny": 880_000_000.0,
+        "delta_5m_baseline_as_of": (NOW - timedelta(minutes=5)).isoformat(),
+        "change_delta_5m_pct": 0.86,
+        "incremental_direction": "inflow",
+    })
+    risk["offense_sector_flow_trajectory"] = trajectory
+    risk["freshness"] = {
+        "status": "degraded",
+        "components": [
+            {
+                "component": component,
+                "status": "degraded" if component in {"breadth", "rotation"} else "fresh",
+                "quality": "degraded" if component in {"breadth", "rotation"} else "accepted",
+                "provider_as_of": NOW.isoformat(),
+                "fetched_at": NOW.isoformat(),
+                "flags": ["partial_component_coverage"] if component == "rotation" else [],
+            }
+            for component in ("indices", "breadth", "turnover", "rotation")
+        ],
+        "flags": ["partial_component_coverage"],
+    }
+
+    snapshot = _build(market, risk, snapshot_id="sector-move-alert")
+
+    assert snapshot.freshness.status is FreshnessStatus.DEGRADED
+    alerts = [item for item in snapshot.alerts if item.kind == "sector_move"]
+    assert len(alerts) == 1
+    assert alerts[0].code == "sector_move_up"
+    assert alerts[0].sector_key == "semiconductor"
+    assert alerts[0].sector_label == "半导体"
+    assert alerts[0].sector_direction == "offense"
+    assert alerts[0].move_direction == "strengthening"
+    assert alerts[0].trigger_threshold_pct == 0.8
+    assert alerts[0].change_delta_5m_pct == 0.86
+    assert alerts[0].flow_delta_5m_cny == 880_000_000.0
+    assert [item.name for item in alerts[0].leaders] == ["长江电力", "华能国际"]
+    assert alerts[0].dedupe_key.endswith(":strengthening:0_8")
+
 
 def test_invalid_sector_flow_trajectory_fails_closed_inside_the_auxiliary_surface():
     market, risk = _inputs(

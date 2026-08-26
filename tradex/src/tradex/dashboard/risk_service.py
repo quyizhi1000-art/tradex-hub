@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import copy
 import logging
+import math
 import threading
 import time
 from concurrent.futures import Future, ThreadPoolExecutor
@@ -62,6 +63,7 @@ _BOARD_LEADER_RETRY_INTERVAL = 30
 _BOARD_LEADER_MAX_TARGETS = 14
 _BOARD_LEADER_GROUP_TARGETS = 3
 _BOARD_LEADER_FLOW_TARGETS = 8
+_SECTOR_RESONANCE_MAX_SKEW_SECONDS = 120
 _DEFENSE_FOCUS_KEYS = (
     "agriculture",
     "ports",
@@ -93,6 +95,7 @@ _FAST_COMPONENTS = (
     "leadership_pool",
 )
 _CONTEXT_COMPONENTS = ("etfs", "leaders")
+_SECTOR_FLOW_BACKFILL_LOADS_PER_MINUTE = 1
 
 _snapshot_cache: dict[str, Any] | None = None
 _snapshot_cached_at = 0.0
@@ -243,7 +246,7 @@ def _fetch_board_leader_snapshot(
     return board_leader_snapshot_to_legacy_payload(
         fetch_board_leader_snapshot(
             board_code,
-            limit=3,
+            limit=10,
             source_hint=source_hint,
         )
     )
@@ -813,9 +816,48 @@ def _provider_leader_snapshot(
     }
 
 
-def _sector_flow_leader_snapshot(snapshot: dict[str, Any]) -> dict[str, Any]:
+def _finite_market_number(value: Any) -> float | None:
+    try:
+        number = float(value)
+    except (TypeError, ValueError):
+        return None
+    return number if math.isfinite(number) else None
+
+
+def _aware_market_time(value: Any) -> datetime | None:
+    if isinstance(value, datetime):
+        parsed = value
+    else:
+        raw = str(value or "").strip()
+        if not raw:
+            return None
+        try:
+            parsed = datetime.fromisoformat(raw)
+        except ValueError:
+            return None
+    return parsed if parsed.tzinfo is not None else None
+
+
+def _sector_flow_leader_snapshot(
+    snapshot: dict[str, Any],
+    latest: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    """Select one high-resonance stock from speed-ranked board constituents.
+
+    A match requires the board's five-minute fund-flow increment, the stock's
+    current main inflow, and the stock's current price speed to all be positive.
+    Provider timestamps must also align closely enough to support simultaneity.
+    """
+
     raw_items = snapshot.get("leaders") or snapshot.get("items") or []
+    raw_status = str(snapshot.get("status") or "unavailable")
+    refreshing = bool(snapshot.get("refreshing"))
+    stale = bool(snapshot.get("stale"))
+    latest = latest if isinstance(latest, dict) else {}
+    sector_flow_delta = _finite_market_number(latest.get("delta_5m_cny"))
+    sector_as_of = _aware_market_time(latest.get("provider_as_of"))
     leaders: list[dict[str, Any]] = []
+    comparable_items = 0
     for item in raw_items:
         if not isinstance(item, dict):
             continue
@@ -831,40 +873,71 @@ def _sector_flow_leader_snapshot(snapshot: dict[str, Any]) -> dict[str, Any]:
             or not name
         ):
             continue
+        speed_pct = _finite_market_number(item.get("speed_pct"))
+        main_net_inflow_cny = _finite_market_number(item.get("flow_amount"))
+        stock_as_of = _aware_market_time(item.get("provider_as_of"))
+        if speed_pct is None or main_net_inflow_cny is None or stock_as_of is None:
+            continue
+        comparable_items += 1
+        timestamps_align = (
+            sector_as_of is not None
+            and abs((stock_as_of - sector_as_of).total_seconds())
+            <= _SECTOR_RESONANCE_MAX_SKEW_SECONDS
+        )
+        if (
+            sector_flow_delta is None
+            or sector_flow_delta <= 0
+            or speed_pct <= 0
+            or main_net_inflow_cny <= 0
+            or not timestamps_align
+        ):
+            continue
         leaders.append({
             "instrument_id": instrument_id,
             "name": name,
             "change_pct": item.get("change_pct"),
+            "speed_pct": speed_pct,
+            "main_net_inflow_cny": main_net_inflow_cny,
+            "resonance_strength": "high",
             "price": item.get("price"),
             "provider_as_of": item.get("provider_as_of"),
         })
-        if len(leaders) >= 3:
-            break
-
-    raw_status = str(snapshot.get("status") or "unavailable")
-    refreshing = bool(snapshot.get("refreshing"))
-    stale = bool(snapshot.get("stale"))
+    leaders.sort(
+        key=lambda item: (
+            -float(item["speed_pct"]),
+            -float(item["main_net_inflow_cny"]),
+            str(item["instrument_id"]),
+        )
+    )
+    leaders = leaders[:1]
     if leaders:
         status = (
             "stale" if stale or raw_status == "stale"
             else "fallback" if raw_status == "fallback"
             else "full"
         )
+    elif sector_flow_delta is not None and sector_flow_delta <= 0:
+        status = "no_match"
+    elif raw_status in {"ready", "full", "stale"} and comparable_items:
+        status = "no_match"
     else:
         status = "loading" if refreshing or raw_status == "loading" else (
             "error" if raw_status == "error" else "unavailable"
         )
     default_label = {
-        "full": "领涨股已更新",
-        "fallback": "当前领涨股",
-        "loading": "领涨股加载中",
-        "stale": "领涨股数据延迟",
-        "error": "领涨股暂不可用",
-        "unavailable": "领涨股暂缺",
+        "full": "高共振股已更新",
+        "fallback": "当前高共振股",
+        "loading": "共振股加载中",
+        "stale": "高共振股数据延迟",
+        "no_match": "暂无同时拉升的高共振股",
+        "error": "共振股暂不可用",
+        "unavailable": "共振条件暂缺",
     }[status]
     return {
         "status": status,
-        "status_label": str(snapshot.get("status_label") or default_label),
+        "status_label": default_label,
+        "selection_method": "sector_fund_flow_stock_speed.v1",
+        "marginal_window_minutes": 5,
         "source": str(snapshot.get("source")) if snapshot.get("source") else None,
         "provider_as_of": snapshot.get("provider_as_of"),
         "stale": stale,
@@ -905,7 +978,8 @@ def _attach_provider_leader_fallbacks(
                 board_by_code,
                 board_by_name,
                 statuses,
-            )
+            ),
+            candidate.get("latest"),
         )
     return result
 
@@ -1248,7 +1322,10 @@ def _overlay_board_leaders(
             continue
         enriched, error, pending = snapshots[code]
         if enriched is not None:
-            candidate["leader_snapshot"] = _sector_flow_leader_snapshot(enriched)
+            candidate["leader_snapshot"] = _sector_flow_leader_snapshot(
+                enriched,
+                candidate.get("latest"),
+            )
             continue
         fallback = copy.deepcopy(candidate.get("leader_snapshot") or {
             "status": "unavailable",
@@ -2284,6 +2361,24 @@ def _rotation_frontend_view(
     }
 
 
+def _sector_flow_backfill_load_targets(
+    targets: tuple[dict[str, str], ...] | list[dict[str, str]],
+    now: datetime,
+) -> tuple[dict[str, str], ...]:
+    """Rotate a bounded set of cold curve loads across sampler minutes."""
+
+    ordered = tuple(targets)
+    if not ordered:
+        return ()
+    load_count = min(_SECTOR_FLOW_BACKFILL_LOADS_PER_MINUTE, len(ordered))
+    minute_ordinal = now.hour * 60 + now.minute
+    start = minute_ordinal % len(ordered)
+    return tuple(
+        ordered[(start + offset) % len(ordered)]
+        for offset in range(load_count)
+    )
+
+
 def _attach_rotation_radar(
     result: dict[str, Any],
     values: dict[str, list[dict[str, Any]]],
@@ -2306,18 +2401,33 @@ def _attach_rotation_radar(
             "concept": statuses.get("concept_quotes", {}).get("source") or "unknown",
         },
     )
-    supplemental_points = fetch_sector_intraday_fund_flow_backfill(
-        targets,
-        trading_date=effective_trade_date,
-        now=now,
-        # During trading the sampler owns network loading. After the sampler
-        # stops at the close, one ordinary read may cold-load the exact curve;
-        # the gateway success cache prevents repeated provider calls.
-        load_missing=bool(
-            (record and phase == "trading")
-            or (not record and phase == "closed")
-        ),
-    )
+    if record and phase == "trading":
+        # One failed Eastmoney curve may consume the whole provider deadline.
+        # Rotate a bounded subset instead of serially blocking the minute
+        # sampler on every missing sector; then assemble all successes already
+        # owned by the gateway cache.
+        fetch_sector_intraday_fund_flow_backfill(
+            _sector_flow_backfill_load_targets(targets, now),
+            trading_date=effective_trade_date,
+            now=now,
+            load_missing=True,
+            refresh_existing=True,
+        )
+        supplemental_points = fetch_sector_intraday_fund_flow_backfill(
+            targets,
+            trading_date=effective_trade_date,
+            now=now,
+            load_missing=False,
+        )
+    else:
+        supplemental_points = fetch_sector_intraday_fund_flow_backfill(
+            targets,
+            trading_date=effective_trade_date,
+            now=now,
+            # Web/read-only paths consume only captured or restored curves.
+            # Missing history is repaired by the collector, never by a page.
+            load_missing=False,
+        )
     if record:
         current = store.record_snapshot(
             trade_date=effective_trade_date,

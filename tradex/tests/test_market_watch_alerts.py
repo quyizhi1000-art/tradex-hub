@@ -129,3 +129,20 @@ def test_degraded_sample_emits_degraded_risk_and_clears_pending_candidate() -> N
     alerts = engine.evaluate(_snapshot("degraded"))
     assert [item.code for item in alerts] == ["data_degraded"]
     assert engine.evaluate(_snapshot("fresh", candidate)) == ()
+
+
+def test_degraded_global_snapshot_still_confirms_sector_move_candidates() -> None:
+    engine = MarketAlertEngine()
+    candidate = StructuredAlert(
+        code="sector_move_up",
+        severity="caution",
+        title="半导体突然增强",
+        message="5分钟板块涨幅变化+0.60个百分点。",
+        dedupe_key="market_watch:sector_move:offense:semiconductor:strengthening:0_5",
+        kind="sector_move",
+    )
+
+    first = engine.evaluate(_snapshot("degraded", candidate))
+    assert [item.code for item in first] == ["data_degraded"]
+    second = engine.evaluate(_snapshot("degraded", candidate))
+    assert second == (candidate,)

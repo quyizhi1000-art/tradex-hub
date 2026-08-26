@@ -69,6 +69,25 @@
         </div>
       </section>
 
+      <section class="collection-recovery-strip" aria-labelledby="collection-recovery-heading">
+        <div class="collection-recovery-strip__summary">
+          <span class="section-kicker">POST-CLOSE DATA CHECK</span>
+          <h2 id="collection-recovery-heading">收盘数据完整性</h2>
+          <p id="collection-recovery-detail">交易日 15:05 后自动检查 240 个盘中分钟，并由采集进程追补缺口。</p>
+        </div>
+        <div class="collection-recovery-strip__metrics" aria-label="收盘数据完整性指标">
+          <span>已接收 <strong id="collection-recovery-accepted">--</strong></span>
+          <span>待追补 <strong id="collection-recovery-gaps">--</strong></span>
+          <span>最近检查 <strong id="collection-recovery-checked-at">--</strong></span>
+        </div>
+        <div class="collection-recovery-strip__actions">
+          <span class="panel-state" id="collection-recovery-status" aria-live="polite">等待采集状态</span>
+          <button class="button button-secondary" id="collection-recovery-button" type="button" disabled>
+            检查并追补
+          </button>
+        </div>
+      </section>
+
       <section class="index-dock" id="index-dock" aria-label="主要指数持续快览">
         <div class="index-dock__item" data-index-dock-role="broad_market">
           <span class="index-dock__name" data-index-dock-field="name">上证指数</span>
@@ -90,9 +109,46 @@
           <strong class="index-dock__level" data-index-dock-field="level">--</strong>
           <span class="index-dock__change" data-index-dock-field="change">--</span>
         </div>
+        <div class="index-dock__item index-dock__item--turnover is-unavailable" data-turnover-dock aria-label="全 A 成交额与昨日同期暂不可用">
+          <span class="index-dock__name">全 A 成交额 · 昨日同期</span>
+          <div class="index-dock__turnover-values">
+            <span>今 <strong id="turnover-today">--</strong></span>
+            <span>昨 <strong id="turnover-previous">--</strong></span>
+          </div>
+          <div class="index-dock__turnover-change">
+            <span class="index-dock__change" id="turnover-ratio">不可用</span>
+            <span class="index-dock__turnover-difference" id="turnover-difference">差 --</span>
+          </div>
+        </div>
       </section>
 
       <main>
+        <section class="section-block sector-move-radar" id="sector-move-radar" aria-labelledby="sector-move-radar-heading">
+          <div class="section-heading sector-move-radar__heading">
+            <div>
+              <span class="section-kicker">INTRADAY SECTOR MOVE RADAR</span>
+              <h2 id="sector-move-radar-heading">盘中板块异动雷达 <small>15 秒扫描</small></h2>
+              <p>达到阈值立即置顶并绘制真实资金轨迹；连续两份新鲜快照确认后，发送系统通知或声音。</p>
+            </div>
+            <div class="sector-move-radar__controls">
+              <label for="sector-move-radar-threshold">
+                <span>5 分钟异动阈值</span>
+                <select id="sector-move-radar-threshold" data-sector-flow-surge-threshold>
+                  <option value="0.3">±0.30 个百分点</option>
+                  <option value="0.5" selected>±0.50 个百分点</option>
+                  <option value="0.8">±0.80 个百分点</option>
+                  <option value="1.2">±1.20 个百分点</option>
+                </select>
+              </label>
+              <span class="panel-state" id="sector-move-radar-status">等待盘中轨迹</span>
+            </div>
+          </div>
+          <div class="sector-move-radar-list" id="sector-move-radar-list" aria-live="polite">
+            <p class="empty-state">尚未发现达到阈值的板块异动。</p>
+          </div>
+          <p class="definition-note sector-move-radar__note" id="sector-move-radar-note">异动按板块 5 分钟涨幅变化识别，卡片轨迹展示同一板块的真实 5 分钟资金变化；资金为估计 / 辅助，不构成买卖建议。</p>
+        </section>
+
         <section class="section-block sector-flow-block" id="sector-flow-section" aria-label="防御与进攻方向资金轨迹">
           <article class="sector-flow-panel" data-flow-scope="defense" aria-labelledby="sector-flow-defense-heading">
             <div class="section-heading sector-flow-heading">
@@ -162,9 +218,9 @@
                 <div class="sector-flow-observation__head">
                   <div>
                     <span class="eyebrow">DEFENSIVE SECTORS</span>
-                    <h3 id="sector-flow-defense-observation-heading">防御板块涨幅</h3>
+                    <h3 id="sector-flow-defense-observation-heading">防御板块资金排行</h3>
                   </div>
-                  <span>上涨方向优先，领涨股始终可见</span>
+                  <span>当前净流入额从高到低，突变板块高亮</span>
                 </div>
                 <div class="sector-flow-observation-list" id="sector-flow-defense-observation-list">
                   <p class="empty-state">等待可比较的防御方向证据</p>
@@ -245,7 +301,7 @@
                     <span class="eyebrow">OFFENSIVE SECTORS</span>
                     <h3 id="sector-flow-offense-observation-heading">进攻行业与细分概念</h3>
                   </div>
-                  <span>上涨方向优先，领涨股始终可见</span>
+                  <span>当前净流入额从高到低，突变板块高亮</span>
                 </div>
                 <div class="sector-flow-observation-list" id="sector-flow-offense-observation-list">
                   <p class="empty-state">等待可比较的进攻方向证据</p>
@@ -253,7 +309,7 @@
               </aside>
             </div>
 
-            <p class="definition-note sector-flow-note" id="sector-flow-offense-note">行业锚与细分概念复用同一全市场分钟快照；领涨股来自板块快照并由成分行情补全。资金仍是估计 / 辅助，不构成买卖建议。</p>
+            <p class="definition-note sector-flow-note" id="sector-flow-offense-note">行业锚与细分概念复用同一全市场分钟快照；高共振股要求板块近5分钟资金流入、个股主力净流入和个股涨速同时为正，且行情时间对齐。资金仍是估计 / 辅助，不构成买卖建议。</p>
           </article>
         </section>
 
@@ -286,31 +342,6 @@
               <span>上涨占比按上涨 + 下跌计算</span>
               <span>总样本 <strong id="breadth-total">--</strong></span>
             </div>
-          </article>
-
-          <article class="panel turnover-panel">
-            <div class="panel-heading">
-              <div>
-                <span class="section-kicker">TURNOVER</span>
-                <h2>全 A 成交额 · 昨日同期</h2>
-              </div>
-              <span class="direction-badge direction-unknown" id="turnover-direction">待判断</span>
-            </div>
-            <div class="turnover-primary">
-              <div>
-                <span>今日累计</span>
-                <strong id="turnover-today">--</strong>
-              </div>
-              <div class="turnover-delta">
-                <span>同比差值</span>
-                <strong id="turnover-ratio">--</strong>
-              </div>
-            </div>
-            <dl class="metric-list metric-list--two">
-              <div><dt>昨日同刻</dt><dd id="turnover-previous">--</dd></div>
-              <div><dt>金额差</dt><dd id="turnover-difference">--</dd></div>
-            </dl>
-            <p class="definition-note" id="turnover-note">仅比较昨日同一交易分钟，不与昨日全天成交额混比。</p>
           </article>
 
           <article class="panel pulse-panel">
@@ -406,11 +437,121 @@
           </article>
         </section>
 
+        <section class="section-block stock-selection-block" id="stock-selection-section" aria-labelledby="stock-selection-heading">
+          <div class="stock-selection-launcher">
+            <div>
+              <span class="section-kicker">STOCK RESEARCH CENTER</span>
+              <h2 id="stock-selection-heading">选股中心 <small>收盘后归档</small></h2>
+              <p>在同一份全市场收盘证据上查看多因子候选池与可复现的条件筛选；候选池不是买入建议，收益从下一交易日开盘起验证。</p>
+            </div>
+            <div class="stock-selection-launcher__actions">
+              <span class="panel-state" id="stock-selection-launch-status">滚动到此处时读取存档</span>
+              <button class="button button-primary" id="stock-selection-open-button" type="button">打开选股中心</button>
+            </div>
+          </div>
+          <div class="stock-selection-launcher__summary" aria-label="选股中心功能">
+            <span>每日量化候选池</span>
+            <span>15 日长上影试盘 Demo</span>
+            <span>主板 · 非 ST · 完整证据</span>
+          </div>
+        </section>
+
+        <dialog class="stock-selection-dialog" id="stock-selection-dialog" aria-labelledby="stock-selection-dialog-title">
+          <div class="stock-selection-dialog__shell">
+            <header class="stock-selection-dialog__header">
+              <div>
+                <span class="section-kicker">STOCK RESEARCH CENTER</span>
+                <h2 id="stock-selection-dialog-title">选股中心</h2>
+                <p>全部结果来自同一交易日归档；页面不补造缺失 K 线。</p>
+              </div>
+              <button class="stock-selection-dialog__close" id="stock-selection-close-button" type="button" aria-label="关闭选股中心">×</button>
+            </header>
+
+            <div class="stock-selection-toolbar">
+              <label for="stock-selection-date-select">历史日期</label>
+              <select id="stock-selection-date-select" aria-label="选择每日选股交易日">
+                <option value="">尚无存档</option>
+              </select>
+              <button class="button button-primary" id="stock-selection-generate-button" type="button" disabled>18:00 后生成</button>
+              <span class="panel-state" id="stock-selection-status">正在读取存档…</span>
+            </div>
+
+            <div class="stock-selection-tabs" role="tablist" aria-label="选股功能">
+              <button id="stock-selection-tab-daily" type="button" role="tab" aria-selected="true" aria-controls="stock-selection-panel-daily" data-stock-selection-tab="daily">每日量化候选池</button>
+              <button id="stock-selection-tab-long-upper-shadow" type="button" role="tab" aria-selected="false" aria-controls="stock-selection-panel-long-upper-shadow" data-stock-selection-tab="long-upper-shadow" tabindex="-1">长上影试盘 Demo</button>
+            </div>
+
+            <section id="stock-selection-panel-daily" role="tabpanel" aria-labelledby="stock-selection-tab-daily" data-stock-selection-panel="daily">
+              <div class="stock-selection-schedule" id="stock-selection-schedule" role="status" aria-live="polite">上海时间 18:00 后可手动生成；当日缺失时 18:30 自动生成。</div>
+              <div class="stock-selection-empty" id="stock-selection-empty">尚无每日候选池存档。生成前会核验全市场覆盖、财务公告时点和下一交易日成交边界。</div>
+              <div class="stock-selection-content" id="stock-selection-content" hidden>
+                <div class="stock-selection-metrics" aria-label="每日选股覆盖指标">
+                  <article><span>全市场</span><strong id="stock-selection-universe-count">--</strong><small>当日有行情股票</small></article>
+                  <article><span>硬门槛后</span><strong id="stock-selection-eligible-count">--</strong><small>可参与因子排序</small></article>
+                  <article><span>候选池</span><strong id="stock-selection-selected-count">--</strong><small>按综合分确定性排序</small></article>
+                  <article><span>数据质量</span><strong id="stock-selection-quality">--</strong><small id="stock-selection-as-of">证据时间 --</small></article>
+                </div>
+                <div class="stock-selection-table-scroll" tabindex="0" aria-label="每日量化候选股票表">
+                  <table class="stock-selection-table">
+                    <thead><tr><th scope="col">排名</th><th scope="col">股票</th><th scope="col">行业</th><th scope="col">综合分</th><th scope="col">因子覆盖</th><th scope="col">收盘价</th><th scope="col">成交额</th><th scope="col">总市值</th><th scope="col">主要依据 / 风险</th></tr></thead>
+                    <tbody id="stock-selection-table-body"><tr><td colspan="9" class="stock-selection-table-empty">尚无候选数据。</td></tr></tbody>
+                  </table>
+                </div>
+                <div class="stock-selection-detail-grid">
+                  <article class="panel">
+                    <div class="panel-heading"><h3>方法与剔除</h3><span class="panel-state" id="stock-selection-trade-date">--</span></div>
+                    <ul id="stock-selection-methodology"><li>方法尚未随档案返回。</li></ul>
+                    <dl class="stock-selection-exclusions" id="stock-selection-exclusions"></dl>
+                  </article>
+                  <article class="panel">
+                    <div class="panel-heading"><h3>下一交易日回看</h3><span class="panel-state" id="stock-selection-outcome-status">尚未验证</span></div>
+                    <p id="stock-selection-outcome-detail">新候选池会从下一交易日开盘成交假设开始验证，并计入双边成本。</p>
+                    <ul id="stock-selection-limitations"><li>候选池不是投资建议。</li></ul>
+                  </article>
+                </div>
+              </div>
+            </section>
+
+            <section id="stock-selection-panel-long-upper-shadow" role="tabpanel" aria-labelledby="stock-selection-tab-long-upper-shadow" data-stock-selection-panel="long-upper-shadow" hidden>
+              <div class="stock-pattern-rule" aria-label="长上影试盘筛选规则">
+                <strong>固定 Demo 规则</strong>
+                <span>15 个交易日</span><span>至少 2 次</span><span>上影 ≥ 收盘价 3%</span><span>上影 ≥ 实体 2 倍</span><span>上影 ≥ 振幅 50%</span><span>主板且非 ST</span>
+              </div>
+              <div class="stock-pattern-empty" id="stock-pattern-empty">该历史档案尚未包含 15 日长上影筛选证据，请生成当前版本选股档案。</div>
+              <div class="stock-pattern-content" id="stock-pattern-content" hidden>
+                <div class="stock-selection-metrics stock-pattern-metrics" aria-label="长上影筛选覆盖指标">
+                  <article><span>主板非 ST</span><strong id="stock-pattern-eligible-count">--</strong><small>规则准入股票</small></article>
+                  <article><span>完整 15 日</span><strong id="stock-pattern-evaluated-count">--</strong><small id="stock-pattern-coverage">覆盖 --</small></article>
+                  <article><span>命中股票</span><strong id="stock-pattern-matched-count">--</strong><small>至少出现 2 次</small></article>
+                  <article><span>证据质量</span><strong id="stock-pattern-quality">--</strong><small>缺失时不猜测</small></article>
+                </div>
+                <div class="stock-selection-table-scroll stock-pattern-table-scroll" tabindex="0" aria-label="长上影试盘形态股票表">
+                  <table class="stock-selection-table stock-pattern-table">
+                    <thead><tr><th scope="col">股票</th><th scope="col">行业</th><th scope="col">命中次数</th><th scope="col">最近命中</th><th scope="col">收盘价</th><th scope="col">逐次证据</th></tr></thead>
+                    <tbody id="stock-pattern-table-body"><tr><td colspan="6" class="stock-selection-table-empty">尚无筛选数据。</td></tr></tbody>
+                  </table>
+                </div>
+                <div class="stock-selection-detail-grid">
+                  <article class="panel">
+                    <div class="panel-heading"><h3>判定方法</h3><span class="panel-state">规则 v1</span></div>
+                    <ul id="stock-pattern-methodology"><li>方法尚未随档案返回。</li></ul>
+                  </article>
+                  <article class="panel">
+                    <div class="panel-heading"><h3>证据边界</h3><span class="panel-state">形态代理</span></div>
+                    <ul id="stock-pattern-limitations"><li>长上影线不等同于主力试盘事实。</li></ul>
+                    <dl class="stock-selection-exclusions" id="stock-pattern-exclusions"></dl>
+                  </article>
+                </div>
+              </div>
+            </section>
+          </div>
+        </dialog>
+
         <section class="section-block daily-review-block" id="daily-review-section" aria-labelledby="daily-review-heading">
           <div class="section-heading daily-review-heading">
             <div>
               <span class="section-kicker">POST-MARKET REVIEW</span>
-              <h2 id="daily-review-heading">每日收盘复盘 <small>20:30 后可生成</small></h2>
+              <h2 id="daily-review-heading">每日收盘复盘 <small>17:30 后可生成</small></h2>
               <p>读取已存档的全市场证据、明日条件情景与历史校准；页面不自行补造缺失数据。</p>
             </div>
             <div class="daily-review-toolbar">
@@ -419,14 +560,14 @@
                 <option value="">尚无存档</option>
               </select>
               <button class="button button-primary" id="daily-review-generate-button" type="button" disabled>
-                20:30 后生成
+                17:30 后生成
               </button>
               <span class="panel-state" id="daily-review-status">滚动到此处时读取存档</span>
             </div>
           </div>
 
           <div class="daily-review-schedule" id="daily-review-schedule" role="status" aria-live="polite">
-            上海时间 20:30 后可手动生成；当日缺失时 21:00 自动生成。
+            上海时间 17:30 后可手动生成；当日缺失时 21:00 自动生成。
           </div>
 
           <div class="daily-review-empty" id="daily-review-empty">

@@ -545,10 +545,21 @@ class SectorFlowLeaderV1(ContractModel):
     instrument_id: str = Field(pattern=r"^\d{6}\.(?:SH|SZ|BJ)$")
     name: str = Field(min_length=1)
     change_pct: float | None = None
+    speed_pct: float | None = Field(default=None, gt=0)
+    main_net_inflow_cny: float | None = Field(default=None, gt=0)
+    resonance_correlation: float | None = Field(default=None, ge=-1, le=1)
+    matched_interval_count: int | None = Field(default=None, ge=4, le=5)
+    resonance_strength: Literal["high"] | None = None
     price: float | None = Field(default=None, ge=0)
     provider_as_of: datetime | None = None
 
-    @field_validator("change_pct", "price")
+    @field_validator(
+        "change_pct",
+        "speed_pct",
+        "main_net_inflow_cny",
+        "resonance_correlation",
+        "price",
+    )
     @classmethod
     def finite_numbers(cls, value: float | None, info):
         return _require_finite(value, info.field_name)
@@ -560,8 +571,16 @@ class SectorFlowLeaderV1(ContractModel):
 
 
 class SectorFlowLeaderSnapshotV1(ContractModel):
-    status: Literal["full", "fallback", "loading", "stale", "error", "unavailable"]
+    status: Literal[
+        "full", "fallback", "loading", "stale", "no_match", "error", "unavailable"
+    ]
     status_label: str = Field(min_length=1)
+    selection_method: Literal[
+        "price_leader.v1",
+        "sector_fund_flow_stock_speed.v1",
+        "sector_fund_flow_minute_correlation.v1",
+    ] = "price_leader.v1"
+    marginal_window_minutes: Literal[5] | None = None
     source: str | None = None
     provider_as_of: datetime | None = None
     stale: bool = False
@@ -580,8 +599,29 @@ class SectorFlowLeaderSnapshotV1(ContractModel):
             raise ValueError("sector flow leaders must be unique")
         if self.status == "full" and not self.leaders:
             raise ValueError("full sector flow leader snapshot requires leaders")
-        if self.status in {"loading", "error", "unavailable"} and self.leaders:
+        if self.status in {"loading", "no_match", "error", "unavailable"} and self.leaders:
             raise ValueError(f"{self.status} sector flow leader snapshot cannot carry leaders")
+        if self.selection_method == "sector_fund_flow_stock_speed.v1":
+            if self.marginal_window_minutes != 5:
+                raise ValueError("sector resonance requires its five-minute window")
+            if any(
+                item.speed_pct is None
+                or item.main_net_inflow_cny is None
+                or item.resonance_strength != "high"
+                for item in self.leaders
+            ):
+                raise ValueError("sector resonance leaders require complete evidence")
+        if self.selection_method == "sector_fund_flow_minute_correlation.v1":
+            if self.marginal_window_minutes != 5:
+                raise ValueError("minute correlation requires its five-minute window")
+            if any(
+                item.speed_pct is None
+                or item.resonance_correlation is None
+                or item.matched_interval_count is None
+                or item.resonance_strength != "high"
+                for item in self.leaders
+            ):
+                raise ValueError("minute-correlation leaders require complete evidence")
         return self
 
 
@@ -736,11 +776,65 @@ class ChangeSummaryV1(ContractModel):
 
 
 class AlertV1(ContractModel):
+    kind: Literal["market_state", "data_quality", "sector_move"] = "market_state"
     code: str = Field(min_length=1, pattern=r"^[a-z][a-z0-9_]*$")
     severity: Literal[GuardrailSeverity.CAUTION, GuardrailSeverity.STOP]
     title: str = Field(min_length=1)
     message: str = Field(min_length=1)
     dedupe_key: str = Field(min_length=1)
+    sector_key: str | None = Field(
+        default=None,
+        pattern=r"^[a-z][a-z0-9_]*$",
+    )
+    sector_label: str | None = Field(default=None, min_length=1)
+    sector_direction: Literal["defense", "offense"] | None = None
+    move_direction: Literal["strengthening", "weakening"] | None = None
+    trigger_threshold_pct: float | None = Field(default=None, gt=0)
+    change_delta_5m_pct: float | None = None
+    change_pct: float | None = None
+    flow_delta_5m_cny: float | None = None
+    provider_as_of: datetime | None = None
+    leaders: tuple[SectorFlowLeaderV1, ...] = Field(default=(), max_length=3)
+
+    @field_validator(
+        "trigger_threshold_pct",
+        "change_delta_5m_pct",
+        "change_pct",
+        "flow_delta_5m_cny",
+    )
+    @classmethod
+    def finite_numbers(cls, value: float | None, info):
+        return _require_finite(value, info.field_name)
+
+    @field_validator("provider_as_of")
+    @classmethod
+    def aware_provider_time(cls, value: datetime | None):
+        return _require_timezone(value, "provider_as_of")
+
+    @model_validator(mode="after")
+    def validate_sector_move(self) -> "AlertV1":
+        sector_values = (
+            self.sector_key,
+            self.sector_label,
+            self.sector_direction,
+            self.move_direction,
+            self.trigger_threshold_pct,
+            self.change_delta_5m_pct,
+            self.provider_as_of,
+        )
+        if self.kind == "sector_move":
+            if any(value is None for value in sector_values):
+                raise ValueError("sector move alert requires structured sector evidence")
+            expected = (
+                "strengthening" if self.change_delta_5m_pct > 0 else "weakening"
+            )
+            if self.change_delta_5m_pct == 0 or self.move_direction != expected:
+                raise ValueError("sector move direction must match its five-minute change")
+            if abs(self.change_delta_5m_pct) < self.trigger_threshold_pct:
+                raise ValueError("sector move must meet its trigger threshold")
+        elif any(value is not None for value in sector_values) or self.leaders:
+            raise ValueError("non-sector alerts cannot carry sector move evidence")
+        return self
 
 
 _REQUIRED_ROLE_ORDER = (

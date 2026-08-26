@@ -27,6 +27,7 @@ from .contracts import (
     MarketRegime,
     MarketWatchSnapshotV1,
 )
+from .history import MarketWatchReplaySampleV1
 from .policy import DEFAULT_MARKET_WATCH_POLICY
 
 
@@ -334,17 +335,19 @@ def _coerce_config(
     return EvaluationConfigV1.model_validate(config)
 
 
+EvaluationSnapshot = MarketWatchSnapshotV1 | MarketWatchReplaySampleV1
+
+
 def _coerce_snapshots(
-    samples: Iterable[MarketWatchSnapshotV1 | Mapping[str, Any]],
-) -> tuple[MarketWatchSnapshotV1, ...]:
-    snapshots = tuple(
-        MarketWatchSnapshotV1.model_validate(
-            item.model_dump(mode="python")
-            if isinstance(item, MarketWatchSnapshotV1)
-            else item
-        )
-        for item in samples
-    )
+    samples: Iterable[EvaluationSnapshot | Mapping[str, Any]],
+) -> tuple[EvaluationSnapshot, ...]:
+    def coerce(item: EvaluationSnapshot | Mapping[str, Any]) -> EvaluationSnapshot:
+        payload = item.model_dump(mode="python") if isinstance(item, BaseModel) else item
+        if payload.get("contract") == "market_watch_replay_sample.v1":
+            return MarketWatchReplaySampleV1.model_validate(payload)
+        return MarketWatchSnapshotV1.model_validate(payload)
+
+    snapshots = tuple(coerce(item) for item in samples)
     seen_ids: set[str] = set()
     previous: tuple[datetime, int] | None = None
     for snapshot in snapshots:
@@ -360,7 +363,7 @@ def _coerce_snapshots(
     return snapshots
 
 
-def _session_offset_seconds(snapshot: MarketWatchSnapshotV1) -> float | None:
+def _session_offset_seconds(snapshot: EvaluationSnapshot) -> float | None:
     if not snapshot.market_state.is_open:
         return None
     local = snapshot.as_of.astimezone(SHANGHAI)
@@ -377,9 +380,9 @@ def _session_offset_seconds(snapshot: MarketWatchSnapshotV1) -> float | None:
 
 
 def _active_samples(
-    snapshots: Sequence[MarketWatchSnapshotV1],
-) -> tuple[tuple[MarketWatchSnapshotV1, float], ...]:
-    active: list[tuple[MarketWatchSnapshotV1, float]] = []
+    snapshots: Sequence[EvaluationSnapshot],
+) -> tuple[tuple[EvaluationSnapshot, float], ...]:
+    active: list[tuple[EvaluationSnapshot, float]] = []
     for snapshot in snapshots:
         offset = _session_offset_seconds(snapshot)
         if offset is not None:
@@ -388,7 +391,7 @@ def _active_samples(
 
 
 def _coverage_metrics(
-    snapshots: Sequence[MarketWatchSnapshotV1],
+    snapshots: Sequence[EvaluationSnapshot],
     session_dates: Sequence[date],
     config: EvaluationConfigV1,
 ) -> CoverageMetricsV1:
@@ -438,7 +441,7 @@ def _value_counts(
 
 
 def _freshness_metrics(
-    active: Sequence[tuple[MarketWatchSnapshotV1, float]],
+    active: Sequence[tuple[EvaluationSnapshot, float]],
 ) -> FreshnessMetricsV1:
     ordered = tuple(item.value for item in FreshnessStatus)
     values = tuple(snapshot.freshness.status.value for snapshot, _ in active)
@@ -455,7 +458,7 @@ def _freshness_metrics(
 
 
 def _dwell_metrics(
-    active: Sequence[tuple[MarketWatchSnapshotV1, float]],
+    active: Sequence[tuple[EvaluationSnapshot, float]],
     *,
     field: Literal["regime", "severity"],
 ) -> tuple[DwellMetricV1, ...]:
@@ -486,7 +489,7 @@ def _dwell_metrics(
 
 
 def _state_runs(
-    active: Sequence[tuple[MarketWatchSnapshotV1, float]],
+    active: Sequence[tuple[EvaluationSnapshot, float]],
     *,
     field: Literal["regime", "severity"],
     continuity_gap_seconds: float,
@@ -566,7 +569,7 @@ def _rapid_reversal_count(
     return count
 
 
-def _candidate_code(snapshot: MarketWatchSnapshotV1) -> str | None:
+def _candidate_code(snapshot: EvaluationSnapshot) -> str | None:
     if snapshot.freshness.status != FreshnessStatus.FRESH:
         return None
     if snapshot.guardrail.severity == GuardrailSeverity.CALM:
@@ -579,7 +582,7 @@ def _candidate_code(snapshot: MarketWatchSnapshotV1) -> str | None:
 
 
 def _confirmation_runs(
-    active: Sequence[tuple[MarketWatchSnapshotV1, float]],
+    active: Sequence[tuple[EvaluationSnapshot, float]],
     config: EvaluationConfigV1,
 ) -> tuple[int, int]:
     runs: list[int] = []
@@ -658,8 +661,8 @@ def _coerce_alert_observation(value: Any) -> _AlertObservation:
 
 
 def _alert_metrics(
-    snapshots: Sequence[MarketWatchSnapshotV1],
-    active: Sequence[tuple[MarketWatchSnapshotV1, float]],
+    snapshots: Sequence[EvaluationSnapshot],
+    active: Sequence[tuple[EvaluationSnapshot, float]],
     explicit_alerts: Sequence[_AlertObservation],
     config: EvaluationConfigV1,
     *,
@@ -692,7 +695,7 @@ def _alert_metrics(
 
 
 def _build_metrics(
-    snapshots: Sequence[MarketWatchSnapshotV1],
+    snapshots: Sequence[EvaluationSnapshot],
     session_dates: Sequence[date],
     alerts: Sequence[_AlertObservation],
     config: EvaluationConfigV1,
@@ -985,7 +988,7 @@ def _calibration_hints(
 
 
 def evaluate_market_watch_session(
-    samples: Iterable[MarketWatchSnapshotV1 | Mapping[str, Any]],
+    samples: Iterable[EvaluationSnapshot | Mapping[str, Any]],
     alerts: Iterable[AlertV1 | Mapping[str, Any]] = (),
     trade_date: date | str | None = None,
     *,
@@ -1044,7 +1047,7 @@ def evaluate_market_watch_session(
 
 
 def evaluate_market_watch_history(
-    samples: Iterable[MarketWatchSnapshotV1 | Mapping[str, Any]],
+    samples: Iterable[EvaluationSnapshot | Mapping[str, Any]],
     alerts: Iterable[AlertV1 | Mapping[str, Any]] = (),
     *,
     config: EvaluationConfigV1 | Mapping[str, Any] | None = None,

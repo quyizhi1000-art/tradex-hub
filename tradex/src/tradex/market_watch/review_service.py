@@ -34,7 +34,7 @@ from .review_store import (
 
 
 SHANGHAI = ZoneInfo("Asia/Shanghai")
-MANUAL_REVIEW_START = time(20, 30)
+MANUAL_REVIEW_START = time(17, 30)
 AUTOMATIC_REVIEW_START = time(21, 0)
 AUTOMATIC_RETRY_SECONDS = 10 * 60
 AUTOMATIC_MAX_ATTEMPTS = 3
@@ -111,7 +111,7 @@ class PostMarketReviewService:
             else AUTOMATIC_REVIEW_START
         )
         if now.time().replace(tzinfo=None) < threshold:
-            label = "20:30" if trigger == ReviewTrigger.MANUAL else "21:00"
+            label = "17:30" if trigger == ReviewTrigger.MANUAL else "21:00"
             raise ReviewTooEarlyError(f"当日 {label} 后才允许生成这份日复盘。")
         if session.phase != TradingSessionPhase.CLOSED:
             raise ReviewTooEarlyError("市场尚未进入收盘阶段，不能生成日复盘。")
@@ -127,10 +127,6 @@ class PostMarketReviewService:
         if snapshot.market_state.trading_date != now.date():
             raise ReviewSnapshotUnavailableError(
                 "当前盘面快照不属于今天，日复盘尚未生成。"
-            )
-        if snapshot.market_state.phase != MarketPhase.CLOSED:
-            raise ReviewSnapshotUnavailableError(
-                "当前盘面快照尚未确认收盘，日复盘尚未生成。"
             )
         return snapshot
 
@@ -163,12 +159,21 @@ class PostMarketReviewService:
             raise ReviewSnapshotUnavailableError(
                 "全市场收盘证据不属于今天，日复盘尚未生成。"
             )
+        if snapshot.market_state.phase != MarketPhase.CLOSED:
+            evidence = evidence.model_copy(update={
+                "quality_notes": tuple(dict.fromkeys((
+                    *evidence.quality_notes,
+                    "market_watch:degraded:closing_snapshot_incomplete",
+                ))),
+            })
         return evidence
 
     def _evaluate_pending(
         self,
         evidence: DailyMarketReviewEvidenceV1,
     ) -> None:
+        if evidence.market_watch.market_state.phase != MarketPhase.CLOSED:
+            return
         for prior in self.store.list_unevaluated_before(
             evidence.trade_date,
             limit=30,
@@ -225,7 +230,7 @@ class PostMarketReviewService:
     ) -> dict[str, Any]:
         dates = self.store.list_dates(limit=limit)
         target = trade_date or (dates[0]["trade_date"] if dates else None)
-        review = self.store.get(target) if target is not None else None
+        review = self.store.get_current_or_latest(target) if target is not None else None
         outcome = self.store.get_outcome(review.review_id) if review is not None else None
         presentation = (
             self._presentation(review)
@@ -242,7 +247,7 @@ class PostMarketReviewService:
             "outcome": outcome.model_dump(mode="json") if outcome is not None else None,
             "learning": self.store.learning_summary(limit=20).model_dump(mode="json"),
             "schedule": {
-                "manual_after": "20:30",
+                "manual_after": "17:30",
                 "automatic_if_missing_after": "21:00",
                 "timezone": "Asia/Shanghai",
             },

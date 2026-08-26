@@ -161,6 +161,8 @@ class PostMarketReviewStore:
         return ReviewOutcomeV1.model_validate(json.loads(row["payload_json"]))
 
     def get(self, trade_date: date | str) -> PostMarketReviewV1 | None:
+        """Return the archive for the active review policy only."""
+
         target = _trade_date(trade_date)
         with self._lock:
             self._ensure_open()
@@ -168,6 +170,24 @@ class PostMarketReviewStore:
                 """
                 SELECT payload_json FROM post_market_reviews
                 WHERE trade_date = ? AND config_version = ?
+                """,
+                (target, REVIEW_CONFIG_VERSION),
+            ).fetchone()
+        return self._decode_review(row)
+
+    def get_current_or_latest(self, trade_date: date | str) -> PostMarketReviewV1 | None:
+        """Prefer the active policy, while keeping older immutable dates readable."""
+
+        target = _trade_date(trade_date)
+        with self._lock:
+            self._ensure_open()
+            row = self._connection.execute(
+                """
+                SELECT payload_json FROM post_market_reviews
+                WHERE trade_date = ?
+                ORDER BY CASE WHEN config_version = ? THEN 0 ELSE 1 END,
+                         id DESC
+                LIMIT 1
                 """,
                 (target, REVIEW_CONFIG_VERSION),
             ).fetchone()
@@ -182,8 +202,10 @@ class PostMarketReviewStore:
             row = self._connection.execute(
                 """
                 SELECT payload_json FROM post_market_reviews
-                WHERE trade_date < ? AND config_version = ?
-                ORDER BY trade_date DESC
+                WHERE trade_date < ?
+                ORDER BY trade_date DESC,
+                         CASE WHEN config_version = ? THEN 0 ELSE 1 END,
+                         id DESC
                 LIMIT 1
                 """,
                 (target, REVIEW_CONFIG_VERSION),
@@ -240,7 +262,7 @@ class PostMarketReviewStore:
                     SELECT payload_json FROM post_market_reviews
                     WHERE trade_date = ? AND config_version = ?
                     """,
-                    (canonical.trade_date.isoformat(), REVIEW_CONFIG_VERSION),
+                    (canonical.trade_date.isoformat(), canonical.config_version),
                 ).fetchone()
         stored = self._decode_review(row)
         if stored is None:
@@ -322,14 +344,23 @@ class PostMarketReviewStore:
             self._ensure_open()
             rows = self._connection.execute(
                 """
+                WITH ranked AS (
+                    SELECT reviews.*,
+                           ROW_NUMBER() OVER (
+                               PARTITION BY reviews.trade_date
+                               ORDER BY CASE WHEN reviews.config_version = ? THEN 0 ELSE 1 END,
+                                        reviews.id DESC
+                           ) AS revision_rank
+                    FROM post_market_reviews AS reviews
+                )
                 SELECT reviews.trade_date, reviews.generated_at, reviews.trigger,
                        reviews.quality, reviews.outlook_bias,
                        reviews.outlook_confidence, reviews.review_id,
                        outcomes.verdict, outcomes.evaluated_on
-                FROM post_market_reviews AS reviews
+                FROM ranked AS reviews
                 LEFT JOIN post_market_review_outcomes AS outcomes
                     ON outcomes.review_id = reviews.review_id
-                WHERE reviews.config_version = ?
+                WHERE reviews.revision_rank = 1
                 ORDER BY reviews.trade_date DESC
                 LIMIT ?
                 """,

@@ -2,19 +2,20 @@
 
 from __future__ import annotations
 
+import inspect
 from io import BytesIO
 from types import SimpleNamespace
 
 import pytest
 
 from tradex.dashboard import __main__ as dashboard_app
-from tradex.market_watch.contracts import AlertV1
-from tradex.market_watch.service import MarketWatchUnavailableError
+from tradex.market_watch.web_api import MarketWatchHttpResponse
 
 
 def _bare_handler() -> dashboard_app.DashboardHandler:
     handler = dashboard_app.DashboardHandler.__new__(dashboard_app.DashboardHandler)
     handler.wfile = BytesIO()
+    handler.headers = {}
     return handler
 
 
@@ -155,100 +156,185 @@ def test_market_watch_input_rebuild_preserves_offense_when_overview_fails(
     assert risk_inputs == [(result["market_data"], False)]
 
 
-def test_minute_sampler_remains_the_forced_upstream_refresh_owner(monkeypatch):
-    market = {"contract": "market_overview.v1"}
-    market_calls = []
-    risk_calls = []
-    watch_calls = []
+def test_dashboard_process_has_no_market_watch_sampler_or_persistence_owner():
+    source = inspect.getsource(dashboard_app.main)
 
-    class OnePassStop:
-        stopped = False
+    assert not hasattr(dashboard_app, "_risk_sampler_loop")
+    assert not hasattr(dashboard_app, "_record_market_watch_snapshot")
+    assert "market-watch-sampler" not in source
+    assert "get_market_data" not in source
 
-        def is_set(self):
-            return self.stopped
 
-        def wait(self, _delay):
-            self.stopped = True
+def test_market_watch_routes_preserve_revision_and_exact_sector_selection():
+    calls = []
+    revision = "a" * 64
+    trajectory_revision = "b" * 64
 
-    monkeypatch.setattr(dashboard_app, "_market_state", lambda _now: {"is_open": True})
-    monkeypatch.setattr(
-        dashboard_app,
-        "get_market_data",
-        lambda force=False: market_calls.append(force) or market,
+    status_handler = _bare_handler()
+    status_handler.path = "/api/market-watch/collection-status"
+    status_handler._handle_market_watch_collection_status_api = (
+        lambda: calls.append(("status", {}))
     )
-    monkeypatch.setattr(
-        dashboard_app,
-        "_market_payload_is_current",
-        lambda payload, _now: payload is market,
-    )
-    from tradex.dashboard import risk_service
+    status_handler.do_GET()
 
-    monkeypatch.setattr(
-        risk_service,
-        "get_risk_appetite_data",
-        lambda market_data, **kwargs: risk_calls.append((market_data, kwargs)) or {},
+    summary_handler = _bare_handler()
+    summary_handler.path = (
+        "/api/market-watch/summary?source_snapshot_revision=" + revision
     )
-    monkeypatch.setattr(
-        dashboard_app,
-        "get_market_watch_data",
-        lambda force=False: watch_calls.append(force) or {},
+    summary_handler._handle_market_watch_summary_api = (
+        lambda **kwargs: calls.append(("summary", kwargs))
     )
+    summary_handler.do_GET()
 
-    dashboard_app._risk_sampler_loop(OnePassStop())
+    detail_handler = _bare_handler()
+    detail_handler.path = (
+        "/api/market-watch/trajectory?direction=defense"
+        "&sector_keys=electric_power,bank&sector_keys=coal"
+        f"&source_snapshot_revision={revision}"
+        f"&trajectory_revision={trajectory_revision}"
+    )
+    detail_handler._handle_market_watch_trajectory_api = (
+        lambda **kwargs: calls.append(("trajectory", kwargs))
+    )
+    detail_handler.do_GET()
 
-    assert market_calls == [True]
-    assert risk_calls == [
-        (market, {"force": True, "record_trajectory": True})
+    assert calls == [
+        ("status", {}),
+        ("summary", {"source_snapshot_revision": revision}),
+        (
+            "trajectory",
+            {
+                "direction": "defense",
+                "sector_keys": ("electric_power", "bank", "coal"),
+                "source_snapshot_revision": revision,
+                "trajectory_revision": trajectory_revision,
+            },
+        ),
     ]
-    assert watch_calls == [True]
 
 
-def test_market_watch_api_returns_safe_structured_unavailable_response(monkeypatch):
-    alert = AlertV1(
-        code="data_unavailable",
-        severity="stop",
-        title="盘面数据暂不可用",
-        message="请暂停追单并重新核对盘面。",
-        dedupe_key="market_watch:data_unavailable",
-    )
-    unavailable = MarketWatchUnavailableError(
-        "internal detail",
-        cause=RuntimeError("paid-provider-secret"),
-        alerts=(alert,),
-    )
-    monkeypatch.setattr(
-        dashboard_app,
-        "get_market_watch_data",
-        lambda force=False: (_ for _ in ()).throw(unavailable),
-    )
-    responses = []
-    handler = _bare_handler()
-    handler._send_json = lambda status, payload: responses.append((status, payload))
-
-    handler._handle_market_watch_api(force=True)
-
-    assert responses[0][0] == 503
-    payload = responses[0][1]
-    assert payload["contract"] == "market_watch.v1"
-    assert payload["schema_version"] == 1
-    assert payload["alerts"] == [alert.model_dump(mode="json")]
-    assert "paid-provider-secret" not in str(payload)
-
-
-def test_market_watch_route_passes_manual_refresh_flag(monkeypatch):
+def test_manual_daily_recovery_route_is_a_single_post_command():
     calls = []
     handler = _bare_handler()
+    handler.path = "/api/market-watch/daily-recovery"
+    handler._handle_market_watch_daily_recovery_api = (
+        lambda: calls.append("daily-recovery")
+    )
+
+    handler.do_POST()
+
+    assert calls == ["daily-recovery"]
+
+
+def test_market_watch_http_handlers_forward_etag_without_provider_refresh(
+    monkeypatch,
+):
+    revision = "a" * 64
+    response = MarketWatchHttpResponse(
+        status_code=304,
+        headers=(("ETag", '"cached"'),),
+        body=b"",
+    )
+    calls = []
+    api = SimpleNamespace(
+        get_collection_status=lambda **kwargs: calls.append(("status", kwargs))
+        or response,
+        get_summary=lambda **kwargs: calls.append(("summary", kwargs)) or response,
+        get_detail=lambda **kwargs: calls.append(("detail", kwargs)) or response,
+    )
+    monkeypatch.setattr(dashboard_app, "_get_market_watch_web_api", lambda: api)
+    monkeypatch.setattr(
+        dashboard_app,
+        "get_market_watch_data",
+        lambda **_kwargs: pytest.fail("read-only Web route refreshed providers"),
+    )
+    handler = _bare_handler()
+    handler.headers = {"If-None-Match": '"cached"'}
+    handler._send_market_watch_response = lambda item: calls.append(("send", item))
+
+    handler._handle_market_watch_collection_status_api()
+    handler._handle_market_watch_summary_api(source_snapshot_revision=revision)
+    handler._handle_market_watch_trajectory_api(
+        direction="defense",
+        sector_keys=("bank",),
+        source_snapshot_revision=revision,
+        trajectory_revision="b" * 64,
+    )
+
+    assert calls == [
+        ("status", {"if_none_match": '"cached"'}),
+        ("send", response),
+        (
+            "summary",
+            {
+                "source_snapshot_revision": revision,
+                "if_none_match": '"cached"',
+            },
+        ),
+        ("send", response),
+        (
+            "detail",
+            {
+                "direction": "defense",
+                "sector_keys": ("bank",),
+                "source_snapshot_revision": revision,
+                "trajectory_revision": "b" * 64,
+                "if_none_match": '"cached"',
+            },
+        ),
+        ("send", response),
+    ]
+
+
+def test_market_watch_response_writer_preserves_canonical_bytes_and_304_body():
+    writes = []
+    headers = []
+    handler = _bare_handler()
+    handler.send_response = lambda status: writes.append(("status", status))
+    handler.send_header = lambda name, value: headers.append((name, value))
+    handler.end_headers = lambda: writes.append(("end", None))
+    body = b'{"contract":"market_watch_summary.v1"}'
+
+    handler._send_market_watch_response(
+        MarketWatchHttpResponse(
+            status_code=200,
+            headers=(("Content-Type", "application/json; charset=utf-8"),),
+            body=body,
+        )
+    )
+
+    assert handler.wfile.getvalue() == body
+    assert ("Content-Length", str(len(body))) in headers
+
+    unchanged = _bare_handler()
+    unchanged.send_response = lambda status: writes.append(("status", status))
+    unchanged.send_header = lambda name, value: headers.append((name, value))
+    unchanged.end_headers = lambda: writes.append(("end", None))
+    unchanged._send_market_watch_response(
+        MarketWatchHttpResponse(status_code=304, headers=(), body=b"")
+    )
+    assert unchanged.wfile.getvalue() == b""
+
+
+def test_legacy_market_watch_route_is_gone_and_never_refreshes(monkeypatch):
+    responses = []
+    handler = _bare_handler()
     handler.path = "/api/market-watch?refresh=1"
-    handler._handle_market_watch_api = lambda force=False: calls.append(force)
+    handler._send_json = lambda status, payload: responses.append((status, payload))
+    monkeypatch.setattr(
+        dashboard_app,
+        "get_market_watch_data",
+        lambda **_kwargs: pytest.fail("legacy route refreshed providers"),
+    )
 
     handler.do_GET()
 
-    assert calls == [True]
+    assert responses[0][0] == 410
+    assert responses[0][1]["contract"] == "market_watch_api_moved.v1"
 
 
-def test_market_watch_data_records_the_strict_snapshot(monkeypatch):
+def test_market_watch_data_has_no_persistence_side_effect(monkeypatch):
     snapshot = SimpleNamespace(model_dump=lambda mode: {"contract": "market_watch.v1"})
-    recorded = []
     service_calls = []
     monkeypatch.setattr(
         dashboard_app,
@@ -257,15 +343,68 @@ def test_market_watch_data_records_the_strict_snapshot(monkeypatch):
             get=lambda **kwargs: service_calls.append(kwargs) or snapshot
         ),
     )
-    monkeypatch.setattr(dashboard_app, "_record_market_watch_snapshot", recorded.append)
-
     payload = dashboard_app.get_market_watch_data(force=True)
 
     assert payload == {"contract": "market_watch.v1"}
-    assert recorded == [snapshot]
     assert service_calls == [
         {"force": True, "stale_while_revalidate": False}
     ]
+
+
+def test_dashboard_history_dependency_is_opened_read_only(tmp_path, monkeypatch):
+    db_path = tmp_path / "missing" / "market-watch.sqlite3"
+    previous = dashboard_app._MARKET_WATCH_HISTORY_STORE
+    monkeypatch.setenv("TRADEX_MARKET_WATCH_DB", str(db_path))
+    monkeypatch.setattr(dashboard_app, "_MARKET_WATCH_HISTORY_STORE", None)
+
+    store = dashboard_app._get_market_watch_history_store()
+    try:
+        assert store.read_only is True
+        assert store.list_dates() == []
+        assert not db_path.exists()
+    finally:
+        store.close()
+        monkeypatch.setattr(dashboard_app, "_MARKET_WATCH_HISTORY_STORE", previous)
+
+
+def test_dashboard_collection_dependency_is_opened_read_only(tmp_path, monkeypatch):
+    db_path = tmp_path / "missing" / "market-watch.sqlite3"
+    previous = dashboard_app._MARKET_WATCH_COLLECTION_STORE
+    monkeypatch.setenv("TRADEX_MARKET_WATCH_DB", str(db_path))
+    monkeypatch.setattr(dashboard_app, "_MARKET_WATCH_COLLECTION_STORE", None)
+
+    store = dashboard_app._get_market_watch_collection_store()
+    try:
+        assert store.read_only is True
+        assert not db_path.exists()
+    finally:
+        store.close()
+        monkeypatch.setattr(dashboard_app, "_MARKET_WATCH_COLLECTION_STORE", previous)
+
+
+def test_post_market_review_uses_latest_accepted_raw_payload_only(monkeypatch):
+    source_payload = {"contract": "market_watch.v1", "snapshot_id": "mw-accepted"}
+    facade = SimpleNamespace(
+        read=lambda: SimpleNamespace(
+            accepted=SimpleNamespace(source_payload=source_payload)
+        )
+    )
+    monkeypatch.setattr(dashboard_app, "_get_market_watch_read_facade", lambda: facade)
+    monkeypatch.setattr(
+        dashboard_app,
+        "get_market_watch_data",
+        lambda **_kwargs: pytest.fail("post-market review refreshed providers"),
+    )
+
+    assert dashboard_app._load_post_market_review_snapshot() is source_payload
+
+
+def test_post_market_review_fails_closed_without_accepted_real(monkeypatch):
+    facade = SimpleNamespace(read=lambda: SimpleNamespace(accepted=None))
+    monkeypatch.setattr(dashboard_app, "_get_market_watch_read_facade", lambda: facade)
+
+    with pytest.raises(RuntimeError, match="collector-accepted real"):
+        dashboard_app._load_post_market_review_snapshot()
 
 
 def test_normal_market_watch_read_uses_stale_while_revalidate(monkeypatch):
@@ -278,8 +417,6 @@ def test_normal_market_watch_read_uses_stale_while_revalidate(monkeypatch):
             get=lambda **kwargs: service_calls.append(kwargs) or snapshot
         ),
     )
-    monkeypatch.setattr(dashboard_app, "_record_market_watch_snapshot", lambda _snapshot: None)
-
     dashboard_app.get_market_watch_data(force=False)
 
     assert service_calls == [
@@ -287,58 +424,41 @@ def test_normal_market_watch_read_uses_stale_while_revalidate(monkeypatch):
     ]
 
 
-def test_market_watch_api_marks_a_background_refresh(monkeypatch):
-    monkeypatch.setattr(
-        dashboard_app,
-        "get_market_watch_data",
-        lambda force=False: {"contract": "market_watch.v1"},
-    )
-    monkeypatch.setattr(
-        dashboard_app,
-        "_get_market_watch_service",
-        lambda: SimpleNamespace(refreshing=True),
-    )
-    responses = []
-    handler = _bare_handler()
-    handler._send_json = lambda status, payload, **kwargs: responses.append(
-        (status, payload, kwargs)
-    )
-
-    handler._handle_market_watch_api(force=False)
-
-    assert responses == [
-        (
-            200,
-            {"contract": "market_watch.v1"},
-            {"headers": {"X-Tradex-Refresh-State": "background"}},
-        )
-    ]
-
-
 def test_history_adapter_returns_dates_timeline_and_alerts(monkeypatch):
+    def fail_full_timeline(*_args, **_kwargs):
+        raise AssertionError("Web replay must not decode complete market-watch snapshots")
+
     store = SimpleNamespace(
         config_version="market-watch-policy.v1",
         list_dates=lambda: [
             {"trade_date": "2026-08-24", "sample_count": 2, "alert_count": 1}
         ],
-        get_timeline=lambda trade_date, limit=None: [
-            {"trade_date": trade_date, "payload": {"snapshot_id": "mw-1"}}
+        get_replay_timeline=lambda trade_date, limit=None: [
+            {
+                "trade_date": trade_date,
+                "payload": {
+                    "contract": "market_watch_replay_sample.v1",
+                    "snapshot_id": "mw-1",
+                },
+            }
         ],
+        get_timeline=fail_full_timeline,
         get_alerts=lambda trade_date, limit=None: [
             {"trade_date": trade_date, "alert": {"code": "market_caution"}}
         ],
     )
     monkeypatch.setattr(dashboard_app, "_get_market_watch_history_store", lambda: store)
-    monkeypatch.setattr(dashboard_app, "_MARKET_WATCH_HISTORY_ERROR", None)
-
     payload = dashboard_app.get_market_watch_history(limit=20)
 
     assert payload["contract"] == "market_watch_history.v1"
     assert payload["schema_version"] == 1
     assert payload["trade_date"] == "2026-08-24"
+    assert payload["samples"][0]["payload"]["contract"] == (
+        "market_watch_replay_sample.v1"
+    )
     assert payload["samples"][0]["payload"]["snapshot_id"] == "mw-1"
     assert payload["alerts"][0]["alert"]["code"] == "market_caution"
-    assert payload["recording"] == {"status": "ready", "error": None}
+    assert payload["recording"] == {"status": "collector_owned", "error": None}
 
 
 @pytest.mark.parametrize("value", ["0", "1001", "abc", "1.5"])
@@ -414,7 +534,7 @@ def test_multi_day_evaluation_reads_dates_in_chronological_order(monkeypatch):
             {"trade_date": "2026-08-25"},
             {"trade_date": "2026-08-24"},
         ][:limit],
-        get_timeline=lambda trade_date, limit=None: [
+        get_replay_timeline=lambda trade_date, limit=None: [
             {"payload": {"trade_date_marker": trade_date}}
         ],
         get_alerts=lambda trade_date, limit=None: [

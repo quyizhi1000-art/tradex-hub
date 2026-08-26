@@ -21,6 +21,7 @@ from tradex.data_gateway.contracts import (
 )
 from tradex.data_gateway.limit_events import fetch_limit_up_events
 from tradex.dashboard import risk_service
+from tradex.market_watch.contracts import SectorFlowLeaderSnapshotV1
 
 
 @pytest.fixture(autouse=True)
@@ -321,6 +322,7 @@ def _ready_leader_snapshot(code: str, *, name: str = "成分领涨") -> dict:
             "name": name,
             "price": 20.0,
             "change_pct": 8.0,
+            "speed_pct": 1.2,
             "amount": 800_000_000,
             "turnover": 6.0,
             "flow_amount": 50_000_000,
@@ -340,7 +342,11 @@ def _defense_flow_leader_result() -> dict:
                 "name": f"防守板块{index}",
                 "taxonomy": "industry",
                 "leader_board_code": f"BK3{index:03d}",
-                "latest": {"change_pct": 3.0 - index * 0.2},
+                "latest": {
+                    "provider_as_of": "2026-08-19T10:30:00+08:00",
+                    "change_pct": 3.0 - index * 0.2,
+                    "delta_5m_cny": 20_000_000,
+                },
                 "leader_snapshot": None,
             }
             for index in range(3)
@@ -357,7 +363,11 @@ def _two_direction_flow_leader_result() -> dict:
             "name": "先进封装",
             "taxonomy": "concept",
             "leader_board_code": "BK1101",
-            "latest": {"change_pct": 4.2},
+            "latest": {
+                "provider_as_of": "2026-08-19T10:30:00+08:00",
+                "change_pct": 4.2,
+                "delta_5m_cny": 30_000_000,
+            },
             "leader_snapshot": None,
         }],
     }
@@ -1160,7 +1170,7 @@ def test_provider_leader_fallback_reaches_core_radar_and_summary():
     }
 
 
-def test_provider_leader_fallback_reaches_defense_flow_with_canonical_instrument():
+def test_static_provider_leader_cannot_masquerade_as_defense_resonance():
     result = _defense_flow_leader_result()
     records = [{
         "板块代码": "BK3000",
@@ -1184,17 +1194,12 @@ def test_provider_leader_fallback_reaches_defense_flow_with_canonical_instrument
     )
 
     snapshot = result["sector_flow_trajectory"]["sectors"][0]["leader_snapshot"]
-    assert snapshot["status"] == "fallback"
-    assert snapshot["leaders"] == [{
-        "instrument_id": "600900.SH",
-        "name": "长江电力",
-        "change_pct": 2.8,
-        "price": None,
-        "provider_as_of": "2026-08-19T10:30:00+08:00",
-    }]
+    assert snapshot["status"] == "unavailable"
+    assert snapshot["status_label"] == "共振条件暂缺"
+    assert snapshot["leaders"] == []
 
 
-def test_provider_leader_fallback_reaches_offense_concept_flow():
+def test_static_provider_leader_cannot_masquerade_as_offense_resonance():
     result = _two_direction_flow_leader_result()
     records = [{
         "板块代码": "BK1101",
@@ -1220,10 +1225,80 @@ def test_provider_leader_fallback_reaches_offense_concept_flow():
     snapshot = result["offense_sector_flow_trajectory"]["sectors"][0][
         "leader_snapshot"
     ]
-    assert snapshot["status"] == "fallback"
-    assert snapshot["leaders"][0]["instrument_id"] == "688041.SH"
-    assert snapshot["leaders"][0]["name"] == "海光信息"
+    assert snapshot["status"] == "unavailable"
+    assert snapshot["leaders"] == []
     assert "BK1101" in risk_service._board_leader_targets(result)
+
+
+def test_sector_flow_resonance_requires_aligned_positive_funds_and_speed():
+    latest = {
+        "provider_as_of": "2026-08-19T10:30:00+08:00",
+        "delta_5m_cny": 30_000_000,
+    }
+    slow = _ready_leader_snapshot("600001", name="较慢股")
+    fast = _ready_leader_snapshot("600002", name="高共振股")
+    slow["items"][0]["speed_pct"] = 0.4
+    fast["items"][0]["speed_pct"] = 1.6
+    snapshot = copy.deepcopy(slow)
+    snapshot["items"].extend(fast["items"])
+
+    resonance = risk_service._sector_flow_leader_snapshot(snapshot, latest)
+
+    assert resonance["status"] == "full"
+    assert resonance["selection_method"] == "sector_fund_flow_stock_speed.v1"
+    assert resonance["marginal_window_minutes"] == 5
+    assert resonance["leaders"] == [{
+        "instrument_id": "600002.SH",
+        "name": "高共振股",
+        "change_pct": 8.0,
+        "speed_pct": 1.6,
+        "main_net_inflow_cny": 50_000_000.0,
+        "resonance_strength": "high",
+        "price": 20.0,
+        "provider_as_of": "2026-08-19T10:30:00+08:00",
+    }]
+
+
+def test_sector_flow_resonance_abstains_without_simultaneous_evidence():
+    snapshot = _ready_leader_snapshot("600001")
+    no_inflow = risk_service._sector_flow_leader_snapshot(
+        snapshot,
+        {
+            "provider_as_of": "2026-08-19T10:30:00+08:00",
+            "delta_5m_cny": -1,
+        },
+    )
+    misaligned = risk_service._sector_flow_leader_snapshot(
+        snapshot,
+        {
+            "provider_as_of": "2026-08-19T10:35:00+08:00",
+            "delta_5m_cny": 30_000_000,
+        },
+    )
+
+    assert no_inflow["status"] == "no_match"
+    assert no_inflow["leaders"] == []
+    assert misaligned["status"] == "no_match"
+    assert misaligned["leaders"] == []
+
+
+def test_legacy_price_leader_snapshot_remains_readable():
+    snapshot = SectorFlowLeaderSnapshotV1.model_validate({
+        "status": "fallback",
+        "status_label": "板块快照领涨",
+        "source": "push2delay",
+        "provider_as_of": "2026-08-19T10:30:00+08:00",
+        "leaders": [{
+            "instrument_id": "600900.SH",
+            "name": "长江电力",
+            "change_pct": 2.8,
+            "price": None,
+            "provider_as_of": "2026-08-19T10:30:00+08:00",
+        }],
+    })
+
+    assert snapshot.selection_method == "price_leader.v1"
+    assert snapshot.leaders[0].speed_pct is None
 
 
 def test_board_leader_enrichment_caps_fourteen_distinct_single_flight_requests(monkeypatch):
@@ -1855,7 +1930,13 @@ def test_rotation_sampler_loads_backfill_while_reads_reuse_it(monkeypatch):
     }
 
     def backfill(targets, **kwargs):
-        calls.append((tuple(targets), kwargs["load_missing"]))
+        calls.append(
+            (
+                tuple(targets),
+                kwargs["load_missing"],
+                kwargs.get("refresh_existing", False),
+            )
+        )
         return supplemental
 
     monkeypatch.setattr(
@@ -1890,11 +1971,32 @@ def test_rotation_sampler_loads_backfill_while_reads_reuse_it(monkeypatch):
         for item in recorded["sector_flow_trajectory"]["sectors"]
         if item["sector_key"] == "electric_power"
     )
-    assert [load_missing for _targets, load_missing in calls] == [True, False]
+    assert [
+        (load_missing, refresh_existing)
+        for _targets, load_missing, refresh_existing in calls
+    ] == [(True, True), (False, False), (False, False)]
     assert calls[0][0][0]["provider_sector_code"] == "BK0428"
     assert sector["status"] == "ready"
     assert sector["latest"]["delta_5m_cny"] == 500_000_000
     assert read_only["sector_flow_trajectory"] == recorded["sector_flow_trajectory"]
+
+
+def test_sampler_rotates_one_sector_backfill_target_per_minute() -> None:
+    targets = tuple({"sector_key": f"sector-{index}"} for index in range(4))
+    china = ZoneInfo("Asia/Shanghai")
+
+    first = risk_service._sector_flow_backfill_load_targets(
+        targets,
+        datetime(2026, 8, 25, 10, 0, tzinfo=china),
+    )
+    second = risk_service._sector_flow_backfill_load_targets(
+        targets,
+        datetime(2026, 8, 25, 10, 1, tzinfo=china),
+    )
+
+    assert len(first) == 1
+    assert len(second) == 1
+    assert first != second
 
 
 def test_rotation_flow_reads_the_effective_provider_trade_date(monkeypatch):
@@ -1928,7 +2030,7 @@ def test_rotation_flow_reads_the_effective_provider_trade_date(monkeypatch):
     assert result["sector_flow_trajectory"]["market_phase"] == "closed"
 
 
-def test_closed_rotation_read_can_cold_load_exact_backfill(monkeypatch):
+def test_closed_rotation_read_never_cold_loads_exact_backfill(monkeypatch):
     calls = []
 
     class Store:
@@ -1959,4 +2061,4 @@ def test_closed_rotation_read_can_cold_load_exact_backfill(monkeypatch):
         record=False,
     )
 
-    assert calls == [((), True)]
+    assert calls == [((), False)]

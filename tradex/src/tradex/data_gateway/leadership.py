@@ -9,7 +9,7 @@ from typing import Any
 from zoneinfo import ZoneInfo
 
 from .contracts import (
-    BoardLeaderSnapshotV1,
+    BoardLeaderSnapshotV2,
     ContractMetadata,
     LeaderQuoteSeriesV1,
     StockSectorProfileSeriesV1,
@@ -170,7 +170,7 @@ def fetch_board_leader_snapshot(
     source_hint: str | None = None,
     router: Any | None = None,
     now: datetime | None = None,
-) -> BoardLeaderSnapshotV1:
+) -> BoardLeaderSnapshotV2:
     code = str(board_code or "").strip().upper()
     if re.fullmatch(r"BK\d+", code) is None:
         raise ValueError("board_code must be an Eastmoney BK code")
@@ -178,7 +178,7 @@ def fetch_board_leader_snapshot(
         raise ValueError("limit must be an integer between 1 and 10")
     fetched_at = _now(now)
 
-    def validate(frame: Any, route_provider: str) -> BoardLeaderSnapshotV1:
+    def validate(frame: Any, route_provider: str) -> BoardLeaderSnapshotV2:
         if getattr(frame, "attrs", {}).get("source_valid") is False:
             raise RuntimeError(
                 f"{route_provider} explicitly marked its board leaders invalid"
@@ -193,9 +193,10 @@ def fetch_board_leader_snapshot(
             leaders=leaders,
             provider_as_of=provider_as_of,
         )
-        return BoardLeaderSnapshotV1(
+        return BoardLeaderSnapshotV2(
             metadata=ContractMetadata(
-                contract="board_leader.v1",
+                contract="board_leader.v2",
+                schema_version=2,
                 provider=_payload_provider(frame, route_provider),
                 provider_request_id=frame_request_id(frame),
                 provider_as_of=provider_as_of,
@@ -247,7 +248,7 @@ def stock_sector_profiles_to_legacy_records(
 
 
 def board_leader_snapshot_to_legacy_payload(
-    snapshot: BoardLeaderSnapshotV1,
+    snapshot: BoardLeaderSnapshotV2,
 ) -> dict[str, Any]:
     metadata = snapshot.metadata
     return {
@@ -268,6 +269,7 @@ def board_leader_snapshot_to_legacy_payload(
                 "name": item.name,
                 "price": item.price,
                 "change_pct": item.change_pct,
+                "speed_pct": item.speed_pct,
                 "amount": item.amount_cny,
                 "turnover": item.turnover_pct,
                 "flow_amount": item.main_net_inflow_cny,

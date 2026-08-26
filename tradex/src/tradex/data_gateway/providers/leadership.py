@@ -6,7 +6,7 @@ import re
 from datetime import datetime
 from typing import Any, Iterable
 
-from ..contracts import BoardLeaderV1, LeaderQuoteV1, StockSectorProfileV1
+from ..contracts import BoardLeaderV2, LeaderQuoteV1, StockSectorProfileV1
 from .market_overview import field, finite_number, parse_provider_time
 from .securities import canonical_instrument_id
 
@@ -195,7 +195,7 @@ def map_board_leader_frame(
     *,
     board_code: str,
     route_provider: str,
-) -> tuple[BoardLeaderV1, ...]:
+) -> tuple[BoardLeaderV2, ...]:
     records = _records(frame, "board leader")
     attrs_board = _optional_text(getattr(frame, "attrs", {}).get("board_code"))
     if attrs_board is not None and attrs_board.upper() != board_code:
@@ -204,11 +204,12 @@ def map_board_leader_frame(
         )
     provider = payload_provider(frame, route_provider, records)
     leaders = [
-        BoardLeaderV1(
+        BoardLeaderV2(
             instrument_id=canonical_instrument_id(_record_code(row)),
             name=_required_text(field(row, "name", "名称"), "board leader name"),
             price=finite_number(field(row, "price", "最新价")),
             change_pct=finite_number(field(row, "change_pct", "涨跌幅")),
+            speed_pct=finite_number(field(row, "speed_pct", "涨速")),
             amount_cny=finite_number(field(row, "amount", "成交额")),
             turnover_pct=finite_number(field(row, "turnover", "换手率")),
             main_net_inflow_cny=finite_number(

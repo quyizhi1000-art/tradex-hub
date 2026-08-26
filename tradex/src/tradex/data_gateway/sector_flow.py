@@ -11,6 +11,7 @@ from zoneinfo import ZoneInfo
 
 from .contracts import SectorFundFlowIntradayV1
 from .providers.sector_flow import map_sector_intraday_fund_flow
+from .sector_flow_store import SectorFundFlowStore
 
 
 _SHANGHAI = ZoneInfo("Asia/Shanghai")
@@ -21,26 +22,76 @@ _BackfillKey = tuple[date, str, str]
 class SectorFundFlowBackfillCache:
     """Own success-only, per-session history and its single-flight loading."""
 
-    def __init__(self) -> None:
+    def __init__(
+        self,
+        *,
+        store: SectorFundFlowStore | None = None,
+        persistent: bool = False,
+        refresh_min_interval_seconds: float = 300.0,
+    ) -> None:
+        if refresh_min_interval_seconds < 0:
+            raise ValueError("refresh_min_interval_seconds cannot be negative")
         self._condition = Condition()
         self._entries: dict[_BackfillKey, SectorFundFlowIntradayV1] = {}
         self._loading: set[_BackfillKey] = set()
+        self._last_loaded_at: dict[_BackfillKey, datetime] = {}
+        self._store = store
+        self._persistent = bool(persistent)
+        self.refresh_min_interval_seconds = float(refresh_min_interval_seconds)
+
+    def _get_store(self) -> SectorFundFlowStore | None:
+        with self._condition:
+            if self._store is None and self._persistent:
+                self._store = SectorFundFlowStore()
+            return self._store
 
     def get_cached(self, key: _BackfillKey) -> SectorFundFlowIntradayV1 | None:
         with self._condition:
-            return self._entries.get(key)
+            cached = self._entries.get(key)
+        if cached is not None:
+            return cached
+        store = self._get_store()
+        persisted = None if store is None else store.get_best(key[0], key[1])
+        if persisted is None:
+            return None
+        with self._condition:
+            self._entries[key] = persisted
+        return persisted
 
     def get_or_load(
         self,
         key: _BackfillKey,
         loader: Callable[[], SectorFundFlowIntradayV1],
+        *,
+        refresh_existing: bool = False,
+        refreshed_at: datetime | None = None,
     ) -> SectorFundFlowIntradayV1:
+        effective_refresh_at = refreshed_at or datetime.now(_SHANGHAI)
+        if effective_refresh_at.tzinfo is None:
+            raise ValueError("sector backfill refreshed_at must include a timezone")
+        effective_refresh_at = effective_refresh_at.astimezone(_SHANGHAI)
+        stale_success: SectorFundFlowIntradayV1 | None = None
         with self._condition:
             while key in self._loading:
                 self._condition.wait()
             cached = self._entries.get(key)
-            if cached is not None:
+            if cached is None:
+                store = self._get_store()
+                cached = None if store is None else store.get_best(key[0], key[1])
+                if cached is not None:
+                    self._entries[key] = cached
+            if cached is not None and not refresh_existing:
                 return cached
+            last_loaded = self._last_loaded_at.get(key)
+            if (
+                cached is not None
+                and last_loaded is not None
+                and (
+                    effective_refresh_at - last_loaded
+                ).total_seconds() < self.refresh_min_interval_seconds
+            ):
+                return cached
+            stale_success = cached
             self._loading.add(key)
 
         try:
@@ -54,10 +105,16 @@ class SectorFundFlowBackfillCache:
             with self._condition:
                 self._loading.discard(key)
                 self._condition.notify_all()
+            if stale_success is not None:
+                return stale_success
             raise
 
+        store = self._get_store()
+        if store is not None:
+            store.record(loaded)
         with self._condition:
             self._entries[key] = loaded
+            self._last_loaded_at[key] = effective_refresh_at
             retained_dates = sorted({entry_key[0] for entry_key in self._entries})[-2:]
             self._entries = {
                 entry_key: entry
@@ -69,7 +126,7 @@ class SectorFundFlowBackfillCache:
             return loaded
 
 
-_SECTOR_FLOW_BACKFILL_CACHE = SectorFundFlowBackfillCache()
+_SECTOR_FLOW_BACKFILL_CACHE = SectorFundFlowBackfillCache(persistent=True)
 
 
 def fetch_sector_intraday_fund_flow(
@@ -133,6 +190,7 @@ def fetch_sector_intraday_fund_flow_backfill(
     router: Any | None = None,
     cache: SectorFundFlowBackfillCache | None = None,
     load_missing: bool = False,
+    refresh_existing: bool = False,
 ) -> dict[str, tuple[dict[str, Any], ...]]:
     """Return cached exact curves; only the minute sampler may fill misses.
 
@@ -168,7 +226,9 @@ def fetch_sector_intraday_fund_flow_backfill(
 
         try:
             series = owner.get_cached(cache_key)
-            if series is None and load_missing:
+            if (series is None and load_missing) or (
+                series is not None and refresh_existing
+            ):
                 series = owner.get_or_load(
                     cache_key,
                     lambda: fetch_sector_intraday_fund_flow(
@@ -180,6 +240,8 @@ def fetch_sector_intraday_fund_flow_backfill(
                         now=now,
                         router=router,
                     ),
+                    refresh_existing=series is not None and refresh_existing,
+                    refreshed_at=now,
                 )
         except Exception:
             continue
@@ -198,6 +260,7 @@ def fetch_sector_intraday_fund_flow_backfill(
 
 __all__ = [
     "SectorFundFlowBackfillCache",
+    "SectorFundFlowStore",
     "fetch_sector_intraday_fund_flow",
     "fetch_sector_intraday_fund_flow_backfill",
 ]

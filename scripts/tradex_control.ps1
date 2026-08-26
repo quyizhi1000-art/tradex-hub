@@ -4,6 +4,8 @@ param(
     [ValidateSet(
         "start-dashboard",
         "stop-dashboard",
+        "start-collector",
+        "stop-collector",
         "start-service",
         "stop-service",
         "start-all",
@@ -40,6 +42,7 @@ $env:WS_SERVER_ENABLED = "false"
 function Get-ComponentLabel {
     param([string]$Name)
     if ($Name -eq "dashboard") { return "网页看板" }
+    if ($Name -eq "collector") { return "盘中采集器" }
     return "MCP 服务"
 }
 
@@ -109,6 +112,9 @@ function Get-ProcessPattern {
     param([string]$Name)
     if ($Name -eq "dashboard") {
         return "(?i)(^|\s)-m\s+tradex\.dashboard(\s|$)"
+    }
+    if ($Name -eq "collector") {
+        return "(?i)(^|\s)-m\s+tradex\.dashboard\.collector_worker(\s|$)"
     }
     return "(?i)(^|\s)-m\s+tradex(\s|$)"
 }
@@ -228,6 +234,163 @@ function Test-ComponentState {
     return Test-ExpectedProcess $Name ([int]$State.process_pid) $State.process_start_utc
 }
 
+function Test-WorkerState {
+    param([object]$State)
+    if ($null -eq $State) { return $false }
+    return Test-ExpectedProcess "collector" ([int]$State.process_pid) $State.process_start_utc
+}
+
+function Test-CollectorEnvelopeReady {
+    param(
+        [AllowNull()][object]$Envelope,
+        [AllowNull()][object]$ProcessStartUtc
+    )
+    if ($null -eq $Envelope) { return $false }
+    if ([string]$Envelope.collector_state -notin @("running", "degraded")) {
+        return $false
+    }
+    if ([string]::IsNullOrWhiteSpace([string]$Envelope.collector_heartbeat_at)) {
+        return $false
+    }
+    try {
+        $heartbeat = [DateTimeOffset]::Parse(
+            [string]$Envelope.collector_heartbeat_at,
+            [Globalization.CultureInfo]::InvariantCulture,
+            [Globalization.DateTimeStyles]::RoundtripKind
+        ).UtcDateTime
+        $started = [DateTimeOffset]::Parse(
+            [string]$ProcessStartUtc,
+            [Globalization.CultureInfo]::InvariantCulture,
+            [Globalization.DateTimeStyles]::RoundtripKind
+        ).UtcDateTime
+        return $heartbeat -ge $started.AddSeconds(-5)
+    }
+    catch {
+        return $false
+    }
+}
+
+function Test-CollectorRuntimeReady {
+    param([AllowNull()][object]$ProcessStartUtc)
+    try {
+        $raw = & $PythonPath -m tradex.dashboard.collector_worker --status 2>$null
+        if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace([string]$raw)) {
+            return $false
+        }
+        $envelope = ([string]$raw) | ConvertFrom-Json
+        return Test-CollectorEnvelopeReady $envelope $ProcessStartUtc
+    }
+    catch {
+        return $false
+    }
+}
+
+function Start-CollectorWorker {
+    $name = "collector"
+    $label = Get-ComponentLabel $name
+    if (-not (Test-Path -LiteralPath $PythonPath -PathType Leaf)) {
+        throw "未找到项目 Python 环境：$PythonPath。请先创建 .venv 并安装项目依赖。"
+    }
+
+    $state = Read-ComponentState $name
+    if (Test-WorkerState $state) {
+        Write-Host "[已运行] $label，PID $($state.process_pid)" -ForegroundColor Green
+        return
+    }
+    if ($null -ne $state) {
+        $processAlive = Test-ExpectedProcess $name ([int]$state.process_pid) $state.process_start_utc
+        if ($processAlive) {
+            Stop-ExpectedProcessTree $name ([int]$state.process_pid) $state.process_start_utc | Out-Null
+        }
+        Remove-ComponentState $name
+    }
+
+    if (-not (Test-Path -LiteralPath $RuntimeDir -PathType Container)) {
+        New-Item -ItemType Directory -Path $RuntimeDir -Force | Out-Null
+    }
+    $stdoutPath = Join-Path $RuntimeDir "collector.out.log"
+    $stderrPath = Join-Path $RuntimeDir "collector.err.log"
+    Write-Host "[启动中] $label..." -ForegroundColor Cyan
+    $process = Start-Process `
+        -FilePath $PythonPath `
+        -ArgumentList @("-m", "tradex.dashboard.collector_worker") `
+        -WorkingDirectory $ProjectRoot `
+        -RedirectStandardOutput $stdoutPath `
+        -RedirectStandardError $stderrPath `
+        -WindowStyle Hidden `
+        -PassThru
+    $processStartUtc = $process.StartTime.ToUniversalTime().ToString("o")
+    $ready = $false
+    $deadline = [DateTime]::UtcNow.AddSeconds(10)
+    while ([DateTime]::UtcNow -lt $deadline) {
+        $process.Refresh()
+        if ($process.HasExited) { break }
+        if (
+            (Test-ExpectedProcess $name $process.Id $processStartUtc) -and
+            (Test-CollectorRuntimeReady $processStartUtc)
+        ) {
+            $ready = $true
+            break
+        }
+        Start-Sleep -Milliseconds 200
+    }
+    if (-not $ready) {
+        $details = Get-LogTail $stderrPath
+        if ([string]::IsNullOrWhiteSpace($details)) {
+            $details = Get-LogTail $stdoutPath
+        }
+        if (-not $process.HasExited) {
+            Stop-ExpectedProcessTree $name $process.Id $processStartUtc | Out-Null
+        }
+        throw "$label 未能在 10 秒内进入受管运行状态。`n$details"
+    }
+    Write-ComponentState $name ([ordered]@{
+        name = $name
+        process_pid = $process.Id
+        process_start_utc = $processStartUtc
+        started_at = (Get-Date).ToString("o")
+        stdout_log = $stdoutPath
+        stderr_log = $stderrPath
+    })
+    Write-Host "[已启动] $label，PID $($process.Id)" -ForegroundColor Green
+}
+
+function Stop-CollectorWorker {
+    $name = "collector"
+    $label = Get-ComponentLabel $name
+    $state = Read-ComponentState $name
+    if ($null -eq $state) {
+        Write-Host "[已停止] $label 当前未运行。" -ForegroundColor DarkGray
+        return
+    }
+    $processId = [int]$state.process_pid
+    $processStart = $state.process_start_utc
+    if (Test-ExpectedProcess $name $processId $processStart) {
+        Write-Host "[停止中] $label（PID $processId）..." -ForegroundColor Yellow
+        Stop-ExpectedProcessTree $name $processId $processStart | Out-Null
+    }
+    Remove-ComponentState $name
+    & $PythonPath -m tradex.dashboard.collector_worker --mark-stopped | Out-Null
+    if ($LASTEXITCODE -ne 0) {
+        throw "$label 已停止，但未能写入 stopped 状态。"
+    }
+    Write-Host "[已停止] $label。" -ForegroundColor Green
+}
+
+function Show-CollectorStatus {
+    $label = Get-ComponentLabel "collector"
+    $state = Read-ComponentState "collector"
+    if (Test-WorkerState $state) {
+        Write-Host ("{0,-10} 运行中   PID {1}" -f $label, $state.process_pid) -ForegroundColor Green
+    }
+    elseif ($null -ne $state) {
+        Write-Host ("{0,-10} 已停止   （存在过期状态记录）" -f $label) -ForegroundColor DarkYellow
+    }
+    else {
+        Write-Host ("{0,-10} 已停止" -f $label) -ForegroundColor DarkGray
+    }
+}
+
 function Get-ProjectLauncherProcess {
     param(
         [string]$Name,
@@ -323,6 +486,45 @@ function Test-CompatibleDashboardProcess {
     )
 }
 
+function New-CompatibleDashboardState {
+    param(
+        [int]$Port,
+        [int]$ProcessId
+    )
+
+    if (-not (Test-CompatibleDashboardProcess $Port $ProcessId)) { return $null }
+    $launcherInfo = Get-ProjectLauncherProcess "dashboard" $ProcessId
+    if ($null -eq $launcherInfo) { return $null }
+    try {
+        $runningProcess = Get-Process -Id $ProcessId -ErrorAction Stop
+        $launcherProcess = Get-Process -Id ([int]$launcherInfo.ProcessId) -ErrorAction Stop
+    }
+    catch {
+        return $null
+    }
+
+    $processStartUtc = $runningProcess.StartTime.ToUniversalTime().ToString("o")
+    $launcherStartUtc = $launcherProcess.StartTime.ToUniversalTime().ToString("o")
+    if ((Get-PortOwner $Port) -ne $ProcessId -or
+        -not (Test-ExpectedProcess "dashboard" $ProcessId $processStartUtc) -or
+        -not (Test-ExpectedProcess "dashboard" ([int]$launcherInfo.ProcessId) $launcherStartUtc)) {
+        return $null
+    }
+
+    return [pscustomobject][ordered]@{
+        name = "dashboard"
+        port = $Port
+        process_pid = $ProcessId
+        process_start_utc = $processStartUtc
+        launcher_pid = [int]$launcherInfo.ProcessId
+        launcher_start_utc = $launcherStartUtc
+        started_at = $runningProcess.StartTime.ToString("o")
+        adopted_at = (Get-Date).ToString("o")
+        stdout_log = $null
+        stderr_log = $null
+    }
+}
+
 function Get-LatestDashboardSource {
     $sourceRoot = Join-Path $ProjectRoot "tradex\src\tradex\dashboard"
     if (-not (Test-Path -LiteralPath $sourceRoot -PathType Container)) {
@@ -415,23 +617,22 @@ function Start-Component {
 
     $existingOwner = Get-PortOwner $Port
     if ($null -ne $existingOwner) {
-        $compatibleDashboard = (
-            $Name -eq "dashboard" -and
-            (Test-CompatibleDashboardProcess $Port $existingOwner)
-        )
-        if ($compatibleDashboard) {
+        $compatibleDashboardState = $null
+        if ($Name -eq "dashboard") {
+            $compatibleDashboardState = New-CompatibleDashboardState $Port $existingOwner
+        }
+        if ($null -ne $compatibleDashboardState) {
             $latestSource = Get-LatestDashboardSource
             $runningProcess = Get-Process -Id $existingOwner -ErrorAction Stop
             if ($latestSource.LastWriteTimeUtc -gt $runningProcess.StartTime.ToUniversalTime()) {
                 throw "端口 $Port 上是本项目的旧版 $label，但它未受启动器管理；请先手动停止该实例，再重新启动。"
             }
-            else {
-                Write-Host "[已运行] $label 已由本项目进程提供，端口 $Port，PID $existingOwner（未接管）" -ForegroundColor Green
-                if ($OpenBrowser -and -not $NoBrowser) {
-                    Start-Process ("http://127.0.0.1:{0}/" -f $Port)
-                }
-                return
+            Write-ComponentState $Name $compatibleDashboardState
+            Write-Host "[已接管] $label 已由本项目进程提供，端口 $Port，PID $existingOwner" -ForegroundColor Green
+            if ($OpenBrowser -and -not $NoBrowser) {
+                Start-Process ("http://127.0.0.1:{0}/" -f $Port)
             }
+            return
         }
         else {
             throw "端口 $Port 已被 PID $existingOwner 占用；未能确认它是本项目的健康 $label，为避免误操作，未启动。"
@@ -548,7 +749,16 @@ function Stop-Component {
             Write-Host "[已停止] $label 当前未运行。" -ForegroundColor DarkGray
             return
         }
-        throw "端口 $DefaultPort 由未受本工具管理的 PID $owner 占用；为避免误杀，未停止任何进程。"
+        if ($Name -ne "dashboard") {
+            throw "端口 $DefaultPort 由未受本工具管理的 PID $owner 占用；为避免误杀，未停止任何进程。"
+        }
+
+        $state = New-CompatibleDashboardState $DefaultPort $owner
+        if ($null -eq $state) {
+            throw "端口 $DefaultPort 由未受本工具管理的 PID $owner 占用；为避免误杀，未停止任何进程。"
+        }
+        Write-ComponentState $Name $state
+        Write-Host "[接管中] 已确认端口 $DefaultPort 的 PID $owner 是本项目 $label，建立受管状态后安全停止..." -ForegroundColor Yellow
     }
 
     $port = [int]$state.port
@@ -682,7 +892,6 @@ function Invoke-AllSteps {
         }
         catch {
             $errors += $_.Exception.Message
-            Write-Host ("[失败] " + $_.Exception.Message) -ForegroundColor Red
         }
     }
     if ($errors.Count -gt 0) {
@@ -721,10 +930,17 @@ try {
 
     switch ($Action) {
         "start-dashboard" {
+            Start-CollectorWorker
             Start-Component "dashboard" $DashboardPort @("-m", "tradex.dashboard") -OpenBrowser
         }
         "stop-dashboard" {
             Stop-Component "dashboard" $DashboardPort
+        }
+        "start-collector" {
+            Start-CollectorWorker
+        }
+        "stop-collector" {
+            Stop-CollectorWorker
         }
         "start-service" {
             Start-Component "service" $ServicePort @("-m", "tradex", "--streamable-http", "--host", "127.0.0.1", "--port", [string]$ServicePort)
@@ -734,6 +950,7 @@ try {
         }
         "start-all" {
             Invoke-AllSteps @(
+                { Start-CollectorWorker },
                 { Start-Component "service" $ServicePort @("-m", "tradex", "--streamable-http", "--host", "127.0.0.1", "--port", [string]$ServicePort) },
                 { Start-Component "dashboard" $DashboardPort @("-m", "tradex.dashboard") -OpenBrowser }
             )
@@ -741,7 +958,8 @@ try {
         "stop-all" {
             Invoke-AllSteps @(
                 { Stop-Component "dashboard" $DashboardPort },
-                { Stop-Component "service" $ServicePort }
+                { Stop-Component "service" $ServicePort },
+                { Stop-CollectorWorker }
             )
         }
         "status" {
@@ -749,6 +967,7 @@ try {
             Write-Host "--------------------"
             Show-ComponentStatus "dashboard" $DashboardPort
             Show-ComponentStatus "service" $ServicePort
+            Show-CollectorStatus
             Write-Host ""
             Write-Host "日志目录：$RuntimeDir"
         }
