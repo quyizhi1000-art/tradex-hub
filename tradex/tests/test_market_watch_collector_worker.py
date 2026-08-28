@@ -81,6 +81,26 @@ def test_historical_worker_recovers_only_a_provider_verified_final_close(
         )
 
 
+def test_historical_worker_routes_0925_to_exact_auction_reconstructor() -> None:
+    target = datetime(2026, 8, 26, 9, 25, tzinfo=SHANGHAI)
+    observed = datetime(2026, 8, 27, 0, 5, tzinfo=SHANGHAI)
+    expected = object()
+    calls = []
+
+    class Reconstructor:
+        def reconstruct_opening_auction(self, received, progress):
+            calls.append(received)
+            progress(1, 1, "done", None)
+            return expected
+
+    assert collector_worker._repair_historical(
+        SimpleNamespace(minute_bucket=target),
+        reconstructor=Reconstructor(),
+        observed=observed,
+    ) is expected
+    assert calls == [target]
+
+
 def test_final_close_requires_provider_date_and_1500_turnover_proof() -> None:
     trade_date = datetime(2026, 8, 26, tzinfo=SHANGHAI).date()
     payload = {
@@ -298,10 +318,10 @@ def test_post_close_loop_generates_one_batch_for_the_trading_day(monkeypatch) ->
     monkeypatch.setattr(
         collector_worker,
         "_generate_latest_limit_up_pool",
-        lambda *, reuse_existing, analyze: pool_calls.append(
-            (observed.date(), reuse_existing, analyze)
+        lambda *, reuse_existing: pool_calls.append(
+            (observed.date(), reuse_existing)
         )
-        or {"attribution_revision": "d" * 64, "pool_total": 12},
+        or {"pool_revision": "d" * 64, "pool_total": 12},
     )
 
     collector_worker._run_post_close_resonance_loop(
@@ -311,7 +331,7 @@ def test_post_close_loop_generates_one_batch_for_the_trading_day(monkeypatch) ->
     )
 
     assert calls == [observed.date()]
-    assert pool_calls == [(observed.date(), False, True)]
+    assert pool_calls == [(observed.date(), False)]
 
 
 def test_intraday_loop_generates_one_batch_for_the_five_minute_bucket(monkeypatch) -> None:
@@ -330,10 +350,10 @@ def test_intraday_loop_generates_one_batch_for_the_five_minute_bucket(monkeypatc
     monkeypatch.setattr(
         collector_worker,
         "_generate_latest_limit_up_pool",
-        lambda *, reuse_existing, analyze: pool_calls.append(
-            (observed, reuse_existing, analyze)
+        lambda *, reuse_existing: pool_calls.append(
+            (observed, reuse_existing)
         )
-        or {"attribution_revision": "e" * 64, "pool_total": 12},
+        or {"pool_revision": "e" * 64, "pool_total": 12},
     )
 
     collector_worker._run_post_close_resonance_loop(
@@ -343,7 +363,7 @@ def test_intraday_loop_generates_one_batch_for_the_five_minute_bucket(monkeypatc
     )
 
     assert calls == [observed]
-    assert pool_calls == [(observed, True, False)]
+    assert pool_calls == [(observed, True)]
 
 
 def test_intraday_loop_rechecks_a_new_minute_instead_of_waiting_five_minutes(
@@ -377,10 +397,10 @@ def test_intraday_loop_rechecks_a_new_minute_instead_of_waiting_five_minutes(
     monkeypatch.setattr(
         collector_worker,
         "_generate_latest_limit_up_pool",
-        lambda *, reuse_existing, analyze: pool_calls.append(
-            (stop_event.index, reuse_existing, analyze)
+        lambda *, reuse_existing: pool_calls.append(
+            (stop_event.index, reuse_existing)
         )
-        or {"attribution_revision": "f" * 64, "pool_total": 12},
+        or {"pool_revision": "f" * 64, "pool_total": 12},
     )
 
     collector_worker._run_post_close_resonance_loop(
@@ -390,7 +410,7 @@ def test_intraday_loop_rechecks_a_new_minute_instead_of_waiting_five_minutes(
     )
 
     assert calls == [0, 2]
-    assert pool_calls == [(0, True, False), (2, True, False)]
+    assert pool_calls == [(0, True), (2, True)]
 
 
 def test_opening_minutes_publish_limit_status_before_resonance(monkeypatch) -> None:
@@ -404,10 +424,10 @@ def test_opening_minutes_publish_limit_status_before_resonance(monkeypatch) -> N
         lambda *, reuse_existing: resonance_calls.append(reuse_existing),
     )
 
-    def generate_pool(*, reuse_existing, analyze):
-        pool_calls.append((reuse_existing, analyze))
+    def generate_pool(*, reuse_existing):
+        pool_calls.append(reuse_existing)
         stop_event.set()
-        return {"attribution_revision": "1" * 64, "pool_total": 3}
+        return {"pool_revision": "1" * 64, "pool_total": 3}
 
     monkeypatch.setattr(
         collector_worker,
@@ -421,24 +441,29 @@ def test_opening_minutes_publish_limit_status_before_resonance(monkeypatch) -> N
         check_interval_seconds=0,
     )
 
-    assert pool_calls == [(True, False)]
+    assert pool_calls == [True]
     assert resonance_calls == []
 
 
-def test_midday_runs_one_full_limit_up_attribution(monkeypatch) -> None:
-    stop_event = threading.Event()
+def test_midday_does_not_run_a_second_limit_up_analysis(monkeypatch) -> None:
+    class OneIterationStopEvent:
+        stopped = False
+
+        def is_set(self):
+            return self.stopped
+
+        def wait(self, _seconds):
+            self.stopped = True
+            return True
+
+    stop_event = OneIterationStopEvent()
     observed = datetime(2026, 8, 26, 11, 35, tzinfo=SHANGHAI)
     pool_calls = []
-
-    def generate_pool(*, reuse_existing, analyze):
-        pool_calls.append((reuse_existing, analyze))
-        stop_event.set()
-        return {"attribution_revision": "2" * 64, "pool_total": 12}
 
     monkeypatch.setattr(
         collector_worker,
         "_generate_latest_limit_up_pool",
-        generate_pool,
+        lambda *, reuse_existing: pool_calls.append(reuse_existing),
     )
 
     collector_worker._run_post_close_resonance_loop(
@@ -447,4 +472,4 @@ def test_midday_runs_one_full_limit_up_attribution(monkeypatch) -> None:
         check_interval_seconds=0,
     )
 
-    assert pool_calls == [(False, True)]
+    assert pool_calls == []

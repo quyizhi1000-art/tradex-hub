@@ -56,10 +56,17 @@ def test_watch_page_exposes_server_side_history_and_honest_replay_evaluation():
 
 
 def test_collection_copy_describes_closing_auction_as_one_final_result():
-    expected = "237 个连续交易分钟和 1 个 15:00 收盘结果"
+    expected = "1 个 09:25 集合竞价结果、237 个连续交易分钟和 1 个 15:00 收盘结果"
 
     assert expected in HTML
     assert expected in JS
+
+
+def test_replay_keeps_the_auction_result_visible_with_recent_samples():
+    assert "samples.slice(-29).reverse()" in JS
+    assert "if (samples.length > 29) visible.push(samples[0])" in JS
+    assert "集合竞价结果" in JS
+    assert "09:25竞价盘面已验收；板块净流入从09:30起算" in JS
 
 
 def test_secondary_archives_load_only_when_their_sections_enter_view():
@@ -328,11 +335,11 @@ def test_sector_flow_chart_is_versioned_bounded_and_honestly_degraded():
     assert "point.session_segment" in JS
     assert "segment !== previousSegment" in JS
     assert "function sectorFlowTradingMinute" in JS
-    assert 'segment === "am" && minute >= 9 * 60 + 30 && minute <= 11 * 60 + 30' in JS
+    assert 'segment === "am" && minute >= 9 * 60 + 25 && minute <= 11 * 60 + 30' in JS
     assert 'segment === "pm" && minute >= 13 * 60 && minute <= 15 * 60' in JS
     assert "const SECTOR_FLOW_LUNCH_GAP_MINUTES = 18" in JS
     assert "const MAX_SECTOR_FLOW_SAMPLE_GAP_MINUTES = 5" in JS
-    assert "return 120 + SECTOR_FLOW_LUNCH_GAP_MINUTES + minute - 13 * 60" in JS
+    assert "return 125 + SECTOR_FLOW_LUNCH_GAP_MINUTES + minute - 13 * 60" in JS
     assert "point.tradingMinute" in JS
     assert "function sectorFlowPathData(segments, x, y)" in JS
     assert "(time - previousTime) / 60_000 > MAX_SECTOR_FLOW_SAMPLE_GAP_MINUTES" in JS
@@ -832,27 +839,30 @@ def test_watch_page_is_self_contained_and_desktop_only():
     assert "cdn" not in combined.lower()
 
 
-def test_limit_up_pool_is_revision_bound_grouped_and_honest_about_attribution():
+def test_limit_up_pool_is_revision_bound_and_uses_only_the_relationship_catalog():
     assert 'const LIMIT_UP_POOL_ENDPOINT = "/api/limit-up-pool"' in JS
     assert 'id="limit-up-pool-open-button"' in HTML
     assert 'id="limit-up-pool-dialog"' in HTML
     assert 'id="limit-up-pool-categories"' in HTML
     assert 'id="limit-up-pool-board"' in HTML
-    assert 'payload.contract !== "limit_up_follow_pool.v1"' in JS
+    assert 'payload.contract !== "limit_up_pool.v2"' in JS
     assert "new URLSearchParams({ source_snapshot_revision: revision })" in JS
     assert "payload.source_snapshot_revision !== expectedRevision" in JS
-    assert 'item.attribution_method === "limit_up_seal_window_sector_flow_resonance.v1"' in JS
-    assert 'item.attribution_method === "limit_up_opening_cohort_confirmation.v1"' in JS
-    assert "供应商原因（仅供核对，不参与归因）" in JS
+    assert 'item?.relationship_match_status' in JS
+    assert "item.business_tags" in JS
+    assert "item.statistical_industry_name" in JS
+    assert "item.relationship_verification_status" in JS
+    assert "不使用涨停原因、价格路径或板块资金轨迹推断" in HTML
     assert 'height > 0 ? `${height}板`' in JS
     assert "formatLimitUpSealTime(item.first_sealed_at)" in JS
-    assert "共同分钟或候选板块证据不足，不猜测" in JS
     assert 'fetchLimitUpPool({ showPending: byId("limit-up-pool-dialog").open })' in JS
-    assert 'includes("analysis_pending_midday_or_post_close")' in JS
-    assert "盘中涨停状态已更新 · 午盘/盘后归类" in JS
-    assert "涨停状态已实时更新 · 资金跟随分析尚未执行" in JS
-    assert 'id="limit-up-pool-unresolved-label"' in HTML
+    assert "analysis_pending_midday_or_post_close" not in JS
+    assert "followed_sector" not in JS
+    assert "cohort_confirmed_peer_count" not in JS
+    assert 'id="limit-up-pool-matched"' in HTML
+    assert 'id="limit-up-pool-classified"' in HTML
+    assert 'id="limit-up-pool-unmatched"' in HTML
     assert "每分钟刷新涨停名单、板数与首次封板时间" in HTML
-    assert "首封前 5 分钟资金路径相关 ≥ 0.60" in HTML
-    assert "一字或 09:33 前封板仅有同板块已确认股票群" in HTML
+    assert "主营归属和业务标签只读取统一真实归属库" in HTML
+    assert "申万三级行业单独展示为统计行业" in HTML
     assert "@media" not in CSS

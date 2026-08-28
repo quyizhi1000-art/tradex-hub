@@ -1,4 +1,4 @@
-"""Digest-checked persistence for revision-bound limit-up follow pools."""
+"""Digest-checked persistence for revision-bound limit-up pools."""
 
 from __future__ import annotations
 
@@ -10,7 +10,7 @@ import zlib
 from pathlib import Path
 
 from .integrity import canonical_json_bytes, stable_sha256
-from .limit_up_pool import LimitUpFollowPoolV1
+from .limit_up_pool import LimitUpPoolV2
 
 
 ENV_DB_PATH = "TRADEX_LIMIT_UP_POOL_DB"
@@ -18,7 +18,7 @@ STORE_CONTRACT = "limit_up_follow_pool_store.v1"
 STORE_SCHEMA_VERSION = 1
 
 
-class LimitUpFollowPoolStore:
+class LimitUpPoolStore:
     def __init__(
         self,
         db_path: str | os.PathLike[str] | None = None,
@@ -101,10 +101,10 @@ class LimitUpFollowPoolStore:
         if self._closed:
             raise RuntimeError("limit-up pool store is closed")
 
-    def record(self, pool: LimitUpFollowPoolV1) -> dict[str, object]:
+    def record(self, pool: LimitUpPoolV2) -> dict[str, object]:
         if self.read_only:
             raise RuntimeError("read-only limit-up pool store cannot record")
-        canonical = LimitUpFollowPoolV1.model_validate(pool)
+        canonical = LimitUpPoolV2.model_validate(pool)
         raw = canonical_json_bytes(canonical)
         digest = stable_sha256(canonical)
         blob = zlib.compress(raw, level=6)
@@ -119,7 +119,7 @@ class LimitUpFollowPoolStore:
             action = (
                 "unchanged"
                 if existing is not None
-                and existing["attribution_revision"] == canonical.attribution_revision
+                and existing["attribution_revision"] == canonical.pool_revision
                 else "inserted"
                 if existing is None
                 else "updated"
@@ -145,7 +145,7 @@ class LimitUpFollowPoolStore:
                         """,
                         (
                             canonical.source_snapshot_revision,
-                            canonical.attribution_revision,
+                            canonical.pool_revision,
                             canonical.source_snapshot_id,
                             canonical.source_as_of.isoformat(),
                             canonical.trade_date.isoformat(),
@@ -158,14 +158,14 @@ class LimitUpFollowPoolStore:
         return {
             "action": action,
             "source_snapshot_revision": canonical.source_snapshot_revision,
-            "attribution_revision": canonical.attribution_revision,
+            "pool_revision": canonical.pool_revision,
             "pool_total": canonical.pool_total,
         }
 
     def get_by_source_revision(
         self,
         source_snapshot_revision: str,
-    ) -> LimitUpFollowPoolV1 | None:
+    ) -> LimitUpPoolV2 | None:
         revision = str(source_snapshot_revision).strip().lower()
         with self._lock:
             self._ensure_open()
@@ -188,11 +188,13 @@ class LimitUpFollowPoolStore:
         row,
         *,
         expected_source_revision: str | None = None,
-    ) -> LimitUpFollowPoolV1 | None:
+    ) -> LimitUpPoolV2 | None:
         if row is None:
             return None
         payload = json.loads(zlib.decompress(row["payload_blob"]).decode("utf-8"))
-        canonical = LimitUpFollowPoolV1.model_validate(payload)
+        if payload.get("contract") != "limit_up_pool.v2":
+            return None
+        canonical = LimitUpPoolV2.model_validate(payload)
         if stable_sha256(canonical) != row["payload_digest"]:
             raise RuntimeError("limit-up pool payload digest mismatch")
         if (
@@ -210,7 +212,7 @@ class LimitUpFollowPoolStore:
                 self._connection.close()
             self._closed = True
 
-    def __enter__(self) -> "LimitUpFollowPoolStore":
+    def __enter__(self) -> "LimitUpPoolStore":
         return self
 
     def __exit__(self, exc_type, exc, traceback) -> None:
@@ -221,5 +223,5 @@ __all__ = [
     "ENV_DB_PATH",
     "STORE_CONTRACT",
     "STORE_SCHEMA_VERSION",
-    "LimitUpFollowPoolStore",
+    "LimitUpPoolStore",
 ]

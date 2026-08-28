@@ -1963,8 +1963,61 @@ def fetch_auction_data(
     )
 
 
+def fetch_opening_auction_market(
+    trade_date: str = "",
+    **kwargs: Any,
+) -> pd.DataFrame:
+    """Return every final 09:25 auction row for one exact trading day."""
+
+    del kwargs
+    requested = _compact_date(trade_date, "trade_date")
+    if not requested:
+        raise ValueError("trade_date is required for full-market opening auction")
+    payload = _request(
+        "stk_auction",
+        {"trade_date": requested},
+        fields=_AUCTION_FIELDS,
+    )
+    raw_records, request_id = _records(payload, "全市场集合竞价")
+    target_date = _date_object(requested)
+    rows: list[dict[str, Any]] = []
+    for item in raw_records:
+        item_date = _date_object(item.get("trade_date"))
+        if item_date != target_date:
+            raise RuntimeError("TuShare 全市场集合竞价返回了其他交易日")
+        requested_code = _ts_code(str(item.get("ts_code") or ""))
+        price = _number(item.get("price"))
+        previous = _number(item.get("pre_close"))
+        rows.append(
+            {
+                "代码": requested_code,
+                "交易日期": item_date.strftime("%Y%m%d"),
+                "开盘价": price,
+                "开盘量": _number(item.get("vol")),
+                "开盘额": _number(item.get("amount")),
+                "开盘涨跌幅": (
+                    price / previous * 100 - 100
+                    if price is not None and previous
+                    else None
+                ),
+                "昨收": previous,
+                "换手率": _number(item.get("turnover_rate")),
+                "量比": _number(item.get("volume_ratio")),
+                "流通股本": _scaled(item.get("float_share"), 10_000),
+            }
+        )
+    if not rows:
+        raise RuntimeError("TuShare 全市场集合竞价未返回请求交易日")
+    return _frame(
+        rows,
+        provider_as_of=_market_time(target_date, time(9, 25)),
+        request_id=request_id,
+    )
+
+
 __all__ = [
     "fetch_auction_data",
+    "fetch_opening_auction_market",
     "fetch_dragon_tiger_market_day",
     "fetch_etf_quotes",
     "fetch_historical_kline",

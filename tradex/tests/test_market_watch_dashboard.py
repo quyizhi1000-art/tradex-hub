@@ -29,9 +29,9 @@ def test_limit_up_pool_route_requires_and_forwards_the_exact_source_revision(
     handler.path = f"/api/limit-up-pool?source_snapshot_revision={revision}"
     monkeypatch.setattr(
         dashboard_app,
-        "get_limit_up_follow_pool",
+        "get_limit_up_pool",
         lambda source_snapshot_revision: observed.append(source_snapshot_revision)
-        or {"contract": "limit_up_follow_pool.v1"},
+        or {"contract": "limit_up_pool.v2"},
     )
     responses = []
     handler._send_json = lambda status, payload, **_kwargs: responses.append(
@@ -41,7 +41,7 @@ def test_limit_up_pool_route_requires_and_forwards_the_exact_source_revision(
     handler.do_GET()
 
     assert observed == [revision]
-    assert responses == [(200, {"contract": "limit_up_follow_pool.v1"})]
+    assert responses == [(200, {"contract": "limit_up_pool.v2"})]
 
 
 def test_watch_asset_loader_is_allow_listed_and_uncached(tmp_path, monkeypatch):

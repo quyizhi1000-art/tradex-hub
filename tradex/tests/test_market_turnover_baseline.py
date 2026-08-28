@@ -13,6 +13,7 @@ from astock_signals.smart_router import SmartRouter
 from tradex.data_gateway.market import (
     TurnoverBaselineCache,
     TurnoverBaselineUnavailable,
+    _requires_live_turnover,
     fetch_market_overview,
 )
 from tradex.data_gateway.providers.market_turnover import (
@@ -207,6 +208,15 @@ def test_pre_open_keeps_the_latest_completed_session_turnover_available() -> Non
     assert snapshot.market_turnover.previous_same_time_amount_cny == 75.0
     assert router.daily_calls == ["sh000001", "sz399001"]
     assert router.history_calls == []
+
+
+def test_live_turnover_is_required_when_the_opening_auction_completes() -> None:
+    assert not _requires_live_turnover(
+        datetime(2026, 8, 20, 9, 24, 59, tzinfo=_CHINA)
+    )
+    assert _requires_live_turnover(
+        datetime(2026, 8, 20, 9, 25, tzinfo=_CHINA)
+    )
 
 
 def test_partial_history_failure_never_caches_half_a_baseline() -> None:

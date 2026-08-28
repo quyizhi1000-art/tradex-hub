@@ -1332,6 +1332,8 @@ def _sector_flow_series(
     ranked_snapshots: Sequence[Mapping[str, Mapping[str, Any]]],
     definition: Mapping[str, Any],
     supplemental_points: Sequence[Mapping[str, Any]] = (),
+    *,
+    series_as_of: datetime | None = None,
 ) -> dict[str, Any]:
     latest_ranked = ranked_snapshots[-1]
     latest_match = _sector_flow_match(latest_ranked, definition)
@@ -1404,10 +1406,10 @@ def _sector_flow_series(
         if series_match is not None
         else supplemental_identity.get("source_family")
     )
-    series_as_of = _as_shanghai(str(ordered[-1]["minute_bucket"])).replace(
-        second=0,
-        microsecond=0,
-    )
+    series_as_of = (
+        series_as_of
+        or _as_shanghai(str(ordered[-1]["minute_bucket"]))
+    ).replace(second=0, microsecond=0)
     series_date = series_as_of.date()
     candidates: dict[datetime, dict[str, Any]] = {}
     for raw in sorted(
@@ -1683,6 +1685,7 @@ def analyze_sector_flow_snapshots(
     supplemental_points: Mapping[str, Sequence[Mapping[str, Any]]] | None = None,
     *,
     direction: str = "defense",
+    as_of: datetime | str | None = None,
 ) -> dict[str, Any]:
     """Build one stable, provider-neutral directional fund-flow trajectory."""
 
@@ -1707,12 +1710,38 @@ def analyze_sector_flow_snapshots(
             "flags": ["no_rotation_samples"],
             "reason": "no_rotation_samples",
         }
-    latest_date = _as_shanghai(str(ordered[-1]["minute_bucket"])).date()
+    cutoff = (
+        _as_shanghai(as_of).replace(second=0, microsecond=0)
+        if as_of is not None
+        else _as_shanghai(str(ordered[-1]["minute_bucket"])).replace(
+            second=0,
+            microsecond=0,
+        )
+    )
+    latest_date = cutoff.date()
     ordered = [
         snapshot
         for snapshot in ordered
-        if _as_shanghai(str(snapshot["minute_bucket"])).date() == latest_date
+        if (
+            _as_shanghai(str(snapshot["minute_bucket"])).date() == latest_date
+            and _as_shanghai(str(snapshot["minute_bucket"])) <= cutoff
+        )
     ]
+    if not ordered:
+        return {
+            "contract": SECTOR_FLOW_CONTRACT,
+            "schema_version": SECTOR_FLOW_SCHEMA_VERSION,
+            "direction": direction,
+            "status": "unavailable",
+            "trade_date": latest_date.isoformat(),
+            "as_of": cutoff.isoformat(timespec="seconds"),
+            "market_phase": "unknown",
+            "trajectory_scope": "trading_session_to_as_of",
+            "marginal_window_minutes": 5,
+            "sectors": [],
+            "flags": ["no_rotation_samples"],
+            "reason": "no_rotation_samples",
+        }
     ranked_snapshots = [_rank_snapshot(snapshot) for snapshot in ordered]
     supplements = supplemental_points or {}
     sectors = [
@@ -1721,6 +1750,7 @@ def analyze_sector_flow_snapshots(
             ranked_snapshots,
             definition,
             supplements.get(str(definition["key"]), ()),
+            series_as_of=cutoff,
         )
         for definition in definitions
     ]
@@ -1806,7 +1836,7 @@ def analyze_sector_flow_snapshots(
         "direction": direction,
         "status": status,
         "trade_date": latest_date.isoformat(),
-        "as_of": str(latest["minute_bucket"]),
+        "as_of": cutoff.isoformat(timespec="seconds"),
         "market_phase": str(latest.get("market_phase") or "unknown"),
         "trajectory_scope": "trading_session_to_as_of",
         "marginal_window_minutes": 5,

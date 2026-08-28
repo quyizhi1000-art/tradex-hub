@@ -101,8 +101,8 @@ def _loaders(*, fail_etf: bool = False, fail_dragon: bool = False):
         trading_date=TRADE_DATE,
         trade_status=LimitEventTradeStatusV1(code="closed", label="已收盘"),
         events=(
-            LimitUpEventV1(instrument_id="600001.SH", name="领涨股", reason="证券", board_count=5, first_sealed_at=time(9, 35), order_amount_cny=300_000_000),
-            LimitUpEventV1(instrument_id="300001.SZ", name="科技股", reason="金融科技", board_count=2, first_sealed_at=time(10, 5), order_amount_cny=100_000_000),
+            LimitUpEventV1(instrument_id="600001.SH", name="领涨股", reason="证券+并购重组", board_count=5, first_sealed_at=time(9, 35), order_amount_cny=300_000_000),
+            LimitUpEventV1(instrument_id="300001.SZ", name="科技股", reason="金融科技+并购重组", board_count=2, first_sealed_at=time(10, 5), order_amount_cny=100_000_000),
         ),
         pool_total=2,
         reason_coverage=1,
@@ -173,6 +173,8 @@ def test_collector_scans_all_surfaces_and_keeps_compact_ranked_evidence():
     assert evidence.etfs.most_traded[0].name == "沪深300ETF"
     assert evidence.industry_sectors.top_inflows[0].name == "证券"
     assert evidence.limit_events.max_board_count == 5
+    assert evidence.limit_events.top_reasons[0].reason == "并购重组"
+    assert evidence.limit_events.top_reasons[0].count == 2
     assert evidence.stock_fund_flow.top_inflows[0].name == "领涨股"
     assert evidence.stock_fund_flow.top_outflows[0].instrument_id == "000001.SZ"
     assert evidence.dragon_tiger.total_net_amount_cny == 500_000_000

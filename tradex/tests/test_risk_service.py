@@ -2045,3 +2045,22 @@ def test_closed_rotation_read_never_cold_loads_exact_backfill(monkeypatch):
     )
 
     assert calls == [{"trading_date": "2026-08-24"}]
+
+def test_auction_completion_starts_opening_observation_refresh() -> None:
+    shanghai = ZoneInfo("Asia/Shanghai")
+    market_data = {
+        "provider_as_of": "2026-08-24T09:25:00+08:00",
+        "market_state": {"label": "集合竞价"},
+    }
+
+    assert risk_service._market_phase(
+        datetime(2026, 8, 24, 9, 24, 59, tzinfo=shanghai),
+        market_data,
+    ) == "pre_open"
+    assert risk_service._market_phase(
+        datetime(2026, 8, 24, 9, 25, tzinfo=shanghai),
+        market_data,
+    ) == "opening_observation"
+    assert risk_service._board_leader_market_open(
+        datetime(2026, 8, 24, 9, 25, tzinfo=shanghai)
+    )

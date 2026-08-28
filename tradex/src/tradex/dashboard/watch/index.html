@@ -76,7 +76,7 @@
         <div class="collection-recovery-strip__summary">
           <span class="section-kicker">POST-CLOSE DATA CHECK</span>
           <h2 id="collection-recovery-heading">收盘数据完整性</h2>
-          <p id="collection-recovery-detail">交易日 15:05 后自动检查 237 个连续交易分钟和 1 个 15:00 收盘结果，并由采集进程追补缺口。</p>
+          <p id="collection-recovery-detail">交易日 15:05 后自动检查 1 个 09:25 集合竞价结果、237 个连续交易分钟和 1 个 15:00 收盘结果，并由采集进程追补缺口。</p>
           <p class="collection-recovery-error" id="collection-recovery-error" role="status" hidden></p>
         </div>
         <div class="collection-recovery-strip__metrics" aria-label="收盘数据完整性指标">
@@ -132,37 +132,37 @@
         <div class="limit-up-pool-dialog__shell">
           <header class="limit-up-pool-dialog__header">
             <div>
-              <span class="section-kicker">LIMIT-UP FOLLOW POOL</span>
+              <span class="section-kicker">LIMIT-UP STOCK CATALOG</span>
               <h2 id="limit-up-pool-dialog-title">涨停池</h2>
-              <p>按连板高度分组；分类只采用首封前个股价格路径与板块资金轨迹的共振结果，不把供应商涨停原因当成真实归因。</p>
+              <p>按连板高度分组；股票归属和标签只按统一真实归属库匹配，不使用涨停原因、价格路径或板块资金轨迹推断。</p>
             </div>
             <button class="limit-up-pool-dialog__close" id="limit-up-pool-close-button" type="button" aria-label="关闭涨停池">×</button>
           </header>
 
-          <div class="limit-up-pool-summary" aria-label="涨停池实时状态与归因覆盖">
+          <div class="limit-up-pool-summary" aria-label="涨停池实时状态与真实归属覆盖">
             <div><span>涨停</span><strong id="limit-up-pool-total">--</strong></div>
-            <div><span>路径确认</span><strong id="limit-up-pool-confirmed">--</strong></div>
-            <div><span>一字/开盘同批低置信</span><strong id="limit-up-pool-provisional">--</strong></div>
-            <div><span id="limit-up-pool-unresolved-label">待确认</span><strong id="limit-up-pool-unresolved">--</strong></div>
+            <div><span>目录已匹配</span><strong id="limit-up-pool-matched">--</strong></div>
+            <div><span>主营已归类</span><strong id="limit-up-pool-classified">--</strong></div>
+            <div><span>待匹配</span><strong id="limit-up-pool-unmatched">--</strong></div>
             <div class="limit-up-pool-summary__status">
               <span id="limit-up-pool-trade-date">交易日 --</span>
               <strong id="limit-up-pool-status" role="status" aria-live="polite">打开后读取实时涨停状态</strong>
             </div>
           </div>
 
-          <div class="limit-up-pool-categories" id="limit-up-pool-categories" role="tablist" aria-label="按真实跟随板块分类">
+          <div class="limit-up-pool-categories" id="limit-up-pool-categories" role="tablist" aria-label="按真实主营归属分类">
             <button type="button" role="tab" aria-selected="true" data-limit-up-category="all">全部</button>
           </div>
 
           <div class="limit-up-pool-board" id="limit-up-pool-board" aria-live="polite">
-            <p class="limit-up-pool-empty">打开涨停池后读取与当前真实快照绑定的归因结果。</p>
+            <p class="limit-up-pool-empty">打开涨停池后读取与当前真实快照绑定的归属匹配结果。</p>
           </div>
 
           <footer class="limit-up-pool-method">
-            <span><i class="follow-dot is-unresolved"></i>盘中：每分钟刷新涨停名单、板数与首次封板时间，先展示再归类</span>
-            <span><i class="follow-dot is-confirmed"></i>路径确认：首封前 5 分钟资金路径相关 ≥ 0.60、逐区间同向 ≥ 60%</span>
-            <span><i class="follow-dot is-provisional"></i>低置信：一字或 09:33 前封板仅有同板块已确认股票群与开盘资金佐证</span>
-            <span><i class="follow-dot is-unresolved"></i>待确认：缺少共同分钟、候选板块或可辨识价格路径</span>
+            <span>盘中每分钟刷新涨停名单、板数与首次封板时间。</span>
+            <span>主营归属和业务标签只读取统一真实归属库。</span>
+            <span>申万三级行业单独展示为统计行业，不覆盖公司主营。</span>
+            <span>目录无记录或主营未核验时明确留空，不用供应商原因补齐。</span>
           </footer>
         </div>
       </dialog>

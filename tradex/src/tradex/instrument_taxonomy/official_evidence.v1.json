@@ -53,6 +53,150 @@
           "assertions": ["主营归属:光纤光缆", "产品:光纤预制棒", "产品:光纤", "产品:光缆"]
         }
       ]
+    },
+    {
+      "instrument_id": "000333.SZ",
+      "primary_business_key": "home_appliances",
+      "primary_business_name": "家用电器",
+      "business_tags": ["家用电器", "智能家居", "工业技术", "楼宇科技", "机器人与自动化", "新能源", "健康医疗", "智慧物流"],
+      "evidence": [
+        {
+          "evidence_id": "official-midea-annual-report-summary-2025",
+          "source_kind": "official_filing",
+          "publisher": "美的集团股份有限公司",
+          "title": "美的集团股份有限公司2025年年度报告摘要",
+          "source_url": "https://disc.static.szse.cn/disc/disk03/finalpage/2026-03-31/e0e9a792-05da-42dd-bbb9-04768cabf358.PDF",
+          "published_at": "2026-03-31",
+          "retrieved_at": "2026-08-29T12:00:00+08:00",
+          "assertions": ["主营归属:家用电器", "核心业务:智能家居", "业务:工业技术", "业务:楼宇科技", "业务:机器人与自动化", "业务:新能源", "业务:健康医疗", "业务:智慧物流"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "000829.SZ",
+      "primary_business_key": "electronics_distribution",
+      "primary_business_name": "电子分销",
+      "business_tags": ["电子分销", "智能终端销售", "零售电商", "彩票", "移动转售", "手机售后服务"],
+      "evidence": [
+        {
+          "evidence_id": "official-telling-midyear-report-2025",
+          "source_kind": "official_filing",
+          "publisher": "天音通信控股股份有限公司",
+          "title": "天音通信控股股份有限公司2025年半年度报告",
+          "source_url": "https://disc.static.szse.cn/disc/disk03/finalpage/2025-08-30/72ca322e-d38a-4dcb-a71c-afa740b7b7dd.PDF",
+          "published_at": "2025-08-30",
+          "retrieved_at": "2026-08-29T12:00:00+08:00",
+          "assertions": ["主营归属:电子分销", "主营业务:智能终端销售", "主营业务:零售电商", "业务:彩票", "业务:移动转售", "业务:手机售后服务"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "600257.SH",
+      "primary_business_key": "medical_services",
+      "primary_business_name": "医疗服务",
+      "business_tags": ["医疗服务", "康复护理", "水产品", "水面养殖", "白酒"],
+      "evidence": [
+        {
+          "evidence_id": "official-dahu-annual-report-2025",
+          "source_kind": "official_filing",
+          "publisher": "大湖健康产业股份有限公司",
+          "title": "大湖健康产业股份有限公司2025年年度报告",
+          "source_url": "https://static.sse.com.cn/disclosure/listedinfo/announcement/c/new/2026-04-08/600257_20260408_B830.pdf",
+          "published_at": "2026-04-08",
+          "retrieved_at": "2026-08-29T12:00:00+08:00",
+          "assertions": ["主营归属:医疗服务", "收入占比:康复护理医疗42.35%", "收入占比:水产加工品31.31%", "收入占比:水面养殖16.75%", "收入占比:白酒8.89%"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "601012.SH",
+      "primary_business_key": "photovoltaic",
+      "primary_business_name": "光伏",
+      "business_tags": ["光伏", "单晶硅片", "电池组件", "光伏电站", "绿氢装备"],
+      "evidence": [
+        {
+          "evidence_id": "official-longi-annual-report-2025",
+          "source_kind": "official_filing",
+          "publisher": "隆基绿能科技股份有限公司",
+          "title": "隆基绿能科技股份有限公司2025年年度报告",
+          "source_url": "https://static.sse.com.cn/disclosure/listedinfo/announcement/c/new/2026-04-29/601012_20260429_OI5U.pdf",
+          "published_at": "2026-04-29",
+          "retrieved_at": "2026-08-29T12:00:00+08:00",
+          "assertions": ["主营归属:光伏", "产品:单晶硅片", "产品:电池组件", "业务:光伏电站", "产品:绿氢装备"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "300475.SZ",
+      "primary_business_key": "storage",
+      "primary_business_name": "存储",
+      "business_tags": ["存储", "存储器件分销", "SK海力士代理", "企业级SSD", "企业级DRAM", "海普存储", "半导体分销"],
+      "evidence": [
+        {
+          "evidence_id": "official-shannon-annual-report-2025",
+          "source_kind": "official_filing",
+          "publisher": "香农芯创科技股份有限公司",
+          "title": "香农芯创科技股份有限公司2025年年度报告",
+          "source_url": "https://disc.static.szse.cn/disc/disk03/finalpage/2026-04-24/39f345bd-7a3c-4fb4-8275-d5916946e4d1.PDF",
+          "published_at": "2026-04-24",
+          "retrieved_at": "2026-08-29T12:00:00+08:00",
+          "assertions": ["主营归属:存储", "业务模式:存储器件分销", "自研产品:企业级SSD", "自研产品:企业级DRAM", "品牌:海普存储", "其他业务:减速器"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "000560.SZ",
+      "primary_business_key": "real_estate_services",
+      "primary_business_name": "房产经纪服务",
+      "business_tags": ["房产经纪服务", "房屋资产管理", "新房", "商业租赁及服务"],
+      "evidence": [
+        {
+          "evidence_id": "official-5i5j-annual-report-2025",
+          "source_kind": "official_filing",
+          "publisher": "我爱我家控股集团股份有限公司",
+          "title": "我爱我家控股集团股份有限公司2025年年度报告",
+          "source_url": "https://disc.static.szse.cn/disc/disk03/finalpage/2026-05-21/e73cfe35-9a4a-4eef-98eb-5f461815fc1c.PDF",
+          "published_at": "2026-05-21",
+          "retrieved_at": "2026-08-29T12:00:00+08:00",
+          "assertions": ["主营归属:房产经纪服务", "业务:房屋资产管理", "业务:新房", "业务:商业租赁及服务"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "600479.SH",
+      "primary_business_key": "traditional_chinese_medicine",
+      "primary_business_name": "中成药",
+      "business_tags": ["中成药", "化学药", "女性卫生用品", "医药批发零售"],
+      "evidence": [
+        {
+          "evidence_id": "official-qianjin-annual-report-2025",
+          "source_kind": "official_filing",
+          "publisher": "株洲千金药业股份有限公司",
+          "title": "株洲千金药业股份有限公司2025年年度报告",
+          "source_url": "https://static.sse.com.cn/disclosure/listedinfo/announcement/c/new/2026-04-29/600479_20260429_ZFQD.pdf",
+          "published_at": "2026-04-29",
+          "retrieved_at": "2026-08-29T12:00:00+08:00",
+          "assertions": ["主营归属:中成药", "业务:化学药", "业务:女性卫生用品", "业务:医药批发零售"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "002742.SZ",
+      "primary_business_key": "pharmaceuticals",
+      "primary_business_name": "医药",
+      "business_tags": ["医药", "原料药及制剂", "药品及中间体"],
+      "evidence": [
+        {
+          "evidence_id": "official-jiheng-annual-report-2025",
+          "source_kind": "official_filing",
+          "publisher": "重庆三圣实业股份有限公司",
+          "title": "重庆三圣实业股份有限公司2025年年度报告",
+          "source_url": "https://static.cninfo.com.cn/finalpage/2026-03-31/1225057323.PDF",
+          "published_at": "2026-03-31",
+          "retrieved_at": "2026-08-29T12:00:00+08:00",
+          "assertions": ["主营归属:医药", "当前收入构成:药品及中间体", "历史建材化工分部当期收入为零"]
+        }
+      ]
     }
   ]
 }

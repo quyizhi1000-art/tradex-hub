@@ -1227,7 +1227,7 @@ def _board_leader_market_open(now: datetime) -> bool:
         return False
     current = now.time()
     return (
-        clock_time(9, 30) <= current <= clock_time(11, 30)
+        clock_time(9, 25) <= current <= clock_time(11, 30)
         or clock_time(13, 0) <= current <= clock_time(15, 0)
     )
 
@@ -1741,7 +1741,7 @@ def _market_phase(now: datetime, market_data: dict[str, Any]) -> str:
         return "closed"
     if now.weekday() >= 5 or label in {"周末休市", "今日收盘"}:
         return "closed"
-    if minute < 9 * 60 + 30:
+    if minute < 9 * 60 + 25:
         return "pre_open"
     if minute < 9 * 60 + 45:
         return "opening_observation"
@@ -2495,11 +2495,12 @@ def _attach_rotation_radar(
             "concept": statuses.get("concept_quotes", {}).get("source") or "unknown",
         },
     )
+    live_observation = phase in {"opening_observation", "trading"}
     complete_live_minute = (
-        phase != "trading"
+        not live_observation
         or _rotation_minute_is_complete(values, statuses, now)
     )
-    if record and phase == "trading" and complete_live_minute:
+    if record and live_observation and complete_live_minute:
         # The provider-neutral gateway owns one coalesced daemon sweep.  Exact
         # curves may be numerous and remain rate-limited, so Collector minute
         # capture must never wait for their serial provider requests.
@@ -2535,7 +2536,7 @@ def _attach_rotation_radar(
             ROTATION_CONFIG_VERSION,
             supplemental_points=supplemental_points,
         )
-        if record and phase == "trading" and not complete_live_minute:
+        if record and live_observation and not complete_live_minute:
             current["status"] = "stale"
             current["status_label"] = "当前板块快照未齐，等待同分钟完整重试"
         if int(current.get("sample_count") or 0) == 0:
@@ -2604,15 +2605,19 @@ def _attach_rotation_radar(
 
 
 def get_rotation_radar_as_of(target: datetime) -> dict[str, Any]:
-    """Read the persisted rotation owner at one historical minute without I/O."""
+    """Read the historical rotation owner without requesting a provider."""
 
     if target.tzinfo is None or target.utcoffset() is None:
         raise ValueError("rotation as-of target must include a timezone")
     local = target.astimezone(ZoneInfo("Asia/Shanghai")).replace(second=0, microsecond=0)
+    supplemental_points = read_sector_intraday_fund_flow_backfill(
+        trading_date=local.date(),
+    )
     current = _get_rotation_store().get_as_of(
         local.date(),
         local,
         ROTATION_CONFIG_VERSION,
+        supplemental_points=supplemental_points,
     )
     if int(current.get("sample_count") or 0) == 0:
         raise RuntimeError("no persisted rotation snapshot exists at the target minute")

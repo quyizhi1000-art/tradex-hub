@@ -685,6 +685,49 @@ def test_auction_defaults_to_one_bounded_current_record(monkeypatch):
     assert calls[0][1] == {"ts_code": "600519.SH", "limit": 1}
 
 
+def test_opening_auction_market_requests_one_exact_trade_date(monkeypatch):
+    calls = []
+
+    def fake_request(name, params=None, fields=None):
+        calls.append((name, params, fields))
+        return _result(
+            {
+                "ts_code": "600000.SH",
+                "trade_date": "20260828",
+                "vol": 648_500,
+                "price": 9.01,
+                "amount": 5_842_985,
+                "pre_close": 9.07,
+                "turnover_rate": 0.01,
+                "volume_ratio": 0.2,
+                "float_share": 2_935_216,
+            },
+            {
+                "ts_code": "000001.SZ",
+                "trade_date": "20260828",
+                "vol": 304_900,
+                "price": 11.36,
+                "amount": 3_463_664,
+                "pre_close": 11.29,
+                "turnover_rate": 0.004,
+                "volume_ratio": 0.2,
+                "float_share": 1_940_591.8198,
+            },
+        )
+
+    monkeypatch.setattr(tushare_fetchers, "_request", fake_request)
+
+    frame = tushare_fetchers.fetch_opening_auction_market(
+        trade_date="2026-08-28"
+    )
+
+    assert calls[0][0] == "stk_auction"
+    assert calls[0][1] == {"trade_date": "20260828"}
+    assert len(frame) == 2
+    assert set(frame["代码"]) == {"600000.SH", "000001.SZ"}
+    assert frame.attrs["provider_as_of"] == "2026-08-28T09:25:00+08:00"
+
+
 @pytest.mark.parametrize("symbol", ["", "abc", "000001.HK"])
 def test_fetchers_reject_missing_or_non_a_share_symbols(symbol):
     with pytest.raises(ValueError):

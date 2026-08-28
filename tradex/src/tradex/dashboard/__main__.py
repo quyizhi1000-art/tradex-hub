@@ -9,7 +9,7 @@
   POST /api/market-watch/daily-recovery → 排队一次收盘完整性检查与追补
   GET /api/market-watch/summary → 无轨迹点的精简盘面摘要
   GET /api/market-watch/trajectory → 按板块精确读取完整盘中轨迹
-  GET /api/limit-up-pool → 按最新真实快照读取涨停池资金跟随归因
+  GET /api/limit-up-pool → 按最新真实快照读取涨停池与真实股票归属
   GET /api/stock-relationships → 读取统一证券关系目录状态或单股关系
   GET /api/market-watch/history → 按交易日返回分钟快照与提醒历史
   GET /api/market-watch/evaluation → 读取 Analysis Worker 预计算回放评估
@@ -804,18 +804,18 @@ def request_market_watch_daily_recovery(*, now: datetime | None = None) -> dict:
     }
 
 
-def get_limit_up_follow_pool(source_snapshot_revision: str | None) -> dict:
-    """Read one exact Collector-owned attribution artifact without refreshing it."""
+def get_limit_up_pool(source_snapshot_revision: str | None) -> dict:
+    """Read one exact Collector-owned catalog match without refreshing it."""
 
     revision = str(source_snapshot_revision or "").strip().lower()
     if re.fullmatch(r"[0-9a-f]{64}", revision) is None:
         raise ValueError("source_snapshot_revision 必须是 64 位小写摘要")
-    from tradex.market_watch.limit_up_pool_store import LimitUpFollowPoolStore
+    from tradex.market_watch.limit_up_pool_store import LimitUpPoolStore
 
-    with LimitUpFollowPoolStore(read_only=True) as store:
+    with LimitUpPoolStore(read_only=True) as store:
         pool = store.get_by_source_revision(revision)
     if pool is None:
-        raise LookupError("涨停池归因正在由采集进程准备，请稍后重试")
+        raise LookupError("涨停池归属匹配正在由采集进程准备，请稍后重试")
     return pool.model_dump(mode="json")
 
 
@@ -1106,15 +1106,15 @@ class DashboardHandler(BaseHTTPRequestHandler):
         try:
             self._send_json(
                 200,
-                get_limit_up_follow_pool(source_snapshot_revision),
+                get_limit_up_pool(source_snapshot_revision),
             )
         except ValueError as exc:
             self._send_json(400, {"error": str(exc)})
         except LookupError as exc:
             self._send_json(503, {"error": str(exc)})
         except Exception:
-            logger.exception("limit-up follow pool read failed")
-            self._send_json(502, {"error": "涨停池归因暂不可用"})
+            logger.exception("limit-up catalog pool read failed")
+            self._send_json(502, {"error": "涨停池归属匹配暂不可用"})
 
     def _handle_stock_relationships_api(self, *, symbol: str | None):
         try:

@@ -792,7 +792,7 @@ def build_risk_appetite_snapshot(
     as_of_value, local_time = _parse_as_of(as_of)
     opening_observation = (
         local_time is not None
-        and time(9, 30) <= local_time < time(9, 45)
+        and time(9, 25) <= local_time < time(9, 45)
     )
     phase = "opening_observation" if opening_observation else "regular"
     if local_time is None:

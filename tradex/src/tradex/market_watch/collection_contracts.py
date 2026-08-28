@@ -17,6 +17,31 @@ class TerminalCollectionError(RuntimeError):
     """A historical collection gap cannot change without new external evidence."""
 
 
+class RetryableCollectionError(RuntimeError):
+    """A collection gap needs new evidence and an explicit short retry cadence."""
+
+    def __init__(
+        self,
+        message: str,
+        *,
+        retry_after_seconds: float,
+        retry_deadline: datetime | None = None,
+    ) -> None:
+        if retry_after_seconds <= 0:
+            raise ValueError("retry_after_seconds must be positive")
+        if retry_deadline is not None and (
+            retry_deadline.tzinfo is None or retry_deadline.utcoffset() is None
+        ):
+            raise ValueError("retry_deadline must include a timezone")
+        super().__init__(message)
+        self.retry_after_seconds = float(retry_after_seconds)
+        self.retry_deadline = (
+            None
+            if retry_deadline is None
+            else retry_deadline.astimezone(SHANGHAI)
+        )
+
+
 class CollectionContractModel(BaseModel):
     """Immutable collection model that rejects accidental transport fields."""
 
@@ -375,5 +400,6 @@ __all__ = [
     "DailyRecoveryStatus",
     "DailyRecoveryTrigger",
     "MarketWatchCollectorEnvelopeV1",
+    "RetryableCollectionError",
     "TerminalCollectionError",
 ]

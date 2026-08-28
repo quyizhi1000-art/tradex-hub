@@ -315,7 +315,7 @@ def _live_turnover_context(
 def _requires_live_turnover(now: datetime) -> bool:
     session = a_share_session(now)
     local_time = now.astimezone(_SHANGHAI).time().replace(tzinfo=None)
-    return session.is_trading_day and local_time >= time(9, 30)
+    return session.is_trading_day and local_time >= time(9, 25)
 
 
 def _map_market_overview_candidate(

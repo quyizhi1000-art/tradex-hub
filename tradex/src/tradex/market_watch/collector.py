@@ -18,10 +18,11 @@ from .collection_contracts import (
     CollectorRuntimeState,
     DailyCollectionRecoveryV1,
     DailyRecoveryTrigger,
+    RetryableCollectionError,
     TerminalCollectionError,
 )
 from .collection_store import MarketWatchCollectionStore
-from .session_schedule import FINAL_CLOSE_TIME
+from .session_schedule import EXPECTED_MARKET_WATCH_MINUTES, FINAL_CLOSE_TIME
 from .contracts import MarketWatchSnapshotV1
 
 
@@ -44,7 +45,8 @@ class CollectorRetryPolicy:
     """Bounded retry schedule; exhausted attempts remain explicit unresolved."""
 
     retry_delays_seconds: tuple[float, ...] = (
-        30.0,
+        10.0,
+        20.0,
         60.0,
         180.0,
         600.0,
@@ -105,7 +107,7 @@ class MarketWatchCollector:
         history_records: HistoryRecordsCallable | None = None,
         clock: Callable[[], datetime] | None = None,
         retry_policy: CollectorRetryPolicy | None = None,
-        recovery_batch_limit: int = 240,
+        recovery_batch_limit: int = EXPECTED_MARKET_WATCH_MINUTES,
     ) -> None:
         self._store = store
         self._capture_current = capture_current
@@ -115,8 +117,11 @@ class MarketWatchCollector:
         self._history_records = history_records
         self._clock = clock or (lambda: datetime.now(SHANGHAI))
         self.retry_policy = retry_policy or CollectorRetryPolicy()
-        if not 1 <= int(recovery_batch_limit) <= 240:
-            raise ValueError("recovery_batch_limit must be between 1 and 240")
+        if not 1 <= int(recovery_batch_limit) <= EXPECTED_MARKET_WATCH_MINUTES:
+            raise ValueError(
+                "recovery_batch_limit must be between 1 and "
+                f"{EXPECTED_MARKET_WATCH_MINUTES}"
+            )
         self._recovery_batch_limit = int(recovery_batch_limit)
         self._started = False
         self._closed = False
@@ -230,15 +235,24 @@ class MarketWatchCollector:
             )
         except Exception as error:
             completed_at = self._now()
-            next_retry_at = (
-                None
-                if isinstance(error, TerminalCollectionError)
-                else self.retry_policy.next_retry_at(
+            if isinstance(error, TerminalCollectionError):
+                next_retry_at = None
+            elif isinstance(error, RetryableCollectionError):
+                retry_deadline = slot.minute_bucket + timedelta(
+                    seconds=self.retry_policy.repair_retention_seconds
+                )
+                if error.retry_deadline is not None:
+                    retry_deadline = min(retry_deadline, error.retry_deadline)
+                candidate = completed_at + timedelta(
+                    seconds=error.retry_after_seconds
+                )
+                next_retry_at = candidate if candidate <= retry_deadline else None
+            else:
+                next_retry_at = self.retry_policy.next_retry_at(
                     attempt_count=slot.attempt_count,
                     completed_at=completed_at,
                     minute_bucket=slot.minute_bucket,
                 )
-            )
             failed = self._store.mark_failed(
                 attempt_id,
                 error=error,

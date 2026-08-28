@@ -300,6 +300,12 @@ def _register_all_sources_unlocked() -> None:
         router.register(
             "auction_data", "tushare", tsf.fetch_auction_data, priority=1
         )
+        router.register(
+            "opening_auction_market",
+            "tushare",
+            tsf.fetch_opening_auction_market,
+            priority=1,
+        )
     router.register(
         "auction_data",
         "eltdx",

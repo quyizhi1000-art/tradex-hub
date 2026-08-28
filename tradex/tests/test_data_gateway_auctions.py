@@ -1,12 +1,13 @@
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import date, datetime
 from zoneinfo import ZoneInfo
 
 import pandas as pd
 
 from astock_signals.smart_router import SmartRouter
 from tradex.data_gateway.auctions import (
+    fetch_opening_auction_market,
     fetch_opening_auction_snapshot,
     opening_auction_to_legacy_payload,
 )
@@ -90,3 +91,57 @@ def test_invalid_tushare_auction_falls_back_before_router_success() -> None:
     health = {item["source"]: item for item in router.get_health_report()}
     assert health["auction_data:tushare"]["fail_count"] == 1
     assert health["auction_data:eltdx"]["success_rate"] == 100.0
+
+
+def test_full_market_opening_auction_maps_exact_breadth_and_amount() -> None:
+    frame = pd.DataFrame(
+        [
+            {
+                "代码": "000001.SZ",
+                "交易日期": "20260821",
+                "开盘价": 11.36,
+                "开盘量": 304_900,
+                "开盘额": 3_463_664,
+                "昨收": 11.29,
+            },
+            {
+                "代码": "600000.SH",
+                "交易日期": "20260821",
+                "开盘价": 9.01,
+                "开盘量": 648_500,
+                "开盘额": 5_842_985,
+                "昨收": 9.07,
+            },
+            {
+                "代码": "830001.BJ",
+                "交易日期": "20260821",
+                "开盘价": 5.0,
+                "开盘量": 100,
+                "开盘额": 500,
+                "昨收": 5.0,
+            },
+        ]
+    )
+    frame.attrs["provider_as_of"] = "2026-08-21T09:25:00+08:00"
+    frame.attrs["request_id"] = "market-request-1"
+
+    class MarketRouter:
+        def route_validated(self, data_type, validator, **kwargs):
+            assert data_type == "opening_auction_market"
+            assert kwargs == {"trade_date": "2026-08-21"}
+            return validator(frame, "tushare"), "tushare"
+
+    snapshot = fetch_opening_auction_market(
+        date(2026, 8, 21),
+        router=MarketRouter(),
+        now=_NOW,
+    )
+
+    assert snapshot.metadata.contract == "opening_auction_market.v1"
+    assert snapshot.metadata.quality is QualityStatus.ACCEPTED
+    assert snapshot.instrument_count == 3
+    assert snapshot.provider_row_count == 3
+    assert snapshot.excluded_row_count == 0
+    assert (snapshot.up_count, snapshot.down_count, snapshot.flat_count) == (1, 1, 1)
+    assert snapshot.total_volume_shares == 953_500
+    assert snapshot.total_amount_cny == 9_307_149

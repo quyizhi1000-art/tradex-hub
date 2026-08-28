@@ -9,6 +9,7 @@ source cannot erase the rest of the closing evidence.
 from __future__ import annotations
 
 import math
+import re
 from collections import Counter
 from collections.abc import Callable, Mapping, Sequence
 from datetime import date, datetime, time
@@ -452,10 +453,24 @@ def summarize_sectors(series: SectorQuoteSeriesV1) -> SectorReviewSummaryV1:
     )
 
 
+def _limit_reason_tokens(value: str) -> tuple[str, ...]:
+    """Split provider editorial reasons into auditable repeated tags."""
+
+    return tuple(
+        token
+        for raw in re.split(r"[+＋/／、|｜;；]", value)
+        if (token := raw.strip())
+    )
+
+
 def summarize_limit_events(series: LimitEventSeriesV1, breadth: MarketBreadthV1 | None) -> LimitReviewSummaryV1:
     canonical = LimitEventSeriesV1.model_validate(series)
     board_counts = Counter(item.board_count for item in canonical.events if item.board_count is not None)
-    reasons = Counter(item.reason.strip() for item in canonical.events if item.reason.strip())
+    reasons = Counter(
+        token
+        for item in canonical.events
+        for token in _limit_reason_tokens(item.reason)
+    )
     representative = sorted(
         canonical.events,
         key=lambda item: (-(item.board_count or 0), -(item.order_amount_cny or 0), item.instrument_id),

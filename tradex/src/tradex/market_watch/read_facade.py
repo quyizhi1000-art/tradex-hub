@@ -28,6 +28,7 @@ from .collection_contracts import (
 )
 from .contracts import MarketWatchSnapshotV1
 from .integrity import stable_sha256
+from .session_schedule import OPENING_AUCTION_RESULT_TIME
 
 
 SHANGHAI = ZoneInfo("Asia/Shanghai")
@@ -109,7 +110,7 @@ def _current_session_envelope(
     """Expose the previous verified close only until the next session opens.
 
     The persistent ledger deliberately keeps its latest accepted pointer across
-    dates.  Before 09:30 on a verified trading day, that exact previous-trading-
+    dates.  Before 09:25 on a verified trading day, that exact previous-trading-
     day snapshot remains useful and is safe to display with its original date.
     Once the market opens, the Web reader must wait for the current day's first
     accepted-real snapshot.  Non-trading days retain the latest close because
@@ -127,6 +128,8 @@ def _current_session_envelope(
     may_show_previous_close = bool(
         accepted is not None
         and session.phase is TradingSessionPhase.PRE_OPEN
+        and as_of.astimezone(SHANGHAI).time().replace(tzinfo=None)
+        < OPENING_AUCTION_RESULT_TIME
         and session.trading_date == trade_date
         and previous_trading_date is not None
         and accepted.trade_date == previous_trading_date

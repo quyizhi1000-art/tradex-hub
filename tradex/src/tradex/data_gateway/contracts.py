@@ -568,6 +568,43 @@ class OpeningAuctionSnapshotV1(ContractModel):
         return self
 
 
+class OpeningAuctionMarketV1(ContractModel):
+    """Exact 09:25 opening-auction aggregate for the A-share universe."""
+
+    metadata: ContractMetadata
+    trading_date: date
+    instrument_count: int = Field(ge=1)
+    excluded_row_count: int = Field(ge=0)
+    provider_row_count: int = Field(ge=1)
+    up_count: int = Field(ge=0)
+    down_count: int = Field(ge=0)
+    flat_count: int = Field(ge=0)
+    total_volume_shares: float = Field(ge=0)
+    total_amount_cny: float = Field(ge=0)
+
+    @field_validator("total_volume_shares", "total_amount_cny")
+    @classmethod
+    def require_finite_market_auction_number(cls, value: float) -> float:
+        if not math.isfinite(value):
+            raise ValueError("opening-auction market numbers must be finite")
+        return value
+
+    @model_validator(mode="after")
+    def validate_market_snapshot(self) -> "OpeningAuctionMarketV1":
+        if (
+            self.metadata.contract != "opening_auction_market.v1"
+            or self.metadata.schema_version != 1
+        ):
+            raise ValueError(
+                "opening auction market requires opening_auction_market.v1 metadata"
+            )
+        if self.instrument_count != self.up_count + self.down_count + self.flat_count:
+            raise ValueError("opening-auction market breadth does not match instruments")
+        if self.provider_row_count != self.instrument_count + self.excluded_row_count:
+            raise ValueError("opening-auction provider rows do not match accepted plus excluded")
+        return self
+
+
 class IntradayMinutePointV1(ContractModel):
     """One normalized A-share minute; volume is shares and amount is CNY."""
 

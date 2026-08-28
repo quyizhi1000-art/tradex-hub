@@ -786,12 +786,12 @@ def test_payload_service_status_is_small_and_never_reads_history_payload() -> No
     assert history.payload_calls == 0
 
 
-def test_web_reader_uses_previous_day_snapshot_before_market_open() -> None:
+def test_web_reader_uses_previous_day_snapshot_before_auction_completes() -> None:
     snapshot = _snapshot()
     source_revision = stable_sha256(snapshot)
     pre_open = (snapshot.as_of + timedelta(days=1)).replace(
         hour=9,
-        minute=25,
+        minute=24,
         second=0,
         microsecond=0,
     )
@@ -803,9 +803,9 @@ def test_web_reader_uses_previous_day_snapshot_before_market_open() -> None:
             previous_envelope.collection_completeness.model_copy(update={
                 "trade_date": pre_open.date(),
                 "as_of": pre_open,
-                "expected_minute_buckets": 240,
+                "expected_minute_buckets": 239,
                 "accepted_real": 0,
-                "pending": 240,
+                "pending": 239,
                 "retrying": 0,
                 "gap_heartbeat": 0,
             })
@@ -832,10 +832,15 @@ def test_web_reader_uses_previous_day_snapshot_before_market_open() -> None:
     assert history.payload_calls == 1
 
 
-def test_web_reader_hides_previous_day_snapshot_after_market_open() -> None:
+def test_web_reader_hides_previous_day_snapshot_when_auction_completes() -> None:
     snapshot = _snapshot()
     source_revision = stable_sha256(snapshot)
-    next_session = snapshot.as_of + timedelta(days=1)
+    next_session = (snapshot.as_of + timedelta(days=1)).replace(
+        hour=9,
+        minute=25,
+        second=0,
+        microsecond=0,
+    )
     previous_envelope = _collector_envelope(snapshot, source_revision)
     current_envelope = previous_envelope.model_copy(update={
         "as_of": next_session,
@@ -844,9 +849,9 @@ def test_web_reader_hides_previous_day_snapshot_after_market_open() -> None:
             previous_envelope.collection_completeness.model_copy(update={
                 "trade_date": next_session.date(),
                 "as_of": next_session,
-                "expected_minute_buckets": 240,
+                "expected_minute_buckets": 239,
                 "accepted_real": 0,
-                "pending": 240,
+                "pending": 239,
                 "retrying": 0,
                 "gap_heartbeat": 0,
             })

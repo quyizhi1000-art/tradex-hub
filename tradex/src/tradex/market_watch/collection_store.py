@@ -489,7 +489,7 @@ class MarketWatchCollectionStore:
                 ).fetchone()
                 existing = active
                 if existing is None and trigger is DailyRecoveryTrigger.AUTOMATIC:
-                    existing = self._connection.execute(
+                    latest_automatic = self._connection.execute(
                         """
                         SELECT * FROM market_watch_daily_recovery_runs
                         WHERE config_version = ? AND trade_date = ? AND trigger = ?
@@ -501,6 +501,30 @@ class MarketWatchCollectionStore:
                             DailyRecoveryTrigger.AUTOMATIC.value,
                         ),
                     ).fetchone()
+                    existing = latest_automatic
+                    if (
+                        latest_automatic is not None
+                        and latest_automatic["status"]
+                        == DailyRecoveryStatus.RETRYING.value
+                    ):
+                        due_retry = self._connection.execute(
+                            """
+                            SELECT 1 FROM market_watch_collection_slots
+                            WHERE config_version = ? AND trade_date = ?
+                                AND status IN (?, ?)
+                                AND (next_retry_at IS NULL OR next_retry_at <= ?)
+                            LIMIT 1
+                            """,
+                            (
+                                self.config_version,
+                                trade_date.isoformat(),
+                                CollectionSlotStatus.EXPECTED.value,
+                                CollectionSlotStatus.RETRYING.value,
+                                requested_iso,
+                            ),
+                        ).fetchone()
+                        if due_retry is not None:
+                            existing = None
                 if existing is not None:
                     completeness = self._read_completeness_locked(trade_date, observed)
                     return {

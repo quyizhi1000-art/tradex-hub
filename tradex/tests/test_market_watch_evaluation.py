@@ -200,7 +200,10 @@ def test_complete_fresh_session_passes_and_reports_both_coverage_units() -> None
     assert report.config_version == "market-watch-policy.v1"
     assert report.acceptance.verdict == EvaluationVerdict.PASSED
     assert report.metrics.coverage.sample_count == EXPECTED_MARKET_WATCH_MINUTES
-    assert report.metrics.coverage.expected_sample_count == 952
+    assert (
+        report.metrics.coverage.expected_sample_count
+        == EXPECTED_MARKET_WATCH_MINUTES * 4
+    )
     assert report.metrics.coverage.sample_coverage_ratio == pytest.approx(0.25)
     assert report.metrics.coverage.covered_trading_minutes == EXPECTED_MARKET_WATCH_MINUTES
     assert report.metrics.coverage.trading_minute_coverage_ratio == 1.0
@@ -268,8 +271,14 @@ def test_complete_session_with_stale_samples_fails_quality_acceptance() -> None:
     report = evaluate_market_watch_session(samples)
 
     assert report.acceptance.verdict == EvaluationVerdict.FAILED
-    assert report.metrics.freshness.stale_ratio == pytest.approx(11 / 238)
-    assert _metric_value(report.metrics.freshness.by_status, "stale").count == 11
+    assert report.metrics.freshness.stale_ratio == pytest.approx(
+        EXPECTED_MARKET_WATCH_MINUTES // 20
+        / EXPECTED_MARKET_WATCH_MINUTES
+    )
+    assert (
+        _metric_value(report.metrics.freshness.by_status, "stale").count
+        == EXPECTED_MARKET_WATCH_MINUTES // 20
+    )
     assert any(
         reason == "failed:stale_unavailable_ratio"
         for reason in report.acceptance.reasons
@@ -357,8 +366,14 @@ def test_multi_day_summary_aggregates_sessions_and_requires_enough_days() -> Non
 
     default_report = evaluate_market_watch_history(samples)
     assert default_report.session_count == 2
-    assert default_report.metrics.coverage.expected_trading_minutes == 476
-    assert default_report.metrics.coverage.covered_trading_minutes == 476
+    assert (
+        default_report.metrics.coverage.expected_trading_minutes
+        == EXPECTED_MARKET_WATCH_MINUTES * 2
+    )
+    assert (
+        default_report.metrics.coverage.covered_trading_minutes
+        == EXPECTED_MARKET_WATCH_MINUTES * 2
+    )
     assert default_report.acceptance.verdict == EvaluationVerdict.INSUFFICIENT
     assert len(default_report.session_verdicts) == 2
     assert all(
@@ -414,7 +429,10 @@ def test_empty_requested_session_is_insufficient_and_json_safe() -> None:
 
     assert report.acceptance.verdict == EvaluationVerdict.INSUFFICIENT
     assert report.metrics.coverage.sample_count == 0
-    assert report.metrics.coverage.longest_data_gap_seconds == 14_280.0
+    assert (
+        report.metrics.coverage.longest_data_gap_seconds
+        == EXPECTED_MARKET_WATCH_MINUTES * 60.0
+    )
     rendered = json.dumps(report.model_dump(mode="json"), ensure_ascii=False)
     assert "market_watch_evaluation.v1" in rendered
     assert "NaN" not in rendered

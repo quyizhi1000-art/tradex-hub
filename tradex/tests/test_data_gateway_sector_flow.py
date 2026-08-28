@@ -15,6 +15,7 @@ from tradex.data_gateway import (
     SectorFundFlowStore,
     fetch_sector_intraday_fund_flow,
     fetch_sector_intraday_fund_flow_backfill,
+    finalize_sector_intraday_fund_flow_backfill,
 )
 from tradex.data_gateway.sector_flow import (
     SectorFundFlowBackfillRefresher,
@@ -523,3 +524,46 @@ def test_collector_refresh_repairs_missing_curve_minutes_and_persists_them(
     assert repaired[TARGET["sector_key"]][1]["provider_as_of"].minute == 32
     assert restored is not None
     assert len(restored.points) == 6
+
+
+def test_post_close_finalization_refreshes_every_target_through_common_cutoff(
+    tmp_path,
+):
+    second_target = {
+        **TARGET,
+        "sector_key": "coal",
+        "name": "煤炭",
+        "provider_sector_code": "BK0437",
+    }
+    db_path = tmp_path / "finalize.sqlite3"
+    progress = []
+    with SectorFundFlowStore(db_path) as store:
+        cache = SectorFundFlowBackfillCache(
+            store=store,
+            refresh_min_interval_seconds=0,
+        )
+        fetch_sector_intraday_fund_flow_backfill(
+            (TARGET, second_target),
+            trading_date=TRADE_DATE,
+            now=NOW,
+            router=_Router(),
+            cache=cache,
+            load_missing=True,
+        )
+        report = finalize_sector_intraday_fund_flow_backfill(
+            trading_date=TRADE_DATE,
+            required_through=NOW.replace(hour=9, minute=35),
+            now=NOW + timedelta(minutes=1),
+            router=_Router(),
+            cache=cache,
+            progress=lambda completed, total, sector_key: progress.append(
+                (completed, total, sector_key)
+            ),
+        )
+
+    assert report["contract"] == "sector_intraday_fund_flow_finalization.v1"
+    assert report["target_count"] == 2
+    assert report["complete_count"] == 2
+    assert report["min_point_count"] == 6
+    assert report["max_point_count"] == 6
+    assert progress == [(1, 2, "coal"), (2, 2, "electric_power")]

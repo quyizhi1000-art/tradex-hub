@@ -3707,11 +3707,11 @@ body.is-fetching #refresh-button::after {
   content: "";
 }
 
-.limit-up-stock-card.is-confirmed::before {
+.limit-up-stock-card.is-matched::before {
   background: var(--market-up);
 }
 
-.limit-up-stock-card.is-provisional::before {
+.limit-up-stock-card.is-unmatched::before {
   background: var(--warning);
 }
 
@@ -3742,11 +3742,7 @@ body.is-fetching #refresh-button::after {
   font-size: 11px;
 }
 
-.limit-up-stock-card.is-provisional .limit-up-stock-card__sector {
-  color: var(--warning);
-}
-
-.limit-up-stock-card.is-unresolved .limit-up-stock-card__sector {
+.limit-up-stock-card.is-unmatched .limit-up-stock-card__sector {
   color: var(--muted);
 }
 
@@ -3786,22 +3782,6 @@ body.is-fetching #refresh-button::after {
   display: flex;
   align-items: center;
   gap: 6px;
-}
-
-.follow-dot {
-  width: 7px;
-  height: 7px;
-  flex: 0 0 auto;
-  border-radius: 50%;
-  background: var(--neutral);
-}
-
-.follow-dot.is-confirmed {
-  background: var(--market-up);
-}
-
-.follow-dot.is-provisional {
-  background: var(--warning);
 }
 
 .stock-selection-tabs {

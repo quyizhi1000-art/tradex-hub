@@ -18,7 +18,10 @@ from zoneinfo import ZoneInfo
 from tradex.market_watch.collection_store import MarketWatchCollectionStore
 from tradex.market_watch.collector import MarketWatchCollector
 from tradex.market_watch.contracts import FreshnessStatus, MarketPhase, MarketWatchSnapshotV1
-from tradex.market_watch.session_schedule import FINAL_CLOSE_TIME
+from tradex.market_watch.session_schedule import (
+    FINAL_CLOSE_TIME,
+    OPENING_AUCTION_RESULT_TIME,
+)
 from tradex.market_watch.history import MarketWatchHistoryStore
 
 
@@ -228,6 +231,12 @@ def _repair_historical(
         local = minute.astimezone(SHANGHAI)
         if local.time().replace(tzinfo=None) == FINAL_CLOSE_TIME:
             return _capture_final_close(slot, observed)
+        if (
+            local.time().replace(tzinfo=None) == OPENING_AUCTION_RESULT_TIME
+            and reconstructor is not None
+        ):
+            callback = progress or (lambda _done, _total, _stage, _message=None: None)
+            return reconstructor.reconstruct_opening_auction(local, callback)
         if reconstructor is not None and local.date() == observed.date():
             callback = progress or (lambda _done, _total, _stage, _message=None: None)
             return reconstructor.reconstruct(local, callback)
@@ -247,6 +256,9 @@ def build_collector(
     history: MarketWatchHistoryStore,
     clock=_now,
 ) -> MarketWatchCollector:
+    from tradex.data_gateway.sector_flow import (
+        prepare_sector_intraday_fund_flow_backfill,
+    )
     from tradex.dashboard.risk_service import get_rotation_radar_as_of
     from tradex.market_watch.reconstruction import SameDayPostCloseReconstructor
 
@@ -255,6 +267,7 @@ def build_collector(
         target_minutes=ledger.list_recovery_gap_minutes,
         rotation_loader=get_rotation_radar_as_of,
         clock=clock,
+        rotation_curve_preparer=prepare_sector_intraday_fund_flow_backfill,
     )
 
     def repair(slot):
@@ -454,14 +467,13 @@ def _backfill_resonance() -> int:
 def _generate_latest_limit_up_pool(
     *,
     reuse_existing: bool = False,
-    analyze: bool = True,
 ) -> dict:
-    """Persist live limit status or one scheduled whole-pool attribution."""
+    """Persist live limit status joined to one stock relationship revision."""
 
-    from tradex.market_watch.limit_up_pool import build_limit_up_follow_pool
-    from tradex.market_watch.limit_up_pool_store import LimitUpFollowPoolStore
+    from tradex.market_watch.limit_up_pool import build_limit_up_pool
+    from tradex.market_watch.limit_up_pool_store import LimitUpPoolStore
     from tradex.market_watch.read_facade import MarketWatchReadFacade
-    from tradex.instrument_taxonomy.store import InstrumentTaxonomyReader, read_profiles
+    from tradex.instrument_taxonomy.store import InstrumentTaxonomyReader
 
     with (
         MarketWatchCollectionStore(read_only=True) as ledger,
@@ -479,34 +491,28 @@ def _generate_latest_limit_up_pool(
     if reuse_existing:
         with InstrumentTaxonomyReader() as taxonomy_reader:
             taxonomy_status = taxonomy_reader.status()
-        with LimitUpFollowPoolStore() as store:
+        with LimitUpPoolStore() as store:
             existing = store.get_by_source_revision(
                 accepted.pointer.source_snapshot_revision
             )
-        existing_is_reusable = existing is not None and (
-            not analyze
-            or (
-                "analysis_pending_midday_or_post_close"
-                not in existing.quality_flags
-                and existing.relationship_catalog_revision
-                == (taxonomy_status.catalog_revision if taxonomy_status else None)
-            )
+        existing_is_reusable = (
+            existing is not None
+            and existing.relationship_catalog_revision
+            == (taxonomy_status.catalog_revision if taxonomy_status else None)
         )
         if existing_is_reusable:
             return {
                 "action": "existing",
                 "source_snapshot_revision": existing.source_snapshot_revision,
-                "attribution_revision": existing.attribution_revision,
+                "pool_revision": existing.pool_revision,
                 "pool_total": existing.pool_total,
             }
-    pool = build_limit_up_follow_pool(
+    pool = build_limit_up_pool(
         accepted.source_payload,
         source_snapshot_revision=accepted.pointer.source_snapshot_revision,
         generated_at=_now(),
-        relationship_loader=read_profiles,
-        analyze=analyze,
     )
-    with LimitUpFollowPoolStore() as store:
+    with LimitUpPoolStore() as store:
         return store.record(pool)
 
 
@@ -527,27 +533,21 @@ def _run_post_close_resonance_loop(
     from tradex.market_calendar import TradingSessionPhase, a_share_session
 
     completed_dates = set()
-    completed_midday_dates = set()
     completed_resonance_buckets = set()
-    completed_limit_status_buckets = set()
+    completed_limit_up_buckets = set()
     while not stop_event.is_set():
         observed = clock()
         session = a_share_session(observed)
         intraday_bucket = observed.replace(second=0, microsecond=0)
         local_time = observed.time().replace(tzinfo=None)
-        limit_status_due = (
+        limit_up_due = (
             session.is_open
-            and intraday_bucket not in completed_limit_status_buckets
+            and intraday_bucket not in completed_limit_up_buckets
         )
         resonance_due = (
             session.is_open
             and local_time >= time(9, 35)
             and intraday_bucket not in completed_resonance_buckets
-        )
-        midday_due = (
-            session.is_trading_day
-            and time(11, 30) <= local_time < time(13, 0)
-            and observed.date() not in completed_midday_dates
         )
         post_close_due = (
             session.is_trading_day
@@ -555,20 +555,19 @@ def _run_post_close_resonance_loop(
             and local_time >= time(15, 0)
             and observed.date() not in completed_dates
         )
-        if limit_status_due:
+        if limit_up_due:
             try:
                 result = _generate_latest_limit_up_pool(
                     reuse_existing=True,
-                    analyze=False,
                 )
-                completed_limit_status_buckets.add(intraday_bucket)
+                completed_limit_up_buckets.add(intraday_bucket)
                 logger.info(
-                    "live limit-up status ready revision=%s total=%s",
-                    result.get("attribution_revision"),
+                    "live limit-up catalog pool ready revision=%s total=%s",
+                    result.get("pool_revision"),
                     result.get("pool_total"),
                 )
             except Exception:
-                logger.exception("live limit-up status refresh failed")
+                logger.exception("live limit-up catalog pool refresh failed")
         if resonance_due:
             try:
                 result = _generate_latest_resonance(reuse_existing=True)
@@ -580,20 +579,6 @@ def _run_post_close_resonance_loop(
                 )
             except Exception:
                 logger.exception("intraday sector resonance backfill failed")
-        if midday_due:
-            try:
-                result = _generate_latest_limit_up_pool(
-                    reuse_existing=False,
-                    analyze=True,
-                )
-                completed_midday_dates.add(observed.date())
-                logger.info(
-                    "midday limit-up attribution ready revision=%s total=%s",
-                    result.get("attribution_revision"),
-                    result.get("pool_total"),
-                )
-            except Exception:
-                logger.exception("midday limit-up attribution failed")
         if post_close_due:
             succeeded = True
             resonance_result = {}
@@ -606,10 +591,9 @@ def _run_post_close_resonance_loop(
             try:
                 limit_up_result = _generate_latest_limit_up_pool(
                     reuse_existing=False,
-                    analyze=True,
                 )
             except Exception:
-                logger.exception("limit-up follow pool backfill failed")
+                logger.exception("limit-up catalog pool backfill failed")
                 succeeded = False
             if succeeded:
                 completed_dates.add(observed.date())
@@ -618,7 +602,7 @@ def _run_post_close_resonance_loop(
                     "limit_up_pool=%s total=%s phase=%s",
                     resonance_result.get("resonance_revision"),
                     resonance_result.get("entry_count"),
-                    limit_up_result.get("attribution_revision"),
+                    limit_up_result.get("pool_revision"),
                     limit_up_result.get("pool_total"),
                     session.phase.value,
                 )
@@ -700,7 +684,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument(
         "--backfill-limit-up-pool",
         action="store_true",
-        help="attribute the latest accepted real limit-up pool at first seal time",
+        help="match the latest accepted real limit-up pool to the relationship catalog",
     )
     args = parser.parse_args(argv)
     if args.status:

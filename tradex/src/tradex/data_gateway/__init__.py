@@ -34,6 +34,7 @@ from .contracts import (
     MarketStateV1,
     MarketTurnoverV1,
     OpeningAuctionSnapshotV1,
+    OpeningAuctionMarketV1,
     OHLCVBarV1,
     OHLCVSeriesV1,
     ParticipationIndexV1,
@@ -56,7 +57,11 @@ from .stock_selection_contracts import (
     DailyStockFactorV1,
     StockFactorCoverageV1,
 )
-from .auctions import fetch_opening_auction_snapshot, opening_auction_to_legacy_payload
+from .auctions import (
+    fetch_opening_auction_market,
+    fetch_opening_auction_snapshot,
+    opening_auction_to_legacy_payload,
+)
 from .etfs import etf_quotes_to_legacy_records, fetch_etf_quotes
 from .leadership import (
     board_leader_snapshot_to_legacy_payload,
@@ -133,6 +138,7 @@ __all__ = [
     "MarketBreadthV1",
     "MarketStateV1",
     "MarketTurnoverV1",
+    "OpeningAuctionMarketV1",
     "OpeningAuctionSnapshotV1",
     "OHLCVBarV1",
     "OHLCVSeriesV1",
@@ -167,6 +173,7 @@ __all__ = [
     "fetch_intraday_minute_series_batch_partial",
     "fetch_index_intraday_series",
     "fetch_opening_auction_snapshot",
+    "fetch_opening_auction_market",
     "fetch_ohlcv_series",
     "fetch_quote_snapshot",
     "fetch_sector_quotes",

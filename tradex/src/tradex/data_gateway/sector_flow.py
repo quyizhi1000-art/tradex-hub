@@ -434,6 +434,102 @@ def read_sector_intraday_fund_flow_backfill(
     }
 
 
+def prepare_sector_intraday_fund_flow_backfill(
+    *,
+    trading_date: date | str,
+    required_minutes: Iterable[datetime],
+    now: datetime | None = None,
+    cache: SectorFundFlowBackfillCache | None = None,
+    router: Any | None = None,
+    progress: Callable[[int, int, str, str | None], None] | None = None,
+) -> dict[str, Any]:
+    """Refresh only exact sector curves that omit a required recovery minute."""
+
+    requested_date = (
+        trading_date
+        if isinstance(trading_date, date)
+        else date.fromisoformat(str(trading_date))
+    )
+    effective_now = now or datetime.now(_SHANGHAI)
+    if effective_now.tzinfo is None or effective_now.utcoffset() is None:
+        raise ValueError("sector backfill preparation now must include a timezone")
+    effective_now = effective_now.astimezone(_SHANGHAI)
+    required = set()
+    for minute in required_minutes:
+        if minute.tzinfo is None or minute.utcoffset() is None:
+            raise ValueError("required sector backfill minutes must include a timezone")
+        local = minute.astimezone(_SHANGHAI).replace(second=0, microsecond=0)
+        if local.date() != requested_date:
+            raise ValueError("required sector backfill minute belongs to another date")
+        required.add(local)
+    if not required:
+        raise ValueError("required sector backfill minutes must not be empty")
+
+    owner = cache or _SECTOR_FLOW_BACKFILL_CACHE
+    targets = tuple(owner.get_known_targets(requested_date))
+
+    def covered(curves: Mapping[str, Iterable[Mapping[str, Any]]], key: str) -> bool:
+        exact_minutes: set[datetime] = set()
+        for point in curves.get(key) or ():
+            raw = point.get("provider_as_of")
+            try:
+                parsed = raw if isinstance(raw, datetime) else datetime.fromisoformat(str(raw))
+            except (TypeError, ValueError):
+                continue
+            if parsed.tzinfo is None or parsed.utcoffset() is None:
+                continue
+            exact_minutes.add(
+                parsed.astimezone(_SHANGHAI).replace(second=0, microsecond=0)
+            )
+        return required.issubset(exact_minutes)
+
+    curves = read_sector_intraday_fund_flow_backfill(
+        trading_date=requested_date,
+        cache=owner,
+    )
+    missing = tuple(
+        target
+        for target in targets
+        if not covered(curves, str(target.get("sector_key") or "").strip())
+    )
+    total = len(missing)
+    for completed, target in enumerate(missing, start=1):
+        fetch_sector_intraday_fund_flow_backfill(
+            (target,),
+            trading_date=requested_date,
+            now=effective_now,
+            router=router,
+            cache=owner,
+            load_missing=True,
+            refresh_existing=True,
+        )
+        if progress is not None:
+            progress(
+                completed,
+                total,
+                "rotation_curves",
+                f"已刷新精确板块曲线 {completed}/{total}",
+            )
+
+    curves = read_sector_intraday_fund_flow_backfill(
+        trading_date=requested_date,
+        cache=owner,
+    )
+    missing_keys = tuple(
+        str(target.get("sector_key") or "").strip()
+        for target in targets
+        if not covered(curves, str(target.get("sector_key") or "").strip())
+    )
+    ready_targets = len(targets) - len(missing_keys)
+    return {
+        "complete": bool(targets) and not missing_keys,
+        "known_targets": len(targets),
+        "ready_targets": ready_targets,
+        "refreshed_targets": total,
+        "missing_targets": missing_keys,
+    }
+
+
 _SECTOR_FLOW_BACKFILL_REFRESHER = SectorFundFlowBackfillRefresher()
 
 
@@ -471,6 +567,7 @@ __all__ = [
     "SectorFundFlowStore",
     "fetch_sector_intraday_fund_flow",
     "fetch_sector_intraday_fund_flow_backfill",
+    "prepare_sector_intraday_fund_flow_backfill",
     "read_sector_intraday_fund_flow_backfill",
     "schedule_sector_intraday_fund_flow_backfill",
 ]

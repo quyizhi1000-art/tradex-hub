@@ -318,7 +318,7 @@ def test_manual_review_is_immutable_and_uses_cross_market_evidence(tmp_path: Pat
         review = first["review"]
         assert first["action"] == "inserted"
         assert second["action"] == "existing"
-        assert review["config_version"] == "post-market-review-policy.v4"
+        assert review["config_version"] == "post-market-review-policy.v5"
         assert first["presentation"]["contract"] == "post_market_review_presentation.v4"
         assert first["presentation"]["schema_version"] == 4
         assert first["presentation"]["review_id"] == review["review_id"]
@@ -353,12 +353,11 @@ def test_manual_review_is_immutable_and_uses_cross_market_evidence(tmp_path: Pat
             for section in first["presentation"]["sections"]
         }
         assert tuple(sections) == (
+            "brief",
             "session",
             "mainline",
-            "stealth",
+            "sentiment",
             "payoff",
-            "flow",
-            "tomorrow",
             "reconciliation",
         )
         assert all(section["paragraphs"] for section in sections.values())
@@ -406,6 +405,85 @@ def test_manual_review_is_immutable_and_uses_cross_market_evidence(tmp_path: Pat
         assert history["presentation"]["review_id"] == review["review_id"]
     finally:
         store.close()
+
+
+def test_split_day_is_written_as_divergence_instead_of_broad_retreat():
+    generated_at = datetime(2026, 8, 28, 21, 0, tzinfo=SHANGHAI)
+    observed_at = datetime(2026, 8, 28, 15, 1, tzinfo=SHANGHAI)
+    payload = _evidence(_closing_snapshot(observed_at), generated_at).model_dump(mode="json")
+
+    universe = payload["universe"]
+    universe.update({
+        "scanned_count": 7,
+        "up_count": 4,
+        "down_count": 3,
+        "flat_count": 0,
+        "median_change_pct": 0.22,
+        "mean_change_pct": 0.24,
+    })
+    next(item for item in universe["distribution"] if item["bucket"] == "up_0_2")["count"] += 1
+
+    index_changes = (-0.11, -0.46, -0.36, -1.41)
+    for item, change_pct in zip(payload["market_watch"]["indices"], index_changes):
+        item["change_pct"] = change_pct
+
+    payload["stock_fund_flow"].update({
+        "positive_count": 1,
+        "negative_count": 2,
+        "flat_count": 0,
+        "median_net_amount_cny": -200_000_000,
+        "total_net_amount_cny": -600_000_000,
+        "total_large_net_amount_cny": -400_000_000,
+    })
+    payload["intraday"].update({
+        "first_advance_ratio": 0.37,
+        "last_advance_ratio": 0.557,
+        "min_advance_ratio": 0.37,
+        "max_advance_ratio": 0.668,
+        "morning_close_advance_ratio": 0.588,
+        "weakest_as_of": observed_at.replace(hour=9, minute=30).isoformat(),
+        "strongest_as_of": observed_at.replace(hour=9, minute=49).isoformat(),
+        "first_index_mean_change_pct": 0.1,
+        "last_index_mean_change_pct": -0.585,
+    })
+    payload["concept_sectors"]["top_gainers"][0].update({
+        "name": "历史新高",
+        "change_pct": 10.02,
+    })
+
+    evidence = DailyMarketReviewEvidenceV1.model_validate(payload)
+    review = build_post_market_review(
+        evidence,
+        generated_at=generated_at,
+        trigger=ReviewTrigger.AUTOMATIC,
+    )
+    presentation = build_post_market_review_presentation(review)
+    sections = {item.section_id: item for item in presentation.sections}
+    article_text = "".join(
+        paragraph
+        for section in presentation.sections
+        for paragraph in section.paragraphs
+    )
+
+    assert "指数收跌但个股涨多跌少" in presentation.title
+    assert "不是普跌" in presentation.standfirst
+    assert "不是普涨" in presentation.standfirst
+    assert tuple(sections) == (
+        "brief",
+        "session",
+        "mainline",
+        "sentiment",
+        "payoff",
+        "reconciliation",
+    )
+    assert sections["session"].title == "盘中如何从低位修复"
+    assert "今日定性" in sections["brief"].paragraphs[0]
+    assert "核心变化" in sections["brief"].paragraphs[1]
+    assert "明日先看" in sections["brief"].paragraphs[2]
+    assert "实打实的回撤" not in presentation.standfirst
+    assert "个股面并没有跟上" not in article_text
+    assert "更普遍的体感在另一边" not in article_text
+    assert "历史新高" not in sections["mainline"].paragraphs[0]
 
 
 def test_automatic_backstop_generates_at_2100_only_when_missing(tmp_path: Path):
@@ -623,17 +701,20 @@ def test_v4_review_uses_hard_diffusion_stealth_and_watch_thresholds():
     presentation = build_post_market_review_presentation(review)
     sections = {item.section_id: item for item in presentation.sections}
     mainline_text = "".join(sections["mainline"].paragraphs)
-    stealth_text = "".join(sections["stealth"].paragraphs)
-    tomorrow_text = "".join(sections["tomorrow"].paragraphs)
+    brief_text = "".join(sections["brief"].paragraphs)
+    watch_text = "".join(
+        item.title + item.why_it_matters + "".join(item.metrics) + item.action
+        for item in presentation.watch_items
+    )
 
     assert "领涨端" in mainline_text
     assert "领跌端" in mainline_text
     assert "板块扩散是分水岭" in mainline_text
-    assert "电网设备" in stealth_text
-    assert "净流入进入同类前10" in stealth_text
-    assert "10:00前" in tomorrow_text
-    assert "全A上涨占比不低于55%" in tomorrow_text
-    assert "开盘板块涨幅≥2%" in tomorrow_text
+    assert "电网设备" in watch_text
+    assert "资金先于价格" in watch_text
+    assert "09:55" in brief_text
+    assert "全A上涨占比≥55%" in brief_text
+    assert "板块开盘≥+2%" in watch_text
     assert any(item.stance == "avoid" for item in presentation.watch_items)
     assert all(item.checkpoint and item.action for item in presentation.watch_items)
     assert any(item.metrics for item in presentation.watch_items)

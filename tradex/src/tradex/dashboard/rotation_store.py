@@ -438,11 +438,13 @@ class RotationRadarStore:
             result["sector_flow_trajectory"] = analyze_sector_flow_snapshots(
                 decoded,
                 supplemental_points,
+                as_of=cutoff,
             )
             result["offense_sector_flow_trajectory"] = analyze_sector_flow_snapshots(
                 decoded,
                 supplemental_points,
                 direction="offense",
+                as_of=cutoff,
             )
             if rows:
                 latest = rows[-1]

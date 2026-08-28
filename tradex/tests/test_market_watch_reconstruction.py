@@ -180,3 +180,103 @@ def test_cross_day_reconstruction_fails_before_provider_calls() -> None:
         assert "before midnight" in str(exc)
     else:
         raise AssertionError("cross-day reconstruction must fail closed")
+
+
+def test_cross_day_0925_reconstruction_uses_exact_auction_aggregate(monkeypatch) -> None:
+    target = datetime(2026, 8, 28, 9, 25, tzinfo=SHANGHAI)
+    observed = datetime(2026, 8, 29, 0, 20, tzinfo=SHANGHAI)
+    auction = {
+        date(2026, 8, 27): SimpleNamespace(
+            trading_date=date(2026, 8, 27),
+            instrument_count=5_502,
+            provider_row_count=5_502,
+            excluded_row_count=0,
+            up_count=1_654,
+            down_count=3_105,
+            flat_count=743,
+            total_amount_cny=17_148_572_585.0,
+            metadata=SimpleNamespace(quality=SimpleNamespace(value="accepted")),
+        ),
+        date(2026, 8, 28): SimpleNamespace(
+            trading_date=date(2026, 8, 28),
+            instrument_count=5_507,
+            provider_row_count=5_507,
+            excluded_row_count=0,
+            up_count=1_873,
+            down_count=2_785,
+            flat_count=849,
+            total_amount_cny=20_565_135_915.0,
+            metadata=SimpleNamespace(quality=SimpleNamespace(value="accepted")),
+        ),
+    }
+    previous = {
+        "000001.SH": 3_956.57,
+        "000300.SH": 4_630.28,
+        "000852.SH": 7_732.945,
+        "399006.SZ": 3_473.36,
+    }
+    opens = {
+        "000001.SH": 3_950.24,
+        "000300.SH": 4_615.84,
+        "000852.SH": 7_734.19,
+        "399006.SZ": 3_453.73,
+    }
+    monkeypatch.setattr(
+        reconstruction,
+        "fetch_opening_auction_market",
+        lambda trading_date, **_kwargs: auction[trading_date],
+    )
+    monkeypatch.setattr(
+        reconstruction,
+        "fetch_market_overview",
+        lambda **_kwargs: SimpleNamespace(
+            indices=tuple(
+                SimpleNamespace(
+                    instrument_id=instrument_id,
+                    name=instrument_id,
+                    previous_close=value,
+                    available=True,
+                )
+                for instrument_id, value in previous.items()
+            )
+        ),
+    )
+    monkeypatch.setattr(
+        reconstruction,
+        "fetch_index_intraday_series",
+        lambda instrument_id, **_kwargs: SimpleNamespace(
+            points=(
+                SimpleNamespace(
+                    trading_date=target.date(),
+                    minute=time(9, 30),
+                    open=opens[instrument_id],
+                ),
+            )
+        ),
+    )
+    progress = []
+    owner = SameDayPostCloseReconstructor(
+        history=_History(),
+        target_minutes=lambda _date: (target,),
+        rotation_loader=lambda _target: {},
+        clock=lambda: observed,
+    )
+
+    snapshot = owner.reconstruct_opening_auction(
+        target,
+        lambda done, total, stage, message=None: progress.append(
+            (done, total, stage, message)
+        ),
+    )
+
+    assert snapshot.market_state.phase.value == "pre_open"
+    assert snapshot.market_state.is_open is False
+    assert snapshot.breadth.total_count == 5_507
+    assert snapshot.breadth.up_count == 1_873
+    assert snapshot.turnover.today_amount_cny == 20_565_135_915.0
+    assert snapshot.turnover.previous_same_time_amount_cny == 17_148_572_585.0
+    assert snapshot.turnover.as_of == "09:25"
+    assert snapshot.freshness.status.value == "degraded"
+    assert snapshot.rotation.sectors == ()
+    assert snapshot.sector_flow_trajectory is None
+    assert progress[-1][:3] == (5, 5, "auction_contract")

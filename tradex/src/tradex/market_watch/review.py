@@ -40,10 +40,9 @@ from .review_evidence import (
 
 
 SHANGHAI = ZoneInfo("Asia/Shanghai")
-# Policy v3 keeps the immutable evidence contract but accepts a complete,
-# same-session 15:00 turnover snapshot recovered after the close as degraded
-# evidence.  Older policy rows remain readable and are never overwritten.
-REVIEW_CONFIG_VERSION = "post-market-review-policy.v4"
+# The policy version is part of the immutable archive key. Older policy rows
+# remain readable and are never overwritten when presentation logic changes.
+REVIEW_CONFIG_VERSION = "post-market-review-policy.v5"
 
 # Provider concept catalogs also contain eligibility universes, prior-day
 # performance buckets and style baskets.  They are useful market context but
@@ -78,6 +77,17 @@ NON_ACTIONABLE_CONCEPT_MARKERS = (
     "MSCI",
     "富时罗素",
     "同花顺漂亮",
+    "历史新高",
+    "近期新高",
+    "连续涨停",
+    "一字涨停",
+    "连板",
+    "HS300",
+    "沪深300",
+    "上证50",
+    "中证500",
+    "中证1000",
+    "科创50",
 )
 
 
@@ -567,7 +577,7 @@ def _theme_family(name: str) -> str:
     families = (
         (("白银", "黄金", "贵金属"), "贵金属"),
         (("动力煤", "焦炭", "煤炭", "焦煤"), "煤炭"),
-        (("种子", "粮食", "转基因", "种业"), "种业"),
+        (("种子", "粮食", "转基因", "种业", "农业", "种植", "农产品", "农机", "饲料"), "农业"),
         (("工业金属", "铜", "钼", "铝", "锌", "有色"), "有色金属"),
         (("CRO", "医疗研发", "生物", "疫苗", "创新药", "单抗", "医药"), "医药"),
         (("印制电路", "PCB", "被动元件", "元件"), "电子元件"),
@@ -964,11 +974,16 @@ def _opportunities(evidence: DailyMarketReviewEvidenceV1, quality: ReviewQuality
     limit_reasons = [item.reason for item in (evidence.limit_events.top_reasons if evidence.limit_events else ())]
     candidates: dict[str, SectorReviewItemV1] = {}
     inflow_keys: set[str] = set()
+    price_rank_by_key: dict[str, int] = {}
     for summary in (evidence.industry_sectors, evidence.concept_sectors):
         if summary is None:
             continue
-        for item in summary.top_gainers:
+        for price_rank, item in enumerate(summary.top_gainers, start=1):
             candidates[item.sector_key] = item
+            price_rank_by_key[item.sector_key] = min(
+                price_rank,
+                price_rank_by_key.get(item.sector_key, price_rank),
+            )
         for item in summary.top_inflows:
             candidates[item.sector_key] = item
             if (item.main_net_inflow_cny or 0) > 0:
@@ -980,6 +995,13 @@ def _opportunities(evidence: DailyMarketReviewEvidenceV1, quality: ReviewQuality
             continue
         score = 1 if item.change_pct < 1.5 else 2
         chain = [f"板块收涨{item.change_pct:+.2f}%"]
+        price_rank = price_rank_by_key.get(item.sector_key)
+        if price_rank is not None and price_rank <= 3:
+            score += 2
+            chain.append(f"价格强度进入同类前{price_rank}")
+        elif price_rank is not None:
+            score += 1
+            chain.append("价格强度进入同类前10")
         if item.breadth_ratio is not None:
             if item.breadth_ratio >= 0.55:
                 score += 2
@@ -1140,8 +1162,8 @@ def _leading_and_lagging_sectors(
     for summary in (evidence.industry_sectors, evidence.concept_sectors):
         if summary is None:
             continue
-        gainers.extend(summary.top_gainers[:1])
-        losers.extend(summary.top_losers[:1])
+        gainers.extend(item for item in summary.top_gainers if _is_actionable_sector(item))
+        losers.extend(item for item in summary.top_losers if _is_actionable_sector(item))
     leader = max(gainers, key=lambda item: item.change_pct, default=None)
     laggard = min(losers, key=lambda item: item.change_pct, default=None)
     return leader, laggard
@@ -2638,6 +2660,20 @@ def _article_broad_repair(evidence: DailyMarketReviewEvidenceV1) -> bool:
     )
 
 
+def _article_positive_breadth(evidence: DailyMarketReviewEvidenceV1) -> bool:
+    universe = evidence.universe
+    return bool(
+        universe is not None
+        and universe.up_count > universe.down_count
+        and universe.median_change_pct >= 0
+    )
+
+
+def _article_index_mean(evidence: DailyMarketReviewEvidenceV1) -> float | None:
+    changes = [value[1] for value in _index_changes(evidence).values()]
+    return mean(changes) if changes else None
+
+
 def _article_title(
     evidence: DailyMarketReviewEvidenceV1,
     opportunities: tuple[OpportunitySectorV1, ...],
@@ -2645,9 +2681,19 @@ def _article_title(
 ) -> str:
     if quality == ReviewQuality.ABSTAINED:
         return "今天的数据不够完整，这份复盘先不下方向结论"
+    universe = evidence.universe
+    index_mean = _article_index_mean(evidence)
+    themes = "、".join(item.name for item in opportunities[:2])
+    if (
+        universe is not None
+        and index_mean is not None
+        and index_mean < 0
+        and _article_positive_breadth(evidence)
+    ):
+        suffix = f"，{themes}承接轮动" if themes else ""
+        return f"指数收跌但个股涨多跌少{suffix}"
     intraday = evidence.intraday
     weakest = min(_index_changes(evidence).values(), key=lambda item: item[1], default=None)
-    themes = "、".join(item.name for item in opportunities[:2])
     if (
         intraday is not None
         and intraday.max_advance_ratio is not None
@@ -2695,20 +2741,86 @@ def _article_standfirst(
         )
         if themes:
             text += f"{themes}成为资金最集中的进攻方向，但成交缩量意味着明天仍要接受第一次分歧检验。"
-    else:
+    elif _article_positive_breadth(evidence):
+        index_mean = _article_index_mean(evidence)
+        index_text = f"四个代表指数平均{index_mean:+.2f}%" if index_mean is not None else "代表指数表现分化"
+        text = (
+            f"今天是指数弱、个股不弱的结构性分化：{index_text}，但收盘仍有{universe.up_count}只股票上涨、"
+            f"{universe.down_count}只下跌，全A中位数{universe.median_change_pct:+.2f}%。这不是普跌，也不是普涨。"
+        )
+        if themes:
+            text += f"{themes}接住了部分资金，但是否成为新主线还要看下一交易日的价格、广度和资金能否继续同向。"
+    elif universe.median_change_pct < 0 and universe.down_count > universe.up_count:
         text = (
             f"今天不是“指数跌了多少”这么简单。收盘有{universe.down_count}只股票下跌，"
             f"全A中位数{universe.median_change_pct:+.2f}%，说明多数持仓承受的是一场实打实的回撤。"
         )
         if themes:
             text += f"{themes}守住了局部赚钱效应，但它们更像资金撤退时寻找的落脚点，还不是新一轮普涨的起点。"
+    else:
+        text = (
+            f"今天上涨与下跌家数接近，收盘{universe.up_count}只上涨、{universe.down_count}只下跌，"
+            f"全A中位数{universe.median_change_pct:+.2f}%。盘面没有形成能够覆盖多数股票的单一方向。"
+        )
+        if themes:
+            text += f"{themes}只是当前相对强势方向，仍需下一交易日继续验证。"
     return text
+
+
+def _article_brief_section(
+    review: PostMarketReviewV1,
+    *,
+    previous: PostMarketReviewV1 | None,
+    opportunities: tuple[OpportunitySectorV1, ...],
+) -> ArticleSectionV4:
+    evidence = review.evidence
+    universe = evidence.universe
+    index_mean = _article_index_mean(evidence)
+    facts: list[str] = []
+    if index_mean is not None:
+        facts.append(f"四个代表指数平均{index_mean:+.2f}%")
+    if universe is not None:
+        facts.append(
+            f"{universe.up_count}只上涨、{universe.down_count}只下跌、全A中位数{universe.median_change_pct:+.2f}%"
+        )
+    turnover = evidence.market_watch.turnover
+    if turnover.available and turnover.difference_ratio is not None:
+        facts.append(f"成交额较上一交易日同刻{turnover.difference_ratio * 100:+.1f}%")
+    character = _day_character(evidence, previous)
+    overview = f"今日定性：{character}。" + ("；".join(facts) + "。" if facts else "关键横截面证据未完整取得。")
+
+    leader_details = "；".join(
+        f"{item.name}（涨跌{item.change_pct:+.2f}%、覆盖{item.breadth_ratio * 100:.1f}%"
+        + (
+            f"、主力{_plain_net_flow(item.main_net_inflow_cny)}）"
+            if item.main_net_inflow_cny is not None
+            else "）"
+        )
+        for item in opportunities[:3]
+        if item.change_pct is not None and item.breadth_ratio is not None
+    )
+    changes = _previous_strength_statement(evidence, previous)
+    core_change = f"核心变化：{changes}"
+    if leader_details:
+        core_change += f" 当前价格、广度与资金交叉后，前排候选是{leader_details}。"
+
+    next_check = (
+        "明日先看：09:55–10:05 检查四项——4个代表指数至少3个红盘、全A上涨占比≥55%、"
+        "全A中位数≥+0.20%、同刻成交额≥昨日95%。至少满足三项并保持两个观察点，才把"
+        f"“{review.next_day_outlook.thesis}”升级为可执行剧本；否则继续按轮动或风险剧本处理。"
+    )
+    return ArticleSectionV4(
+        section_id="brief",
+        title="先说结论",
+        paragraphs=(overview, core_change, next_check),
+    )
 
 
 def _article_session_section(evidence: DailyMarketReviewEvidenceV1) -> ArticleSectionV4:
     paragraphs: list[str] = []
     intraday = evidence.intraday
     broad_repair = _article_broad_repair(evidence)
+    recovered_from_low = False
     if (
         intraday is not None
         and intraday.max_advance_ratio is not None
@@ -2722,6 +2834,7 @@ def _article_session_section(evidence: DailyMarketReviewEvidenceV1) -> ArticleSe
             and intraday.last_advance_ratio >= 0.55
         )
         if improved_from_low:
+            recovered_from_low = True
             path = (
                 f"{_article_clock(intraday.weakest_as_of)}上涨股票最低只有{intraday.min_advance_ratio * 100:.1f}%，"
             )
@@ -2769,7 +2882,13 @@ def _article_session_section(evidence: DailyMarketReviewEvidenceV1) -> ArticleSe
     paragraphs.append(close)
     return ArticleSectionV4(
         section_id="session",
-        title="今天是怎么走强的" if broad_repair else "今天是怎么走坏的",
+        title=(
+            "盘中如何从低位修复"
+            if recovered_from_low
+            else "盘中如何由强转弱"
+            if intraday is not None and intraday.last_advance_ratio is not None and intraday.first_advance_ratio is not None and intraday.last_advance_ratio < intraday.first_advance_ratio
+            else "全天路径"
+        ),
         paragraphs=tuple(paragraphs),
     )
 
@@ -2781,6 +2900,7 @@ def _article_mainline_section(
 ) -> ArticleSectionV4:
     paragraphs: list[str] = []
     broad_repair = _article_broad_repair(evidence)
+    positive_breadth = _article_positive_breadth(evidence)
     leader, laggard = _leading_and_lagging_sectors(evidence)
     leadership_parts: list[str] = []
     if leader is not None:
@@ -2841,6 +2961,22 @@ def _article_mainline_section(
                 + "。它们和全A普遍上涨同时出现，说明赚钱效应已经扩散。"
                 + (f"继续性与分歧要分开看：{balance_text}。" if balance_text else "")
             )
+        elif positive_breadth:
+            flow_ratio = (
+                evidence.stock_fund_flow.positive_count / evidence.stock_fund_flow.scanned_count
+                if evidence.stock_fund_flow is not None
+                else None
+            )
+            flow_text = (
+                f"，但资金净流入股票只占{flow_ratio * 100:.1f}%"
+                if flow_ratio is not None and flow_ratio < 0.5
+                else ""
+            )
+            paragraphs.append(
+                "价格与内部广度共同领先的是："
+                + "；".join(parts)
+                + f"。它们和个股涨多跌少同时出现{flow_text}，因此更适合定义为主线切换候选，而不是已经完成的新主升。"
+            )
         else:
             paragraphs.append(
                 "逆势最硬的不是一个含糊的“防守”标签，而是几条能够由板块涨幅、内部广度和资金互相印证的线："
@@ -2858,10 +2994,19 @@ def _article_mainline_section(
             f"{item.name}{item.board_count}板" if item.board_count else item.name
             for item in limits.representative_events[:5]
         )
+        reason_clusters = "、".join(
+            f"{item.reason}（{item.count}只）" for item in limits.top_reasons[:5]
+        )
+        cluster_text = f"；全池重复最多的原因标签是{reason_clusters}" if reason_clusters else ""
         if broad_repair:
             paragraphs.append(
                 f"短线前排还有{representatives}。高标分散在不同题材，首板数量同时增加，"
-                "说明活跃资金不仅维护高度，也开始向更多方向试错；明天要看这种扩散能否承受分歧。"
+                f"说明活跃资金不仅维护高度，也开始向更多方向试错{cluster_text}；明天要看这种扩散能否承受分歧。"
+            )
+        elif positive_breadth:
+            paragraphs.append(
+                f"短线前排还有{representatives}{cluster_text}。高度仍在、个股也涨多跌少，但高标分散，"
+                "只能说明接力窗口没有关闭，不能据此认定新主线已经完成梯队。"
             )
         else:
             paragraphs.append(
@@ -2870,8 +3015,74 @@ def _article_mainline_section(
             )
     return ArticleSectionV4(
         section_id="mainline",
-        title="谁领涨、谁领跌，强度怎样扩散" if broad_repair else "谁领跌、逆势线有没有形成扩散",
+        title=(
+            "谁领涨、谁领跌，强度怎样扩散"
+            if broad_repair
+            else "主线是否完成切换"
+            if positive_breadth
+            else "谁领跌、逆势线有没有形成扩散"
+        ),
         paragraphs=tuple(paragraphs[:4]),
+    )
+
+
+def _article_sentiment_section(
+    evidence: DailyMarketReviewEvidenceV1,
+    previous: PostMarketReviewV1 | None,
+) -> ArticleSectionV4:
+    current = evidence.limit_events
+    if current is None:
+        return ArticleSectionV4(
+            section_id="sentiment",
+            title="短线情绪质量",
+            paragraphs=("涨跌停与连板证据未取得，今天不根据零散高标判断情绪周期。",),
+        )
+
+    first_boards = next(
+        (item.count for item in current.board_heights if item.board_count == 1),
+        0,
+    )
+    multi_boards = max(current.limit_up_count - first_boards, 0)
+    prior = previous.evidence.limit_events if previous is not None else None
+    comparison = ""
+    if prior is not None:
+        prior_first = next(
+            (item.count for item in prior.board_heights if item.board_count == 1),
+            0,
+        )
+        comparison = (
+            f"；上一交易日为{prior.limit_up_count}只涨停、{prior_first}只首板、最高{prior.max_board_count or 1}板"
+        )
+    summary = (
+        f"涨停{current.limit_up_count}只，其中首板{first_boards}只、二板及以上{multi_boards}只，"
+        f"跌停{current.limit_down_count if current.limit_down_count is not None else '未取得'}只、最高{current.max_board_count or 1}板"
+        f"{comparison}。这组数据回答的是高度和扩容，不能替代封板质量。"
+    )
+
+    leaders = "、".join(
+        f"{item.name}{item.board_count}板"
+        + (f"（首封{item.first_sealed_at}）" if item.first_sealed_at else "")
+        for item in current.representative_events[:6]
+        if item.board_count is not None and item.board_count >= 2
+    )
+    reason_clusters = "、".join(
+        f"{item.reason}（{item.count}只）" for item in current.top_reasons[:6]
+    )
+    structure_parts = []
+    if leaders:
+        structure_parts.append(f"梯队前排是{leaders}")
+    if reason_clusters:
+        structure_parts.append(f"全池重复最多的原因标签是{reason_clusters}")
+    structure = "；".join(structure_parts) + "。" if structure_parts else "涨停梯队与原因聚类没有完整取得。"
+
+    disclosure = (
+        "当前事实合同仍缺炸板池和昨日涨停全量反馈，因此炸板率、首板晋级率、昨日涨停溢价没有写入。"
+        "在这些字段补齐前，只能说高度是否维持、涨停是否扩容，不能仅凭涨停家数把情绪定成升温或高潮。"
+    )
+    return ArticleSectionV4(
+        section_id="sentiment",
+        title="短线情绪质量",
+        paragraphs=(summary, structure, disclosure),
     )
 
 
@@ -2908,6 +3119,7 @@ def _article_payoff_section(evidence: DailyMarketReviewEvidenceV1) -> ArticleSec
     limits = evidence.limit_events
     universe = evidence.universe
     broad_repair = _article_broad_repair(evidence)
+    positive_breadth = _article_positive_breadth(evidence)
     if limits is not None:
         first_boards = next(
             (item.count for item in limits.board_heights if item.board_count == 1),
@@ -2924,6 +3136,12 @@ def _article_payoff_section(evidence: DailyMarketReviewEvidenceV1) -> ArticleSec
                 f"跌停{limits.limit_down_count if limits.limit_down_count is not None else '未取得'}只、最高{limits.max_board_count or 1}板；"
                 f"{ladder}。首板扩散与多数个股上涨同时出现，说明风险偏好确实回暖。"
             )
+        elif positive_breadth:
+            paragraphs.append(
+                f"今天个股涨多跌少，但赚钱效应并不均匀。涨停{limits.limit_up_count}只、"
+                f"跌停{limits.limit_down_count if limits.limit_down_count is not None else '未取得'}只、最高{limits.max_board_count or 1}板；"
+                f"{ladder}。这说明短线窗口还在，但收益集中度仍高。"
+            )
         else:
             paragraphs.append(
                 f"今天能赚钱的人，主要集中在逆势板块和少数高标股。涨停{limits.limit_up_count}只、"
@@ -2937,6 +3155,8 @@ def _article_payoff_section(evidence: DailyMarketReviewEvidenceV1) -> ArticleSec
         paragraph = (
             f"普涨并不等于没有亏钱区：{universe.down_count}只股票收跌，其中{deep_loss}只跌幅超过5%。"
             if broad_repair
+            else f"涨多跌少不等于没有亏钱区：{universe.down_count}只股票收跌，其中{deep_loss}只跌幅超过5%。"
+            if positive_breadth
             else f"更普遍的体感在另一边：{universe.down_count}只股票收跌，其中{deep_loss}只跌幅超过5%。"
         )
         if names:
@@ -3264,20 +3484,11 @@ def _article_sections_v4(
     avoid = _avoid_sector_candidates(evidence)
     stocks = _watch_stocks(opportunities, stealth, business_profiles)
     return (
+        _article_brief_section(review, previous=previous, opportunities=opportunities),
         _article_session_section(evidence),
         _article_mainline_section(evidence, opportunities, previous),
-        _article_stealth_section(evidence, stealth),
+        _article_sentiment_section(evidence, previous),
         _article_payoff_section(evidence),
-        _article_flow_section(evidence, opportunities),
-        _article_tomorrow_section(
-            evidence,
-            outlook,
-            scenarios,
-            opportunities,
-            stealth,
-            avoid,
-            stocks,
-        ),
         _article_reconciliation_section(review, previous),
     )
 

@@ -886,11 +886,11 @@
   function sectorFlowTradingMinute(value, segment) {
     const minute = shanghaiMinuteOfDay(value);
     if (minute === null) return null;
-    if (segment === "am" && minute >= 9 * 60 + 30 && minute <= 11 * 60 + 30) {
-      return minute - (9 * 60 + 30);
+    if (segment === "am" && minute >= 9 * 60 + 25 && minute <= 11 * 60 + 30) {
+      return minute - (9 * 60 + 25);
     }
     if (segment === "pm" && minute >= 13 * 60 && minute <= 15 * 60) {
-      return 120 + SECTOR_FLOW_LUNCH_GAP_MINUTES + minute - 13 * 60;
+      return 125 + SECTOR_FLOW_LUNCH_GAP_MINUTES + minute - 13 * 60;
     }
     return null;
   }
@@ -902,12 +902,12 @@
 
   function formatSectorFlowTradingMinute(value) {
     if (!Number.isFinite(value)) return "--";
-    if (value >= 120 && value <= 120 + SECTOR_FLOW_LUNCH_GAP_MINUTES) {
+    if (value >= 125 && value <= 125 + SECTOR_FLOW_LUNCH_GAP_MINUTES) {
       return "11:30 / 13:00";
     }
-    return value < 120
-      ? formatMinuteOfDay(9 * 60 + 30 + value)
-      : formatMinuteOfDay(13 * 60 + value - 120 - SECTOR_FLOW_LUNCH_GAP_MINUTES);
+    return value < 125
+      ? formatMinuteOfDay(9 * 60 + 25 + value)
+      : formatMinuteOfDay(13 * 60 + value - 125 - SECTOR_FLOW_LUNCH_GAP_MINUTES);
   }
 
   function sectorFlowSegments(item, mode) {
@@ -968,8 +968,8 @@
       const canBridgeLunch = previousEndpoint
         && previousEndpoint.segment === "am"
         && first.segment === "pm"
-        && previousEndpoint.tradingMinute >= 120 - MAX_SECTOR_FLOW_SAMPLE_GAP_MINUTES
-        && first.tradingMinute <= 120 + SECTOR_FLOW_LUNCH_GAP_MINUTES
+        && previousEndpoint.tradingMinute >= 125 - MAX_SECTOR_FLOW_SAMPLE_GAP_MINUTES
+        && first.tradingMinute <= 125 + SECTOR_FLOW_LUNCH_GAP_MINUTES
           + MAX_SECTOR_FLOW_SAMPLE_GAP_MINUTES;
       if (canBridgeLunch) {
         const startX = x(previousEndpoint.tradingMinute);
@@ -1319,10 +1319,10 @@
     if (
       includesMorning
       && includesAfternoon
-      && xMin <= 120
-      && xMax >= 120 + SECTOR_FLOW_LUNCH_GAP_MINUTES
+      && xMin <= 125
+      && xMax >= 125 + SECTOR_FLOW_LUNCH_GAP_MINUTES
     ) {
-      const breakX = x(120 + SECTOR_FLOW_LUNCH_GAP_MINUTES / 2);
+      const breakX = x(125 + SECTOR_FLOW_LUNCH_GAP_MINUTES / 2);
       grid.append(createSvgElement("line", {
         x1: breakX,
         x2: breakX,
@@ -2171,7 +2171,8 @@
     const target = byId("replay-timeline");
     target.replaceChildren();
     byId("replay-sample-count").textContent = `${samples.length} 个分钟样本`;
-    const visible = samples.slice(-30).reverse();
+    const visible = samples.slice(-29).reverse();
+    if (samples.length > 29) visible.push(samples[0]);
     if (!visible.length) {
       target.append(createElement(
         "p",
@@ -2189,18 +2190,26 @@
       const freshness = snapshot.freshness && typeof snapshot.freshness === "object"
         ? text(snapshot.freshness.status, "unknown")
         : "unknown";
+      const marketState = snapshot.market_state && typeof snapshot.market_state === "object"
+        ? snapshot.market_state
+        : {};
+      const isAuctionResult = text(marketState.phase, "") === "pre_open";
       const row = createElement("article", "replay-timeline-item");
       row.append(
         createElement("time", "", formatTimestamp(snapshot.as_of)),
         createElement(
           "strong",
           "",
-          REGIME_LABELS[text(guardrail.regime, "uncertain").toLowerCase()] || "方向未确认",
+          isAuctionResult
+            ? "集合竞价结果"
+            : REGIME_LABELS[text(guardrail.regime, "uncertain").toLowerCase()] || "方向未确认",
         ),
         createElement(
           "span",
           "",
-          text(guardrail.current_state, "该分钟仅保留回放状态元数据"),
+          isAuctionResult
+            ? "09:25竞价盘面已验收；板块净流入从09:30起算"
+            : text(guardrail.current_state, "该分钟仅保留回放状态元数据"),
         ),
         createElement("small", "", freshness),
       );
@@ -4421,7 +4430,7 @@
         detail.textContent = `${trigger}检查已处理 ${attempted} / ${initialGaps} 个缺口，补齐 ${repairedThisRun} 个、失败 ${failedAttempts} 个；仍有 ${gaps} 个分钟等待精确历史数据，不会用当前值伪造历史。`;
       }
     } else if (expected) {
-      detail.textContent = "交易日 15:05 后自动扫描 237 个连续交易分钟和 1 个 15:00 收盘结果；缺口只接受可验证快照。";
+      detail.textContent = "交易日 15:05 后自动扫描 1 个 09:25 集合竞价结果、237 个连续交易分钟和 1 个 15:00 收盘结果；缺口只接受可验证快照。";
     } else {
       detail.textContent = "非交易日不创建空检查；下一交易日收盘后自动执行。";
     }
@@ -4985,32 +4994,31 @@
   function validateLimitUpPool(payload, expectedRevision) {
     const items = asArray(payload?.items);
     const categories = asArray(payload?.categories);
-    const businessCategories = asArray(payload?.business_categories);
     const counts = [
-      payload?.confirmed_count,
-      payload?.provisional_count,
-      payload?.unresolved_count,
+      payload?.catalog_matched_count,
+      payload?.unmatched_count,
     ];
     if (
       !payload
       || typeof payload !== "object"
       || Array.isArray(payload)
-      || payload.contract !== "limit_up_follow_pool.v1"
-      || payload.schema_version !== 1
+      || payload.contract !== "limit_up_pool.v2"
+      || payload.schema_version !== 2
       || payload.source_snapshot_revision !== expectedRevision
-      || !isRevision(payload.attribution_revision)
+      || !isRevision(payload.pool_revision)
       || !Number.isInteger(payload.pool_total)
       || payload.pool_total < 0
       || payload.pool_total !== items.length
+      || !Number.isInteger(payload.business_classified_count)
+      || payload.business_classified_count < 0
+      || payload.business_classified_count > payload.catalog_matched_count
       || counts.some((value) => !Number.isInteger(value) || value < 0)
       || counts.reduce((total, value) => total + value, 0) !== payload.pool_total
       || categories.reduce((total, item) => total + Number(item?.count || 0), 0)
         !== payload.pool_total
-      || (businessCategories.length
-        && businessCategories.reduce((total, item) => total + Number(item?.count || 0), 0)
-          !== payload.pool_total)
+      || (payload.catalog_matched_count > 0 && !isRevision(payload.relationship_catalog_revision))
     ) {
-      throw new Error("涨停池归因契约与当前真实快照不一致");
+      throw new Error("涨停池归属契约与当前真实快照不一致");
     }
     const instrumentIds = items.map((item) => text(item?.instrument_id, ""));
     if (
@@ -5020,28 +5028,16 @@
       throw new Error("涨停池股票身份不完整或重复");
     }
     items.forEach((item) => {
-      const status = text(item?.follow_status, "");
-      const hasSector = Boolean(text(item?.followed_sector_key, ""))
-        && Boolean(text(item?.followed_sector_name, ""));
-      const confirmed = status === "confirmed"
-        && item.confidence === "high"
-        && item.attribution_method === "limit_up_seal_window_sector_flow_resonance.v1"
-        && hasSector
-        && item.evidence;
-      const provisional = status === "provisional"
-        && item.confidence === "low"
-        && item.attribution_method === "limit_up_opening_cohort_confirmation.v1"
-        && hasSector
-        && Number.isInteger(item.cohort_confirmed_peer_count)
-        && item.cohort_confirmed_peer_count >= 2
-        && !item.evidence;
-      const unresolved = status === "unresolved"
-        && item.confidence === "unresolved"
-        && item.attribution_method === "insufficient_verified_follow_evidence.v1"
-        && !hasSector
-        && !item.evidence;
-      if (!confirmed && !provisional && !unresolved) {
-        throw new Error(`涨停池 ${text(item?.name, item?.instrument_id)} 归因状态不完整`);
+      const status = text(item?.relationship_match_status, "");
+      const hasCatalogFields = Boolean(text(item?.primary_business_name, ""))
+        || asArray(item?.business_tags).length > 0
+        || Boolean(text(item?.statistical_industry_name, ""))
+        || Boolean(text(item?.relationship_verification_status, ""));
+      const matched = status === "matched"
+        && Boolean(text(item?.relationship_verification_status, ""));
+      const unmatched = status === "unmatched" && !hasCatalogFields;
+      if (!matched && !unmatched) {
+        throw new Error(`涨停池 ${text(item?.name, item?.instrument_id)} 归属匹配状态不完整`);
       }
     });
     return payload;
@@ -5061,23 +5057,20 @@
 
   function limitUpPoolCategoryKey(item) {
     return text(item?.primary_business_key, "")
-      || (item?.business_verification_status ? "unresolved_business" : "")
-      || text(item?.followed_sector_key, "")
-      || "unresolved";
+      || "unresolved_business";
   }
 
   function renderLimitUpPoolCategories(pool) {
     const target = byId("limit-up-pool-categories");
-    const businessCategories = asArray(pool.business_categories);
-    const categories = businessCategories.length ? businessCategories : asArray(pool.categories);
-    const validKeys = new Set(["all", ...categories.map((item) => text(item.sector_key, ""))]);
+    const categories = asArray(pool.categories);
+    const validKeys = new Set(["all", ...categories.map((item) => text(item.business_key, ""))]);
     if (!validKeys.has(state.limitUpPoolCategory)) state.limitUpPoolCategory = "all";
     const specs = [
       { sector_key: "all", label: "全部", count: pool.pool_total },
       ...categories,
     ];
     const buttons = specs.map((category) => {
-      const key = text(category.sector_key, "unresolved");
+      const key = text(category.business_key, "unresolved_business");
       const button = createElement(
         "button",
         "",
@@ -5114,16 +5107,14 @@
     target.replaceChildren(...buttons);
   }
 
-  function limitUpPoolCard(item, analysisPending) {
-    const status = text(item.follow_status, "unresolved");
+  function limitUpPoolCard(item) {
+    const status = text(item.relationship_match_status, "unmatched");
     const card = createElement("article", `limit-up-stock-card is-${status}`);
-    card.title = analysisPending
-      ? `供应商原因（仅供核对，午盘/盘后再归类）：${text(item.source_reason, "未返回")}`
-      : [
-        `主营证据状态：${text(item.business_verification_status, "待核验")}`,
-        `统计行业：${text(item.statistical_industry_name, "待核验")}`,
-        `供应商原因（仅供核对，不参与归因）：${text(item.source_reason, "未返回")}`,
-      ].join("\n");
+    card.title = [
+      `真实归属库状态：${text(item.relationship_verification_status, "未匹配")}`,
+      `统计行业：${text(item.statistical_industry_name, "待核验")}`,
+      `目录标志：${asArray(item.relationship_flags).join(" / ") || "无"}`,
+    ].join("\n");
     card.appendChild(createElement(
       "span",
       "limit-up-stock-card__time",
@@ -5138,49 +5129,39 @@
     if (item.is_one_word_board) {
       sector.appendChild(createElement("i", "one-word-badge", "一字"));
     }
-    const sectorLabel = analysisPending
-      ? "等待午盘/盘后归类"
-      : item.primary_business_name
-        ? `主营 · ${text(item.primary_business_name, "待核验")}`
-        : "主营归属待核验";
+    const sectorLabel = item.primary_business_name
+      ? `主营 · ${text(item.primary_business_name, "待核验")}`
+      : "主营归属待核验";
     sector.appendChild(createElement("span", "", sectorLabel));
     card.appendChild(sector);
-    let meta = analysisPending
-      ? "涨停状态已实时更新 · 资金跟随分析尚未执行"
-      : "跟随板块 · 共同分钟或候选板块证据不足，不猜测";
-    if (!analysisPending && status === "confirmed") {
-      const correlation = finiteNumber(item.evidence?.correlation);
-      const agreement = finiteNumber(item.evidence?.directional_agreement_ratio);
-      meta = `跟随 · ${text(item.followed_sector_name, "路径待确认")} · 相关 ${
-        correlation === null ? "--" : correlation.toFixed(2)
-      } · 同向 ${
-        agreement === null ? "--" : `${(agreement * 100).toFixed(0)}%`
-      }`;
-    } else if (!analysisPending && status === "provisional") {
-      meta = `跟随 · ${text(item.followed_sector_name, "同批待确认")} · ${
-        Number(item.cohort_confirmed_peer_count || 0)
-      } 只路径确认股佐证`;
-    }
-    card.appendChild(createElement("span", "limit-up-stock-card__meta", meta));
+    const tags = asArray(item.business_tags).map((value) => text(value, "")).filter(Boolean);
+    card.appendChild(createElement(
+      "span",
+      "limit-up-stock-card__meta",
+      tags.length ? `标签 · ${tags.join(" / ")}` : "业务标签待核验",
+    ));
+    card.appendChild(createElement(
+      "span",
+      "limit-up-stock-card__meta",
+      `统计 · ${text(item.statistical_industry_name, "待核验")} · 证据 ${
+        text(item.relationship_verification_status, "未匹配")
+      }`,
+    ));
     return card;
   }
 
   function renderLimitUpPool(pool) {
-    const analysisPending = asArray(pool.quality_flags)
-      .includes("analysis_pending_midday_or_post_close");
     byId("limit-up-pool-total").textContent = String(pool.pool_total);
-    byId("limit-up-pool-confirmed").textContent = String(pool.confirmed_count);
-    byId("limit-up-pool-provisional").textContent = String(pool.provisional_count);
-    byId("limit-up-pool-unresolved").textContent = String(pool.unresolved_count);
-    byId("limit-up-pool-unresolved-label").textContent = analysisPending
-      ? "待归类"
-      : "待确认";
+    byId("limit-up-pool-matched").textContent = String(pool.catalog_matched_count);
+    byId("limit-up-pool-classified").textContent = String(pool.business_classified_count);
+    byId("limit-up-pool-unmatched").textContent = String(pool.unmatched_count);
     byId("limit-up-pool-trade-date").textContent = `交易日 ${text(pool.trade_date, "--")}`;
-    byId("limit-up-pool-status").textContent = analysisPending
-      ? `盘中涨停状态已更新 · 午盘/盘后归类 · 快照 ${formatTimestamp(pool.source_as_of)}`
-      : `${
-        pool.quality === "accepted" ? "路径归因完整" : "部分股票保持待确认"
-      } · 快照 ${formatTimestamp(pool.source_as_of)}`;
+    const catalogRevision = text(pool.relationship_catalog_revision, "");
+    byId("limit-up-pool-status").textContent = `${
+      pool.quality === "accepted" ? "真实归属已完整匹配" : "部分股票归属或主营待核验"
+    } · 归属库 ${catalogRevision ? catalogRevision.slice(0, 8) : "不可用"} · 快照 ${
+      formatTimestamp(pool.source_as_of)
+    }`;
     byId("limit-up-pool-button-count").textContent = String(pool.pool_total);
     renderLimitUpPoolCategories(pool);
 
@@ -5219,7 +5200,7 @@
         height > 0 ? `${height}板` : "高度\n待核验",
       ));
       const grid = createElement("div", "limit-up-stock-grid");
-      items.forEach((item) => grid.appendChild(limitUpPoolCard(item, analysisPending)));
+      items.forEach((item) => grid.appendChild(limitUpPoolCard(item)));
       section.appendChild(grid);
       return section;
     });

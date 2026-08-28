@@ -179,9 +179,11 @@ def _business_identity(
         return key, name, tags
 
     revenue_by_rule: defaultdict[tuple[str, str], float] = defaultdict(float)
+    segment_supported_rule_keys: set[str] = set()
     ordered_rule_names: list[tuple[str, str]] = []
     for segment in segments:
         rules = matched_business_rules((segment.name,))
+        segment_supported_rule_keys.update(rule.key for rule in rules)
         for rule in rules:
             pair = (rule.key, rule.name)
             if pair not in ordered_rule_names:
@@ -193,6 +195,18 @@ def _business_identity(
             )
     summary_rules = matched_business_rules((summary or "",))
     for rule in summary_rules:
+        if (
+            rule.key in {
+                "electronics_distribution",
+                "precious_metals",
+                "textiles",
+                "fluorochemicals",
+                "traditional_chinese_medicine",
+                "pharmaceuticals",
+            }
+            and rule.key not in segment_supported_rule_keys
+        ):
+            continue
         pair = (rule.key, rule.name)
         if pair not in ordered_rule_names:
             ordered_rule_names.append(pair)

@@ -88,4 +88,82 @@ def opening_auction_units_verified(provider: str) -> bool:
     return provider in _VERIFIED_UNIT_PROVIDERS
 
 
-__all__ = ["map_opening_auction_frame", "opening_auction_units_verified"]
+def map_opening_auction_market_frame(
+    frame: Any,
+    *,
+    provider: str,
+    requested_date: date,
+) -> dict[str, Any]:
+    """Normalize and aggregate one exact full-market 09:25 provider frame."""
+
+    if frame is None or not hasattr(frame, "to_dict"):
+        raise RuntimeError("opening-auction market provider returned an unsupported payload")
+    records = frame.to_dict(orient="records")
+    if not records:
+        raise RuntimeError("opening-auction market provider returned no rows")
+
+    seen: set[str] = set()
+    up = down = flat = excluded = 0
+    total_volume = 0.0
+    total_amount = 0.0
+    for row in records:
+        row_date = _trading_date(field(row, "交易日期", "trade_date"))
+        if row_date != requested_date:
+            raise RuntimeError("opening-auction market provider returned another date")
+        code = _record_code(row)
+        if code is None:
+            excluded += 1
+            continue
+        instrument_id = canonical_instrument_id(code)
+        if instrument_id in seen:
+            raise RuntimeError("opening-auction market provider returned duplicate symbols")
+        seen.add(instrument_id)
+        price = finite_number(field(row, "开盘价", "price"))
+        previous = finite_number(field(row, "昨收", "pre_close"))
+        volume = finite_number(field(row, "开盘量", "vol", "volume"))
+        amount = finite_number(field(row, "开盘额", "amount"))
+        if (
+            price is None
+            or price <= 0
+            or previous is None
+            or previous <= 0
+            or volume is None
+            or volume < 0
+            or amount is None
+            or amount < 0
+        ):
+            excluded += 1
+            continue
+        if price > previous:
+            up += 1
+        elif price < previous:
+            down += 1
+        else:
+            flat += 1
+        total_volume += volume
+        total_amount += amount
+
+    accepted = up + down + flat
+    if accepted == 0:
+        raise RuntimeError("opening-auction market provider has no valid rows")
+    attrs = getattr(frame, "attrs", {})
+    return {
+        "trading_date": requested_date,
+        "instrument_count": accepted,
+        "excluded_row_count": excluded,
+        "provider_row_count": len(records),
+        "up_count": up,
+        "down_count": down,
+        "flat_count": flat,
+        "total_volume_shares": total_volume,
+        "total_amount_cny": total_amount,
+        "provider_as_of": parse_provider_time(attrs.get("provider_as_of")),
+        "provider_request_id": frame_request_id(frame),
+    }
+
+
+__all__ = [
+    "map_opening_auction_frame",
+    "map_opening_auction_market_frame",
+    "opening_auction_units_verified",
+]
