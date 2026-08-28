@@ -191,6 +191,58 @@ enabled_tools = [
     "replay_lake_capture",
 ]
 
+# Tradex tasks start with no optional plugin tool surfaces. Enable one only for
+# a task that explicitly needs it, then create a new task for the frozen tool
+# snapshot to be rebuilt.
+[plugins."browser@openai-bundled"]
+enabled = false
+
+[plugins."computer-use@openai-bundled"]
+enabled = false
+
+[plugins."visualize@openai-bundled"]
+enabled = false
+
+[plugins."lmgamedev@lmgamedev-repo"]
+enabled = false
+
+[plugins."lmgamedev@lmgamedev-repo".mcp_servers.lmgamedev-workhub]
+enabled = false
+
+[mcp_servers.lmgamedev-workhub]
+url = "https://lmgamedev.longame.cn/api/mcp"
+enabled = false
+
+[plugins."documents@openai-primary-runtime"]
+enabled = false
+
+[plugins."pdf@openai-primary-runtime"]
+enabled = false
+
+[plugins."spreadsheets@openai-primary-runtime"]
+enabled = false
+
+[plugins."presentations@openai-primary-runtime"]
+enabled = false
+
+[plugins."template-creator@openai-primary-runtime"]
+enabled = false
+
+[plugins."git-merge-helper@personal"]
+enabled = false
+
+[plugins."sites@openai-bundled"]
+enabled = false
+
+[plugins."chrome@openai-bundled"]
+enabled = false
+
+[plugins."codex-app-tools@openai-bundled"]
+enabled = false
+
+[mcp_servers.node_repl]
+enabled = false
+
 # This global server points at the LMGameDev Docker gateway and must never be
 # inherited by Tradex tasks.
 [mcp_servers.MCP_DOCKER]
