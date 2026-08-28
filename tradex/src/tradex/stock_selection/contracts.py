@@ -339,6 +339,207 @@ class DailyStockSelectionV1(SelectionModel):
         return self
 
 
+class BalancedStockSelectionResultV1(SelectionModel):
+    """Independent payload for the balanced multi-factor strategy."""
+
+    contract: Literal["balanced_stock_selection_result.v1"] = (
+        "balanced_stock_selection_result.v1"
+    )
+    schema_version: Literal[1] = 1
+    universe_count: int = Field(ge=1)
+    eligible_count: int = Field(ge=0)
+    selected_count: int = Field(ge=0)
+    excluded_counts: dict[str, int]
+    candidates: tuple[SelectionCandidateV1, ...]
+    methodology: tuple[str, ...]
+    limitations: tuple[str, ...]
+
+    @model_validator(mode="after")
+    def validate_ranking(self) -> "BalancedStockSelectionResultV1":
+        if self.selected_count != len(self.candidates):
+            raise ValueError("balanced selected_count must match candidates")
+        if self.eligible_count < self.selected_count:
+            raise ValueError("balanced eligible_count cannot be below selected_count")
+        if [item.rank for item in self.candidates] != list(
+            range(1, len(self.candidates) + 1)
+        ):
+            raise ValueError("balanced candidate ranks must be contiguous")
+        ids = [item.instrument_id for item in self.candidates]
+        if len(ids) != len(set(ids)):
+            raise ValueError("balanced candidates must be unique")
+        return self
+
+
+class StockSelectionStrategyDefinitionV1(SelectionModel):
+    contract: Literal["stock_selection_strategy_definition.v1"] = (
+        "stock_selection_strategy_definition.v1"
+    )
+    schema_version: Literal[1] = 1
+    strategy_id: str = Field(pattern=r"^[a-z][a-z0-9-]*$")
+    strategy_version: str = Field(pattern=r"^v[1-9][0-9]*$")
+    title: str = Field(min_length=1)
+    result_contract: Literal[
+        "balanced_stock_selection_result.v1",
+        "stock_pattern_screen.v1",
+        "stock_limit_up_tendency_screen.v1",
+    ]
+    evaluation_policy: Literal[
+        "next_session_open_to_close_excess_return",
+        "next_session_limit_up",
+        "not_defined",
+    ]
+    display_order: int = Field(ge=0)
+
+
+class StockSelectionStrategyCatalogV1(SelectionModel):
+    contract: Literal["stock_selection_strategy_catalog.v1"] = (
+        "stock_selection_strategy_catalog.v1"
+    )
+    schema_version: Literal[1] = 1
+    strategies: tuple[StockSelectionStrategyDefinitionV1, ...]
+
+    @model_validator(mode="after")
+    def validate_unique_strategies(self) -> "StockSelectionStrategyCatalogV1":
+        identities = [item.strategy_id for item in self.strategies]
+        if len(identities) != len(set(identities)):
+            raise ValueError("strategy catalog ids must be unique")
+        if list(self.strategies) != sorted(
+            self.strategies,
+            key=lambda item: (item.display_order, item.strategy_id),
+        ):
+            raise ValueError("strategy catalog must use stable display ordering")
+        return self
+
+
+class StockSelectionStrategyResultV1(SelectionModel):
+    contract: Literal["stock_selection_strategy_result.v1"] = (
+        "stock_selection_strategy_result.v1"
+    )
+    schema_version: Literal[1] = 1
+    result_id: str = Field(
+        pattern=r"^stock-selection-strategy-result:[0-9a-f]{24}$"
+    )
+    strategy_id: str = Field(pattern=r"^[a-z][a-z0-9-]*$")
+    strategy_version: str = Field(pattern=r"^v[1-9][0-9]*$")
+    title: str = Field(min_length=1)
+    result_contract: Literal[
+        "balanced_stock_selection_result.v1",
+        "stock_pattern_screen.v1",
+        "stock_limit_up_tendency_screen.v1",
+    ]
+    trade_date: date
+    generated_at: datetime
+    source_contract: Literal["daily_stock_factor_snapshot.v1"]
+    source_snapshot_revision: str = Field(pattern=r"^[0-9a-f]{64}$")
+    source_quality: Literal["accepted", "degraded"]
+    source_provider_as_of: datetime | None = None
+    quality: Literal["accepted", "degraded", "unavailable"]
+    payload: (
+        BalancedStockSelectionResultV1
+        | StockPatternScreenV1
+        | LimitUpTendencyScreenV1
+    )
+
+    @field_validator("generated_at", "source_provider_as_of")
+    @classmethod
+    def timezone_required(cls, value: datetime | None) -> datetime | None:
+        if value is not None and (value.tzinfo is None or value.utcoffset() is None):
+            raise ValueError("strategy result timestamps must include a timezone")
+        return value
+
+    @model_validator(mode="after")
+    def validate_payload_contract(self) -> "StockSelectionStrategyResultV1":
+        if self.payload.contract != self.result_contract:
+            raise ValueError("strategy result contract must match its payload")
+        payload_quality = getattr(self.payload, "quality", self.source_quality)
+        if payload_quality != self.quality:
+            raise ValueError("strategy result quality must match its payload")
+        return self
+
+
+class StockSelectionStrategyOutcomeV1(SelectionModel):
+    contract: Literal["stock_selection_strategy_outcome.v1"] = (
+        "stock_selection_strategy_outcome.v1"
+    )
+    schema_version: Literal[1] = 1
+    outcome_id: str = Field(
+        pattern=r"^stock-selection-strategy-outcome:[0-9a-f]{24}$"
+    )
+    result_id: str = Field(
+        pattern=r"^stock-selection-strategy-result:[0-9a-f]{24}$"
+    )
+    strategy_id: str = Field(pattern=r"^[a-z][a-z0-9-]*$")
+    strategy_version: str = Field(pattern=r"^v[1-9][0-9]*$")
+    signal_trade_date: date
+    evaluation_trade_date: date
+    evaluation_policy: Literal[
+        "next_session_open_to_close_excess_return",
+        "next_session_limit_up",
+    ]
+    evaluation_status: Literal["evaluated", "unverifiable"]
+    evaluated_count: int = Field(ge=0)
+    selected_count: int = Field(ge=0)
+    coverage: float = Field(ge=0, le=1)
+    portfolio_return_pct: float | None = None
+    benchmark_return_pct: float | None = None
+    excess_return_pct: float | None = None
+    verdict: Literal[
+        "supported",
+        "not_supported",
+        "mixed",
+        "unverifiable",
+    ] | None = None
+    touched_limit_up_count: int | None = Field(default=None, ge=0)
+    closed_limit_up_count: int | None = Field(default=None, ge=0)
+    touched_limit_up_rate: float | None = Field(default=None, ge=0, le=1)
+    closed_limit_up_rate: float | None = Field(default=None, ge=0, le=1)
+    limitations: tuple[str, ...] = ()
+
+    @field_validator(
+        "coverage",
+        "portfolio_return_pct",
+        "benchmark_return_pct",
+        "excess_return_pct",
+        "touched_limit_up_rate",
+        "closed_limit_up_rate",
+    )
+    @classmethod
+    def finite(cls, value: float | None) -> float | None:
+        if value is not None and not math.isfinite(value):
+            raise ValueError("strategy outcome values must be finite")
+        return value
+
+    @model_validator(mode="after")
+    def validate_policy_metrics(self) -> "StockSelectionStrategyOutcomeV1":
+        if self.evaluated_count > self.selected_count:
+            raise ValueError("strategy outcome evaluated_count exceeds selected_count")
+        if self.evaluation_policy == "next_session_limit_up":
+            required = (
+                self.touched_limit_up_count,
+                self.closed_limit_up_count,
+                self.touched_limit_up_rate,
+                self.closed_limit_up_rate,
+            )
+            if self.evaluation_status == "evaluated" and any(
+                value is None for value in required
+            ):
+                raise ValueError("evaluated limit-up outcomes require touch and close metrics")
+            if self.verdict is not None:
+                raise ValueError("limit-up observation does not define an alpha verdict")
+        else:
+            required = (
+                self.portfolio_return_pct,
+                self.benchmark_return_pct,
+                self.excess_return_pct,
+                self.verdict,
+            )
+            if self.evaluation_status == "evaluated" and any(
+                value is None for value in required
+            ):
+                raise ValueError("evaluated return outcomes require return metrics and verdict")
+        return self
+
+
 class DailyStockSelectionOutcomeV1(SelectionModel):
     contract: Literal["daily_stock_selection_outcome.v1"] = (
         "daily_stock_selection_outcome.v1"
@@ -398,6 +599,7 @@ class SelectionBacktestReportV1(SelectionModel):
 
 
 __all__ = [
+    "BalancedStockSelectionResultV1",
     "DailyStockSelectionOutcomeV1",
     "DailyStockSelectionV1",
     "FactorContributionV1",
@@ -410,4 +612,8 @@ __all__ = [
     "SelectionBacktestReportV1",
     "SelectionBacktestTradeV1",
     "SelectionCandidateV1",
+    "StockSelectionStrategyCatalogV1",
+    "StockSelectionStrategyDefinitionV1",
+    "StockSelectionStrategyOutcomeV1",
+    "StockSelectionStrategyResultV1",
 ]

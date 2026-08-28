@@ -19,6 +19,8 @@
   GET /api/daily-stock-selection/history → 读取预计算每日选股档案
   GET /api/daily-stock-selection/generation → 返回后台生成任务状态
   POST /api/daily-stock-selection → 排队生成当日候选池
+  GET /api/stock-selection/strategies → 读取独立策略清单
+  GET /api/stock-selection/results → 读取独立策略结果与评估
   GET /api/market      → 兼容的指数实时行情 JSON
   GET /api/risk-appetite → 兼容的市场参与度与资金风格信号 JSON
   GET /api/dashboard   → 看板数据 JSON（与 MCP 工具 get_data_source_dashboard 结构一致）
@@ -690,6 +692,93 @@ def get_daily_stock_selection_history(
     )
 
 
+def _stock_selection_strategy_id(value: str | None) -> str | None:
+    if value is None:
+        return None
+    normalized = str(value).strip()
+    if not re.fullmatch(r"[a-z][a-z0-9-]*", normalized):
+        raise ValueError("strategy_id 格式无效")
+    return normalized
+
+
+def get_stock_selection_strategy_results(
+    *,
+    trade_date: str | None = None,
+    strategy_id: str | None = None,
+    limit: int = 90,
+) -> dict:
+    from tradex.analysis_jobs import DAILY_STOCK_SELECTION
+
+    legacy = _artifact_payload(
+        DAILY_STOCK_SELECTION,
+        trade_date=trade_date,
+        limit=limit,
+    )
+    archive = dict(legacy.get("strategy_archive") or {})
+    if archive.get("contract") != "stock_selection_strategy_archive.v1":
+        archive = {
+            "contract": "stock_selection_strategy_archive.v1",
+            "schema_version": 1,
+            "trade_date": legacy.get("trade_date"),
+            "dates": list(legacy.get("dates") or []),
+            "catalog": {
+                "contract": "stock_selection_strategy_catalog.v1",
+                "schema_version": 1,
+                "strategies": [],
+            },
+            "results": [],
+            "outcomes": [],
+            "recent_outcomes": [],
+            "schedule": dict(legacy.get("schedule") or {}),
+        }
+    archive["dates"] = list(archive.get("dates") or [])[:limit]
+    normalized_strategy_id = _stock_selection_strategy_id(strategy_id)
+    if normalized_strategy_id is not None:
+        archive["results"] = [
+            item
+            for item in list(archive.get("results") or [])
+            if item.get("strategy_id") == normalized_strategy_id
+        ]
+        result_ids = {
+            item.get("result_id") for item in archive["results"] if item.get("result_id")
+        }
+        archive["outcomes"] = [
+            item
+            for item in list(archive.get("outcomes") or [])
+            if item.get("result_id") in result_ids
+        ]
+        archive["recent_outcomes"] = [
+            item
+            for item in list(archive.get("recent_outcomes") or [])
+            if item.get("strategy_id") == normalized_strategy_id
+        ]
+    archive["legacy_selection"] = legacy.get("selection")
+    archive["legacy_outcome"] = legacy.get("outcome")
+    archive["legacy_recent_outcomes"] = list(legacy.get("recent_outcomes") or [])
+    archive["artifact_revision"] = legacy.get("artifact_revision")
+    archive["artifact_generated_at"] = legacy.get("artifact_generated_at")
+    return archive
+
+
+def get_stock_selection_strategies(
+    *,
+    trade_date: str | None = None,
+) -> dict:
+    archive = get_stock_selection_strategy_results(
+        trade_date=trade_date,
+        limit=365,
+    )
+    return {
+        "contract": "stock_selection_strategy_catalog_response.v1",
+        "schema_version": 1,
+        "trade_date": archive.get("trade_date"),
+        "dates": archive.get("dates", []),
+        "catalog": archive.get("catalog"),
+        "artifact_revision": archive.get("artifact_revision"),
+        "artifact_generated_at": archive.get("artifact_generated_at"),
+    }
+
+
 def request_market_watch_daily_recovery(*, now: datetime | None = None) -> dict:
     """Queue a manual sweep; the Dashboard never performs provider repair."""
 
@@ -835,6 +924,18 @@ class DashboardHandler(BaseHTTPRequestHandler):
             )
         elif request.path == "/api/daily-stock-selection/generation":
             self._handle_daily_stock_selection_generation_api()
+        elif request.path == "/api/stock-selection/strategies":
+            query = parse_qs(request.query)
+            self._handle_stock_selection_strategies_api(
+                trade_date=query.get("trade_date", [None])[0],
+            )
+        elif request.path == "/api/stock-selection/results":
+            query = parse_qs(request.query)
+            self._handle_stock_selection_strategy_results_api(
+                trade_date=query.get("trade_date", [None])[0],
+                strategy_id=query.get("strategy_id", [None])[0],
+                limit=query.get("limit", [None])[0],
+            )
         elif request.path == "/api/market":
             query = parse_qs(request.query)
             self._handle_market_api(force=query.get("refresh") == ["1"])
@@ -1131,6 +1232,48 @@ class DashboardHandler(BaseHTTPRequestHandler):
         except Exception:
             logger.exception("daily stock selection history read failed")
             self._send_json(502, {"error": "每日选股档案暂不可用"})
+
+    def _handle_stock_selection_strategies_api(
+        self,
+        *,
+        trade_date: str | None,
+    ):
+        try:
+            self._send_json(
+                200,
+                get_stock_selection_strategies(trade_date=trade_date),
+            )
+        except ValueError as exc:
+            self._send_json(400, {"error": str(exc)})
+        except LookupError as exc:
+            self._send_json(503, {"error": str(exc)})
+        except Exception:
+            logger.exception("stock selection strategy catalog read failed")
+            self._send_json(502, {"error": "选股策略清单暂不可用"})
+
+    def _handle_stock_selection_strategy_results_api(
+        self,
+        *,
+        trade_date: str | None,
+        strategy_id: str | None,
+        limit: str | None,
+    ):
+        try:
+            self._send_json(
+                200,
+                get_stock_selection_strategy_results(
+                    trade_date=trade_date,
+                    strategy_id=strategy_id,
+                    limit=_selection_history_limit(limit),
+                ),
+            )
+        except ValueError as exc:
+            self._send_json(400, {"error": str(exc)})
+        except LookupError as exc:
+            self._send_json(503, {"error": str(exc)})
+        except Exception:
+            logger.exception("stock selection strategy results read failed")
+            self._send_json(502, {"error": "选股策略结果暂不可用"})
 
     def _handle_daily_stock_selection_api(self):
         try:

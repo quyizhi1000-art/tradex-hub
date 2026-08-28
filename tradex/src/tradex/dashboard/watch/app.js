@@ -11,10 +11,9 @@
   const REVIEW_HISTORY_ENDPOINT = "/api/post-market-review/history";
   const REVIEW_GENERATE_ENDPOINT = "/api/post-market-review";
   const REVIEW_GENERATION_ENDPOINT = "/api/post-market-review/generation";
-  const STOCK_SELECTION_HISTORY_ENDPOINT = "/api/daily-stock-selection/history";
+  const STOCK_SELECTION_RESULTS_ENDPOINT = "/api/stock-selection/results";
   const STOCK_SELECTION_GENERATE_ENDPOINT = "/api/daily-stock-selection";
   const STOCK_SELECTION_GENERATION_ENDPOINT = "/api/daily-stock-selection/generation";
-  const CURRENT_STOCK_SELECTION_CONFIG = "daily-stock-selection-balanced.v6";
   const POLL_INTERVAL_MS = 15_000;
   const POLL_WATCHDOG_INTERVAL_MS = 1_000;
   const RESONANCE_REFRESH_INTERVAL_MS = 30_000;
@@ -138,6 +137,7 @@
     stockSelectionGenerationPollInFlight: false,
     stockSelectionHasLoaded: false,
     stockSelectionHistory: null,
+    stockSelectionStrategyId: null,
     stockSelectionSchedule: {
       manual_after: "18:00",
       automatic_if_missing_after: "18:30",
@@ -2698,7 +2698,7 @@
     if (!payload || typeof payload !== "object" || Array.isArray(payload)) {
       throw new Error("返回内容不是每日选股档案");
     }
-    if (payload.contract !== "daily_stock_selection_archive.v1" || payload.schema_version !== 1) {
+    if (payload.contract !== "stock_selection_strategy_archive.v1" || payload.schema_version !== 1) {
       throw new Error(`选股档案契约不匹配：${text(payload.contract, "缺少契约")}`);
     }
     return payload;
@@ -2841,7 +2841,7 @@
   function renderStockPatternScreen(patternScreens) {
     const screen = asArray(patternScreens)
       .map(objectValue)
-      .find((item) => item.screen_version === "long-upper-shadow-main-board.v3");
+      .find((item) => item.contract === "stock_pattern_screen.v1");
     const empty = byId("stock-pattern-empty");
     const content = byId("stock-pattern-content");
     if (!screen || screen.contract !== "stock_pattern_screen.v1" || screen.schema_version !== 1) {
@@ -2930,7 +2930,7 @@
   function renderLimitUpTendencyScreen(tendencyScreens) {
     const screen = asArray(tendencyScreens)
       .map(objectValue)
-      .find((item) => item.screen_version === "next-session-limit-up-tendency-main-board.v2");
+      .find((item) => item.contract === "stock_limit_up_tendency_screen.v1");
     const empty = byId("stock-limit-up-tendency-empty");
     const content = byId("stock-limit-up-tendency-content");
     if (!screen || screen.contract !== "stock_limit_up_tendency_screen.v1" || screen.schema_version !== 1) {
@@ -2965,6 +2965,36 @@
     renderStockSelectionExclusions(
       screen.excluded_counts,
       "stock-limit-up-tendency-exclusions",
+    );
+  }
+
+  function renderLimitUpTendencyOutcome(outcome) {
+    const canonical = objectValue(outcome);
+    const status = byId("stock-limit-up-tendency-outcome-status");
+    const detail = byId("stock-limit-up-tendency-outcome-detail");
+    status.classList.remove("tone-positive", "tone-negative", "tone-flat");
+    if (!Object.keys(canonical).length) {
+      status.textContent = "尚未验证";
+      status.classList.add("tone-flat");
+      detail.textContent = "结果会分别统计下一有效交易日的盘中触板率与收盘封板率。";
+      return;
+    }
+    const coverage = finiteNumber(canonical.coverage);
+    if (canonical.evaluation_status !== "evaluated") {
+      status.textContent = `${text(canonical.evaluation_trade_date, "--")} · 覆盖不足`;
+      status.classList.add("tone-flat");
+      detail.textContent = `可验证覆盖 ${coverage === null ? "--" : `${(coverage * 100).toFixed(0)}%`}，不输出触板率。`;
+      return;
+    }
+    const touchedRate = finiteNumber(canonical.touched_limit_up_rate);
+    const closedRate = finiteNumber(canonical.closed_limit_up_rate);
+    status.textContent = `${text(canonical.evaluation_trade_date, "--")} · 已验证`;
+    status.classList.add("tone-flat");
+    detail.textContent = (
+      `盘中触板 ${formatCount(canonical.touched_limit_up_count)} / ${formatCount(canonical.evaluated_count)}`
+      + `（${touchedRate === null ? "--" : `${(touchedRate * 100).toFixed(1)}%`}）；`
+      + `收盘封板 ${formatCount(canonical.closed_limit_up_count)} / ${formatCount(canonical.evaluated_count)}`
+      + `（${closedRate === null ? "--" : `${(closedRate * 100).toFixed(1)}%`}）。`
     );
   }
 
@@ -3061,8 +3091,131 @@
     );
     renderStockSelectionExclusions(canonical.excluded_counts);
     renderStockSelectionOutcome(history);
-    renderStockPatternScreen(canonical.pattern_screens);
-    renderLimitUpTendencyScreen(canonical.limit_up_tendency_screens);
+  }
+
+  function stockSelectionDefinitions(archive) {
+    return asArray(objectValue(archive.catalog).strategies)
+      .map(objectValue)
+      .filter((item) => item.strategy_id && item.result_contract);
+  }
+
+  function stockSelectionPanelForContract(resultContract) {
+    return [...document.querySelectorAll("[data-stock-selection-result-contract]")]
+      .find((panel) => panel.dataset.stockSelectionResultContract === resultContract) || null;
+  }
+
+  function handleStockSelectionTabKeydown(event, button) {
+    if (!new Set(["ArrowLeft", "ArrowRight", "Home", "End"]).has(event.key)) return;
+    event.preventDefault();
+    const tabs = [...document.querySelectorAll("[data-stock-selection-tab]")];
+    const current = tabs.indexOf(button);
+    const target = event.key === "Home"
+      ? 0
+      : event.key === "End"
+        ? tabs.length - 1
+        : (current + (event.key === "ArrowRight" ? 1 : -1) + tabs.length) % tabs.length;
+    if (tabs[target]) selectStockSelectionTab(tabs[target].dataset.stockSelectionTab, { focus: true });
+  }
+
+  function renderStockSelectionStrategyTabs(archive) {
+    const target = byId("stock-selection-tabs");
+    const definitions = stockSelectionDefinitions(archive)
+      .filter((definition) => stockSelectionPanelForContract(definition.result_contract));
+    target.replaceChildren();
+    definitions.forEach((definition, index) => {
+      const panel = stockSelectionPanelForContract(definition.result_contract);
+      const button = createElement("button", "", text(definition.title, definition.strategy_id));
+      button.id = `stock-selection-tab-${definition.strategy_id}`;
+      button.type = "button";
+      button.setAttribute("role", "tab");
+      button.setAttribute("aria-selected", "false");
+      button.setAttribute("aria-controls", panel.id);
+      button.dataset.stockSelectionTab = definition.strategy_id;
+      button.tabIndex = index === 0 ? 0 : -1;
+      button.addEventListener("click", () => selectStockSelectionTab(definition.strategy_id));
+      button.addEventListener("keydown", (event) => handleStockSelectionTabKeydown(event, button));
+      target.append(button);
+    });
+    const availableIds = definitions.map((item) => item.strategy_id);
+    if (!availableIds.includes(state.stockSelectionStrategyId)) {
+      state.stockSelectionStrategyId = availableIds[0] || null;
+    }
+  }
+
+  function legacyStockSelectionPayload(archive, definition) {
+    const legacy = objectValue(archive.legacy_selection);
+    if (!Object.keys(legacy).length) return {};
+    if (definition.result_contract === "balanced_stock_selection_result.v1") return legacy;
+    if (definition.result_contract === "stock_pattern_screen.v1") {
+      return objectValue(
+        asArray(legacy.pattern_screens)
+          .map(objectValue)
+          .find((item) => item.contract === definition.result_contract),
+      );
+    }
+    if (definition.result_contract === "stock_limit_up_tendency_screen.v1") {
+      return objectValue(
+        asArray(legacy.limit_up_tendency_screens)
+          .map(objectValue)
+          .find((item) => item.contract === definition.result_contract),
+      );
+    }
+    return {};
+  }
+
+  function renderStockSelectionStrategy(archive, strategyId) {
+    const definition = stockSelectionDefinitions(archive)
+      .find((item) => item.strategy_id === strategyId);
+    if (!definition) return;
+    const result = objectValue(
+      asArray(archive.results)
+        .map(objectValue)
+        .find((item) => item.strategy_id === strategyId),
+    );
+    const payload = Object.keys(objectValue(result.payload)).length
+      ? objectValue(result.payload)
+      : legacyStockSelectionPayload(archive, definition);
+    const outcome = objectValue(
+      asArray(archive.outcomes)
+        .map(objectValue)
+        .find((item) => item.result_id === result.result_id),
+    );
+    if (definition.result_contract === "balanced_stock_selection_result.v1") {
+      if (!Object.keys(payload).length) {
+        byId("stock-selection-content").hidden = true;
+        byId("stock-selection-empty").hidden = false;
+        return;
+      }
+      renderStockSelection(
+        {
+          ...payload,
+          trade_date: result.trade_date || archive.trade_date,
+          generated_at: result.generated_at,
+          source_quality: result.source_quality || objectValue(archive.legacy_selection).source_quality,
+          source_provider_as_of: result.source_provider_as_of
+            || objectValue(archive.legacy_selection).source_provider_as_of,
+        },
+        {
+          outcome: Object.keys(outcome).length ? outcome : archive.legacy_outcome,
+          recent_outcomes: archive.legacy_recent_outcomes,
+        },
+      );
+      return;
+    }
+    if (definition.result_contract === "stock_limit_up_tendency_screen.v1") {
+      byId("stock-limit-up-tendency-version").textContent = (
+        `固定规则 ${text(payload.screen_version, definition.strategy_version)}`
+      );
+      renderLimitUpTendencyScreen(Object.keys(payload).length ? [payload] : []);
+      renderLimitUpTendencyOutcome(outcome);
+      return;
+    }
+    if (definition.result_contract === "stock_pattern_screen.v1") {
+      byId("stock-pattern-version").textContent = (
+        `固定规则 ${text(payload.screen_version, definition.strategy_version)}`
+      );
+      renderStockPatternScreen(Object.keys(payload).length ? [payload] : []);
+    }
   }
 
   function updateStockSelectionSchedule() {
@@ -3070,15 +3223,14 @@
     const manualAfter = text(schedule.manual_after, "18:00");
     const automaticAfter = text(schedule.automatic_if_missing_after, "18:30");
     const clock = shanghaiClock();
-    const selection = objectValue(objectValue(state.stockSelectionHistory).selection);
-    const todayExists = (
-      text(selection.trade_date, "") === clock.date
-      && text(selection.config_version, "") === CURRENT_STOCK_SELECTION_CONFIG
-    )
-      || asArray(objectValue(state.stockSelectionHistory).dates).some((item) => (
-        text(objectValue(item).trade_date, text(item, "")) === clock.date
-        && text(objectValue(item).config_version, "") === CURRENT_STOCK_SELECTION_CONFIG
-      ));
+    const archive = objectValue(state.stockSelectionHistory);
+    const expectedCount = stockSelectionDefinitions(archive).length;
+    const todayExists = asArray(archive.dates).some((item) => {
+      const entry = objectValue(item);
+      return text(entry.trade_date, text(item, "")) === clock.date
+        && expectedCount > 0
+        && Number(entry.strategy_count || 0) >= expectedCount;
+    });
     const due = clock.minutes >= reviewScheduleMinutes(manualAfter, "18:00");
     const button = byId("stock-selection-generate-button");
     button.disabled = state.stockSelectionGenerateInFlight || !due || todayExists;
@@ -3093,7 +3245,7 @@
     }
     else if (todayExists) button.textContent = "今日已存档";
     else if (!due) button.textContent = `${manualAfter} 后生成`;
-    else button.textContent = "生成今日候选池";
+    else button.textContent = "生成今日策略结果";
     byId("stock-selection-schedule").textContent = (
       `上海时间 ${manualAfter} 后可手动生成；`
       + `当日缺失时 ${automaticAfter} 由后台自动生成。`
@@ -3104,24 +3256,28 @@
     state.stockSelectionHistory = history;
     state.stockSelectionSchedule = objectValue(history.schedule);
     renderStockSelectionDateOptions(history);
-    const selection = objectValue(history.selection);
-    if (!Object.keys(selection).length) {
+    renderStockSelectionStrategyTabs(history);
+    if (!stockSelectionDefinitions(history).length) {
       byId("stock-selection-content").hidden = true;
       byId("stock-selection-empty").hidden = false;
       if (!state.stockSelectionGenerateInFlight) {
-        byId("stock-selection-status").textContent = "尚无存档";
-        byId("stock-selection-launch-status").textContent = "尚无存档";
+        byId("stock-selection-status").textContent = "尚无策略目录";
+        byId("stock-selection-launch-status").textContent = "尚无策略目录";
       }
-      byId("stock-pattern-content").hidden = true;
-      byId("stock-pattern-empty").hidden = false;
-      byId("stock-limit-up-tendency-content").hidden = true;
-      byId("stock-limit-up-tendency-empty").hidden = false;
     } else {
-      renderStockSelection(selection, history);
+      selectStockSelectionTab(state.stockSelectionStrategyId);
+      const balanced = objectValue(
+        asArray(history.results)
+          .map(objectValue)
+          .find((item) => item.result_contract === "balanced_stock_selection_result.v1"),
+      );
+      const balancedPayload = Object.keys(objectValue(balanced.payload)).length
+        ? objectValue(balanced.payload)
+        : objectValue(history.legacy_selection);
       if (!state.stockSelectionGenerateInFlight) {
-        byId("stock-selection-status").textContent = `${text(selection.trade_date)} · 已存档`;
+        byId("stock-selection-status").textContent = `${text(history.trade_date, "--")} · 策略结果已存档`;
         byId("stock-selection-launch-status").textContent = (
-          `${text(selection.trade_date)} · ${formatCount(selection.selected_count)} 只量化候选`
+          `${text(history.trade_date, "--")} · ${formatCount(balancedPayload.selected_count)} 只量化候选`
         );
       }
     }
@@ -3133,12 +3289,12 @@
     if (state.stockSelectionFetchInFlight) return;
     state.stockSelectionFetchInFlight = true;
     if (!silent) {
-      byId("stock-selection-status").textContent = "正在读取存档…";
-      byId("stock-selection-launch-status").textContent = "正在读取存档…";
+      byId("stock-selection-status").textContent = "正在读取策略结果…";
+      byId("stock-selection-launch-status").textContent = "正在读取策略结果…";
     }
     try {
       const query = tradeDate ? `?trade_date=${encodeURIComponent(tradeDate)}` : "";
-      const response = await fetch(`${STOCK_SELECTION_HISTORY_ENDPOINT}${query}`, {
+      const response = await fetch(`${STOCK_SELECTION_RESULTS_ENDPOINT}${query}`, {
         cache: "no-store",
         headers: { Accept: "application/json" },
       });
@@ -3146,8 +3302,8 @@
       if (!response.ok) throw new Error(text(payload.error, `服务返回 ${response.status}`));
       renderStockSelectionHistory(validateStockSelectionHistory(payload));
     } catch (error) {
-      byId("stock-selection-status").textContent = `档案暂不可用：${text(error.message, "等待重试")}`;
-      byId("stock-selection-launch-status").textContent = "档案暂不可用";
+      byId("stock-selection-status").textContent = `策略结果暂不可用：${text(error.message, "等待重试")}`;
+      byId("stock-selection-launch-status").textContent = "策略结果暂不可用";
     } finally {
       state.stockSelectionFetchInFlight = false;
       updateStockSelectionSchedule();
@@ -5173,18 +5329,25 @@
   }
 
   function selectStockSelectionTab(tabName, { focus = false } = {}) {
-    const requested = new Set(["daily", "limit-up-tendency", "long-upper-shadow"]).has(tabName)
-      ? tabName
-      : "daily";
+    const archive = objectValue(state.stockSelectionHistory);
+    const definitions = stockSelectionDefinitions(archive);
+    const definition = definitions.find((item) => item.strategy_id === tabName)
+      || definitions[0];
+    if (!definition) return;
+    const requested = definition.strategy_id;
+    state.stockSelectionStrategyId = requested;
     document.querySelectorAll("[data-stock-selection-tab]").forEach((button) => {
       const selected = button.dataset.stockSelectionTab === requested;
       button.setAttribute("aria-selected", String(selected));
       button.tabIndex = selected ? 0 : -1;
       if (selected && focus) button.focus();
     });
-    document.querySelectorAll("[data-stock-selection-panel]").forEach((panel) => {
-      panel.hidden = panel.dataset.stockSelectionPanel !== requested;
+    document.querySelectorAll("[data-stock-selection-result-contract]").forEach((panel) => {
+      const selected = panel.dataset.stockSelectionResultContract === definition.result_contract;
+      panel.hidden = !selected;
+      if (selected) panel.setAttribute("aria-labelledby", `stock-selection-tab-${requested}`);
     });
+    renderStockSelectionStrategy(archive, requested);
   }
 
   function openStockSelectionDialog() {
@@ -5314,23 +5477,6 @@
     dialog.addEventListener("click", (event) => {
       if (event.target !== dialog) return;
       closeStockSelectionDialog();
-    });
-    document.querySelectorAll("[data-stock-selection-tab]").forEach((button) => {
-      button.addEventListener("click", () => {
-        selectStockSelectionTab(button.dataset.stockSelectionTab);
-      });
-      button.addEventListener("keydown", (event) => {
-        if (!new Set(["ArrowLeft", "ArrowRight", "Home", "End"]).has(event.key)) return;
-        event.preventDefault();
-        const tabs = [...document.querySelectorAll("[data-stock-selection-tab]")];
-        const current = tabs.indexOf(button);
-        const target = event.key === "Home"
-          ? 0
-          : event.key === "End"
-            ? tabs.length - 1
-            : (current + (event.key === "ArrowRight" ? 1 : -1) + tabs.length) % tabs.length;
-        selectStockSelectionTab(tabs[target].dataset.stockSelectionTab, { focus: true });
-      });
     });
     byId("stock-selection-date-select").addEventListener("change", (event) => {
       state.stockSelectionTradeDate = event.target.value || null;

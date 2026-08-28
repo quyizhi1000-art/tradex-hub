@@ -347,12 +347,37 @@ A 股目录、全量/复权 K 线、公司基本信息、三大财报与财务�
 移除单个 `BIYING_PRIMARY_CAPABILITIES` 项即可只回滚该能力；
 `BIYING_ENABLED=false` 可整体停用。
 
+## `stock_selection_strategy_result.v1`
+
+选股中心使用独立策略目录和不可变策略结果，不再把新增策略解释为综合候选池的版本升级。
+每项结果固定记录 `strategy_id`、`strategy_version`、`result_contract`、`result_id`、交易日、
+生成时间、输入快照契约、完整 `source_snapshot_revision`、质量状态和严格结果 payload。
+归档唯一键为 `(trade_date, strategy_id, strategy_version)`；增加新策略不会改变同日已有策略的
+版本、结果身份或 payload。策略语义变化只升级该策略版本，页面布局或文案变化不升级策略。
+
+当前静态目录包含：
+
+- `balanced-multifactor-a-share.v1`，结果契约 `balanced_stock_selection_result.v1`；
+- `next-session-limit-up-tendency-main-board.v2`，结果契约 `stock_limit_up_tendency_screen.v1`；
+- `long-upper-shadow-main-board.v3`，结果契约 `stock_pattern_screen.v1`。
+
+三项策略由同一个 Analysis Worker 对同一份 `daily_stock_factor_snapshot.v1` 执行，共享采集、
+交易日历、调度、质量门和单次快照，不建立第二套 Provider 调用、缓存或归档责任人。旧
+`daily_stock_selection.v1` / `daily-stock-selection-balanced.v6` 总包被冻结为兼容档案；新增策略
+不得再写入该总包。页面通过 `GET /api/stock-selection/strategies` 读取目录，通过
+`GET /api/stock-selection/results` 读取指定交易日的独立结果；旧日期没有独立结果时只读回退
+旧总包，不重算历史 Provider 数据。
+
+`stock_selection_strategy_outcome.v1` 按策略声明评估口径。综合候选池继续记录下一交易日
+开盘至收盘、扣除 0.15% 双边成本后的组合收益、基准收益与超额收益。次日涨停机会策略分别
+记录下一有效交易日的盘中触板数/率和收盘封板数/率，覆盖不足 70% 时标记
+`unverifiable` 并不输出比率。长上影形态没有已经确认的收益预测目标，目录明确标记
+`not_defined`，不得套用综合候选池收益作为策略证明。
+
 ## `stock_pattern_screen.v1`
 
-每日选股档案在 `daily-stock-selection-balanced.v6` 中附带独立的条件筛选结果；`v4`
-升级的长上影条件筛选规则保持不变，`v5` 新增次日涨停倾向相对排序，`v6` 将其修正为
-区分未涨停启动机会与已涨停延续观察的机会榜。每日量化候选池的因子权重和准入门槛
-保持不变。
+旧总包 `daily-stock-selection-balanced.v6` 曾同时携带长上影与涨停机会结果；该总包现仅作
+兼容读取。长上影策略使用自己的 `long-upper-shadow-main-board.v3` 身份和独立策略归档。
 当前规则版本为 `long-upper-shadow-main-board.v3`。数据输入仍保留信号日及此前 14 个
 已完成交易日的全市场 OHLC、昨收与成交额，但本规则只消费最后 10 个交易日；因此
 不增加 Provider 请求，也不会把第 11 至 15 个交易日的形态计入当前规则。普通历史读取
@@ -408,8 +433,8 @@ SQLite 作业账本排队或复用当日唯一任务，并立即返回状态；`
 
 任务状态为 `idle`、`queued`、`running`、`succeeded` 或 `failed`。运行阶段可进一步
 标记 `acquiring`、`selecting`、`archiving` 或 `publishing`。成功状态只带结果标识，
-页面随后读取 Worker 发布的 `daily_stock_selection_archive.v1` 展示结果，不在任务响应
-中重复传输完整档案。失败时只返回安全错误、失败阶段和非敏感失败类型。手动生成与
+页面随后读取 Worker 发布的 `stock_selection_strategy_archive.v1` 展示结果；旧
+`daily_stock_selection_archive.v1` 仅作历史兼容，不在任务响应中重复传输完整档案。失败时只返回安全错误、失败阶段和非敏感失败类型。手动生成与
 18:30 自动补生成共享同一 Worker 和不可变归档，不会由 Dashboard 请求线程执行。
 
 ## 后台分析展示边界

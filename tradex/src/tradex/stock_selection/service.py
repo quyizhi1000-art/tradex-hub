@@ -22,6 +22,12 @@ from tradex.market_calendar import (
 
 from .contracts import DailyStockSelectionOutcomeV1, DailyStockSelectionV1
 from .engine import DEFAULT_SELECTION_CONFIG, select_daily_stocks
+from .strategies import (
+    REGISTERED_STOCK_SELECTION_STRATEGIES,
+    build_strategy_results,
+    evaluate_strategy_result,
+    strategy_catalog,
+)
 from .store import ARCHIVE_CONTRACT, ARCHIVE_SCHEMA_VERSION, DailyStockSelectionStore
 
 
@@ -192,10 +198,36 @@ class DailyStockSelectionService:
         return snapshot
 
     def _evaluate_previous(self, snapshot: DailyStockFactorSnapshotV1) -> None:
-        previous = self.store.get_previous_before(snapshot.trade_date)
-        if previous is None or previous.trade_date != _previous_trading_date(snapshot.trade_date):
+        previous_trade_date = _previous_trading_date(snapshot.trade_date)
+        if previous_trade_date is None:
             return
-        self.store.record_outcome(evaluate_next_session(previous, snapshot))
+        previous = self.store.get_previous_before(snapshot.trade_date)
+        if previous is not None and previous.trade_date == previous_trade_date:
+            self.store.record_outcome(evaluate_next_session(previous, snapshot))
+        for strategy in REGISTERED_STOCK_SELECTION_STRATEGIES:
+            if strategy.evaluation_policy == "not_defined":
+                continue
+            result = self.store.get_strategy_result(
+                previous_trade_date,
+                strategy.strategy_id,
+                strategy_version=strategy.strategy_version,
+            )
+            if result is None:
+                continue
+            self.store.record_strategy_outcome(
+                evaluate_strategy_result(result, snapshot)
+            )
+
+    def _strategy_results_complete(self, trade_date: date) -> bool:
+        return all(
+            self.store.get_strategy_result(
+                trade_date,
+                strategy.strategy_id,
+                strategy_version=strategy.strategy_version,
+            )
+            is not None
+            for strategy in REGISTERED_STOCK_SELECTION_STRATEGIES
+        )
 
     def _generate_once(
         self,
@@ -207,7 +239,7 @@ class DailyStockSelectionService:
         update_phase = phase or (lambda _value: None)
         with self._execution_lock:
             existing = self.store.get_current(current.date())
-            if existing is not None:
+            if existing is not None and self._strategy_results_complete(current.date()):
                 return self._result("existing", existing)
             self._validate_due(current, automatic=automatic)
             update_phase("acquiring")
@@ -216,16 +248,29 @@ class DailyStockSelectionService:
             selection = select_daily_stocks(
                 snapshot,
                 config=DEFAULT_SELECTION_CONFIG,
-                generated_at=current,
+                generated_at=existing.generated_at if existing is not None else current,
             )
+            if existing is not None and selection.selection_id != existing.selection_id:
+                raise SelectionDataUnavailableError(
+                    "现有不可变选股档案与当前证据不一致，未补写策略档案。"
+                )
             if selection.selected_count == 0:
                 raise SelectionDataUnavailableError(
                     "当日没有通过完整性和流动性门槛的候选股票。"
                 )
+            strategy_results = build_strategy_results(snapshot, selection)
             update_phase("archiving")
             self._evaluate_previous(snapshot)
             action, stored = self.store.record(selection)
-            return self._result(action, stored)
+            stored_strategy_results = []
+            for result in strategy_results:
+                _strategy_action, stored_result = self.store.record_strategy_result(result)
+                stored_strategy_results.append(stored_result)
+            return self._result(
+                action,
+                stored,
+                strategy_results=stored_strategy_results,
+            )
 
     def generate(
         self,
@@ -359,7 +404,7 @@ class DailyStockSelectionService:
         trigger = "automatic" if automatic else "manual"
         with self._lock:
             existing = self.store.get_current(current.date())
-            if existing is not None:
+            if existing is not None and self._strategy_results_complete(current.date()):
                 return self._completed_generation(
                     current=current,
                     trigger=trigger,
@@ -427,7 +472,14 @@ class DailyStockSelectionService:
         worker.join(timeout)
         return not worker.is_alive()
 
-    def _result(self, action: str, selection: DailyStockSelectionV1) -> dict[str, Any]:
+    def _result(
+        self,
+        action: str,
+        selection: DailyStockSelectionV1,
+        *,
+        strategy_results=None,
+    ) -> dict[str, Any]:
+        results = list(strategy_results or self.store.list_strategy_results(selection.trade_date))
         return {
             "contract": "daily_stock_selection_result.v1",
             "schema_version": 1,
@@ -438,6 +490,68 @@ class DailyStockSelectionService:
                 if (outcome := self.store.get_outcome(selection.selection_id))
                 else None
             ),
+            "strategy_results": [item.model_dump(mode="json") for item in results],
+            "strategy_outcomes": [
+                outcome.model_dump(mode="json")
+                for item in results
+                if (outcome := self.store.get_strategy_outcome(item.result_id)) is not None
+            ],
+        }
+
+    def strategy_history(
+        self,
+        *,
+        trade_date: date | str | None = None,
+        limit: int = 90,
+    ) -> dict[str, Any]:
+        legacy_dates = self.store.list_dates(limit=limit)
+        strategy_dates = self.store.list_strategy_dates(limit=limit)
+        date_entries: dict[str, dict[str, Any]] = {
+            str(item["trade_date"]): {
+                "trade_date": str(item["trade_date"]),
+                "strategy_count": 0,
+                "generated_at": item.get("generated_at"),
+            }
+            for item in legacy_dates
+        }
+        for item in strategy_dates:
+            normalized = str(item["trade_date"])
+            date_entries[normalized] = {
+                "trade_date": normalized,
+                "strategy_count": int(item["strategy_count"]),
+                "generated_at": item.get("generated_at"),
+            }
+        dates = sorted(
+            date_entries.values(),
+            key=lambda item: item["trade_date"],
+            reverse=True,
+        )[: int(limit)]
+        target = str(trade_date) if trade_date is not None else (
+            dates[0]["trade_date"] if dates else None
+        )
+        results = self.store.list_strategy_results(target) if target else []
+        outcomes = [
+            outcome
+            for result in results
+            if (outcome := self.store.get_strategy_outcome(result.result_id)) is not None
+        ]
+        return {
+            "contract": "stock_selection_strategy_archive.v1",
+            "schema_version": 1,
+            "trade_date": target,
+            "dates": dates,
+            "catalog": strategy_catalog().model_dump(mode="json"),
+            "results": [item.model_dump(mode="json") for item in results],
+            "outcomes": [item.model_dump(mode="json") for item in outcomes],
+            "recent_outcomes": [
+                item.model_dump(mode="json")
+                for item in self.store.list_strategy_outcomes(limit=100)
+            ],
+            "schedule": {
+                "manual_after": "18:00",
+                "automatic_if_missing_after": "18:30",
+                "timezone": "Asia/Shanghai",
+            },
         }
 
     def history(
@@ -450,7 +564,7 @@ class DailyStockSelectionService:
         target = trade_date or (dates[0]["trade_date"] if dates else None)
         selection = self.store.get(target) if target is not None else None
         outcome = self.store.get_outcome(selection.selection_id) if selection else None
-        return {
+        history = {
             "contract": ARCHIVE_CONTRACT,
             "schema_version": ARCHIVE_SCHEMA_VERSION,
             "trade_date": selection.trade_date.isoformat() if selection else None,
@@ -464,6 +578,11 @@ class DailyStockSelectionService:
                 "timezone": "Asia/Shanghai",
             },
         }
+        history["strategy_archive"] = self.strategy_history(
+            trade_date=target,
+            limit=limit,
+        )
+        return history
 
     def maybe_generate_automatic(self, *, now: datetime | None = None) -> dict[str, Any]:
         current = self._now(now)
@@ -475,7 +594,7 @@ class DailyStockSelectionService:
             return {"action": "not_due"}
         with self._lock:
             existing = self.store.get_current(current.date())
-            if existing is not None:
+            if existing is not None and self._strategy_results_complete(current.date()):
                 return self._result("existing", existing)
             if (
                 self._generation.get("state") == "running"
