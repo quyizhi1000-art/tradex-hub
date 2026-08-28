@@ -22,6 +22,12 @@ from tradex.stock_selection.engine import (
     select_daily_stocks,
 )
 from tradex.stock_selection.service import DailyStockSelectionService
+from tradex.stock_selection.strategies import (
+    REGISTERED_STOCK_SELECTION_STRATEGIES,
+    RegisteredStockSelectionStrategy,
+    build_strategy_results,
+    evaluate_strategy_result,
+)
 from tradex.stock_selection.store import DailyStockSelectionStore
 
 
@@ -423,6 +429,154 @@ def test_next_session_limit_up_tendency_returns_twenty_ranked_main_board_candida
     assert selection.pattern_screens[0].screen_version == "long-upper-shadow-main-board.v3"
 
 
+def test_strategy_result_identity_is_unchanged_when_an_unrelated_strategy_is_registered():
+    day = date(2026, 8, 27)
+    snapshot = _snapshot(day)
+    selection = select_daily_stocks(snapshot)
+
+    baseline = build_strategy_results(snapshot, selection)
+    extra = RegisteredStockSelectionStrategy(
+        strategy_id="fixture-copy-long-upper-shadow",
+        strategy_version="v1",
+        title="测试策略",
+        result_contract="stock_pattern_screen.v1",
+        evaluation_policy="not_defined",
+        display_order=99,
+        execute=lambda _snapshot_value, selection_value: (
+            selection_value.pattern_screens[0]
+        ),
+    )
+    expanded = build_strategy_results(
+        snapshot,
+        selection,
+        strategies=REGISTERED_STOCK_SELECTION_STRATEGIES + (extra,),
+    )
+
+    assert {
+        item.strategy_id: item.result_id for item in baseline
+    } == {
+        item.strategy_id: item.result_id
+        for item in expanded
+        if item.strategy_id != extra.strategy_id
+    }
+
+
+def test_store_archives_each_strategy_independently_for_the_same_trade_date(tmp_path):
+    day = date(2026, 8, 27)
+    snapshot = _snapshot(day)
+    selection = select_daily_stocks(snapshot)
+    results = build_strategy_results(snapshot, selection)
+    store = DailyStockSelectionStore(tmp_path / "selection.sqlite3")
+    try:
+        actions = [store.record_strategy_result(item)[0] for item in results]
+        stored = store.list_strategy_results(day)
+    finally:
+        store.close()
+
+    assert actions == ["inserted"] * len(results)
+    assert [item.strategy_id for item in stored] == [
+        item.strategy_id for item in results
+    ]
+    assert len({item.result_id for item in stored}) == len(results)
+
+
+def test_limit_up_strategy_outcome_counts_next_session_touch_and_close():
+    signal_day = date(2026, 8, 27)
+    evaluation_day = date(2026, 8, 28)
+    dates = tuple(signal_day - timedelta(days=offset) for offset in range(14, -1, -1))
+    signal_rows = []
+    signal_histories = []
+    for index in range(2):
+        instrument_id = f"{600300 + index:06d}.SH"
+        history = _tendency_history(
+            instrument_id,
+            dates,
+            final_return_pct=4.0 + index,
+            final_amount_multiple=2.0,
+        )
+        latest = history.bars[-1]
+        signal_histories.append(history)
+        signal_rows.append(
+            _row(
+                signal_day,
+                300 + index,
+                instrument_id=instrument_id,
+                open=latest.open,
+                close=latest.close,
+                amount_cny=latest.amount_cny,
+                turnover_rate_pct=8.0,
+                volume_ratio=2.0,
+            )
+        )
+    signal_snapshot = _snapshot(
+        signal_day,
+        tuple(signal_rows),
+        candlestick_window_trade_dates=dates,
+        candlestick_histories=tuple(signal_histories),
+    )
+    tendency_result = next(
+        item
+        for item in build_strategy_results(
+            signal_snapshot,
+            select_daily_stocks(signal_snapshot),
+        )
+        if item.strategy_id == "next-session-limit-up-tendency-main-board"
+    )
+    candidate_ids = [item.instrument_id for item in tendency_result.payload.candidates]
+    evaluation_dates = dates[1:] + (evaluation_day,)
+    evaluation_histories = []
+    evaluation_rows = []
+    for index, instrument_id in enumerate(candidate_ids):
+        previous_close = tendency_result.payload.candidates[index].reference_close
+        limit_price = round(previous_close * 1.10 + 1e-12, 2)
+        close = limit_price if index == 0 else previous_close * 1.04
+        high = limit_price if index < 2 else previous_close * 1.05
+        bars = list(signal_histories[index].bars[1:])
+        bars.append(
+            DailyStockCandlestickBarV1(
+                trade_date=evaluation_day,
+                open=previous_close * 1.02,
+                high=high,
+                low=previous_close * 1.01,
+                close=close,
+                previous_close=previous_close,
+                amount_cny=400_000_000.0,
+            )
+        )
+        evaluation_histories.append(
+            DailyStockCandlestickHistoryV1(
+                instrument_id=instrument_id,
+                bars=tuple(bars),
+            )
+        )
+        evaluation_rows.append(
+            _row(
+                evaluation_day,
+                400 + index,
+                instrument_id=instrument_id,
+                open=previous_close * 1.02,
+                close=close,
+            )
+        )
+    evaluation_snapshot = _snapshot(
+        evaluation_day,
+        tuple(evaluation_rows),
+        candlestick_window_trade_dates=evaluation_dates,
+        candlestick_histories=tuple(evaluation_histories),
+    )
+
+    outcome = evaluate_strategy_result(tendency_result, evaluation_snapshot)
+
+    assert outcome.evaluation_policy == "next_session_limit_up"
+    assert outcome.evaluated_count == len(candidate_ids)
+    assert outcome.touched_limit_up_count == min(2, len(candidate_ids))
+    assert outcome.closed_limit_up_count == 1
+    assert outcome.touched_limit_up_rate == pytest.approx(
+        min(2, len(candidate_ids)) / len(candidate_ids)
+    )
+    assert outcome.closed_limit_up_rate == pytest.approx(1 / len(candidate_ids))
+
+
 def test_walk_forward_enters_at_next_session_open_and_charges_costs():
     signal_day = date(2026, 8, 24)
     signal = _snapshot(signal_day)
@@ -475,6 +629,15 @@ def test_service_generates_once_and_reads_immutable_archive(tmp_path):
     assert calls == [day]
     assert history["contract"] == "daily_stock_selection_archive.v1"
     assert history["selection"]["selection_id"] == first["selection"]["selection_id"]
+    assert len(first["strategy_results"]) == 3
+    assert len(second["strategy_results"]) == 3
+    assert history["strategy_archive"]["contract"] == (
+        "stock_selection_strategy_archive.v1"
+    )
+    assert len(history["strategy_archive"]["results"]) == 3
+    assert len(
+        {item["source_snapshot_revision"] for item in first["strategy_results"]}
+    ) == 1
     assert history["schedule"]["automatic_if_missing_after"] == "18:30"
 
 

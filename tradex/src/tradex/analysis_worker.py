@@ -303,7 +303,15 @@ class AnalysisRuntime:
 
     def materialize_selection_views(self, *, force: bool = False) -> int:
         dates = self.selection_store.list_dates(limit=365)
-        catalog_revision = _revision(dates)
+        strategy_dates = self.selection_store.list_strategy_dates(limit=365)
+        strategy_catalog = self.selection_service.strategy_history(limit=1)["catalog"]
+        catalog_revision = _revision(
+            {
+                "legacy_dates": dates,
+                "strategy_dates": strategy_dates,
+                "strategy_catalog": strategy_catalog,
+            }
+        )
         published = 0
         latest_payload = None
         for item in dates:
@@ -330,20 +338,7 @@ class AnalysisRuntime:
             if latest_payload is None:
                 latest_payload = payload
         if latest_payload is None:
-            latest_payload = {
-                "contract": "daily_stock_selection_archive.v1",
-                "schema_version": 1,
-                "trade_date": None,
-                "dates": [],
-                "selection": None,
-                "outcome": None,
-                "recent_outcomes": [],
-                "schedule": {
-                    "manual_after": "18:00",
-                    "automatic_if_missing_after": "18:30",
-                    "timezone": "Asia/Shanghai",
-                },
-            }
+            latest_payload = self.selection_service.history(limit=365)
         latest = self.jobs.get_artifact(DAILY_STOCK_SELECTION, scope_key="latest")
         if force or latest is None or latest["source_revision"] != catalog_revision:
             self.jobs.put_artifact(

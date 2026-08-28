@@ -52,6 +52,36 @@ def test_daily_stock_selection_generation_status_route():
     assert calls == [True]
 
 
+def test_stock_selection_strategy_catalog_and_results_routes():
+    catalog_calls = []
+    catalog_handler = _bare_handler()
+    catalog_handler.path = "/api/stock-selection/strategies?trade_date=2026-08-27"
+    catalog_handler._handle_stock_selection_strategies_api = (
+        lambda **kwargs: catalog_calls.append(kwargs)
+    )
+    result_calls = []
+    result_handler = _bare_handler()
+    result_handler.path = (
+        "/api/stock-selection/results?trade_date=2026-08-27"
+        "&strategy_id=next-session-limit-up-tendency-main-board"
+    )
+    result_handler._handle_stock_selection_strategy_results_api = (
+        lambda **kwargs: result_calls.append(kwargs)
+    )
+
+    catalog_handler.do_GET()
+    result_handler.do_GET()
+
+    assert catalog_calls == [{"trade_date": "2026-08-27"}]
+    assert result_calls == [
+        {
+            "trade_date": "2026-08-27",
+            "strategy_id": "next-session-limit-up-tendency-main-board",
+            "limit": None,
+        }
+    ]
+
+
 @pytest.mark.parametrize("value", ["0", "366", "abc", "1.5"])
 def test_daily_stock_selection_history_limit_is_bounded(value):
     with pytest.raises(ValueError):

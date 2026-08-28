@@ -12,7 +12,12 @@ from datetime import date
 from pathlib import Path
 from typing import Any
 
-from .contracts import DailyStockSelectionOutcomeV1, DailyStockSelectionV1
+from .contracts import (
+    DailyStockSelectionOutcomeV1,
+    DailyStockSelectionV1,
+    StockSelectionStrategyOutcomeV1,
+    StockSelectionStrategyResultV1,
+)
 from .engine import DEFAULT_SELECTION_CONFIG
 
 
@@ -106,6 +111,40 @@ class DailyStockSelectionStore:
                 );
                 CREATE INDEX IF NOT EXISTS idx_daily_stock_selection_outcome_date
                     ON daily_stock_selection_outcomes (evaluation_trade_date DESC);
+                CREATE TABLE IF NOT EXISTS stock_selection_strategy_results (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    trade_date TEXT NOT NULL,
+                    strategy_id TEXT NOT NULL,
+                    strategy_version TEXT NOT NULL,
+                    result_id TEXT NOT NULL UNIQUE,
+                    generated_at TEXT NOT NULL,
+                    source_snapshot_revision TEXT NOT NULL,
+                    source_quality TEXT NOT NULL,
+                    quality TEXT NOT NULL,
+                    payload_digest TEXT NOT NULL,
+                    payload_json TEXT NOT NULL,
+                    archived_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                    UNIQUE (trade_date, strategy_id, strategy_version)
+                );
+                CREATE INDEX IF NOT EXISTS idx_stock_selection_strategy_result_date
+                    ON stock_selection_strategy_results (trade_date DESC, id);
+                CREATE TABLE IF NOT EXISTS stock_selection_strategy_outcomes (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    outcome_id TEXT NOT NULL UNIQUE,
+                    result_id TEXT NOT NULL UNIQUE,
+                    strategy_id TEXT NOT NULL,
+                    strategy_version TEXT NOT NULL,
+                    signal_trade_date TEXT NOT NULL,
+                    evaluation_trade_date TEXT NOT NULL,
+                    evaluation_status TEXT NOT NULL,
+                    payload_digest TEXT NOT NULL,
+                    payload_json TEXT NOT NULL,
+                    recorded_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                    FOREIGN KEY (result_id)
+                        REFERENCES stock_selection_strategy_results(result_id)
+                );
+                CREATE INDEX IF NOT EXISTS idx_stock_selection_strategy_outcome_date
+                    ON stock_selection_strategy_outcomes (evaluation_trade_date DESC, id);
                 """
             )
             expected = {
@@ -140,6 +179,30 @@ class DailyStockSelectionStore:
     def _outcome(row: sqlite3.Row | None) -> DailyStockSelectionOutcomeV1 | None:
         return (
             DailyStockSelectionOutcomeV1.model_validate(json.loads(row["payload_json"]))
+            if row is not None
+            else None
+        )
+
+    @staticmethod
+    def _strategy_result(
+        row: sqlite3.Row | None,
+    ) -> StockSelectionStrategyResultV1 | None:
+        return (
+            StockSelectionStrategyResultV1.model_validate(
+                json.loads(row["payload_json"])
+            )
+            if row is not None
+            else None
+        )
+
+    @staticmethod
+    def _strategy_outcome(
+        row: sqlite3.Row | None,
+    ) -> StockSelectionStrategyOutcomeV1 | None:
+        return (
+            StockSelectionStrategyOutcomeV1.model_validate(
+                json.loads(row["payload_json"])
+            )
             if row is not None
             else None
         )
@@ -283,6 +346,232 @@ class DailyStockSelectionStore:
                 (str(selection_id),),
             ).fetchone()
         return self._outcome(row)
+
+    def record_strategy_result(
+        self,
+        result: StockSelectionStrategyResultV1 | Mapping[str, Any],
+    ) -> tuple[str, StockSelectionStrategyResultV1]:
+        canonical = StockSelectionStrategyResultV1.model_validate(result)
+        payload = canonical.model_dump(mode="json")
+        payload_json = _json(payload)
+        payload_digest = _digest(payload)
+        with self._lock:
+            self._ensure_open()
+            with self._connection:
+                cursor = self._connection.execute(
+                    """
+                    INSERT OR IGNORE INTO stock_selection_strategy_results (
+                        trade_date, strategy_id, strategy_version, result_id,
+                        generated_at, source_snapshot_revision, source_quality,
+                        quality, payload_digest, payload_json
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    """,
+                    (
+                        canonical.trade_date.isoformat(),
+                        canonical.strategy_id,
+                        canonical.strategy_version,
+                        canonical.result_id,
+                        canonical.generated_at.isoformat(),
+                        canonical.source_snapshot_revision,
+                        canonical.source_quality,
+                        canonical.quality,
+                        payload_digest,
+                        payload_json,
+                    ),
+                )
+                row = self._connection.execute(
+                    """
+                    SELECT payload_digest, payload_json
+                    FROM stock_selection_strategy_results
+                    WHERE trade_date = ? AND strategy_id = ? AND strategy_version = ?
+                    """,
+                    (
+                        canonical.trade_date.isoformat(),
+                        canonical.strategy_id,
+                        canonical.strategy_version,
+                    ),
+                ).fetchone()
+        if row is None:
+            raise RuntimeError("strategy result insert did not produce a row")
+        if row["payload_digest"] != payload_digest:
+            raise RuntimeError("stock selection strategy result is immutable")
+        stored = self._strategy_result(row)
+        if stored is None:
+            raise RuntimeError("stock selection strategy result could not be decoded")
+        return ("inserted" if cursor.rowcount == 1 else "existing", stored)
+
+    def get_strategy_result(
+        self,
+        trade_date: date | str,
+        strategy_id: str,
+        *,
+        strategy_version: str | None = None,
+    ) -> StockSelectionStrategyResultV1 | None:
+        parameters: list[Any] = [_date(trade_date), str(strategy_id)]
+        version_clause = ""
+        if strategy_version is not None:
+            version_clause = " AND strategy_version = ?"
+            parameters.append(str(strategy_version))
+        with self._lock:
+            self._ensure_open()
+            row = self._connection.execute(
+                f"""
+                SELECT payload_json FROM stock_selection_strategy_results
+                WHERE trade_date = ? AND strategy_id = ?{version_clause}
+                ORDER BY id DESC LIMIT 1
+                """,
+                parameters,
+            ).fetchone()
+        return self._strategy_result(row)
+
+    def get_previous_strategy_result_before(
+        self,
+        trade_date: date | str,
+        strategy_id: str,
+        strategy_version: str,
+    ) -> StockSelectionStrategyResultV1 | None:
+        with self._lock:
+            self._ensure_open()
+            row = self._connection.execute(
+                """
+                SELECT payload_json FROM stock_selection_strategy_results
+                WHERE strategy_id = ? AND strategy_version = ?
+                  AND trade_date = (
+                    SELECT MAX(trade_date) FROM stock_selection_strategy_results
+                    WHERE strategy_id = ? AND strategy_version = ? AND trade_date < ?
+                  )
+                ORDER BY id DESC LIMIT 1
+                """,
+                (
+                    str(strategy_id),
+                    str(strategy_version),
+                    str(strategy_id),
+                    str(strategy_version),
+                    _date(trade_date),
+                ),
+            ).fetchone()
+        return self._strategy_result(row)
+
+    def list_strategy_results(
+        self,
+        trade_date: date | str,
+    ) -> list[StockSelectionStrategyResultV1]:
+        with self._lock:
+            self._ensure_open()
+            rows = self._connection.execute(
+                """
+                SELECT payload_json FROM stock_selection_strategy_results
+                WHERE trade_date = ? ORDER BY id
+                """,
+                (_date(trade_date),),
+            ).fetchall()
+        return [
+            result
+            for row in rows
+            if (result := self._strategy_result(row)) is not None
+        ]
+
+    def list_strategy_dates(self, *, limit: int = 365) -> list[dict[str, Any]]:
+        if isinstance(limit, bool) or not 1 <= int(limit) <= 365:
+            raise ValueError("limit must be between 1 and 365")
+        with self._lock:
+            self._ensure_open()
+            rows = self._connection.execute(
+                """
+                SELECT trade_date, COUNT(*) AS strategy_count,
+                       MAX(generated_at) AS generated_at,
+                       GROUP_CONCAT(result_id, ',') AS result_ids
+                FROM stock_selection_strategy_results
+                GROUP BY trade_date
+                ORDER BY trade_date DESC LIMIT ?
+                """,
+                (int(limit),),
+            ).fetchall()
+        return [dict(row) for row in rows]
+
+    def record_strategy_outcome(
+        self,
+        outcome: StockSelectionStrategyOutcomeV1 | Mapping[str, Any],
+    ) -> tuple[str, StockSelectionStrategyOutcomeV1]:
+        canonical = StockSelectionStrategyOutcomeV1.model_validate(outcome)
+        payload = canonical.model_dump(mode="json")
+        payload_json = _json(payload)
+        payload_digest = _digest(payload)
+        with self._lock:
+            self._ensure_open()
+            with self._connection:
+                cursor = self._connection.execute(
+                    """
+                    INSERT OR IGNORE INTO stock_selection_strategy_outcomes (
+                        outcome_id, result_id, strategy_id, strategy_version,
+                        signal_trade_date, evaluation_trade_date,
+                        evaluation_status, payload_digest, payload_json
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    """,
+                    (
+                        canonical.outcome_id,
+                        canonical.result_id,
+                        canonical.strategy_id,
+                        canonical.strategy_version,
+                        canonical.signal_trade_date.isoformat(),
+                        canonical.evaluation_trade_date.isoformat(),
+                        canonical.evaluation_status,
+                        payload_digest,
+                        payload_json,
+                    ),
+                )
+                row = self._connection.execute(
+                    """
+                    SELECT payload_digest, payload_json
+                    FROM stock_selection_strategy_outcomes WHERE result_id = ?
+                    """,
+                    (canonical.result_id,),
+                ).fetchone()
+        if row is None:
+            raise RuntimeError("strategy outcome insert did not produce a row")
+        if row["payload_digest"] != payload_digest:
+            raise RuntimeError("stock selection strategy outcome is immutable")
+        stored = self._strategy_outcome(row)
+        if stored is None:
+            raise RuntimeError("stock selection strategy outcome could not be decoded")
+        return ("inserted" if cursor.rowcount == 1 else "existing", stored)
+
+    def get_strategy_outcome(
+        self,
+        result_id: str,
+    ) -> StockSelectionStrategyOutcomeV1 | None:
+        with self._lock:
+            self._ensure_open()
+            row = self._connection.execute(
+                """
+                SELECT payload_json FROM stock_selection_strategy_outcomes
+                WHERE result_id = ?
+                """,
+                (str(result_id),),
+            ).fetchone()
+        return self._strategy_outcome(row)
+
+    def list_strategy_outcomes(
+        self,
+        *,
+        limit: int = 100,
+    ) -> list[StockSelectionStrategyOutcomeV1]:
+        if isinstance(limit, bool) or not 1 <= int(limit) <= 365:
+            raise ValueError("limit must be between 1 and 365")
+        with self._lock:
+            self._ensure_open()
+            rows = self._connection.execute(
+                """
+                SELECT payload_json FROM stock_selection_strategy_outcomes
+                ORDER BY evaluation_trade_date DESC, id DESC LIMIT ?
+                """,
+                (int(limit),),
+            ).fetchall()
+        return [
+            outcome
+            for row in rows
+            if (outcome := self._strategy_outcome(row)) is not None
+        ]
 
     def list_dates(self, *, limit: int = 90) -> list[dict[str, Any]]:
         if isinstance(limit, bool) or not 1 <= int(limit) <= 365:
