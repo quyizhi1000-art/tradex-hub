@@ -13,6 +13,10 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator, model_valida
 SHANGHAI = ZoneInfo("Asia/Shanghai")
 
 
+class TerminalCollectionError(RuntimeError):
+    """A historical collection gap cannot change without new external evidence."""
+
+
 class CollectionContractModel(BaseModel):
     """Immutable collection model that rejects accidental transport fields."""
 
@@ -371,4 +375,5 @@ __all__ = [
     "DailyRecoveryStatus",
     "DailyRecoveryTrigger",
     "MarketWatchCollectorEnvelopeV1",
+    "TerminalCollectionError",
 ]

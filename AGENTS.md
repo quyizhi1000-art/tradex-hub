@@ -23,7 +23,9 @@
 
 - The default `tradex` MCP entry exposes only the eight core discovery and market-read tools in `.codex/config.toml`.
 - `tradex_ops`, `tradex_market`, `tradex_research`, `tradex_provider`, and `tradex_lake` are disabled capability profiles with non-overlapping allowlists. Enable only the profile needed by a new task; never preload every profile merely for discovery.
-- Keep `MCP_DOCKER` disabled in this project. It is the LMGameDev Docker gateway and is not a Tradex dependency.
+- Treat the enabled MCP and plugin set as a positive allowlist. The default project-specific MCP namespace is only `mcp__tradex__`; `MCP_DOCKER`, the LMGameDev Plugin and `lmgamedev-workhub` must remain disabled in this project even when a user-level install enables them globally.
+- Optional Browser, Chrome, Computer Use, artifact, Sites, visualization, merge-helper, Codex App, and `node_repl` surfaces stay disabled by default. Enable only the smallest surface explicitly required by the current task, and disable it again after the task-specific use.
+- When an installed plugin, MCP server, or profile changes, run `powershell -NoProfile -File F:\CodexHome\scripts\Test-ProjectToolIsolation.ps1 -ProjectRoot G:\money`. The check must reject every enabled MCP server outside the project allowlist and any drift from the exact eight-tool Tradex core; checking only a historical server name is insufficient.
 - MCP configuration is frozen when a task starts. After changing an enabled profile, start a new task so the tool snapshot is rebuilt.
 
 ## Temporary mobile exclusion

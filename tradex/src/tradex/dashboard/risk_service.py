@@ -66,6 +66,7 @@ _BOARD_LEADER_RETRY_INTERVAL = 30
 _BOARD_LEADER_MAX_TARGETS = 14
 _BOARD_LEADER_GROUP_TARGETS = 3
 _BOARD_LEADER_FLOW_TARGETS = 8
+_ROTATION_RECORD_MAX_LAG_SECONDS = 60
 _SECTOR_RESONANCE_MAX_SKEW_SECONDS = 120
 _DEFENSE_FOCUS_KEYS = (
     "agriculture",
@@ -1857,6 +1858,51 @@ def _component_is_fresh(
     return True
 
 
+def _rotation_quote_branch_is_current(
+    records: list[dict[str, Any]],
+    status: dict[str, Any],
+    observed: datetime,
+) -> bool:
+    """Require one complete, time-proven branch before persisting a minute."""
+
+    if (
+        not records
+        or status.get("stale")
+        or status.get("expired")
+        or status.get("partial")
+        or status.get("error")
+    ):
+        return False
+    provider_times = [
+        _aware_market_time(_first_present(record, "provider_as_of", "更新时间"))
+        for record in records
+    ]
+    if any(value is None for value in provider_times):
+        return False
+    local = observed.astimezone(ZoneInfo("Asia/Shanghai"))
+    return all(
+        value.date() == local.date()
+        and -120 <= (local - value).total_seconds() <= _ROTATION_RECORD_MAX_LAG_SECONDS
+        for value in provider_times
+        if value is not None
+    )
+
+
+def _rotation_minute_is_complete(
+    values: dict[str, list[dict[str, Any]]],
+    statuses: dict[str, dict[str, Any]],
+    observed: datetime,
+) -> bool:
+    return all(
+        _rotation_quote_branch_is_current(
+            values.get(name, []),
+            statuses.get(name, {}),
+            observed,
+        )
+        for name in ("industry_quotes", "concept_quotes")
+    )
+
+
 def _trajectory_inputs(
     snapshot: dict[str, Any],
     statuses: dict[str, dict[str, Any]],
@@ -2449,7 +2495,11 @@ def _attach_rotation_radar(
             "concept": statuses.get("concept_quotes", {}).get("source") or "unknown",
         },
     )
-    if record and phase == "trading":
+    complete_live_minute = (
+        phase != "trading"
+        or _rotation_minute_is_complete(values, statuses, now)
+    )
+    if record and phase == "trading" and complete_live_minute:
         # The provider-neutral gateway owns one coalesced daemon sweep.  Exact
         # curves may be numerous and remain rate-limited, so Collector minute
         # capture must never wait for their serial provider requests.
@@ -2464,7 +2514,7 @@ def _attach_rotation_radar(
         supplemental_points = read_sector_intraday_fund_flow_backfill(
             trading_date=effective_trade_date,
         )
-    if record:
+    if record and complete_live_minute:
         current = store.record_snapshot(
             trade_date=effective_trade_date,
             minute_bucket=now,
@@ -2485,6 +2535,9 @@ def _attach_rotation_radar(
             ROTATION_CONFIG_VERSION,
             supplemental_points=supplemental_points,
         )
+        if record and phase == "trading" and not complete_live_minute:
+            current["status"] = "stale"
+            current["status_label"] = "当前板块快照未齐，等待同分钟完整重试"
         if int(current.get("sample_count") or 0) == 0:
             # A dashboard first opened after the session still gets a static
             # closing cross-section. It is never persisted or treated as a

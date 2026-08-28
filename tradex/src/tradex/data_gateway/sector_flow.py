@@ -18,10 +18,11 @@ from .sector_flow_store import SectorFundFlowStore
 _SHANGHAI = ZoneInfo("Asia/Shanghai")
 _PROVIDER_BOARD_CODE = re.compile(r"^BK\d+$")
 _BackfillKey = tuple[date, str, str]
+_BACKFILL_TARGETS_PER_SWEEP = 1
 
 
 class SectorFundFlowBackfillRefresher:
-    """Coalesce complete-curve refreshes onto one daemon worker."""
+    """Rotate bounded complete-curve refreshes on one daemon worker."""
 
     def __init__(
         self,
@@ -31,6 +32,7 @@ class SectorFundFlowBackfillRefresher:
         self._refresh = refresh
         self._pending: tuple[tuple[dict[str, Any], ...], date] | None = None
         self._known_targets: dict[date, dict[str, dict[str, Any]]] = {}
+        self._last_selected: dict[date, str] = {}
         self._thread: Thread | None = None
 
     def request(
@@ -58,12 +60,31 @@ class SectorFundFlowBackfillRefresher:
                 retained_date: self._known_targets[retained_date]
                 for retained_date in retained_dates
             }
-            coalesced_targets = tuple(
-                known[sector_key]
-                for sector_key in sorted(known)
+            self._last_selected = {
+                retained_date: sector_key
+                for retained_date, sector_key in self._last_selected.items()
+                if retained_date in retained_dates
+            }
+            if self._thread is not None and self._thread.is_alive() and self._pending:
+                self._condition.notify_all()
+                return False
+            ordered_keys = sorted(known)
+            last_selected = self._last_selected.get(requested_date)
+            start = (
+                (ordered_keys.index(last_selected) + 1) % len(ordered_keys)
+                if last_selected in ordered_keys
+                else 0
             )
+            selected_keys = tuple(
+                ordered_keys[(start + offset) % len(ordered_keys)]
+                for offset in range(
+                    min(_BACKFILL_TARGETS_PER_SWEEP, len(ordered_keys))
+                )
+            )
+            coalesced_targets = tuple(known[sector_key] for sector_key in selected_keys)
             if not coalesced_targets:
                 return False
+            self._last_selected[requested_date] = selected_keys[-1]
             self._pending = (coalesced_targets, requested_date)
             if self._thread is not None and self._thread.is_alive():
                 self._condition.notify_all()
@@ -421,7 +442,7 @@ def schedule_sector_intraday_fund_flow_backfill(
     *,
     trading_date: date | str,
 ) -> bool:
-    """Request one non-blocking, single-flight refresh of all resolved curves."""
+    """Request one bounded, non-blocking refresh across resolved curves."""
 
     requested_date = (
         trading_date
