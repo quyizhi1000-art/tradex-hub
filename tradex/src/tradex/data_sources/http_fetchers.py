@@ -130,6 +130,138 @@ def _optional_text(value) -> str | None:
     return result if result and result not in {"-", "--"} else None
 
 
+def _eastmoney_secid(symbol: str, *, index: bool = False) -> tuple[str, str]:
+    raw = str(symbol or "").strip().lower()
+    if not raw:
+        raise RequestValidationError("Eastmoney minute symbol is required")
+    if raw.startswith("sh"):
+        code, market = raw[2:].zfill(6), "1"
+    elif raw.startswith("sz"):
+        code, market = raw[2:].zfill(6), "0"
+    elif "." in raw:
+        code, suffix = raw.split(".", 1)
+        market = "1" if suffix in {"sh", "1"} else "0"
+        code = code.zfill(6)
+    else:
+        code = raw.zfill(6)
+        market = "1" if (index and code in {"000001", "000300", "000852", "999999"}) or code.startswith("6") else "0"
+    if not re.fullmatch(r"\d{6}", code):
+        raise RequestValidationError("Eastmoney minute symbol must contain six digits")
+    return f"{market}.{code}", code
+
+
+def _fetch_eastmoney_trends(symbol: str, *, days: int, index: bool) -> tuple[list[list[str]], str, str | None]:
+    from tradex.data_sources.em_client import em_get
+
+    secid, code = _eastmoney_secid(symbol, index=index)
+    params = {
+        "fields1": "f1,f2,f3,f4,f5,f6,f7,f8,f9,f10,f11,f12,f13",
+        "fields2": "f51,f52,f53,f54,f55,f56,f57,f58",
+        "ut": "7eea3edcaed734bea9cbfc24409ed989",
+        "ndays": str(max(1, min(int(days), 5))),
+        "iscr": "0",
+        "secid": secid,
+    }
+    errors: list[str] = []
+    for host in ("https://push2his.eastmoney.com", "https://push2delay.eastmoney.com"):
+        source = "push2his" if "push2his" in host else "push2delay"
+        try:
+            response = em_get(
+                f"{host}/api/qt/stock/trends2/get",
+                params=params,
+                timeout=10,
+            )
+            response.raise_for_status()
+            trends = (response.json().get("data") or {}).get("trends") or []
+            parsed = [str(item).split(",") for item in trends]
+            parsed = [item for item in parsed if len(item) >= 7 and " " in item[0]]
+            if parsed:
+                return parsed, source, response.headers.get("x-request-id")
+            errors.append(f"{source}: empty")
+        except Exception as exc:  # noqa: BLE001 - bounded alternate host
+            errors.append(f"{source}: {type(exc).__name__}")
+    raise RuntimeError(f"Eastmoney exact minute series unavailable for {code}: {'; '.join(errors)}")
+
+
+def fetch_minute_data_eastmoney(
+    symbol: str = "",
+    code: str = "",
+    **_kwargs,
+) -> pd.DataFrame:
+    """Fetch one exact current-day stock minute series with bounded host fallback."""
+
+    parsed, source, request_id = _fetch_eastmoney_trends(
+        symbol or code,
+        days=1,
+        index=False,
+    )
+    _, canonical_code = _eastmoney_secid(symbol or code)
+    rows = [
+        {
+            "代码": canonical_code,
+            "时间": item[0],
+            "开盘": _optional_float(item[1]),
+            "收盘": _optional_float(item[2]),
+            "最高": _optional_float(item[3]),
+            "最低": _optional_float(item[4]),
+            "成交量": _optional_float(item[5]),
+            "成交额": _optional_float(item[6]),
+        }
+        for item in parsed
+    ]
+    frame = pd.DataFrame(rows)
+    frame.attrs.update(
+        provider_as_of=rows[-1]["时间"],
+        provider_request_id=request_id,
+        trading_date=rows[-1]["时间"][:10],
+        frequency_minutes=1,
+        volume_unit="lots",
+        amount_unit="CNY",
+        provider_transport=source,
+    )
+    return frame
+
+
+def fetch_index_intraday_series_eastmoney(
+    symbol: str = "",
+    code: str = "",
+    days: int = 5,
+    **_kwargs,
+) -> list[dict]:
+    """Fetch exact index minute OHLC and amount values."""
+
+    parsed, source, request_id = _fetch_eastmoney_trends(
+        symbol or code,
+        days=days,
+        index=True,
+    )
+    return [
+        {
+            "datetime": item[0],
+            "open": _optional_float(item[1]),
+            "close": _optional_float(item[2]),
+            "high": _optional_float(item[3]),
+            "low": _optional_float(item[4]),
+            "amount_cny": _optional_float(item[6]),
+            "provider_transport": source,
+            "provider_request_id": request_id,
+        }
+        for item in parsed
+    ]
+
+
+def fetch_index_intraday_amount_eastmoney(**kwargs) -> list[dict]:
+    return [
+        {
+            "datetime": item["datetime"],
+            "date": item["datetime"][:10],
+            "time": item["datetime"][11:16],
+            "amount": item["amount_cny"],
+        }
+        for item in fetch_index_intraday_series_eastmoney(**kwargs)
+    ]
+
+
 def fetch_sector_intraday_fund_flow_eastmoney(
     provider_sector_code: str = "",
     trade_date: date | str | None = None,
@@ -679,9 +811,10 @@ def fetch_board_leaders(
     board_code: str,
     limit: int = 3,
     source_hint: str | None = None,
+    speed_order: str = "desc",
     **kwargs,
 ) -> pd.DataFrame:
-    """Fetch a small, speed-sorted constituent page for one Eastmoney board.
+    """Fetch a small, direction-aware speed-sorted constituent page.
 
     The provider's ``f22`` field is its current price-speed percentage-point
     metric. This remains a bounded display enrichment: it does not crawl the
@@ -698,11 +831,14 @@ def fetch_board_leaders(
         raise ValueError("limit must be an integer between 1 and 10") from exc
     if not 1 <= page_size <= 10:
         raise ValueError("limit must be an integer between 1 and 10")
+    order = str(speed_order or "").strip().lower()
+    if order not in {"desc", "asc"}:
+        raise ValueError("speed_order must be desc or asc")
 
     params = {
         "pn": "1",
         "pz": str(page_size),
-        "po": "1",
+        "po": "1" if order == "desc" else "0",
         "np": "1",
         "ut": "bd1d9ddb04089700cf9c27f6f7426281",
         "fltt": "2",

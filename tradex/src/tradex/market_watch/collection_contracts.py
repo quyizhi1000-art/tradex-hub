@@ -26,6 +26,7 @@ class CollectionSlotStatus(str, Enum):
     ACCEPTED_REAL = "accepted_real"
     REPAIRED = "repaired"
     UNRESOLVED = "unresolved"
+    EXCLUDED = "excluded"
 
 
 class CollectorRuntimeState(str, Enum):
@@ -112,7 +113,12 @@ class CollectionSlotV1(CollectionContractModel):
         )
         if accepted and any(value is None for value in pointer_values):
             raise ValueError("accepted collection slot requires a complete snapshot pointer")
-        if not accepted and any(value is not None for value in pointer_values):
+        excluded = self.status is CollectionSlotStatus.EXCLUDED
+        if excluded and any(value is not None for value in pointer_values) and any(
+            value is None for value in pointer_values
+        ):
+            raise ValueError("excluded collection slot must retain a complete snapshot pointer")
+        if not accepted and not excluded and any(value is not None for value in pointer_values):
             raise ValueError("unaccepted collection slot cannot publish a snapshot pointer")
         if self.attempt_count == 0 and any(
             value is not None
@@ -133,6 +139,7 @@ class CollectionSlotV1(CollectionContractModel):
             CollectionSlotStatus.CAPTURING,
             CollectionSlotStatus.RETRYING,
             CollectionSlotStatus.UNRESOLVED,
+            CollectionSlotStatus.EXCLUDED,
         }:
             raise ValueError("gap heartbeat has an invalid collection status")
         return self
@@ -213,11 +220,34 @@ class DailyCollectionRecoveryV1(CollectionContractModel):
     accepted_after: int = Field(ge=0)
     reconciled_slots: int = Field(ge=0)
     attempted_slots: int = Field(ge=0)
+    failed_attempts: int = Field(ge=0)
     remaining_gaps: int = Field(ge=0)
     manual_action_required: bool
+    latest_attempt_minute_bucket: datetime | None = None
+    latest_attempt_at: datetime | None = None
+    latest_attempt_outcome: str | None = None
+    latest_attempt_progress_completed: int = Field(default=0, ge=0)
+    latest_attempt_progress_total: int = Field(default=0, ge=0)
+    latest_attempt_progress_stage: str | None = None
+    latest_attempt_progress_message: str | None = None
+    latest_failure_minute_bucket: datetime | None = None
+    latest_failure_at: datetime | None = None
+    latest_failure_next_retry_at: datetime | None = None
+    latest_failure_error_code: str | None = None
+    latest_failure_error_message: str | None = None
     last_error_code: str | None = None
+    last_error_message: str | None = None
 
-    @field_validator("requested_at", "started_at", "completed_at")
+    @field_validator(
+        "requested_at",
+        "started_at",
+        "completed_at",
+        "latest_attempt_minute_bucket",
+        "latest_attempt_at",
+        "latest_failure_minute_bucket",
+        "latest_failure_at",
+        "latest_failure_next_retry_at",
+    )
     @classmethod
     def require_aware_times(cls, value: datetime | None, info):
         return _aware_shanghai(value, info.field_name)
@@ -232,6 +262,59 @@ class DailyCollectionRecoveryV1(CollectionContractModel):
             raise ValueError("accepted_after cannot exceed expected minutes")
         if self.remaining_gaps != self.expected_minute_buckets - self.accepted_after:
             raise ValueError("remaining_gaps does not match accepted_after")
+        if self.failed_attempts > self.attempted_slots:
+            raise ValueError("failed_attempts cannot exceed attempted_slots")
+        if self.latest_attempt_minute_bucket is not None:
+            if (
+                self.latest_attempt_minute_bucket.second
+                or self.latest_attempt_minute_bucket.microsecond
+            ):
+                raise ValueError("latest attempt minute must be minute aligned")
+            if self.latest_attempt_minute_bucket.date() != self.trade_date:
+                raise ValueError("latest attempt minute must belong to trade_date")
+            if self.latest_attempt_at is None or not self.latest_attempt_outcome:
+                raise ValueError("latest attempt requires timestamp and outcome")
+        elif any(
+            value is not None
+            for value in (
+                self.latest_attempt_at,
+                self.latest_attempt_outcome,
+            )
+        ):
+            raise ValueError("latest attempt detail requires a minute bucket")
+        if self.latest_attempt_progress_completed > self.latest_attempt_progress_total:
+            raise ValueError("latest attempt progress cannot exceed its total")
+        if self.latest_attempt_progress_total and not self.latest_attempt_progress_stage:
+            raise ValueError("latest attempt progress requires a stage")
+        if self.latest_attempt_minute_bucket is None and any(
+            (
+                self.latest_attempt_progress_completed,
+                self.latest_attempt_progress_total,
+                self.latest_attempt_progress_stage,
+                self.latest_attempt_progress_message,
+            )
+        ):
+            raise ValueError("latest attempt progress requires a minute bucket")
+        if self.latest_failure_minute_bucket is not None:
+            if (
+                self.latest_failure_minute_bucket.second
+                or self.latest_failure_minute_bucket.microsecond
+            ):
+                raise ValueError("latest failure minute must be minute aligned")
+            if self.latest_failure_minute_bucket.date() != self.trade_date:
+                raise ValueError("latest failure minute must belong to trade_date")
+            if self.latest_failure_at is None or not self.latest_failure_error_code:
+                raise ValueError("latest failure requires timestamp and error code")
+        elif any(
+            value is not None
+            for value in (
+                self.latest_failure_at,
+                self.latest_failure_next_retry_at,
+                self.latest_failure_error_code,
+                self.latest_failure_error_message,
+            )
+        ):
+            raise ValueError("latest failure detail requires a minute bucket")
         if self.status is DailyRecoveryStatus.PENDING:
             if self.started_at is not None or self.completed_at is not None:
                 raise ValueError("pending recovery cannot have execution timestamps")
@@ -250,8 +333,10 @@ class DailyCollectionRecoveryV1(CollectionContractModel):
             raise ValueError("complete recovery cannot retain gaps")
         if self.status is DailyRecoveryStatus.FAILED and not self.last_error_code:
             raise ValueError("failed recovery requires last_error_code")
-        if self.status is not DailyRecoveryStatus.FAILED and self.last_error_code:
-            raise ValueError("only failed recovery may expose last_error_code")
+        if self.status is not DailyRecoveryStatus.FAILED and (
+            self.last_error_code or self.last_error_message
+        ):
+            raise ValueError("only failed recovery may expose run error detail")
         return self
 
 

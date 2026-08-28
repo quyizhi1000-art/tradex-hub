@@ -44,7 +44,9 @@ from tradex.stock_selection.store import DailyStockSelectionStore
 
 
 SHANGHAI = ZoneInfo("Asia/Shanghai")
-EVALUATION_SCOPES = (3, 10, 20)
+# Preserve the existing bounded API (days=1..30), while the page currently
+# exposes the common 3/10/20-day choices.
+EVALUATION_SCOPES = tuple(range(1, 31))
 logger = logging.getLogger(__name__)
 
 
@@ -131,6 +133,7 @@ class AnalysisRuntime:
         collection: MarketWatchCollectionStore | None = None,
         review_store: PostMarketReviewStore | None = None,
         selection_store: DailyStockSelectionStore | None = None,
+        enable_taxonomy_auto_refresh: bool = False,
     ) -> None:
         self.jobs = jobs
         self.history = history or MarketWatchHistoryStore(read_only=True)
@@ -147,6 +150,10 @@ class AnalysisRuntime:
             history_loader=self._load_full_history,
         )
         self.selection_service = DailyStockSelectionService(self.selection_store)
+        self._enable_taxonomy_auto_refresh = bool(enable_taxonomy_auto_refresh)
+        self._taxonomy_refresh_lock = threading.Lock()
+        self._taxonomy_refresh_thread: threading.Thread | None = None
+        self._taxonomy_last_attempt_at: datetime | None = None
 
     def _load_accepted_snapshot(self):
         view = self.read_facade.read()
@@ -230,9 +237,19 @@ class AnalysisRuntime:
         return self.jobs.latest_job(capability, scope_key=str(job["scope_key"]))
 
     def materialize_review_views(self, *, force: bool = False) -> int:
+        from tradex.instrument_taxonomy.store import InstrumentTaxonomyReader
+
         dates = self.review_store.list_dates(limit=365)
         learning = self.review_store.learning_summary(limit=20).model_dump(mode="json")
-        catalog_revision = _revision({"dates": dates, "learning": learning})
+        with InstrumentTaxonomyReader() as reader:
+            relationship_status = reader.status()
+        catalog_revision = _revision({
+            "dates": dates,
+            "learning": learning,
+            "relationship_catalog_revision": (
+                relationship_status.catalog_revision if relationship_status else None
+            ),
+        })
         published = 0
         latest_payload = None
         for item in dates:
@@ -338,60 +355,33 @@ class AnalysisRuntime:
             published += 1
         return published
 
-    def _session_evaluation(self, trade_date: str) -> tuple[str, dict[str, Any]]:
-        from tradex.market_watch.evaluation import evaluate_market_watch_session
-
-        samples = self.history.get_replay_timeline(trade_date, limit=1000)
-        alerts = self.history.get_alerts(trade_date, limit=1000)
-        source_revision = _revision({"samples": samples, "alerts": alerts})
-        report = evaluate_market_watch_session(
-            [item["payload"] for item in samples],
-            alerts=_evaluation_alerts(alerts),
-            trade_date=trade_date,
-        ).model_dump(mode="json")
-        return source_revision, report
-
-    def _multi_day_evaluation(
-        self,
-        dates: list[str],
-        days: int,
-    ) -> tuple[str, dict[str, Any]] | None:
+    def materialize_evaluations(self, *, force: bool = False) -> int:
         from tradex.market_watch.evaluation import (
             EvaluationConfigV1,
             evaluate_market_watch_history,
+            evaluate_market_watch_session,
         )
 
-        selected = list(reversed(dates[:days]))
-        samples = [
-            item
-            for trade_date in selected
-            for item in self.history.get_replay_timeline(trade_date, limit=1000)
-        ]
-        alerts = [
-            item
-            for trade_date in selected
-            for item in self.history.get_alerts(trade_date, limit=1000)
-        ]
-        if not samples:
-            return None
-        source_revision = _revision(
-            {"days": days, "dates": selected, "samples": samples, "alerts": alerts}
-        )
-        report = evaluate_market_watch_history(
-            [item["payload"] for item in samples],
-            alerts=_evaluation_alerts(alerts),
-            config=EvaluationConfigV1(minimum_sessions_for_multi_day=days),
-        ).model_dump(mode="json")
-        return source_revision, report
-
-    def materialize_evaluations(self, *, force: bool = False) -> int:
         dates = [str(item["trade_date"]) for item in self.history.list_dates(limit=90)]
         published = 0
+        material: dict[str, dict[str, Any]] = {}
         for trade_date in dates:
             scope = f"date:{trade_date}"
-            source_revision, report = self._session_evaluation(trade_date)
+            samples = self.history.get_replay_timeline(trade_date, limit=1000)
+            alerts = self.history.get_alerts(trade_date, limit=1000)
+            source_revision = _revision({"samples": samples, "alerts": alerts})
+            material[trade_date] = {
+                "samples": samples,
+                "alerts": alerts,
+                "source_revision": source_revision,
+            }
             existing = self.jobs.get_artifact(MARKET_WATCH_EVALUATION, scope_key=scope)
             if force or existing is None or existing["source_revision"] != source_revision:
+                report = evaluate_market_watch_session(
+                    [item["payload"] for item in samples],
+                    alerts=_evaluation_alerts(alerts),
+                    trade_date=trade_date,
+                ).model_dump(mode="json")
                 self.jobs.put_artifact(
                     MARKET_WATCH_EVALUATION,
                     scope_key=scope,
@@ -400,13 +390,37 @@ class AnalysisRuntime:
                 )
                 published += 1
         for days in EVALUATION_SCOPES:
-            materialized = self._multi_day_evaluation(dates, days)
-            if materialized is None:
+            selected = list(reversed(dates[:days]))
+            selected_material = [material[item] for item in selected]
+            if not any(item["samples"] for item in selected_material):
                 continue
-            source_revision, report = materialized
+            source_revision = _revision(
+                {
+                    "days": days,
+                    "dates": selected,
+                    "date_revisions": [
+                        item["source_revision"] for item in selected_material
+                    ],
+                }
+            )
             scope = f"days:{days}"
             existing = self.jobs.get_artifact(MARKET_WATCH_EVALUATION, scope_key=scope)
             if force or existing is None or existing["source_revision"] != source_revision:
+                samples = [
+                    sample
+                    for item in selected_material
+                    for sample in item["samples"]
+                ]
+                alerts = [
+                    alert
+                    for item in selected_material
+                    for alert in item["alerts"]
+                ]
+                report = evaluate_market_watch_history(
+                    [item["payload"] for item in samples],
+                    alerts=_evaluation_alerts(alerts),
+                    config=EvaluationConfigV1(minimum_sessions_for_multi_day=days),
+                ).model_dump(mode="json")
                 self.jobs.put_artifact(
                     MARKET_WATCH_EVALUATION,
                     scope_key=scope,
@@ -418,14 +432,65 @@ class AnalysisRuntime:
 
     def run_automatic(self, *, now: datetime | None = None) -> None:
         observed = (now or _now()).astimezone(SHANGHAI)
+        self._maybe_refresh_taxonomy(observed)
         try:
             self.review_service.maybe_generate_automatic(now=observed)
         except PostMarketReviewError as exc:
             logger.debug("automatic review not generated: %s", exc.safe_message)
+        except Exception:  # noqa: BLE001 - keep the independent runtime alive
+            logger.exception("automatic review cycle failed")
         try:
             self.selection_service.maybe_generate_automatic(now=observed)
         except DailyStockSelectionError as exc:
             logger.debug("automatic selection not generated: %s", exc.safe_message)
+        except Exception:  # noqa: BLE001 - keep the independent runtime alive
+            logger.exception("automatic selection cycle failed")
+
+    def _maybe_refresh_taxonomy(self, observed: datetime) -> None:
+        if not self._enable_taxonomy_auto_refresh:
+            return
+        from tradex.instrument_taxonomy.store import InstrumentTaxonomyReader
+
+        with InstrumentTaxonomyReader() as reader:
+            status = reader.status()
+        if status is not None and status.as_of >= observed.date():
+            return
+        with self._taxonomy_refresh_lock:
+            if (
+                self._taxonomy_refresh_thread is not None
+                and self._taxonomy_refresh_thread.is_alive()
+            ):
+                return
+            if (
+                self._taxonomy_last_attempt_at is not None
+                and (observed - self._taxonomy_last_attempt_at).total_seconds() < 1800
+            ):
+                return
+            self._taxonomy_last_attempt_at = observed
+            thread = threading.Thread(
+                target=self._refresh_taxonomy,
+                args=(observed,),
+                name="tradex-instrument-taxonomy-refresh",
+                daemon=True,
+            )
+            self._taxonomy_refresh_thread = thread
+            thread.start()
+
+    @staticmethod
+    def _refresh_taxonomy(observed: datetime) -> None:
+        from tradex.instrument_taxonomy.service import InstrumentTaxonomyService
+
+        try:
+            with InstrumentTaxonomyService() as service:
+                status = service.refresh(as_of=observed.date(), now=observed)
+            logger.info(
+                "instrument taxonomy refreshed: as_of=%s profiles=%s revision=%s",
+                status.as_of,
+                status.profile_total,
+                status.catalog_revision,
+            )
+        except Exception:  # noqa: BLE001 - retain the last accepted complete catalog
+            logger.exception("instrument taxonomy refresh failed; retained prior catalog")
 
     def materialize_all(self, *, force: bool = False) -> dict[str, int]:
         return {
@@ -435,6 +500,8 @@ class AnalysisRuntime:
         }
 
     def close(self) -> None:
+        if self._taxonomy_refresh_thread is not None:
+            self._taxonomy_refresh_thread.join(timeout=5)
         self.selection_service.wait_for_generation()
         self.selection_store.close()
         self.review_store.close()
@@ -523,7 +590,7 @@ def _run(stop_event: threading.Event, *, once: bool = False) -> None:
     with AnalysisJobStore() as jobs:
         jobs.set_runtime_state("starting")
         recovered = jobs.recover_interrupted()
-        runtime = AnalysisRuntime(jobs)
+        runtime = AnalysisRuntime(jobs, enable_taxonomy_auto_refresh=True)
         try:
             initial = runtime.materialize_all()
             jobs.set_runtime_state(
@@ -541,8 +608,12 @@ def _run(stop_event: threading.Event, *, once: bool = False) -> None:
                 observed = _now()
                 runtime.run_automatic(now=observed)
                 if (observed - last_materialized).total_seconds() >= 30:
-                    runtime.materialize_all()
-                    last_materialized = observed
+                    try:
+                        runtime.materialize_all()
+                    except Exception:  # noqa: BLE001 - retry the next bounded cycle
+                        logger.exception("analysis artifact materialization failed")
+                    finally:
+                        last_materialized = observed
                 jobs.set_runtime_state("running")
                 stop_event.wait(2.0)
         finally:

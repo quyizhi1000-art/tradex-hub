@@ -1,0 +1,58 @@
+{
+  "contract": "instrument_taxonomy_official_evidence.v1",
+  "schema_version": 1,
+  "profiles": [
+    {
+      "instrument_id": "001309.SZ",
+      "primary_business_key": "storage",
+      "primary_business_name": "存储",
+      "business_tags": ["存储", "存储主控芯片", "固态硬盘", "嵌入式存储", "内存条", "移动存储"],
+      "evidence": [
+        {
+          "evidence_id": "official-twsc-company-profile",
+          "source_kind": "official_company",
+          "publisher": "深圳市德明利技术股份有限公司",
+          "title": "企业介绍-专业存储控制芯片及解决方案提供商",
+          "source_url": "https://www.twsc.com.cn/about/index.html",
+          "retrieved_at": "2026-08-28T00:00:00+08:00",
+          "assertions": ["主营归属:存储", "产品:存储主控芯片", "产品:固态硬盘", "产品:嵌入式存储", "产品:内存条", "产品:移动存储"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "002916.SZ",
+      "primary_business_key": "pcb",
+      "primary_business_name": "PCB",
+      "business_tags": ["PCB", "封装基板", "FC-BGA", "电子装联"],
+      "evidence": [
+        {
+          "evidence_id": "official-scc-annual-report-2024",
+          "source_kind": "official_filing",
+          "publisher": "深南电路股份有限公司",
+          "title": "深南电路股份有限公司2024年年度报告",
+          "source_url": "https://www.scc.com.cn/yskjcmsresource/document/20250409/1094585293396246528.pdf",
+          "published_at": "2025-04-09",
+          "retrieved_at": "2026-08-28T00:00:00+08:00",
+          "assertions": ["主营归属:PCB", "主营业务:印制电路板", "主营业务:封装基板", "产品能力:FC-BGA", "主营业务:电子装联", "未直接证实:ABF"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "601869.SH",
+      "primary_business_key": "optical_fiber_cable",
+      "primary_business_name": "光纤光缆",
+      "business_tags": ["光纤光缆", "光纤预制棒", "光纤", "光缆"],
+      "evidence": [
+        {
+          "evidence_id": "official-yofc-prospectus-business",
+          "source_kind": "official_filing",
+          "publisher": "长飞光纤光缆股份有限公司",
+          "title": "首次公开发行A股股票招股意向书摘要-业务概况",
+          "source_url": "https://www.yofc.com/wcs/Upload/201807/5b3a288869321.pdf",
+          "retrieved_at": "2026-08-28T00:00:00+08:00",
+          "assertions": ["主营归属:光纤光缆", "产品:光纤预制棒", "产品:光纤", "产品:光缆"]
+        }
+      ]
+    }
+  ]
+}

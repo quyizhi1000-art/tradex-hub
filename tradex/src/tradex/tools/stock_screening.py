@@ -16,6 +16,7 @@ Tools (共 2 个):
 
 from __future__ import annotations
 
+import re
 from typing import Any
 
 from mcp.server.fastmcp import FastMCP
@@ -98,6 +99,14 @@ SCREENING_CONDITIONS = [
      "operators": ["in", "not_in"]},
     {"name": "industry", "category": "flag", "desc": "所属行业", "type": "enum",
      "enum_values": [], "unit": "", "operators": ["in", "not_in"]},
+    {"name": "statistical_industry", "category": "flag", "desc": "申万三级统计行业", "type": "enum",
+     "enum_values": [], "unit": "", "operators": ["in", "not_in"]},
+    {"name": "primary_business", "category": "flag", "desc": "经证据核验的主要业务", "type": "enum",
+     "enum_values": [], "unit": "", "operators": ["in", "not_in"]},
+    {"name": "business_tags", "category": "flag", "desc": "主营业务标签（任一命中）", "type": "enum",
+     "enum_values": [], "unit": "", "operators": ["in", "not_in"]},
+    {"name": "concept_memberships", "category": "flag", "desc": "概念成员关系（不等同主营）", "type": "enum",
+     "enum_values": [], "unit": "", "operators": ["in", "not_in"]},
 ]
 
 CONDITION_CATEGORIES = {
@@ -134,8 +143,12 @@ def _match_condition(value: Any, operator: str, target: Any) -> bool:
                 return target[0] <= value <= target[1]
             return False
         elif operator == "in":
+            if isinstance(value, (list, tuple, set, frozenset)):
+                return any(item in target for item in value)
             return value in target
         elif operator == "not_in":
+            if isinstance(value, (list, tuple, set, frozenset)):
+                return all(item not in target for item in value)
             return value not in target
         else:
             return False
@@ -149,6 +162,59 @@ def _parse_condition(cond: dict) -> tuple[str, str, Any]:
     operator = cond.get("operator", ">=")
     target = cond.get("value")
     return field, operator, target
+
+
+def _instrument_id(stock: dict[str, Any]) -> str | None:
+    raw = str(
+        stock.get("instrument_id")
+        or stock.get("ts_code")
+        or stock.get("code")
+        or stock.get("symbol")
+        or ""
+    ).strip().upper()
+    if re.fullmatch(r"\d{6}\.(?:SH|SZ|BJ)", raw):
+        return raw
+    match = re.search(r"\d{6}", raw)
+    if match is None:
+        return None
+    code = match.group(0)
+    exchange = "SH" if code.startswith("6") else "BJ" if code.startswith(("4", "8")) else "SZ"
+    return f"{code}.{exchange}"
+
+
+def _enrich_relationships(
+    stocks_data: list[dict[str, Any]],
+) -> tuple[list[dict[str, Any]], str | None]:
+    """Attach typed catalog fields without replacing caller-owned market fields."""
+
+    from tradex.instrument_taxonomy.store import InstrumentTaxonomyReader
+
+    instrument_ids = [item for stock in stocks_data if (item := _instrument_id(stock))]
+    with InstrumentTaxonomyReader() as reader:
+        profiles = reader.get_many(instrument_ids)
+        status = reader.status()
+    enriched: list[dict[str, Any]] = []
+    for source in stocks_data:
+        stock = dict(source)
+        instrument_id = _instrument_id(stock)
+        profile = profiles.get(instrument_id or "")
+        if profile is not None:
+            statistical_industry = (
+                profile.statistical_industry.level3_name
+                if profile.statistical_industry
+                else None
+            )
+            stock["instrument_id"] = profile.instrument_id
+            stock["provider_industry"] = stock.get("industry") or profile.provider_industry
+            stock["statistical_industry"] = statistical_industry
+            stock["primary_business"] = profile.primary_business_name
+            stock["business_tags"] = list(profile.business_tags)
+            stock["concept_memberships"] = [
+                item.name for item in profile.concept_memberships
+            ]
+            stock["relationship_verification_status"] = profile.verification_status
+        enriched.append(stock)
+    return enriched, status.catalog_revision if status else None
 
 
 # ──────────────────────────────────────────────────────────────────
@@ -196,16 +262,20 @@ def register(mcp: FastMCP):
         try:
             if not stocks_data:
                 return error_response("参数错误: stocks_data 不能为空", "screen_stocks")
+            enriched_stocks, relationship_catalog_revision = _enrich_relationships(
+                stocks_data
+            )
             if not conditions:
                 return dict_to_json({
                     "success": True,
-                    "results": stocks_data[:limit],
+                    "results": enriched_stocks[:limit],
                     "summary": {
-                        "total_input": len(stocks_data),
-                        "total_matched": len(stocks_data),
-                        "returned": min(len(stocks_data), limit),
+                        "total_input": len(enriched_stocks),
+                        "total_matched": len(enriched_stocks),
+                        "returned": min(len(enriched_stocks), limit),
                     },
                     "conditions_applied": [],
+                    "relationship_catalog_revision": relationship_catalog_revision,
                 })
 
             # 解析条件
@@ -213,7 +283,7 @@ def register(mcp: FastMCP):
 
             # 筛选
             matched: list[dict] = []
-            for stock in stocks_data:
+            for stock in enriched_stocks:
                 all_match = True
                 for field, operator, target in parsed_conditions:
                     value = stock.get(field)
@@ -244,11 +314,12 @@ def register(mcp: FastMCP):
                     "total_input": len(stocks_data),
                     "total_matched": len(matched),
                     "returned": len(limited),
-                    "match_rate": round(len(matched) / len(stocks_data), 4) if stocks_data else 0,
+                    "match_rate": round(len(matched) / len(enriched_stocks), 4) if enriched_stocks else 0,
                 },
                 "conditions_applied": conditions,
                 "sort_by": sort_by,
                 "sort_order": sort_order,
+                "relationship_catalog_revision": relationship_catalog_revision,
             })
         except Exception as e:
             return error_response(f"条件选股失败: {e}", "screen_stocks")

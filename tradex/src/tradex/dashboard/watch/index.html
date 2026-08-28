@@ -30,6 +30,9 @@
           <button class="button button-secondary" id="mute-button" type="button" aria-pressed="false">
             提醒：正常
           </button>
+          <button class="button button-secondary limit-up-pool-tab" id="limit-up-pool-open-button" type="button" aria-haspopup="dialog">
+            涨停池 <span id="limit-up-pool-button-count">--</span>
+          </button>
           <button class="button button-primary" id="refresh-button" type="button">
             立即刷新
           </button>
@@ -73,11 +76,14 @@
         <div class="collection-recovery-strip__summary">
           <span class="section-kicker">POST-CLOSE DATA CHECK</span>
           <h2 id="collection-recovery-heading">收盘数据完整性</h2>
-          <p id="collection-recovery-detail">交易日 15:05 后自动检查 240 个盘中分钟，并由采集进程追补缺口。</p>
+          <p id="collection-recovery-detail">交易日 15:05 后自动检查 237 个连续交易分钟和 1 个 15:00 收盘结果，并由采集进程追补缺口。</p>
+          <p class="collection-recovery-error" id="collection-recovery-error" role="status" hidden></p>
         </div>
         <div class="collection-recovery-strip__metrics" aria-label="收盘数据完整性指标">
           <span>已接收 <strong id="collection-recovery-accepted">--</strong></span>
           <span>待追补 <strong id="collection-recovery-gaps">--</strong></span>
+          <span>本轮进度 <strong id="collection-recovery-progress">--</strong></span>
+          <span>失败 <strong id="collection-recovery-failures">--</strong></span>
           <span>最近检查 <strong id="collection-recovery-checked-at">--</strong></span>
         </div>
         <div class="collection-recovery-strip__actions">
@@ -121,6 +127,45 @@
           </div>
         </div>
       </section>
+
+      <dialog class="limit-up-pool-dialog" id="limit-up-pool-dialog" aria-labelledby="limit-up-pool-dialog-title">
+        <div class="limit-up-pool-dialog__shell">
+          <header class="limit-up-pool-dialog__header">
+            <div>
+              <span class="section-kicker">LIMIT-UP FOLLOW POOL</span>
+              <h2 id="limit-up-pool-dialog-title">涨停池</h2>
+              <p>按连板高度分组；分类只采用首封前个股价格路径与板块资金轨迹的共振结果，不把供应商涨停原因当成真实归因。</p>
+            </div>
+            <button class="limit-up-pool-dialog__close" id="limit-up-pool-close-button" type="button" aria-label="关闭涨停池">×</button>
+          </header>
+
+          <div class="limit-up-pool-summary" aria-label="涨停池实时状态与归因覆盖">
+            <div><span>涨停</span><strong id="limit-up-pool-total">--</strong></div>
+            <div><span>路径确认</span><strong id="limit-up-pool-confirmed">--</strong></div>
+            <div><span>一字/开盘同批低置信</span><strong id="limit-up-pool-provisional">--</strong></div>
+            <div><span id="limit-up-pool-unresolved-label">待确认</span><strong id="limit-up-pool-unresolved">--</strong></div>
+            <div class="limit-up-pool-summary__status">
+              <span id="limit-up-pool-trade-date">交易日 --</span>
+              <strong id="limit-up-pool-status" role="status" aria-live="polite">打开后读取实时涨停状态</strong>
+            </div>
+          </div>
+
+          <div class="limit-up-pool-categories" id="limit-up-pool-categories" role="tablist" aria-label="按真实跟随板块分类">
+            <button type="button" role="tab" aria-selected="true" data-limit-up-category="all">全部</button>
+          </div>
+
+          <div class="limit-up-pool-board" id="limit-up-pool-board" aria-live="polite">
+            <p class="limit-up-pool-empty">打开涨停池后读取与当前真实快照绑定的归因结果。</p>
+          </div>
+
+          <footer class="limit-up-pool-method">
+            <span><i class="follow-dot is-unresolved"></i>盘中：每分钟刷新涨停名单、板数与首次封板时间，先展示再归类</span>
+            <span><i class="follow-dot is-confirmed"></i>路径确认：首封前 5 分钟资金路径相关 ≥ 0.60、逐区间同向 ≥ 60%</span>
+            <span><i class="follow-dot is-provisional"></i>低置信：一字或 09:33 前封板仅有同板块已确认股票群与开盘资金佐证</span>
+            <span><i class="follow-dot is-unresolved"></i>待确认：缺少共同分钟、候选板块或可辨识价格路径</span>
+          </footer>
+        </div>
+      </dialog>
 
       <main>
         <section class="section-block sector-move-radar" id="sector-move-radar" aria-labelledby="sector-move-radar-heading">
@@ -451,7 +496,8 @@
           </div>
           <div class="stock-selection-launcher__summary" aria-label="选股中心功能">
             <span>每日量化候选池</span>
-            <span>15 日长上影试盘 Demo</span>
+            <span>次日涨停机会 20 强</span>
+            <span>10 日长上影疑似试盘形态</span>
             <span>主板 · 非 ST · 完整证据</span>
           </div>
         </section>
@@ -478,7 +524,8 @@
 
             <div class="stock-selection-tabs" role="tablist" aria-label="选股功能">
               <button id="stock-selection-tab-daily" type="button" role="tab" aria-selected="true" aria-controls="stock-selection-panel-daily" data-stock-selection-tab="daily">每日量化候选池</button>
-              <button id="stock-selection-tab-long-upper-shadow" type="button" role="tab" aria-selected="false" aria-controls="stock-selection-panel-long-upper-shadow" data-stock-selection-tab="long-upper-shadow" tabindex="-1">长上影试盘 Demo</button>
+              <button id="stock-selection-tab-limit-up-tendency" type="button" role="tab" aria-selected="false" aria-controls="stock-selection-panel-limit-up-tendency" data-stock-selection-tab="limit-up-tendency" tabindex="-1">次日涨停机会 20 强</button>
+              <button id="stock-selection-tab-long-upper-shadow" type="button" role="tab" aria-selected="false" aria-controls="stock-selection-panel-long-upper-shadow" data-stock-selection-tab="long-upper-shadow" tabindex="-1">长上影疑似试盘形态</button>
             </div>
 
             <section id="stock-selection-panel-daily" role="tabpanel" aria-labelledby="stock-selection-tab-daily" data-stock-selection-panel="daily">
@@ -512,20 +559,53 @@
               </div>
             </section>
 
-            <section id="stock-selection-panel-long-upper-shadow" role="tabpanel" aria-labelledby="stock-selection-tab-long-upper-shadow" data-stock-selection-panel="long-upper-shadow" hidden>
-              <div class="stock-pattern-rule" aria-label="长上影试盘筛选规则">
-                <strong>固定 Demo 规则</strong>
-                <span>15 个交易日</span><span>至少 2 次</span><span>上影 ≥ 收盘价 3%</span><span>上影 ≥ 实体 2 倍</span><span>上影 ≥ 振幅 50%</span><span>主板且非 ST</span>
+            <section id="stock-selection-panel-limit-up-tendency" role="tabpanel" aria-labelledby="stock-selection-tab-limit-up-tendency" data-stock-selection-panel="limit-up-tendency" hidden>
+              <div class="stock-pattern-rule" aria-label="次日涨停机会筛选规则">
+                <strong>固定规则 v2</strong>
+                <span>主板且非 ST</span><span>完整 15 日证据</span><span>区分未涨停启动与已涨停延续</span><span>突破位置</span><span>行业共振</span><span>量价换手</span><span>T+1 风险</span>
               </div>
-              <div class="stock-pattern-empty" id="stock-pattern-empty">该历史档案尚未包含 15 日长上影筛选证据，请生成当前版本选股档案。</div>
+              <div class="stock-limit-up-tendency-empty" id="stock-limit-up-tendency-empty">该历史档案尚未包含当前次日涨停机会规则，请生成当前版本选股档案。</div>
+              <div class="stock-limit-up-tendency-content" id="stock-limit-up-tendency-content" hidden>
+                <div class="stock-selection-metrics" aria-label="次日涨停机会筛选覆盖指标">
+                  <article><span>主板基础准入</span><strong id="stock-limit-up-tendency-eligible-count">--</strong><small>非 ST 且满足流动性</small></article>
+                  <article><span>完整评估</span><strong id="stock-limit-up-tendency-evaluated-count">--</strong><small id="stock-limit-up-tendency-coverage">覆盖 --</small></article>
+                  <article><span>机会候选</span><strong id="stock-limit-up-tendency-selected-count">--</strong><small>分阶段相对强度前 20</small></article>
+                  <article><span>证据质量</span><strong id="stock-limit-up-tendency-quality">--</strong><small>缺失时不猜测</small></article>
+                </div>
+                <div class="stock-selection-table-scroll" tabindex="0" aria-label="次日涨停机会候选股票表">
+                  <table class="stock-selection-table stock-limit-up-tendency-table">
+                    <thead><tr><th scope="col">排名</th><th scope="col">股票 / 阶段</th><th scope="col">行业</th><th scope="col">机会分</th><th scope="col">当日 / 5 日</th><th scope="col">换手 / 量比</th><th scope="col">成交额放大</th><th scope="col">流通市值</th><th scope="col">机会结构 / 个股证据 / 风险</th></tr></thead>
+                    <tbody id="stock-limit-up-tendency-table-body"><tr><td colspan="9" class="stock-selection-table-empty">尚无倾向候选数据。</td></tr></tbody>
+                  </table>
+                </div>
+                <div class="stock-selection-detail-grid">
+                  <article class="panel">
+                    <div class="panel-heading"><h3>排序方法</h3><span class="panel-state">规则 v2</span></div>
+                    <ul id="stock-limit-up-tendency-methodology"><li>方法尚未随档案返回。</li></ul>
+                  </article>
+                  <article class="panel">
+                    <div class="panel-heading"><h3>证据边界</h3><span class="panel-state">含 T+1 时序风险</span></div>
+                    <ul id="stock-limit-up-tendency-limitations"><li>分数不是收益承诺。</li></ul>
+                    <dl class="stock-selection-exclusions" id="stock-limit-up-tendency-exclusions"></dl>
+                  </article>
+                </div>
+              </div>
+            </section>
+
+            <section id="stock-selection-panel-long-upper-shadow" role="tabpanel" aria-labelledby="stock-selection-tab-long-upper-shadow" data-stock-selection-panel="long-upper-shadow" hidden>
+              <div class="stock-pattern-rule" aria-label="长上影疑似试盘形态筛选规则">
+                <strong>固定 Demo 规则</strong>
+                <span>10 个交易日</span><span>至少 2 次</span><span>上影 ≥ 收盘价 3%</span><span>上影 ≥ 实体 2 倍</span><span>上影 ≥ 振幅 50%</span><span>主板且非 ST</span><span>同一 10 日窗口无收盘涨停</span>
+              </div>
+              <div class="stock-pattern-empty" id="stock-pattern-empty">该历史档案尚未包含当前 10 日长上影疑似试盘形态证据，请生成当前版本选股档案。</div>
               <div class="stock-pattern-content" id="stock-pattern-content" hidden>
                 <div class="stock-selection-metrics stock-pattern-metrics" aria-label="长上影筛选覆盖指标">
                   <article><span>主板非 ST</span><strong id="stock-pattern-eligible-count">--</strong><small>规则准入股票</small></article>
-                  <article><span>完整 15 日</span><strong id="stock-pattern-evaluated-count">--</strong><small id="stock-pattern-coverage">覆盖 --</small></article>
+                  <article><span>完整 10 日</span><strong id="stock-pattern-evaluated-count">--</strong><small id="stock-pattern-coverage">覆盖 --</small></article>
                   <article><span>命中股票</span><strong id="stock-pattern-matched-count">--</strong><small>至少出现 2 次</small></article>
                   <article><span>证据质量</span><strong id="stock-pattern-quality">--</strong><small>缺失时不猜测</small></article>
                 </div>
-                <div class="stock-selection-table-scroll stock-pattern-table-scroll" tabindex="0" aria-label="长上影试盘形态股票表">
+                <div class="stock-selection-table-scroll stock-pattern-table-scroll" tabindex="0" aria-label="长上影疑似试盘形态股票表">
                   <table class="stock-selection-table stock-pattern-table">
                     <thead><tr><th scope="col">股票</th><th scope="col">行业</th><th scope="col">命中次数</th><th scope="col">最近命中</th><th scope="col">收盘价</th><th scope="col">逐次证据</th></tr></thead>
                     <tbody id="stock-pattern-table-body"><tr><td colspan="6" class="stock-selection-table-empty">尚无筛选数据。</td></tr></tbody>

@@ -18,6 +18,7 @@ from tradex.stock_selection.backtest import walk_forward_backtest
 from tradex.stock_selection.engine import (
     SelectionConfigV1,
     screen_long_upper_shadow_trials,
+    screen_next_session_limit_up_tendency,
     select_daily_stocks,
 )
 from tradex.stock_selection.service import DailyStockSelectionService
@@ -107,7 +108,18 @@ def _candlestick_bar(
     day: date,
     *,
     long_upper_shadow: bool = False,
+    closed_limit_up: bool = False,
 ) -> DailyStockCandlestickBarV1:
+    if closed_limit_up:
+        return DailyStockCandlestickBarV1(
+            trade_date=day,
+            open=10.5,
+            high=11.06,
+            low=10.4,
+            close=11.06,
+            previous_close=10.05,
+            amount_cny=300_000_000.0,
+        )
     if long_upper_shadow:
         return DailyStockCandlestickBarV1(
             trade_date=day,
@@ -115,6 +127,7 @@ def _candlestick_bar(
             high=10.8,
             low=9.9,
             close=10.1,
+            previous_close=10.0,
             amount_cny=300_000_000.0,
         )
     return DailyStockCandlestickBarV1(
@@ -123,6 +136,7 @@ def _candlestick_bar(
         high=10.25,
         low=9.9,
         close=10.2,
+        previous_close=10.0,
         amount_cny=300_000_000.0,
     )
 
@@ -131,13 +145,55 @@ def _candlestick_history(
     instrument_id: str,
     dates: tuple[date, ...],
     event_indexes: set[int],
+    limit_up_indexes: set[int] | None = None,
 ) -> DailyStockCandlestickHistoryV1:
+    limit_up_indexes = limit_up_indexes or set()
     return DailyStockCandlestickHistoryV1(
         instrument_id=instrument_id,
         bars=tuple(
-            _candlestick_bar(day, long_upper_shadow=index in event_indexes)
+            _candlestick_bar(
+                day,
+                long_upper_shadow=index in event_indexes,
+                closed_limit_up=index in limit_up_indexes,
+            )
             for index, day in enumerate(dates)
         ),
+    )
+
+
+def _tendency_history(
+    instrument_id: str,
+    dates: tuple[date, ...],
+    *,
+    final_return_pct: float,
+    final_amount_multiple: float,
+    closed_limit_up: bool = False,
+) -> DailyStockCandlestickHistoryV1:
+    bars = []
+    previous_close = 10.0
+    for index, trade_date in enumerate(dates):
+        is_final = index == len(dates) - 1
+        return_pct = final_return_pct if is_final else 0.4
+        close = previous_close * (1.0 + return_pct / 100.0)
+        if is_final and closed_limit_up:
+            close = round(previous_close * 1.10 + 1e-12, 2)
+        open_price = previous_close * (1.01 if is_final else 1.001)
+        amount = 300_000_000.0 * (final_amount_multiple if is_final else 1.0)
+        bars.append(
+            DailyStockCandlestickBarV1(
+                trade_date=trade_date,
+                open=open_price,
+                high=max(open_price, close) * 1.002,
+                low=min(previous_close, open_price, close) * 0.998,
+                close=close,
+                previous_close=previous_close,
+                amount_cny=amount,
+            )
+        )
+        previous_close = close
+    return DailyStockCandlestickHistoryV1(
+        instrument_id=instrument_id,
+        bars=tuple(bars),
     )
 
 
@@ -205,11 +261,11 @@ def test_long_upper_shadow_screen_is_complete_main_board_and_non_st_only():
         _row(day, 104, instrument_id="600104.SH", market="主板", name="历史不完整"),
     )
     histories = (
-        _candlestick_history("600100.SH", dates, {2, 12}),
+        _candlestick_history("600100.SH", dates, {5, 12}),
         _candlestick_history("600101.SH", dates, {8}),
-        _candlestick_history("600102.SH", dates, {2, 12}),
-        _candlestick_history("600103.SH", dates, {2, 12}),
-        _candlestick_history("600104.SH", dates[:-1], {2, 12}),
+        _candlestick_history("600102.SH", dates, {5, 12}),
+        _candlestick_history("600103.SH", dates, {5, 12}),
+        _candlestick_history("600104.SH", dates[:-1], {5, 12}),
     )
 
     screen = screen_long_upper_shadow_trials(
@@ -222,14 +278,15 @@ def test_long_upper_shadow_screen_is_complete_main_board_and_non_st_only():
     )
 
     assert screen.contract == "stock_pattern_screen.v1"
-    assert screen.screen_version == "long-upper-shadow-main-board.v1"
+    assert screen.screen_version == "long-upper-shadow-main-board.v3"
     assert screen.quality == "degraded"
-    assert screen.lookback_sessions == 15
+    assert screen.lookback_sessions == 10
     assert screen.minimum_occurrences == 2
+    assert screen.limit_up_exclusion_lookback_sessions == 10
     assert screen.matched_count == 1
     assert screen.candidates[0].instrument_id == "600100.SH"
     assert [item.trade_date for item in screen.candidates[0].evidence] == [
-        dates[2],
+        dates[5],
         dates[12],
     ]
     assert screen.excluded_counts == {
@@ -238,6 +295,132 @@ def test_long_upper_shadow_screen_is_complete_main_board_and_non_st_only():
         "not_main_board": 1,
         "special_treatment": 1,
     }
+    legacy_payload = screen.model_dump(mode="json")
+    legacy_payload["screen_version"] = "long-upper-shadow-main-board.v1"
+    legacy_payload["lookback_sessions"] = 15
+    legacy_payload.pop("limit_up_exclusion_lookback_sessions")
+    legacy_screen = type(screen).model_validate(legacy_payload)
+    assert legacy_screen.screen_version == "long-upper-shadow-main-board.v1"
+    assert legacy_screen.limit_up_exclusion_lookback_sessions is None
+
+
+def test_long_upper_shadow_screen_excludes_a_limit_up_close_in_the_latest_ten_sessions():
+    day = date(2026, 8, 26)
+    dates = tuple(day - timedelta(days=offset) for offset in range(14, -1, -1))
+    rows = (
+        _row(day, 100, instrument_id="600100.SH", market="主板", name="近十日涨停"),
+        _row(day, 101, instrument_id="600101.SH", market="主板", name="十日前涨停"),
+    )
+    histories = (
+        _candlestick_history(
+            "600100.SH",
+            dates,
+            {5, 12},
+            limit_up_indexes={10},
+        ),
+        _candlestick_history(
+            "600101.SH",
+            dates,
+            {5, 12},
+            limit_up_indexes={4},
+        ),
+    )
+
+    screen = screen_long_upper_shadow_trials(
+        _snapshot(
+            day,
+            rows,
+            candlestick_window_trade_dates=dates,
+            candlestick_histories=histories,
+        )
+    )
+
+    assert screen.matched_count == 1
+    assert screen.candidates[0].instrument_id == "600101.SH"
+    assert screen.excluded_counts["recent_limit_up"] == 1
+
+
+def test_long_upper_shadow_screen_counts_occurrences_only_in_the_latest_ten_sessions():
+    day = date(2026, 8, 26)
+    dates = tuple(day - timedelta(days=offset) for offset in range(14, -1, -1))
+    row = _row(day, 105, instrument_id="600105.SH", market="主板", name="窗口外长上影")
+    history = _candlestick_history("600105.SH", dates, {4, 12})
+
+    screen = screen_long_upper_shadow_trials(
+        _snapshot(
+            day,
+            (row,),
+            candlestick_window_trade_dates=dates,
+            candlestick_histories=(history,),
+        )
+    )
+
+    assert screen.matched_count == 0
+    assert screen.excluded_counts["insufficient_occurrences"] == 1
+
+
+def test_next_session_limit_up_tendency_returns_twenty_ranked_main_board_candidates():
+    day = date(2026, 8, 27)
+    dates = tuple(day - timedelta(days=offset) for offset in range(14, -1, -1))
+    rows = []
+    histories = []
+    for index in range(25):
+        instrument_id = f"{600200 + index:06d}.SH"
+        history = _tendency_history(
+            instrument_id,
+            dates,
+            final_return_pct=2.0 + index * 0.25,
+            final_amount_multiple=1.0 + index * 0.08,
+            closed_limit_up=index == 24,
+        )
+        latest = history.bars[-1]
+        histories.append(history)
+        rows.append(
+            _row(
+                day,
+                200 + index,
+                instrument_id=instrument_id,
+                open=latest.open,
+                close=latest.close,
+                amount_cny=latest.amount_cny,
+                total_market_cap_cny=30_000_000_000.0 - index * 500_000_000.0,
+                float_market_cap_cny=20_000_000_000.0 - index * 400_000_000.0,
+                turnover_rate_pct=3.0 + index * 0.4,
+                volume_ratio=1.0 + index * 0.06,
+            )
+        )
+
+    snapshot = _snapshot(
+        day,
+        tuple(rows),
+        candlestick_window_trade_dates=dates,
+        candlestick_histories=tuple(histories),
+    )
+    screen = screen_next_session_limit_up_tendency(snapshot)
+    selection = select_daily_stocks(snapshot)
+
+    assert screen.contract == "stock_limit_up_tendency_screen.v1"
+    assert screen.screen_version == "next-session-limit-up-tendency-main-board.v2"
+    assert screen.quality == "accepted"
+    assert screen.evaluated_count == 25
+    assert screen.selected_count == 20
+    assert [item.rank for item in screen.candidates] == list(range(1, 21))
+    assert all(item.reasons[0].startswith("机会结构：") for item in screen.candidates)
+    assert len({item.reasons for item in screen.candidates}) > 1
+    continuation = next(item for item in screen.candidates if item.closed_at_limit_up)
+    assert continuation.opportunity_stage == "limit_up_continuation"
+    assert len(continuation.reasons) >= 4
+    assert any("T+1" in risk and "第三个交易日" in risk for risk in continuation.risks)
+    assert any("首次封板时间" in risk for risk in continuation.risks)
+    assert any(
+        item.opportunity_stage == "pre_limit_up" and not item.closed_at_limit_up
+        for item in screen.candidates
+    )
+    disclosure = "".join(screen.methodology + screen.limitations)
+    assert "不代表可校准涨停概率" in disclosure
+    assert "预计涨停概率" not in disclosure
+    assert selection.limit_up_tendency_screens == (screen,)
+    assert selection.pattern_screens[0].screen_version == "long-upper-shadow-main-board.v3"
 
 
 def test_walk_forward_enters_at_next_session_open_and_charges_costs():

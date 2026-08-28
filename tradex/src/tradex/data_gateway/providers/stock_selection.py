@@ -142,12 +142,15 @@ def _candlestick_bar(
     high = _number(row.get("high"))
     low = _number(row.get("low"))
     close = _number(row.get("close"))
+    previous_close = _number(row.get("pre_close"))
     amount = _number(row.get("amount"))
-    values = (open_price, high, low, close, amount)
+    values = (open_price, high, low, close, previous_close, amount)
     if any(value is None for value in values):
-        raise RuntimeError("daily stock candlestick provider omitted OHLC or amount")
+        raise RuntimeError(
+            "daily stock candlestick provider omitted OHLC, previous close, or amount"
+        )
     assert open_price is not None and high is not None and low is not None
-    assert close is not None and amount is not None
+    assert close is not None and previous_close is not None and amount is not None
     if open_price == 0 and high == 0 and low == 0 and close > 0 and amount == 0:
         return None
     if min(open_price, high, low, close, amount) <= 0:
@@ -163,6 +166,7 @@ def _candlestick_bar(
         high=high,
         low=low,
         close=close,
+        previous_close=previous_close,
         amount_cny=amount * 1_000.0,
     )
 

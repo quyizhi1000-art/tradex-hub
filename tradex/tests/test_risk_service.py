@@ -1917,7 +1917,8 @@ def test_rotation_sampler_loads_backfill_while_reads_reuse_it(monkeypatch):
         "industry_quotes": {"source": "push2delay"},
         "concept_quotes": {"source": "push2delay"},
     }
-    calls = []
+    reads = []
+    scheduled = []
     supplemental = {
         "electric_power": tuple(
             {
@@ -1929,20 +1930,19 @@ def test_rotation_sampler_loads_backfill_while_reads_reuse_it(monkeypatch):
         )
     }
 
-    def backfill(targets, **kwargs):
-        calls.append(
-            (
-                tuple(targets),
-                kwargs["load_missing"],
-                kwargs.get("refresh_existing", False),
-            )
-        )
+    def read_backfill(**kwargs):
+        reads.append(kwargs)
         return supplemental
 
     monkeypatch.setattr(
         risk_service,
-        "fetch_sector_intraday_fund_flow_backfill",
-        backfill,
+        "read_sector_intraday_fund_flow_backfill",
+        read_backfill,
+    )
+    monkeypatch.setattr(
+        risk_service,
+        "schedule_sector_intraday_fund_flow_backfill",
+        lambda targets, **kwargs: scheduled.append((tuple(targets), kwargs)) or True,
     )
     market = {
         "provider_as_of": observed.isoformat(timespec="seconds"),
@@ -1971,32 +1971,15 @@ def test_rotation_sampler_loads_backfill_while_reads_reuse_it(monkeypatch):
         for item in recorded["sector_flow_trajectory"]["sectors"]
         if item["sector_key"] == "electric_power"
     )
-    assert [
-        (load_missing, refresh_existing)
-        for _targets, load_missing, refresh_existing in calls
-    ] == [(True, True), (False, False), (False, False)]
-    assert calls[0][0][0]["provider_sector_code"] == "BK0428"
+    assert reads == [
+        {"trading_date": "2026-08-19"},
+        {"trading_date": "2026-08-19"},
+    ]
+    assert scheduled[0][0][0]["provider_sector_code"] == "BK0428"
+    assert scheduled[0][1]["trading_date"] == "2026-08-19"
     assert sector["status"] == "ready"
     assert sector["latest"]["delta_5m_cny"] == 500_000_000
     assert read_only["sector_flow_trajectory"] == recorded["sector_flow_trajectory"]
-
-
-def test_sampler_rotates_one_sector_backfill_target_per_minute() -> None:
-    targets = tuple({"sector_key": f"sector-{index}"} for index in range(4))
-    china = ZoneInfo("Asia/Shanghai")
-
-    first = risk_service._sector_flow_backfill_load_targets(
-        targets,
-        datetime(2026, 8, 25, 10, 0, tzinfo=china),
-    )
-    second = risk_service._sector_flow_backfill_load_targets(
-        targets,
-        datetime(2026, 8, 25, 10, 1, tzinfo=china),
-    )
-
-    assert len(first) == 1
-    assert len(second) == 1
-    assert first != second
 
 
 def test_rotation_flow_reads_the_effective_provider_trade_date(monkeypatch):
@@ -2037,15 +2020,15 @@ def test_closed_rotation_read_never_cold_loads_exact_backfill(monkeypatch):
         def get_current(self, *_args, **_kwargs):
             return risk_service.analyze_rotation_snapshots([])
 
-    def backfill(targets, **kwargs):
-        calls.append((tuple(targets), kwargs["load_missing"]))
+    def read_backfill(**kwargs):
+        calls.append(kwargs)
         return {}
 
     monkeypatch.setattr(risk_service, "_get_rotation_store", lambda: Store())
     monkeypatch.setattr(
         risk_service,
-        "fetch_sector_intraday_fund_flow_backfill",
-        backfill,
+        "read_sector_intraday_fund_flow_backfill",
+        read_backfill,
     )
     observed = datetime(2026, 8, 24, 15, 10, tzinfo=ZoneInfo("Asia/Shanghai"))
 
@@ -2061,4 +2044,4 @@ def test_closed_rotation_read_never_cold_loads_exact_backfill(monkeypatch):
         record=False,
     )
 
-    assert calls == [((), False)]
+    assert calls == [{"trading_date": "2026-08-24"}]

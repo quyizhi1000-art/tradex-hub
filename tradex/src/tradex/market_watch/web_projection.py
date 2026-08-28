@@ -85,8 +85,8 @@ class SectorFlowSeriesSummaryV1(ContractModel):
     status: SectorFlowTrajectoryStatus
     follow_eligible: bool
     eligible_for_rank: bool
-    observation_rank: int | None = Field(default=None, ge=1, le=48)
-    rank_total: int = Field(default=0, ge=0, le=48)
+    observation_rank: int | None = Field(default=None, ge=1, le=64)
+    rank_total: int = Field(default=0, ge=0, le=64)
     observation_tier: SectorFlowObservationTier
     tier_label: str = Field(min_length=1)
     latest: SectorFlowLatestV1 | None = None
@@ -132,9 +132,9 @@ class SectorFlowTrajectorySummaryV1(ContractModel):
     market_phase: MarketPhase
     trajectory_scope: Literal["trading_session_to_as_of"]
     marginal_window_minutes: Literal[5]
-    sector_count: int = Field(ge=0, le=48)
-    point_count: int = Field(ge=0, le=48 * 256)
-    sectors: tuple[SectorFlowSeriesSummaryV1, ...] = Field(max_length=48)
+    sector_count: int = Field(ge=0, le=64)
+    point_count: int = Field(ge=0, le=64 * 256)
+    sectors: tuple[SectorFlowSeriesSummaryV1, ...] = Field(max_length=64)
     flags: tuple[str, ...] = ()
     reason: str | None = None
 
@@ -235,13 +235,13 @@ class SectorFlowTrajectoryDetailV1(ContractModel):
     market_phase: MarketPhase
     trajectory_scope: Literal["trading_session_to_as_of"]
     marginal_window_minutes: Literal[5]
-    sector_keys: tuple[str, ...] = Field(min_length=1, max_length=48)
-    sector_count: int = Field(ge=1, le=48)
-    point_count: int = Field(ge=0, le=48 * 256)
-    sectors: tuple[SectorFlowSeriesV1, ...] = Field(min_length=1, max_length=48)
+    sector_keys: tuple[str, ...] = Field(min_length=1, max_length=64)
+    sector_count: int = Field(ge=1, le=64)
+    point_count: int = Field(ge=0, le=64 * 256)
+    sectors: tuple[SectorFlowSeriesV1, ...] = Field(min_length=1, max_length=64)
     sector_integrity: tuple[SectorFlowSeriesIntegrityV1, ...] = Field(
         min_length=1,
-        max_length=48,
+        max_length=64,
     )
     flags: tuple[str, ...] = ()
     reason: str | None = None

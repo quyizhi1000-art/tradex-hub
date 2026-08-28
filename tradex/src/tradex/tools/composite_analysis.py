@@ -290,47 +290,78 @@ def register(mcp: FastMCP):
             JSON 格式的行业对比分析结果。
         """
         symbol = normalize_symbol(symbol)
-        cache_key = f"composite:industry:{symbol}"
+        from tradex.instrument_taxonomy.store import InstrumentTaxonomyReader
+
+        instrument_id = (
+            f"{symbol}.SH"
+            if symbol.startswith("6")
+            else f"{symbol}.BJ"
+            if symbol.startswith(("4", "8"))
+            else f"{symbol}.SZ"
+        )
+        with InstrumentTaxonomyReader() as reader:
+            relationship = reader.get(instrument_id)
+            catalog_status = reader.status()
+            peers = (
+                reader.members_by_sw_l3(
+                    relationship.statistical_industry.level3_code
+                    or relationship.statistical_industry.level3_name
+                    or ""
+                )
+                if relationship is not None and relationship.statistical_industry
+                else ()
+            )
+        catalog_revision = catalog_status.catalog_revision if catalog_status else "unavailable"
+        cache_key = f"composite:industry:v2:{catalog_revision}:{symbol}"
         cached = cache.get(cache_key)
         if cached is not None:
             return cached
 
-        # Step 1: 获取个股行业信息
-        company_result = await _safe_call(_get_company_info_sync, symbol)
-        if not company_result.get("success"):
-            return error_response(
-                f"无法获取公司信息: {company_result.get('error')}",
-                "analyze_industry_comparison",
-            )
+        industry = (
+            relationship.statistical_industry.level3_name
+            if relationship is not None and relationship.statistical_industry
+            else ""
+        )
+        peer_basis = "sw_level3"
 
-        industry = company_result["data"].get("行业", "")
-
-        # Step 2: 获取行业成分股
+        # 首选统一目录中的申万三级统计同行，再读取全市场行情做横向计算。
         try:
-            industry_code = None
-            board_df, _src = await run_blocking(
-                _router.route,
-                "industry_data",
-                endpoint="board_industry_name_em",
-            )
-            if board_df is not None and not board_df.empty:
-                match = board_df[board_df["板块名称"].str.contains(industry, na=False)]
-                if not match.empty:
-                    industry_code = match.iloc[0].get("板块代码")
-
-            if industry_code is None:
-                return error_response(
-                    f"未找到行业 '{industry}' 的板块代码",
-                    "analyze_industry_comparison",
+            if peers:
+                spot, _src = await run_blocking(_router.route, "stock_list", symbol="")
+                if spot is None or spot.empty:
+                    raise RuntimeError("全市场行情为空")
+                code_col = next(
+                    (
+                        column
+                        for column in spot.columns
+                        if column in {"代码", "code", "symbol"}
+                        or "代码" in str(column)
+                    ),
+                    spot.columns[0],
                 )
-
-            # 获取行业成分股
-            constituents, _src = await run_blocking(
-                _router.route,
-                "industry_data",
-                endpoint="board_industry_cons_em",
-                industry=industry,
-            )
+                peer_codes = {item.instrument_id[:6] for item in peers}
+                constituents = spot[
+                    spot[code_col].astype(str).str.extract(r"(\d{6})", expand=False).isin(peer_codes)
+                ].copy()
+                if code_col != "代码":
+                    constituents["代码"] = constituents[code_col].astype(str).str.extract(
+                        r"(\d{6})", expand=False
+                    )
+            else:
+                company_result = await _safe_call(_get_company_info_sync, symbol)
+                if not company_result.get("success"):
+                    return error_response(
+                        f"统一关系目录无统计行业，且公司信息不可用: {company_result.get('error')}",
+                        "analyze_industry_comparison",
+                    )
+                industry = company_result["data"].get("行业", "")
+                peer_basis = "provider_industry_fallback"
+                constituents, _src = await run_blocking(
+                    _router.route,
+                    "industry_data",
+                    endpoint="board_industry_cons_em",
+                    industry=industry,
+                )
             if constituents is None or constituents.empty:
                 return error_response(
                     f"行业 '{industry}' 无成分股数据",
@@ -345,6 +376,16 @@ def register(mcp: FastMCP):
         # Step 3: 计算行业统计
         stats = {
             "industry": industry,
+            "peer_basis": peer_basis,
+            "relationship_catalog_revision": (
+                catalog_status.catalog_revision if catalog_status else None
+            ),
+            "primary_business": (
+                relationship.primary_business_name if relationship else None
+            ),
+            "relationship_verification_status": (
+                relationship.verification_status if relationship else "unresolved"
+            ),
             "constituent_count": len(constituents),
             "stock_rank": None,
         }

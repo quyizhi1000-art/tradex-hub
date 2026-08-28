@@ -9,10 +9,10 @@ class TestServerSetup:
     def test_server_name(self, mcp_server):
         assert mcp_server.name == "tradex"
 
-    def test_all_137_tools_registered(self, mcp_server):
-        """当前服务注册 137 个 MCP 工具。"""
+    def test_all_138_tools_registered(self, mcp_server):
+        """当前服务注册 138 个 MCP 工具。"""
         tools = mcp_server._tool_manager._tools
-        assert len(tools) == 137, f"Expected 137 tools, got {len(tools)}"
+        assert len(tools) == 138, f"Expected 138 tools, got {len(tools)}"
 
     def test_read_only_lake_tools_present(self, mcp_server):
         tools = mcp_server._tool_manager._tools
@@ -31,6 +31,7 @@ class TestServerSetup:
             "get_company_info",
             "get_company_profile",
             "get_competitors",
+            "get_stock_relationship_profile",
             "get_realtime_quote",
             "get_historical_price",
             "get_market_capitalization",
@@ -249,6 +250,7 @@ class TestServerSetup:
             "sector_quotes": "industry_quotes",
             "stock_fund_flow": "stock_fund_flow_day",
             "dragon_tiger_market_day": "dragon_tiger_market_day",
+            "instrument_taxonomy": "instrument_taxonomy",
         }
         expected = {
             (route, 1)
@@ -312,6 +314,6 @@ class TestServerSetup:
         assert market_day == expected_market_day
 
     def test_tool_count_per_version(self, mcp_server):
-        """129 个既有工具 + 5 个同花顺扶摇 + 3 个只读湖工具。"""
+        """129 个既有工具 + 5 个同花顺扶摇 + 3 个只读湖工具 + 1 个证券关系工具。"""
         tools = mcp_server._tool_manager._tools
-        assert len(tools) == 137
+        assert len(tools) == 138

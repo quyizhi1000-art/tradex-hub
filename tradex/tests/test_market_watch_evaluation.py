@@ -14,6 +14,10 @@ from tradex.market_watch.evaluation import (
     evaluate_market_watch_history,
     evaluate_market_watch_session,
 )
+from tradex.market_watch.session_schedule import (
+    EXPECTED_MARKET_WATCH_MINUTES,
+    expected_market_watch_minutes,
+)
 
 
 SHANGHAI = ZoneInfo("Asia/Shanghai")
@@ -38,6 +42,7 @@ def _snapshot(
     freshness: str = "fresh",
     alerts: tuple[AlertV1, ...] = (),
 ) -> MarketWatchSnapshotV1:
+    is_final_close = observed_at.astimezone(SHANGHAI).strftime("%H:%M") == "15:00"
     if freshness == "fresh":
         component_statuses = ("fresh", "fresh", "fresh", "fresh")
         component_qualities = ("accepted", "accepted", "accepted", "accepted")
@@ -88,8 +93,8 @@ def _snapshot(
         "sequence": sequence,
         "as_of": observed_at.isoformat(),
         "market_state": {
-            "phase": "trading",
-            "is_open": True,
+            "phase": "closed" if is_final_close else "trading",
+            "is_open": not is_final_close,
             "trading_date": observed_at.date().isoformat(),
         },
         "freshness": {
@@ -158,13 +163,7 @@ def _snapshot(
 
 
 def _session_times(trade_date: date) -> tuple[datetime, ...]:
-    morning = datetime.combine(trade_date, datetime.min.time(), SHANGHAI).replace(
-        hour=9, minute=30
-    )
-    afternoon = morning.replace(hour=13, minute=0)
-    return tuple(morning + timedelta(minutes=index) for index in range(120)) + tuple(
-        afternoon + timedelta(minutes=index) for index in range(120)
-    )
+    return expected_market_watch_minutes(trade_date)
 
 
 def _complete_session(
@@ -200,15 +199,15 @@ def test_complete_fresh_session_passes_and_reports_both_coverage_units() -> None
     assert report.schema_version == 1
     assert report.config_version == "market-watch-policy.v1"
     assert report.acceptance.verdict == EvaluationVerdict.PASSED
-    assert report.metrics.coverage.sample_count == 240
-    assert report.metrics.coverage.expected_sample_count == 960
+    assert report.metrics.coverage.sample_count == EXPECTED_MARKET_WATCH_MINUTES
+    assert report.metrics.coverage.expected_sample_count == 952
     assert report.metrics.coverage.sample_coverage_ratio == pytest.approx(0.25)
-    assert report.metrics.coverage.covered_trading_minutes == 240
+    assert report.metrics.coverage.covered_trading_minutes == EXPECTED_MARKET_WATCH_MINUTES
     assert report.metrics.coverage.trading_minute_coverage_ratio == 1.0
     assert report.metrics.coverage.longest_data_gap_seconds == 60.0
     assert report.metrics.freshness.fresh_ratio == 1.0
     attack = _metric_value(report.metrics.regime_dwell, "attack")
-    assert attack.covered_trading_minutes == 240
+    assert attack.covered_trading_minutes == EXPECTED_MARKET_WATCH_MINUTES
     assert attack.covered_minute_ratio == 1.0
     confirmation = next(
         item
@@ -255,7 +254,7 @@ def test_partial_session_is_honestly_insufficient_and_never_passes() -> None:
 
     assert report.acceptance.verdict == EvaluationVerdict.INSUFFICIENT
     assert report.metrics.coverage.trading_minute_coverage_ratio == pytest.approx(
-        30 / 240
+        30 / EXPECTED_MARKET_WATCH_MINUTES
     )
     assert "insufficient:trading_minute_coverage" in report.acceptance.reasons
     assert report.calibration_hints[0].code == "collect_more_session_data"
@@ -269,8 +268,8 @@ def test_complete_session_with_stale_samples_fails_quality_acceptance() -> None:
     report = evaluate_market_watch_session(samples)
 
     assert report.acceptance.verdict == EvaluationVerdict.FAILED
-    assert report.metrics.freshness.stale_ratio == pytest.approx(0.05)
-    assert _metric_value(report.metrics.freshness.by_status, "stale").count == 12
+    assert report.metrics.freshness.stale_ratio == pytest.approx(11 / 238)
+    assert _metric_value(report.metrics.freshness.by_status, "stale").count == 11
     assert any(
         reason == "failed:stale_unavailable_ratio"
         for reason in report.acceptance.reasons
@@ -350,13 +349,16 @@ def test_explicit_alert_stream_overrides_embedded_alert_events() -> None:
 
 def test_multi_day_summary_aggregates_sessions_and_requires_enough_days() -> None:
     first = _complete_session(date(2026, 8, 24), start_sequence=1)
-    second = _complete_session(date(2026, 8, 25), start_sequence=241)
+    second = _complete_session(
+        date(2026, 8, 25),
+        start_sequence=EXPECTED_MARKET_WATCH_MINUTES + 1,
+    )
     samples = first + second
 
     default_report = evaluate_market_watch_history(samples)
     assert default_report.session_count == 2
-    assert default_report.metrics.coverage.expected_trading_minutes == 480
-    assert default_report.metrics.coverage.covered_trading_minutes == 480
+    assert default_report.metrics.coverage.expected_trading_minutes == 476
+    assert default_report.metrics.coverage.covered_trading_minutes == 476
     assert default_report.acceptance.verdict == EvaluationVerdict.INSUFFICIENT
     assert len(default_report.session_verdicts) == 2
     assert all(
@@ -371,7 +373,10 @@ def test_multi_day_summary_aggregates_sessions_and_requires_enough_days() -> Non
 
 def test_multi_day_explicit_alerts_must_be_datable_and_are_grouped() -> None:
     first = _complete_session(date(2026, 8, 24), start_sequence=1)
-    second = _complete_session(date(2026, 8, 25), start_sequence=241)
+    second = _complete_session(
+        date(2026, 8, 25),
+        start_sequence=EXPECTED_MARKET_WATCH_MINUTES + 1,
+    )
     undated = _alert("market_caution").model_dump(mode="json")
 
     with pytest.raises(ValueError, match="require trade_date"):
@@ -388,7 +393,10 @@ def test_multi_day_explicit_alerts_must_be_datable_and_are_grouped() -> None:
 
 def test_session_can_filter_one_date_from_a_complete_history_timeline() -> None:
     first = _complete_session(date(2026, 8, 24), start_sequence=1)
-    second = _complete_session(date(2026, 8, 25), start_sequence=241)
+    second = _complete_session(
+        date(2026, 8, 25),
+        start_sequence=EXPECTED_MARKET_WATCH_MINUTES + 1,
+    )
 
     report = evaluate_market_watch_session(
         first + second,
@@ -396,7 +404,7 @@ def test_session_can_filter_one_date_from_a_complete_history_timeline() -> None:
     )
 
     assert report.trade_date == date(2026, 8, 25)
-    assert report.metrics.coverage.sample_count == 240
+    assert report.metrics.coverage.sample_count == EXPECTED_MARKET_WATCH_MINUTES
     with pytest.raises(ValueError, match="multiple trading dates"):
         evaluate_market_watch_session(first + second)
 
@@ -406,7 +414,7 @@ def test_empty_requested_session_is_insufficient_and_json_safe() -> None:
 
     assert report.acceptance.verdict == EvaluationVerdict.INSUFFICIENT
     assert report.metrics.coverage.sample_count == 0
-    assert report.metrics.coverage.longest_data_gap_seconds == 14_400.0
+    assert report.metrics.coverage.longest_data_gap_seconds == 14_280.0
     rendered = json.dumps(report.model_dump(mode="json"), ensure_ascii=False)
     assert "market_watch_evaluation.v1" in rendered
     assert "NaN" not in rendered

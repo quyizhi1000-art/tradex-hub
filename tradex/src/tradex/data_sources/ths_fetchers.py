@@ -138,7 +138,7 @@ def _normalize_ths_pool_date(value: str) -> str:
 
 def _normalize_ths_high_days(item: dict) -> object:
     """Normalize only provider-declared first boards; keep other unknowns unknown."""
-    value = item["high_days"]
+    value = item.get("high_days")
     if value is not None and str(value).strip():
         return value
     if str(item.get("change_tag") or "").strip().upper() == "FIRST_LIMIT":
@@ -167,7 +167,13 @@ def _has_parseable_ths_board_count(value: object) -> bool:
     return False
 
 
-def _ths_limit_up_page(url: str, params: dict, expected_date: str) -> tuple[dict, list[dict], object]:
+def _ths_limit_up_page(
+    url: str,
+    params: dict,
+    expected_date: str,
+    *,
+    require_reason: bool = True,
+) -> tuple[dict, list[dict], object]:
     """获取并验证一页涨停池，避免将远程异常降级为“空池”。"""
     requested_page = params["page"]
     try:
@@ -239,15 +245,19 @@ def _ths_limit_up_page(url: str, params: dict, expected_date: str) -> tuple[dict
             raise RuntimeError(
                 f"同花顺涨停池 info[{index}] 不是对象（第 {requested_page} 页）"
             )
+        required_fields = ("code", "name", "reason_type") if require_reason else (
+            "code",
+            "name",
+        )
         missing_fields = [
             key
-            for key in ("code", "name", "reason_type")
+            for key in required_fields
             if item.get(key) is None or not str(item.get(key)).strip()
         ]
         # Historical pages contain legitimate null/empty high_days values.
         # Its presence is still part of the source schema even when the value
         # cannot provide board-count evidence.
-        if "high_days" not in item:
+        if require_reason and "high_days" not in item:
             missing_fields.append("high_days")
         if missing_fields:
             raise RuntimeError(
@@ -263,10 +273,15 @@ def _ths_limit_up_page(url: str, params: dict, expected_date: str) -> tuple[dict
     return page_meta, info, trade_status
 
 
-def fetch_ths_limit_up_pool(date: str, **kwargs) -> pd.DataFrame:
-    """同花顺涨停揭秘：涨停原因 + 封板质量。date=YYYYMMDD 或 YYYY-MM-DD。
+def _fetch_ths_limit_up_pool(
+    date: str,
+    *,
+    require_reason: bool,
+) -> pd.DataFrame:
+    """Fetch one complete paginated pool with a purpose-specific gate.
 
-    Returns columns: 代码 / 名称 / 涨停原因 / 板型 / 封板成功率 / 炸板次数 / 封单额 / 连板 / 首封时间 / 数据日期 / 交易状态
+    Returns columns: 代码 / 名称 / 涨停原因 / 板型 / 封板成功率 / 炸板次数 /
+    封单额 / 连板 / 首封时间 / 数据日期 / 交易状态.
     """
     normalized_date = _normalize_ths_pool_date(date)
     url = "https://data.10jqka.com.cn/dataapi/limit_up/limit_up_pool"
@@ -275,7 +290,12 @@ def fetch_ths_limit_up_pool(date: str, **kwargs) -> pd.DataFrame:
         "field": "199112,10,9001,330323,330324,330325,9002,330329,133971,133970,1968584,3475914,9003,9004",
         "filter": "HS,GEM2STAR", "order_field": "330324", "order_type": "0", "date": normalized_date,
     }
-    first_page, first_info, trade_status = _ths_limit_up_page(url, params, normalized_date)
+    first_page, first_info, trade_status = _ths_limit_up_page(
+        url,
+        params,
+        normalized_date,
+        require_reason=require_reason,
+    )
     total = first_page["total"]
     page_count = first_page["count"]
     expected_page_count = (total + first_page["limit"] - 1) // first_page["limit"] if total else 0
@@ -294,7 +314,12 @@ def fetch_ths_limit_up_pool(date: str, **kwargs) -> pd.DataFrame:
     for page_number in range(2, page_count + 1):
         page_params = dict(params)
         page_params["page"] = page_number
-        page_meta, page_info, page_trade_status = _ths_limit_up_page(url, page_params, normalized_date)
+        page_meta, page_info, page_trade_status = _ths_limit_up_page(
+            url,
+            page_params,
+            normalized_date,
+            require_reason=require_reason,
+        )
         if (
             page_meta["limit"] != first_page["limit"]
             or page_meta["total"] != total
@@ -344,7 +369,12 @@ def fetch_ths_limit_up_pool(date: str, **kwargs) -> pd.DataFrame:
         "trade_status": trade_status,
         "pool_total": total,
         "unique_total": len(info),
-        "reason_coverage": 1.0,
+        "reason_coverage": (
+            sum(bool(str(item.get("reason_type") or "").strip()) for item in info)
+            / total
+            if total
+            else 1.0
+        ),
         "board_count_coverage": board_count_coverage,
         "unknown_board_count": unknown_board_count,
         "page_count": page_count,
@@ -352,6 +382,18 @@ def fetch_ths_limit_up_pool(date: str, **kwargs) -> pd.DataFrame:
         "valid_empty": total == 0,
     })
     return df
+
+
+def fetch_ths_limit_up_pool(date: str, **kwargs) -> pd.DataFrame:
+    """同花顺涨停揭秘：涨停原因 + 封板质量。"""
+
+    return _fetch_ths_limit_up_pool(date, require_reason=True)
+
+
+def fetch_ths_limit_up_status(date: str, **kwargs) -> pd.DataFrame:
+    """同花顺盘中涨停状态：原因缺失不能阻塞股票先出现。"""
+
+    return _fetch_ths_limit_up_pool(date, require_reason=False)
 
 
 def fetch_ths_hot_list(period: str = "hour", **kwargs) -> pd.DataFrame:

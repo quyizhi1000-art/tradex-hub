@@ -13,6 +13,8 @@ Data source routing (via SmartRouter):
 
 from __future__ import annotations
 
+import json
+
 from mcp.server.fastmcp import FastMCP
 
 from ..data_sources import get_router
@@ -21,6 +23,27 @@ from ..utils.formatter import df_to_json, dict_to_json, error_response, slim_df
 from ..utils.symbol import normalize_symbol
 
 _router = get_router()
+
+
+def _instrument_id(symbol: str) -> str:
+    if symbol.startswith("6"):
+        return f"{symbol}.SH"
+    if symbol.startswith(("4", "8")):
+        return f"{symbol}.BJ"
+    return f"{symbol}.SZ"
+
+
+def _relationship_payload(symbol: str) -> dict | None:
+    from tradex.instrument_taxonomy.store import InstrumentTaxonomyReader
+
+    with InstrumentTaxonomyReader() as reader:
+        profile = reader.get(_instrument_id(symbol))
+        status = reader.status()
+    if profile is None:
+        return None
+    payload = profile.model_dump(mode="json")
+    payload["catalog_revision"] = status.catalog_revision if status else None
+    return payload
 
 
 def register(mcp: FastMCP):
@@ -67,7 +90,7 @@ def register(mcp: FastMCP):
             公司基本信息 (JSON)，包含总市值、流通市值、行业、上市日期等。
         """
         symbol = normalize_symbol(symbol)
-        cache_key = f"company_info:{symbol}"
+        cache_key = f"company_info:v2:{symbol}"
         cached = cache.get(cache_key)
         if cached is not None:
             return cached
@@ -83,6 +106,7 @@ def register(mcp: FastMCP):
                     for _, row in df.iterrows():
                         info[row.iloc[0]] = row.iloc[1]
                     if info:
+                        info["证券关系"] = _relationship_payload(symbol)
                         result = dict_to_json(info)
                         cache.set(cache_key, result, TTL_COMPANY)
                         return result
@@ -97,7 +121,10 @@ def register(mcp: FastMCP):
                 return error_response(
                     f"未找到股票 {symbol} 的公司信息", "get_company_info"
                 )
-            result = df_to_json(row)
+            result = dict_to_json({
+                "relationship": _relationship_payload(symbol),
+                "provider_info": json.loads(df_to_json(row)),
+            })
             cache.set(cache_key, result, TTL_COMPANY)
             return result
         except Exception as e:
@@ -117,7 +144,7 @@ def register(mcp: FastMCP):
             公司主营业务构成 (JSON)，包含各业务的营收占比、毛利率等。
         """
         symbol = normalize_symbol(symbol)
-        cache_key = f"company_profile:{symbol}"
+        cache_key = f"company_profile:v2:{symbol}"
         cached = cache.get(cache_key)
         if cached is not None:
             return cached
@@ -126,7 +153,10 @@ def register(mcp: FastMCP):
             df, _src = _router.route(
                 "company_info", endpoint="profile", symbol=symbol
             )
-            result = df_to_json(df)
+            result = dict_to_json({
+                "relationship": _relationship_payload(symbol),
+                "provider_profile": json.loads(df_to_json(df)),
+            })
             cache.set(cache_key, result, TTL_COMPANY)
             return result
         except Exception as e:
@@ -136,7 +166,9 @@ def register(mcp: FastMCP):
 
     @mcp.tool()
     async def get_competitors(
-        symbol: str, industry: str = ""
+        symbol: str,
+        industry: str = "",
+        peer_basis: str = "statistical_industry",
     ) -> str:
         """
         获取同行业公司列表（竞争对手/可比公司）。
@@ -152,12 +184,65 @@ def register(mcp: FastMCP):
             同行业公司列表 (JSON)，包含代码、名称、最新价、涨跌幅等。
         """
         symbol = normalize_symbol(symbol)
-        cache_key = f"competitors:{symbol}:{industry}"
+        cache_key = f"competitors:v2:{symbol}:{industry}:{peer_basis}"
         cached = cache.get(cache_key)
         if cached is not None:
             return cached
 
         try:
+            from tradex.instrument_taxonomy.store import InstrumentTaxonomyReader
+
+            if peer_basis not in {"statistical_industry", "primary_business"}:
+                return error_response(
+                    "peer_basis 只能是 statistical_industry 或 primary_business",
+                    "get_competitors",
+                )
+            with InstrumentTaxonomyReader() as reader:
+                profile = reader.get(_instrument_id(symbol))
+                status = reader.status()
+                if industry:
+                    peers = (
+                        reader.members_by_sw_l3(industry)
+                        if peer_basis == "statistical_industry"
+                        else reader.members_by_primary_business(industry)
+                    )
+                    basis_label = industry
+                elif profile is not None and peer_basis == "statistical_industry" and profile.statistical_industry:
+                    basis_label = profile.statistical_industry.level3_name or ""
+                    peers = reader.members_by_sw_l3(
+                        profile.statistical_industry.level3_code or basis_label
+                    )
+                elif profile is not None and peer_basis == "primary_business" and profile.primary_business_key:
+                    basis_label = profile.primary_business_name or ""
+                    peers = reader.members_by_primary_business(profile.primary_business_key)
+                else:
+                    peers = ()
+                    basis_label = ""
+            if peers:
+                result = dict_to_json({
+                    "contract": "stock_peer_group.v1",
+                    "peer_basis": peer_basis,
+                    "basis_label": basis_label,
+                    "catalog_revision": status.catalog_revision if status else None,
+                    "members": [
+                        {
+                            "instrument_id": item.instrument_id,
+                            "code": item.instrument_id[:6],
+                            "name": item.name,
+                            "primary_business": item.primary_business_name,
+                            "statistical_industry": (
+                                item.statistical_industry.level3_name
+                                if item.statistical_industry
+                                else None
+                            ),
+                            "verification_status": item.verification_status,
+                        }
+                        for item in peers[:100]
+                    ],
+                })
+                cache.set(cache_key, result, TTL_COMPANY)
+                return result
+
             # If no industry provided, look it up from company info
             if not industry:
                 try:
@@ -212,6 +297,19 @@ def register(mcp: FastMCP):
                 f"获取竞争对手列表失败 ({symbol}, {industry}): {e}",
                 "get_competitors",
             )
+
+    @mcp.tool()
+    async def get_stock_relationship_profile(symbol: str) -> str:
+        """读取统一证券关系：主营、申万统计行业、概念关系和证据状态。"""
+
+        symbol = normalize_symbol(symbol)
+        payload = _relationship_payload(symbol)
+        if payload is None:
+            return error_response(
+                f"{symbol} 的证券关系尚未入库或待刷新",
+                "get_stock_relationship_profile",
+            )
+        return dict_to_json(payload)
 
 
 def _find_code_col(df) -> str:

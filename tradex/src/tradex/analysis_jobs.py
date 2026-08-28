@@ -74,19 +74,27 @@ def _trade_date(value: date | str) -> str:
     return (value if isinstance(value, date) else date.fromisoformat(str(value))).isoformat()
 
 
+def _db_path(db_path: str | os.PathLike[str] | None = None) -> str:
+    configured = db_path or os.environ.get(ENV_DB_PATH)
+    if configured is None:
+        configured = Path.home() / ".tradex" / "analysis_jobs.sqlite3"
+    if str(configured) == ":memory:":
+        return ":memory:"
+    return str(Path(configured).expanduser().resolve())
+
+
+class AnalysisStateUnavailable(LookupError):
+    """The worker-owned analysis ledger is not yet available for reading."""
+
+
 class AnalysisJobStore:
     """SQLite/WAL owner for commands, worker health and display artifacts."""
 
     def __init__(self, db_path: str | os.PathLike[str] | None = None) -> None:
-        configured = db_path or os.environ.get(ENV_DB_PATH)
-        if configured is None:
-            configured = Path.home() / ".tradex" / "analysis_jobs.sqlite3"
-        if str(configured) == ":memory:":
-            self.db_path = ":memory:"
-        else:
-            resolved = Path(configured).expanduser().resolve()
+        self.db_path = _db_path(db_path)
+        if self.db_path != ":memory:":
+            resolved = Path(self.db_path)
             resolved.parent.mkdir(parents=True, exist_ok=True)
-            self.db_path = str(resolved)
         self._lock = threading.RLock()
         self._closed = False
         self._connection = sqlite3.connect(
@@ -514,9 +522,235 @@ class AnalysisJobStore:
         self.close()
 
 
+class AnalysisJobCommandWriter:
+    """Enqueue explicit Web commands without owning schema or artifacts."""
+
+    def __init__(self, db_path: str | os.PathLike[str] | None = None) -> None:
+        self.db_path = _db_path(db_path)
+        if self.db_path == ":memory:" or not Path(self.db_path).is_file():
+            raise AnalysisStateUnavailable("后台分析状态尚未建立")
+        self._lock = threading.RLock()
+        self._closed = False
+        try:
+            self._connection = sqlite3.connect(
+                f"{Path(self.db_path).as_uri()}?mode=rw",
+                uri=True,
+                check_same_thread=False,
+                timeout=5,
+            )
+            self._connection.row_factory = sqlite3.Row
+            self._connection.execute("PRAGMA busy_timeout = 5000")
+        except sqlite3.DatabaseError as exc:
+            raise AnalysisStateUnavailable("后台分析状态暂不可写") from exc
+
+    def _ensure_open(self) -> None:
+        if self._closed:
+            raise RuntimeError("analysis command writer is closed")
+
+    def enqueue(
+        self,
+        capability: str,
+        *,
+        trade_date: date | str,
+        trigger: str,
+        scope_key: str | None = None,
+        requested_at: datetime | None = None,
+    ) -> dict[str, Any]:
+        normalized_capability = _capability(capability)
+        normalized_date = _trade_date(trade_date)
+        normalized_scope = str(scope_key or f"date:{normalized_date}").strip()
+        normalized_trigger = str(trigger).strip()
+        if not normalized_scope or not normalized_trigger:
+            raise ValueError("analysis job scope and trigger must not be empty")
+        timestamp = _iso(requested_at)
+        job_id = f"{normalized_capability}:{uuid.uuid4().hex}"
+        with self._lock:
+            self._ensure_open()
+            try:
+                self._connection.execute("BEGIN IMMEDIATE")
+                row = self._connection.execute(
+                    """
+                    SELECT * FROM analysis_jobs
+                    WHERE capability = ? AND scope_key = ?
+                      AND state IN ('queued', 'running')
+                    ORDER BY id DESC LIMIT 1
+                    """,
+                    (normalized_capability, normalized_scope),
+                ).fetchone()
+                if row is None:
+                    self._connection.execute(
+                        """
+                        INSERT INTO analysis_jobs (
+                            job_id, capability, scope_key, trade_date, trigger,
+                            state, phase, requested_at, updated_at
+                        ) VALUES (?, ?, ?, ?, ?, 'queued', 'queued', ?, ?)
+                        """,
+                        (
+                            job_id,
+                            normalized_capability,
+                            normalized_scope,
+                            normalized_date,
+                            normalized_trigger,
+                            timestamp,
+                            timestamp,
+                        ),
+                    )
+                    row = self._connection.execute(
+                        "SELECT * FROM analysis_jobs WHERE job_id = ?",
+                        (job_id,),
+                    ).fetchone()
+                self._connection.commit()
+            except sqlite3.DatabaseError as exc:
+                self._connection.rollback()
+                raise AnalysisStateUnavailable("后台分析任务暂不能排队") from exc
+        job = AnalysisJobStore._job(row)
+        if job is None:
+            raise RuntimeError("analysis job enqueue did not produce a row")
+        return job
+
+    def close(self) -> None:
+        with self._lock:
+            if self._closed:
+                return
+            self._closed = True
+            self._connection.close()
+
+    def __enter__(self) -> "AnalysisJobCommandWriter":
+        return self
+
+    def __exit__(self, exc_type, exc, traceback) -> None:
+        self.close()
+
+
+class AnalysisJobReader:
+    """Strictly read worker-owned job status and display artifacts.
+
+    The reader never creates a directory, database, table or WAL.  A missing or
+    incomplete ledger is an honest not-ready state for Web GET handlers.
+    """
+
+    def __init__(self, db_path: str | os.PathLike[str] | None = None) -> None:
+        self.db_path = _db_path(db_path)
+        if self.db_path == ":memory:" or not Path(self.db_path).is_file():
+            raise AnalysisStateUnavailable("后台分析状态尚未建立")
+        self._lock = threading.RLock()
+        self._closed = False
+        try:
+            self._connection = sqlite3.connect(
+                f"{Path(self.db_path).as_uri()}?mode=ro",
+                uri=True,
+                check_same_thread=False,
+                timeout=5,
+            )
+            self._connection.row_factory = sqlite3.Row
+            self._connection.execute("PRAGMA busy_timeout = 5000")
+            self._connection.execute("PRAGMA query_only = ON")
+        except sqlite3.DatabaseError as exc:
+            raise AnalysisStateUnavailable("后台分析状态暂不可读") from exc
+
+    def _ensure_open(self) -> None:
+        if self._closed:
+            raise RuntimeError("analysis job reader is closed")
+
+    def _fetchone(self, query: str, params: list[Any] | tuple[Any, ...]):
+        with self._lock:
+            self._ensure_open()
+            try:
+                return self._connection.execute(query, params).fetchone()
+            except sqlite3.DatabaseError as exc:
+                raise AnalysisStateUnavailable("后台分析状态暂不可读") from exc
+
+    def _fetchall(self, query: str):
+        with self._lock:
+            self._ensure_open()
+            try:
+                return self._connection.execute(query).fetchall()
+            except sqlite3.DatabaseError as exc:
+                raise AnalysisStateUnavailable("后台分析状态暂不可读") from exc
+
+    def latest_job(
+        self,
+        capability: str,
+        *,
+        trade_date: date | str | None = None,
+        scope_key: str | None = None,
+    ) -> dict[str, Any] | None:
+        normalized_capability = _capability(capability)
+        clauses = ["capability = ?"]
+        params: list[Any] = [normalized_capability]
+        if trade_date is not None:
+            clauses.append("trade_date = ?")
+            params.append(_trade_date(trade_date))
+        if scope_key is not None:
+            clauses.append("scope_key = ?")
+            params.append(str(scope_key))
+        row = self._fetchone(
+            "SELECT * FROM analysis_jobs WHERE "
+            + " AND ".join(clauses)
+            + " ORDER BY id DESC LIMIT 1",
+            params,
+        )
+        return AnalysisJobStore._job(row)
+
+    def get_artifact(
+        self,
+        capability: str,
+        *,
+        scope_key: str,
+    ) -> dict[str, Any] | None:
+        normalized_capability = _capability(capability)
+        row = self._fetchone(
+            """
+            SELECT * FROM analysis_artifacts
+            WHERE capability = ? AND scope_key = ?
+            """,
+            (normalized_capability, str(scope_key)),
+        )
+        if row is None:
+            return None
+        return {
+            "contract": ARTIFACT_CONTRACT,
+            "schema_version": ARTIFACT_SCHEMA_VERSION,
+            "capability": row["capability"],
+            "scope_key": row["scope_key"],
+            "source_revision": row["source_revision"],
+            "payload_digest": row["payload_digest"],
+            "generated_at": row["generated_at"],
+            "payload": json.loads(row["payload_json"]),
+        }
+
+    def runtime_status(self) -> dict[str, Any]:
+        rows = self._fetchall("SELECT key, value FROM analysis_runtime_meta")
+        values = {row["key"]: row["value"] for row in rows}
+        return {
+            "contract": RUNTIME_CONTRACT,
+            "schema_version": RUNTIME_SCHEMA_VERSION,
+            "state": values.get("state", "unknown"),
+            "heartbeat_at": values.get("heartbeat_at"),
+            "process_pid": int(values["process_pid"]) if values.get("process_pid") else None,
+            "detail": values.get("detail") or None,
+        }
+
+    def close(self) -> None:
+        with self._lock:
+            if self._closed:
+                return
+            self._closed = True
+            self._connection.close()
+
+    def __enter__(self) -> "AnalysisJobReader":
+        return self
+
+    def __exit__(self, exc_type, exc, traceback) -> None:
+        self.close()
+
+
 __all__ = [
     "ACTIVE_STATES",
+    "AnalysisJobCommandWriter",
+    "AnalysisJobReader",
     "AnalysisJobStore",
+    "AnalysisStateUnavailable",
     "DAILY_STOCK_SELECTION",
     "ENV_DB_PATH",
     "MARKET_WATCH_EVALUATION",

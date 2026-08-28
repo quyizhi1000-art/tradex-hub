@@ -26,6 +26,7 @@ from .collection_contracts import (
 )
 from .contracts import FreshnessStatus, MarketWatchSnapshotV1
 from .history import DEFAULT_CONFIG_VERSION, ENV_DB_PATH
+from .session_schedule import expected_market_watch_minutes
 from .integrity import stable_sha256
 
 
@@ -51,22 +52,9 @@ def _minute(value: datetime, *, name: str = "minute_bucket") -> datetime:
 
 
 def expected_session_minutes(trade_date: date) -> tuple[datetime, ...]:
-    """Return the 240 canonical continuous-auction minute buckets."""
+    """Compatibility alias for the phase-aware market-watch schedule."""
 
-    if not isinstance(trade_date, date) or isinstance(trade_date, datetime):
-        raise TypeError("trade_date must be a date")
-    status = calendar_day_status(trade_date)
-    if status is CalendarDayStatus.UNVERIFIED:
-        raise ValueError("trade_date is outside the verified A-share calendar")
-    if status is not CalendarDayStatus.VERIFIED_TRADING_DAY:
-        return ()
-    morning = datetime.combine(trade_date, time(9, 30), SHANGHAI)
-    afternoon = datetime.combine(trade_date, time(13, 0), SHANGHAI)
-    return tuple(
-        morning + timedelta(minutes=offset) for offset in range(120)
-    ) + tuple(
-        afternoon + timedelta(minutes=offset) for offset in range(120)
-    )
+    return expected_market_watch_minutes(trade_date)
 
 
 class MarketWatchCollectionStore:
@@ -266,8 +254,22 @@ class MarketWatchCollectionStore:
                     accepted_after INTEGER NOT NULL,
                     reconciled_slots INTEGER NOT NULL DEFAULT 0,
                     attempted_slots INTEGER NOT NULL DEFAULT 0,
+                    failed_attempts INTEGER NOT NULL DEFAULT 0,
                     remaining_gaps INTEGER NOT NULL,
-                    last_error_code TEXT
+                    latest_attempt_minute_bucket TEXT,
+                    latest_attempt_at TEXT,
+                    latest_attempt_outcome TEXT,
+                    latest_attempt_progress_completed INTEGER NOT NULL DEFAULT 0,
+                    latest_attempt_progress_total INTEGER NOT NULL DEFAULT 0,
+                    latest_attempt_progress_stage TEXT,
+                    latest_attempt_progress_message TEXT,
+                    latest_failure_minute_bucket TEXT,
+                    latest_failure_at TEXT,
+                    latest_failure_next_retry_at TEXT,
+                    latest_failure_error_code TEXT,
+                    latest_failure_error_message TEXT,
+                    last_error_code TEXT,
+                    last_error_message TEXT
                 );
 
                 CREATE INDEX IF NOT EXISTS idx_market_watch_daily_recovery
@@ -276,6 +278,34 @@ class MarketWatchCollectionStore:
                     );
                 """
             )
+            recovery_columns = {
+                row["name"]
+                for row in self._connection.execute(
+                    "PRAGMA table_info(market_watch_daily_recovery_runs)"
+                ).fetchall()
+            }
+            additive_recovery_columns = {
+                "failed_attempts": "INTEGER NOT NULL DEFAULT 0",
+                "latest_attempt_minute_bucket": "TEXT",
+                "latest_attempt_at": "TEXT",
+                "latest_attempt_outcome": "TEXT",
+                "latest_attempt_progress_completed": "INTEGER NOT NULL DEFAULT 0",
+                "latest_attempt_progress_total": "INTEGER NOT NULL DEFAULT 0",
+                "latest_attempt_progress_stage": "TEXT",
+                "latest_attempt_progress_message": "TEXT",
+                "latest_failure_minute_bucket": "TEXT",
+                "latest_failure_at": "TEXT",
+                "latest_failure_next_retry_at": "TEXT",
+                "latest_failure_error_code": "TEXT",
+                "latest_failure_error_message": "TEXT",
+                "last_error_message": "TEXT",
+            }
+            for column, declaration in additive_recovery_columns.items():
+                if column not in recovery_columns:
+                    self._connection.execute(
+                        f"ALTER TABLE market_watch_daily_recovery_runs "
+                        f"ADD COLUMN {column} {declaration}"
+                    )
             expected = {
                 "contract": COLLECTION_LEDGER_CONTRACT,
                 "schema_version": str(COLLECTION_LEDGER_SCHEMA_VERSION),
@@ -337,18 +367,70 @@ class MarketWatchCollectionStore:
         with self._lock:
             self._ensure_open()
             with self._connection:
-                existing = self._connection.execute(
+                existing_rows = self._connection.execute(
                     """
-                    SELECT COUNT(*) AS count FROM market_watch_collection_slots
+                    SELECT id, minute_bucket, status, attempt_count
+                    FROM market_watch_collection_slots
                     WHERE trade_date = ? AND config_version = ?
                     """,
                     (trade_date.isoformat(), self.config_version),
-                ).fetchone()["count"]
-                if existing == len(minutes):
+                ).fetchall()
+                expected_isos = {
+                    minute.isoformat(timespec="seconds") for minute in minutes
+                }
+                existing_isos = {str(row["minute_bucket"]) for row in existing_rows}
+                to_exclude = [
+                    row
+                    for row in existing_rows
+                    if row["minute_bucket"] not in expected_isos
+                    and row["status"] != CollectionSlotStatus.EXCLUDED.value
+                ]
+                to_restore = [
+                    row
+                    for row in existing_rows
+                    if row["minute_bucket"] in expected_isos
+                    and row["status"] == CollectionSlotStatus.EXCLUDED.value
+                ]
+                missing = [
+                    minute
+                    for minute in minutes
+                    if minute.isoformat(timespec="seconds") not in existing_isos
+                ]
+                if not to_exclude and not to_restore and not missing:
                     return 0
                 revision = self._bump_revision_locked()
+                for row in to_exclude:
+                    self._connection.execute(
+                        """
+                        UPDATE market_watch_collection_slots
+                        SET status = ?, next_retry_at = NULL,
+                            ledger_revision = ?, updated_at = ?
+                        WHERE id = ?
+                        """,
+                        (
+                            CollectionSlotStatus.EXCLUDED.value,
+                            revision,
+                            now,
+                            row["id"],
+                        ),
+                    )
+                for row in to_restore:
+                    restored = (
+                        CollectionSlotStatus.RETRYING
+                        if int(row["attempt_count"]) > 0
+                        else CollectionSlotStatus.EXPECTED
+                    )
+                    self._connection.execute(
+                        """
+                        UPDATE market_watch_collection_slots
+                        SET status = ?, next_retry_at = ?,
+                            ledger_revision = ?, updated_at = ?
+                        WHERE id = ?
+                        """,
+                        (restored.value, now, revision, now, row["id"]),
+                    )
                 inserted = 0
-                for minute_bucket in minutes:
+                for minute_bucket in missing:
                     cursor = self._connection.execute(
                         """
                         INSERT OR IGNORE INTO market_watch_collection_slots (
@@ -491,8 +573,20 @@ class MarketWatchCollectionStore:
                     UPDATE market_watch_daily_recovery_runs
                     SET status = ?, started_at = ?, expected_minute_buckets = ?,
                         accepted_before = ?, accepted_after = ?, remaining_gaps = ?,
-                        reconciled_slots = 0, attempted_slots = 0,
-                        completed_at = NULL, last_error_code = NULL
+                        reconciled_slots = 0, attempted_slots = 0, failed_attempts = 0,
+                        latest_attempt_minute_bucket = NULL,
+                        latest_attempt_at = NULL, latest_attempt_outcome = NULL,
+                        latest_attempt_progress_completed = 0,
+                        latest_attempt_progress_total = 0,
+                        latest_attempt_progress_stage = NULL,
+                        latest_attempt_progress_message = NULL,
+                        latest_failure_minute_bucket = NULL,
+                        latest_failure_at = NULL,
+                        latest_failure_next_retry_at = NULL,
+                        latest_failure_error_code = NULL,
+                        latest_failure_error_message = NULL,
+                        completed_at = NULL, last_error_code = NULL,
+                        last_error_message = NULL
                     WHERE id = ? AND status = ?
                     """,
                     (
@@ -531,13 +625,14 @@ class MarketWatchCollectionStore:
                     """
                     SELECT id FROM market_watch_collection_slots
                     WHERE config_version = ? AND trade_date = ?
-                        AND status NOT IN (?, ?, ?)
+                        AND status NOT IN (?, ?, ?, ?)
                     """,
                     (
                         self.config_version,
                         trade_date.isoformat(),
                         *_ACCEPTED_STATUSES,
                         CollectionSlotStatus.CAPTURING.value,
+                        CollectionSlotStatus.EXCLUDED.value,
                     ),
                 ).fetchall()
                 if not rows:
@@ -550,7 +645,7 @@ class MarketWatchCollectionStore:
                             WHEN attempt_count = 0 THEN ? ELSE ? END,
                         next_retry_at = ?, ledger_revision = ?, updated_at = ?
                     WHERE config_version = ? AND trade_date = ?
-                        AND status NOT IN (?, ?, ?)
+                        AND status NOT IN (?, ?, ?, ?)
                     """,
                     (
                         CollectionSlotStatus.EXPECTED.value,
@@ -562,9 +657,188 @@ class MarketWatchCollectionStore:
                         trade_date.isoformat(),
                         *_ACCEPTED_STATUSES,
                         CollectionSlotStatus.CAPTURING.value,
+                        CollectionSlotStatus.EXCLUDED.value,
                     ),
                 )
                 return len(rows)
+
+    def record_daily_recovery_attempt_started(
+        self,
+        run_id: int,
+        slot: CollectionSlotV1,
+        *,
+        started_at: datetime,
+    ) -> DailyCollectionRecoveryV1:
+        """Publish one claimed minute immediately so the UI can show live progress."""
+
+        self._ensure_writable()
+        observed = _aware_shanghai(started_at, name="started_at")
+        with self._lock:
+            self._ensure_open()
+            with self._connection:
+                row = self._running_recovery_row_locked(run_id)
+                if row["trade_date"] != slot.trade_date.isoformat():
+                    raise ValueError("daily recovery attempt belongs to a different trade date")
+                completeness = self._read_completeness_locked(slot.trade_date, observed)
+                remaining = (
+                    completeness.expected_minute_buckets - completeness.accepted_real
+                )
+                self._connection.execute(
+                    """
+                    UPDATE market_watch_daily_recovery_runs
+                    SET attempted_slots = attempted_slots + 1,
+                        accepted_after = ?, remaining_gaps = ?,
+                        latest_attempt_minute_bucket = ?, latest_attempt_at = ?,
+                        latest_attempt_outcome = 'started',
+                        latest_attempt_progress_completed = 0,
+                        latest_attempt_progress_total = 0,
+                        latest_attempt_progress_stage = 'starting',
+                        latest_attempt_progress_message = NULL
+                    WHERE id = ?
+                    """,
+                    (
+                        completeness.accepted_real,
+                        remaining,
+                        slot.minute_bucket.isoformat(timespec="seconds"),
+                        observed.isoformat(timespec="seconds"),
+                        int(run_id),
+                    ),
+                )
+                updated = self._connection.execute(
+                    "SELECT * FROM market_watch_daily_recovery_runs WHERE id = ?",
+                    (int(run_id),),
+                ).fetchone()
+                return self._recovery(updated, completeness)
+
+    def record_daily_recovery_attempt_progress(
+        self,
+        run_id: int,
+        slot: CollectionSlotV1,
+        *,
+        completed: int,
+        total: int,
+        stage: str,
+        message: str | None = None,
+        observed_at: datetime,
+    ) -> DailyCollectionRecoveryV1:
+        """Publish bounded intra-minute reconstruction progress."""
+
+        self._ensure_writable()
+        done, count = int(completed), int(total)
+        stage_text = str(stage).strip()
+        if count <= 0 or done < 0 or done > count:
+            raise ValueError("daily recovery progress must satisfy 0 <= completed <= total")
+        if not stage_text:
+            raise ValueError("daily recovery progress stage must not be empty")
+        observed = _aware_shanghai(observed_at, name="observed_at")
+        with self._lock:
+            self._ensure_open()
+            with self._connection:
+                row = self._running_recovery_row_locked(run_id)
+                minute_iso = slot.minute_bucket.isoformat(timespec="seconds")
+                if row["latest_attempt_minute_bucket"] != minute_iso:
+                    raise ValueError("daily recovery progress does not match its started minute")
+                self._connection.execute(
+                    """
+                    UPDATE market_watch_daily_recovery_runs
+                    SET latest_attempt_at = ?,
+                        latest_attempt_progress_completed = ?,
+                        latest_attempt_progress_total = ?,
+                        latest_attempt_progress_stage = ?,
+                        latest_attempt_progress_message = ?
+                    WHERE id = ?
+                    """,
+                    (
+                        observed.isoformat(timespec="seconds"),
+                        done,
+                        count,
+                        stage_text[:120],
+                        str(message)[:500] if message else None,
+                        int(run_id),
+                    ),
+                )
+                completeness = self._read_completeness_locked(slot.trade_date, observed)
+                updated = self._connection.execute(
+                    "SELECT * FROM market_watch_daily_recovery_runs WHERE id = ?",
+                    (int(run_id),),
+                ).fetchone()
+                return self._recovery(updated, completeness)
+
+    def record_daily_recovery_attempt_finished(
+        self,
+        run_id: int,
+        slot: CollectionSlotV1,
+        *,
+        completed_at: datetime,
+        outcome: str | None = None,
+    ) -> DailyCollectionRecoveryV1:
+        """Publish the exact result and safe failure detail for the latest minute."""
+
+        self._ensure_writable()
+        observed = _aware_shanghai(completed_at, name="completed_at")
+        failed = slot.status in {
+            CollectionSlotStatus.RETRYING,
+            CollectionSlotStatus.UNRESOLVED,
+        }
+        with self._lock:
+            self._ensure_open()
+            with self._connection:
+                row = self._running_recovery_row_locked(run_id)
+                if row["trade_date"] != slot.trade_date.isoformat():
+                    raise ValueError("daily recovery result belongs to a different trade date")
+                if row["latest_attempt_minute_bucket"] != slot.minute_bucket.isoformat(
+                    timespec="seconds"
+                ):
+                    raise ValueError("daily recovery result does not match its started minute")
+                completeness = self._read_completeness_locked(slot.trade_date, observed)
+                remaining = (
+                    completeness.expected_minute_buckets - completeness.accepted_real
+                )
+                self._connection.execute(
+                    """
+                    UPDATE market_watch_daily_recovery_runs
+                    SET failed_attempts = failed_attempts + ?,
+                        accepted_after = ?, remaining_gaps = ?,
+                        latest_attempt_at = ?, latest_attempt_outcome = ?
+                    WHERE id = ?
+                    """,
+                    (
+                        1 if failed else 0,
+                        completeness.accepted_real,
+                        remaining,
+                        observed.isoformat(timespec="seconds"),
+                        str(outcome or slot.status.value),
+                        int(run_id),
+                    ),
+                )
+                if failed:
+                    self._connection.execute(
+                        """
+                        UPDATE market_watch_daily_recovery_runs
+                        SET latest_failure_minute_bucket = ?, latest_failure_at = ?,
+                            latest_failure_next_retry_at = ?,
+                            latest_failure_error_code = ?,
+                            latest_failure_error_message = ?
+                        WHERE id = ?
+                        """,
+                        (
+                            slot.minute_bucket.isoformat(timespec="seconds"),
+                            observed.isoformat(timespec="seconds"),
+                            (
+                                slot.next_retry_at.isoformat(timespec="seconds")
+                                if slot.next_retry_at is not None
+                                else None
+                            ),
+                            slot.last_error_code,
+                            slot.last_error_message,
+                            int(run_id),
+                        ),
+                    )
+                updated = self._connection.execute(
+                    "SELECT * FROM market_watch_daily_recovery_runs WHERE id = ?",
+                    (int(run_id),),
+                ).fetchone()
+                return self._recovery(updated, completeness)
 
     def finish_daily_recovery(
         self,
@@ -598,21 +872,26 @@ class MarketWatchCollectionStore:
                 if error is not None:
                     status = DailyRecoveryStatus.FAILED
                     error_code = type(error).__name__
+                    error_message = str(error)[:1000] or error_code
                 elif not remaining:
                     status = DailyRecoveryStatus.COMPLETE
                     error_code = None
+                    error_message = None
                 elif completeness.unresolved:
                     status = DailyRecoveryStatus.NEEDS_ATTENTION
                     error_code = None
+                    error_message = None
                 else:
                     status = DailyRecoveryStatus.RETRYING
                     error_code = None
+                    error_message = None
                 self._connection.execute(
                     """
                     UPDATE market_watch_daily_recovery_runs
                     SET status = ?, completed_at = ?, accepted_after = ?,
                         reconciled_slots = ?, attempted_slots = ?,
-                        remaining_gaps = ?, last_error_code = ?
+                        remaining_gaps = ?, last_error_code = ?,
+                        last_error_message = ?
                     WHERE id = ?
                     """,
                     (
@@ -620,9 +899,10 @@ class MarketWatchCollectionStore:
                         observed.isoformat(timespec="seconds"),
                         completeness.accepted_real,
                         max(0, int(reconciled_slots)),
-                        max(0, int(attempted_slots)),
+                        max(int(row["attempted_slots"]), int(attempted_slots), 0),
                         remaining,
                         error_code,
+                        error_message,
                         int(run_id),
                     ),
                 )
@@ -631,6 +911,17 @@ class MarketWatchCollectionStore:
                     (int(run_id),),
                 ).fetchone()
                 return self._recovery(finished, completeness)
+
+    def _running_recovery_row_locked(self, run_id: int) -> sqlite3.Row:
+        row = self._connection.execute(
+            "SELECT * FROM market_watch_daily_recovery_runs WHERE id = ?",
+            (int(run_id),),
+        ).fetchone()
+        if row is None or row["config_version"] != self.config_version:
+            raise KeyError(f"unknown daily recovery run: {run_id}")
+        if row["status"] != DailyRecoveryStatus.RUNNING.value:
+            raise ValueError("daily recovery run is not running")
+        return row
 
     def claim_due(
         self,
@@ -641,7 +932,9 @@ class MarketWatchCollectionStore:
         self._ensure_writable()
         current = _minute(now, name="now")
         target_date = trade_date or current.date()
-        target_filter = trade_date.isoformat() if trade_date is not None else None
+        # Ordinary collector cycles own only the current trade date.  A prior
+        # date may be reopened solely by an explicit audited daily recovery.
+        target_filter = target_date.isoformat()
         self.ensure_expected_slots(target_date)
         now_iso = _aware_shanghai(now, name="now").isoformat(timespec="seconds")
         current_iso = current.isoformat(timespec="seconds")
@@ -892,6 +1185,8 @@ class MarketWatchCollectionStore:
     ) -> CollectionSlotV1:
         self._ensure_writable()
         minute = _minute(minute_bucket)
+        if minute not in expected_session_minutes(minute.date()):
+            raise ValueError("gap heartbeat must target an expected market-watch minute")
         self.ensure_expected_slots(minute.date())
         updated = _aware_shanghai(recorded_at, name="recorded_at")
         with self._lock:
@@ -1150,6 +1445,28 @@ class MarketWatchCollectionStore:
             ).fetchall()
             return [dict(row) for row in rows]
 
+    def list_recovery_gap_minutes(self, trade_date: date) -> tuple[datetime, ...]:
+        """Return exact non-accepted minutes owned by a post-close sweep."""
+
+        with self._lock:
+            if not self._can_read():
+                return ()
+            rows = self._connection.execute(
+                """
+                SELECT minute_bucket FROM market_watch_collection_slots
+                WHERE config_version = ? AND trade_date = ?
+                    AND status NOT IN (?, ?, ?)
+                ORDER BY minute_bucket ASC
+                """,
+                (
+                    self.config_version,
+                    trade_date.isoformat(),
+                    *_ACCEPTED_STATUSES,
+                    CollectionSlotStatus.EXCLUDED.value,
+                ),
+            ).fetchall()
+        return tuple(datetime.fromisoformat(row["minute_bucket"]) for row in rows)
+
     def read_completeness(
         self,
         trade_date: date,
@@ -1230,7 +1547,10 @@ class MarketWatchCollectionStore:
         gap_count = 0
         for row in rows:
             counts[row["status"]] += int(row["count"])
-            if row["gap_heartbeat"]:
+            if (
+                row["gap_heartbeat"]
+                and row["status"] != CollectionSlotStatus.EXCLUDED.value
+            ):
                 gap_count += int(row["count"])
         accepted_real = (
             counts[CollectionSlotStatus.ACCEPTED_REAL.value]
@@ -1239,7 +1559,10 @@ class MarketWatchCollectionStore:
         return CollectionCompletenessV1(
             trade_date=trade_date,
             as_of=observed,
-            expected_minute_buckets=sum(counts.values()),
+            expected_minute_buckets=(
+                sum(counts.values())
+                - counts[CollectionSlotStatus.EXCLUDED.value]
+            ),
             accepted_real=accepted_real,
             repaired=counts[CollectionSlotStatus.REPAIRED.value],
             pending=(
@@ -1314,12 +1637,14 @@ class MarketWatchCollectionStore:
                 cursor = self._connection.execute(
                     """
                     SELECT * FROM market_watch_collection_slots
-                    WHERE config_version = ? AND trade_date = ? AND minute_bucket <= ?
+                    WHERE config_version = ? AND trade_date = ?
+                        AND status != ? AND minute_bucket <= ?
                     ORDER BY minute_bucket DESC LIMIT 1
                     """,
                     (
                         self.config_version,
                         observed.date().isoformat(),
+                        CollectionSlotStatus.EXCLUDED.value,
                         current_minute.isoformat(timespec="seconds"),
                     ),
                 ).fetchone()
@@ -1327,10 +1652,15 @@ class MarketWatchCollectionStore:
                     """
                     SELECT * FROM market_watch_collection_slots
                     WHERE config_version = ?
+                        AND status != ?
                         AND (attempt_count > 0 OR gap_heartbeat = 1 OR status IN (?, ?))
                     ORDER BY trade_date DESC, minute_bucket DESC LIMIT 1
                     """,
-                    (self.config_version, *_ACCEPTED_STATUSES),
+                    (
+                        self.config_version,
+                        CollectionSlotStatus.EXCLUDED.value,
+                        *_ACCEPTED_STATUSES,
+                    ),
                 ).fetchone()
                 state = CollectorRuntimeState(self._meta_locked("collector_state"))
                 heartbeat_raw = self._meta_locked("collector_heartbeat_at")
@@ -1459,6 +1789,11 @@ class MarketWatchCollectionStore:
         row: sqlite3.Row,
         completeness: CollectionCompletenessV1,
     ) -> DailyCollectionRecoveryV1:
+        row_keys = set(row.keys())
+
+        def optional(name: str, default=None):
+            return row[name] if name in row_keys else default
+
         stored_status = DailyRecoveryStatus(row["status"])
         accepted_after = completeness.accepted_real
         remaining = completeness.expected_minute_buckets - accepted_after
@@ -1496,13 +1831,55 @@ class MarketWatchCollectionStore:
             accepted_after=accepted_after,
             reconciled_slots=int(row["reconciled_slots"]),
             attempted_slots=int(row["attempted_slots"]),
+            failed_attempts=int(optional("failed_attempts", 0) or 0),
             remaining_gaps=remaining,
             manual_action_required=status in {
                 DailyRecoveryStatus.NEEDS_ATTENTION,
                 DailyRecoveryStatus.FAILED,
             },
+            latest_attempt_minute_bucket=(
+                datetime.fromisoformat(optional("latest_attempt_minute_bucket"))
+                if optional("latest_attempt_minute_bucket")
+                else None
+            ),
+            latest_attempt_at=(
+                datetime.fromisoformat(optional("latest_attempt_at"))
+                if optional("latest_attempt_at")
+                else None
+            ),
+            latest_attempt_outcome=optional("latest_attempt_outcome"),
+            latest_attempt_progress_completed=int(
+                optional("latest_attempt_progress_completed", 0) or 0
+            ),
+            latest_attempt_progress_total=int(
+                optional("latest_attempt_progress_total", 0) or 0
+            ),
+            latest_attempt_progress_stage=optional("latest_attempt_progress_stage"),
+            latest_attempt_progress_message=optional("latest_attempt_progress_message"),
+            latest_failure_minute_bucket=(
+                datetime.fromisoformat(optional("latest_failure_minute_bucket"))
+                if optional("latest_failure_minute_bucket")
+                else None
+            ),
+            latest_failure_at=(
+                datetime.fromisoformat(optional("latest_failure_at"))
+                if optional("latest_failure_at")
+                else None
+            ),
+            latest_failure_next_retry_at=(
+                datetime.fromisoformat(optional("latest_failure_next_retry_at"))
+                if optional("latest_failure_next_retry_at")
+                else None
+            ),
+            latest_failure_error_code=optional("latest_failure_error_code"),
+            latest_failure_error_message=optional("latest_failure_error_message"),
             last_error_code=(
                 row["last_error_code"]
+                if status is DailyRecoveryStatus.FAILED
+                else None
+            ),
+            last_error_message=(
+                optional("last_error_message")
                 if status is DailyRecoveryStatus.FAILED
                 else None
             ),

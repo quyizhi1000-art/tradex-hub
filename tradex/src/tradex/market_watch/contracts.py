@@ -545,10 +545,14 @@ class SectorFlowLeaderV1(ContractModel):
     instrument_id: str = Field(pattern=r"^\d{6}\.(?:SH|SZ|BJ)$")
     name: str = Field(min_length=1)
     change_pct: float | None = None
-    speed_pct: float | None = Field(default=None, gt=0)
+    speed_pct: float | None = None
     main_net_inflow_cny: float | None = Field(default=None, gt=0)
     resonance_correlation: float | None = Field(default=None, ge=-1, le=1)
-    matched_interval_count: int | None = Field(default=None, ge=4, le=5)
+    directional_agreement_ratio: float | None = Field(default=None, ge=0, le=1)
+    # A provider timestamp a few seconds before the exact five-minute cutoff
+    # can occupy the preceding minute bucket, yielding six exact shared
+    # intervals while still representing the recorded five-minute window.
+    matched_interval_count: int | None = Field(default=None, ge=3, le=6)
     resonance_strength: Literal["high"] | None = None
     price: float | None = Field(default=None, ge=0)
     provider_as_of: datetime | None = None
@@ -558,6 +562,7 @@ class SectorFlowLeaderV1(ContractModel):
         "speed_pct",
         "main_net_inflow_cny",
         "resonance_correlation",
+        "directional_agreement_ratio",
         "price",
     )
     @classmethod
@@ -579,8 +584,10 @@ class SectorFlowLeaderSnapshotV1(ContractModel):
         "price_leader.v1",
         "sector_fund_flow_stock_speed.v1",
         "sector_fund_flow_minute_correlation.v1",
+        "sector_fund_flow_path_resonance.v2",
     ] = "price_leader.v1"
     marginal_window_minutes: Literal[5] | None = None
+    resonance_direction: Literal["up", "down"] | None = None
     source: str | None = None
     provider_as_of: datetime | None = None
     stale: bool = False
@@ -606,6 +613,7 @@ class SectorFlowLeaderSnapshotV1(ContractModel):
                 raise ValueError("sector resonance requires its five-minute window")
             if any(
                 item.speed_pct is None
+                or item.speed_pct <= 0
                 or item.main_net_inflow_cny is None
                 or item.resonance_strength != "high"
                 for item in self.leaders
@@ -622,6 +630,27 @@ class SectorFlowLeaderSnapshotV1(ContractModel):
                 for item in self.leaders
             ):
                 raise ValueError("minute-correlation leaders require complete evidence")
+        if self.selection_method == "sector_fund_flow_path_resonance.v2":
+            if self.marginal_window_minutes != 5:
+                raise ValueError("path resonance requires its five-minute window")
+            if self.leaders and self.resonance_direction is None:
+                raise ValueError("path resonance leaders require a direction")
+            if any(
+                item.speed_pct is None
+                or item.speed_pct == 0
+                or item.resonance_correlation is None
+                or item.directional_agreement_ratio is None
+                or item.matched_interval_count is None
+                or item.resonance_strength != "high"
+                for item in self.leaders
+            ):
+                raise ValueError("path-resonance leaders require complete evidence")
+            if any(
+                (self.resonance_direction == "up" and item.speed_pct <= 0)
+                or (self.resonance_direction == "down" and item.speed_pct >= 0)
+                for item in self.leaders
+            ):
+                raise ValueError("path-resonance leader speed must match its direction")
         return self
 
 
@@ -641,8 +670,8 @@ class SectorFlowSeriesV1(ContractModel):
     status: SectorFlowTrajectoryStatus
     follow_eligible: bool
     eligible_for_rank: bool
-    observation_rank: int | None = Field(default=None, ge=1, le=48)
-    rank_total: int = Field(default=0, ge=0, le=48)
+    observation_rank: int | None = Field(default=None, ge=1, le=64)
+    rank_total: int = Field(default=0, ge=0, le=64)
     observation_tier: SectorFlowObservationTier
     tier_label: str = Field(min_length=1)
     latest: SectorFlowLatestV1 | None = None
@@ -702,7 +731,7 @@ class SectorFlowTrajectoryV1(ContractModel):
     market_phase: MarketPhase = MarketPhase.UNKNOWN
     trajectory_scope: Literal["trading_session_to_as_of"] = "trading_session_to_as_of"
     marginal_window_minutes: Literal[5] = 5
-    sectors: tuple[SectorFlowSeriesV1, ...] = Field(default=(), max_length=48)
+    sectors: tuple[SectorFlowSeriesV1, ...] = Field(default=(), max_length=64)
     flags: tuple[str, ...] = ()
     reason: str | None = None
 

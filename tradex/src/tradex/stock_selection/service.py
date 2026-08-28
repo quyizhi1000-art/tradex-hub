@@ -38,6 +38,15 @@ GENERATION_SCHEMA_VERSION = 1
 logger = logging.getLogger(__name__)
 
 
+def _load_factor_snapshot_with_relationships(
+    trade_date: date,
+) -> DailyStockFactorSnapshotV1:
+    return fetch_daily_stock_factor_snapshot(
+        trade_date,
+        apply_relationship_catalog=True,
+    )
+
+
 class DailyStockSelectionError(RuntimeError):
     def __init__(self, safe_message: str, *, cause: Exception | None = None) -> None:
         super().__init__(safe_message)
@@ -113,7 +122,7 @@ class DailyStockSelectionService:
         clock: Callable[[], datetime] | None = None,
     ) -> None:
         self.store = store
-        self._factor_loader = factor_loader or fetch_daily_stock_factor_snapshot
+        self._factor_loader = factor_loader or _load_factor_snapshot_with_relationships
         self._clock = clock or (lambda: datetime.now(SHANGHAI))
         self._lock = threading.RLock()
         self._execution_lock = threading.Lock()

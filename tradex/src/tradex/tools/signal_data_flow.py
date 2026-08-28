@@ -200,10 +200,25 @@ def register(mcp: FastMCP):
         Returns:
             行业排名数据 (JSON)，含行业名称/涨跌幅/上涨下跌家数/领涨股。
         """
+        relationship = None
+        catalog_status = None
         if symbol:
             symbol = normalize_symbol(symbol)
+            from tradex.instrument_taxonomy.store import InstrumentTaxonomyReader
+
+            instrument_id = (
+                f"{symbol}.SH"
+                if symbol.startswith("6")
+                else f"{symbol}.BJ"
+                if symbol.startswith(("4", "8"))
+                else f"{symbol}.SZ"
+            )
+            with InstrumentTaxonomyReader() as reader:
+                relationship = reader.get(instrument_id)
+                catalog_status = reader.status()
         cache_date = trade_date or datetime.now(_SHANGHAI).date().isoformat()
-        cache_key = f"industry_cmp:v2:{symbol or 'all'}:{cache_date}:{top_n}"
+        catalog_revision = catalog_status.catalog_revision if catalog_status else "unavailable"
+        cache_key = f"industry_cmp:v3:{catalog_revision}:{symbol or 'all'}:{cache_date}:{top_n}"
         cached = cache.get(cache_key)
         if cached is not None:
             return cached
@@ -216,6 +231,24 @@ def register(mcp: FastMCP):
                 trade_date=trade_date,
                 top_n=top_n,
             )
+            if relationship is not None:
+                result = dict(result)
+                result["stock_relationship"] = {
+                    "instrument_id": relationship.instrument_id,
+                    "primary_business": relationship.primary_business_name,
+                    "business_tags": list(relationship.business_tags),
+                    "statistical_industry": (
+                        relationship.statistical_industry.level3_name
+                        if relationship.statistical_industry
+                        else None
+                    ),
+                    "provider_industry": relationship.provider_industry,
+                    "verification_status": relationship.verification_status,
+                    "catalog_revision": catalog_status.catalog_revision if catalog_status else None,
+                }
+                result["comparison_semantics"] = (
+                    "provider_board_market_view; stock identity comes from stock_relationship"
+                )
             output = dict_to_json(result)
             if result.get("industries"):
                 cache.set(cache_key, output, TTL_DAILY)

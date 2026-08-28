@@ -29,6 +29,18 @@ class BiyingAPIError(RuntimeError):
     """必盈返回了失败状态或无效响应。"""
 
 
+class BiyingDailyQuotaExceeded(BiyingAPIError):
+    """The configured licence exhausted its provider-reported daily quota."""
+
+
+class BiyingLicenceInvalid(BiyingAPIError):
+    """The provider rejected the configured licence."""
+
+
+class BiyingUpstreamThrottled(BiyingAPIError):
+    """The upstream returned a throttle response without a safe daily code."""
+
+
 _SESSION_LOCAL = threading.local()
 _LICENCE_ASSIGNMENT = re.compile(
     r"^(?:BIYING_LICENCE|BIYING_KEY|LICENCE|LICENSE)\s*=\s*(.+)$",
@@ -175,6 +187,23 @@ def _normalise_segments(path: str | Iterable[str]) -> list[str]:
     return segments
 
 
+def _business_code(payload: Any) -> int | None:
+    if not isinstance(payload, dict) or "code" not in payload:
+        return None
+    try:
+        return int(payload.get("code"))
+    except (TypeError, ValueError):
+        return None
+
+
+def _raise_business_error(code: int) -> None:
+    if code == 101:
+        raise BiyingDailyQuotaExceeded("必盈 API 当日证书额度已用尽")
+    if code == 102:
+        raise BiyingLicenceInvalid("必盈 API 证书无效")
+    raise BiyingAPIError(f"必盈 API 返回业务错误: {code}")
+
+
 def request(
     path: str | Iterable[str],
     params: dict[str, Any] | None = None,
@@ -222,6 +251,16 @@ def request(
             raise RuntimeError("必盈 API HTTP 请求失败") from None
 
         if response.status_code != 200:
+            try:
+                error_payload = response.json()
+            except (TypeError, ValueError):
+                error_payload = None
+            if (code := _business_code(error_payload)) is not None:
+                _raise_business_error(code)
+            if response.status_code == 429:
+                raise BiyingUpstreamThrottled(
+                    "必盈 API 证书额度或上游限流已触发: HTTP 429"
+                )
             raise BiyingAPIError(f"必盈 API HTTP 状态异常: {response.status_code}")
         try:
             payload = response.json()
@@ -230,13 +269,13 @@ def request(
         if not isinstance(payload, (dict, list)):
             raise BiyingAPIError("必盈 API 根响应类型无效")
         # 部分失败响应仍使用 HTTP 200；避免把服务端回显的 licence/message 带出。
+        code = _business_code(payload)
         if (
-            isinstance(payload, dict)
-            and "code" in payload
+            code is not None
             and ("message" in payload or "msg" in payload)
-            and payload.get("code") not in (0, 200)
+            and code not in (0, 200)
         ):
-            raise BiyingAPIError("必盈 API 返回业务错误")
+            _raise_business_error(code)
         return payload.get("data") if isinstance(payload, dict) and "data" in payload else payload
     finally:
         _REQUEST_GATE.release()
@@ -247,6 +286,9 @@ _request = request
 __all__ = [
     "BiyingAPIError",
     "BiyingConfigurationError",
+    "BiyingDailyQuotaExceeded",
+    "BiyingLicenceInvalid",
+    "BiyingUpstreamThrottled",
     "get_licence",
     "is_configured",
     "is_enabled",

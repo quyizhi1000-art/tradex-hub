@@ -64,6 +64,21 @@ Provider Client -> Provider Mapper -> Canonical Contract -> Quality Gate
 不可用时必须返回 `available=false` 和明确 `reason`；不得退化成成交量，也不得
 使用上一交易日数据伪装为当日数据。
 
+### `intraday_minute_series.v1` 与 `index_intraday_series.v1`
+
+同日盘后精确追补使用完整的 1 分钟曲线，而不是收盘价回填历史分钟。Tushare
+批量股票分钟请求的正式上限为 40 只；批量响应中缺失或停留在其他交易日的证券
+不会拖垮同批有效证券，而是通过标准单证券路由依次尝试 Tushare、Eastmoney
+和现有末级源。追补时单证券结果还必须证明目标交易日，否则继续切源或明确失败。
+
+`index_intraday_series.v1` 保存指数每分钟的交易日、分钟、OHLC 和人民币成交额。
+Eastmoney 历史主机无结果或连接失败时可以切换到延迟主机，但只有延迟主机返回的
+同日精确分钟可用于同日盘后追补；它不能证明跨日历史分钟权限。
+
+盘后聚合重建还要求上一交易日同分钟存在已验收的 `market_watch.v1` 成交额基线，
+并按目标分钟回放已持久化的轮动快照。任一必要证券、四个角色指数、沪深成交额、
+基线或轮动证据缺失时，整分钟失败关闭，不插值、不使用当前值或最终值替代。
+
 ## 质量门禁
 
 `market_overview.v1` 至少要求上证指数或深证成指之一可用，否则拒绝快照。
@@ -185,6 +200,14 @@ Dashboard 继续接收 `etf_code`、`name`、`price`、`change_pct` 和 `amount`
 刷新缓存仍由风险偏好 ETF 组件唯一持有，TTL 为 300 秒、最大陈旧窗口为 900 秒。
 更换付费源只需要新增 Provider 注册和 Mapper 准入，不修改页面选择逻辑。
 
+## `limit_up_status.v1`
+
+盘中涨停页先读取轻量 `limit_up_status.v1`。该契约只要求完整分页、唯一标准证券代码、
+名称、交易日和交易状态；板数与首次封板时间有源数据就规范化，缺失时明确标记部分
+覆盖。`reason_type`、封单质量和主营/概念归属属于分析字段，它们缺失不能让已经返回的
+涨停股票从盘中页面消失。轻量状态和完整事件使用独立 Router capability，调用方不能把
+轻量状态用于风险评分、午盘归类或盘后证据。
+
 ## `limit_event.v1`
 
 每日涨停池使用 `LimitEventSeriesV1` 表达，并允许事件列表为空。空列表只有在
@@ -205,6 +228,38 @@ Provider 的交易状态统一映射为 `pre_open`、`trading`、`closed`、
 旧页面仍接收原中文字段、`YYYYMMDD` 数据日期和组件状态；刷新所有权暂时仍在
 Dashboard，TTL 为 60 秒、最大陈旧窗口为 120 秒，且缓存身份包含交易日。
 
+## `limit_up_follow_pool.v1`
+
+涨停池二级面板读取按 accepted-real 原快照版本绑定的
+`limit_up_follow_pool.v1` 派生结果。每条记录保留板数、首次封板时间、一字板标记和
+Provider 原始原因，但原始原因仅供核对，不能参与真实跟随板块的选择。分类标签只按
+已核验的跟随板块生成；证据不足的股票统一进入“待确认”，不能用最相似的概念名补齐。
+
+采集调度拆成两个阶段。盘中从正式开市起按分钟只刷新规范涨停事件，先展示股票、
+板数、首次封板时间和一字板状态，不请求 Profile、主营关系或个股分钟轨迹；此时
+`quality_flags` 包含 `analysis_pending_midday_or_post_close`，页面必须显示
+“待午盘/盘后归类”，不能把尚未执行分析写成归因失败。午间休市后执行一次完整归类，
+盘后对最终 accepted-real 快照再执行一次；下午新增的快照仍先实时展示，最终以盘后
+归类收口。午盘/盘后归类也以同一份轻量状态池作为股票身份全集，再叠加 Profile、主营
+关系、个股分钟轨迹和板块资金轨迹；供应商原因缺失不会阻塞资金路径归类。
+
+普通换手板在首次封板前的 5 分钟窗口比较板块累计资金轨迹和个股分钟价格轨迹。
+板块净流入必须为正、个股窗口涨幅至少为 `0.10%`、Pearson 相关系数至少为
+`0.60`、逐区间同向占比至少为 `60%`，且至少有 3 个共同区间；共同分钟间隔不得
+超过 2 分钟，个股末端时间相对首次封板最多滞后 1 分钟。股票横跨多个行业或概念时，
+只在规范 Profile 与现有板块轨迹精确对应的候选中比较，并选择证据得分最高者。
+
+一字板和 `09:33` 前封板没有可辨识的自身价格发现路径，不能标记为高置信确认。
+只有同一候选板块已有至少 2 只非一字板获得路径确认、该板块 `09:30-09:35`
+资金净流入为正，且不存在同等强度的多板块歧义时，才允许标记为低置信“同批确认”；
+否则保持待确认。任意个股分钟曲线缺失只降级该股，不得使同一批其他完整曲线失效。
+
+该结果由 Collector 生成并持久化；Web 必须携带精确
+`source_snapshot_revision` 只读查询。Web 不调用行情 Provider，不拥有刷新缓存，也
+不得把其他原快照版本的归因结果拼接到当前页面。结果保留涨停事件、Profile 和个股
+分钟数据的 Provider 来源；部分归因、低置信同批确认和源数据缺失均进入
+`quality_flags`，不得显示成完整确认。
+
 ## Leadership 三类小契约
 
 Dashboard 的领涨股展示不再直接调用 Tencent 或 Eastmoney 抓取函数，而是拆成
@@ -221,20 +276,26 @@ Dashboard 的领涨股展示不再直接调用 Tencent 或 Eastmoney 抓取函�
   百分点。名称或代码缺失会拒绝该 Provider；资金流、成交额或供应商时间缺失可
   返回降级快照，并保留明确质量标志。
 
-板块标签中的“共振领涨股”使用独立的 `sector_resonance_batch.v1` 结果，不再把
-某一时刻的板块净流入和个股涨速并列就视为共振。计算方法
-`sector_fund_flow_minute_correlation.v1` 在同一组实际分钟区间上比较板块累计资金
-增量与成分股分钟收益率：近 5 分钟板块资金增量必须为正、个股收益率至少为
-`0.10` 个百分点、Pearson 相关系数至少为 `0.60`。至少需要 4 个共同区间；允许
-双方共同缺失一个分钟点并使用同一段不超过 2 分钟的区间，但不跨不同缺口拼接。
+板块标签中的“共振领涨股/共振领跌股”使用独立的
+`sector_resonance_batch.v1` 结果，不再把某一时刻的板块净流入和个股涨速并列就
+视为共振。计算方法 `sector_fund_flow_path_resonance.v2` 要求板块近 5 分钟资金
+流入或流出决定共振方向，不把板块整体涨跌方向作为候选股计算的前置门槛；随后
+比较板块资金累计变化轨迹和成分股价格累计变化轨迹。两条轨迹的 Pearson 相关
+系数至少为 `0.60`、逐区间同向占比至少为 `60%`、个股 5 分钟绝对涨跌幅至少为
+`0.10` 个百分点。资金流入使用涨速靠前候选，资金流出使用跌速靠前候选。至少
+需要 3 个共同区间；允许双方共同缺失分钟点并使用同一段不超过 2 分钟的区间，
+但不跨不同缺口拼接。股票分钟源比板块轨迹最多滞后 2 分钟时，使用最近一个证据
+完整、由板块点自身 `delta_5m_baseline_as_of` 绑定的共同窗口；超过 2 分钟仍按
+证据不足处理，不能把缺少末端分钟误记成无共振。
 不满足门槛返回 `no_match`，证据不足返回 `unavailable`，两者都不生成候选股。
 
 共振批次由采集侧回溯生成并以原始 accepted-real 的
 `source_snapshot_revision` 绑定、独立 `resonance_revision` 持久化。Web 只读叠加
 完全匹配原快照版本或不超过 6 分钟的同日批次，不调用行情 Provider，也不改写
 原始轨迹及其摘要版本。采集器盘中每 5 分钟生成一次，收盘后再对最后一份真实
-快照补算一次；页面同时返回批次的证据时间和原始快照版本，不能把旧批次伪装成
-当前分钟。
+快照补算一次；为控制分钟源调用量，每个方向按页面相同的“当前累计资金金额”顺序
+计算前 8 个板块，而不是轨迹配置顺序。页面同时返回批次的证据时间和原始快照版本，
+不能把旧批次伪装成当前分钟。
 
 这三类调用使用 `route_validated`：Provider 响应只有在 Mapper、契约和质量门禁
 全部通过后才计为成功。字段漂移或语义错误会计入该候选源失败，并在同一次请求内
@@ -288,30 +349,133 @@ A 股目录、全量/复权 K 线、公司基本信息、三大财报与财务�
 
 ## `stock_pattern_screen.v1`
 
-每日选股档案在 `daily-stock-selection-balanced.v2` 中附带独立的条件筛选结果，
-首个规则版本为 `long-upper-shadow-main-board.v1`。它读取信号日及此前 14 个已完成
-交易日的全市场 OHLC；普通历史读取只消费不可变归档，不触发 Provider 请求。
+每日选股档案在 `daily-stock-selection-balanced.v6` 中附带独立的条件筛选结果；`v4`
+升级的长上影条件筛选规则保持不变，`v5` 新增次日涨停倾向相对排序，`v6` 将其修正为
+区分未涨停启动机会与已涨停延续观察的机会榜。每日量化候选池的因子权重和准入门槛
+保持不变。
+当前规则版本为 `long-upper-shadow-main-board.v3`。数据输入仍保留信号日及此前 14 个
+已完成交易日的全市场 OHLC、昨收与成交额，但本规则只消费最后 10 个交易日；因此
+不增加 Provider 请求，也不会把第 11 至 15 个交易日的形态计入当前规则。普通历史读取
+只消费不可变归档，不触发 Provider 请求。旧版 `long-upper-shadow-main-board.v1` 和
+`long-upper-shadow-main-board.v2` 档案保持不可变，但不视为当前 10 日规则结果。
 
-“长上影”固定判定为：上影长度不低于收盘价 3%、不低于实体 2 倍，并占当日
-最高最低振幅至少 50%。股票需在 15 个交易日内至少命中 2 次、规范化市场字段为
-`主板`、名称不含 ST 或退市标识，并具有完整的 15 日有效 K 线。停牌、缺失或
-不一致的日线不会被填补；该股票以 `incomplete_candlestick_window` 排除。
+“长上影疑似试盘形态”固定判定为：上影长度不低于收盘价 3%、不低于实体 2 倍，
+并占当日最高最低振幅至少 50%。股票需在 10 个交易日内至少命中 2 次、规范化市场字段为
+`主板`、名称不含 ST 或退市标识，并具有完整的最近 10 日有效 K 线。停牌、缺失或
+不一致的最近 10 日日线不会被填补；该股票以 `incomplete_candlestick_window` 排除。
+
+信号日及此前 9 个交易日内不得出现收盘封涨停。非 ST 主板涨停价使用规范化昨收价
+乘以 `110%`，按 A 股 `0.01` 元价格档位四舍五入；收盘价等于该价格时以
+`recent_limit_up` 排除。盘中触及涨停但收盘未封板不属于这条排除条件。
 
 结果保留每只命中股票的全部命中日期、OHLC、上影/收盘比例、上影/实体倍数和
 上影/振幅比例。`quality` 按主板非 ST 股票的完整窗口覆盖标记为 `accepted`、
 `degraded` 或 `unavailable`。这个契约只表达可复现的形态代理，不证明资金主体
 真实试盘，也不表达买入建议、目标价或收益概率。
 
+## `stock_limit_up_tendency_screen.v1`
+
+当前规则 `next-session-limit-up-tendency-main-board.v2` 复用同一份
+`daily_stock_factor_snapshot.v1`，不增加 Provider 请求、缓存或调度器。它只保留主板、
+非 ST/退市、上市满 120 日、收盘价不低于 3 元、信号日成交额不低于 5000 万元且流通
+市值不低于 20 亿元的股票。15 个已完成交易日 OHLC、昨收、成交额以及信号日换手率、
+量比和流通市值必须完整；缺失时按明确原因排除，不做估算或填补。
+
+完整评估后，信号日必须上涨且收盘位于当日最高最低振幅的 55% 以上。排序同时消费
+当日涨幅、收盘位置、相对前 14 日高点的位置、同业上涨广度、成交额放大、量比、换手
+热度、5 日动量、流通市值弹性和信号日前 5 日封板历史。当日涨幅与 5 日动量使用非线性
+偏好，避免把接近涨停或已经大幅加速本身当成免费上行空间。
+
+普通主板收盘涨停仍按昨收乘以 `110%` 并四舍五入到 `0.01` 元识别。当日未涨停者标为
+`pre_limit_up`，已收盘涨停者标为 `limit_up_continuation`；后者不会因当日封板直接加分，
+并对次日成交与持有期风险施加 `0.85` 可执行性系数。结果最多返回 20 只，同分按规范化
+证券代码排序；每只保留阶段、突破位置、行业上涨广度、连续封板数、原始指标、归一化
+分项、差异化机会结构和风险。旧版 `next-session-limit-up-tendency-main-board.v1` 档案保持
+不可变，不被页面当成当前规则结果。
+
+该分数只描述同一交易日证据集里的相对机会强弱，不是已校准的涨停概率。当前档案不含
+首次封板时间、炸板次数、封单金额、公告新闻、题材持续性、龙虎榜或隔夜事件，因此不能
+仅凭榜单形成打板结论。若下一交易日打板成交，按 T+1 最早只能再下一交易日卖出，真实
+收益要到第三个交易日才可兑现。历史读取只消费不可变档案，不重新获取或重算 Provider
+数据。
+
 ## `daily_stock_selection_generation.v1`
 
-每日选股生成由既有 `DailyStockSelectionService` 单独拥有。`POST
-/api/daily-stock-selection` 只启动或复用当日唯一后台任务，并立即返回任务状态；
-`GET /api/daily-stock-selection/generation` 只读返回同一状态，不触发 Provider。
+每日选股生成由独立 `tradex.analysis_worker` 中的
+`DailyStockSelectionService` 拥有。`POST /api/daily-stock-selection` 只向本地
+SQLite 作业账本排队或复用当日唯一任务，并立即返回状态；`GET
+/api/daily-stock-selection/generation` 只读返回同一持久化状态，不触发 Provider。
 
-任务状态为 `idle`、`running`、`succeeded` 或 `failed`。运行阶段进一步标记
-`queued`、`acquiring`、`selecting`、`archiving`；完成后嵌入原有
-`daily_stock_selection_result.v1`，失败时只返回安全错误、失败阶段和非敏感失败类型。手动
-生成与 18:30 自动补生成共享这个 single-flight，不会并行消耗付费请求或竞争归档。
+任务状态为 `idle`、`queued`、`running`、`succeeded` 或 `failed`。运行阶段可进一步
+标记 `acquiring`、`selecting`、`archiving` 或 `publishing`。成功状态只带结果标识，
+页面随后读取 Worker 发布的 `daily_stock_selection_archive.v1` 展示结果，不在任务响应
+中重复传输完整档案。失败时只返回安全错误、失败阶段和非敏感失败类型。手动生成与
+18:30 自动补生成共享同一 Worker 和不可变归档，不会由 Dashboard 请求线程执行。
+
+## 后台分析展示边界
+
+`tradex.analysis_worker` 同时拥有 `market_watch_evaluation.v1` 的回放评估，以及
+`post_market_review.v1` / `post_market_review_presentation.v4` 的生成和展示物化。
+Dashboard 的普通 GET 只读取 `tradex_analysis_artifact.v1`：回放读取紧凑分钟元数据和
+预计算评估；日复盘读取 presentation、档案身份、学习结果与 evidence 组件覆盖摘要，
+完整原始 evidence 仍保留在不可变档案中但不发送给浏览器。
+
+`post_market_review_presentation.v4` 的正文明确展示领涨/领跌板块、板块扩散比例与
+大小盘指数差，并用上一交易日不可变档案验收强势方向是否维持。潜伏异动只在板块
+净流入进入同类前 10、价格未进入前三且上涨覆盖达到 55% 时出现。`watch_items`
+同时携带 `stance`、`checkpoint`、`metrics`、`action` 与 evidence-linked `stocks`；
+股票观察标的优先主板，且必须服从所属板块的确认与失效条件。
+GET 使用 SQLite `mode=ro` 与 `query_only` 的独立 reader，数据库不存在时返回 503，
+不能创建目录、数据库、表或 WAL。显式 POST 仅通过既有 Worker 数据库的 command
+writer 入队；建库建表、任务执行和 artifact 写入只归 Analysis Worker。
+
+`POST /api/post-market-review` 返回 `post_market_review_generation.v1`，页面通过
+`GET /api/post-market-review/generation` 轮询 `queued/running/succeeded/failed`，成功后
+再读取展示档案。网页打开、滚动、日期切换和定时刷新都不能创建分析任务、解压完整
+历史、执行评估或调用 Provider；无物化结果时必须返回后台准备中，而不是在 Web 进程
+内即时回退计算。
+受管启动器要求 Worker 心跳不早于进程启动且距检查时刻不超过 90 秒；进程仍在但心跳
+过期时按异常处理，并在下一次受管启动时停止旧进程树后重建唯一 Worker。
+
+## `stock_relationship_profile.v1`
+
+统一证券关系目录把过去含义混杂的“所属板块”拆成五类字段，所有功能必须按用途取值，
+不能再选一个名字覆盖其余关系：
+
+- `primary_business_name` / `business_tags`：公司真实主营及细分业务，用于股票身份、展示、
+  主营筛选和主营同类；
+- `statistical_industry`：带分类版本和有效期的申万行业路径，用于横向统计、标准化和同行
+  比较；
+- `regulatory_industry`：监管统计分类，不能自动替代主营；
+- `concept_memberships`：带来源和时点的概念成员关系，只表示被某套概念分类纳入；
+- 当日题材、涨停原因和资金跟随板块保留在各自的日级证据契约中，不能回写为公司长期
+  主营。
+
+每只股票同时携带 `verification_status`、证据引用和异常标志。`verified` 需要公司官网或
+正式披露材料；`corroborated` 至少需要公司资料、财务主营构成与标准行业成员关系中的
+多项互相支持；只有单一结构化来源时标为 `provider_only`；冲突、陈旧或无法解析分别
+标为 `disputed`、`stale`、`unresolved`，消费者必须展示待核验或降级，不能猜测补齐。
+关键词规则只把已经有来源的业务文本规范化为受控标签，本身不是证据。
+
+`stock_relationship_catalog_status.v1` 对全量目录给出不可变 `catalog_revision`、数据日、
+生成时间、覆盖计数、来源和请求标识。`InstrumentTaxonomyService` 是唯一刷新与 SQLite
+写入所有者；一次刷新先完整构建 5,000+ 股票关系，再在单一事务内原子替换。Dashboard、
+MCP、风险、复盘、涨停池和选股只使用只读 Reader；普通页面 GET 永不触发 Provider 或
+联网检索。Analysis Worker 在目录缺失或数据日落后时后台刷新，失败保留上一个完整版本，
+不会发布半成品。
+
+网页检索用于高价值冲突和重点股票的官方证据核验，并把结果作为受控 evidence seed
+进入版本库；搜索结果摘要本身不作为证据。自动全市场层使用 Tushare 网关提供的证券
+主表、上市公司资料、最新主营构成和申万行业成员关系交叉印证。概念数据可以作为成员
+关系补充，但不得仅凭概念名称提升为主营。深南电路当前官方证据只确认 PCB、封装基板、
+FC-BGA 和电子装联；在找到直接官方材料前，`ABF` 保持 `abf_unverified`，不作为已核验
+标签。
+
+只读入口为 `GET /api/stock-relationships`（目录状态）和
+`GET /api/stock-relationships?symbol=001309`（单股完整关系）。涨停池页面以主营归类，
+同时另列当日资金跟随；复盘观察股同时显示“主营 / 观察方向”；每日选股使用申万三级
+行业做统计同类并保留供应商行业；MCP 公司资料、同行比较、行业信号和条件筛选均附带
+目录版本与关系证据状态。
 
 ## 换源准入流程
 

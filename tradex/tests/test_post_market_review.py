@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import date, datetime
 from pathlib import Path
 from types import SimpleNamespace
 from zoneinfo import ZoneInfo
@@ -27,7 +27,7 @@ from tradex.market_watch.review_service import (
     ReviewSnapshotUnavailableError,
     ReviewTooEarlyError,
 )
-from tradex.market_watch.review import _same_opportunity_theme
+from tradex.market_watch.review import _is_actionable_sector, _same_opportunity_theme
 from tradex.market_watch.review_store import PostMarketReviewStore
 
 
@@ -243,7 +243,7 @@ def _evidence(snapshot, generated_at: datetime, *, direction: str = "up"):
             "top_net_sells": [],
         },
         "intraday": {
-            "sample_count": 240,
+            "sample_count": 238,
             "coverage_ratio": 1,
             "first_as_of": snapshot.as_of.replace(hour=9, minute=31).isoformat(),
             "last_as_of": snapshot.as_of.isoformat(),
@@ -286,6 +286,10 @@ def test_opportunity_list_collapses_repeated_market_themes():
         SimpleNamespace(name="机器人", leader_instrument_id="300001.SZ"),
         selected,
     )
+    assert not _is_actionable_sector(SimpleNamespace(sector_type="concept", name="融资融券"))
+    assert not _is_actionable_sector(SimpleNamespace(sector_type="concept", name="破净股"))
+    assert not _is_actionable_sector(SimpleNamespace(sector_type="concept", name="宁组合"))
+    assert _is_actionable_sector(SimpleNamespace(sector_type="industry", name="计算机"))
 
 
 def test_manual_review_is_gated_at_1730_and_does_not_fetch_early(tmp_path: Path):
@@ -314,6 +318,7 @@ def test_manual_review_is_immutable_and_uses_cross_market_evidence(tmp_path: Pat
         review = first["review"]
         assert first["action"] == "inserted"
         assert second["action"] == "existing"
+        assert review["config_version"] == "post-market-review-policy.v4"
         assert first["presentation"]["contract"] == "post_market_review_presentation.v4"
         assert first["presentation"]["schema_version"] == 4
         assert first["presentation"]["review_id"] == review["review_id"]
@@ -350,6 +355,7 @@ def test_manual_review_is_immutable_and_uses_cross_market_evidence(tmp_path: Pat
         assert tuple(sections) == (
             "session",
             "mainline",
+            "stealth",
             "payoff",
             "flow",
             "tomorrow",
@@ -480,6 +486,22 @@ def test_archive_prefers_current_policy_without_hiding_older_dates(tmp_path: Pat
         store.close()
 
 
+def test_review_revision_preserves_an_honest_next_day_generation_time():
+    snapshot = _closing_snapshot(
+        datetime(2026, 8, 24, 15, 1, tzinfo=SHANGHAI)
+    )
+    corrected_at = datetime(2026, 8, 25, 0, 30, tzinfo=SHANGHAI)
+
+    review = build_post_market_review(
+        _evidence(snapshot, corrected_at),
+        generated_at=corrected_at,
+        trigger=ReviewTrigger.MANUAL,
+    )
+
+    assert review.trade_date == date(2026, 8, 24)
+    assert review.generated_at == corrected_at
+
+
 def test_automatic_backstop_has_bounded_ten_minute_retries(tmp_path: Path):
     calls = []
 
@@ -552,11 +574,72 @@ def test_editorial_presentation_compares_the_previous_same_policy_archive():
     assert presentation.day_character == "退潮加速日"
     assert "和上一份同口径复盘相比" in presentation.comparison_statement
     assert "明显转弱" in presentation.comparison_statement
+    mainline = next(item for item in presentation.sections if item.section_id == "mainline")
+    assert "昨日强线复核" in "".join(mainline.paragraphs)
+    assert "转弱/破坏" in "".join(mainline.paragraphs)
     reconciliation = next(item for item in presentation.appendix_sections if item.section_id == "reconciliation")
     assert "整体形势" in reconciliation.tables[0].rows[0][0].value
     assert "支持" in reconciliation.tables[0].rows[0][3].value or "不支持" in reconciliation.tables[0].rows[0][3].value
     overview = next(item for item in presentation.appendix_sections if item.section_id == "overview")
     assert all(row[2].tone.value == "fall" for row in overview.tables[0].rows)
+
+
+def test_v4_review_uses_hard_diffusion_stealth_and_watch_thresholds():
+    generated_at = datetime(2026, 8, 24, 20, 30, tzinfo=SHANGHAI)
+    snapshot = _closing_snapshot(datetime(2026, 8, 24, 15, 1, tzinfo=SHANGHAI))
+    payload = _evidence(snapshot, generated_at).model_dump(mode="json")
+    payload["industry_sectors"] = {
+        "sector_type": "industry",
+        "scanned_count": 6,
+        "up_count": 5,
+        "down_count": 1,
+        "flat_count": 0,
+        "median_change_pct": 1.1,
+        "top_gainers": [
+            {"sector_key": "industry:芯片", "sector_type": "industry", "name": "芯片", "change_pct": 4.2, "main_net_inflow_cny": 8_000_000_000, "breadth_ratio": 0.85, "leader_instrument_id": "301001.SZ", "leader_name": "创业芯片", "leader_change_pct": 12.0},
+            {"sector_key": "industry:通信", "sector_type": "industry", "name": "通信", "change_pct": 3.4, "main_net_inflow_cny": 6_000_000_000, "breadth_ratio": 0.78, "leader_instrument_id": "600010.SH", "leader_name": "通信主板", "leader_change_pct": 8.0},
+            {"sector_key": "industry:机器人", "sector_type": "industry", "name": "机器人", "change_pct": 3.1, "main_net_inflow_cny": 5_000_000_000, "breadth_ratio": 0.74, "leader_instrument_id": "002010.SZ", "leader_name": "机器人主板", "leader_change_pct": 7.0},
+        ],
+        "top_losers": [
+            {"sector_key": "industry:煤炭", "sector_type": "industry", "name": "煤炭", "change_pct": -2.1, "main_net_inflow_cny": -3_000_000_000, "breadth_ratio": 0.22, "leader_instrument_id": "600188.SH", "leader_name": "煤炭股", "leader_change_pct": -4.0},
+        ],
+        "top_inflows": [
+            {"sector_key": "industry:芯片", "sector_type": "industry", "name": "芯片", "change_pct": 4.2, "main_net_inflow_cny": 8_000_000_000, "breadth_ratio": 0.85, "leader_instrument_id": "301001.SZ", "leader_name": "创业芯片", "leader_change_pct": 12.0},
+            {"sector_key": "industry:通信", "sector_type": "industry", "name": "通信", "change_pct": 3.4, "main_net_inflow_cny": 6_000_000_000, "breadth_ratio": 0.78, "leader_instrument_id": "600010.SH", "leader_name": "通信主板", "leader_change_pct": 8.0},
+            {"sector_key": "industry:机器人", "sector_type": "industry", "name": "机器人", "change_pct": 3.1, "main_net_inflow_cny": 5_000_000_000, "breadth_ratio": 0.74, "leader_instrument_id": "002010.SZ", "leader_name": "机器人主板", "leader_change_pct": 7.0},
+            {"sector_key": "industry:电网设备", "sector_type": "industry", "name": "电网设备", "change_pct": 1.1, "main_net_inflow_cny": 4_000_000_000, "breadth_ratio": 0.68, "leader_instrument_id": "600089.SH", "leader_name": "特变电工", "leader_change_pct": 2.0},
+        ],
+        "top_outflows": [
+            {"sector_key": "industry:煤炭", "sector_type": "industry", "name": "煤炭", "change_pct": -2.1, "main_net_inflow_cny": -3_000_000_000, "breadth_ratio": 0.22, "leader_instrument_id": "600188.SH", "leader_name": "煤炭股", "leader_change_pct": -4.0},
+        ],
+    }
+    evidence = DailyMarketReviewEvidenceV1.model_validate(payload)
+    review = build_post_market_review(
+        evidence,
+        generated_at=generated_at,
+        trigger=ReviewTrigger.MANUAL,
+    )
+
+    presentation = build_post_market_review_presentation(review)
+    sections = {item.section_id: item for item in presentation.sections}
+    mainline_text = "".join(sections["mainline"].paragraphs)
+    stealth_text = "".join(sections["stealth"].paragraphs)
+    tomorrow_text = "".join(sections["tomorrow"].paragraphs)
+
+    assert "领涨端" in mainline_text
+    assert "领跌端" in mainline_text
+    assert "板块扩散是分水岭" in mainline_text
+    assert "电网设备" in stealth_text
+    assert "净流入进入同类前10" in stealth_text
+    assert "10:00前" in tomorrow_text
+    assert "全A上涨占比不低于55%" in tomorrow_text
+    assert "开盘板块涨幅≥2%" in tomorrow_text
+    assert any(item.stance == "avoid" for item in presentation.watch_items)
+    assert all(item.checkpoint and item.action for item in presentation.watch_items)
+    assert any(item.metrics for item in presentation.watch_items)
+    stock_rows = [stock for item in presentation.watch_items for stock in item.stocks]
+    assert stock_rows
+    assert all(stock.board == "main_board" for stock in stock_rows)
 
 
 def test_v3_table_rejects_rows_that_do_not_match_columns():

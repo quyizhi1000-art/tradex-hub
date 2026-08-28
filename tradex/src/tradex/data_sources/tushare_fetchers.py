@@ -132,6 +132,46 @@ _STOCK_BASIC_FIELDS = (
     "delist_date",
     "list_status",
 )
+_STOCK_COMPANY_FIELDS = (
+    "ts_code",
+    "chairman",
+    "manager",
+    "secretary",
+    "reg_capital",
+    "setup_date",
+    "province",
+    "city",
+    "introduction",
+    "website",
+    "email",
+    "office",
+    "employees",
+    "main_business",
+    "business_scope",
+)
+_SW_MEMBER_ALL_FIELDS = (
+    "l1_code",
+    "l1_name",
+    "l2_code",
+    "l2_name",
+    "l3_code",
+    "l3_name",
+    "ts_code",
+    "name",
+    "in_date",
+    "out_date",
+    "is_new",
+)
+_MAIN_BUSINESS_FIELDS = (
+    "ts_code",
+    "end_date",
+    "bz_item",
+    "bz_sales",
+    "bz_profit",
+    "bz_cost",
+    "curr_type",
+    "update_flag",
+)
 _FUND_DAILY_FIELDS = _BAR_FIELDS
 _FUND_BASIC_FIELDS = (
     "ts_code",
@@ -352,6 +392,88 @@ def _turnover_volume_shares_batch(
     return resolved, len(unresolved)
 
 
+def _minute_turnover_values(
+    items: Iterable[Mapping[str, Any]],
+) -> tuple[list[float | int], list[float | int | None], int, int]:
+    """Normalize one stock's minute turnover without discarding valid prices.
+
+    Unit ambiguity is resolved from the complete same-request series.  A
+    provider amount that still conflicts with its own OHLC bar is omitted so
+    the canonical series is explicitly degraded instead of rejecting the
+    independently valid price curve.
+    """
+
+    rows = list(items)
+    volumes: list[float | int | None] = [None] * len(rows)
+    amounts = [_number(item.get("amount")) for item in rows]
+    evidence = {1: 0, 100: 0}
+    unresolved: list[tuple[int, float | int]] = []
+    invalid_amount_rows: set[int] = set()
+    for index, item in enumerate(rows):
+        raw_volume = _number(item.get("vol"))
+        if raw_volume is None or raw_volume < 0:
+            raise RuntimeError("TuShare 实时分钟成交量无效")
+        if raw_volume == 0:
+            volumes[index] = 0
+            if amounts[index] not in (None, 0):
+                amounts[index] = None
+                invalid_amount_rows.add(index)
+            continue
+        try:
+            _, multipliers = _turnover_volume_multiplier_candidates(
+                item,
+                context="实时分钟",
+            )
+        except RuntimeError:
+            multipliers = ()
+        if len(multipliers) == 1:
+            multiplier = multipliers[0]
+            evidence[multiplier] += 1
+            volumes[index] = raw_volume * multiplier
+        else:
+            unresolved.append((index, raw_volume))
+
+    inferred_rows = 0
+    if unresolved:
+        winner = max(evidence, key=evidence.get)
+        evidence_total = sum(evidence.values())
+        if evidence_total < 20 or evidence[winner] / evidence_total < 0.95:
+            raise RuntimeError("TuShare 实时分钟成交量单位无法唯一判定")
+        for index, raw_volume in unresolved:
+            volumes[index] = raw_volume * winner
+        inferred_rows = len(unresolved)
+
+    for index, (item, volume) in enumerate(zip(rows, volumes, strict=True)):
+        assert volume is not None
+        amount = amounts[index]
+        if amount is None or amount < 0:
+            amounts[index] = None
+            invalid_amount_rows.add(index)
+            continue
+        if volume == 0:
+            if amount != 0:
+                amounts[index] = None
+                invalid_amount_rows.add(index)
+            continue
+        low = _number(item.get("low"))
+        high = _number(item.get("high"))
+        if low is None or high is None:
+            amounts[index] = None
+            invalid_amount_rows.add(index)
+            continue
+        implied_average = amount / volume
+        if not float(low) - 0.01 <= implied_average <= float(high) + 0.01:
+            amounts[index] = None
+            invalid_amount_rows.add(index)
+
+    return (
+        [value for value in volumes if value is not None],
+        amounts,
+        inferred_rows,
+        len(invalid_amount_rows),
+    )
+
+
 def _realtime_volume_shares(item: Mapping[str, Any]) -> float | int | None:
     return _turnover_volume_shares(item, context="实时日线")
 
@@ -566,6 +688,18 @@ def _quarter_periods(target: date, count: int = 8) -> tuple[str, ...]:
             :count
         ]
     )
+
+
+def _taxonomy_reporting_periods(target: date) -> tuple[str, ...]:
+    """Bound the catalog refresh to recent annual and half-year disclosures."""
+
+    candidates = (
+        date(target.year, 6, 30),
+        date(target.year - 1, 12, 31),
+        date(target.year - 1, 6, 30),
+        date(target.year - 2, 12, 31),
+    )
+    return tuple(item.strftime("%Y%m%d") for item in candidates if item <= target)
 
 
 def _exact_day_records(
@@ -830,6 +964,132 @@ def fetch_stock_selection_financial_period(
     }
 
 
+def fetch_instrument_taxonomy_source(
+    as_of: str = "",
+    code: str = "",
+    symbol: str = "",
+    **kwargs: Any,
+) -> dict[str, Any]:
+    """Fetch one low-frequency full-market relationship source bundle."""
+
+    del kwargs
+    if code or symbol:
+        raise SourceCapabilityError("instrument_taxonomy is a whole-market route")
+    if as_of:
+        compact, target = _daily_trade_date(as_of, required=True)
+    else:
+        target = datetime.now(_SHANGHAI).date()
+        compact = target.strftime("%Y%m%d")
+
+    stocks, stock_ids = _paged_records(
+        "stock_basic",
+        {"exchange": "", "list_status": "L"},
+        _STOCK_BASIC_FIELDS,
+        context="证券关系库股票主数据",
+        page_size=6000,
+        max_pages=2,
+    )
+
+    with ThreadPoolExecutor(
+        max_workers=3,
+        thread_name_prefix="tushare-taxonomy-company",
+    ) as executor:
+        company_jobs = {
+            exchange: executor.submit(
+                _paged_records,
+                "stock_company",
+                {"exchange": exchange},
+                _STOCK_COMPANY_FIELDS,
+                context=f"证券关系库公司信息:{exchange}",
+                allow_empty=exchange == "BSE",
+                page_size=5000,
+                max_pages=2,
+            )
+            for exchange in ("SSE", "SZSE", "BSE")
+        }
+        company_results = {
+            exchange: future.result()
+            for exchange, future in company_jobs.items()
+        }
+    companies: list[dict[str, Any]] = []
+    company_ids: list[tuple[str, str | None]] = []
+    for exchange in ("SSE", "SZSE", "BSE"):
+        rows, ids = company_results[exchange]
+        companies.extend(rows)
+        company_ids.extend(
+            (f"stock_company:{exchange}:{label}", value) for label, value in ids
+        )
+
+    sw_memberships, sw_ids = _paged_records(
+        "index_member_all",
+        {"is_new": "Y"},
+        _SW_MEMBER_ALL_FIELDS,
+        context="证券关系库申万行业成分",
+        allow_empty=True,
+        page_size=2000,
+        max_pages=4,
+    )
+
+    periods = _taxonomy_reporting_periods(target)
+    segment_rows: list[dict[str, Any]] = []
+    segment_ids: list[tuple[str, str | None]] = []
+    segment_flags: list[str] = []
+    with ThreadPoolExecutor(
+        max_workers=min(4, len(periods)),
+        thread_name_prefix="tushare-taxonomy-mainbz",
+    ) as executor:
+        jobs = {
+            period: executor.submit(
+                _paged_records,
+                "fina_mainbz_vip",
+                {"period": period, "type": "P"},
+                _MAIN_BUSINESS_FIELDS,
+                context=f"证券关系库主营构成:{period}",
+                allow_empty=True,
+                page_size=10000,
+                max_pages=6,
+            )
+            for period in periods
+        }
+        for period in periods:
+            try:
+                rows, ids = jobs[period].result()
+            except Exception as exc:  # noqa: BLE001 - older accepted periods remain usable
+                segment_flags.append(
+                    f"business_segments_unavailable:{period}:{type(exc).__name__}"
+                )
+                continue
+            segment_rows.extend(rows)
+            segment_ids.extend(
+                (f"fina_mainbz_vip:{period}:{label}", value)
+                for label, value in ids
+            )
+    if not segment_rows:
+        raise RuntimeError("TuShare 证券关系库主营构成全部不可用")
+
+    request_ids = [
+        *((f"stock_basic:{label}", value) for label, value in stock_ids),
+        *company_ids,
+        *((f"index_member_all:{label}", value) for label, value in sw_ids),
+        *segment_ids,
+    ]
+    return {
+        "contract": "instrument_taxonomy_source_bundle.v1",
+        "schema_version": 1,
+        "as_of": target.isoformat(),
+        "request_id": _request_id_bundle(*request_ids),
+        "source_providers": ["tushare"],
+        "source_request_ids": [value for _label, value in request_ids if value],
+        "stocks": stocks,
+        "companies": companies,
+        "sw_memberships": sw_memberships,
+        "business_segments": segment_rows,
+        "reporting_periods": list(periods),
+        "flags": segment_flags,
+        "requested_as_of": compact,
+    }
+
+
 def fetch_daily_stock_factors(
     trade_date: str = "",
     code: str = "",
@@ -984,29 +1244,29 @@ def _minute_timestamp(value: Any) -> datetime:
     return parsed.replace(microsecond=0)
 
 
-def fetch_minute_data(
-    symbol: str = "", code: str = "", **kwargs: Any
+def _minute_frame_from_records(
+    requested: str,
+    records: Iterable[Mapping[str, Any]],
+    *,
+    request_id: str | None,
 ) -> pd.DataFrame:
-    """Fetch the complete current-session 1-minute series via ``rt_min_daily``.
-
-    The normalized provider frame uses shares and CNY.  The compatible endpoint
-    is still checked bar by bar for the known x1/x100 volume ambiguity before
-    the result can reach the canonical gateway.
-    """
-
-    requested = _ts_code(symbol or code)
-    payload = _request(
-        "rt_min_daily",
-        {"ts_code": requested, "freq": "1MIN"},
-        fields=_MINUTE_FIELDS,
-    )
-    records, request_id = _records(payload, "实时分钟")
     matches = _matching_records(records, requested, "实时分钟")
+    (
+        minute_volumes,
+        minute_amounts,
+        inferred_volume_rows,
+        invalid_amount_rows,
+    ) = _minute_turnover_values(matches)
 
     rows: list[dict[str, Any]] = []
     seen_times: set[datetime] = set()
     trading_dates: set[date] = set()
-    for item in matches:
+    for item, volume_shares, amount_cny in zip(
+        matches,
+        minute_volumes,
+        minute_amounts,
+        strict=True,
+    ):
         observed_at = _minute_timestamp(item.get("time"))
         if observed_at in seen_times:
             raise RuntimeError("TuShare 实时分钟返回重复时间点")
@@ -1024,10 +1284,6 @@ def fetch_minute_data(
         if prices["low"] - 1e-8 > min(prices.values()):
             raise RuntimeError("TuShare 实时分钟最低价与 OHLC 冲突")
 
-        volume_shares = _turnover_volume_shares(item, context="实时分钟")
-        amount_cny = _number(item.get("amount"))
-        if amount_cny is None or amount_cny < 0:
-            raise RuntimeError("TuShare 实时分钟成交额无效")
         rows.append(
             {
                 "代码": requested,
@@ -1053,6 +1309,147 @@ def fetch_minute_data(
         frequency_minutes=1,
         volume_unit="shares",
         amount_unit="CNY",
+        volume_unit_inferred_rows=inferred_volume_rows,
+        amount_invalid_rows=invalid_amount_rows,
+    )
+
+
+def fetch_minute_data(
+    symbol: str = "", code: str = "", **kwargs: Any
+) -> pd.DataFrame:
+    """Fetch one complete current-session 1-minute series via ``rt_min``."""
+
+    requested = _ts_code(symbol or code)
+    payload = _request(
+        "rt_min",
+        {"ts_code": requested, "freq": "1MIN"},
+        fields=_MINUTE_FIELDS,
+    )
+    records, request_id = _records(payload, "实时分钟")
+    return _minute_frame_from_records(
+        requested,
+        records,
+        request_id=request_id,
+    )
+
+
+def fetch_minute_data_batch(
+    symbols: Iterable[str] | str = (),
+    **kwargs: Any,
+) -> pd.DataFrame:
+    """Fetch up to 40 complete stock minute series in one ``rt_min`` call."""
+
+    raw_symbols = (
+        [item.strip() for item in symbols.split(",") if item.strip()]
+        if isinstance(symbols, str)
+        else list(symbols)
+    )
+    requested = tuple(dict.fromkeys(_ts_code(item) for item in raw_symbols))
+    if not requested:
+        raise ValueError("minute batch requires at least one A-share symbol")
+    if len(requested) > 40:
+        raise ValueError("minute batch supports at most 40 A-share symbols")
+    payload = _request(
+        "rt_min",
+        {"ts_code": ",".join(requested), "freq": "1MIN"},
+        fields=_MINUTE_FIELDS,
+    )
+    records, request_id = _records(payload, "实时分钟批量")
+    frames = [
+        _minute_frame_from_records(
+            instrument_id,
+            records,
+            request_id=request_id,
+        )
+        for instrument_id in requested
+    ]
+    trading_dates = {str(frame.attrs["trading_date"]) for frame in frames}
+    if len(trading_dates) != 1:
+        raise RuntimeError("TuShare 实时分钟批量返回跨交易日数据")
+    rows = [row for frame in frames for row in frame.to_dict("records")]
+    rows.sort(key=lambda item: (item["代码"], item["时间"]))
+    return _frame(
+        rows,
+        provider_as_of=max(str(frame.attrs["provider_as_of"]) for frame in frames),
+        request_id=request_id,
+        trading_date=trading_dates.pop(),
+        frequency_minutes=1,
+        volume_unit="shares",
+        amount_unit="CNY",
+        volume_unit_inferred_rows=sum(
+            int(frame.attrs.get("volume_unit_inferred_rows", 0)) for frame in frames
+        ),
+        amount_invalid_rows=sum(
+            int(frame.attrs.get("amount_invalid_rows", 0)) for frame in frames
+        ),
+    )
+
+
+def fetch_minute_data_batch_partial(
+    symbols: Iterable[str] | str = (),
+    trade_date: date | str | None = None,
+    **kwargs: Any,
+) -> pd.DataFrame:
+    """Return every exact series present in one bounded ``rt_min`` response."""
+
+    raw_symbols = (
+        [item.strip() for item in symbols.split(",") if item.strip()]
+        if isinstance(symbols, str)
+        else list(symbols)
+    )
+    requested = tuple(dict.fromkeys(_ts_code(item) for item in raw_symbols))
+    if not requested:
+        raise ValueError("partial minute batch requires at least one A-share symbol")
+    if len(requested) > 40:
+        raise ValueError("partial minute batch supports at most 40 A-share symbols")
+    payload = _request(
+        "rt_min",
+        {"ts_code": ",".join(requested), "freq": "1MIN"},
+        fields=_MINUTE_FIELDS,
+    )
+    records, request_id = _records(payload, "实时分钟批量")
+    present = {
+        _ts_code(str(item.get("ts_code") or ""))
+        for item in records
+        if str(item.get("ts_code") or "").strip()
+    }
+    frames = [
+        _minute_frame_from_records(instrument_id, records, request_id=request_id)
+        for instrument_id in requested
+        if instrument_id in present
+    ]
+    if trade_date is not None:
+        expected_date = (
+            trade_date.isoformat()
+            if isinstance(trade_date, date)
+            else date.fromisoformat(str(trade_date)).isoformat()
+        )
+        frames = [
+            frame
+            for frame in frames
+            if str(frame.attrs.get("trading_date")) == expected_date
+        ]
+    if not frames:
+        raise RuntimeError("TuShare 实时分钟批量未返回任何请求证券")
+    trading_dates = {str(frame.attrs["trading_date"]) for frame in frames}
+    if len(trading_dates) != 1:
+        raise RuntimeError("TuShare 实时分钟批量返回跨交易日数据")
+    rows = [row for frame in frames for row in frame.to_dict("records")]
+    rows.sort(key=lambda item: (item["代码"], item["时间"]))
+    return _frame(
+        rows,
+        provider_as_of=max(str(frame.attrs["provider_as_of"]) for frame in frames),
+        request_id=request_id,
+        trading_date=trading_dates.pop(),
+        frequency_minutes=1,
+        volume_unit="shares",
+        amount_unit="CNY",
+        volume_unit_inferred_rows=sum(
+            int(frame.attrs.get("volume_unit_inferred_rows", 0)) for frame in frames
+        ),
+        amount_invalid_rows=sum(
+            int(frame.attrs.get("amount_invalid_rows", 0)) for frame in frames
+        ),
     )
 
 
@@ -1571,8 +1968,11 @@ __all__ = [
     "fetch_dragon_tiger_market_day",
     "fetch_etf_quotes",
     "fetch_historical_kline",
+    "fetch_instrument_taxonomy_source",
     "fetch_market_universe",
     "fetch_minute_data",
+    "fetch_minute_data_batch",
+    "fetch_minute_data_batch_partial",
     "fetch_realtime_quote",
     "fetch_sector_quotes",
     "fetch_stock_fund_flow",

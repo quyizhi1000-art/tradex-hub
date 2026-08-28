@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import date, datetime
 from typing import Any
 from zoneinfo import ZoneInfo
 
@@ -40,10 +40,16 @@ def fetch_a_share_universe_snapshot(
     require_market_cap: bool = False,
     router: Any | None = None,
     now: datetime | None = None,
+    trade_date: date | None = None,
 ) -> AShareUniverseSnapshotV1:
     """Route, normalize, and validate the provider's active A-share universe."""
 
     fetched_at = _now(now)
+    if trade_date is not None and (
+        not isinstance(trade_date, date) or isinstance(trade_date, datetime)
+    ):
+        raise TypeError("trade_date must be a date")
+    expected_trade_date = trade_date or fetched_at.date()
 
     def validate(payload: Any, provider: str) -> AShareUniverseSnapshotV1:
         require_valid_universe_payload(payload, provider)
@@ -56,9 +62,9 @@ def fetch_a_share_universe_snapshot(
             raise DataQualityError("A 股全市场市值筛选要求完整的总市值字段")
         if (
             provider_as_of is not None
-            and provider_as_of.astimezone(SHANGHAI).date() != fetched_at.date()
+            and provider_as_of.astimezone(SHANGHAI).date() != expected_trade_date
         ):
-            raise DataQualityError("A 股全市场行情不是当日快照")
+            raise DataQualityError("A 股全市场行情不是目标交易日快照")
         quality, flags = assess_a_share_universe(
             quotes=quotes,
             provider_row_count=row_count,

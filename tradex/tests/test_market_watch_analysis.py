@@ -775,6 +775,38 @@ def test_optional_sector_flow_trajectory_is_strict_and_does_not_change_guardrail
         SectorFlowTrajectoryV1.model_validate(invalid)
 
 
+def test_sector_flow_trajectory_accepts_64_series_and_rejects_65():
+    payload = _sector_flow_trajectory(direction="offense")
+    base = payload["sectors"][0]
+    payload["sectors"] = []
+    for rank in range(1, 65):
+        item = deepcopy(base)
+        item.update({
+            "sector_key": f"capacity_{rank:02d}",
+            "name": f"容量方向{rank}",
+            "observation_rank": rank,
+            "rank_total": 64,
+        })
+        payload["sectors"].append(item)
+
+    accepted = SectorFlowTrajectoryV1.model_validate(payload)
+
+    assert len(accepted.sectors) == 64
+    overflow = deepcopy(payload)
+    for item in overflow["sectors"]:
+        item["rank_total"] = 65
+    extra = deepcopy(base)
+    extra.update({
+        "sector_key": "capacity_65",
+        "name": "容量方向65",
+        "observation_rank": 65,
+        "rank_total": 65,
+    })
+    overflow["sectors"].append(extra)
+    with pytest.raises(ValidationError):
+        SectorFlowTrajectoryV1.model_validate(overflow)
+
+
 def test_offense_sector_flow_trajectory_is_independent_and_direction_checked():
     market, risk = _inputs(
         changes=(0.5, 0.6, 0.7, 0.8),

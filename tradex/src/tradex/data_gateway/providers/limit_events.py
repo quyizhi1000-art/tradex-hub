@@ -7,7 +7,7 @@ import re
 from datetime import date, datetime, time
 from typing import Any
 
-from ..contracts import LimitEventTradeStatusV1, LimitUpEventV1
+from ..contracts import LimitEventTradeStatusV1, LimitUpEventV1, LimitUpStatusV1
 from .market_overview import field, parse_provider_time
 from .securities import canonical_instrument_id
 
@@ -174,6 +174,7 @@ def map_limit_event_frame(
     *,
     route_provider: str,
     requested_date: date,
+    require_reason: bool = True,
 ) -> dict[str, Any]:
     """Map one provider frame and verify its declared pool completeness."""
 
@@ -207,10 +208,10 @@ def map_limit_event_frame(
     valid_empty = attrs.get("valid_empty")
     if not isinstance(valid_empty, bool) or valid_empty != (pool_total == 0):
         raise RuntimeError("涨停事件池有效空池声明与 total 不一致")
-    if attrs.get("reason_coverage") != 1.0:
+    if require_reason and attrs.get("reason_coverage") != 1.0:
         raise RuntimeError("涨停事件池涨停原因覆盖不完整")
 
-    events: list[LimitUpEventV1] = []
+    events: list[LimitUpEventV1 | LimitUpStatusV1] = []
     seen: set[str] = set()
     for row in records:
         code = _record_code(row)
@@ -230,29 +231,43 @@ def map_limit_event_frame(
             raise RuntimeError(f"涨停事件 {code} 的交易状态与池状态不一致")
 
         board_label = _optional_text(field(row, "连板", "board_label"))
-        seal_success_pct = _optional_number(
-            field(row, "封板成功率", "seal_success_pct"),
-            "seal success rate",
-        )
-        if seal_success_pct is not None and seal_success_pct <= 1:
-            seal_success_pct *= 100
-        events.append(
-            LimitUpEventV1(
-                instrument_id=canonical_instrument_id(code),
-                name=_required_text(field(row, "名称", "name"), "limit-event name"),
-                price_cny=_optional_number(
-                    field(row, "价格", "price", "price_cny"), "limit-event price"
-                ),
-                change_pct=_optional_number(
-                    field(row, "涨幅%", "涨跌幅", "change_pct"),
-                    "limit-event change_pct",
-                ),
+        seal_success_pct = None
+        if require_reason:
+            seal_success_pct = _optional_number(
+                field(row, "封板成功率", "seal_success_pct"),
+                "seal success rate",
+            )
+            if seal_success_pct is not None and seal_success_pct <= 1:
+                seal_success_pct *= 100
+        common = {
+            "instrument_id": canonical_instrument_id(code),
+            "name": _required_text(field(row, "名称", "name"), "limit-event name"),
+            "price_cny": _optional_number(
+                field(row, "价格", "price", "price_cny"), "limit-event price"
+            ),
+            "change_pct": _optional_number(
+                field(row, "涨幅%", "涨跌幅", "change_pct"),
+                "limit-event change_pct",
+            ),
+            "limit_up_type": _optional_text(
+                field(row, "板型", "limit_up_type", "board_type")
+            ),
+            "board_label": board_label,
+            "board_count": _board_count(board_label),
+            "first_sealed_at": _optional_time(
+                field(row, "首封时间", "first_sealed_at", "first_limit_up_time")
+            ),
+            "resealed": _optional_bool(
+                field(row, "是否回封", "resealed", "is_again_limit"),
+                "limit-event resealed",
+            ),
+        }
+        if require_reason:
+            events.append(LimitUpEventV1(
+                **common,
                 reason=_required_text(
                     field(row, "涨停原因", "reason", "reason_type"),
                     "limit-event reason",
-                ),
-                limit_up_type=_optional_text(
-                    field(row, "板型", "limit_up_type", "board_type")
                 ),
                 seal_success_pct=seal_success_pct,
                 open_count=_optional_integer(
@@ -263,17 +278,14 @@ def map_limit_event_frame(
                     field(row, "封单额", "order_amount", "order_amount_cny"),
                     "limit-event order amount",
                 ),
-                board_label=board_label,
-                board_count=_board_count(board_label),
-                first_sealed_at=_optional_time(
-                    field(row, "首封时间", "first_sealed_at", "first_limit_up_time")
+            ))
+        else:
+            events.append(LimitUpStatusV1(
+                **common,
+                reason=_optional_text(
+                    field(row, "涨停原因", "reason", "reason_type")
                 ),
-                resealed=_optional_bool(
-                    field(row, "是否回封", "resealed", "is_again_limit"),
-                    "limit-event resealed",
-                ),
-            )
-        )
+            ))
 
     unknown_board_count = sum(item.board_count is None for item in events)
     declared_unknown = attrs.get("unknown_board_count")

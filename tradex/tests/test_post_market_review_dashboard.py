@@ -4,12 +4,10 @@ from __future__ import annotations
 
 from io import BytesIO
 from pathlib import Path
-from types import SimpleNamespace
 
 import pytest
 
 from tradex.dashboard import __main__ as dashboard_app
-from tradex.market_watch.review_service import ReviewTooEarlyError
 
 
 WATCH_DIR = Path(__file__).parents[1] / "src" / "tradex" / "dashboard" / "watch"
@@ -38,12 +36,20 @@ def test_post_market_review_routes_preserve_bounded_history_query():
     post_handler = _bare_handler()
     post_handler.path = "/api/post-market-review"
     post_handler._handle_post_market_review_api = lambda: post_calls.append(True)
+    status_calls = []
+    status_handler = _bare_handler()
+    status_handler.path = "/api/post-market-review/generation"
+    status_handler._handle_post_market_review_generation_api = (
+        lambda: status_calls.append(True)
+    )
 
     history_handler.do_GET()
     post_handler.do_POST()
+    status_handler.do_GET()
 
     assert history_calls == [{"trade_date": "2026-08-21", "limit": "30"}]
     assert post_calls == [True]
+    assert status_calls == [True]
 
 
 @pytest.mark.parametrize("value", ["0", "366", "abc", "1.5"])
@@ -90,31 +96,13 @@ def test_post_market_review_history_handler_returns_archive_fixture(monkeypatch)
     ]
 
 
-def test_post_market_review_post_rejects_too_early_with_safe_message(monkeypatch):
-    monkeypatch.setattr(
-        dashboard_app,
-        "generate_post_market_review",
-        lambda: (_ for _ in ()).throw(
-            ReviewTooEarlyError("当日 17:30 后才允许生成这份日复盘。")
-        ),
-    )
-    responses = []
-    handler = _bare_handler()
-    handler._send_json = lambda status, payload: responses.append((status, payload))
-
-    handler._handle_post_market_review_api()
-
-    assert responses == [
-        (409, {"error": "当日 17:30 后才允许生成这份日复盘。"})
-    ]
-
-
-def test_post_market_review_post_returns_versioned_result(monkeypatch):
+def test_post_market_review_post_returns_worker_owned_generation(monkeypatch):
     result = {
-        "contract": "post_market_review_result.v1",
+        "contract": "post_market_review_generation.v1",
         "schema_version": 1,
-        "action": "inserted",
-        "review": {"contract": "post_market_review.v1"},
+        "job_id": "post-market-review:1",
+        "state": "queued",
+        "phase": "queued",
     }
     monkeypatch.setattr(dashboard_app, "generate_post_market_review", lambda: result)
     responses = []
@@ -123,45 +111,28 @@ def test_post_market_review_post_returns_versioned_result(monkeypatch):
 
     handler._handle_post_market_review_api()
 
-    assert responses == [(201, result)]
+    assert responses == [(202, result)]
 
 
-def test_post_market_review_scheduler_delegates_retry_policy(monkeypatch):
-    calls = []
+def test_dashboard_has_no_post_market_review_scheduler_or_generator_owner():
+    source = Path(dashboard_app.__file__).read_text(encoding="utf-8")
 
-    class OnePassStop:
-        stopped = False
-
-        def is_set(self):
-            return self.stopped
-
-        def wait(self, seconds):
-            calls.append(("wait", seconds))
-            self.stopped = True
-
-    service = SimpleNamespace(
-        maybe_generate_automatic=lambda: calls.append(("generate", None))
-        or {"action": "not_due"}
-    )
-    monkeypatch.setattr(
-        dashboard_app,
-        "_get_post_market_review_service",
-        lambda: service,
-    )
-
-    dashboard_app._post_market_review_loop(OnePassStop())
-
-    assert calls == [("generate", None), ("wait", 30.0)]
+    assert "post-market-review-scheduler" not in source
+    assert "PostMarketReviewService" not in source
+    assert "build_post_market_review_presentation" not in source
 
 
 def test_desktop_review_page_exposes_honest_archive_controls_and_sections():
     assert 'const REVIEW_HISTORY_ENDPOINT = "/api/post-market-review/history"' in JS
     assert 'const REVIEW_GENERATE_ENDPOINT = "/api/post-market-review"' in JS
+    assert 'const REVIEW_GENERATION_ENDPOINT = "/api/post-market-review/generation"' in JS
     assert 'method: "POST"' in JS
     assert 'payload.contract !== "post_market_review_archive.v1"' in JS
-    assert 'payload.contract !== "post_market_review_result.v1"' in JS
+    assert 'payload.contract !== "post_market_review_generation.v1"' in JS
+    assert 'new Set(["queued", "running"]).has(generation.state)' in JS
+    assert "pollPostMarketReviewGeneration" in JS
+    assert "await fetchPostMarketReviewHistory" in JS
     assert "reviewWithPresentation(review, history.presentation)" in JS
-    assert "reviewWithPresentation(result.review, result.presentation)" in JS
     assert 'id="daily-review-generate-button"' in HTML
     assert 'id="daily-review-date-select"' in HTML
     assert 'id="daily-review-quality"' in HTML
@@ -198,6 +169,13 @@ def test_desktop_review_page_exposes_honest_archive_controls_and_sections():
     assert "white-space: nowrap" in CSS
     assert "daily-review-watch-item__confirmation" in JS + CSS
     assert "daily-review-watch-item__invalidation" in JS + CSS
+    assert "daily-review-watch-item__checkpoint" in JS + CSS
+    assert "daily-review-watch-item__metrics" in JS + CSS
+    assert "daily-review-watch-item__action" in JS + CSS
+    assert "daily-review-watch-item__stocks" in JS + CSS
+    assert 'wait_divergence: "只等分歧，不追"' in JS
+    assert 'avoid: "回避"' in JS
+    assert "boardLabels" in JS
     assert "reviewReportToneClass(cellRecord.tone)" in JS
     assert 'createElement("table", "daily-review-report-table")' in JS
     assert 'createElement("caption", "", captionText)' in JS
@@ -254,10 +232,9 @@ def test_desktop_review_page_names_all_required_market_coverage():
     assert ".daily-review-appendix" in CSS
 
 
-def test_server_shutdown_stops_scheduler_and_closes_review_store():
+def test_server_shutdown_closes_analysis_ledger_without_review_owner():
     source = Path(dashboard_app.__file__).read_text(encoding="utf-8")
 
-    assert 'name="post-market-review-scheduler"' in source
-    assert "review_stop.set()" in source
-    assert "review_scheduler.join()" in source
-    assert "_POST_MARKET_REVIEW_STORE.close()" in source
+    assert 'name="post-market-review-scheduler"' not in source
+    assert "_POST_MARKET_REVIEW_STORE" not in source
+    assert "_ANALYSIS_JOB_STORE.close()" in source

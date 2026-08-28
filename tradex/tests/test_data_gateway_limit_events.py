@@ -9,6 +9,7 @@ from astock_signals.smart_router import SmartRouter
 from tradex.data_gateway.contracts import QualityStatus
 from tradex.data_gateway.limit_events import (
     fetch_limit_up_events,
+    fetch_limit_up_status,
     limit_event_series_to_component_metadata,
     limit_event_series_to_legacy_records,
 )
@@ -234,3 +235,21 @@ def test_missing_required_reason_is_rejected_before_provider_success() -> None:
     series = fetch_limit_up_events("2026-08-19", router=router, now=_NOW)
 
     assert series.metadata.provider == "ths"
+
+
+def test_live_status_does_not_require_analysis_reason() -> None:
+    router = SmartRouter()
+    router.register(
+        "limit_event_status",
+        "ths",
+        lambda date: _frame(reason=""),
+        priority=1,
+    )
+
+    series = fetch_limit_up_status("2026-08-19", router=router, now=_NOW)
+
+    assert series.metadata.contract == "limit_up_status.v1"
+    assert series.events[0].instrument_id == "603395.SH"
+    assert series.events[0].board_count == 3
+    assert series.events[0].first_sealed_at.isoformat() == "09:31:02"
+    assert series.events[0].reason is None

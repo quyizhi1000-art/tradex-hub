@@ -2,10 +2,9 @@
 
 The evaluator consumes only canonical snapshots and emitted alert events.  It
 never fetches market data, changes runtime thresholds, estimates investment
-returns, or produces stock-level advice.  Session coverage follows the two
-mainland continuous-auction windows (09:30-11:30 and 13:00-15:00, Shanghai
-time); exchange-holiday eligibility remains the responsibility of the caller's
-trading-calendar boundary.
+returns, or produces stock-level advice.  Session coverage follows continuous
+trading through 14:56 plus one provider-verified 15:00 closing-auction result;
+exchange-holiday eligibility remains the caller's trading-calendar boundary.
 """
 
 from __future__ import annotations
@@ -29,11 +28,15 @@ from .contracts import (
 )
 from .history import MarketWatchReplaySampleV1
 from .policy import DEFAULT_MARKET_WATCH_POLICY
+from .session_schedule import (
+    EXPECTED_MARKET_WATCH_MINUTES,
+    expected_market_watch_minutes,
+)
 
 
 SHANGHAI = ZoneInfo("Asia/Shanghai")
-_SESSION_SECONDS = 4 * 60 * 60
-_SESSION_MINUTES = 240
+_SESSION_SECONDS = EXPECTED_MARKET_WATCH_MINUTES * 60
+_SESSION_MINUTES = EXPECTED_MARKET_WATCH_MINUTES
 
 
 class EvaluationModel(BaseModel):
@@ -364,19 +367,13 @@ def _coerce_snapshots(
 
 
 def _session_offset_seconds(snapshot: EvaluationSnapshot) -> float | None:
-    if not snapshot.market_state.is_open:
-        return None
     local = snapshot.as_of.astimezone(SHANGHAI)
-    seconds = local.hour * 3600 + local.minute * 60 + local.second
-    morning_start = 9 * 3600 + 30 * 60
-    morning_end = 11 * 3600 + 30 * 60
-    afternoon_start = 13 * 3600
-    afternoon_end = 15 * 3600
-    if morning_start <= seconds < morning_end:
-        return float(seconds - morning_start)
-    if afternoon_start <= seconds < afternoon_end:
-        return float((morning_end - morning_start) + seconds - afternoon_start)
-    return None
+    minute = local.replace(second=0, microsecond=0)
+    try:
+        index = expected_market_watch_minutes(local.date()).index(minute)
+    except ValueError:
+        return None
+    return float(index * 60 + local.second + local.microsecond / 1_000_000)
 
 
 def _active_samples(

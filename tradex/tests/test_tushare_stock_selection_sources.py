@@ -42,6 +42,14 @@ def test_mapper_excludes_zero_range_bar_without_rejecting_the_market_batch():
     assert _candlestick_bar(row, trade_date=TRADE_DATE) is None
 
 
+def test_mapper_requires_previous_close_for_limit_up_detection():
+    row = _bar("600000.SH", COMPACT_DATE, 10.0)
+    row.pop("pre_close")
+
+    with pytest.raises(RuntimeError, match="previous close"):
+        _candlestick_bar(row, trade_date=TRADE_DATE)
+
+
 def test_tushare_daily_stock_factor_fetcher_uses_full_market_point_in_time_tables(
     monkeypatch,
 ):
@@ -457,3 +465,4 @@ def test_gateway_normalizes_units_and_rejects_future_financial_announcement():
     assert snapshot.factors[1].momentum_20d_pct == pytest.approx((10 / 9 - 1) * 100)
     assert snapshot.coverage.candlestick_history_count == 2
     assert len(snapshot.candlestick_histories[0].bars) == 15
+    assert snapshot.candlestick_histories[0].bars[0].previous_close == pytest.approx(11.4)

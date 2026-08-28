@@ -33,7 +33,10 @@ from tradex.data_gateway.market_structure import (
     metadata_to_component_status,
     sector_quotes_to_legacy_records,
 )
-from tradex.data_gateway.sector_flow import fetch_sector_intraday_fund_flow_backfill
+from tradex.data_gateway.sector_flow import (
+    read_sector_intraday_fund_flow_backfill,
+    schedule_sector_intraday_fund_flow_backfill,
+)
 
 from .risk_appetite import (
     CONFIG_VERSION,
@@ -95,7 +98,6 @@ _FAST_COMPONENTS = (
     "leadership_pool",
 )
 _CONTEXT_COMPONENTS = ("etfs", "leaders")
-_SECTOR_FLOW_BACKFILL_LOADS_PER_MINUTE = 1
 
 _snapshot_cache: dict[str, Any] | None = None
 _snapshot_cached_at = 0.0
@@ -170,6 +172,8 @@ def _fetch_leaders() -> tuple[list[dict[str, Any]], str, dict[str, Any]]:
 def _fetch_leadership_pool(
     trade_date: str,
 ) -> tuple[list[dict[str, Any]], str, dict[str, Any]]:
+    from tradex.instrument_taxonomy.store import InstrumentTaxonomyReader, read_profiles
+
     series = fetch_limit_up_events(trade_date)
     records = limit_event_series_to_legacy_records(series)
     source = series.metadata.provider
@@ -190,6 +194,17 @@ def _fetch_leadership_pool(
     enriched_records = [dict(record) for record in records]
     if records:
         try:
+            requested_ids = tuple(
+                f"{code}.{'SH' if code.startswith('6') else 'BJ' if code.startswith(('4', '8')) else 'SZ'}"
+                for code in codes
+            )
+            relationships = read_profiles(requested_ids)
+            relationships_by_code = {
+                instrument_id[:6]: profile
+                for instrument_id, profile in relationships.items()
+            }
+            with InstrumentTaxonomyReader() as taxonomy_reader:
+                taxonomy_status = taxonomy_reader.status()
             profile_series = fetch_stock_sector_profiles(
                 codes,
                 trade_date=trade_date,
@@ -200,6 +215,7 @@ def _fetch_leadership_pool(
             for record in enriched_records:
                 code = str(record.get("代码") or record.get("code") or "").strip()
                 profile = profiles_by_code[code]
+                relationship = relationships_by_code.get(code)
                 record["sector_profile"] = {
                     "industry": profile.get("行业"),
                     "region": profile.get("地域"),
@@ -213,6 +229,20 @@ def _fetch_leadership_pool(
                         timespec="seconds"
                     ),
                 }
+                if relationship is not None:
+                    record["stock_relationship"] = {
+                        "primary_business": relationship.primary_business_name,
+                        "business_tags": list(relationship.business_tags),
+                        "statistical_industry": (
+                            relationship.statistical_industry.level3_name
+                            if relationship.statistical_industry
+                            else None
+                        ),
+                        "business_verification_status": relationship.verification_status,
+                        "relationship_catalog_revision": (
+                            taxonomy_status.catalog_revision if taxonomy_status else None
+                        ),
+                    }
             profile_provider_as_of = (
                 profile_series.metadata.provider_as_of.isoformat(timespec="seconds")
                 if profile_series.metadata.provider_as_of
@@ -231,6 +261,12 @@ def _fetch_leadership_pool(
                     timespec="seconds"
                 ),
                 "error": None,
+                "relationship_catalog_revision": (
+                    taxonomy_status.catalog_revision if taxonomy_status else None
+                ),
+                "relationship_coverage": (
+                    len(relationships) / len(requested_ids) if requested_ids else 1.0
+                ),
             }
         except Exception as exc:  # noqa: BLE001 - reason attribution remains usable
             logger.warning("stock sector profile enrichment failed: %s", exc)
@@ -622,7 +658,10 @@ def _merge_leader_quotes(snapshot: dict[str, Any], leader_records: list[dict[str
         sector["leaders"] = merged
 
 
-def _membership_from_sector_profile(profile: Any) -> dict[str, Any]:
+def _membership_from_sector_profile(
+    profile: Any,
+    relationship: Any = None,
+) -> dict[str, Any]:
     if not isinstance(profile, dict) or not str(profile.get("industry") or "").strip():
         return {
             "status": "unavailable",
@@ -640,13 +679,26 @@ def _membership_from_sector_profile(profile: Any) -> dict[str, Any]:
         concepts = [str(item).strip() for item in raw_concepts if str(item).strip()]
     else:
         concepts = []
+    relationship = relationship if isinstance(relationship, dict) else {}
+    raw_business_tags = relationship.get("business_tags")
+    business_tags = (
+        [str(item).strip() for item in raw_business_tags if str(item).strip()]
+        if isinstance(raw_business_tags, (list, tuple, set))
+        else []
+    )
     board_names = list(dict.fromkeys(
         value
-        for raw in (profile.get("industry"), profile.get("region"), *concepts)
+        for raw in (
+            profile.get("industry"),
+            relationship.get("statistical_industry"),
+            profile.get("region"),
+            *concepts,
+            *business_tags,
+        )
         if (value := str(raw or "").strip())
     ))
     attribution = attribute_board_names(board_names)
-    return {
+    result = {
         "status": "ready",
         "source": profile.get("source"),
         "provider_as_of": profile.get("provider_as_of"),
@@ -659,6 +711,19 @@ def _membership_from_sector_profile(profile: Any) -> dict[str, Any]:
         "unmapped_tags": attribution.get("unmapped_tags", []),
         "taxonomy_version": attribution.get("taxonomy_version"),
     }
+    if relationship:
+        result.update({
+            "primary_business": relationship.get("primary_business"),
+            "business_tags": business_tags,
+            "statistical_industry": relationship.get("statistical_industry"),
+            "business_verification_status": relationship.get(
+                "business_verification_status"
+            ),
+            "relationship_catalog_revision": relationship.get(
+                "relationship_catalog_revision"
+            ),
+        })
+    return result
 
 
 def _attach_static_memberships(snapshot: dict[str, Any]) -> None:
@@ -667,7 +732,8 @@ def _attach_static_memberships(snapshot: dict[str, Any]) -> None:
     for sector in snapshot.get("sectors", {}).values():
         for leader in sector.get("leadership", {}).get("limit_up_leaders", []):
             leader["static_membership"] = _membership_from_sector_profile(
-                leader.get("sector_profile")
+                leader.get("sector_profile"),
+                leader.get("stock_relationship"),
             )
 
 
@@ -2361,24 +2427,6 @@ def _rotation_frontend_view(
     }
 
 
-def _sector_flow_backfill_load_targets(
-    targets: tuple[dict[str, str], ...] | list[dict[str, str]],
-    now: datetime,
-) -> tuple[dict[str, str], ...]:
-    """Rotate a bounded set of cold curve loads across sampler minutes."""
-
-    ordered = tuple(targets)
-    if not ordered:
-        return ()
-    load_count = min(_SECTOR_FLOW_BACKFILL_LOADS_PER_MINUTE, len(ordered))
-    minute_ordinal = now.hour * 60 + now.minute
-    start = minute_ordinal % len(ordered)
-    return tuple(
-        ordered[(start + offset) % len(ordered)]
-        for offset in range(load_count)
-    )
-
-
 def _attach_rotation_radar(
     result: dict[str, Any],
     values: dict[str, list[dict[str, Any]]],
@@ -2402,31 +2450,19 @@ def _attach_rotation_radar(
         },
     )
     if record and phase == "trading":
-        # One failed Eastmoney curve may consume the whole provider deadline.
-        # Rotate a bounded subset instead of serially blocking the minute
-        # sampler on every missing sector; then assemble all successes already
-        # owned by the gateway cache.
-        fetch_sector_intraday_fund_flow_backfill(
-            _sector_flow_backfill_load_targets(targets, now),
-            trading_date=effective_trade_date,
-            now=now,
-            load_missing=True,
-            refresh_existing=True,
-        )
-        supplemental_points = fetch_sector_intraday_fund_flow_backfill(
+        # The provider-neutral gateway owns one coalesced daemon sweep.  Exact
+        # curves may be numerous and remain rate-limited, so Collector minute
+        # capture must never wait for their serial provider requests.
+        schedule_sector_intraday_fund_flow_backfill(
             targets,
             trading_date=effective_trade_date,
-            now=now,
-            load_missing=False,
+        )
+        supplemental_points = read_sector_intraday_fund_flow_backfill(
+            trading_date=effective_trade_date,
         )
     else:
-        supplemental_points = fetch_sector_intraday_fund_flow_backfill(
-            targets,
+        supplemental_points = read_sector_intraday_fund_flow_backfill(
             trading_date=effective_trade_date,
-            now=now,
-            # Web/read-only paths consume only captured or restored curves.
-            # Missing history is repaired by the collector, never by a page.
-            load_missing=False,
         )
     if record:
         current = store.record_snapshot(
@@ -2511,6 +2547,38 @@ def _attach_rotation_radar(
                 "reason": "rotation_flow_view_unavailable",
             }
         result[field] = sector_flow
+    return result
+
+
+def get_rotation_radar_as_of(target: datetime) -> dict[str, Any]:
+    """Read the persisted rotation owner at one historical minute without I/O."""
+
+    if target.tzinfo is None or target.utcoffset() is None:
+        raise ValueError("rotation as-of target must include a timezone")
+    local = target.astimezone(ZoneInfo("Asia/Shanghai")).replace(second=0, microsecond=0)
+    current = _get_rotation_store().get_as_of(
+        local.date(),
+        local,
+        ROTATION_CONFIG_VERSION,
+    )
+    if int(current.get("sample_count") or 0) == 0:
+        raise RuntimeError("no persisted rotation snapshot exists at the target minute")
+    result: dict[str, Any] = {
+        "offense": _rotation_frontend_view(
+            current,
+            phase="trading",
+            market_direction="unknown",
+        )
+    }
+    for field, direction in (
+        ("sector_flow_trajectory", "defense"),
+        ("offense_sector_flow_trajectory", "offense"),
+    ):
+        trajectory = copy.deepcopy(current.get(field) or {})
+        if trajectory:
+            trajectory["direction"] = direction
+            trajectory["market_phase"] = "trading"
+        result[field] = trajectory
     return result
 
 

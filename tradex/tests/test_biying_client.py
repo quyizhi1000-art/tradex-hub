@@ -75,6 +75,52 @@ def test_transport_and_http_errors_never_expose_path_licence(monkeypatch):
     assert "api.example" not in str(status.value)
 
 
+def test_provider_business_codes_distinguish_daily_quota_and_invalid_licence(
+    monkeypatch,
+):
+    monkeypatch.setattr(biying_client, "get_licence", lambda: "test-secret")
+    monkeypatch.setattr(
+        biying_client,
+        "_get_session",
+        lambda: _Session(
+            _Response(
+                status_code=429,
+                payload={"code": 101, "message": "test-secret must not leak"},
+            )
+        ),
+    )
+
+    with pytest.raises(biying_client.BiyingDailyQuotaExceeded) as daily:
+        biying_client.request(["hslt", "list"])
+    assert "test-secret" not in str(daily.value)
+
+    monkeypatch.setattr(
+        biying_client,
+        "_get_session",
+        lambda: _Session(
+            _Response(payload={"code": 102, "message": "test-secret invalid"})
+        ),
+    )
+    with pytest.raises(biying_client.BiyingLicenceInvalid) as invalid:
+        biying_client.request(["hslt", "list"])
+    assert "test-secret" not in str(invalid.value)
+
+
+def test_http_429_without_safe_business_code_is_classified_as_upstream_throttle(
+    monkeypatch,
+):
+    monkeypatch.setattr(biying_client, "get_licence", lambda: "test-secret")
+    monkeypatch.setattr(
+        biying_client,
+        "_get_session",
+        lambda: _Session(_Response(status_code=429, payload={})),
+    )
+
+    with pytest.raises(biying_client.BiyingUpstreamThrottled) as throttled:
+        biying_client.request(["hslt", "list"])
+    assert "test-secret" not in str(throttled.value)
+
+
 def test_client_rejects_insecure_base_url_before_reading_licence(monkeypatch):
     monkeypatch.setattr(
         biying_client,

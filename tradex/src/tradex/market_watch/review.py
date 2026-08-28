@@ -5,6 +5,7 @@ from __future__ import annotations
 import hashlib
 import json
 import math
+from collections.abc import Mapping
 from datetime import date, datetime, timedelta
 from enum import Enum
 from statistics import mean
@@ -12,6 +13,7 @@ from typing import Literal
 from zoneinfo import ZoneInfo
 
 from pydantic import Field, field_validator, model_validator
+from tradex.instrument_taxonomy.contracts import StockRelationshipProfileV1
 
 from tradex.market_calendar import (
     CalendarDayStatus,
@@ -41,7 +43,42 @@ SHANGHAI = ZoneInfo("Asia/Shanghai")
 # Policy v3 keeps the immutable evidence contract but accepts a complete,
 # same-session 15:00 turnover snapshot recovered after the close as degraded
 # evidence.  Older policy rows remain readable and are never overwritten.
-REVIEW_CONFIG_VERSION = "post-market-review-policy.v3"
+REVIEW_CONFIG_VERSION = "post-market-review-policy.v4"
+
+# Provider concept catalogs also contain eligibility universes, prior-day
+# performance buckets and style baskets.  They are useful market context but
+# are not a business theme that can support an entry plan or a stock mapping.
+NON_ACTIONABLE_CONCEPT_MARKERS = (
+    "融资融券",
+    "深股通",
+    "沪股通",
+    "陆股通",
+    "AH股",
+    "百元股",
+    "高价股",
+    "低价股",
+    "微盘股",
+    "小盘股",
+    "中盘股",
+    "大盘股",
+    "破净股",
+    "昨日涨停",
+    "昨日连板",
+    "昨日首板",
+    "昨日打板",
+    "昨日打二板",
+    "茅指数",
+    "宁组合",
+    "大盘价值",
+    "科技风格",
+    "基金重仓",
+    "机构重仓",
+    "QFII重仓",
+    "证金持股",
+    "MSCI",
+    "富时罗素",
+    "同花顺漂亮",
+)
 
 
 class ReviewTrigger(str, Enum):
@@ -199,8 +236,8 @@ class PostMarketReviewV1(ContractModel):
             raise ValueError("review evidence must belong to trade_date")
         if self.source_snapshot_as_of.astimezone(SHANGHAI).date() != self.trade_date:
             raise ValueError("source snapshot must belong to review trade_date")
-        if self.generated_at.astimezone(SHANGHAI).date() != self.trade_date:
-            raise ValueError("review must be generated on its Shanghai trade_date")
+        if self.generated_at.astimezone(SHANGHAI).date() < self.trade_date:
+            raise ValueError("review generation cannot predate its Shanghai trade_date")
         if self.quality == ReviewQuality.ABSTAINED:
             if self.next_day_outlook.bias != OutlookBias.UNCERTAIN:
                 raise ValueError("an abstained review must use an uncertain outlook")
@@ -363,12 +400,31 @@ class ArticleSectionV4(ContractModel):
     paragraphs: tuple[str, ...] = Field(min_length=1, max_length=4)
 
 
+class WatchStockV4(ContractModel):
+    """One evidence-linked stock to watch, with an explicit board preference."""
+
+    instrument_id: str = Field(pattern=r"^\d{6}\.(?:SH|SZ|BJ)$")
+    name: str = Field(min_length=1)
+    board: Literal["main_board", "chi_next", "star", "beijing"]
+    sector_name: str = Field(min_length=1)
+    primary_business_name: str | None = None
+    business_verification_status: str | None = None
+    reason: str = Field(min_length=1)
+    confirmation: str = Field(min_length=1)
+    invalidation: str = Field(min_length=1)
+
+
 class WatchItemV4(ContractModel):
     """A next-session question with explicit confirmation and failure signals."""
 
     rank: int = Field(ge=1, le=5)
     title: str = Field(min_length=1)
     why_it_matters: str = Field(min_length=1)
+    stance: Literal["conditional", "wait_divergence", "avoid"] = "conditional"
+    checkpoint: str = Field(default="盘中", min_length=1)
+    metrics: tuple[str, ...] = Field(default=(), max_length=6)
+    action: str = Field(default="按确认与失效条件处理。", min_length=1)
+    stocks: tuple[WatchStockV4, ...] = Field(default=(), max_length=3)
     confirmation: str = Field(min_length=1)
     invalidation: str = Field(min_length=1)
 
@@ -920,7 +976,7 @@ def _opportunities(evidence: DailyMarketReviewEvidenceV1, quality: ReviewQuality
 
     ranked: list[tuple[int, SectorReviewItemV1, tuple[str, ...]]] = []
     for item in candidates.values():
-        if item.change_pct <= 0:
+        if item.change_pct <= 0 or not _is_actionable_sector(item):
             continue
         score = 1 if item.change_pct < 1.5 else 2
         chain = [f"板块收涨{item.change_pct:+.2f}%"]
@@ -982,11 +1038,11 @@ def _opportunities(evidence: DailyMarketReviewEvidenceV1, quality: ReviewQuality
             if item.leader_instrument_id in limit_reason_by_id
             else ""
         )
-        watch_target = item.leader_name or family
+        watch_target = item.leader_name or item.name
         results.append(OpportunitySectorV1(
             sector_key=item.sector_key,
             sector_type=item.sector_type,
-            name=family,
+            name=item.name,
             conviction=OpportunityConviction.CONFIRMED if confirmed else OpportunityConviction.WATCH,
             rank_score=score,
             tags=tags,
@@ -1002,11 +1058,11 @@ def _opportunities(evidence: DailyMarketReviewEvidenceV1, quality: ReviewQuality
                 f"{catalyst_detail}。"
             ),
             next_day_confirmation=(
-                f"先看{watch_target}能否扛住第一次分歧，同时{family}板块仍有一半以上成分股上涨，"
+                f"先看{watch_target}能否扛住第一次分歧，同时{item.name}板块仍有一半以上成分股上涨，"
                 "且资金没有由流入转为流出。"
             ),
             invalidation=(
-                f"如果{family}板块翻绿、上涨覆盖跌到一半以下，"
+                f"如果{item.name}板块翻绿、上涨覆盖跌到一半以下，"
                 f"或{watch_target}走弱并伴随资金流出，就从观察名单移除。"
             ),
             risk_note=(
@@ -1031,6 +1087,277 @@ def _index_changes(evidence: DailyMarketReviewEvidenceV1) -> dict[str, tuple[str
         for item in evidence.market_watch.indices
         if item.available and item.change_pct is not None
     }
+
+
+def _sector_items(evidence: DailyMarketReviewEvidenceV1) -> dict[str, SectorReviewItemV1]:
+    """Return every sector retained by the compact close evidence."""
+
+    result: dict[str, SectorReviewItemV1] = {}
+    for summary in (evidence.industry_sectors, evidence.concept_sectors):
+        if summary is None:
+            continue
+        for group in (
+            summary.top_gainers,
+            summary.top_losers,
+            summary.top_inflows,
+            summary.top_outflows,
+        ):
+            for item in group:
+                result[item.sector_key] = item
+    return result
+
+
+def _sector_board_label(sector_type: str) -> str:
+    return "行业" if sector_type == "industry" else "概念"
+
+
+def _is_actionable_sector(item: SectorReviewItemV1) -> bool:
+    if item.sector_type == "industry":
+        return True
+    compact = item.name.replace(" ", "")
+    return not any(marker.casefold() in compact.casefold() for marker in NON_ACTIONABLE_CONCEPT_MARKERS)
+
+
+def _sector_metric_text(item: SectorReviewItemV1) -> str:
+    parts = [f"涨跌{item.change_pct:+.2f}%"]
+    if item.breadth_ratio is not None:
+        parts.append(f"上涨覆盖{item.breadth_ratio * 100:.1f}%")
+    if item.main_net_inflow_cny is not None:
+        parts.append(f"主力{_plain_net_flow(item.main_net_inflow_cny)}")
+    if item.leader_name:
+        leader = item.leader_name
+        if item.leader_change_pct is not None:
+            leader += f"{item.leader_change_pct:+.2f}%"
+        parts.append(f"前排{leader}")
+    return "、".join(parts)
+
+
+def _leading_and_lagging_sectors(
+    evidence: DailyMarketReviewEvidenceV1,
+) -> tuple[SectorReviewItemV1 | None, SectorReviewItemV1 | None]:
+    gainers: list[SectorReviewItemV1] = []
+    losers: list[SectorReviewItemV1] = []
+    for summary in (evidence.industry_sectors, evidence.concept_sectors):
+        if summary is None:
+            continue
+        gainers.extend(summary.top_gainers[:1])
+        losers.extend(summary.top_losers[:1])
+    leader = max(gainers, key=lambda item: item.change_pct, default=None)
+    laggard = min(losers, key=lambda item: item.change_pct, default=None)
+    return leader, laggard
+
+
+def _diffusion_marker(evidence: DailyMarketReviewEvidenceV1) -> str:
+    summaries = [
+        item
+        for item in (evidence.industry_sectors, evidence.concept_sectors)
+        if item is not None
+    ]
+    if not summaries:
+        return "板块全量分布未取得，无法判断行情由指数独立推动还是由板块扩散推动。"
+    sector_count = sum(item.scanned_count for item in summaries)
+    sector_up = sum(item.up_count for item in summaries)
+    sector_up_ratio = sector_up / sector_count if sector_count else 0.5
+    medians = [item.median_change_pct for item in summaries]
+    sector_median = mean(medians)
+    changes = _index_changes(evidence)
+    large = changes.get("large_cap")
+    small = changes.get("small_cap")
+    growth = changes.get("growth")
+    broad = changes.get("broad_market")
+    spread_text = ""
+    if small is not None and large is not None:
+        spread = small[1] - large[1]
+        spread_text = f"；{small[0]}相对{large[0]}{spread:+.2f}个百分点"
+    if sector_up_ratio >= 0.6 and sector_median > 0:
+        marker = "板块扩散是分水岭"
+        if small is not None and large is not None and small[1] >= large[1] + 0.5:
+            marker += "，中小盘指数领先只是扩散结果的指数确认"
+    elif sector_up_ratio <= 0.4 and sector_median < 0:
+        marker = "板块退潮是分水岭"
+        if broad is not None and growth is not None and broad[1] > growth[1]:
+            marker += "，上证相对抗跌不能替代多数板块转弱"
+    else:
+        marker = "指数与板块尚未形成单一分水岭，仍是结构性轮动"
+    return (
+        f"{marker}：上涨板块{sector_up}/{sector_count}个（{sector_up_ratio * 100:.1f}%），"
+        f"行业与概念中位涨跌均值{sector_median:+.2f}%{spread_text}。"
+    )
+
+
+def _previous_strength_statement(
+    evidence: DailyMarketReviewEvidenceV1,
+    previous: PostMarketReviewV1 | None,
+) -> str:
+    if previous is None or not previous.opportunity_sectors:
+        return "没有上一交易日的同口径强势板块清单，今天不做事后补写的延续判断。"
+    current = _sector_items(evidence)
+    rows: list[str] = []
+    for prior in previous.opportunity_sectors[:3]:
+        item = current.get(prior.sector_key)
+        if item is None:
+            rows.append(
+                f"{prior.name}未进入今日涨幅、跌幅、净流入或净流出前10，至少可确认已退出前排；"
+                "紧凑归档没有保留它的精确收盘值"
+            )
+            continue
+        breadth = item.breadth_ratio
+        flow = item.main_net_inflow_cny
+        maintained = item.change_pct > 0 and (breadth is None or breadth >= 0.55) and (flow is None or flow > 0)
+        broken = item.change_pct <= 0 or (breadth is not None and breadth < 0.5) or (flow is not None and flow < 0)
+        verdict = "维持强度" if maintained else "转弱/破坏" if broken else "仍红但强度下降"
+        rows.append(f"{prior.name}{verdict}（{_sector_metric_text(item)}）")
+    return "昨日强线复核：" + "；".join(rows) + "。"
+
+
+def _stealth_sector_candidates(
+    evidence: DailyMarketReviewEvidenceV1,
+    opportunities: tuple[OpportunitySectorV1, ...],
+    *,
+    limit: int = 3,
+) -> tuple[SectorReviewItemV1, ...]:
+    hot_keys = {item.sector_key for item in opportunities}
+    candidates: dict[str, SectorReviewItemV1] = {}
+    for summary in (evidence.industry_sectors, evidence.concept_sectors):
+        if summary is None:
+            continue
+        top_price_keys = {item.sector_key for item in summary.top_gainers[:3]}
+        for item in summary.top_inflows:
+            if not _is_actionable_sector(item):
+                continue
+            if (
+                item.sector_key in top_price_keys
+                or (item.sector_key in hot_keys and item.change_pct > 2.5)
+            ):
+                continue
+            if not -0.5 <= item.change_pct <= 2.5:
+                continue
+            if item.breadth_ratio is None or item.breadth_ratio < 0.55:
+                continue
+            if (item.main_net_inflow_cny or 0) <= 0:
+                continue
+            candidates[item.sector_key] = item
+    ranked = sorted(
+        candidates.values(),
+        key=lambda item: (
+            -(item.main_net_inflow_cny or 0),
+            -item.breadth_ratio if item.breadth_ratio is not None else 0,
+            item.sector_key,
+        ),
+    )
+    return tuple(ranked[:limit])
+
+
+def _hot_opportunities(
+    opportunities: tuple[OpportunitySectorV1, ...],
+) -> tuple[OpportunitySectorV1, ...]:
+    """Directions already extended enough that next-day acceleration is not value."""
+
+    return tuple(
+        item
+        for item in opportunities
+        if (item.change_pct or 0) > 2.5
+        or (
+            item.conviction == OpportunityConviction.CONFIRMED
+            and (item.breadth_ratio or 0) >= 0.8
+        )
+    )
+
+
+def _avoid_sector_candidates(
+    evidence: DailyMarketReviewEvidenceV1,
+    *,
+    limit: int = 3,
+) -> tuple[SectorReviewItemV1, ...]:
+    candidates: dict[str, SectorReviewItemV1] = {}
+    for summary in (evidence.industry_sectors, evidence.concept_sectors):
+        if summary is None:
+            continue
+        for item in (*summary.top_losers, *summary.top_outflows):
+            if not _is_actionable_sector(item):
+                continue
+            if item.change_pct < 0 or (item.main_net_inflow_cny or 0) < 0:
+                candidates[item.sector_key] = item
+    ranked = sorted(
+        candidates.values(),
+        key=lambda item: (
+            item.main_net_inflow_cny if item.main_net_inflow_cny is not None else 0,
+            item.change_pct,
+            item.sector_key,
+        ),
+    )
+    return tuple(ranked[:limit])
+
+
+def _stock_board(instrument_id: str) -> Literal["main_board", "chi_next", "star", "beijing"]:
+    code, suffix = instrument_id.split(".", 1)
+    if suffix == "BJ":
+        return "beijing"
+    if code.startswith(("300", "301")):
+        return "chi_next"
+    if code.startswith(("688", "689")):
+        return "star"
+    return "main_board"
+
+
+def _watch_stocks(
+    opportunities: tuple[OpportunitySectorV1, ...],
+    stealth: tuple[SectorReviewItemV1, ...],
+    business_profiles: Mapping[str, StockRelationshipProfileV1] | None = None,
+) -> tuple[WatchStockV4, ...]:
+    raw: list[tuple[str, str, str, str, str]] = []
+    for item in opportunities:
+        if item.leader_instrument_id and item.leader_name:
+            raw.append((
+                item.leader_instrument_id,
+                item.leader_name,
+                item.name,
+                "；".join(item.evidence_chain[:4]),
+                item.invalidation,
+            ))
+    for item in stealth:
+        if item.leader_instrument_id and item.leader_name:
+            raw.append((
+                item.leader_instrument_id,
+                item.leader_name,
+                _theme_family(item.name),
+                "板块净流入进入前10但涨幅未进前三；" + _sector_metric_text(item),
+                f"{_theme_family(item.name)}板块翻绿、上涨覆盖低于50%或主力转为净流出。",
+            ))
+    deduped: list[tuple[str, str, str, str, str]] = []
+    seen: set[str] = set()
+    for item in raw:
+        if item[0] not in seen:
+            seen.add(item[0])
+            deduped.append(item)
+    main_board = [item for item in deduped if _stock_board(item[0]) == "main_board"]
+    selected = main_board[:3] if main_board else deduped[:2]
+    relationships = business_profiles or {}
+    return tuple(
+        WatchStockV4(
+            instrument_id=instrument_id,
+            name=name,
+            board=_stock_board(instrument_id),
+            sector_name=sector,
+            primary_business_name=(
+                relationships[instrument_id].primary_business_name
+                if instrument_id in relationships
+                else None
+            ),
+            business_verification_status=(
+                relationships[instrument_id].verification_status
+                if instrument_id in relationships
+                else "unresolved"
+            ),
+            reason=reason,
+            confirmation=(
+                f"10:00后{sector}板块仍红、上涨覆盖不低于60%、主力净流入为正，"
+                f"且{name}没有脱离板块单独加速。"
+            ),
+            invalidation=invalidation,
+        )
+        for instrument_id, name, sector, reason, invalidation in selected
+    )
 
 
 def _clock_label(value: datetime | None) -> str | None:
@@ -2450,9 +2777,24 @@ def _article_session_section(evidence: DailyMarketReviewEvidenceV1) -> ArticleSe
 def _article_mainline_section(
     evidence: DailyMarketReviewEvidenceV1,
     opportunities: tuple[OpportunitySectorV1, ...],
+    previous: PostMarketReviewV1 | None,
 ) -> ArticleSectionV4:
     paragraphs: list[str] = []
     broad_repair = _article_broad_repair(evidence)
+    leader, laggard = _leading_and_lagging_sectors(evidence)
+    leadership_parts: list[str] = []
+    if leader is not None:
+        leadership_parts.append(
+            f"领涨端是{_sector_board_label(leader.sector_type)}“{leader.name}”：{_sector_metric_text(leader)}"
+        )
+    if laggard is not None:
+        leadership_parts.append(
+            f"领跌端是{_sector_board_label(laggard.sector_type)}“{laggard.name}”：{_sector_metric_text(laggard)}"
+        )
+    if leadership_parts:
+        paragraphs.append("；".join(leadership_parts) + "。" + _diffusion_marker(evidence))
+    else:
+        paragraphs.append(_diffusion_marker(evidence))
     if opportunities:
         parts: list[str] = []
         for item in opportunities[:3]:
@@ -2466,11 +2808,38 @@ def _article_mainline_section(
             if item.leader_name:
                 detail += f"，前排是{item.leader_name}"
             parts.append(detail)
+        counterbalance: list[str] = []
+        index_values = list(_index_changes(evidence).values())
+        if index_values:
+            weakest_index = min(index_values, key=lambda value: value[1])
+            strongest_index = max(index_values, key=lambda value: value[1])
+            if strongest_index[1] - weakest_index[1] >= 0.5:
+                counterbalance.append(
+                    f"指数仍分化（{strongest_index[0]}{strongest_index[1]:+.2f}%、"
+                    f"{weakest_index[0]}{weakest_index[1]:+.2f}%）"
+                )
+        turnover = evidence.market_watch.turnover
+        if turnover.available and turnover.difference_ratio is not None:
+            turnover_label = "放量确认" if turnover.difference_ratio > 0 else "缩量约束" if turnover.difference_ratio < 0 else "成交持平"
+            counterbalance.append(
+                f"同刻成交额{turnover.difference_ratio * 100:+.1f}%（{turnover_label}）"
+            )
+        else:
+            counterbalance.append("同刻成交额对比未取得")
+        if evidence.stock_fund_flow is not None:
+            flow = evidence.stock_fund_flow
+            flow_ratio = flow.positive_count / flow.scanned_count
+            counterbalance.append(
+                f"资金净流入股票占{flow_ratio * 100:.1f}%"
+                + ("（多数股票有承接）" if flow_ratio >= 0.55 else "（不足一半，仍有换仓分歧）")
+            )
+        balance_text = "；".join(counterbalance)
         if broad_repair:
             paragraphs.append(
                 "今天的强势不是靠一两只股票硬拉，而是几条能够由板块涨幅、内部广度和资金互相印证的进攻线："
                 + "；".join(parts)
-                + "。它们和全A普遍上涨同时出现，说明赚钱效应已经扩散；创业板仍弱、成交缩量，则说明这还不是毫无分歧的全面进攻。"
+                + "。它们和全A普遍上涨同时出现，说明赚钱效应已经扩散。"
+                + (f"继续性与分歧要分开看：{balance_text}。" if balance_text else "")
             )
         else:
             paragraphs.append(
@@ -2480,6 +2849,8 @@ def _article_mainline_section(
             )
     else:
         paragraphs.append("今天没有出现能被板块涨幅、内部广度和资金同时确认的主线，硬找一个热门题材只会把偶然脉冲当成趋势。")
+
+    paragraphs.append(_previous_strength_statement(evidence, previous))
 
     limits = evidence.limit_events
     if limits is not None and limits.representative_events:
@@ -2497,12 +2868,37 @@ def _article_mainline_section(
                 f"短线这边并没有完全熄火，前排还有{representatives}。"
                 "但这些高标分散在不同题材里，说明活跃资金仍愿意做少数辨识度品种，并不等于主线已经带动全市场。"
             )
-    paragraphs.append(
-        "本档案能确认的是盘面结构，不能确认当天上涨背后的全部新闻原因；没有进入可靠新闻证据的催化，不会在复盘里补故事。"
-    )
     return ArticleSectionV4(
         section_id="mainline",
-        title="主线开始扩散，但指数仍有分化" if broad_repair else "逆势主线有，但不是全面进攻",
+        title="谁领涨、谁领跌，强度怎样扩散" if broad_repair else "谁领跌、逆势线有没有形成扩散",
+        paragraphs=tuple(paragraphs[:4]),
+    )
+
+
+def _article_stealth_section(
+    evidence: DailyMarketReviewEvidenceV1,
+    stealth: tuple[SectorReviewItemV1, ...],
+) -> ArticleSectionV4:
+    if not stealth:
+        return ArticleSectionV4(
+            section_id="stealth",
+            title="悄悄异动：今天没有达到门槛的方向",
+            paragraphs=(
+                "判定门槛是：板块净流入进入同类前10、涨幅没有进入前三、上涨覆盖至少55%，且主力仍为净流入。今天没有板块同时满足这些条件，因此不把零散脉冲包装成预期差。",
+            ),
+        )
+    paragraphs = [
+        "这里的“悄悄异动”只指资金与内部广度先于价格出现：净流入进入同类前10、涨幅未进前三、上涨覆盖至少55%。它代表结构性预期差，不代表估值便宜，也不是直接买点。"
+    ]
+    for item in stealth[:3]:
+        leader = f"，前排观察{item.leader_name}" if item.leader_name else ""
+        paragraphs.append(
+            f"{_sector_board_label(item.sector_type)}“{item.name}”符合：{_sector_metric_text(item)}{leader}。"
+            "我的分析是资金已有落点但价格尚未一致加速；明天只有在板块继续红盘、上涨覆盖不低于60%、主力净流入仍为正时，才从潜伏升级为可交易异动。"
+        )
+    return ArticleSectionV4(
+        section_id="stealth",
+        title="悄悄异动：资金先到、价格还没加速",
         paragraphs=tuple(paragraphs[:4]),
     )
 
@@ -2627,22 +3023,114 @@ def _article_flow_section(
     )
 
 
+def _human_outlook_evidence(values: tuple[str, ...]) -> str:
+    labels = []
+    replacements = {
+        "角色指数均值": "四个代表指数均值",
+        "板块中位数": "行业与概念中位数均值",
+        "成交额同比同刻": "成交额较上一交易日同刻",
+    }
+    quality_components = {
+        "market_watch": "收盘综合快照",
+        "market_universe": "全A个股扫描",
+        "market_breadth_detail": "市场宽度明细",
+        "limit_events": "涨停事件明细",
+        "intraday_history": "盘中轨迹",
+    }
+    quality_flags = {
+        "partial": "部分字段降级",
+        "turnover_partial": "换手率字段覆盖不完整",
+        "participation_unclassified": "存在未分类样本",
+        "event_details_partial": "事件细节不完整",
+        "provider_timestamp_missing": "来源时间戳缺失",
+        "session_coverage_partial": "盘中分钟覆盖不完整",
+    }
+    for raw in values:
+        value = raw
+        for source, target in replacements.items():
+            value = value.replace(source, target)
+        parts = raw.split(":", 2)
+        if len(parts) == 3 and parts[1] in {"degraded", "unavailable"}:
+            component = quality_components.get(parts[0], parts[0])
+            if parts[1] == "unavailable":
+                value = f"{component}未取得"
+            else:
+                flags = "、".join(
+                    quality_flags.get(flag, flag)
+                    for flag in parts[2].split(",")
+                )
+                value = f"{component}{flags}"
+        labels.append(value)
+    return "、".join(labels)
+
+
 def _article_tomorrow_section(
+    evidence: DailyMarketReviewEvidenceV1,
     outlook: NextDayOutlookV1,
     scenarios: tuple[NextDayScenarioV2, ...],
+    opportunities: tuple[OpportunitySectorV1, ...],
+    stealth: tuple[SectorReviewItemV1, ...],
+    avoid: tuple[SectorReviewItemV1, ...],
+    stocks: tuple[WatchStockV4, ...],
 ) -> ArticleSectionV4:
     scenario_map = {item.scenario_id: item for item in scenarios}
+    base = scenario_map["base"]
     repair = scenario_map["repair"]
     risk = scenario_map["risk"]
-    constructive = outlook.bias == OutlookBias.CONSTRUCTIVE
+    hot = _hot_opportunities(opportunities)
+    support = _human_outlook_evidence(outlook.supporting_evidence[:5]) or "没有形成足够的同向证据"
+    counter = _human_outlook_evidence(outlook.counter_evidence[:4]) or "没有新增反向证据"
+    confidence = {
+        ConclusionStrength.MODERATE: "中等",
+        ConclusionStrength.WEAK: "偏低",
+        ConclusionStrength.ABSTAIN: "弃权",
+    }[outlook.confidence]
+    paragraphs = [
+        f"基准走势：{outlook.thesis}{outlook.expected_shape}当前支持证据是{support}；反向或降级证据是{counter}，"
+        f"所以结论置信度只有{confidence}。10:00前先用“至少3个代表指数红盘、全A上涨占比不低于55%、"
+        "全A中位数不低于+0.20%、同刻成交额不低于昨日95%”做分水岭，满足至少三项才继续按偏强剧本。"
+    ]
+    if stealth:
+        names = "、".join(item.name for item in stealth[:3])
+        details = "；".join(f"{item.name}({_sector_metric_text(item)})" for item in stealth[:2])
+        paragraphs.append(
+            f"可等确认的预期差方向：{names}。证据是{details}。它们今天资金和广度领先、价格没有进入前三；"
+            "明天板块红盘、上涨覆盖≥60%、资金仍净流入时才升级为机会，三项少一项都只观察。"
+        )
+    elif hot:
+        hot_names = "、".join(item.name for item in hot[:3])
+        paragraphs.append(
+            f"今天没有达到“资金先到、价格未加速”门槛的预期差方向。{hot_names}已经高度一致，只能等第一次分歧后的承接，"
+            "开盘继续加速不算新的买点。"
+        )
+    if hot:
+        hot_text = "、".join(
+            f"{item.name}{item.change_pct:+.2f}%" if item.change_pct is not None else item.name
+            for item in hot[:3]
+        )
+        paragraphs.append(
+            f"有分歧、不能开盘追的方向：{hot_text}。这些板块已由价格、广度和资金共同确认，恰恰意味着一致性较高；"
+            "若开盘板块涨幅≥2%或前排个股涨幅≥5%，先视为拥挤，只在回落后仍保持板块红盘、覆盖≥60%、资金为正时重新评估。"
+        )
+    avoid_text = "；".join(f"{item.name}({_sector_metric_text(item)})" for item in avoid[:3])
+    stock_text = "、".join(
+        f"{item.name}({item.instrument_id[:6]}，主板)" if item.board == "main_board"
+        else f"{item.name}({item.instrument_id[:6]}，非主板备选)"
+        for item in stocks
+    )
+    final_parts = []
+    if avoid_text:
+        final_parts.append(f"回避方向：{avoid_text}；只要仍在净流出或上涨覆盖低于50%，不进")
+    if stock_text:
+        final_parts.append(
+            f"条件观察标的优先主板：{stock_text}。标的必须服从所属板块条件，不能因为个股单独冲高替代板块确认"
+        )
+    final_parts.append(f"剧本对照：基准为“{base.trigger}”；增强为“{repair.trigger}”；风险为“{risk.trigger}”")
+    paragraphs.append("。".join(final_parts) + "。")
     return ArticleSectionV4(
         section_id="tomorrow",
         title="明天怎么看",
-        paragraphs=(
-            f"我的基准判断是：{outlook.thesis}{outlook.expected_shape}{outlook.risk_control}",
-            f"{'什么情况会让强势进一步升级？' if constructive else '什么情况才算真正修复？'}{repair.trigger}{repair.interpretation}{repair.response}",
-            f"{'什么情况说明今天的强势被证伪？' if constructive else '什么情况说明风险还没出清？'}{risk.trigger}{risk.interpretation}{risk.response}",
-        ),
+        paragraphs=tuple(paragraphs[:4]),
     )
 
 
@@ -2677,33 +3165,87 @@ def _article_watch_items(
     evidence: DailyMarketReviewEvidenceV1,
     scenarios: tuple[NextDayScenarioV2, ...],
     opportunities: tuple[OpportunitySectorV1, ...],
+    stealth: tuple[SectorReviewItemV1, ...],
+    avoid: tuple[SectorReviewItemV1, ...],
+    stocks: tuple[WatchStockV4, ...],
 ) -> tuple[WatchItemV4, ...]:
     scenario_map = {item.scenario_id: item for item in scenarios}
-    repair = scenario_map["repair"]
     risk = scenario_map["risk"]
+    hot = _hot_opportunities(opportunities)
     items: list[WatchItemV4] = [
         WatchItemV4(
             rank=1,
-            title="先看个股面有没有真修复",
-            why_it_matters="指数翻红不够。今天的问题出在多数股票和高成交核心一起走弱，明天也必须先由它们止跌来修复。",
-            confirmation=repair.trigger,
+            title="10:00 大盘分水岭",
+            why_it_matters="先判定指数上涨有没有扩散到多数股票，再决定按偏强、轮动还是风险剧本处理。",
+            checkpoint="09:55–10:05",
+            metrics=(
+                "4个代表指数至少3个红盘",
+                "全A上涨占比≥55%",
+                "全A中位数≥+0.20%",
+                "同刻成交额≥昨日95%",
+            ),
+            action="满足至少3项才按偏强震荡处理；只满足2项按轮动，0–1项停止进攻假设。",
+            confirmation="四项指标至少满足三项，并维持两个连续观察点。",
             invalidation=risk.trigger,
         )
     ]
-    for opportunity in opportunities[:3]:
-        detail = opportunity.name
-        if opportunity.change_pct is not None:
-            detail += f"今天涨{opportunity.change_pct:.2f}%"
-        if opportunity.breadth_ratio is not None:
-            detail += f"，上涨覆盖{opportunity.breadth_ratio * 100:.0f}%"
-        if opportunity.leader_name:
-            detail += f"，前排是{opportunity.leader_name}"
+    if hot:
+        hot_names = "、".join(item.name for item in hot[:3])
+        hot_metrics = tuple(
+            f"{item.name}：涨幅{item.change_pct:+.2f}% / 覆盖{item.breadth_ratio * 100:.0f}% / 资金{_plain_net_flow(item.main_net_inflow_cny)}"
+            for item in hot[:3]
+            if item.change_pct is not None and item.breadth_ratio is not None and item.main_net_inflow_cny is not None
+        )
         items.append(WatchItemV4(
             rank=len(items) + 1,
-            title=f"{opportunity.name}能不能扛住第一次分歧",
-            why_it_matters=detail + "。今天的证据足够把它列入观察，但次日高开本身不是买点。",
-            confirmation=opportunity.next_day_confirmation,
-            invalidation=opportunity.invalidation,
+            title=f"强势线只等分歧：{hot_names}",
+            why_it_matters="今天已经价格、广度、资金共振，明天开盘再加速属于一致拥挤，不是新的预期差。",
+            stance="wait_divergence",
+            checkpoint="开盘至第一次板块回落后",
+            metrics=hot_metrics[:6],
+            action="板块开盘≥+2%或前排≥+5%时不追；只等回落后板块仍红、覆盖≥60%、资金为正。",
+            confirmation="第一次回落后，板块仍红、上涨覆盖不低于60%、主力净流入为正。",
+            invalidation="板块翻绿、上涨覆盖低于50%或主力转为净流出，任一出现即取消。",
+        ))
+    if stealth:
+        names = "、".join(item.name for item in stealth[:3])
+        items.append(WatchItemV4(
+            rank=len(items) + 1,
+            title=f"预期差确认：{names}",
+            why_it_matters="这些方向今天净流入靠前、内部多数上涨，但价格没有进入前三，属于资金先于价格的候选。",
+            checkpoint="10:00 与 10:30 两次确认",
+            metrics=tuple(f"{item.name}：{_sector_metric_text(item)}" for item in stealth[:3]),
+            action="板块红盘、覆盖≥60%、资金为正三项同时满足才进入候选；不满足就继续潜伏观察。",
+            confirmation="两个观察点都满足板块红盘、上涨覆盖≥60%、主力净流入为正。",
+            invalidation="价格加速但覆盖跌破55%，或主力转为净流出，视为假异动。",
+        ))
+    avoid_names = "、".join(item.name for item in avoid[:3])
+    if avoid_names:
+        items.append(WatchItemV4(
+            rank=len(items) + 1,
+            title=f"回避清单：{avoid_names}",
+            why_it_matters="这些方向进入跌幅或净流出前列，现有证据是抛压而不是预期差。",
+            stance="avoid",
+            checkpoint="全天",
+            metrics=tuple(f"{item.name}：{_sector_metric_text(item)}" for item in avoid[:3]),
+            action="只要板块仍净流出或上涨覆盖低于50%，不进；单只股票反抽不改变回避结论。",
+            confirmation="板块至少连续两个观察点翻红、上涨覆盖≥55%、主力转为净流入后，才移出回避。",
+            invalidation="未完成三项修复前，任何个股冲高都不构成板块反转。",
+        ))
+    if stocks and len(items) < 5:
+        items.append(WatchItemV4(
+            rank=len(items) + 1,
+            title="主板条件观察标的",
+            why_it_matters="标的只来自已有板块证据，并优先保留主板；没有主板证据时才会列非主板备选。",
+            checkpoint="10:00 后，所属板块先确认",
+            metrics=tuple(
+                f"{item.name} {item.instrument_id[:6]} / 主营 {item.primary_business_name or '待核验'} / 观察 {item.sector_name}"
+                for item in stocks
+            ),
+            action="先验板块，再验个股；个股脱离板块单独加速不参与。",
+            stocks=stocks,
+            confirmation="所属板块红盘、上涨覆盖≥60%、主力净流入为正，个股没有脱离板块加速。",
+            invalidation="所属板块任一核心条件失效，标的同步移出，不以个股单独强势覆盖板块风险。",
         ))
     return tuple(items)
 
@@ -2715,14 +3257,27 @@ def _article_sections_v4(
     outlook: NextDayOutlookV1,
     scenarios: tuple[NextDayScenarioV2, ...],
     opportunities: tuple[OpportunitySectorV1, ...],
+    business_profiles: Mapping[str, StockRelationshipProfileV1] | None = None,
 ) -> tuple[ArticleSectionV4, ...]:
     evidence = review.evidence
+    stealth = _stealth_sector_candidates(evidence, opportunities)
+    avoid = _avoid_sector_candidates(evidence)
+    stocks = _watch_stocks(opportunities, stealth, business_profiles)
     return (
         _article_session_section(evidence),
-        _article_mainline_section(evidence, opportunities),
+        _article_mainline_section(evidence, opportunities, previous),
+        _article_stealth_section(evidence, stealth),
         _article_payoff_section(evidence),
         _article_flow_section(evidence, opportunities),
-        _article_tomorrow_section(outlook, scenarios),
+        _article_tomorrow_section(
+            evidence,
+            outlook,
+            scenarios,
+            opportunities,
+            stealth,
+            avoid,
+            stocks,
+        ),
         _article_reconciliation_section(review, previous),
     )
 
@@ -2778,6 +3333,7 @@ def build_post_market_review(
 def build_post_market_review_presentation(
     review: PostMarketReviewV1,
     previous_review: PostMarketReviewV1 | None = None,
+    business_profiles: Mapping[str, StockRelationshipProfileV1] | None = None,
 ) -> PostMarketReviewPresentationV4:
     """Render a readable V4 article without changing the immutable evidence row."""
 
@@ -2801,6 +3357,9 @@ def build_post_market_review_presentation(
         "summary": conclusion,
     })
     scenarios = _next_day_scenarios(outlook, opportunities)
+    stealth = _stealth_sector_candidates(canonical.evidence, opportunities)
+    avoid = _avoid_sector_candidates(canonical.evidence)
+    stocks = _watch_stocks(opportunities, stealth, business_profiles)
     appendix_sections = _presentation_sections_v3(
         canonical,
         previous=previous,
@@ -2819,8 +3378,16 @@ def build_post_market_review_presentation(
             outlook=outlook,
             scenarios=scenarios,
             opportunities=opportunities,
+            business_profiles=business_profiles,
         ),
-        watch_items=_article_watch_items(canonical.evidence, scenarios, opportunities),
+        watch_items=_article_watch_items(
+            canonical.evidence,
+            scenarios,
+            opportunities,
+            stealth,
+            avoid,
+            stocks,
+        ),
         appendix_sections=appendix_sections,
         day_character=character,
         core_conclusion=conclusion,

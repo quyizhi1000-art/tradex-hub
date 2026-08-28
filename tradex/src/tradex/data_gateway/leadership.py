@@ -5,7 +5,7 @@ from __future__ import annotations
 import re
 from collections.abc import Iterable
 from datetime import date, datetime
-from typing import Any
+from typing import Any, Literal
 from zoneinfo import ZoneInfo
 
 from .contracts import (
@@ -167,6 +167,7 @@ def fetch_board_leader_snapshot(
     board_code: str,
     *,
     limit: int = 3,
+    speed_order: Literal["desc", "asc"] = "desc",
     source_hint: str | None = None,
     router: Any | None = None,
     now: datetime | None = None,
@@ -176,6 +177,8 @@ def fetch_board_leader_snapshot(
         raise ValueError("board_code must be an Eastmoney BK code")
     if isinstance(limit, bool) or not isinstance(limit, int) or not 1 <= limit <= 10:
         raise ValueError("limit must be an integer between 1 and 10")
+    if speed_order not in {"desc", "asc"}:
+        raise ValueError("speed_order must be desc or asc")
     fetched_at = _now(now)
 
     def validate(frame: Any, route_provider: str) -> BoardLeaderSnapshotV2:
@@ -183,15 +186,20 @@ def fetch_board_leader_snapshot(
             raise RuntimeError(
                 f"{route_provider} explicitly marked its board leaders invalid"
             )
-        leaders = map_board_leader_frame(
-            frame,
-            board_code=code,
-            route_provider=route_provider,
+        leaders = sorted(
+            map_board_leader_frame(
+                frame,
+                board_code=code,
+                route_provider=route_provider,
+            ),
+            key=lambda item: item.speed_pct,
+            reverse=speed_order == "desc",
         )[:limit]
         provider_as_of = provider_watermark(leaders)
         quality, flags = assess_board_leaders(
             leaders=leaders,
             provider_as_of=provider_as_of,
+            source_row_count=len(frame),
         )
         return BoardLeaderSnapshotV2(
             metadata=ContractMetadata(
@@ -205,6 +213,7 @@ def fetch_board_leader_snapshot(
                 quality_flags=flags,
             ),
             board_code=code,
+            speed_order=speed_order,
             leaders=leaders,
         )
 
@@ -214,6 +223,7 @@ def fetch_board_leader_snapshot(
         board_code=code,
         limit=limit,
         source_hint=source_hint,
+        speed_order=speed_order,
     )
     return snapshot
 

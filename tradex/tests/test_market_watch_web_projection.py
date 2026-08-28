@@ -321,7 +321,7 @@ def _resonance_batch(
     snapshot: MarketWatchSnapshotV1,
     source_revision: str,
     *,
-    status_label: str = "暂无高共振快涨股",
+    status_label: str = "暂无上行共振快涨股",
 ) -> SectorResonanceBatchV1:
     return SectorResonanceBatchV1.create(
         source_snapshot_revision=source_revision,
@@ -336,8 +336,9 @@ def _resonance_batch(
                 leader_snapshot=SectorFlowLeaderSnapshotV1(
                     status="no_match",
                     status_label=status_label,
-                    selection_method="sector_fund_flow_minute_correlation.v1",
+                    selection_method="sector_fund_flow_path_resonance.v2",
                     marginal_window_minutes=5,
+                    resonance_direction="up",
                     provider_as_of=snapshot.as_of,
                 ),
             ),
@@ -785,7 +786,53 @@ def test_payload_service_status_is_small_and_never_reads_history_payload() -> No
     assert history.payload_calls == 0
 
 
-def test_web_reader_hides_previous_day_snapshot_until_today_is_accepted() -> None:
+def test_web_reader_uses_previous_day_snapshot_before_market_open() -> None:
+    snapshot = _snapshot()
+    source_revision = stable_sha256(snapshot)
+    pre_open = (snapshot.as_of + timedelta(days=1)).replace(
+        hour=9,
+        minute=25,
+        second=0,
+        microsecond=0,
+    )
+    previous_envelope = _collector_envelope(snapshot, source_revision)
+    current_envelope = previous_envelope.model_copy(update={
+        "as_of": pre_open,
+        "collection_cursor": None,
+        "collection_completeness": (
+            previous_envelope.collection_completeness.model_copy(update={
+                "trade_date": pre_open.date(),
+                "as_of": pre_open,
+                "expected_minute_buckets": 240,
+                "accepted_real": 0,
+                "pending": 240,
+                "retrying": 0,
+                "gap_heartbeat": 0,
+            })
+        ),
+    })
+    history = _HistoryReader(snapshot, source_revision)
+    facade = MarketWatchReadFacade(
+        collection_reader=_CollectionReader(current_envelope),
+        history_reader=history,
+        clock=lambda: pre_open,
+    )
+
+    status = facade.read_collection_status()
+    view = facade.read()
+
+    assert status.collection_completeness.trade_date == pre_open.date()
+    assert status.latest_accepted_real is not None
+    assert status.latest_accepted_real.trade_date == snapshot.as_of.date()
+    assert status.collection_cursor is None
+    assert status.latest_published_status is None
+    assert view.accepted is not None
+    assert view.accepted.snapshot.snapshot_id == snapshot.snapshot_id
+    assert history.metadata_calls == 1
+    assert history.payload_calls == 1
+
+
+def test_web_reader_hides_previous_day_snapshot_after_market_open() -> None:
     snapshot = _snapshot()
     source_revision = stable_sha256(snapshot)
     next_session = snapshot.as_of + timedelta(days=1)
@@ -888,7 +935,7 @@ def test_payload_service_overlays_exact_source_resonance_and_invalidates_cache()
     electric_power = payload["sector_flow_trajectory"]["sectors"][0]
     assert (
         electric_power["leader_snapshot"]["selection_method"]
-        == "sector_fund_flow_minute_correlation.v1"
+        == "sector_fund_flow_path_resonance.v2"
     )
 
     resonance.batch = _resonance_batch(
@@ -1060,6 +1107,59 @@ def test_web_api_maps_summary_detail_etag_and_304_headers() -> None:
     assert detail.status_code == 200
     assert detail_headers["X-Source-Snapshot-Revision"] == source_revision
     assert detail_headers["X-Trajectory-Revision"] == trajectory_revision
+
+
+def test_web_summary_integrity_and_detail_accept_64_sector_slots() -> None:
+    snapshot = _snapshot()
+    trajectory = snapshot.offense_sector_flow_trajectory
+    assert trajectory is not None
+    payload = trajectory.model_dump(mode="python")
+    base = payload["sectors"][0]
+    payload["sectors"] = []
+    for rank in range(1, 65):
+        item = deepcopy(base)
+        item.update({
+            "sector_key": f"capacity_{rank:02d}",
+            "name": f"容量方向{rank}",
+            "observation_rank": rank,
+            "rank_total": 64,
+        })
+        payload["sectors"].append(item)
+    expanded = trajectory.__class__.model_validate(payload)
+    snapshot = snapshot.model_copy(
+        update={"offense_sector_flow_trajectory": expanded}
+    )
+    source_revision = stable_sha256(snapshot)
+    trajectory_revision = stable_sha256(expanded)
+    sector_keys = tuple(item.sector_key for item in expanded.sectors)
+    api = MarketWatchWebApi(
+        MarketWatchWebPayloadService(
+            MarketWatchReadFacade(
+                collection_reader=_CollectionReader(
+                    _collector_envelope(snapshot, source_revision)
+                ),
+                history_reader=_HistoryReader(snapshot, source_revision),
+                clock=lambda: snapshot.as_of + timedelta(minutes=1),
+            )
+        )
+    )
+
+    summary_response = api.get_summary(source_snapshot_revision=source_revision)
+    detail_response = api.get_detail(
+        direction="offense",
+        sector_keys=sector_keys,
+        source_snapshot_revision=source_revision,
+        trajectory_revision=trajectory_revision,
+    )
+    summary = json.loads(summary_response.body)
+    detail = json.loads(detail_response.body)
+
+    assert summary_response.status_code == 200
+    assert summary["offense_sector_flow_trajectory"]["sector_count"] == 64
+    assert summary["payload_integrity"]["offense"]["sector_count"] == 64
+    assert detail_response.status_code == 200
+    assert detail["sector_count"] == 64
+    assert len(detail["sectors"]) == 64
 
 
 def test_web_api_maps_invalid_conflict_selection_and_unavailable_statuses() -> None:

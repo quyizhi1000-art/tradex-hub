@@ -283,6 +283,25 @@ def test_nonempty_pool_requires_attribution_fields(monkeypatch, field):
         ths_fetchers.fetch_ths_limit_up_pool("20260819")
 
 
+def test_live_status_keeps_stock_when_reason_is_not_yet_available(monkeypatch):
+    row = _row("603395")
+    row.pop("reason_type")
+    row.pop("high_days")
+    monkeypatch.setattr(
+        ths_fetchers,
+        "_get",
+        lambda *args, **kwargs: _FakeResponse(_payload([row])),
+    )
+
+    frame = ths_fetchers.fetch_ths_limit_up_status("20260819")
+
+    assert frame.loc[0, "代码"] == "603395"
+    assert frame.loc[0, "名称"] == "股票603395"
+    assert frame.loc[0, "涨停原因"] == ""
+    assert frame.attrs["reason_coverage"] == 0.0
+    assert frame.attrs["unknown_board_count"] == 1
+
+
 def test_nonempty_pool_rejects_a_malformed_stock_code(monkeypatch):
     monkeypatch.setattr(
         ths_fetchers,

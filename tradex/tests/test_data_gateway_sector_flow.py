@@ -3,16 +3,23 @@
 from __future__ import annotations
 
 from datetime import date, datetime, timedelta
+from threading import Event
 from zoneinfo import ZoneInfo
 
 import pandas as pd
 import pytest
+import tradex.data_gateway.sector_flow as sector_flow_module
 
 from tradex.data_gateway import (
     SectorFundFlowBackfillCache,
     SectorFundFlowStore,
     fetch_sector_intraday_fund_flow,
     fetch_sector_intraday_fund_flow_backfill,
+)
+from tradex.data_gateway.sector_flow import (
+    SectorFundFlowBackfillRefresher,
+    read_sector_intraday_fund_flow_backfill,
+    schedule_sector_intraday_fund_flow_backfill,
 )
 from tradex.data_sources.http_fetchers import (
     fetch_sector_intraday_fund_flow_eastmoney,
@@ -251,6 +258,79 @@ def test_backfill_cache_is_success_only_and_read_paths_do_not_start_network_call
     assert loaded["electric_power"][0]["source_family"] == "eastmoney"
 
 
+def test_backfill_refresher_is_non_blocking_single_flight_and_coalesces_latest():
+    started = Event()
+    release = Event()
+    calls = []
+
+    def refresh(targets, **kwargs):
+        calls.append((tuple(targets), kwargs))
+        if len(calls) == 1:
+            started.set()
+            assert release.wait(2)
+        return {}
+
+    refresher = SectorFundFlowBackfillRefresher(refresh=refresh)
+    second = {**TARGET, "sector_key": "coal", "provider_sector_code": "BK0437"}
+
+    try:
+        assert refresher.request((TARGET,), trading_date=TRADE_DATE) is True
+        assert started.wait(1)
+        assert refresher.request((second,), trading_date=TRADE_DATE) is False
+    finally:
+        release.set()
+
+    assert refresher.wait_for_idle(2)
+    assert [target["sector_key"] for target in calls[0][0]] == ["electric_power"]
+    assert {target["sector_key"] for target in calls[1][0]} == {
+        "coal",
+        "electric_power",
+    }
+    assert all(call[1]["load_missing"] for call in calls)
+    assert all(call[1]["refresh_existing"] for call in calls)
+
+
+def test_backfill_scheduler_keeps_persisted_target_missing_from_current_snapshot(
+    monkeypatch,
+):
+    current = {**TARGET, "sector_key": "coal", "provider_sector_code": "BK0437"}
+    captured = {}
+
+    class _KnownTargetCache:
+        @staticmethod
+        def get_known_targets(trading_date):
+            assert trading_date == TRADE_DATE
+            return ({**TARGET, "source_family": "eastmoney"},)
+
+    class _Refresher:
+        @staticmethod
+        def request(targets, *, trading_date):
+            captured["targets"] = tuple(targets)
+            captured["trading_date"] = trading_date
+            return True
+
+    monkeypatch.setattr(
+        sector_flow_module,
+        "_SECTOR_FLOW_BACKFILL_CACHE",
+        _KnownTargetCache(),
+    )
+    monkeypatch.setattr(
+        sector_flow_module,
+        "_SECTOR_FLOW_BACKFILL_REFRESHER",
+        _Refresher(),
+    )
+
+    assert schedule_sector_intraday_fund_flow_backfill(
+        (current,),
+        trading_date=TRADE_DATE,
+    )
+    assert captured["trading_date"] == TRADE_DATE
+    assert {target["sector_key"] for target in captured["targets"]} == {
+        "coal",
+        "electric_power",
+    }
+
+
 def test_backfill_success_survives_process_cache_restart(tmp_path):
     db_path = tmp_path / "sector-flow.sqlite3"
     first_router = _Router()
@@ -282,6 +362,37 @@ def test_backfill_success_survives_process_cache_restart(tmp_path):
     assert restored == first
 
 
+def test_read_all_backfill_restores_curves_without_current_target_resolution(tmp_path):
+    db_path = tmp_path / "sector-flow-all.sqlite3"
+    with SectorFundFlowStore(db_path) as store:
+        cache = SectorFundFlowBackfillCache(store=store)
+        loaded = fetch_sector_intraday_fund_flow_backfill(
+            (TARGET,),
+            trading_date=TRADE_DATE,
+            now=NOW,
+            router=_Router(),
+            cache=cache,
+            load_missing=True,
+        )
+
+    with SectorFundFlowStore(db_path) as reopened:
+        restored_targets = reopened.get_targets(TRADE_DATE)
+        restored = read_sector_intraday_fund_flow_backfill(
+            trading_date=TRADE_DATE,
+            cache=SectorFundFlowBackfillCache(store=reopened),
+        )
+
+    assert restored == loaded
+    assert restored_targets == (
+        {
+            **TARGET,
+            "source_family": "eastmoney",
+        },
+    )
+    assert restored["electric_power"][0]["name"] == "电力"
+    assert restored["electric_power"][0]["taxonomy"] == "industry"
+
+
 def test_persistent_backfill_store_never_replaces_a_longer_curve_with_shorter_data(
     tmp_path,
 ):
@@ -306,10 +417,16 @@ def test_persistent_backfill_store_never_replaces_a_longer_curve_with_shorter_da
 
     with SectorFundFlowStore(tmp_path / "preserve.sqlite3") as store:
         assert store.record(full)["action"] == "inserted"
-        preserved = store.record(shorter)
+        cache = SectorFundFlowBackfillCache(store=store)
+        retained = cache.get_or_load(
+            (TRADE_DATE, TARGET["sector_key"], TARGET["provider_sector_code"]),
+            lambda: shorter,
+            refresh_existing=True,
+            refreshed_at=NOW + timedelta(minutes=1),
+        )
         restored = store.get_best(TRADE_DATE, TARGET["sector_key"])
 
-    assert preserved["action"] == "preserved"
+    assert retained.points == full.points
     assert restored is not None
     assert restored.points == full.points
 

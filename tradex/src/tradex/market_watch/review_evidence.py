@@ -31,6 +31,10 @@ from tradex.data_gateway.contracts import (
 )
 
 from .contracts import ContractModel, MarketWatchSnapshotV1
+from .session_schedule import (
+    EXPECTED_MARKET_WATCH_MINUTES,
+    expected_market_watch_minutes,
+)
 
 
 SHANGHAI = ZoneInfo("Asia/Shanghai")
@@ -264,7 +268,7 @@ class DragonTigerReviewSummaryV1(ContractModel):
 
 class IntradayReviewSummaryV1(ContractModel):
     sample_count: int = Field(ge=0)
-    expected_minutes: int = Field(default=240, ge=1)
+    expected_minutes: int = Field(default=EXPECTED_MARKET_WATCH_MINUTES, ge=1)
     coverage_ratio: float = Field(ge=0, le=1)
     first_as_of: datetime | None = None
     last_as_of: datetime | None = None
@@ -317,8 +321,8 @@ class DailyMarketReviewEvidenceV1(ContractModel):
 
     @model_validator(mode="after")
     def validate_evidence(self) -> "DailyMarketReviewEvidenceV1":
-        if self.collected_at.astimezone(SHANGHAI).date() != self.trade_date:
-            raise ValueError("evidence collection date must match trade_date")
+        if self.collected_at.astimezone(SHANGHAI).date() < self.trade_date:
+            raise ValueError("evidence collection cannot predate trade_date")
         if self.market_watch.market_state.trading_date != self.trade_date:
             raise ValueError("market_watch date must match evidence trade_date")
         if tuple(item.component for item in self.components) != EVIDENCE_COMPONENT_ORDER:
@@ -547,6 +551,7 @@ def summarize_intraday(
     trade_date: date | None = None,
 ) -> IntradayReviewSummaryV1:
     by_time: dict[datetime, MarketWatchSnapshotV1] = {}
+    expected_by_date: dict[date, frozenset[datetime]] = {}
     for raw in samples:
         payload = raw.get("payload") if isinstance(raw, Mapping) else None
         if not isinstance(payload, Mapping):
@@ -561,11 +566,11 @@ def summarize_intraday(
             continue
         local_as_of = snapshot.as_of.astimezone(SHANGHAI)
         minute = local_as_of.replace(second=0, microsecond=0)
-        clock = minute.time()
-        if not (
-            time(9, 31) <= clock <= time(11, 30)
-            or time(13, 1) <= clock <= time(15, 0)
-        ):
+        expected = expected_by_date.setdefault(
+            minute.date(),
+            frozenset(expected_market_watch_minutes(minute.date())),
+        )
+        if minute not in expected:
             continue
         existing = by_time.get(minute)
         if existing is None or snapshot.as_of > existing.as_of:
@@ -602,7 +607,10 @@ def summarize_intraday(
     weakest = min(with_ratio, key=lambda pair: pair[1])[0] if with_ratio else None
     return IntradayReviewSummaryV1(
         sample_count=len(snapshots),
-        coverage_ratio=min(1.0, len(snapshots) / 240),
+        coverage_ratio=min(
+            1.0,
+            len(snapshots) / EXPECTED_MARKET_WATCH_MINUTES,
+        ),
         first_as_of=snapshots[0].as_of,
         last_as_of=snapshots[-1].as_of,
         first_regime=regimes[0],

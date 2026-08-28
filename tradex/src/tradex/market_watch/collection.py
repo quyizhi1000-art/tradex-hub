@@ -22,6 +22,7 @@ from .contracts import (
     MarketRegime,
     MarketWatchSnapshotV1,
 )
+from .session_schedule import is_continuous_market_watch_minute
 
 
 SHANGHAI = ZoneInfo("Asia/Shanghai")
@@ -38,11 +39,7 @@ def _aware_shanghai(value: datetime, *, name: str) -> datetime:
 
 
 def _continuous_session_minute(value: datetime) -> bool:
-    minute = value.hour * 60 + value.minute
-    return (
-        9 * 60 + 30 <= minute < 11 * 60 + 30
-        or 13 * 60 <= minute < 15 * 60
-    )
+    return is_continuous_market_watch_minute(value)
 
 
 def _append_flag(values: tuple[str, ...], flag: str) -> tuple[str, ...]:

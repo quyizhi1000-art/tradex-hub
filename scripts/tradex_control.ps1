@@ -6,9 +6,12 @@ param(
         "stop-dashboard",
         "start-collector",
         "stop-collector",
+        "start-analysis",
+        "stop-analysis",
         "start-service",
         "stop-service",
         "start-all",
+        "restart-all",
         "stop-all",
         "status",
         "open-dashboard"
@@ -31,18 +34,20 @@ $ErrorActionPreference = "Stop"
 $ProjectRoot = (Resolve-Path (Join-Path $PSScriptRoot "..")).Path
 $PythonPath = Join-Path $ProjectRoot ".venv\Scripts\python.exe"
 $RuntimeDir = Join-Path $ProjectRoot ".tradex-run"
+$AnalysisHeartbeatMaxAgeSeconds = 90
 
 # These variables only affect child processes launched by this script.
 $env:PYTHONUNBUFFERED = "1"
 $env:PYTHONUTF8 = "1"
 # The optional WebSocket server also defaults to port 8765. Keep it disabled
-# for these two-process launchers so it cannot collide with the dashboard.
+# for these managed local launchers so it cannot collide with the dashboard.
 $env:WS_SERVER_ENABLED = "false"
 
 function Get-ComponentLabel {
     param([string]$Name)
     if ($Name -eq "dashboard") { return "网页看板" }
     if ($Name -eq "collector") { return "盘中采集器" }
+    if ($Name -eq "analysis") { return "后台分析器" }
     return "MCP 服务"
 }
 
@@ -115,6 +120,9 @@ function Get-ProcessPattern {
     }
     if ($Name -eq "collector") {
         return "(?i)(^|\s)-m\s+tradex\.dashboard\.collector_worker(\s|$)"
+    }
+    if ($Name -eq "analysis") {
+        return "(?i)(^|\s)-m\s+tradex\.analysis_worker(\s|$)"
     }
     return "(?i)(^|\s)-m\s+tradex(\s|$)"
 }
@@ -382,6 +390,203 @@ function Show-CollectorStatus {
     $state = Read-ComponentState "collector"
     if (Test-WorkerState $state) {
         Write-Host ("{0,-10} 运行中   PID {1}" -f $label, $state.process_pid) -ForegroundColor Green
+    }
+    elseif ($null -ne $state) {
+        Write-Host ("{0,-10} 已停止   （存在过期状态记录）" -f $label) -ForegroundColor DarkYellow
+    }
+    else {
+        Write-Host ("{0,-10} 已停止" -f $label) -ForegroundColor DarkGray
+    }
+}
+
+function Test-AnalysisWorkerState {
+    param([object]$State)
+    if ($null -eq $State) { return $false }
+    return Test-ExpectedProcess "analysis" ([int]$State.process_pid) $State.process_start_utc
+}
+
+function Test-AnalysisEnvelopeReady {
+    param(
+        [AllowNull()][object]$Envelope,
+        [AllowNull()][object]$ProcessStartUtc,
+        [int]$ProcessId,
+        [AllowNull()][object]$ObservedAtUtc = $null
+    )
+    if ($null -eq $Envelope) { return $false }
+    if ([string](Get-OptionalStateValue $Envelope "state") -ne "running") {
+        return $false
+    }
+    $heartbeatValue = Get-OptionalStateValue $Envelope "heartbeat_at"
+    if ([string]::IsNullOrWhiteSpace([string]$heartbeatValue)) {
+        return $false
+    }
+    $reportedProcessId = Get-OptionalStateValue $Envelope "process_pid"
+    if ($null -eq $reportedProcessId) {
+        return $false
+    }
+    $reportedProcessId = [int]$reportedProcessId
+    if ($reportedProcessId -ne $ProcessId) {
+        $descendants = @(Get-DescendantProcessIds $ProcessId)
+        if ($reportedProcessId -notin $descendants) {
+            return $false
+        }
+    }
+    try {
+        $heartbeat = [DateTimeOffset]::Parse(
+            [string]$heartbeatValue,
+            [Globalization.CultureInfo]::InvariantCulture,
+            [Globalization.DateTimeStyles]::RoundtripKind
+        ).UtcDateTime
+        $started = [DateTimeOffset]::Parse(
+            [string]$ProcessStartUtc,
+            [Globalization.CultureInfo]::InvariantCulture,
+            [Globalization.DateTimeStyles]::RoundtripKind
+        ).UtcDateTime
+        $observed = if ($null -eq $ObservedAtUtc) {
+            [DateTime]::UtcNow
+        }
+        else {
+            [DateTimeOffset]::Parse(
+                [string]$ObservedAtUtc,
+                [Globalization.CultureInfo]::InvariantCulture,
+                [Globalization.DateTimeStyles]::RoundtripKind
+            ).UtcDateTime
+        }
+        $heartbeatAgeSeconds = ($observed - $heartbeat).TotalSeconds
+        return (
+            $heartbeat -ge $started -and
+            $heartbeatAgeSeconds -ge -30 -and
+            $heartbeatAgeSeconds -le $AnalysisHeartbeatMaxAgeSeconds
+        )
+    }
+    catch {
+        return $false
+    }
+}
+
+function Test-AnalysisRuntimeReady {
+    param(
+        [AllowNull()][object]$ProcessStartUtc,
+        [int]$ProcessId
+    )
+    try {
+        $raw = & $PythonPath -m tradex.analysis_worker --status 2>$null
+        if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace([string]$raw)) {
+            return $false
+        }
+        $envelope = ([string]$raw) | ConvertFrom-Json
+        return Test-AnalysisEnvelopeReady $envelope $ProcessStartUtc $ProcessId
+    }
+    catch {
+        return $false
+    }
+}
+
+function Start-AnalysisWorker {
+    $name = "analysis"
+    $label = Get-ComponentLabel $name
+    if (-not (Test-Path -LiteralPath $PythonPath -PathType Leaf)) {
+        throw "未找到项目 Python 环境：$PythonPath。请先创建 .venv 并安装项目依赖。"
+    }
+
+    $state = Read-ComponentState $name
+    if (
+        (Test-AnalysisWorkerState $state) -and
+        (Test-AnalysisRuntimeReady $state.process_start_utc ([int]$state.process_pid))
+    ) {
+        Write-Host "[已运行] $label，PID $($state.process_pid)" -ForegroundColor Green
+        return
+    }
+    if ($null -ne $state) {
+        $processAlive = Test-ExpectedProcess $name ([int]$state.process_pid) $state.process_start_utc
+        if ($processAlive) {
+            Stop-ExpectedProcessTree $name ([int]$state.process_pid) $state.process_start_utc | Out-Null
+        }
+        Remove-ComponentState $name
+    }
+
+    if (-not (Test-Path -LiteralPath $RuntimeDir -PathType Container)) {
+        New-Item -ItemType Directory -Path $RuntimeDir -Force | Out-Null
+    }
+    $stdoutPath = Join-Path $RuntimeDir "analysis.out.log"
+    $stderrPath = Join-Path $RuntimeDir "analysis.err.log"
+    Write-Host "[启动中] $label..." -ForegroundColor Cyan
+    $process = Start-Process `
+        -FilePath $PythonPath `
+        -ArgumentList @("-m", "tradex.analysis_worker") `
+        -WorkingDirectory $ProjectRoot `
+        -RedirectStandardOutput $stdoutPath `
+        -RedirectStandardError $stderrPath `
+        -WindowStyle Hidden `
+        -PassThru
+    $processStartUtc = $process.StartTime.ToUniversalTime().ToString("o")
+    $ready = $false
+    $deadline = [DateTime]::UtcNow.AddSeconds(60)
+    while ([DateTime]::UtcNow -lt $deadline) {
+        $process.Refresh()
+        if ($process.HasExited) { break }
+        if (
+            (Test-ExpectedProcess $name $process.Id $processStartUtc) -and
+            (Test-AnalysisRuntimeReady $processStartUtc $process.Id)
+        ) {
+            $ready = $true
+            break
+        }
+        Start-Sleep -Milliseconds 200
+    }
+    if (-not $ready) {
+        $details = Get-LogTail $stderrPath
+        if ([string]::IsNullOrWhiteSpace($details)) {
+            $details = Get-LogTail $stdoutPath
+        }
+        if (-not $process.HasExited) {
+            Stop-ExpectedProcessTree $name $process.Id $processStartUtc | Out-Null
+        }
+        throw "$label 未能在 60 秒内进入受管运行状态。`n$details"
+    }
+    Write-ComponentState $name ([ordered]@{
+        name = $name
+        process_pid = $process.Id
+        process_start_utc = $processStartUtc
+        started_at = (Get-Date).ToString("o")
+        stdout_log = $stdoutPath
+        stderr_log = $stderrPath
+    })
+    Write-Host "[已启动] $label，PID $($process.Id)" -ForegroundColor Green
+}
+
+function Stop-AnalysisWorker {
+    $name = "analysis"
+    $label = Get-ComponentLabel $name
+    $state = Read-ComponentState $name
+    if ($null -eq $state) {
+        Write-Host "[已停止] $label 当前未运行。" -ForegroundColor DarkGray
+        return
+    }
+    $processId = [int]$state.process_pid
+    $processStart = $state.process_start_utc
+    if (Test-ExpectedProcess $name $processId $processStart) {
+        Write-Host "[停止中] $label（PID $processId）..." -ForegroundColor Yellow
+        Stop-ExpectedProcessTree $name $processId $processStart | Out-Null
+    }
+    Remove-ComponentState $name
+    & $PythonPath -m tradex.analysis_worker --mark-stopped | Out-Null
+    if ($LASTEXITCODE -ne 0) {
+        throw "$label 已停止，但未能写入 stopped 状态。"
+    }
+    Write-Host "[已停止] $label。" -ForegroundColor Green
+}
+
+function Show-AnalysisStatus {
+    $label = Get-ComponentLabel "analysis"
+    $state = Read-ComponentState "analysis"
+    if (Test-AnalysisWorkerState $state) {
+        if (Test-AnalysisRuntimeReady $state.process_start_utc ([int]$state.process_pid)) {
+            Write-Host ("{0,-10} 运行中   PID {1}" -f $label, $state.process_pid) -ForegroundColor Green
+        }
+        else {
+            Write-Host ("{0,-10} 异常     PID {1} 仍在，但运行心跳未就绪" -f $label, $state.process_pid) -ForegroundColor Red
+        }
     }
     elseif ($null -ne $state) {
         Write-Host ("{0,-10} 已停止   （存在过期状态记录）" -f $label) -ForegroundColor DarkYellow
@@ -931,6 +1136,7 @@ try {
     switch ($Action) {
         "start-dashboard" {
             Start-CollectorWorker
+            Start-AnalysisWorker
             Start-Component "dashboard" $DashboardPort @("-m", "tradex.dashboard") -OpenBrowser
         }
         "stop-dashboard" {
@@ -942,6 +1148,12 @@ try {
         "stop-collector" {
             Stop-CollectorWorker
         }
+        "start-analysis" {
+            Start-AnalysisWorker
+        }
+        "stop-analysis" {
+            Stop-AnalysisWorker
+        }
         "start-service" {
             Start-Component "service" $ServicePort @("-m", "tradex", "--streamable-http", "--host", "127.0.0.1", "--port", [string]$ServicePort)
         }
@@ -951,6 +1163,21 @@ try {
         "start-all" {
             Invoke-AllSteps @(
                 { Start-CollectorWorker },
+                { Start-AnalysisWorker },
+                { Start-Component "service" $ServicePort @("-m", "tradex", "--streamable-http", "--host", "127.0.0.1", "--port", [string]$ServicePort) },
+                { Start-Component "dashboard" $DashboardPort @("-m", "tradex.dashboard") -OpenBrowser }
+            )
+        }
+        "restart-all" {
+            Invoke-AllSteps @(
+                { Stop-Component "dashboard" $DashboardPort },
+                { Stop-Component "service" $ServicePort },
+                { Stop-AnalysisWorker },
+                { Stop-CollectorWorker }
+            )
+            Invoke-AllSteps @(
+                { Start-CollectorWorker },
+                { Start-AnalysisWorker },
                 { Start-Component "service" $ServicePort @("-m", "tradex", "--streamable-http", "--host", "127.0.0.1", "--port", [string]$ServicePort) },
                 { Start-Component "dashboard" $DashboardPort @("-m", "tradex.dashboard") -OpenBrowser }
             )
@@ -959,6 +1186,7 @@ try {
             Invoke-AllSteps @(
                 { Stop-Component "dashboard" $DashboardPort },
                 { Stop-Component "service" $ServicePort },
+                { Stop-AnalysisWorker },
                 { Stop-CollectorWorker }
             )
         }
@@ -968,6 +1196,7 @@ try {
             Show-ComponentStatus "dashboard" $DashboardPort
             Show-ComponentStatus "service" $ServicePort
             Show-CollectorStatus
+            Show-AnalysisStatus
             Write-Host ""
             Write-Host "日志目录：$RuntimeDir"
         }

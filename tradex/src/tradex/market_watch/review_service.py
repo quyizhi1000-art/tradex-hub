@@ -207,10 +207,28 @@ class PostMarketReviewService:
             return self._result(action, stored)
 
     def _presentation(self, review: PostMarketReviewV1) -> dict[str, Any]:
+        from tradex.instrument_taxonomy.store import read_profiles
+
         previous = self.store.get_previous_before(review.trade_date)
+        evidence_payload = review.evidence.model_dump(mode="json")
+        instrument_ids: set[str] = set()
+
+        def collect(value: Any) -> None:
+            if isinstance(value, dict):
+                for key, item in value.items():
+                    if key == "leader_instrument_id" and isinstance(item, str):
+                        instrument_ids.add(item)
+                    else:
+                        collect(item)
+            elif isinstance(value, list):
+                for item in value:
+                    collect(item)
+
+        collect(evidence_payload)
         return build_post_market_review_presentation(
             review,
             previous_review=previous,
+            business_profiles=read_profiles(instrument_ids),
         ).model_dump(mode="json")
 
     def _result(self, action: str, review: PostMarketReviewV1) -> dict[str, Any]:

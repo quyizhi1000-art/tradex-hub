@@ -84,9 +84,9 @@ class SectorFlowSeriesIntegrityV1(ContractModel):
 class TrajectoryPayloadIntegrityV1(ContractModel):
     direction: Literal["defense", "offense"]
     trajectory_revision: str = Field(pattern=REVISION_PATTERN)
-    sector_count: int = Field(ge=0, le=48)
-    point_count: int = Field(ge=0, le=48 * 256)
-    sectors: tuple[SectorFlowSeriesIntegrityV1, ...] = Field(max_length=48)
+    sector_count: int = Field(ge=0, le=64)
+    point_count: int = Field(ge=0, le=64 * 256)
+    sectors: tuple[SectorFlowSeriesIntegrityV1, ...] = Field(max_length=64)
 
     @model_validator(mode="after")
     def validate_counts(self) -> "TrajectoryPayloadIntegrityV1":

@@ -110,15 +110,106 @@ def _snapshot(observed_at: datetime, *, snapshot_id: str, sequence: int = 1):
     )
 
 
-def test_expected_session_minutes_are_verified_exactly_240_without_lunch() -> None:
+def test_expected_session_minutes_are_phase_aware_with_one_final_close() -> None:
     minutes = expected_session_minutes(date(2026, 8, 24))
 
-    assert len(minutes) == 240
+    assert len(minutes) == 238
     assert minutes[0].isoformat() == "2026-08-24T09:30:00+08:00"
     assert minutes[119].isoformat() == "2026-08-24T11:29:00+08:00"
     assert minutes[120].isoformat() == "2026-08-24T13:00:00+08:00"
-    assert minutes[-1].isoformat() == "2026-08-24T14:59:00+08:00"
+    assert minutes[-2].isoformat() == "2026-08-24T14:56:00+08:00"
+    assert minutes[-1].isoformat() == "2026-08-24T15:00:00+08:00"
+    assert not any(
+        item.strftime("%H:%M") in {"14:57", "14:58", "14:59"}
+        for item in minutes
+    )
     assert expected_session_minutes(date(2026, 8, 23)) == ()
+
+
+def test_legacy_closing_auction_rows_are_excluded_without_deletion(
+    tmp_path: Path,
+) -> None:
+    trade_date = date(2026, 8, 24)
+    observed = datetime(2026, 8, 24, 15, 6, tzinfo=SHANGHAI)
+    db_path = tmp_path / "legacy-closing-auction.sqlite3"
+    with MarketWatchCollectionStore(db_path, clock=lambda: observed) as store:
+        assert store.ensure_expected_slots(trade_date) == 238
+        revision = int(store._meta_locked("ledger_revision"))
+        legacy = (
+            (
+                "2026-08-24T14:57:00+08:00",
+                CollectionSlotStatus.ACCEPTED_REAL.value,
+                1,
+                observed.isoformat(),
+                observed.isoformat(),
+                observed.isoformat(),
+                "mw-legacy-1457",
+                "a" * 64,
+                0,
+            ),
+            (
+                "2026-08-24T14:58:00+08:00",
+                CollectionSlotStatus.RETRYING.value,
+                1,
+                observed.isoformat(),
+                observed.isoformat(),
+                None,
+                None,
+                None,
+                1,
+            ),
+            (
+                "2026-08-24T14:59:00+08:00",
+                CollectionSlotStatus.EXPECTED.value,
+                0,
+                None,
+                None,
+                None,
+                None,
+                None,
+                0,
+            ),
+        )
+        with store._connection:
+            for row in legacy:
+                store._connection.execute(
+                    """
+                    INSERT INTO market_watch_collection_slots (
+                        trade_date, minute_bucket, config_version, status,
+                        attempt_count, first_attempt_at, last_attempt_at,
+                        accepted_at, source_snapshot_id, source_snapshot_revision,
+                        gap_heartbeat, ledger_revision, created_at, updated_at
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    """,
+                    (
+                        trade_date.isoformat(),
+                        row[0],
+                        store.config_version,
+                        row[1],
+                        *row[2:],
+                        revision,
+                        observed.isoformat(),
+                        observed.isoformat(),
+                    ),
+                )
+
+        assert store.ensure_expected_slots(trade_date) == 0
+        completeness = store.read_completeness(trade_date, as_of=observed)
+        excluded = tuple(
+            store.get_slot(datetime.fromisoformat(row[0])) for row in legacy
+        )
+        row_count = store._connection.execute(
+            "SELECT COUNT(*) FROM market_watch_collection_slots"
+        ).fetchone()[0]
+
+    assert row_count == 241
+    assert all(item is not None for item in excluded)
+    assert all(item.status is CollectionSlotStatus.EXCLUDED for item in excluded)
+    assert excluded[0].source_snapshot_id == "mw-legacy-1457"
+    assert completeness.expected_minute_buckets == 238
+    assert completeness.accepted_real == 0
+    assert completeness.pending == 238
+    assert completeness.gap_heartbeat == 0
 
 
 def test_post_close_recovery_is_idempotent_audited_and_manual_retryable(
@@ -148,7 +239,7 @@ def test_post_close_recovery_is_idempotent_audited_and_manual_retryable(
         assert store.requeue_daily_recovery_gaps(
             trade_date,
             requested_at=closed_at,
-        ) == 240
+        ) == 238
 
         attempt_id, slot = store.claim_due(closed_at, trade_date=trade_date)
         store.mark_failed(
@@ -171,10 +262,110 @@ def test_post_close_recovery_is_idempotent_audited_and_manual_retryable(
 
     assert slot.minute_bucket == expected_session_minutes(trade_date)[0]
     assert finished.status is DailyRecoveryStatus.NEEDS_ATTENTION
-    assert finished.remaining_gaps == 240
+    assert finished.remaining_gaps == 238
     assert finished.manual_action_required is True
     assert manual["action"] == "queued"
     assert manual["recovery"].run_id != finished.run_id
+
+
+def test_running_post_close_recovery_projects_live_attempt_progress_and_error(
+    tmp_path: Path,
+) -> None:
+    trade_date = date(2026, 8, 24)
+    closed_at = datetime(2026, 8, 24, 15, 6, tzinfo=SHANGHAI)
+
+    with MarketWatchCollectionStore(tmp_path / "recovery-progress.sqlite3") as store:
+        store.request_daily_recovery(
+            trade_date,
+            trigger=DailyRecoveryTrigger.MANUAL,
+            requested_at=closed_at,
+        )
+        claimed = store.claim_daily_recovery(started_at=closed_at)
+        assert claimed is not None
+        store.requeue_daily_recovery_gaps(trade_date, requested_at=closed_at)
+
+        attempt_id, slot = store.claim_due(closed_at, trade_date=trade_date)
+        store.record_daily_recovery_attempt_started(
+            claimed.run_id,
+            slot,
+            started_at=closed_at,
+        )
+        store.record_daily_recovery_attempt_progress(
+            claimed.run_id,
+            slot,
+            completed=7,
+            total=139,
+            stage="stock_minutes",
+            message="已加载 280/5564 只",
+            observed_at=closed_at + timedelta(milliseconds=500),
+        )
+        capturing = store.read_latest_daily_recovery(
+            trade_date,
+            as_of=closed_at + timedelta(seconds=1),
+        )
+        failed_slot = store.mark_failed(
+            attempt_id,
+            error=TimeoutError("exact historical snapshot timed out"),
+            completed_at=closed_at + timedelta(seconds=2),
+            next_retry_at=closed_at + timedelta(minutes=30),
+        )
+        store.record_daily_recovery_attempt_finished(
+            claimed.run_id,
+            failed_slot,
+            completed_at=closed_at + timedelta(seconds=2),
+        )
+        failed_attempt = store.read_latest_daily_recovery(
+            trade_date,
+            as_of=closed_at + timedelta(seconds=3),
+        )
+
+    assert capturing is not None
+    assert capturing.status is DailyRecoveryStatus.RUNNING
+    assert capturing.attempted_slots == 1
+    assert capturing.failed_attempts == 0
+    assert capturing.latest_attempt_minute_bucket == slot.minute_bucket
+    assert capturing.latest_attempt_outcome == "started"
+    assert capturing.latest_attempt_progress_completed == 7
+    assert capturing.latest_attempt_progress_total == 139
+    assert capturing.latest_attempt_progress_stage == "stock_minutes"
+    assert capturing.latest_attempt_progress_message == "已加载 280/5564 只"
+    assert capturing.latest_failure_error_code is None
+    assert failed_attempt is not None
+    assert failed_attempt.status is DailyRecoveryStatus.RUNNING
+    assert failed_attempt.attempted_slots == 1
+    assert failed_attempt.failed_attempts == 1
+    assert failed_attempt.latest_attempt_minute_bucket == slot.minute_bucket
+    assert failed_attempt.latest_attempt_outcome == "retrying"
+    assert failed_attempt.latest_failure_error_code == "TimeoutError"
+    assert (
+        failed_attempt.latest_failure_error_message
+        == "exact historical snapshot timed out"
+    )
+
+
+def test_failed_post_close_recovery_preserves_public_error_detail(tmp_path: Path) -> None:
+    trade_date = date(2026, 8, 24)
+    closed_at = datetime(2026, 8, 24, 15, 6, tzinfo=SHANGHAI)
+
+    with MarketWatchCollectionStore(tmp_path / "recovery-failure.sqlite3") as store:
+        store.request_daily_recovery(
+            trade_date,
+            trigger=DailyRecoveryTrigger.MANUAL,
+            requested_at=closed_at,
+        )
+        claimed = store.claim_daily_recovery(started_at=closed_at)
+        assert claimed is not None
+        failed = store.finish_daily_recovery(
+            claimed.run_id,
+            completed_at=closed_at + timedelta(seconds=1),
+            reconciled_slots=0,
+            attempted_slots=0,
+            error=RuntimeError("history index could not be read"),
+        )
+
+    assert failed.status is DailyRecoveryStatus.FAILED
+    assert failed.last_error_code == "RuntimeError"
+    assert failed.last_error_message == "history index could not be read"
 
 
 def test_post_close_recovery_cannot_be_queued_before_close(tmp_path: Path) -> None:
@@ -204,6 +395,10 @@ def test_collector_runs_one_automatic_post_close_recovery_batch(
         stop_event.set()
         return _snapshot(slot.minute_bucket, snapshot_id="mw-post-close-repair")
 
+    def repair_with_progress(slot, progress):
+        progress(7, 139, "stock_minutes", "已加载 280/5564 只")
+        return repair(slot)
+
     with (
         MarketWatchCollectionStore(db_path, clock=lambda: closed_at) as ledger,
         MarketWatchHistoryStore(db_path, clock=lambda: closed_at) as history,
@@ -214,6 +409,7 @@ def test_collector_runs_one_automatic_post_close_recovery_batch(
                 "post-close recovery must use the historical seam"
             ),
             repair_historical=repair,
+            repair_historical_with_progress=repair_with_progress,
             persist_snapshot=history.record,
             history_records=lambda: (),
             clock=lambda: closed_at,
@@ -228,7 +424,10 @@ def test_collector_runs_one_automatic_post_close_recovery_batch(
     assert envelope.daily_recovery.trigger is DailyRecoveryTrigger.AUTOMATIC
     assert envelope.daily_recovery.status is DailyRecoveryStatus.RETRYING
     assert envelope.daily_recovery.attempted_slots == 1
-    assert envelope.daily_recovery.remaining_gaps == 239
+    assert envelope.daily_recovery.latest_attempt_progress_completed == 7
+    assert envelope.daily_recovery.latest_attempt_progress_total == 139
+    assert envelope.daily_recovery.latest_attempt_progress_stage == "stock_minutes"
+    assert envelope.daily_recovery.remaining_gaps == 237
     assert envelope.daily_recovery.manual_action_required is False
     assert envelope.collection_completeness.repaired == 1
 
@@ -240,7 +439,7 @@ def test_read_envelope_is_zero_write_and_never_initializes_collection_state(
     db_path = tmp_path / "read-only-ledger.sqlite3"
     observed = datetime(2026, 8, 24, 10, 30, 5, tzinfo=SHANGHAI)
     with MarketWatchCollectionStore(db_path, clock=lambda: observed) as owner:
-        assert owner.ensure_expected_slots(observed.date()) == 240
+        assert owner.ensure_expected_slots(observed.date()) == 238
 
     before = _ledger_fingerprint(db_path)
     with MarketWatchCollectionStore(db_path, read_only=True) as reader:
@@ -255,8 +454,8 @@ def test_read_envelope_is_zero_write_and_never_initializes_collection_state(
     after = _ledger_fingerprint(db_path)
 
     assert before == after
-    assert before[1] == 240
-    assert envelope.collection_completeness.expected_minute_buckets == 240
+    assert before[1] == 238
+    assert envelope.collection_completeness.expected_minute_buckets == 238
     assert envelope.latest_accepted_real is None
 
     missing_path = tmp_path / "missing-ledger.sqlite3"
@@ -292,7 +491,7 @@ def test_read_only_ledger_lazily_recovers_after_collector_creates_database(
         assert reader._connection is None
 
         with MarketWatchCollectionStore(db_path, clock=lambda: observed) as owner:
-            assert owner.ensure_expected_slots(observed.date()) == 240
+            assert owner.ensure_expected_slots(observed.date()) == 238
             owner.update_runtime(
                 CollectorRuntimeState.RUNNING,
                 heartbeat_at=observed,
@@ -322,7 +521,7 @@ def test_read_only_ledger_lazily_recovers_after_collector_creates_database(
         assert connect_count == 1
         assert all(
             item.collector_state is CollectorRuntimeState.RUNNING
-            and item.collection_completeness.expected_minute_buckets == 240
+            and item.collection_completeness.expected_minute_buckets == 238
             for item in envelopes
         )
         assert _ledger_fingerprint(db_path) == before
@@ -369,11 +568,11 @@ def test_completeness_reader_uses_one_sqlite_snapshot_during_concurrent_commit(
 
     assert committed is True
     assert consistent.ledger_revision == before_revision
-    assert consistent.pending == 240
+    assert consistent.pending == 238
     assert consistent.retrying == 0
     assert consistent.gap_heartbeat == 0
     assert current.ledger_revision > consistent.ledger_revision
-    assert current.pending == 239
+    assert current.pending == 237
     assert current.retrying == 1
     assert current.gap_heartbeat == 1
 
@@ -381,7 +580,7 @@ def test_completeness_reader_uses_one_sqlite_snapshot_during_concurrent_commit(
 def test_current_minute_is_claimed_before_older_repair_work(tmp_path: Path) -> None:
     now = datetime(2026, 8, 24, 10, 30, 5, tzinfo=SHANGHAI)
     with MarketWatchCollectionStore(tmp_path / "priority.sqlite3") as store:
-        assert store.ensure_expected_slots(now.date()) == 240
+        assert store.ensure_expected_slots(now.date()) == 238
         claimed = store.claim_due(now)
 
     assert claimed is not None
@@ -389,6 +588,23 @@ def test_current_minute_is_claimed_before_older_repair_work(tmp_path: Path) -> N
     assert slot.minute_bucket.isoformat() == "2026-08-24T10:30:00+08:00"
     assert slot.status is CollectionSlotStatus.CAPTURING
     assert slot.attempt_count == 1
+
+
+def test_prior_day_gap_requires_an_explicit_daily_recovery_scope(
+    tmp_path: Path,
+) -> None:
+    prior = date(2026, 8, 26)
+    preopen = datetime(2026, 8, 27, 0, 30, tzinfo=SHANGHAI)
+    with MarketWatchCollectionStore(tmp_path / "prior-day-scope.sqlite3") as store:
+        assert store.ensure_expected_slots(prior) == 238
+
+        assert store.claim_due(preopen) is None
+        claimed = store.claim_due(preopen, trade_date=prior)
+
+    assert claimed is not None
+    _attempt_id, slot = claimed
+    assert slot.trade_date == prior
+    assert slot.minute_bucket == expected_session_minutes(prior)[0]
 
 
 def test_retry_state_and_attempt_audit_survive_process_restart(tmp_path: Path) -> None:
@@ -486,12 +702,12 @@ def test_real_acceptance_and_repair_are_exact_and_heartbeat_never_wins(
     assert envelope.latest_accepted_real is not None
     assert envelope.latest_accepted_real.snapshot_id == "mw-repaired"
     assert envelope.latest_accepted_real.repaired is True
-    assert envelope.collection_completeness.expected_minute_buckets == 240
+    assert envelope.collection_completeness.expected_minute_buckets == 238
     assert envelope.collection_completeness.accepted_real == 2
     assert envelope.collection_completeness.repaired == 1
     assert envelope.collection_completeness.gap_heartbeat == 0
     assert len(envelope.collection_completeness.ledger_digest) == 64
-    assert envelope.collection_completeness.pending == 238
+    assert envelope.collection_completeness.pending == 236
     assert envelope.collection_completeness.retrying == 0
     assert envelope.collection_completeness.unresolved == 0
 

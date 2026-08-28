@@ -235,6 +235,55 @@ class IndexIntradayAmountSeriesV1(ContractModel):
         return self
 
 
+class IndexMinuteQuoteV1(ContractModel):
+    """One exact provider-neutral minute bar for an exchange index."""
+
+    trading_date: date
+    minute: time
+    open: float = Field(ge=0)
+    close: float = Field(ge=0)
+    high: float = Field(ge=0)
+    low: float = Field(ge=0)
+    amount_cny: float = Field(ge=0)
+
+    @field_validator("open", "close", "high", "low", "amount_cny")
+    @classmethod
+    def require_finite_quote_number(cls, value: float) -> float:
+        if not math.isfinite(value):
+            raise ValueError("index minute values must be finite")
+        return value
+
+    @model_validator(mode="after")
+    def validate_bar(self) -> "IndexMinuteQuoteV1":
+        if self.high < self.low:
+            raise ValueError("index minute high cannot be lower than low")
+        if self.high < max(self.open, self.close) or self.low > min(self.open, self.close):
+            raise ValueError("index minute OHLC values are inconsistent")
+        return self
+
+
+class IndexIntradaySeriesV1(ContractModel):
+    """Validated exact minute bars for one canonical exchange index."""
+
+    metadata: ContractMetadata
+    instrument_id: str = Field(pattern=r"^\d{6}\.(?:SH|SZ)$")
+    points: tuple[IndexMinuteQuoteV1, ...]
+
+    @model_validator(mode="after")
+    def validate_series(self) -> "IndexIntradaySeriesV1":
+        if (
+            self.metadata.contract != "index_intraday_series.v1"
+            or self.metadata.schema_version != 1
+        ):
+            raise ValueError("index intraday bars require index_intraday_series.v1 metadata")
+        if not self.points:
+            raise ValueError("index intraday series cannot be empty")
+        keys = [(item.trading_date, item.minute) for item in self.points]
+        if keys != sorted(keys) or len(keys) != len(set(keys)):
+            raise ValueError("index intraday points must be ordered and unique")
+        return self
+
+
 class SectorFundFlowMinuteV1(ContractModel):
     """One exact minute observation of cumulative main-net sector flow."""
 
@@ -1131,6 +1180,7 @@ class BoardLeaderV2(ContractModel):
 class BoardLeaderSnapshotV2(ContractModel):
     metadata: ContractMetadata
     board_code: str = Field(pattern=r"^BK\d+$")
+    speed_order: Literal["desc", "asc"] = "desc"
     leaders: tuple[BoardLeaderV2, ...] = Field(min_length=1, max_length=10)
 
     @model_validator(mode="after")
@@ -1143,6 +1193,10 @@ class BoardLeaderSnapshotV2(ContractModel):
         ids = [item.instrument_id for item in self.leaders]
         if len(ids) != len(set(ids)):
             raise ValueError("board resonance candidates cannot contain duplicates")
+        speeds = [item.speed_pct for item in self.leaders]
+        expected = sorted(speeds, reverse=self.speed_order == "desc")
+        if speeds != expected:
+            raise ValueError("board resonance candidates do not match speed_order")
         return self
 
 
@@ -1188,6 +1242,72 @@ class LimitUpEventV1(ContractModel):
         if value is not None and not math.isfinite(value):
             raise ValueError("limit-event numbers must be finite")
         return value
+
+
+class LimitUpStatusV1(ContractModel):
+    """One live limit-up status without requiring attribution details."""
+
+    instrument_id: str = Field(pattern=r"^\d{6}\.(?:SH|SZ|BJ)$")
+    name: str = Field(min_length=1)
+    event_type: Literal["limit_up"] = "limit_up"
+    price_cny: float | None = Field(default=None, ge=0)
+    change_pct: float | None = None
+    reason: str | None = Field(default=None, min_length=1)
+    limit_up_type: str | None = None
+    board_label: str | None = None
+    board_count: int | None = Field(default=None, ge=1)
+    first_sealed_at: time | None = None
+    resealed: bool | None = None
+
+    @field_validator("price_cny", "change_pct")
+    @classmethod
+    def require_finite_status_number(cls, value: float | None) -> float | None:
+        if value is not None and not math.isfinite(value):
+            raise ValueError("limit-up status numbers must be finite")
+        return value
+
+
+class LimitUpStatusSeriesV1(ContractModel):
+    metadata: ContractMetadata
+    trading_date: date
+    trade_status: LimitEventTradeStatusV1
+    events: tuple[LimitUpStatusV1, ...] = ()
+    pool_total: int = Field(ge=0)
+    board_count_coverage: float = Field(ge=0, le=1)
+    unknown_board_count: int = Field(ge=0)
+    valid_empty: bool
+    provider_page_count: int | None = Field(default=None, ge=0)
+
+    @model_validator(mode="after")
+    def validate_limit_status_series(self) -> "LimitUpStatusSeriesV1":
+        if (
+            self.metadata.contract != "limit_up_status.v1"
+            or self.metadata.schema_version != 1
+        ):
+            raise ValueError("limit-up status requires limit_up_status.v1 metadata")
+        if self.pool_total != len(self.events):
+            raise ValueError("limit-up status total must equal its event count")
+        ids = [item.instrument_id for item in self.events]
+        if len(ids) != len(set(ids)):
+            raise ValueError("limit-up status cannot contain duplicate instruments")
+        if self.valid_empty != (self.pool_total == 0):
+            raise ValueError("limit-up status valid_empty does not match pool_total")
+        unknown = sum(item.board_count is None for item in self.events)
+        if self.unknown_board_count != unknown:
+            raise ValueError("limit-up status unknown board count is inconsistent")
+        expected_coverage = (
+            (self.pool_total - unknown) / self.pool_total
+            if self.pool_total
+            else 1.0
+        )
+        if not math.isclose(
+            self.board_count_coverage,
+            expected_coverage,
+            rel_tol=1e-9,
+            abs_tol=1e-9,
+        ):
+            raise ValueError("limit-up status board-count coverage is inconsistent")
+        return self
 
 
 class LimitEventSeriesV1(ContractModel):

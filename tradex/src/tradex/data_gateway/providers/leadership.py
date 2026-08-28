@@ -203,13 +203,17 @@ def map_board_leader_frame(
             f"board leader payload is for {attrs_board}, expected {board_code}"
         )
     provider = payload_provider(frame, route_provider, records)
-    leaders = [
-        BoardLeaderV2(
+    leaders = []
+    for row in records:
+        speed_pct = finite_number(field(row, "speed_pct", "涨速"))
+        if speed_pct is None:
+            continue
+        leaders.append(BoardLeaderV2(
             instrument_id=canonical_instrument_id(_record_code(row)),
             name=_required_text(field(row, "name", "名称"), "board leader name"),
             price=finite_number(field(row, "price", "最新价")),
             change_pct=finite_number(field(row, "change_pct", "涨跌幅")),
-            speed_pct=finite_number(field(row, "speed_pct", "涨速")),
+            speed_pct=speed_pct,
             amount_cny=finite_number(field(row, "amount", "成交额")),
             turnover_pct=finite_number(field(row, "turnover", "换手率")),
             main_net_inflow_cny=finite_number(
@@ -221,9 +225,7 @@ def map_board_leader_frame(
             provider_as_of=_row_provider_time(row, frame),
             provider_variant=_optional_text(field(row, "source", "provider"))
             or provider,
-        )
-        for row in records
-    ]
+        ))
     return tuple(leaders)
 
 

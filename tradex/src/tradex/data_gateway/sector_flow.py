@@ -3,9 +3,10 @@
 from __future__ import annotations
 
 import re
+import time
 from collections.abc import Callable, Iterable, Mapping
 from datetime import date, datetime
-from threading import Condition
+from threading import Condition, Thread
 from typing import Any
 from zoneinfo import ZoneInfo
 
@@ -17,6 +18,95 @@ from .sector_flow_store import SectorFundFlowStore
 _SHANGHAI = ZoneInfo("Asia/Shanghai")
 _PROVIDER_BOARD_CODE = re.compile(r"^BK\d+$")
 _BackfillKey = tuple[date, str, str]
+
+
+class SectorFundFlowBackfillRefresher:
+    """Coalesce complete-curve refreshes onto one daemon worker."""
+
+    def __init__(
+        self,
+        refresh: Callable[..., dict[str, tuple[dict[str, Any], ...]]] | None = None,
+    ) -> None:
+        self._condition = Condition()
+        self._refresh = refresh
+        self._pending: tuple[tuple[dict[str, Any], ...], date] | None = None
+        self._known_targets: dict[date, dict[str, dict[str, Any]]] = {}
+        self._thread: Thread | None = None
+
+    def request(
+        self,
+        targets: Iterable[Mapping[str, Any]],
+        *,
+        trading_date: date | str,
+    ) -> bool:
+        normalized_targets = tuple(dict(target) for target in targets)
+        if not normalized_targets:
+            return False
+        requested_date = (
+            trading_date
+            if isinstance(trading_date, date)
+            else date.fromisoformat(str(trading_date))
+        )
+        with self._condition:
+            known = self._known_targets.setdefault(requested_date, {})
+            for target in normalized_targets:
+                sector_key = str(target.get("sector_key") or "").strip()
+                if sector_key:
+                    known[sector_key] = target
+            retained_dates = sorted(self._known_targets)[-2:]
+            self._known_targets = {
+                retained_date: self._known_targets[retained_date]
+                for retained_date in retained_dates
+            }
+            coalesced_targets = tuple(
+                known[sector_key]
+                for sector_key in sorted(known)
+            )
+            if not coalesced_targets:
+                return False
+            self._pending = (coalesced_targets, requested_date)
+            if self._thread is not None and self._thread.is_alive():
+                self._condition.notify_all()
+                return False
+            self._thread = Thread(
+                target=self._run,
+                name="tradex-sector-flow-refresh",
+                daemon=True,
+            )
+            self._thread.start()
+            return True
+
+    def _run(self) -> None:
+        while True:
+            with self._condition:
+                work = self._pending
+                self._pending = None
+                if work is None:
+                    self._thread = None
+                    self._condition.notify_all()
+                    return
+            targets, trading_date = work
+            refresh = self._refresh or fetch_sector_intraday_fund_flow_backfill
+            try:
+                refresh(
+                    targets,
+                    trading_date=trading_date,
+                    load_missing=True,
+                    refresh_existing=True,
+                )
+            except Exception:
+                # The next Collector request retries the coalesced target set.
+                continue
+
+    def wait_for_idle(self, timeout: float) -> bool:
+        deadline = time.monotonic() + max(0.0, timeout)
+        with self._condition:
+            while self._thread is not None or self._pending is not None:
+                remaining = deadline - time.monotonic()
+                if remaining <= 0:
+                    return False
+                self._condition.wait(remaining)
+            return True
 
 
 class SectorFundFlowBackfillCache:
@@ -57,6 +147,40 @@ class SectorFundFlowBackfillCache:
         with self._condition:
             self._entries[key] = persisted
         return persisted
+
+    def get_all_cached(
+        self,
+        trading_date: date,
+    ) -> dict[str, SectorFundFlowIntradayV1]:
+        with self._condition:
+            cached = {
+                key[1]: series
+                for key, series in self._entries.items()
+                if key[0] == trading_date
+            }
+        store = self._get_store()
+        persisted = {} if store is None else store.get_all_best(trading_date)
+        result = dict(persisted)
+        for sector_key, series in cached.items():
+            existing = result.get(sector_key)
+            if existing is None or (
+                len(series.points),
+                series.points[-1].provider_as_of,
+                series.metadata.fetched_at,
+            ) > (
+                len(existing.points),
+                existing.points[-1].provider_as_of,
+                existing.metadata.fetched_at,
+            ):
+                result[sector_key] = series
+        return result
+
+    def get_known_targets(
+        self,
+        trading_date: date,
+    ) -> tuple[dict[str, str], ...]:
+        store = self._get_store()
+        return () if store is None else store.get_targets(trading_date)
 
     def get_or_load(
         self,
@@ -112,6 +236,10 @@ class SectorFundFlowBackfillCache:
         store = self._get_store()
         if store is not None:
             store.record(loaded)
+            store.record_target(loaded, key[2])
+            persisted = store.get_best(key[0], key[1])
+            if persisted is not None:
+                loaded = persisted
         with self._condition:
             self._entries[key] = loaded
             self._last_loaded_at[key] = effective_refresh_at
@@ -127,6 +255,21 @@ class SectorFundFlowBackfillCache:
 
 
 _SECTOR_FLOW_BACKFILL_CACHE = SectorFundFlowBackfillCache(persistent=True)
+
+
+def _backfill_points(
+    series: SectorFundFlowIntradayV1,
+) -> tuple[dict[str, Any], ...]:
+    return tuple(
+        {
+            "provider_as_of": point.provider_as_of,
+            "cumulative_cny": point.cumulative_cny,
+            "source_family": series.metadata.provider,
+            "name": series.name,
+            "taxonomy": series.taxonomy,
+        }
+        for point in series.points
+    )
 
 
 def fetch_sector_intraday_fund_flow(
@@ -247,20 +390,66 @@ def fetch_sector_intraday_fund_flow_backfill(
             continue
         if series is None:
             continue
-        result[sector_key] = tuple(
-            {
-                "provider_as_of": point.provider_as_of,
-                "cumulative_cny": point.cumulative_cny,
-                "source_family": series.metadata.provider,
-            }
-            for point in series.points
-        )
+        result[sector_key] = _backfill_points(series)
     return result
+
+
+def read_sector_intraday_fund_flow_backfill(
+    *,
+    trading_date: date | str,
+    cache: SectorFundFlowBackfillCache | None = None,
+) -> dict[str, tuple[dict[str, Any], ...]]:
+    """Read every validated same-day curve without starting provider work."""
+
+    requested_date = (
+        trading_date
+        if isinstance(trading_date, date)
+        else date.fromisoformat(str(trading_date))
+    )
+    owner = cache or _SECTOR_FLOW_BACKFILL_CACHE
+    return {
+        sector_key: _backfill_points(series)
+        for sector_key, series in owner.get_all_cached(requested_date).items()
+    }
+
+
+_SECTOR_FLOW_BACKFILL_REFRESHER = SectorFundFlowBackfillRefresher()
+
+
+def schedule_sector_intraday_fund_flow_backfill(
+    targets: Iterable[Mapping[str, Any]],
+    *,
+    trading_date: date | str,
+) -> bool:
+    """Request one non-blocking, single-flight refresh of all resolved curves."""
+
+    requested_date = (
+        trading_date
+        if isinstance(trading_date, date)
+        else date.fromisoformat(str(trading_date))
+    )
+    merged_targets = {
+        str(target.get("sector_key") or "").strip(): dict(target)
+        for target in _SECTOR_FLOW_BACKFILL_CACHE.get_known_targets(requested_date)
+        if str(target.get("sector_key") or "").strip()
+    }
+    for target in targets:
+        normalized = dict(target)
+        sector_key = str(normalized.get("sector_key") or "").strip()
+        if sector_key:
+            merged_targets[sector_key] = normalized
+    return _SECTOR_FLOW_BACKFILL_REFRESHER.request(
+        merged_targets.values(),
+        trading_date=requested_date,
+    )
 
 
 __all__ = [
     "SectorFundFlowBackfillCache",
+    "SectorFundFlowBackfillRefresher",
     "SectorFundFlowStore",
     "fetch_sector_intraday_fund_flow",
     "fetch_sector_intraday_fund_flow_backfill",
+    "read_sector_intraday_fund_flow_backfill",
+    "schedule_sector_intraday_fund_flow_backfill",
 ]

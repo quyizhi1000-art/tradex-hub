@@ -6,7 +6,12 @@ from datetime import date, datetime
 from typing import Any
 from zoneinfo import ZoneInfo
 
-from .contracts import ContractMetadata, LimitEventSeriesV1, QualityStatus
+from .contracts import (
+    ContractMetadata,
+    LimitEventSeriesV1,
+    LimitUpStatusSeriesV1,
+    QualityStatus,
+)
 from .providers.limit_events import map_limit_event_frame
 from .providers.securities import frame_request_id
 from .quality import assess_limit_events
@@ -76,6 +81,57 @@ def fetch_limit_up_events(
 
     series, _route_provider = _router(router).route_validated(
         "limit_events",
+        validate,
+        date=requested_date.strftime("%Y%m%d"),
+    )
+    return series
+
+
+def fetch_limit_up_status(
+    trade_date: str,
+    *,
+    router: Any | None = None,
+    now: datetime | None = None,
+) -> LimitUpStatusSeriesV1:
+    """Fetch the live pool without requiring analysis-only reason fields."""
+
+    requested_date = _trade_date(trade_date)
+    fetched_at = _now(now)
+
+    def validate(frame: Any, route_provider: str) -> LimitUpStatusSeriesV1:
+        mapped = map_limit_event_frame(
+            frame,
+            route_provider=route_provider,
+            requested_date=requested_date,
+            require_reason=False,
+        )
+        provider = mapped.pop("provider")
+        provider_as_of = mapped.pop("provider_as_of")
+        mapped.pop("reason_coverage", None)
+        flags = []
+        if mapped["unknown_board_count"]:
+            flags.append("board_count_partial")
+        if mapped["trade_status"].code == "unknown":
+            flags.append("trade_status_unrecognized")
+        if provider_as_of is None:
+            flags.append("provider_timestamp_missing")
+        return LimitUpStatusSeriesV1(
+            metadata=ContractMetadata(
+                contract="limit_up_status.v1",
+                provider=provider,
+                provider_request_id=frame_request_id(frame),
+                provider_as_of=provider_as_of,
+                fetched_at=fetched_at,
+                quality=(
+                    QualityStatus.DEGRADED if flags else QualityStatus.ACCEPTED
+                ),
+                quality_flags=tuple(flags),
+            ),
+            **mapped,
+        )
+
+    series, _route_provider = _router(router).route_validated(
+        "limit_event_status",
         validate,
         date=requested_date.strftime("%Y%m%d"),
     )
@@ -156,6 +212,7 @@ def limit_event_series_to_component_metadata(
 
 __all__ = [
     "fetch_limit_up_events",
+    "fetch_limit_up_status",
     "limit_event_series_to_component_metadata",
     "limit_event_series_to_legacy_records",
 ]

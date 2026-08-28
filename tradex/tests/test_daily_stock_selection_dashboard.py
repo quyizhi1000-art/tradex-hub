@@ -2,15 +2,10 @@ from __future__ import annotations
 
 from io import BytesIO
 from pathlib import Path
-from types import SimpleNamespace
 
 import pytest
 
 from tradex.dashboard import __main__ as dashboard_app
-from tradex.stock_selection.service import (
-    SelectionDataUnavailableError,
-    SelectionTooEarlyError,
-)
 
 
 WATCH_DIR = Path(__file__).parents[1] / "src" / "tradex" / "dashboard" / "watch"
@@ -63,29 +58,13 @@ def test_daily_stock_selection_history_limit_is_bounded(value):
         dashboard_app._selection_history_limit(value)
 
 
-def test_daily_stock_selection_post_uses_safe_domain_error(monkeypatch):
-    monkeypatch.setattr(
-        dashboard_app,
-        "generate_daily_stock_selection",
-        lambda: (_ for _ in ()).throw(
-            SelectionTooEarlyError("当日 18:00 后才允许生成每日选股。")
-        ),
-    )
-    responses = []
-    handler = _bare_handler()
-    handler._send_json = lambda status, payload: responses.append((status, payload))
-
-    handler._handle_daily_stock_selection_api()
-
-    assert responses == [(409, {"error": "当日 18:00 后才允许生成每日选股。"})]
-
-
-def test_daily_stock_selection_post_starts_background_job(monkeypatch):
+def test_daily_stock_selection_post_queues_worker_job(monkeypatch):
     payload = {
         "contract": "daily_stock_selection_generation.v1",
         "schema_version": 1,
         "job_id": "selection:2026-08-26:1",
-        "state": "running",
+        "state": "queued",
+        "phase": "queued",
     }
     monkeypatch.setattr(
         dashboard_app,
@@ -101,51 +80,12 @@ def test_daily_stock_selection_post_starts_background_job(monkeypatch):
     assert responses == [(202, payload)]
 
 
-def test_daily_stock_selection_post_reports_provider_unavailable(monkeypatch):
-    monkeypatch.setattr(
-        dashboard_app,
-        "generate_daily_stock_selection",
-        lambda: (_ for _ in ()).throw(
-            SelectionDataUnavailableError("Tushare 每日选股数据暂不可用，未生成候选池。")
-        ),
-    )
-    responses = []
-    handler = _bare_handler()
-    handler._send_json = lambda status, payload: responses.append((status, payload))
+def test_dashboard_has_no_daily_selection_scheduler_or_provider_owner():
+    source = Path(dashboard_app.__file__).read_text(encoding="utf-8")
 
-    handler._handle_daily_stock_selection_api()
-
-    assert responses == [
-        (503, {"error": "Tushare 每日选股数据暂不可用，未生成候选池。"})
-    ]
-
-
-def test_daily_stock_selection_scheduler_delegates_retry_policy(monkeypatch):
-    calls = []
-
-    class OnePassStop:
-        stopped = False
-
-        def is_set(self):
-            return self.stopped
-
-        def wait(self, seconds):
-            calls.append(("wait", seconds))
-            self.stopped = True
-
-    service = SimpleNamespace(
-        maybe_generate_automatic=lambda: calls.append(("generate", None))
-        or {"action": "not_due"}
-    )
-    monkeypatch.setattr(
-        dashboard_app,
-        "_get_daily_stock_selection_service",
-        lambda: service,
-    )
-
-    dashboard_app._daily_stock_selection_loop(OnePassStop())
-
-    assert calls == [("generate", None), ("wait", 30.0)]
+    assert "daily-stock-selection-scheduler" not in source
+    assert "DailyStockSelectionService" not in source
+    assert "fetch_daily_stock_factor_snapshot" not in source
 
 
 def test_desktop_page_exposes_versioned_daily_stock_selection_archive():
@@ -155,12 +95,24 @@ def test_desktop_page_exposes_versioned_daily_stock_selection_archive():
     assert 'payload.contract !== "daily_stock_selection_archive.v1"' in JS
     assert 'payload.contract !== "daily_stock_selection_result.v1"' in JS
     assert 'payload.contract !== "daily_stock_selection_generation.v1"' in JS
+    assert '["idle", "queued", "running", "succeeded", "failed"]' in JS
+    assert 'new Set(["queued", "running"]).has(generation.state)' in JS
     assert 'id="stock-selection-section"' in HTML
     assert 'id="stock-selection-dialog"' in HTML
     assert 'role="tablist"' in HTML
     assert 'data-stock-selection-tab="daily"' in HTML
+    assert 'data-stock-selection-tab="limit-up-tendency"' in HTML
     assert 'data-stock-selection-tab="long-upper-shadow"' in HTML
+    assert 'id="stock-limit-up-tendency-table-body"' in HTML
     assert 'id="stock-pattern-table-body"' in HTML
+    assert "同一 10 日窗口无收盘涨停" in HTML
+    assert "完整 10 日" in HTML
+    assert "完整 15 日证据" in HTML
+    assert "长上影疑似试盘形态" in HTML
+    assert 'const CURRENT_STOCK_SELECTION_CONFIG = "daily-stock-selection-balanced.v6"' in JS
+    assert 'item.screen_version === "next-session-limit-up-tendency-main-board.v2"' in JS
+    assert "区分未涨停启动与已涨停延续" in HTML
+    assert 'item.screen_version === "long-upper-shadow-main-board.v3"' in JS
     assert 'id="stock-selection-generate-button"' in HTML
     assert 'id="stock-selection-date-select"' in HTML
     assert 'id="stock-selection-table-body"' in HTML
@@ -169,19 +121,23 @@ def test_desktop_page_exposes_versioned_daily_stock_selection_archive():
     assert "renderStockSelectionCandidates(canonical.candidates)" in JS
     assert "renderStockSelectionOutcome(history)" in JS
     assert "renderStockPatternScreen(canonical.pattern_screens)" in JS
+    assert "renderLimitUpTendencyScreen(canonical.limit_up_tendency_screens)" in JS
     assert 'dialog.showModal()' in JS
+    assert 'dialog.addEventListener("click", (event) =>' in JS
+    assert "if (event.target !== dialog) return;" in JS
+    assert "closeStockSelectionDialog();" in JS
     assert 'method: "POST"' in JS
     assert "pollStockSelectionGeneration" in JS
+    assert "await fetchStockSelectionHistory" in JS
     assert "innerHTML" not in JS
     assert ".stock-selection-table-scroll" in CSS
     assert "min-width: 1180px" in CSS
     assert "@media" not in CSS[CSS.index("/* Daily stock selection"):]
 
 
-def test_server_shutdown_stops_and_closes_daily_selection_owner():
+def test_server_shutdown_has_no_daily_selection_owner():
     source = Path(dashboard_app.__file__).read_text(encoding="utf-8")
 
-    assert 'name="daily-stock-selection-scheduler"' in source
-    assert "selection_stop.set()" in source
-    assert "selection_scheduler.join()" in source
-    assert "_DAILY_STOCK_SELECTION_STORE.close()" in source
+    assert 'name="daily-stock-selection-scheduler"' not in source
+    assert "_DAILY_STOCK_SELECTION_STORE" not in source
+    assert "_ANALYSIS_JOB_STORE.close()" in source

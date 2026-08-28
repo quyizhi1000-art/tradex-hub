@@ -141,6 +141,7 @@ def fetch_daily_stock_factor_snapshot(
     *,
     router: Any | None = None,
     now: datetime | None = None,
+    apply_relationship_catalog: bool = False,
 ) -> DailyStockFactorSnapshotV1:
     requested = _trade_date(trade_date)
     fetched_at = _now(now)
@@ -351,6 +352,53 @@ def fetch_daily_stock_factor_snapshot(
         flags = () if quality is QualityStatus.ACCEPTED else (
             f"financial_coverage:{financial_ratio:.3f}",
         )
+        if apply_relationship_catalog:
+            from tradex.instrument_taxonomy.store import InstrumentTaxonomyReader
+
+            with InstrumentTaxonomyReader() as taxonomy_reader:
+                taxonomy_status = taxonomy_reader.status()
+                if taxonomy_status is None:
+                    flags = (*flags, "relationship_catalog_unavailable")
+                    quality = QualityStatus.DEGRADED
+                elif taxonomy_status.as_of > requested:
+                    flags = (*flags, "relationship_catalog_future_as_of")
+                    quality = QualityStatus.DEGRADED
+                else:
+                    relationships = taxonomy_reader.get_many(
+                        item.instrument_id for item in factors
+                    )
+                    relationship_coverage = len(relationships) / len(factors)
+                    factors = tuple(
+                        item.model_copy(update={
+                            "industry": (
+                                relationship.statistical_industry.level3_name
+                                if relationship and relationship.statistical_industry
+                                else item.industry
+                            ),
+                            "provider_industry": item.industry,
+                            "primary_business_name": (
+                                relationship.primary_business_name
+                                if relationship
+                                else None
+                            ),
+                            "business_tags": (
+                                relationship.business_tags if relationship else ()
+                            ),
+                            "relationship_verification_status": (
+                                relationship.verification_status
+                                if relationship
+                                else "unresolved"
+                            ),
+                            "relationship_catalog_revision": (
+                                taxonomy_status.catalog_revision
+                            ),
+                        })
+                        for item in factors
+                        for relationship in (relationships.get(item.instrument_id),)
+                    )
+                    if relationship_coverage < 0.98:
+                        flags = (*flags, f"relationship_coverage:{relationship_coverage:.3f}")
+                        quality = QualityStatus.DEGRADED
         return DailyStockFactorSnapshotV1(
             metadata=ContractMetadata(
                 contract="daily_stock_factor_snapshot.v1",

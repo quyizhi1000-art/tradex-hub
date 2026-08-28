@@ -43,10 +43,23 @@ def test_watch_page_exposes_server_side_history_and_honest_replay_evaluation():
     assert "不会伪装成通过" in JS
     assert "REPLAY_REFRESH_INTERVAL_MS = 60_000" in JS
     assert "?days=${encodeURIComponent(requestedDays)}" in JS
+    assert "renderReplayHistory(history);" in JS
+    assert "renderReplayEvaluationPending" in JS
+    assert "评估后台准备中" in JS
+    assert "await Promise.all([" not in JS[
+        JS.index("async function fetchReplayData"):JS.index("function renderSnapshot")
+    ]
     assert "replayLastAttemptAt" in JS
     assert "if (silent) return" in JS
     assert "state.replayPendingRequest" in JS
     assert "innerHTML" not in JS
+
+
+def test_collection_copy_describes_closing_auction_as_one_final_result():
+    expected = "237 个连续交易分钟和 1 个 15:00 收盘结果"
+
+    assert expected in HTML
+    assert expected in JS
 
 
 def test_secondary_archives_load_only_when_their_sections_enter_view():
@@ -77,13 +90,24 @@ def test_post_close_recovery_has_audited_status_and_one_manual_command():
     assert 'id="collection-recovery-heading"' in HTML
     assert 'id="collection-recovery-accepted"' in HTML
     assert 'id="collection-recovery-gaps"' in HTML
+    assert 'id="collection-recovery-progress"' in HTML
+    assert 'id="collection-recovery-failures"' in HTML
     assert 'id="collection-recovery-checked-at"' in HTML
     assert 'id="collection-recovery-status"' in HTML
+    assert 'id="collection-recovery-error"' in HTML
     assert 'id="collection-recovery-button"' in HTML
     assert 'recovery.contract !== "market_watch_daily_recovery.v1"' in JS
     assert 'method: "POST"' in JS
     assert "state.recoveryRequestInFlight" in JS
+    assert "state.recoveryRequestError = text(" in JS
+    assert "recovery.latest_failure_error_code" in JS
+    assert "recovery.latest_failure_error_message" in JS
+    assert "recovery.latest_attempt_minute_bucket" in JS
+    assert "recovery.failed_attempts" in JS
+    assert "recovery.last_error_message" in JS
+    assert "下次重试" in JS
     assert "不会用当前值伪造历史" in JS
+    assert ".collection-recovery-error" in CSS
     assert ".collection-recovery-strip.is-attention" in CSS
 
 
@@ -128,6 +152,29 @@ def test_watch_polling_recovers_when_the_page_returns_to_the_foreground():
         in start.group("body")
     )
     assert "window.setInterval(fetchSnapshot, POLL_INTERVAL_MS);" not in JS
+
+
+def test_same_snapshot_periodically_rechecks_independent_resonance_revision():
+    loader = re.search(
+        r"async function loadMarketWatchBatch\(\{ force = false \} = \{\}\) \{(?P<body>.*?)\n  \}",
+        JS,
+        re.DOTALL,
+    )
+
+    assert "RESONANCE_REFRESH_INTERVAL_MS = 30_000" in JS
+    assert "lastSummaryCheckedAt: 0" in JS
+    assert loader is not None
+    assert "const resonanceRefreshDue" in loader.group("body")
+    assert "Date.now() - state.lastSummaryCheckedAt" in loader.group("body")
+    assert "const previousResonanceRevision" in loader.group("body")
+    assert (
+        "summary.resonance_revision !== previousResonanceRevision"
+        in loader.group("body")
+    )
+    assert re.search(
+        r"hydratedSnapshot\(\s*summary,\s*state\.trajectoryDetails,\s*\)",
+        loader.group("body"),
+    )
 
 
 def test_indices_and_turnover_use_the_always_visible_non_blocking_sticky_strip():
@@ -250,9 +297,9 @@ def test_sector_flow_chart_is_versioned_bounded_and_honestly_degraded():
     assert 'snapshot.offense_sector_flow_trajectory' in JS
     assert 'raw.contract !== "sector_flow_trajectory.v1"' in JS
     assert 'raw.schema_version !== 1' in JS
-    assert 'MAX_SECTOR_FLOW_SERIES = 48' in JS
-    assert 'MAX_SECTOR_FLOW_CHART_SERIES = 48' in JS
-    assert 'MAX_SECTOR_FLOW_ENDPOINT_LABELS = 48' in JS
+    assert 'MAX_SECTOR_FLOW_SERIES = 64' in JS
+    assert 'MAX_SECTOR_FLOW_CHART_SERIES = 64' in JS
+    assert 'MAX_SECTOR_FLOW_ENDPOINT_LABELS = 64' in JS
     assert 'data-flow-mode="cumulative"' in HTML
     assert 'data-flow-mode="delta_5m"' in HTML
     assert 'data-flow-scope="defense"' in HTML
@@ -404,8 +451,12 @@ def test_sector_flow_line_hover_shows_the_nearest_observed_amount():
 
 
 def test_sector_flow_defense_and_offense_are_stacked_and_rendered_together():
-    assert 'role="tablist"' not in HTML
-    assert 'role="tabpanel"' not in HTML
+    sector_flow = HTML[
+        HTML.index('<section class="section-block sector-flow-block"'):
+        HTML.index('<section class="facts-grid"')
+    ]
+    assert 'role="tablist"' not in sector_flow
+    assert 'role="tabpanel"' not in sector_flow
     defense = HTML.index('id="sector-flow-defense-heading"')
     offense = HTML.index('id="sector-flow-offense-heading"')
     assert defense < offense
@@ -434,6 +485,10 @@ def test_sector_flow_selection_and_sudden_move_override_are_local_and_explicit()
     assert 'sectorFlowSurgeThreshold: "tradex.marketWatch.sectorFlowSurgeThreshold.v1"' in JS
     assert "function sectorFlowDisplayPayload(payload)" in JS
     assert "Math.abs(changeDelta) >= state.sectorFlowSurgeThreshold" in JS
+    assert "function hasFullSectorResonance(item)" in JS
+    assert "const resonance = hasFullSectorResonance(item)" in JS
+    assert "const automatic = (triggered || resonance) && !isSelected" in JS
+    assert "if (hasFullSectorResonance(item))" in JS
     assert "自动出现" in JS
     assert "5分涨速" in JS
     assert "storeJson(sectorFlowSelectionStorageKey(scope)" in JS
@@ -500,16 +555,22 @@ def test_sector_flow_observations_keep_sector_change_and_leaders_visible():
     assert "renderSectorFlowLeaders(item, latest)" in observations.group("body")
     assert 'text(item.parent_name, "")' in observations.group("body")
     assert "snapshot.leaders" in leaders.group("body")
-    assert 'snapshot.selection_method === "sector_fund_flow_minute_correlation.v1"' in leaders.group("body")
-    assert 'isResonanceSnapshot ? asArray(snapshot.leaders).slice(0, 1) : []' in leaders.group("body")
+    assert 'snapshot.selection_method === "sector_fund_flow_path_resonance.v2"' in leaders.group("body")
+    assert 'isUpResonance ? asArray(snapshot.leaders).slice(0, 1) : []' in leaders.group("body")
     assert '"共振回溯暂缺"' in leaders.group("body")
     assert "change <= 0" not in leaders.group("body")
-    assert 'text(snapshot.status_label, "暂无高共振快涨股")' in leaders.group("body")
+    assert 'text(snapshot.status_label, "暂无高共振股")' in leaders.group("body")
     assert '"共振领涨股"' in leaders.group("body")
+    assert 'snapshot.resonance_direction === "up"' in leaders.group("body")
+    assert '"共振领跌股"' not in leaders.group("body")
     assert 'leader.speed_pct' in leaders.group("body")
     assert '5分 ${formatChangePct(leaderSpeed)}' in leaders.group("body")
     assert 'leader.resonance_correlation' in leaders.group("body")
     assert '相关 ${correlation.toFixed(2)}' in leaders.group("body")
+    assert 'leader.directional_agreement_ratio' in leaders.group("body")
+    assert '同向 ${(agreement * 100).toFixed(0)}%' in leaders.group("body")
+    assert "只识别板块5分钟资金边际流入" in leaders.group("body")
+    assert "2分钟内最近的完整共同窗口" in leaders.group("body")
     assert ".slice(0, 1)" in leaders.group("body")
     assert "leader.instrument_id" in leaders.group("body")
 
@@ -690,7 +751,8 @@ def test_split_payloads_commit_only_after_revision_and_point_manifest_proofs():
     assert "proof.points_revision !== manifest.points_revision" in JS
     assert "points.length !== manifest.point_count" in JS
     assert "const results = await Promise.all" in JS
-    assert JS.index("const results = await Promise.all") < JS.index("state.lastSummary = summary")
+    results_index = JS.index("const results = await Promise.all")
+    assert results_index < JS.index("state.lastSummary = summary", results_index)
     assert "state.trajectoryDetails = details" in JS
     assert "state.lastSnapshot = snapshot" in JS
 
@@ -743,7 +805,6 @@ def test_watch_page_reads_only_canonical_v1_fields_and_event_reads_are_scoped():
         "advance_count",
         "decline_count",
         "up_ratio",
-        "sector_name",
         "role_tags",
         "rotation.strengthening",
         "rotation.weakening",
@@ -752,6 +813,7 @@ def test_watch_page_reads_only_canonical_v1_fields_and_event_reads_are_scoped():
         "alert.as_of",
     )
     assert all(alias not in JS for alias in legacy_aliases)
+    assert ".sector_name" not in JS
     assert 'normalized === "strengthening"' in JS
     assert 'normalized === "weakening"' in JS
     assert 'abstain: "暂不判断"' in JS
@@ -768,3 +830,29 @@ def test_watch_page_is_self_contained_and_desktop_only():
     assert "min-width: 1180px" in CSS
     assert "react" not in combined.lower()
     assert "cdn" not in combined.lower()
+
+
+def test_limit_up_pool_is_revision_bound_grouped_and_honest_about_attribution():
+    assert 'const LIMIT_UP_POOL_ENDPOINT = "/api/limit-up-pool"' in JS
+    assert 'id="limit-up-pool-open-button"' in HTML
+    assert 'id="limit-up-pool-dialog"' in HTML
+    assert 'id="limit-up-pool-categories"' in HTML
+    assert 'id="limit-up-pool-board"' in HTML
+    assert 'payload.contract !== "limit_up_follow_pool.v1"' in JS
+    assert "new URLSearchParams({ source_snapshot_revision: revision })" in JS
+    assert "payload.source_snapshot_revision !== expectedRevision" in JS
+    assert 'item.attribution_method === "limit_up_seal_window_sector_flow_resonance.v1"' in JS
+    assert 'item.attribution_method === "limit_up_opening_cohort_confirmation.v1"' in JS
+    assert "供应商原因（仅供核对，不参与归因）" in JS
+    assert 'height > 0 ? `${height}板`' in JS
+    assert "formatLimitUpSealTime(item.first_sealed_at)" in JS
+    assert "共同分钟或候选板块证据不足，不猜测" in JS
+    assert 'fetchLimitUpPool({ showPending: byId("limit-up-pool-dialog").open })' in JS
+    assert 'includes("analysis_pending_midday_or_post_close")' in JS
+    assert "盘中涨停状态已更新 · 午盘/盘后归类" in JS
+    assert "涨停状态已实时更新 · 资金跟随分析尚未执行" in JS
+    assert 'id="limit-up-pool-unresolved-label"' in HTML
+    assert "每分钟刷新涨停名单、板数与首次封板时间" in HTML
+    assert "首封前 5 分钟资金路径相关 ≥ 0.60" in HTML
+    assert "一字或 09:33 前封板仅有同板块已确认股票群" in HTML
+    assert "@media" not in CSS

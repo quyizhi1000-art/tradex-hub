@@ -269,6 +269,40 @@ def test_fetch_board_leaders_uses_a_bounded_first_page_and_preserves_missing(mon
     assert result.attrs["source"] == "push2"
 
 
+def test_fetch_board_leaders_can_request_falling_speed_order(monkeypatch):
+    calls = []
+
+    def fake_em_get(url, params, timeout):
+        calls.append((url, params, timeout))
+        return _FakeResponse(payload={
+            "data": {
+                "diff": [{
+                    "f12": "600001",
+                    "f14": "下跌样本",
+                    "f2": 10.0,
+                    "f3": -2.0,
+                    "f22": -1.0,
+                    "f6": 1000,
+                    "f8": 1.0,
+                    "f62": -100,
+                    "f184": -1.0,
+                    "f124": 1787796000,
+                }]
+            }
+        })
+
+    monkeypatch.setattr(em_client, "em_get", fake_em_get)
+
+    result = http_fetchers.fetch_board_leaders(
+        "BK1036",
+        limit=1,
+        speed_order="asc",
+    )
+
+    assert calls[0][1]["po"] == "0"
+    assert result.iloc[0]["speed_pct"] == -1.0
+
+
 def test_fetch_board_leaders_falls_back_to_delay_and_validates_bounds(monkeypatch):
     calls = []
 

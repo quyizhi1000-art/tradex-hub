@@ -351,11 +351,14 @@ def assess_board_leaders(
     *,
     leaders: Sequence[BoardLeaderV2],
     provider_as_of: datetime | None,
+    source_row_count: int | None = None,
 ) -> tuple[QualityStatus, tuple[str, ...]]:
     if not leaders:
         raise DataQualityError("板块领涨成分为空")
 
     flags: list[str] = []
+    if source_row_count is not None and source_row_count > len(leaders):
+        flags.append("leader_rows_without_speed")
     if any(
         any(
             value is None

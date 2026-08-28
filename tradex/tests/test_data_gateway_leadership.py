@@ -197,6 +197,7 @@ def test_board_leader_mapping_failure_falls_back_to_next_provider() -> None:
     assert snapshot.metadata.schema_version == 2
     assert snapshot.metadata.provider == "push2delay"
     assert snapshot.metadata.quality is QualityStatus.ACCEPTED
+    assert snapshot.speed_order == "desc"
     assert payload == {
         "status": "ready",
         "source": "push2delay",
@@ -221,3 +222,31 @@ def test_board_leader_mapping_failure_falls_back_to_next_provider() -> None:
             }
         ],
     }
+
+
+def test_board_leaders_skip_only_rows_without_required_speed() -> None:
+    frame = _board_frame(name="中信证券", source="push2delay")
+    frame.loc[1] = {
+        **frame.loc[0].to_dict(),
+        "code": "000001",
+        "name": "缺少涨速",
+        "speed_pct": None,
+    }
+    router = SmartRouter()
+    router.register(
+        "board_leaders",
+        "eastmoney",
+        lambda **_kwargs: frame,
+        priority=1,
+    )
+
+    snapshot = fetch_board_leader_snapshot(
+        "BK0473",
+        limit=3,
+        router=router,
+        now=_NOW,
+    )
+
+    assert [item.name for item in snapshot.leaders] == ["中信证券"]
+    assert snapshot.metadata.quality is QualityStatus.DEGRADED
+    assert snapshot.metadata.quality_flags == ("leader_rows_without_speed",)

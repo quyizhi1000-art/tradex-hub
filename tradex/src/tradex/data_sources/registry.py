@@ -10,7 +10,8 @@
   | stock_list           | akshare           |               |               |           |
   | market_universe      | tushare           |               | akshare       |           |
   | historical_kline     | tushare           | biying/ths_fuyao | eltdx/akshare  |           |
-  | minute_data          | tushare           |               | eltdx        |           |
+  | minute_data          | tushare           | eastmoney     | eltdx        |           |
+  | minute_data_batch/partial | tushare (max 40) |            |              |           |
   | call_auction         | eltdx             |               |               | 是        |
   | auction_data         | tushare           | eltdx         |               |           |
   | tick_data            | eltdx             |               |               | 是        |
@@ -21,6 +22,7 @@
   | industry_data        | biying            |               | akshare       |           |
   | market_overview      | biying            |               | tencent_http/akshare |      |
   | index_intraday_amount | eastmoney        |               |               |           |
+  | index_intraday_series | eastmoney        |               |               |           |
   | sector_intraday_fund_flow | (exact paid unavailable) |   | eastmoney |               |
   | news_data            | em_news_direct    | akshare       |               |           |
   | telegraph_news       | cls_telegraph     |               |               |           |
@@ -39,6 +41,7 @@
   | lockup_expiry        | em_datacenter     |               |               | 是        |
   | limit_up_board       | biying            | ths_fuyao     | em_push2_clist   |           |
   | limit_events         | ths               |               |                  |           |
+  | limit_event_status   | ths               |               |                  |           |
   | market_breadth       | ths_fuyao         |               | em_push2ex       |           |
   | leader_quotes        | tencent_http      |               |                  |           |
   | stock_sector_profiles | em_push2delay    |               |                  |           |
@@ -151,6 +154,7 @@ def _register_all_sources_unlocked() -> None:
             "stock_selection_financial_period",
             tsf.fetch_stock_selection_financial_period,
         ),
+        ("instrument_taxonomy", tsf.fetch_instrument_taxonomy_source),
     ):
         if tushare_provides(capability):
             router.register(
@@ -229,6 +233,24 @@ def _register_all_sources_unlocked() -> None:
         router.register(
             "minute_data", "tushare", tsf.fetch_minute_data, priority=1
         )
+        router.register(
+            "minute_data_batch",
+            "tushare",
+            tsf.fetch_minute_data_batch,
+            priority=1,
+        )
+        router.register(
+            "minute_data_batch_partial",
+            "tushare",
+            tsf.fetch_minute_data_batch_partial,
+            priority=1,
+        )
+    router.register(
+        "minute_data",
+        "eastmoney",
+        hf.fetch_minute_data_eastmoney,
+        priority=50 if tushare_minutes else 1,
+    )
     router.register(
         "minute_data",
         "eltdx",
@@ -323,7 +345,13 @@ def _register_all_sources_unlocked() -> None:
     router.register(
         "index_intraday_amount",
         "eastmoney",
-        akf.fetch_index_intraday_amount,
+        hf.fetch_index_intraday_amount_eastmoney,
+        priority=1,
+    )
+    router.register(
+        "index_intraday_series",
+        "eastmoney",
+        hf.fetch_index_intraday_series_eastmoney,
         priority=1,
     )
     # Exact-capability order is Tushare -> Fuyao -> free.  The currently
@@ -501,6 +529,12 @@ def _register_all_sources_unlocked() -> None:
     router.register("ths_eps_forecast", "ths", ths.fetch_ths_eps_forecast, priority=1)
     router.register("ths_hot_reason", "ths", ths.fetch_ths_hot_reason, priority=1)
     router.register("limit_events", "ths", ths.fetch_ths_limit_up_pool, priority=1)
+    router.register(
+        "limit_event_status",
+        "ths",
+        ths.fetch_ths_limit_up_status,
+        priority=1,
+    )
     router.register("ths_hot_list", "ths", ths.fetch_ths_hot_list, priority=1)
     router.register("local_kline", "tdx_local", tdx.fetch_local_kline, priority=1)
     router.register("local_minute", "tdx_local", tdx.fetch_local_minute, priority=1)

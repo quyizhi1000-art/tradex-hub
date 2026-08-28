@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import date, datetime
 from zoneinfo import ZoneInfo
 
 import pandas as pd
@@ -124,6 +124,23 @@ def test_wrong_day_primary_is_rejected_inside_route_and_falls_back():
     assert router.providers == ["primary", "akshare"]
     assert snapshot.quotes[0].name == "当日数据"
     assert snapshot.metadata.provider == "akshare"
+
+
+def test_explicit_trade_date_accepts_provider_proven_prior_close_after_midnight():
+    prior_close = _frame(
+        {"代码": "600000", "名称": "收盘数据", "最新价": 10, "涨跌幅": 1, "成交额": 1},
+        provider_as_of="2026-08-24T15:00:00+08:00",
+    )
+
+    snapshot = fetch_a_share_universe_snapshot(
+        router=Router(("akshare", prior_close)),
+        now=datetime(2026, 8, 25, 0, 10, tzinfo=SHANGHAI),
+        trade_date=date(2026, 8, 24),
+    )
+
+    assert snapshot.metadata.provider_as_of == datetime(
+        2026, 8, 24, 15, 0, tzinfo=SHANGHAI
+    )
 
 
 def test_market_cap_filter_requirement_rejects_incomplete_paid_shape_and_falls_back():

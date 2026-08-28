@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import inspect
 from io import BytesIO
+from pathlib import Path
 from types import SimpleNamespace
 
 import pytest
@@ -17,6 +18,30 @@ def _bare_handler() -> dashboard_app.DashboardHandler:
     handler.wfile = BytesIO()
     handler.headers = {}
     return handler
+
+
+def test_limit_up_pool_route_requires_and_forwards_the_exact_source_revision(
+    monkeypatch,
+):
+    revision = "a" * 64
+    observed = []
+    handler = _bare_handler()
+    handler.path = f"/api/limit-up-pool?source_snapshot_revision={revision}"
+    monkeypatch.setattr(
+        dashboard_app,
+        "get_limit_up_follow_pool",
+        lambda source_snapshot_revision: observed.append(source_snapshot_revision)
+        or {"contract": "limit_up_follow_pool.v1"},
+    )
+    responses = []
+    handler._send_json = lambda status, payload, **_kwargs: responses.append(
+        (status, payload)
+    )
+
+    handler.do_GET()
+
+    assert observed == [revision]
+    assert responses == [(200, {"contract": "limit_up_follow_pool.v1"})]
 
 
 def test_watch_asset_loader_is_allow_listed_and_uncached(tmp_path, monkeypatch):
@@ -382,29 +407,54 @@ def test_dashboard_collection_dependency_is_opened_read_only(tmp_path, monkeypat
         monkeypatch.setattr(dashboard_app, "_MARKET_WATCH_COLLECTION_STORE", previous)
 
 
-def test_post_market_review_uses_latest_accepted_raw_payload_only(monkeypatch):
-    source_payload = {"contract": "market_watch.v1", "snapshot_id": "mw-accepted"}
-    facade = SimpleNamespace(
-        read=lambda: SimpleNamespace(
-            accepted=SimpleNamespace(source_payload=source_payload)
-        )
+def test_dashboard_analysis_get_dependency_never_creates_worker_ledger(
+    tmp_path,
+    monkeypatch,
+):
+    db_path = tmp_path / "missing" / "analysis.sqlite3"
+    previous = dashboard_app._ANALYSIS_JOB_READER
+    monkeypatch.setenv("TRADEX_ANALYSIS_DB", str(db_path))
+    monkeypatch.setattr(dashboard_app, "_ANALYSIS_JOB_READER", None)
+
+    with pytest.raises(LookupError):
+        dashboard_app._get_analysis_job_reader()
+
+    assert not db_path.exists()
+    assert not db_path.parent.exists()
+    monkeypatch.setattr(dashboard_app, "_ANALYSIS_JOB_READER", previous)
+
+
+def test_post_market_review_command_only_enqueues_worker_job(monkeypatch):
+    calls = []
+    job = {
+        "job_id": "post-market-review:1",
+        "trade_date": "2026-08-26",
+        "trigger": "manual",
+        "state": "queued",
+        "phase": "queued",
+        "requested_at": "2026-08-26T10:00:00+00:00",
+        "started_at": None,
+        "finished_at": None,
+        "error": None,
+        "failure_code": None,
+        "failed_phase": None,
+        "result": None,
+    }
+    store = SimpleNamespace(
+        enqueue=lambda capability, **kwargs: calls.append((capability, kwargs)) or job
     )
-    monkeypatch.setattr(dashboard_app, "_get_market_watch_read_facade", lambda: facade)
+    monkeypatch.setattr(dashboard_app, "_get_analysis_job_store", lambda: store)
     monkeypatch.setattr(
         dashboard_app,
-        "get_market_watch_data",
-        lambda **_kwargs: pytest.fail("post-market review refreshed providers"),
+        "_get_market_watch_read_facade",
+        lambda: pytest.fail("Dashboard command read accepted snapshots"),
     )
 
-    assert dashboard_app._load_post_market_review_snapshot() is source_payload
+    payload = dashboard_app.generate_post_market_review()
 
-
-def test_post_market_review_fails_closed_without_accepted_real(monkeypatch):
-    facade = SimpleNamespace(read=lambda: SimpleNamespace(accepted=None))
-    monkeypatch.setattr(dashboard_app, "_get_market_watch_read_facade", lambda: facade)
-
-    with pytest.raises(RuntimeError, match="collector-accepted real"):
-        dashboard_app._load_post_market_review_snapshot()
+    assert payload["contract"] == "post_market_review_generation.v1"
+    assert payload["state"] == "queued"
+    assert calls[0][0] == "post_market_review"
 
 
 def test_normal_market_watch_read_uses_stale_while_revalidate(monkeypatch):
@@ -473,15 +523,20 @@ def test_history_days_rejects_invalid_values(value):
         dashboard_app._history_days(value)
 
 
-def test_empty_session_evaluation_is_honestly_insufficient(monkeypatch):
+def test_empty_session_evaluation_reads_worker_artifact(monkeypatch):
+    artifact = {
+        "payload": {
+            "contract": "market_watch_evaluation.v1",
+            "acceptance": {"verdict": "insufficient"},
+            "metrics": {"coverage": {"sample_count": 0}},
+        }
+    }
+    store = SimpleNamespace(get_artifact=lambda capability, scope_key: artifact)
+    monkeypatch.setattr(dashboard_app, "_get_analysis_job_reader", lambda: store)
     monkeypatch.setattr(
         dashboard_app,
-        "get_market_watch_history",
-        lambda **kwargs: {
-            "trade_date": "2026-08-24",
-            "samples": [],
-            "alerts": [],
-        },
+        "_get_market_watch_history_store",
+        lambda: SimpleNamespace(list_dates=lambda: [{"trade_date": "2026-08-24"}]),
     )
 
     payload = dashboard_app.get_market_watch_evaluation(trade_date="2026-08-24")
@@ -491,90 +546,43 @@ def test_empty_session_evaluation_is_honestly_insufficient(monkeypatch):
     assert payload["metrics"]["coverage"]["sample_count"] == 0
 
 
-def test_persisted_alert_envelope_is_narrowed_for_the_evaluator():
-    event = {
-        "history_contract": "market_watch_history.v1",
-        "history_schema_version": 1,
-        "config_version": "market-watch-policy.v1",
-        "event_key": "event-1",
-        "trade_date": "2026-08-24",
-        "minute_bucket": "2026-08-24T10:00:00+08:00",
-        "observed_at": "2026-08-24T10:00:05+08:00",
-        "recorded_at": "2026-08-24T10:00:06+08:00",
-        "snapshot_id": "mw-1",
-        "sequence": 1,
-        "dedupe_key": "market_watch:data_stale",
-        "code": "data_stale",
-        "severity": "stop",
-        "alert": {
-            "code": "data_stale",
-            "severity": "stop",
-            "title": "数据陈旧",
-            "message": "暂停判断。",
-            "dedupe_key": "market_watch:data_stale",
-        },
-    }
-
-    narrowed = dashboard_app._evaluation_alerts([event])
-
-    from tradex.market_watch.evaluation import evaluate_market_watch_session
-
-    report = evaluate_market_watch_session(
-        [],
-        alerts=narrowed,
-        trade_date="2026-08-24",
-    )
-    assert report.metrics.alerts.source == "explicit"
-    assert report.metrics.alerts.emitted_alert_count == 1
-
-
-def test_multi_day_evaluation_reads_dates_in_chronological_order(monkeypatch):
+def test_multi_day_evaluation_reads_exact_worker_scope(monkeypatch):
+    calls = []
     store = SimpleNamespace(
-        list_dates=lambda limit: [
-            {"trade_date": "2026-08-25"},
-            {"trade_date": "2026-08-24"},
-        ][:limit],
-        get_replay_timeline=lambda trade_date, limit=None: [
-            {"payload": {"trade_date_marker": trade_date}}
-        ],
-        get_alerts=lambda trade_date, limit=None: [
-            {
-                "trade_date": trade_date,
-                "observed_at": f"{trade_date}T10:00:00+08:00",
-                "snapshot_id": f"mw-{trade_date}",
-                "alert": {"code": "marker"},
-            }
-        ],
+        get_artifact=lambda capability, scope_key: calls.append(
+            (capability, scope_key)
+        )
+        or {"payload": {"contract": "market_watch_evaluation.v1", "scope": "multi_day"}}
     )
-    captured = {}
-
-    class Report:
-        def model_dump(self, mode):
-            return {"contract": "market_watch_evaluation.v1", "scope": "multi_day"}
-
-    import tradex.market_watch.evaluation as evaluation
-
-    def fake_evaluate(samples, alerts, config):
-        captured["samples"] = samples
-        captured["alerts"] = alerts
-        captured["config"] = config
-        return Report()
-
-    monkeypatch.setattr(dashboard_app, "_get_market_watch_history_store", lambda: store)
-    monkeypatch.setattr(evaluation, "evaluate_market_watch_history", fake_evaluate)
+    monkeypatch.setattr(dashboard_app, "_get_analysis_job_reader", lambda: store)
 
     payload = dashboard_app.get_market_watch_evaluation(days=2)
 
     assert payload["scope"] == "multi_day"
-    assert [item["trade_date_marker"] for item in captured["samples"]] == [
-        "2026-08-24",
-        "2026-08-25",
-    ]
-    assert [item["trade_date"] for item in captured["alerts"]] == [
-        "2026-08-24",
-        "2026-08-25",
-    ]
-    assert captured["config"].minimum_sessions_for_multi_day == 2
+    assert calls == [("market_watch_evaluation", "days:2")]
+
+
+def test_evaluation_missing_artifact_is_honestly_unavailable(monkeypatch):
+    store = SimpleNamespace(get_artifact=lambda capability, scope_key: None)
+    monkeypatch.setattr(dashboard_app, "_get_analysis_job_reader", lambda: store)
+    monkeypatch.setattr(
+        dashboard_app,
+        "_get_market_watch_history_store",
+        lambda: SimpleNamespace(list_dates=lambda: [{"trade_date": "2026-08-24"}]),
+    )
+
+    with pytest.raises(LookupError, match="后台准备"):
+        dashboard_app.get_market_watch_evaluation(trade_date="2026-08-24")
+
+
+def test_dashboard_process_does_not_own_analysis_schedulers_or_evaluator():
+    source = Path(dashboard_app.__file__).read_text(encoding="utf-8")
+
+    assert "post-market-review-scheduler" not in source
+    assert "daily-stock-selection-scheduler" not in source
+    assert "evaluate_market_watch_session" not in source
+    assert "evaluate_market_watch_history" not in source
+    assert "get_timeline(" not in source
 
 
 def test_history_and_evaluation_routes_preserve_bounded_query(monkeypatch):

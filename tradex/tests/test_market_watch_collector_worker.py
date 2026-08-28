@@ -51,6 +51,106 @@ def test_historical_worker_seam_fails_closed_instead_of_backdating_current_data(
         collector_worker._repair_historical(object())
 
 
+def test_historical_worker_recovers_only_a_provider_verified_final_close(
+    monkeypatch,
+) -> None:
+    target = datetime(2026, 8, 26, 15, 0, tzinfo=SHANGHAI)
+    observed = datetime(2026, 8, 27, 0, 5, tzinfo=SHANGHAI)
+    slot = SimpleNamespace(minute_bucket=target)
+    final = object()
+    calls = []
+    monkeypatch.setattr(collector_worker, "_now", lambda: observed)
+    monkeypatch.setattr(
+        collector_worker,
+        "_capture_final_close",
+        lambda received_slot, received_at: calls.append(
+            (received_slot, received_at)
+        )
+        or final,
+    )
+
+    assert collector_worker._repair_historical(slot) is final
+    assert calls == [(slot, observed)]
+
+    with pytest.raises(
+        collector_worker.HistoricalMarketWatchUnavailable,
+        match="no exact historical",
+    ):
+        collector_worker._repair_historical(
+            SimpleNamespace(minute_bucket=target - timedelta(minutes=1))
+        )
+
+
+def test_final_close_requires_provider_date_and_1500_turnover_proof() -> None:
+    trade_date = datetime(2026, 8, 26, tzinfo=SHANGHAI).date()
+    payload = {
+        "provider_as_of": "2026-08-26T15:00:45+08:00",
+        "market_turnover": {
+            "available": True,
+            "today_date": "2026-08-26",
+            "as_of": "15:00",
+        },
+    }
+
+    assert collector_worker._market_payload_has_final_close(payload, trade_date)
+    assert not collector_worker._market_payload_has_final_close(
+        {**payload, "provider_as_of": "2026-08-27T09:30:00+08:00"},
+        trade_date,
+    )
+    assert not collector_worker._market_payload_has_final_close(
+        {
+            **payload,
+            "market_turnover": {**payload["market_turnover"], "as_of": "14:59"},
+        },
+        trade_date,
+    )
+
+
+def test_final_breadth_is_derived_from_provider_timestamped_full_universe(
+    monkeypatch,
+) -> None:
+    from tradex import data_gateway
+
+    observed = datetime(2026, 8, 27, 0, 10, tzinfo=SHANGHAI)
+    provider_as_of = datetime(2026, 8, 26, 15, 0, 20, tzinfo=SHANGHAI)
+    universe = SimpleNamespace(
+        metadata=SimpleNamespace(
+            provider_as_of=provider_as_of,
+            quality=SimpleNamespace(value="accepted"),
+            quality_flags=(),
+        ),
+        quotes=(
+            SimpleNamespace(change_pct=1.0),
+            SimpleNamespace(change_pct=-0.5),
+            SimpleNamespace(change_pct=0.0),
+        ),
+        provider_row_count=4,
+        excluded_row_count=1,
+    )
+    monkeypatch.setattr(
+        data_gateway,
+        "fetch_a_share_universe_snapshot",
+        lambda **kwargs: universe,
+    )
+    monkeypatch.setattr(
+        data_gateway,
+        "metadata_to_component_status",
+        lambda _metadata: {"provider_as_of": provider_as_of.isoformat()},
+    )
+
+    breadth, status = collector_worker._provider_verified_final_breadth(
+        provider_as_of.date(),
+        observed,
+    )
+
+    assert breadth["up_count"] == 1
+    assert breadth["down_count"] == 1
+    assert breadth["flat_count"] == 1
+    assert breadth["unclassified_count"] == 1
+    assert breadth["total_count"] == 4
+    assert status["provider_as_of"] == provider_as_of.isoformat()
+
+
 def test_current_capture_calls_canonical_owner_without_using_web_read_facade(
     monkeypatch,
 ) -> None:
@@ -186,6 +286,7 @@ def test_post_close_loop_generates_one_batch_for_the_trading_day(monkeypatch) ->
     stop_event = threading.Event()
     observed = datetime(2026, 8, 26, 15, 5, tzinfo=SHANGHAI)
     calls = []
+    pool_calls = []
 
     def generate(*, reuse_existing):
         assert reuse_existing is True
@@ -194,6 +295,14 @@ def test_post_close_loop_generates_one_batch_for_the_trading_day(monkeypatch) ->
         return {"resonance_revision": "a" * 64, "entry_count": 8}
 
     monkeypatch.setattr(collector_worker, "_generate_latest_resonance", generate)
+    monkeypatch.setattr(
+        collector_worker,
+        "_generate_latest_limit_up_pool",
+        lambda *, reuse_existing, analyze: pool_calls.append(
+            (observed.date(), reuse_existing, analyze)
+        )
+        or {"attribution_revision": "d" * 64, "pool_total": 12},
+    )
 
     collector_worker._run_post_close_resonance_loop(
         stop_event,
@@ -202,12 +311,14 @@ def test_post_close_loop_generates_one_batch_for_the_trading_day(monkeypatch) ->
     )
 
     assert calls == [observed.date()]
+    assert pool_calls == [(observed.date(), False, True)]
 
 
 def test_intraday_loop_generates_one_batch_for_the_five_minute_bucket(monkeypatch) -> None:
     stop_event = threading.Event()
     observed = datetime(2026, 8, 26, 10, 37, tzinfo=SHANGHAI)
     calls = []
+    pool_calls = []
 
     def generate(*, reuse_existing):
         assert reuse_existing is True
@@ -216,6 +327,14 @@ def test_intraday_loop_generates_one_batch_for_the_five_minute_bucket(monkeypatc
         return {"resonance_revision": "b" * 64, "entry_count": 8}
 
     monkeypatch.setattr(collector_worker, "_generate_latest_resonance", generate)
+    monkeypatch.setattr(
+        collector_worker,
+        "_generate_latest_limit_up_pool",
+        lambda *, reuse_existing, analyze: pool_calls.append(
+            (observed, reuse_existing, analyze)
+        )
+        or {"attribution_revision": "e" * 64, "pool_total": 12},
+    )
 
     collector_worker._run_post_close_resonance_loop(
         stop_event,
@@ -224,3 +343,108 @@ def test_intraday_loop_generates_one_batch_for_the_five_minute_bucket(monkeypatc
     )
 
     assert calls == [observed]
+    assert pool_calls == [(observed, True, False)]
+
+
+def test_intraday_loop_rechecks_a_new_minute_instead_of_waiting_five_minutes(
+    monkeypatch,
+) -> None:
+    observations = (
+        datetime(2026, 8, 26, 13, 5, tzinfo=SHANGHAI),
+        datetime(2026, 8, 26, 13, 5, 30, tzinfo=SHANGHAI),
+        datetime(2026, 8, 26, 13, 6, tzinfo=SHANGHAI),
+    )
+
+    class StepStopEvent:
+        index = 0
+
+        def is_set(self):
+            return self.index >= len(observations)
+
+        def wait(self, _seconds):
+            self.index += 1
+            return self.is_set()
+
+    stop_event = StepStopEvent()
+    calls = []
+    monkeypatch.setattr(
+        collector_worker,
+        "_generate_latest_resonance",
+        lambda *, reuse_existing: calls.append(stop_event.index)
+        or {"resonance_revision": "c" * 64, "entry_count": 8},
+    )
+    pool_calls = []
+    monkeypatch.setattr(
+        collector_worker,
+        "_generate_latest_limit_up_pool",
+        lambda *, reuse_existing, analyze: pool_calls.append(
+            (stop_event.index, reuse_existing, analyze)
+        )
+        or {"attribution_revision": "f" * 64, "pool_total": 12},
+    )
+
+    collector_worker._run_post_close_resonance_loop(
+        stop_event,
+        clock=lambda: observations[min(stop_event.index, len(observations) - 1)],
+        check_interval_seconds=0,
+    )
+
+    assert calls == [0, 2]
+    assert pool_calls == [(0, True, False), (2, True, False)]
+
+
+def test_opening_minutes_publish_limit_status_before_resonance(monkeypatch) -> None:
+    stop_event = threading.Event()
+    observed = datetime(2026, 8, 26, 9, 31, tzinfo=SHANGHAI)
+    resonance_calls = []
+    pool_calls = []
+    monkeypatch.setattr(
+        collector_worker,
+        "_generate_latest_resonance",
+        lambda *, reuse_existing: resonance_calls.append(reuse_existing),
+    )
+
+    def generate_pool(*, reuse_existing, analyze):
+        pool_calls.append((reuse_existing, analyze))
+        stop_event.set()
+        return {"attribution_revision": "1" * 64, "pool_total": 3}
+
+    monkeypatch.setattr(
+        collector_worker,
+        "_generate_latest_limit_up_pool",
+        generate_pool,
+    )
+
+    collector_worker._run_post_close_resonance_loop(
+        stop_event,
+        clock=lambda: observed,
+        check_interval_seconds=0,
+    )
+
+    assert pool_calls == [(True, False)]
+    assert resonance_calls == []
+
+
+def test_midday_runs_one_full_limit_up_attribution(monkeypatch) -> None:
+    stop_event = threading.Event()
+    observed = datetime(2026, 8, 26, 11, 35, tzinfo=SHANGHAI)
+    pool_calls = []
+
+    def generate_pool(*, reuse_existing, analyze):
+        pool_calls.append((reuse_existing, analyze))
+        stop_event.set()
+        return {"attribution_revision": "2" * 64, "pool_total": 12}
+
+    monkeypatch.setattr(
+        collector_worker,
+        "_generate_latest_limit_up_pool",
+        generate_pool,
+    )
+
+    collector_worker._run_post_close_resonance_loop(
+        stop_event,
+        clock=lambda: observed,
+        check_interval_seconds=0,
+    )
+
+    assert pool_calls == [(False, True)]

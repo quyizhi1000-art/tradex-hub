@@ -10,10 +10,17 @@ from __future__ import annotations
 import threading
 from collections.abc import Callable, Mapping, Sequence
 from dataclasses import dataclass
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from types import MappingProxyType
 from typing import Any, Protocol
 from zoneinfo import ZoneInfo
+
+from tradex.market_calendar import (
+    CalendarDayStatus,
+    TradingSessionPhase,
+    a_share_session,
+    calendar_day_status,
+)
 
 from .collection_contracts import (
     AcceptedSnapshotPointerV1,
@@ -83,16 +90,30 @@ def _minute(value: datetime | str, *, name: str) -> datetime:
     return parsed.astimezone(SHANGHAI).replace(second=0, microsecond=0)
 
 
+def _previous_trading_date(value: date) -> date | None:
+    candidate = value - timedelta(days=1)
+    while True:
+        status = calendar_day_status(candidate)
+        if status is CalendarDayStatus.VERIFIED_TRADING_DAY:
+            return candidate
+        if status is CalendarDayStatus.UNVERIFIED:
+            return None
+        candidate -= timedelta(days=1)
+
+
 def _current_session_envelope(
     envelope: MarketWatchCollectorEnvelopeV1,
+    *,
+    as_of: datetime,
 ) -> MarketWatchCollectorEnvelopeV1:
-    """Do not expose a previous session as the current trading-day view.
+    """Expose the previous verified close only until the next session opens.
 
     The persistent ledger deliberately keeps its latest accepted pointer across
-    dates.  On a verified trading day, however, the Web reader must wait for
-    that day's first accepted-real snapshot instead of publishing yesterday's
-    phase and numbers as today's board.  Non-trading days retain the latest
-    close because their completeness contract has no expected minute buckets.
+    dates.  Before 09:30 on a verified trading day, that exact previous-trading-
+    day snapshot remains useful and is safe to display with its original date.
+    Once the market opens, the Web reader must wait for the current day's first
+    accepted-real snapshot.  Non-trading days retain the latest close because
+    their completeness contract has no expected minute buckets.
     """
 
     completeness = envelope.collection_completeness
@@ -101,7 +122,20 @@ def _current_session_envelope(
     trade_date = completeness.trade_date
     updates: dict[str, Any] = {}
     accepted = envelope.latest_accepted_real
-    if accepted is not None and accepted.trade_date != trade_date:
+    session = a_share_session(as_of)
+    previous_trading_date = _previous_trading_date(trade_date)
+    may_show_previous_close = bool(
+        accepted is not None
+        and session.phase is TradingSessionPhase.PRE_OPEN
+        and session.trading_date == trade_date
+        and previous_trading_date is not None
+        and accepted.trade_date == previous_trading_date
+    )
+    if (
+        accepted is not None
+        and accepted.trade_date != trade_date
+        and not may_show_previous_close
+    ):
         updates["latest_accepted_real"] = None
     cursor = envelope.collection_cursor
     if cursor is not None and cursor.trade_date != trade_date:
@@ -176,7 +210,8 @@ class MarketWatchReadFacade:
         return _current_session_envelope(
             MarketWatchCollectorEnvelopeV1.model_validate(
                 self._collection_reader.read_envelope(as_of=observed)
-            )
+            ),
+            as_of=observed,
         )
 
     def _cache_matches(self, pointer: AcceptedSnapshotPointerV1) -> bool:

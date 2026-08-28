@@ -298,10 +298,10 @@ Describe "tradex independent market-watch collector lifecycle" {
         )
     }
 
-    It "wires dashboard stop independently while stop-all owns collector shutdown" {
+    It "wires dashboard start dependencies while dashboard stop remains independent" {
         $source = Get-Content -LiteralPath $controlScript -Raw -Encoding UTF8
 
-        $source | Should Match '(?s)"start-dashboard"\s*\{\s*Start-CollectorWorker\s*Start-Component'
+        $source | Should Match '(?s)"start-dashboard"\s*\{\s*Start-CollectorWorker\s*Start-AnalysisWorker\s*Start-Component'
         $source | Should Match '(?s)"stop-dashboard"\s*\{\s*Stop-Component\s+"dashboard"\s+\$DashboardPort\s*\}'
         $source | Should Match '(?s)"stop-all"\s*\{.*Stop-CollectorWorker.*\}'
         Get-ProcessPattern "collector" | Should Match 'collector_worker'
@@ -325,5 +325,132 @@ Describe "tradex independent market-watch collector lifecycle" {
         Test-CollectorEnvelopeReady $fresh $started | Should Be $true
         Test-CollectorEnvelopeReady $stale $started | Should Be $false
         Test-CollectorEnvelopeReady $stopped $started | Should Be $false
+    }
+}
+
+Describe "tradex independent analysis worker lifecycle" {
+    BeforeEach {
+        $script:originalRuntimeDir = $RuntimeDir
+        $script:RuntimeDir = $TestDrive
+        $script:capturedAnalysisState = $null
+        $script:analysisStartTime = [DateTime]::Parse("2026-08-24T01:00:00Z").ToLocalTime()
+        $script:analysisProcess = [pscustomobject]@{
+            Id = 4400
+            StartTime = $script:analysisStartTime
+            HasExited = $false
+        }
+        $script:analysisProcess | Add-Member -MemberType ScriptMethod -Name Refresh -Value { }
+    }
+
+    AfterEach {
+        $script:RuntimeDir = $script:originalRuntimeDir
+    }
+
+    It "starts one hidden portless analysis worker and records its exact identity" {
+        Mock Test-Path { return $true }
+        Mock Read-ComponentState { return $null }
+        Mock Test-ExpectedProcess { return $true }
+        Mock Test-AnalysisRuntimeReady { return $true }
+        Mock Start-Process { return $script:analysisProcess }
+        Mock Write-ComponentState {
+            param($Name, $State)
+            $script:capturedAnalysisState = $State
+        }
+        Mock Write-Host { return $null }
+
+        Start-AnalysisWorker
+
+        Assert-MockCalled Start-Process -Times 1 -Exactly -Scope It
+        Assert-MockCalled Start-Process -Times 1 -Exactly -Scope It -ParameterFilter {
+            $ArgumentList[0] -eq "-m" -and
+            $ArgumentList[1] -eq "tradex.analysis_worker" -and
+            $WindowStyle -eq "Hidden"
+        }
+        Assert-MockCalled Write-ComponentState -Times 1 -Exactly -Scope It
+        $script:capturedAnalysisState.name | Should Be "analysis"
+        $script:capturedAnalysisState.process_pid | Should Be 4400
+        $script:capturedAnalysisState.process_start_utc | Should Be (
+            $script:analysisStartTime.ToUniversalTime().ToString("o")
+        )
+    }
+
+    It "accepts only this running process heartbeat from its started window" {
+        $started = "2026-08-24T01:00:10Z"
+        $fresh = [pscustomobject]@{
+            state = "running"
+            heartbeat_at = "2026-08-24T01:00:10Z"
+            process_pid = 4400
+        }
+        $stale = [pscustomobject]@{
+            state = "running"
+            heartbeat_at = "2026-08-24T01:00:09Z"
+            process_pid = 4400
+        }
+        $stopped = [pscustomobject]@{
+            state = "stopped"
+            heartbeat_at = "2026-08-24T01:00:10Z"
+            process_pid = 4400
+        }
+        $otherProcess = [pscustomobject]@{
+            state = "running"
+            heartbeat_at = "2026-08-24T01:00:10Z"
+            process_pid = 4500
+        }
+
+        $observed = "2026-08-24T01:01:00Z"
+        Test-AnalysisEnvelopeReady $fresh $started 4400 $observed | Should Be $true
+        Test-AnalysisEnvelopeReady $stale $started 4400 $observed | Should Be $false
+        Test-AnalysisEnvelopeReady $stopped $started 4400 $observed | Should Be $false
+        Test-AnalysisEnvelopeReady $otherProcess $started 4400 $observed | Should Be $false
+    }
+
+    It "rejects a worker whose heartbeat expired after a valid startup" {
+        $expired = [pscustomobject]@{
+            state = "running"
+            heartbeat_at = "2026-08-24T01:00:10Z"
+            process_pid = 4400
+        }
+
+        Test-AnalysisEnvelopeReady `
+            $expired `
+            "2026-08-24T01:00:10Z" `
+            4400 `
+            "2026-08-24T01:02:00Z" | Should Be $false
+    }
+
+    It "accepts a reported runtime that is a verified child of the managed launcher" {
+        Mock Get-DescendantProcessIds { return @(4500) }
+        $childRuntime = [pscustomobject]@{
+            state = "running"
+            heartbeat_at = "2026-08-24T01:00:10Z"
+            process_pid = 4500
+        }
+
+        Test-AnalysisEnvelopeReady `
+            $childRuntime `
+            "2026-08-24T01:00:10Z" `
+            4400 `
+            "2026-08-24T01:01:00Z" | Should Be $true
+        Assert-MockCalled Get-DescendantProcessIds -Times 1 -Exactly -Scope It
+    }
+
+    It "wires analysis actions and managed startup and shutdown ordering" {
+        $source = Get-Content -LiteralPath $controlScript -Raw -Encoding UTF8
+        $projectRoot = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
+        $restartShortcutSources = @(
+            Get-ChildItem -LiteralPath $projectRoot -Filter "*.cmd" -Recurse |
+                ForEach-Object { Get-Content -LiteralPath $_.FullName -Raw -Encoding UTF8 } |
+                Where-Object { $_ -match 'tradex_control\.ps1"\s+restart-all' }
+        )
+
+        $source | Should Match '"start-analysis"'
+        $source | Should Match '"stop-analysis"'
+        $source | Should Match '(?s)"start-all"\s*\{.*Start-CollectorWorker.*Start-AnalysisWorker.*Start-Component\s+"dashboard"'
+        $source | Should Match '(?s)"restart-all"\s*\{\s*Invoke-AllSteps\s*@\(.*?Stop-Component\s+"dashboard".*?Stop-Component\s+"service".*?Stop-AnalysisWorker.*?Stop-CollectorWorker.*?\)\s*Invoke-AllSteps\s*@\(.*?Start-CollectorWorker.*?Start-AnalysisWorker.*?Start-Component\s+"service".*?Start-Component\s+"dashboard"'
+        $source | Should Match '(?s)"stop-all"\s*\{.*Stop-AnalysisWorker.*Stop-CollectorWorker.*\}'
+        $source | Should Match '(?s)"status"\s*\{.*Show-AnalysisStatus.*\}'
+        $restartShortcutSources.Count | Should Be 1
+        $restartShortcutSources[0] | Should Not Match 'tradex_control\.ps1"\s+start-all'
+        Get-ProcessPattern "analysis" | Should Match 'tradex\\\.analysis_worker'
     }
 }

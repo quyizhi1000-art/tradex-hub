@@ -92,6 +92,16 @@ class SectorFundFlowStore:
                         trade_date, sector_key, point_count DESC,
                         last_provider_as_of DESC, fetched_at DESC
                     );
+                CREATE TABLE IF NOT EXISTS sector_flow_targets (
+                    trade_date TEXT NOT NULL,
+                    sector_key TEXT NOT NULL,
+                    name TEXT NOT NULL,
+                    taxonomy TEXT NOT NULL,
+                    provider_sector_code TEXT NOT NULL,
+                    source_family TEXT NOT NULL,
+                    updated_at TEXT NOT NULL,
+                    PRIMARY KEY (trade_date, sector_key)
+                );
                 """
             )
             expected = {
@@ -206,6 +216,60 @@ class SectorFundFlowStore:
                     "point_count": len(canonical.points),
                 }
 
+    def record_target(
+        self,
+        series: SectorFundFlowIntradayV1,
+        provider_sector_code: str,
+    ) -> None:
+        canonical = SectorFundFlowIntradayV1.model_validate(series)
+        code = str(provider_sector_code).strip().upper()
+        if not code.startswith("BK") or not code[2:].isdigit():
+            raise ValueError("sector fund-flow target code must match BK plus digits")
+        updated_at = datetime.now(canonical.metadata.fetched_at.tzinfo).isoformat(
+            timespec="seconds"
+        )
+        with self._lock:
+            self._ensure_open()
+            with self._connection:
+                self._connection.execute(
+                    """
+                    INSERT INTO sector_flow_targets (
+                        trade_date, sector_key, name, taxonomy,
+                        provider_sector_code, source_family, updated_at
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?)
+                    ON CONFLICT (trade_date, sector_key) DO UPDATE SET
+                        name = excluded.name,
+                        taxonomy = excluded.taxonomy,
+                        provider_sector_code = excluded.provider_sector_code,
+                        source_family = excluded.source_family,
+                        updated_at = excluded.updated_at
+                    """,
+                    (
+                        canonical.trading_date.isoformat(),
+                        canonical.sector_key,
+                        canonical.name,
+                        canonical.taxonomy,
+                        code,
+                        canonical.metadata.provider,
+                        updated_at,
+                    ),
+                )
+
+    def get_targets(self, trading_date: date) -> tuple[dict[str, str], ...]:
+        with self._lock:
+            self._ensure_open()
+            rows = self._connection.execute(
+                """
+                SELECT sector_key, name, taxonomy, provider_sector_code,
+                    source_family
+                FROM sector_flow_targets
+                WHERE trade_date = ?
+                ORDER BY sector_key ASC
+                """,
+                (trading_date.isoformat(),),
+            ).fetchall()
+        return tuple(dict(row) for row in rows)
+
     def get_best(
         self,
         trading_date: date,
@@ -225,6 +289,32 @@ class SectorFundFlowStore:
             ).fetchone()
         if row is None:
             return None
+        return self._decode(row)
+
+    def get_all_best(
+        self,
+        trading_date: date,
+    ) -> dict[str, SectorFundFlowIntradayV1]:
+        with self._lock:
+            self._ensure_open()
+            rows = self._connection.execute(
+                """
+                SELECT * FROM sector_flow_curves
+                WHERE trade_date = ?
+                ORDER BY sector_key ASC, point_count DESC,
+                    last_provider_as_of DESC, fetched_at DESC, provider ASC
+                """,
+                (trading_date.isoformat(),),
+            ).fetchall()
+        result: dict[str, SectorFundFlowIntradayV1] = {}
+        for row in rows:
+            sector_key = str(row["sector_key"])
+            if sector_key not in result:
+                result[sector_key] = self._decode(row)
+        return result
+
+    @staticmethod
+    def _decode(row: sqlite3.Row) -> SectorFundFlowIntradayV1:
         payload = json.loads(zlib.decompress(row["payload_blob"]).decode("utf-8"))
         canonical = SectorFundFlowIntradayV1.model_validate(payload)
         if hashlib.sha256(_canonical_bytes(canonical.model_dump(mode="json"))).hexdigest() != row[

@@ -33,6 +33,7 @@ class SelectionCandidateV1(SelectionModel):
     instrument_id: str = Field(pattern=r"^\d{6}\.(?:SH|SZ|BJ)$")
     name: str = Field(min_length=1)
     industry: str | None = None
+    primary_business_name: str | None = None
     score: float = Field(ge=0, le=100)
     factor_coverage: float = Field(ge=0, le=1)
     reference_close: float = Field(gt=0)
@@ -48,6 +49,129 @@ class SelectionCandidateV1(SelectionModel):
         if not math.isfinite(value):
             raise ValueError("candidate values must be finite")
         return value
+
+
+class LimitUpTendencyContributionV1(SelectionModel):
+    factor: str = Field(min_length=1)
+    label: str = Field(min_length=1)
+    raw_value: float
+    normalized_score: float = Field(ge=0, le=1)
+    weighted_points: float = Field(ge=0, le=100)
+
+    @field_validator("raw_value", "normalized_score", "weighted_points")
+    @classmethod
+    def finite(cls, value: float) -> float:
+        if not math.isfinite(value):
+            raise ValueError("limit-up tendency contributions must be finite")
+        return value
+
+
+class LimitUpTendencyCandidateV1(SelectionModel):
+    rank: int = Field(ge=1)
+    instrument_id: str = Field(pattern=r"^\d{6}\.(?:SH|SZ|BJ)$")
+    name: str = Field(min_length=1)
+    industry: str | None = None
+    primary_business_name: str | None = None
+    market: Literal["主板"]
+    score: float = Field(ge=0, le=100)
+    reference_close: float = Field(gt=0)
+    daily_return_pct: float
+    five_day_return_pct: float
+    close_position_ratio: float = Field(ge=0, le=1)
+    turnover_rate_pct: float = Field(ge=0)
+    volume_ratio: float = Field(ge=0)
+    amount_cny: float = Field(gt=0)
+    amount_expansion_ratio: float = Field(gt=0)
+    float_market_cap_cny: float = Field(gt=0)
+    recent_limit_up_count: int = Field(ge=0, le=15)
+    closed_at_limit_up: bool
+    opportunity_stage: Literal["pre_limit_up", "limit_up_continuation"] | None = None
+    breakout_distance_pct: float | None = None
+    industry_positive_ratio: float | None = Field(default=None, ge=0, le=1)
+    industry_peer_count: int = Field(default=0, ge=0)
+    consecutive_limit_up_count: int = Field(default=0, ge=0, le=15)
+    opened_at_limit_up: bool = False
+    entry_feasibility_factor: float = Field(default=1.0, gt=0, le=1)
+    contributions: tuple[LimitUpTendencyContributionV1, ...] = Field(min_length=1)
+    reasons: tuple[str, ...] = Field(min_length=1)
+    risks: tuple[str, ...] = Field(min_length=1)
+
+    @field_validator(
+        "score",
+        "reference_close",
+        "daily_return_pct",
+        "five_day_return_pct",
+        "close_position_ratio",
+        "turnover_rate_pct",
+        "volume_ratio",
+        "amount_cny",
+        "amount_expansion_ratio",
+        "float_market_cap_cny",
+        "entry_feasibility_factor",
+    )
+    @classmethod
+    def finite(cls, value: float) -> float:
+        if not math.isfinite(value):
+            raise ValueError("limit-up tendency candidate values must be finite")
+        return value
+
+    @field_validator("breakout_distance_pct", "industry_positive_ratio")
+    @classmethod
+    def finite_optional(cls, value: float | None) -> float | None:
+        if value is not None and not math.isfinite(value):
+            raise ValueError("limit-up tendency optional values must be finite")
+        return value
+
+
+class LimitUpTendencyScreenV1(SelectionModel):
+    contract: Literal["stock_limit_up_tendency_screen.v1"] = (
+        "stock_limit_up_tendency_screen.v1"
+    )
+    schema_version: Literal[1] = 1
+    screen_version: Literal[
+        "next-session-limit-up-tendency-main-board.v1",
+        "next-session-limit-up-tendency-main-board.v2",
+    ] = "next-session-limit-up-tendency-main-board.v2"
+    title: str = Field(min_length=1)
+    quality: Literal["accepted", "degraded", "unavailable"]
+    target_count: Literal[20] = 20
+    lookback_sessions: Literal[15] = 15
+    universe_count: int = Field(ge=1)
+    board_eligible_count: int = Field(ge=0)
+    evaluated_count: int = Field(ge=0)
+    selected_count: int = Field(ge=0, le=20)
+    excluded_counts: dict[str, int]
+    candidates: tuple[LimitUpTendencyCandidateV1, ...]
+    methodology: tuple[str, ...]
+    limitations: tuple[str, ...]
+
+    @model_validator(mode="after")
+    def validate_ranking(self) -> "LimitUpTendencyScreenV1":
+        if self.selected_count != len(self.candidates):
+            raise ValueError("limit-up tendency selected_count must match candidates")
+        if self.board_eligible_count < self.evaluated_count:
+            raise ValueError("limit-up tendency evaluated_count exceeds board eligibility")
+        if self.evaluated_count < self.selected_count:
+            raise ValueError("limit-up tendency selected_count exceeds evaluated_count")
+        if [item.rank for item in self.candidates] != list(
+            range(1, len(self.candidates) + 1)
+        ):
+            raise ValueError("limit-up tendency ranks must be contiguous")
+        ids = [item.instrument_id for item in self.candidates]
+        if len(ids) != len(set(ids)):
+            raise ValueError("limit-up tendency candidates must be unique")
+        if self.screen_version.endswith(".v2"):
+            if any(item.opportunity_stage is None for item in self.candidates):
+                raise ValueError("limit-up tendency v2 requires opportunity stages")
+            if any(item.breakout_distance_pct is None for item in self.candidates):
+                raise ValueError("limit-up tendency v2 requires breakout evidence")
+            if any(
+                item.closed_at_limit_up
+                != (item.opportunity_stage == "limit_up_continuation")
+                for item in self.candidates
+            ):
+                raise ValueError("limit-up tendency v2 stage must match limit-up state")
+        return self
 
 
 class StockPatternEvidenceV1(SelectionModel):
@@ -80,6 +204,7 @@ class StockPatternCandidateV1(SelectionModel):
     instrument_id: str = Field(pattern=r"^\d{6}\.(?:SH|SZ|BJ)$")
     name: str = Field(min_length=1)
     industry: str | None = None
+    primary_business_name: str | None = None
     market: Literal["主板"]
     reference_close: float = Field(gt=0)
     occurrence_count: int = Field(ge=1)
@@ -101,16 +226,21 @@ class StockPatternCandidateV1(SelectionModel):
 class StockPatternScreenV1(SelectionModel):
     contract: Literal["stock_pattern_screen.v1"] = "stock_pattern_screen.v1"
     schema_version: Literal[1] = 1
-    screen_version: Literal["long-upper-shadow-main-board.v1"] = (
-        "long-upper-shadow-main-board.v1"
+    screen_version: Literal[
+        "long-upper-shadow-main-board.v1",
+        "long-upper-shadow-main-board.v2",
+        "long-upper-shadow-main-board.v3",
+    ] = (
+        "long-upper-shadow-main-board.v3"
     )
     title: str = Field(min_length=1)
     quality: Literal["accepted", "degraded", "unavailable"]
-    lookback_sessions: Literal[15] = 15
+    lookback_sessions: Literal[10, 15] = 10
     minimum_occurrences: Literal[2] = 2
     upper_shadow_min_pct_of_close: Literal[3.0] = 3.0
     upper_shadow_min_body_multiple: Literal[2.0] = 2.0
     upper_shadow_min_range_ratio: Literal[0.5] = 0.5
+    limit_up_exclusion_lookback_sessions: Literal[10] | None = None
     universe_count: int = Field(ge=1)
     board_eligible_count: int = Field(ge=0)
     evaluated_count: int = Field(ge=0)
@@ -122,6 +252,30 @@ class StockPatternScreenV1(SelectionModel):
 
     @model_validator(mode="after")
     def validate_counts(self) -> "StockPatternScreenV1":
+        if (
+            self.screen_version == "long-upper-shadow-main-board.v1"
+            and (
+                self.lookback_sessions != 15
+                or self.limit_up_exclusion_lookback_sessions is not None
+            )
+        ):
+            raise ValueError("long-upper-shadow v1 requires 15 sessions without a limit-up gate")
+        if (
+            self.screen_version == "long-upper-shadow-main-board.v2"
+            and (
+                self.lookback_sessions != 15
+                or self.limit_up_exclusion_lookback_sessions != 10
+            )
+        ):
+            raise ValueError("long-upper-shadow v2 requires 15 sessions and a 10-session limit-up gate")
+        if (
+            self.screen_version == "long-upper-shadow-main-board.v3"
+            and (
+                self.lookback_sessions != 10
+                or self.limit_up_exclusion_lookback_sessions != 10
+            )
+        ):
+            raise ValueError("long-upper-shadow v3 requires one 10-session rule window")
         if self.matched_count != len(self.candidates):
             raise ValueError("pattern matched_count must match candidates")
         if self.board_eligible_count < self.evaluated_count:
@@ -150,6 +304,7 @@ class DailyStockSelectionV1(SelectionModel):
     excluded_counts: dict[str, int]
     candidates: tuple[SelectionCandidateV1, ...]
     pattern_screens: tuple[StockPatternScreenV1, ...] = ()
+    limit_up_tendency_screens: tuple[LimitUpTendencyScreenV1, ...] = ()
     methodology: tuple[str, ...]
     limitations: tuple[str, ...]
 
@@ -176,6 +331,11 @@ class DailyStockSelectionV1(SelectionModel):
         screen_versions = [item.screen_version for item in self.pattern_screens]
         if len(screen_versions) != len(set(screen_versions)):
             raise ValueError("selection pattern screens must be unique by version")
+        tendency_versions = [
+            item.screen_version for item in self.limit_up_tendency_screens
+        ]
+        if len(tendency_versions) != len(set(tendency_versions)):
+            raise ValueError("selection limit-up tendency screens must be unique by version")
         return self
 
 
@@ -241,6 +401,9 @@ __all__ = [
     "DailyStockSelectionOutcomeV1",
     "DailyStockSelectionV1",
     "FactorContributionV1",
+    "LimitUpTendencyCandidateV1",
+    "LimitUpTendencyContributionV1",
+    "LimitUpTendencyScreenV1",
     "StockPatternCandidateV1",
     "StockPatternEvidenceV1",
     "StockPatternScreenV1",

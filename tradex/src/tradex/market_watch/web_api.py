@@ -97,7 +97,7 @@ class MarketWatchWebApi:
                 return invalid
         if (
             not sector_keys
-            or len(sector_keys) > 48
+            or len(sector_keys) > 64
             or len(sector_keys) != len(set(sector_keys))
             or any(_SECTOR_KEY_RE.fullmatch(item) is None for item in sector_keys)
         ):

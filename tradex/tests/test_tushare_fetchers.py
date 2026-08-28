@@ -310,7 +310,9 @@ def test_monthly_adjustment_can_use_factor_before_non_trading_period_end(monkeyp
     assert frame.loc[0, "收盘"] == 10
 
 
-def test_realtime_minutes_use_daily_series_endpoint_and_documented_units(monkeypatch):
+def test_realtime_minutes_use_multi_symbol_capable_endpoint_and_documented_units(
+    monkeypatch,
+):
     calls = []
 
     def fake_request(name, params=None, fields=None):
@@ -342,7 +344,7 @@ def test_realtime_minutes_use_daily_series_endpoint_and_documented_units(monkeyp
 
     frame = tushare_fetchers.fetch_minute_data(symbol="000001")
 
-    assert calls[0][0] == "rt_min_daily"
+    assert calls[0][0] == "rt_min"
     assert calls[0][1] == {"ts_code": "000001.SZ", "freq": "1MIN"}
     assert frame["时间"].tolist() == [
         "2026-08-24T09:30:00+08:00",
@@ -356,9 +358,83 @@ def test_realtime_minutes_use_daily_series_endpoint_and_documented_units(monkeyp
         "frequency_minutes": 1,
         "volume_unit": "shares",
         "amount_unit": "CNY",
+        "volume_unit_inferred_rows": 0,
+        "amount_invalid_rows": 0,
         "provider_as_of": "2026-08-24T09:31:00+08:00",
         "request_id": "request-1",
     }
+
+
+def test_realtime_minutes_batch_multiple_stocks_in_one_provider_request(monkeypatch):
+    calls = []
+
+    def fake_request(name, params=None, fields=None):
+        calls.append((name, params, fields))
+        records = [
+            {
+                "ts_code": code,
+                "time": f"2026-08-24 09:{minute:02d}:00",
+                "open": price,
+                "close": price,
+                "high": price,
+                "low": price,
+                "vol": 10_000,
+                "amount": price * 10_000,
+            }
+            for code, price in (("000001.SZ", 10.0), ("600000.SH", 12.0))
+            for minute in (30, 31)
+        ]
+        return _result(*records)
+
+    monkeypatch.setattr(tushare_fetchers, "_request", fake_request)
+
+    frame = tushare_fetchers.fetch_minute_data_batch(
+        symbols=("000001.SZ", "600000.SH")
+    )
+
+    assert calls[0][0] == "rt_min"
+    assert calls[0][1] == {
+        "ts_code": "000001.SZ,600000.SH",
+        "freq": "1MIN",
+    }
+    assert frame.groupby("代码").size().to_dict() == {
+        "000001.SZ": 2,
+        "600000.SH": 2,
+    }
+    assert frame.attrs["request_id"] == "request-1"
+    assert frame.attrs["provider_as_of"] == "2026-08-24T09:31:00+08:00"
+
+
+def test_realtime_partial_batch_exposes_omission_without_fabricating_rows(monkeypatch):
+    monkeypatch.setattr(
+        tushare_fetchers,
+        "_request",
+        lambda name, params=None, fields=None: _result(
+            {
+                "ts_code": "000001.SZ",
+                "time": "2026-08-24 09:30:00",
+                "open": 10.0,
+                "close": 10.0,
+                "high": 10.0,
+                "low": 10.0,
+                "vol": 10_000,
+                "amount": 100_000,
+            }
+        ),
+    )
+
+    frame = tushare_fetchers.fetch_minute_data_batch_partial(
+        symbols=("000001.SZ", "600000.SH")
+    )
+
+    assert frame["代码"].unique().tolist() == ["000001.SZ"]
+
+
+def test_realtime_batch_rejects_unverified_41_symbol_request() -> None:
+    with pytest.raises(ValueError, match="at most 40"):
+        tushare_fetchers.fetch_minute_data_batch(
+            symbols=tuple(f"{number:06d}.SZ" for number in range(1, 42))
+        )
 
 
 def test_realtime_minutes_normalize_compatible_proxy_lots_to_shares(monkeypatch):
@@ -383,6 +459,72 @@ def test_realtime_minutes_normalize_compatible_proxy_lots_to_shares(monkeypatch)
 
     assert frame.loc[0, "成交量"] == 10_000
     assert frame.loc[0, "成交额"] == 100_500
+
+
+def test_realtime_minutes_use_full_series_evidence_for_one_ambiguous_row(
+    monkeypatch,
+):
+    records = [
+        {
+            "ts_code": "000001.SZ",
+            "time": f"2026-08-24 09:{minute:02d}:00",
+            "open": 10.0,
+            "close": 10.0,
+            "high": 10.01,
+            "low": 9.99,
+            "vol": 1_000,
+            "amount": 10_000,
+        }
+        for minute in range(30, 50)
+    ]
+    records.append(
+        {
+            "ts_code": "000001.SZ",
+            "time": "2026-08-24 09:50:00",
+            "open": 50.0,
+            "close": 50.0,
+            "high": 100.0,
+            "low": 1.0,
+            "vol": 100,
+            "amount": 10_000,
+        }
+    )
+    monkeypatch.setattr(
+        tushare_fetchers,
+        "_request",
+        lambda name, params=None, fields=None: _result(*records),
+    )
+
+    frame = tushare_fetchers.fetch_minute_data(code="000001")
+
+    assert frame.loc[20, "成交量"] == 100
+    assert frame.attrs["volume_unit_inferred_rows"] == 1
+
+
+def test_realtime_minutes_drop_only_inconsistent_amount_field(monkeypatch):
+    monkeypatch.setattr(
+        tushare_fetchers,
+        "_request",
+        lambda name, params=None, fields=None: _result(
+            {
+                "ts_code": "688019.SH",
+                "time": "2026-08-24 13:15:00",
+                "open": 248.10,
+                "close": 248.20,
+                "high": 248.48,
+                "low": 248.00,
+                "vol": 5_000,
+                "amount": 1_235_417,
+            }
+        ),
+    )
+
+    frame = tushare_fetchers.fetch_minute_data(code="688019")
+
+    assert frame.loc[0, "收盘"] == 248.20
+    assert frame.loc[0, "成交量"] == 5_000
+    assert frame.loc[0, "成交额"] is None
+    assert frame.attrs["amount_invalid_rows"] == 1
 
 
 def test_realtime_minutes_tolerate_binary_float_price_noise(monkeypatch):

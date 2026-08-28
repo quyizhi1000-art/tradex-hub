@@ -20,6 +20,7 @@ from .collection_contracts import (
     DailyRecoveryTrigger,
 )
 from .collection_store import MarketWatchCollectionStore
+from .session_schedule import FINAL_CLOSE_TIME
 from .contracts import MarketWatchSnapshotV1
 
 
@@ -29,6 +30,10 @@ AUTOMATIC_RECOVERY_START = time(15, 5)
 
 
 CaptureCallable = Callable[[CollectionSlotV1], MarketWatchSnapshotV1]
+RepairProgressCallback = Callable[[int, int, str, str | None], None]
+ProgressCaptureCallable = Callable[
+    [CollectionSlotV1, RepairProgressCallback], MarketWatchSnapshotV1
+]
 PersistCallable = Callable[[MarketWatchSnapshotV1], Mapping[str, Any]]
 HistoryRecordsCallable = Callable[[], Iterable[Mapping[str, Any]]]
 
@@ -94,6 +99,7 @@ class MarketWatchCollector:
         store: MarketWatchCollectionStore,
         capture_current: CaptureCallable,
         repair_historical: CaptureCallable,
+        repair_historical_with_progress: ProgressCaptureCallable | None = None,
         persist_snapshot: PersistCallable,
         history_records: HistoryRecordsCallable | None = None,
         clock: Callable[[], datetime] | None = None,
@@ -103,6 +109,7 @@ class MarketWatchCollector:
         self._store = store
         self._capture_current = capture_current
         self._repair_historical = repair_historical
+        self._repair_historical_with_progress = repair_historical_with_progress
         self._persist_snapshot = persist_snapshot
         self._history_records = history_records
         self._clock = clock or (lambda: datetime.now(SHANGHAI))
@@ -152,20 +159,56 @@ class MarketWatchCollector:
         observed: datetime,
         *,
         trade_date=None,
+        recovery_run_id: int | None = None,
     ) -> dict[str, Any]:
         self._store.update_runtime(CollectorRuntimeState.RUNNING, heartbeat_at=observed)
         claimed = self._store.claim_due(observed, trade_date=trade_date)
         if claimed is None:
             return {"action": "idle", "reason": "no_due_slot"}
         attempt_id, slot = claimed
+        if recovery_run_id is not None:
+            self._store.record_daily_recovery_attempt_started(
+                recovery_run_id,
+                slot,
+                started_at=observed,
+            )
         current_minute = observed.replace(second=0, microsecond=0)
         is_current = slot.minute_bucket == current_minute
-        capture = self._capture_current if is_current else self._repair_historical
+        is_final_close = slot.minute_bucket.time().replace(tzinfo=None) == FINAL_CLOSE_TIME
+        capture = (
+            self._repair_historical
+            if is_final_close or not is_current
+            else self._capture_current
+        )
         snapshot: MarketWatchSnapshotV1 | None = None
         persistence: dict[str, Any] | None = None
         digest = ""
         try:
-            snapshot = MarketWatchSnapshotV1.model_validate(capture(slot))
+            if capture is self._repair_historical and self._repair_historical_with_progress:
+                def publish_progress(
+                    completed: int,
+                    total: int,
+                    stage: str,
+                    message: str | None = None,
+                ) -> None:
+                    if recovery_run_id is not None:
+                        self._store.record_daily_recovery_attempt_progress(
+                            recovery_run_id,
+                            slot,
+                            completed=completed,
+                            total=total,
+                            stage=stage,
+                            message=message,
+                            observed_at=self._now(),
+                        )
+
+                captured = self._repair_historical_with_progress(
+                    slot,
+                    publish_progress,
+                )
+            else:
+                captured = capture(slot)
+            snapshot = MarketWatchSnapshotV1.model_validate(captured)
             if snapshot.as_of.astimezone(SHANGHAI).replace(
                 second=0,
                 microsecond=0,
@@ -233,6 +276,13 @@ class MarketWatchCollector:
                             CollectionSlotStatus.REPAIRED,
                         }
                     ):
+                        if recovery_run_id is not None:
+                            self._store.record_daily_recovery_attempt_finished(
+                                recovery_run_id,
+                                recovered_slot,
+                                completed_at=completed_at,
+                                outcome="reconciled_persisted",
+                            )
                         self._store.update_runtime(
                             CollectorRuntimeState.RUNNING,
                             heartbeat_at=completed_at,
@@ -249,6 +299,12 @@ class MarketWatchCollector:
                             ),
                             "ledger_reconciled": True,
                         }
+            if recovery_run_id is not None:
+                self._store.record_daily_recovery_attempt_finished(
+                    recovery_run_id,
+                    failed,
+                    completed_at=completed_at,
+                )
             self._store.update_runtime(
                 CollectorRuntimeState.DEGRADED,
                 heartbeat_at=completed_at,
@@ -265,7 +321,14 @@ class MarketWatchCollector:
                     else failed.next_retry_at.isoformat()
                 ),
                 "error_code": failed.last_error_code,
+                "error_message": failed.last_error_message,
             }
+        if recovery_run_id is not None:
+            self._store.record_daily_recovery_attempt_finished(
+                recovery_run_id,
+                accepted,
+                completed_at=accepted.accepted_at or self._now(),
+            )
         self._store.update_runtime(
             CollectorRuntimeState.RUNNING,
             heartbeat_at=self._now(),
@@ -305,6 +368,7 @@ class MarketWatchCollector:
                 result = self._run_due_slot(
                     observed,
                     trade_date=recovery.trade_date,
+                    recovery_run_id=recovery.run_id,
                 )
                 if result.get("action") == "idle":
                     break

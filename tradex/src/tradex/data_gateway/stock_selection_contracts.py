@@ -46,9 +46,10 @@ class DailyStockCandlestickBarV1(ContractModel):
     high: float = Field(gt=0)
     low: float = Field(gt=0)
     close: float = Field(gt=0)
+    previous_close: float = Field(gt=0)
     amount_cny: float = Field(gt=0)
 
-    @field_validator("open", "high", "low", "close", "amount_cny")
+    @field_validator("open", "high", "low", "close", "previous_close", "amount_cny")
     @classmethod
     def require_finite(cls, value: float) -> float:
         if not math.isfinite(value):
@@ -83,7 +84,18 @@ class DailyStockFactorV1(ContractModel):
 
     instrument_id: str = Field(pattern=r"^\d{6}\.(?:SH|SZ|BJ)$")
     name: str = Field(min_length=1)
+    # ``industry`` is the statistical peer basis.  Provider and business
+    # identities stay separate so consumers cannot treat one label as all
+    # three meanings.
     industry: str | None = None
+    provider_industry: str | None = None
+    primary_business_name: str | None = None
+    business_tags: tuple[str, ...] = ()
+    relationship_verification_status: str | None = None
+    relationship_catalog_revision: str | None = Field(
+        default=None,
+        pattern=r"^[0-9a-f]{64}$",
+    )
     market: str | None = None
     list_date: date | None = None
     delist_date: date | None = None

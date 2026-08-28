@@ -5,16 +5,19 @@
   const DAILY_RECOVERY_ENDPOINT = "/api/market-watch/daily-recovery";
   const SUMMARY_ENDPOINT = "/api/market-watch/summary";
   const TRAJECTORY_ENDPOINT = "/api/market-watch/trajectory";
+  const LIMIT_UP_POOL_ENDPOINT = "/api/limit-up-pool";
   const HISTORY_ENDPOINT = "/api/market-watch/history";
   const EVALUATION_ENDPOINT = "/api/market-watch/evaluation";
   const REVIEW_HISTORY_ENDPOINT = "/api/post-market-review/history";
   const REVIEW_GENERATE_ENDPOINT = "/api/post-market-review";
+  const REVIEW_GENERATION_ENDPOINT = "/api/post-market-review/generation";
   const STOCK_SELECTION_HISTORY_ENDPOINT = "/api/daily-stock-selection/history";
   const STOCK_SELECTION_GENERATE_ENDPOINT = "/api/daily-stock-selection";
   const STOCK_SELECTION_GENERATION_ENDPOINT = "/api/daily-stock-selection/generation";
-  const CURRENT_STOCK_SELECTION_CONFIG = "daily-stock-selection-balanced.v2";
+  const CURRENT_STOCK_SELECTION_CONFIG = "daily-stock-selection-balanced.v6";
   const POLL_INTERVAL_MS = 15_000;
   const POLL_WATCHDOG_INTERVAL_MS = 1_000;
+  const RESONANCE_REFRESH_INTERVAL_MS = 30_000;
   const REPLAY_REFRESH_INTERVAL_MS = 60_000;
   const REVIEW_REFRESH_INTERVAL_MS = 60_000;
   const STOCK_SELECTION_REFRESH_INTERVAL_MS = 60_000;
@@ -22,9 +25,9 @@
   const ALERT_COOLDOWN_MS = 5 * 60 * 1000;
   const SECTOR_MOVE_MAX_AGE_MS = 120_000;
   const MAX_STORED_ALERT_KEYS = 200;
-  const MAX_SECTOR_FLOW_SERIES = 48;
-  const MAX_SECTOR_FLOW_CHART_SERIES = 48;
-  const MAX_SECTOR_FLOW_ENDPOINT_LABELS = 48;
+  const MAX_SECTOR_FLOW_SERIES = 64;
+  const MAX_SECTOR_FLOW_CHART_SERIES = 64;
+  const MAX_SECTOR_FLOW_ENDPOINT_LABELS = 64;
   const SECTOR_FLOW_ENDPOINT_DENSITY_WEIGHT = 0.65;
   const SECTOR_FLOW_ENDPOINT_GAP_PX = 15;
   const SECTOR_FLOW_HIT_STROKE_PX = 10;
@@ -88,6 +91,7 @@
     audioContext: null,
     collectionStatus: null,
     collectionStatusEtag: null,
+    recoveryRequestError: null,
     recoveryRequestInFlight: false,
     detailEtags: new Map(),
     detailPayloads: new Map(),
@@ -100,6 +104,11 @@
     lastSnapshot: null,
     lastSummary: null,
     lastSuccessAt: 0,
+    limitUpPool: null,
+    limitUpPoolCategory: "all",
+    limitUpPoolFetchInFlight: false,
+    limitUpPoolRetryTimer: null,
+    limitUpPoolRevision: null,
     muted: readStoredText(STORAGE_KEYS.muted) === "true",
     nextPollAt: 0,
     notificationEnabled: false,
@@ -112,6 +121,8 @@
     replayTradeDate: null,
     reviewFetchInFlight: false,
     reviewGenerateInFlight: false,
+    reviewGenerationPhase: "idle",
+    reviewGenerationPollInFlight: false,
     reviewHasLoaded: false,
     reviewHistory: null,
     reviewHighlightTerms: new Map(),
@@ -138,6 +149,7 @@
       offense: "cumulative",
     },
     summaryEtag: null,
+    lastSummaryCheckedAt: 0,
     trajectoryDetails: {
       defense: new Map(),
       offense: new Map(),
@@ -771,6 +783,14 @@
     return selected;
   }
 
+  function hasFullSectorResonance(item) {
+    const snapshot = item?.leader_snapshot;
+    return snapshot?.selection_method === "sector_fund_flow_path_resonance.v2"
+      && snapshot.status === "full"
+      && snapshot.resonance_direction === "up"
+      && asArray(snapshot.leaders).length > 0;
+  }
+
   function sectorFlowDisplayPayload(payload) {
     const selected = ensureSectorFlowSelection(payload);
     const sectors = payload.sectors.flatMap((item) => {
@@ -779,7 +799,8 @@
       const changeDelta = finiteNumber(item?.latest?.change_delta_5m_pct);
       const triggered = changeDelta !== null
         && Math.abs(changeDelta) >= state.sectorFlowSurgeThreshold;
-      const automatic = triggered && !isSelected;
+      const resonance = hasFullSectorResonance(item);
+      const automatic = (triggered || resonance) && !isSelected;
       if (!isSelected && !automatic) return [];
       return [{
         ...item,
@@ -787,6 +808,7 @@
           automatic,
           changeDelta,
           direction: changeDelta > 0 ? "strengthening" : "weakening",
+          resonance,
           triggered,
         },
       }];
@@ -1429,18 +1451,22 @@
     const snapshot = item.leader_snapshot && typeof item.leader_snapshot === "object"
       ? item.leader_snapshot
       : {};
-    const isResonanceSnapshot = snapshot.selection_method === "sector_fund_flow_minute_correlation.v1";
-    const leaders = isResonanceSnapshot ? asArray(snapshot.leaders).slice(0, 1) : [];
+    const isResonanceSnapshot = snapshot.selection_method === "sector_fund_flow_path_resonance.v2";
+    const isUpResonance = isResonanceSnapshot && snapshot.resonance_direction === "up";
+    const leaders = isUpResonance ? asArray(snapshot.leaders).slice(0, 1) : [];
+    const leaderLabel = isResonanceSnapshot ? "共振领涨股" : "共振代表股";
     const block = createElement("div", "sector-flow-observation-item__leaders");
-    block.title = "共振领涨股：板块每分钟资金增量与个股每分钟收益率相关系数不低于0.60，且板块近5分钟净流入、个股近5分钟涨幅不低于0.10%。";
-    block.append(createElement("span", "sector-flow-observation-item__leaders-label", "共振领涨股"));
+    block.title = "共振领涨股：只识别板块5分钟资金边际流入；资金累计轨迹与个股价格累计轨迹相关系数不低于0.60，同向区间占比不低于60%，且个股5分钟涨幅不低于0.10%。股票分钟线轻微滞后时使用2分钟内最近的完整共同窗口。";
+    block.append(createElement("span", "sector-flow-observation-item__leaders-label", leaderLabel));
     const list = createElement("div", "sector-flow-observation-item__leaders-list");
     if (!leaders.length) {
       list.append(createElement(
         "span",
         "sector-flow-leaders-empty",
         isResonanceSnapshot
-          ? text(snapshot.status_label, "暂无高共振快涨股")
+          ? (isUpResonance
+            ? text(snapshot.status_label, "暂无高共振股")
+            : "板块近5分钟未边际流入")
           : "共振回溯暂缺",
       ));
       block.append(list);
@@ -1452,6 +1478,7 @@
       const leaderChange = finiteNumber(leader.change_pct);
       const leaderSpeed = finiteNumber(leader.speed_pct);
       const correlation = finiteNumber(leader.resonance_correlation);
+      const agreement = finiteNumber(leader.directional_agreement_ratio);
       const chip = createElement("span", "sector-flow-leader");
       chip.append(
         createElement("strong", "", text(leader.name, code || "未命名股票")),
@@ -1470,6 +1497,11 @@
           "span",
           "sector-flow-leader__correlation",
           correlation === null ? "相关 --" : `相关 ${correlation.toFixed(2)}`,
+        ),
+        createElement(
+          "span",
+          "sector-flow-leader__agreement",
+          agreement === null ? "同向 --" : `同向 ${(agreement * 100).toFixed(0)}%`,
         ),
       );
       list.append(chip);
@@ -2267,6 +2299,21 @@
     }
   }
 
+  function renderReplayEvaluationPending(message = "评估后台准备中") {
+    byId("replay-observed-minutes").textContent = "--";
+    byId("replay-coverage-detail").textContent = "-- / -- 分钟";
+    byId("replay-fresh-ratio").textContent = "--";
+    byId("replay-max-gap").textContent = "--";
+    byId("replay-transition-count").textContent = "--";
+    byId("replay-reversal-count").textContent = "--";
+    const badge = byId("evaluation-verdict");
+    badge.className = "evaluation-badge evaluation-insufficient";
+    badge.textContent = "后台准备中";
+    byId("evaluation-detail").textContent = message;
+    const list = byId("calibration-notes");
+    list.replaceChildren(createElement("li", "", "评估结果生成后会自动刷新，不影响分钟回放浏览。"));
+  }
+
   async function fetchReplayData({
     tradeDate = null,
     silent = false,
@@ -2294,27 +2341,58 @@
       ? `?days=${encodeURIComponent(requestedDays)}`
       : historyQuery;
     try {
-      const [historyResponse, evaluationResponse] = await Promise.all([
-        fetch(`${HISTORY_ENDPOINT}${historyQuery}`, { cache: "no-store", headers: { Accept: "application/json" } }),
-        fetch(`${EVALUATION_ENDPOINT}${evaluationQuery}`, { cache: "no-store", headers: { Accept: "application/json" } }),
-      ]);
-      if (!historyResponse.ok || !evaluationResponse.ok) {
-        throw new Error(`回放服务返回 ${historyResponse.status}/${evaluationResponse.status}`);
-      }
+      const historyResponse = await fetch(`${HISTORY_ENDPOINT}${historyQuery}`, {
+        cache: "no-store",
+        headers: { Accept: "application/json" },
+      });
+      if (!historyResponse.ok) throw new Error(`回放服务返回 ${historyResponse.status}`);
       const history = await historyResponse.json();
-      const evaluation = await evaluationResponse.json();
       if (state.replayPendingRequest) return;
       renderReplayHistory(history);
-      renderReplayEvaluation(evaluation);
       state.replayLastFetchedAt = Date.now();
       const recording = history.recording && typeof history.recording === "object" ? history.recording : {};
-      const actualDays = finiteNumber(evaluation.session_count);
-      const evaluationLabel = requestedDays
-        ? ` · 实得 ${actualDays === null ? 0 : Math.round(actualDays)}/${requestedDays} 日验收`
-        : "";
-      byId("replay-status").textContent = recording.status === "degraded"
-        ? `${text(history.trade_date, "--")} · 记录降级${evaluationLabel}`
-        : `${text(history.trade_date, "--")} · 已更新${evaluationLabel}`;
+      const historyLabel = recording.status === "degraded"
+        ? `${text(history.trade_date, "--")} · 记录降级`
+        : `${text(history.trade_date, "--")} · 回放已更新`;
+      byId("replay-status").textContent = `${historyLabel} · 正在读取评估…`;
+      renderReplayEvaluationPending("评估后台准备中；分钟回放已可浏览。");
+
+      try {
+        const evaluationResponse = await fetch(`${EVALUATION_ENDPOINT}${evaluationQuery}`, {
+          cache: "no-store",
+          headers: { Accept: "application/json" },
+        });
+        let evaluation = {};
+        try {
+          evaluation = await evaluationResponse.json();
+        } catch (_error) {
+          evaluation = {};
+        }
+        if (state.replayPendingRequest) return;
+        if (evaluationResponse.status === 503) {
+          renderReplayEvaluationPending(text(
+            evaluation.error,
+            "评估后台准备中；分钟回放已可浏览。",
+          ));
+          byId("replay-status").textContent = `${historyLabel} · 评估后台准备中`;
+          return;
+        }
+        if (!evaluationResponse.ok) {
+          throw new Error(text(evaluation.error, `服务返回 ${evaluationResponse.status}`));
+        }
+        renderReplayEvaluation(evaluation);
+        const actualDays = finiteNumber(evaluation.session_count);
+        const evaluationLabel = requestedDays
+          ? ` · 实得 ${actualDays === null ? 0 : Math.round(actualDays)}/${requestedDays} 日验收`
+          : "";
+        byId("replay-status").textContent = `${historyLabel}${evaluationLabel}`;
+      } catch (evaluationError) {
+        if (state.replayPendingRequest) return;
+        renderReplayEvaluationPending(
+          `评估暂不可用：${text(evaluationError.message, "等待后台重试")}；分钟回放不受影响。`,
+        );
+        byId("replay-status").textContent = `${historyLabel} · 评估暂不可用`;
+      }
     } catch (error) {
       if (!state.replayPendingRequest) {
         byId("replay-status").textContent = text(error && error.message, "回放暂不可用");
@@ -2342,6 +2420,10 @@
     renderChange(snapshot);
     renderAlerts(snapshot);
     updateDataRisk(snapshot);
+    if (state.lastSummary?.source_snapshot_revision !== state.limitUpPoolRevision) {
+      byId("limit-up-pool-button-count").textContent = "…";
+      fetchLimitUpPool({ showPending: byId("limit-up-pool-dialog").open });
+    }
   }
 
   function alertEligibility(snapshot) {
@@ -2642,7 +2724,7 @@
     ) {
       throw new Error(`选股任务契约不匹配：${text(payload.contract, "缺少契约")}`);
     }
-    if (!["idle", "running", "succeeded", "failed"].includes(payload.state)) {
+    if (!["idle", "queued", "running", "succeeded", "failed"].includes(payload.state)) {
       throw new Error("选股任务返回了未知状态");
     }
     return payload;
@@ -2686,8 +2768,14 @@
       small_market_cap: "市值不足",
       insufficient_factor_coverage: "因子覆盖不足",
       not_main_board: "非主板",
-      incomplete_candlestick_window: "15 日证据不完整",
+      incomplete_candlestick_window: "规则窗口 K 线证据不完整",
+      recent_limit_up: "近 10 日出现收盘涨停",
       insufficient_occurrences: "长上影少于 2 次",
+      missing_float_market_cap: "缺少流通市值",
+      small_float_market_cap: "流通市值不足 20 亿元",
+      missing_activity_metrics: "缺少换手率或量比",
+      non_positive_session: "信号日未上涨",
+      weak_close: "收盘位置低于日内振幅 55%",
     };
     const target = byId(targetId);
     target.replaceChildren();
@@ -2753,7 +2841,7 @@
   function renderStockPatternScreen(patternScreens) {
     const screen = asArray(patternScreens)
       .map(objectValue)
-      .find((item) => item.screen_version === "long-upper-shadow-main-board.v1");
+      .find((item) => item.screen_version === "long-upper-shadow-main-board.v3");
     const empty = byId("stock-pattern-empty");
     const content = byId("stock-pattern-content");
     if (!screen || screen.contract !== "stock_pattern_screen.v1" || screen.schema_version !== 1) {
@@ -2778,6 +2866,106 @@
     replaceTextList("stock-pattern-methodology", screen.methodology, "方法尚未随档案返回。");
     replaceTextList("stock-pattern-limitations", screen.limitations, "长上影线只是一种形态代理。");
     renderStockSelectionExclusions(screen.excluded_counts, "stock-pattern-exclusions");
+  }
+
+  function renderLimitUpTendencyCandidates(candidates) {
+    const target = byId("stock-limit-up-tendency-table-body");
+    target.replaceChildren();
+    const records = asArray(candidates).map(objectValue).filter((item) => Object.keys(item).length);
+    if (!records.length) {
+      const row = createElement("tr");
+      const cell = createElement("td", "stock-selection-table-empty", "该交易日没有股票进入倾向前 20。 ");
+      cell.colSpan = 9;
+      row.append(cell);
+      target.append(row);
+      return;
+    }
+    records.forEach((candidate) => {
+      const row = createElement("tr");
+      row.append(createElement("td", "stock-selection-rank", text(candidate.rank)));
+      const nameCell = createElement("td");
+      const name = createElement("div", "stock-selection-name");
+      name.append(
+        createElement("strong", "", text(candidate.name)),
+        createElement(
+          "small",
+          "",
+          `${text(candidate.instrument_id)} · ${candidate.opportunity_stage === "limit_up_continuation" ? "已涨停延续观察" : "未涨停启动机会"}`,
+        ),
+      );
+      nameCell.append(name);
+      row.append(nameCell);
+      row.append(createElement("td", "", text(candidate.industry, "未分类")));
+      const score = finiteNumber(candidate.score);
+      row.append(createElement("td", "stock-selection-score", score === null ? "--" : score.toFixed(1)));
+      row.append(createElement(
+        "td",
+        "",
+        `${formatChangePct(candidate.daily_return_pct)} / ${formatChangePct(candidate.five_day_return_pct)}`,
+      ));
+      const turnover = finiteNumber(candidate.turnover_rate_pct);
+      const volumeRatio = finiteNumber(candidate.volume_ratio);
+      row.append(createElement(
+        "td",
+        "",
+        `${turnover === null ? "--" : `${turnover.toFixed(1)}%`} / ${volumeRatio === null ? "--" : volumeRatio.toFixed(2)}`,
+      ));
+      const amountExpansion = finiteNumber(candidate.amount_expansion_ratio);
+      row.append(createElement("td", "", amountExpansion === null ? "--" : `${amountExpansion.toFixed(2)}×`));
+      row.append(createElement("td", "", formatCny(candidate.float_market_cap_cny)));
+      const evidenceCell = createElement("td");
+      const evidence = createElement("div", "stock-selection-evidence");
+      const reasons = stringList(candidate.reasons).slice(0, 4);
+      const risks = stringList(candidate.risks).slice(0, 3);
+      evidence.append(
+        createElement("span", "", reasons.join("；") || "综合技术强度进入前 20"),
+        createElement("small", "", `风险：${risks.join("；") || "需继续核查个股风险"}`),
+      );
+      evidenceCell.append(evidence);
+      row.append(evidenceCell);
+      target.append(row);
+    });
+  }
+
+  function renderLimitUpTendencyScreen(tendencyScreens) {
+    const screen = asArray(tendencyScreens)
+      .map(objectValue)
+      .find((item) => item.screen_version === "next-session-limit-up-tendency-main-board.v2");
+    const empty = byId("stock-limit-up-tendency-empty");
+    const content = byId("stock-limit-up-tendency-content");
+    if (!screen || screen.contract !== "stock_limit_up_tendency_screen.v1" || screen.schema_version !== 1) {
+      empty.hidden = false;
+      content.hidden = true;
+      return;
+    }
+    empty.hidden = true;
+    content.hidden = false;
+    const eligible = finiteNumber(screen.board_eligible_count);
+    const evaluated = finiteNumber(screen.evaluated_count);
+    const coverage = eligible && evaluated !== null ? evaluated / eligible : null;
+    const qualityLabels = { accepted: "完备", degraded: "降级", unavailable: "不可用" };
+    byId("stock-limit-up-tendency-eligible-count").textContent = formatCount(eligible);
+    byId("stock-limit-up-tendency-evaluated-count").textContent = formatCount(evaluated);
+    byId("stock-limit-up-tendency-selected-count").textContent = formatCount(screen.selected_count);
+    byId("stock-limit-up-tendency-quality").textContent = qualityLabels[screen.quality] || "未知";
+    byId("stock-limit-up-tendency-coverage").textContent = coverage === null
+      ? "覆盖 --"
+      : `覆盖 ${(coverage * 100).toFixed(1)}%`;
+    renderLimitUpTendencyCandidates(screen.candidates);
+    replaceTextList(
+      "stock-limit-up-tendency-methodology",
+      screen.methodology,
+      "方法尚未随档案返回。",
+    );
+    replaceTextList(
+      "stock-limit-up-tendency-limitations",
+      screen.limitations,
+      "分数只用于相对排序。",
+    );
+    renderStockSelectionExclusions(
+      screen.excluded_counts,
+      "stock-limit-up-tendency-exclusions",
+    );
   }
 
   function renderStockSelectionCandidates(candidates) {
@@ -2874,6 +3062,7 @@
     renderStockSelectionExclusions(canonical.excluded_counts);
     renderStockSelectionOutcome(history);
     renderStockPatternScreen(canonical.pattern_screens);
+    renderLimitUpTendencyScreen(canonical.limit_up_tendency_screens);
   }
 
   function updateStockSelectionSchedule() {
@@ -2925,12 +3114,16 @@
       }
       byId("stock-pattern-content").hidden = true;
       byId("stock-pattern-empty").hidden = false;
+      byId("stock-limit-up-tendency-content").hidden = true;
+      byId("stock-limit-up-tendency-empty").hidden = false;
     } else {
       renderStockSelection(selection, history);
-      byId("stock-selection-status").textContent = `${text(selection.trade_date)} · 已存档`;
-      byId("stock-selection-launch-status").textContent = (
-        `${text(selection.trade_date)} · ${formatCount(selection.selected_count)} 只量化候选`
-      );
+      if (!state.stockSelectionGenerateInFlight) {
+        byId("stock-selection-status").textContent = `${text(selection.trade_date)} · 已存档`;
+        byId("stock-selection-launch-status").textContent = (
+          `${text(selection.trade_date)} · ${formatCount(selection.selected_count)} 只量化候选`
+        );
+      }
     }
     updateStockSelectionSchedule();
   }
@@ -2968,9 +3161,9 @@
       selecting: "数据已取得，正在执行选股与形态筛选",
       archiving: "筛选完成，正在写入不可变档案",
     };
-    state.stockSelectionGenerateInFlight = generation.state === "running";
+    state.stockSelectionGenerateInFlight = new Set(["queued", "running"]).has(generation.state);
     state.stockSelectionGenerationPhase = text(generation.phase, "idle");
-    if (generation.state === "running") {
+    if (new Set(["queued", "running"]).has(generation.state)) {
       const label = phaseLabels[generation.phase] || "后台正在生成选股档案";
       byId("stock-selection-status").textContent = `${label}；页面可继续使用`;
       byId("stock-selection-launch-status").textContent = label;
@@ -3000,20 +3193,18 @@
     try {
       let generation = initial || await readStockSelectionGeneration();
       renderStockSelectionGenerationStatus(generation);
-      while (generation.state === "running") {
+      while (new Set(["queued", "running"]).has(generation.state)) {
         await new Promise((resolve) => window.setTimeout(resolve, 1500));
         generation = await readStockSelectionGeneration();
         renderStockSelectionGenerationStatus(generation);
       }
-      if (generation.state === "succeeded" && generation.result) {
-        const result = validateStockSelectionResult(generation.result);
-        renderStockSelection(result.selection, result);
-        byId("stock-selection-status").textContent = result.action === "existing"
-          ? "今日候选池已存在，已读取存档"
-          : "今日候选池已生成并存档";
+      if (generation.state === "succeeded") {
+        const legacySelection = objectValue(objectValue(generation.result).selection);
+        const tradeDate = text(generation.trade_date, text(legacySelection.trade_date, null));
+        byId("stock-selection-status").textContent = "今日候选池已生成并存档";
         byId("stock-selection-launch-status").textContent = "今日选股档案已就绪";
         await fetchStockSelectionHistory({
-          tradeDate: text(objectValue(result.selection).trade_date, null),
+          tradeDate,
           silent: true,
         });
       }
@@ -3076,8 +3267,15 @@
     const due = clock.minutes >= reviewScheduleMinutes(manualAfter, "17:30");
     const button = byId("daily-review-generate-button");
     button.disabled = state.reviewGenerateInFlight || !due || todayExists;
+    const phaseLabels = {
+      queued: "等待执行…",
+      loading: "正在读取盘面…",
+      evaluating: "正在评估复盘…",
+      generating: "正在生成复盘…",
+      archiving: "正在存档…",
+    };
     if (state.reviewGenerateInFlight) {
-      button.textContent = "正在生成…";
+      button.textContent = phaseLabels[state.reviewGenerationPhase] || "正在生成…";
     } else if (todayExists) {
       button.textContent = "今日已存档";
     } else if (!due) {
@@ -3103,14 +3301,17 @@
     return payload;
   }
 
-  function validateReviewResult(payload) {
+  function validateReviewGeneration(payload) {
     if (!payload || typeof payload !== "object" || Array.isArray(payload)) {
-      throw new Error("返回内容不是生成结果");
+      throw new Error("返回内容不是日复盘任务状态");
     }
-    if (payload.contract !== "post_market_review_result.v1" || payload.schema_version !== 1) {
+    if (payload.contract !== "post_market_review_generation.v1" || payload.schema_version !== 1) {
       throw new Error(
-        `复盘生成契约不匹配：${text(payload.contract, "缺少契约")}`,
+        `复盘任务契约不匹配：${text(payload.contract, "缺少契约")}`,
       );
+    }
+    if (!["idle", "queued", "running", "succeeded", "failed"].includes(payload.state)) {
+      throw new Error("复盘任务返回了未知状态");
     }
     return payload;
   }
@@ -3534,10 +3735,29 @@
     }
     records.forEach((item, index) => {
       const entry = createElement("li", "daily-review-watch-item");
+      const stance = text(item.stance, "conditional");
+      entry.dataset.stance = stance;
       const heading = createReviewHighlightedElement("h5", "", item.title, `观察项 ${index + 1}`);
       entry.append(heading);
+      const meta = createElement("div", "daily-review-watch-item__meta");
+      const stanceLabels = {
+        conditional: "满足条件才看",
+        wait_divergence: "只等分歧，不追",
+        avoid: "回避",
+      };
+      meta.append(
+        createElement("span", "daily-review-watch-item__stance", stanceLabels[stance] || "满足条件才看"),
+        createElement("span", "daily-review-watch-item__checkpoint", `检查点 · ${text(item.checkpoint, "盘中")}`),
+      );
+      entry.append(meta);
       const why = reviewReportText(item.why_it_matters, "");
       if (why) entry.append(createReviewHighlightedElement("p", "", why));
+      const metrics = asArray(item.metrics).map((value) => reviewReportText(value, "")).filter(Boolean);
+      if (metrics.length) {
+        const metricList = createElement("ul", "daily-review-watch-item__metrics");
+        metrics.forEach((value) => metricList.append(createReviewHighlightedElement("li", "", value)));
+        entry.append(metricList);
+      }
       const conditions = createElement("dl");
       const confirmationLabel = createElement("dt", "daily-review-watch-item__confirmation-label", "看到什么算确认");
       const confirmation = createReviewHighlightedElement(
@@ -3560,6 +3780,33 @@
         invalidation,
       );
       entry.append(conditions);
+      const action = reviewReportText(item.action, "");
+      if (action) {
+        entry.append(createReviewHighlightedElement("p", "daily-review-watch-item__action", `执行规则：${action}`));
+      }
+      const stocks = asArray(item.stocks).map(objectValue).filter((stock) => Object.keys(stock).length);
+      if (stocks.length) {
+        const stockList = createElement("ul", "daily-review-watch-item__stocks");
+        stocks.forEach((stock) => {
+          const boardLabels = {
+            main_board: "主板",
+            chi_next: "创业板",
+            star: "科创板",
+            beijing: "北交所",
+          };
+          const row = createElement("li", "daily-review-watch-stock");
+          row.append(createReviewHighlightedElement(
+            "strong",
+            "",
+            `${text(stock.name)} ${text(stock.instrument_id).slice(0, 6)} · ${boardLabels[text(stock.board)] || text(stock.board)}`,
+          ));
+          row.append(createReviewHighlightedElement("p", "", stock.reason, "未披露入选理由"));
+          row.append(createReviewHighlightedElement("small", "", `确认：${text(stock.confirmation, "未披露")}`));
+          row.append(createReviewHighlightedElement("small", "", `失效：${text(stock.invalidation, "未披露")}`));
+          stockList.append(row);
+        });
+        entry.append(stockList);
+      }
       target.append(entry);
     });
   }
@@ -3682,14 +3929,16 @@
     if (!Object.keys(review).length) {
       byId("daily-review-content").hidden = true;
       byId("daily-review-empty").hidden = false;
-      byId("daily-review-status").textContent = "尚无存档";
+      if (!state.reviewGenerateInFlight) byId("daily-review-status").textContent = "尚无存档";
     } else {
       renderPostMarketReview(
         reviewWithPresentation(review, history.presentation),
         history.outcome,
         history.learning,
       );
-      byId("daily-review-status").textContent = `${text(review.trade_date)} · 已存档`;
+      if (!state.reviewGenerateInFlight) {
+        byId("daily-review-status").textContent = `${text(review.trade_date)} · 已存档`;
+      }
     }
     updateReviewSchedule();
   }
@@ -3716,11 +3965,72 @@
     }
   }
 
+  function renderPostMarketReviewGenerationStatus(generation) {
+    const active = new Set(["queued", "running"]).has(generation.state);
+    const phaseLabels = {
+      queued: "任务已进入后台队列",
+      loading: "后台正在读取已接收的盘面档案",
+      evaluating: "后台正在评估历史记录",
+      generating: "后台正在生成日复盘",
+      archiving: "复盘已生成，正在写入不可变档案",
+    };
+    state.reviewGenerateInFlight = active;
+    state.reviewGenerationPhase = text(generation.phase, active ? "queued" : "idle");
+    if (active) {
+      const label = phaseLabels[generation.phase] || "后台正在生成日复盘";
+      byId("daily-review-status").textContent = `${label}；页面可继续使用`;
+    } else if (generation.state === "failed") {
+      byId("daily-review-status").textContent = text(
+        generation.error,
+        "日复盘后台任务失败",
+      );
+    }
+    updateReviewSchedule();
+  }
+
+  async function readPostMarketReviewGeneration() {
+    const response = await fetch(REVIEW_GENERATION_ENDPOINT, {
+      cache: "no-store",
+      headers: { Accept: "application/json" },
+    });
+    const payload = await response.json();
+    if (!response.ok) throw new Error(text(payload.error, `服务返回 ${response.status}`));
+    return validateReviewGeneration(payload);
+  }
+
+  async function pollPostMarketReviewGeneration(initial = null) {
+    if (state.reviewGenerationPollInFlight) return;
+    state.reviewGenerationPollInFlight = true;
+    try {
+      let generation = initial || await readPostMarketReviewGeneration();
+      renderPostMarketReviewGenerationStatus(generation);
+      while (new Set(["queued", "running"]).has(generation.state)) {
+        await new Promise((resolve) => window.setTimeout(resolve, 1500));
+        generation = await readPostMarketReviewGeneration();
+        renderPostMarketReviewGenerationStatus(generation);
+      }
+      if (generation.state === "succeeded") {
+        byId("daily-review-status").textContent = "今日复盘已生成并存档";
+        await fetchPostMarketReviewHistory({
+          tradeDate: text(generation.trade_date, null),
+          silent: true,
+        });
+      }
+    } catch (error) {
+      state.reviewGenerateInFlight = false;
+      byId("daily-review-status").textContent = `任务状态暂不可用：${text(error.message, "等待重试")}`;
+    } finally {
+      state.reviewGenerationPollInFlight = false;
+      updateReviewSchedule();
+    }
+  }
+
   async function generatePostMarketReview() {
     if (state.reviewGenerateInFlight) return;
     state.reviewGenerateInFlight = true;
     updateReviewSchedule();
-    byId("daily-review-status").textContent = "正在生成并存档…";
+    state.reviewGenerationPhase = "queued";
+    byId("daily-review-status").textContent = "正在提交后台复盘任务…";
     try {
       const response = await fetch(REVIEW_GENERATE_ENDPOINT, {
         method: "POST",
@@ -3729,16 +4039,12 @@
       });
       const payload = await response.json();
       if (!response.ok) throw new Error(text(payload.error, `服务返回 ${response.status}`));
-      const result = validateReviewResult(payload);
-      renderPostMarketReview(reviewWithPresentation(result.review, result.presentation));
-      byId("daily-review-status").textContent = result.action === "existing"
-        ? "今日复盘已存在，已读取存档"
-        : "今日复盘已生成并存档";
-      await fetchPostMarketReviewHistory({ tradeDate: text(result.review && result.review.trade_date, null), silent: true });
-    } catch (error) {
-      byId("daily-review-status").textContent = text(error.message, "日复盘生成失败");
-    } finally {
+      const generation = validateReviewGeneration(payload);
       state.reviewGenerateInFlight = false;
+      await pollPostMarketReviewGeneration(generation);
+    } catch (error) {
+      state.reviewGenerateInFlight = false;
+      byId("daily-review-status").textContent = text(error.message, "日复盘生成失败");
       updateReviewSchedule();
     }
   }
@@ -3819,6 +4125,10 @@
       || !Number.isInteger(recovery.remaining_gaps)
       || recovery.remaining_gaps < 0
       || recovery.expected_minute_buckets - recovery.accepted_after !== recovery.remaining_gaps
+      || !Number.isInteger(recovery.latest_attempt_progress_completed || 0)
+      || !Number.isInteger(recovery.latest_attempt_progress_total || 0)
+      || (recovery.latest_attempt_progress_completed || 0) < 0
+      || (recovery.latest_attempt_progress_completed || 0) > (recovery.latest_attempt_progress_total || 0)
     )) {
       throw new Error("收盘完整性检查状态不匹配");
     }
@@ -3846,6 +4156,34 @@
     };
   }
 
+  function collectionRecoveryErrorMessage(recovery) {
+    if (!recovery) return "";
+    const runErrorCode = text(recovery.last_error_code, "");
+    const attemptErrorCode = text(recovery.latest_failure_error_code, "");
+    const errorCode = runErrorCode || attemptErrorCode;
+    if (!errorCode) return "";
+    const rawMessage = text(
+      runErrorCode
+        ? recovery.last_error_message
+        : recovery.latest_failure_error_message,
+      "",
+    );
+    const knownMessages = {
+      HistoricalMarketWatchUnavailable: "目标分钟没有已保存的真实盘面，当前历史接口也不能回放该分钟",
+      CollectorRestarted: "采集进程在本次分钟处理完成前重启",
+    };
+    const message = knownMessages[errorCode] || rawMessage || errorCode;
+    const parts = [runErrorCode ? "批次失败" : "最近失败"];
+    if (!runErrorCode && recovery.latest_failure_minute_bucket) {
+      parts.push(formatTimestamp(recovery.latest_failure_minute_bucket));
+    }
+    parts.push(`${errorCode}：${message}`);
+    if (!runErrorCode && recovery.latest_failure_next_retry_at) {
+      parts.push(`下次重试 ${formatTimestamp(recovery.latest_failure_next_retry_at)}`);
+    }
+    return parts.join(" · ");
+  }
+
   function renderCollectionRecoveryStatus(payload) {
     const shell = document.querySelector(".collection-recovery-strip");
     const completeness = payload?.collection_completeness || {};
@@ -3865,7 +4203,7 @@
       pending: "手动检查已排队",
       running: "正在检查并追补",
       complete: "收盘数据完整",
-      retrying: "自动追补中",
+      retrying: "追补受阻 · 等待重试",
       needs_attention: "仍有缺口 · 建议手动重试",
       failed: "检查失败 · 可手动重试",
     };
@@ -3873,23 +4211,69 @@
     if (!status) status = expected === 0 ? "not_due" : afterClose ? "pending_auto" : "before_close";
     const label = statusLabels[status]
       || (status === "not_due" ? "今日无交易日检查" : "15:05 后自动检查");
+    const initialGaps = recovery
+      ? Math.max(0, expected - Number(recovery.accepted_before || 0))
+      : 0;
+    const attempted = recovery ? Number(recovery.attempted_slots || 0) : 0;
+    const failedAttempts = recovery ? Number(recovery.failed_attempts || 0) : 0;
+    const workDone = recovery ? Number(recovery.latest_attempt_progress_completed || 0) : 0;
+    const workTotal = recovery ? Number(recovery.latest_attempt_progress_total || 0) : 0;
     byId("collection-recovery-accepted").textContent = expected ? `${accepted} / ${expected}` : "--";
     byId("collection-recovery-gaps").textContent = expected ? String(gaps) : "--";
+    byId("collection-recovery-progress").textContent = recovery
+      ? `${Math.min(attempted, initialGaps)} / ${initialGaps}${workTotal ? ` · 批内 ${workDone} / ${workTotal}` : ""}`
+      : "--";
+    byId("collection-recovery-failures").textContent = recovery
+      ? String(failedAttempts)
+      : "--";
     byId("collection-recovery-checked-at").textContent = recovery
       ? formatTimestamp(recovery.completed_at || recovery.started_at || recovery.requested_at)
       : "--";
-    byId("collection-recovery-status").textContent = label;
+    byId("collection-recovery-status").textContent = state.recoveryRequestError
+      ? "排队失败 · 请重试"
+      : label;
     const detail = byId("collection-recovery-detail");
     if (recovery) {
       const trigger = recovery.trigger === "manual" ? "手动" : "自动";
-      detail.textContent = gaps === 0
-        ? `${trigger}检查已完成；${expected} 个交易分钟均有可用真实快照。`
-        : `${trigger}检查已尝试 ${Number(recovery.attempted_slots || 0)} 个缺口，仍有 ${gaps} 个分钟由采集进程继续追补；不会用当前值伪造历史。`;
+      const repairedThisRun = Math.max(
+        0,
+        Number(recovery.accepted_after || accepted)
+          - Number(recovery.accepted_before || 0),
+      );
+      const currentMinute = recovery.latest_attempt_minute_bucket
+        ? formatTimestamp(recovery.latest_attempt_minute_bucket)
+        : "";
+      const stageLabels = {
+        starting: "准备精确数据源",
+        stock_minutes: "加载全市场分钟曲线",
+        source_cache: "复用本轮精确曲线",
+        breadth: "重算涨跌家数",
+        indices: "重建角色指数与成交额",
+        turnover_baseline: "读取上一交易日同分钟基线",
+        rotation: "回放板块轮动",
+        contract: "执行严格契约校验",
+      };
+      const stage = stageLabels[text(recovery.latest_attempt_progress_stage, "")] || "";
+      const workMessage = text(recovery.latest_attempt_progress_message, "");
+      if (status === "pending") {
+        detail.textContent = `${trigger}检查已排队；等待采集进程领取，本轮预计处理 ${initialGaps} 个缺口。`;
+      } else if (status === "running") {
+        detail.textContent = `${trigger}检查进行中：已启动 ${attempted} / ${initialGaps} 个缺口${currentMinute ? `，当前 ${currentMinute}` : ""}${stage ? `；${stage}${workTotal ? ` ${workDone}/${workTotal}` : ""}` : ""}${workMessage ? `，${workMessage}` : ""}。`;
+      } else if (gaps === 0) {
+        detail.textContent = `${trigger}检查已完成；${expected} 个交易分钟均有可用真实快照。`;
+      } else {
+        detail.textContent = `${trigger}检查已处理 ${attempted} / ${initialGaps} 个缺口，补齐 ${repairedThisRun} 个、失败 ${failedAttempts} 个；仍有 ${gaps} 个分钟等待精确历史数据，不会用当前值伪造历史。`;
+      }
     } else if (expected) {
-      detail.textContent = "交易日 15:05 后自动扫描 240 个盘中分钟；缺口只接受精确历史快照。";
+      detail.textContent = "交易日 15:05 后自动扫描 237 个连续交易分钟和 1 个 15:00 收盘结果；缺口只接受可验证快照。";
     } else {
       detail.textContent = "非交易日不创建空检查；下一交易日收盘后自动执行。";
     }
+    const errorDetail = byId("collection-recovery-error");
+    const recoveryError = state.recoveryRequestError
+      || collectionRecoveryErrorMessage(recovery);
+    errorDetail.textContent = recoveryError;
+    errorDetail.hidden = !recoveryError;
     shell.classList.remove("is-complete", "is-retrying", "is-attention", "is-failed");
     if (status === "complete") shell.classList.add("is-complete");
     if (status === "pending" || status === "running" || status === "retrying") shell.classList.add("is-retrying");
@@ -3925,6 +4309,7 @@
 
   async function requestDailyRecovery() {
     if (state.recoveryRequestInFlight) return;
+    state.recoveryRequestError = null;
     state.recoveryRequestInFlight = true;
     renderCollectionRecoveryStatus(state.collectionStatus);
     try {
@@ -3945,7 +4330,7 @@
       const refreshed = await fetchCollectionStatus({ force: true });
       renderCollectionRecoveryStatus(refreshed);
     } catch (error) {
-      byId("collection-recovery-status").textContent = text(
+      state.recoveryRequestError = text(
         error?.message,
         "收盘完整性检查暂时无法排队",
       );
@@ -4031,11 +4416,13 @@
         error.discardBatch = true;
         throw error;
       }
+      state.lastSummaryCheckedAt = Date.now();
       return state.lastSummary;
     }
     if (!response.ok) throw await marketWatchResponseError(response);
     const summary = validateSummary(await response.json(), expectedRevision, response);
     state.summaryEtag = response.headers.get("ETag");
+    state.lastSummaryCheckedAt = Date.now();
     return summary;
   }
 
@@ -4051,6 +4438,9 @@
     const required = new Set(selected);
     payload.sectors.forEach((item) => {
       const changeDelta = finiteNumber(item?.latest?.change_delta_5m_pct);
+      if (hasFullSectorResonance(item)) {
+        required.add(text(item.sector_key, ""));
+      }
       if (
         changeDelta !== null
         && Math.abs(changeDelta) >= state.sectorFlowSurgeThreshold
@@ -4237,6 +4627,7 @@
 
   function discardMarketWatchAttempt() {
     state.summaryEtag = null;
+    state.lastSummaryCheckedAt = 0;
     state.detailEtags.clear();
     state.detailPayloads.clear();
   }
@@ -4276,15 +4667,39 @@
       return { changed: true, snapshot: null };
     }
     const sourceRevision = accepted.source_snapshot_revision;
+    const sameSource = state.lastSummary?.source_snapshot_revision === sourceRevision;
+    const resonanceRefreshDue = (
+      state.lastSummaryCheckedAt === 0
+      || Date.now() - state.lastSummaryCheckedAt >= RESONANCE_REFRESH_INTERVAL_MS
+    );
     if (
       !force
-      && state.lastSummary?.source_snapshot_revision === sourceRevision
+      && sameSource
       && state.lastSnapshot
+      && !resonanceRefreshDue
     ) {
       keepMarketWatchSurfacesVisible();
       return { changed: false, snapshot: state.lastSnapshot };
     }
+    const previousResonanceRevision = state.lastSummary?.resonance_revision ?? null;
     const summary = await fetchSummary(sourceRevision, { force });
+    const resonanceChanged = (
+      summary.resonance_revision !== previousResonanceRevision
+    );
+    if (!force && sameSource && state.lastSnapshot) {
+      if (!resonanceChanged) {
+        keepMarketWatchSurfacesVisible();
+        return { changed: false, snapshot: state.lastSnapshot };
+      }
+      const snapshot = validateSnapshot(hydratedSnapshot(
+        summary,
+        state.trajectoryDetails,
+      ));
+      state.lastSummary = summary;
+      state.lastSnapshot = snapshot;
+      keepMarketWatchSurfacesVisible();
+      return { changed: true, snapshot };
+    }
     const scopes = ["defense", "offense"];
     const results = await Promise.all(scopes.map((scope) => (
       fetchTrajectoryDetail(
@@ -4411,6 +4826,315 @@
     window.addEventListener("pageshow", resumeSnapshotPolling);
   }
 
+  function validateLimitUpPool(payload, expectedRevision) {
+    const items = asArray(payload?.items);
+    const categories = asArray(payload?.categories);
+    const businessCategories = asArray(payload?.business_categories);
+    const counts = [
+      payload?.confirmed_count,
+      payload?.provisional_count,
+      payload?.unresolved_count,
+    ];
+    if (
+      !payload
+      || typeof payload !== "object"
+      || Array.isArray(payload)
+      || payload.contract !== "limit_up_follow_pool.v1"
+      || payload.schema_version !== 1
+      || payload.source_snapshot_revision !== expectedRevision
+      || !isRevision(payload.attribution_revision)
+      || !Number.isInteger(payload.pool_total)
+      || payload.pool_total < 0
+      || payload.pool_total !== items.length
+      || counts.some((value) => !Number.isInteger(value) || value < 0)
+      || counts.reduce((total, value) => total + value, 0) !== payload.pool_total
+      || categories.reduce((total, item) => total + Number(item?.count || 0), 0)
+        !== payload.pool_total
+      || (businessCategories.length
+        && businessCategories.reduce((total, item) => total + Number(item?.count || 0), 0)
+          !== payload.pool_total)
+    ) {
+      throw new Error("涨停池归因契约与当前真实快照不一致");
+    }
+    const instrumentIds = items.map((item) => text(item?.instrument_id, ""));
+    if (
+      instrumentIds.some((value) => !/^\d{6}\.(SH|SZ|BJ)$/.test(value))
+      || new Set(instrumentIds).size !== instrumentIds.length
+    ) {
+      throw new Error("涨停池股票身份不完整或重复");
+    }
+    items.forEach((item) => {
+      const status = text(item?.follow_status, "");
+      const hasSector = Boolean(text(item?.followed_sector_key, ""))
+        && Boolean(text(item?.followed_sector_name, ""));
+      const confirmed = status === "confirmed"
+        && item.confidence === "high"
+        && item.attribution_method === "limit_up_seal_window_sector_flow_resonance.v1"
+        && hasSector
+        && item.evidence;
+      const provisional = status === "provisional"
+        && item.confidence === "low"
+        && item.attribution_method === "limit_up_opening_cohort_confirmation.v1"
+        && hasSector
+        && Number.isInteger(item.cohort_confirmed_peer_count)
+        && item.cohort_confirmed_peer_count >= 2
+        && !item.evidence;
+      const unresolved = status === "unresolved"
+        && item.confidence === "unresolved"
+        && item.attribution_method === "insufficient_verified_follow_evidence.v1"
+        && !hasSector
+        && !item.evidence;
+      if (!confirmed && !provisional && !unresolved) {
+        throw new Error(`涨停池 ${text(item?.name, item?.instrument_id)} 归因状态不完整`);
+      }
+    });
+    return payload;
+  }
+
+  function formatLimitUpSealTime(value) {
+    if (!value) return "时间待核验";
+    const parsed = new Date(value);
+    if (Number.isNaN(parsed.getTime())) return "时间待核验";
+    return new Intl.DateTimeFormat("zh-CN", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+      timeZone: "Asia/Shanghai",
+    }).format(parsed);
+  }
+
+  function limitUpPoolCategoryKey(item) {
+    return text(item?.primary_business_key, "")
+      || (item?.business_verification_status ? "unresolved_business" : "")
+      || text(item?.followed_sector_key, "")
+      || "unresolved";
+  }
+
+  function renderLimitUpPoolCategories(pool) {
+    const target = byId("limit-up-pool-categories");
+    const businessCategories = asArray(pool.business_categories);
+    const categories = businessCategories.length ? businessCategories : asArray(pool.categories);
+    const validKeys = new Set(["all", ...categories.map((item) => text(item.sector_key, ""))]);
+    if (!validKeys.has(state.limitUpPoolCategory)) state.limitUpPoolCategory = "all";
+    const specs = [
+      { sector_key: "all", label: "全部", count: pool.pool_total },
+      ...categories,
+    ];
+    const buttons = specs.map((category) => {
+      const key = text(category.sector_key, "unresolved");
+      const button = createElement(
+        "button",
+        "",
+        `${text(category.label, "待确认")} (${Number(category.count || 0)})`,
+      );
+      button.type = "button";
+      button.setAttribute("role", "tab");
+      button.dataset.limitUpCategory = key;
+      const selected = key === state.limitUpPoolCategory;
+      button.setAttribute("aria-selected", String(selected));
+      button.tabIndex = selected ? 0 : -1;
+      button.addEventListener("click", () => {
+        state.limitUpPoolCategory = key;
+        renderLimitUpPool(pool);
+      });
+      button.addEventListener("keydown", (event) => {
+        if (!new Set(["ArrowLeft", "ArrowRight", "Home", "End"]).has(event.key)) return;
+        event.preventDefault();
+        const current = buttons.indexOf(button);
+        const index = event.key === "Home"
+          ? 0
+          : event.key === "End"
+            ? buttons.length - 1
+            : (current + (event.key === "ArrowRight" ? 1 : -1) + buttons.length)
+              % buttons.length;
+        state.limitUpPoolCategory = buttons[index].dataset.limitUpCategory;
+        renderLimitUpPool(pool);
+        byId("limit-up-pool-categories").querySelector(
+          `[data-limit-up-category="${state.limitUpPoolCategory}"]`,
+        )?.focus();
+      });
+      return button;
+    });
+    target.replaceChildren(...buttons);
+  }
+
+  function limitUpPoolCard(item, analysisPending) {
+    const status = text(item.follow_status, "unresolved");
+    const card = createElement("article", `limit-up-stock-card is-${status}`);
+    card.title = analysisPending
+      ? `供应商原因（仅供核对，午盘/盘后再归类）：${text(item.source_reason, "未返回")}`
+      : [
+        `主营证据状态：${text(item.business_verification_status, "待核验")}`,
+        `统计行业：${text(item.statistical_industry_name, "待核验")}`,
+        `供应商原因（仅供核对，不参与归因）：${text(item.source_reason, "未返回")}`,
+      ].join("\n");
+    card.appendChild(createElement(
+      "span",
+      "limit-up-stock-card__time",
+      formatLimitUpSealTime(item.first_sealed_at),
+    ));
+    card.appendChild(createElement(
+      "strong",
+      "limit-up-stock-card__name",
+      text(item.name, item.instrument_id),
+    ));
+    const sector = createElement("div", "limit-up-stock-card__sector");
+    if (item.is_one_word_board) {
+      sector.appendChild(createElement("i", "one-word-badge", "一字"));
+    }
+    const sectorLabel = analysisPending
+      ? "等待午盘/盘后归类"
+      : item.primary_business_name
+        ? `主营 · ${text(item.primary_business_name, "待核验")}`
+        : "主营归属待核验";
+    sector.appendChild(createElement("span", "", sectorLabel));
+    card.appendChild(sector);
+    let meta = analysisPending
+      ? "涨停状态已实时更新 · 资金跟随分析尚未执行"
+      : "跟随板块 · 共同分钟或候选板块证据不足，不猜测";
+    if (!analysisPending && status === "confirmed") {
+      const correlation = finiteNumber(item.evidence?.correlation);
+      const agreement = finiteNumber(item.evidence?.directional_agreement_ratio);
+      meta = `跟随 · ${text(item.followed_sector_name, "路径待确认")} · 相关 ${
+        correlation === null ? "--" : correlation.toFixed(2)
+      } · 同向 ${
+        agreement === null ? "--" : `${(agreement * 100).toFixed(0)}%`
+      }`;
+    } else if (!analysisPending && status === "provisional") {
+      meta = `跟随 · ${text(item.followed_sector_name, "同批待确认")} · ${
+        Number(item.cohort_confirmed_peer_count || 0)
+      } 只路径确认股佐证`;
+    }
+    card.appendChild(createElement("span", "limit-up-stock-card__meta", meta));
+    return card;
+  }
+
+  function renderLimitUpPool(pool) {
+    const analysisPending = asArray(pool.quality_flags)
+      .includes("analysis_pending_midday_or_post_close");
+    byId("limit-up-pool-total").textContent = String(pool.pool_total);
+    byId("limit-up-pool-confirmed").textContent = String(pool.confirmed_count);
+    byId("limit-up-pool-provisional").textContent = String(pool.provisional_count);
+    byId("limit-up-pool-unresolved").textContent = String(pool.unresolved_count);
+    byId("limit-up-pool-unresolved-label").textContent = analysisPending
+      ? "待归类"
+      : "待确认";
+    byId("limit-up-pool-trade-date").textContent = `交易日 ${text(pool.trade_date, "--")}`;
+    byId("limit-up-pool-status").textContent = analysisPending
+      ? `盘中涨停状态已更新 · 午盘/盘后归类 · 快照 ${formatTimestamp(pool.source_as_of)}`
+      : `${
+        pool.quality === "accepted" ? "路径归因完整" : "部分股票保持待确认"
+      } · 快照 ${formatTimestamp(pool.source_as_of)}`;
+    byId("limit-up-pool-button-count").textContent = String(pool.pool_total);
+    renderLimitUpPoolCategories(pool);
+
+    const filtered = asArray(pool.items)
+      .filter((item) => (
+        state.limitUpPoolCategory === "all"
+        || limitUpPoolCategoryKey(item) === state.limitUpPoolCategory
+      ))
+      .sort((left, right) => {
+        const leftBoard = Number.isInteger(left.board_count) ? left.board_count : 0;
+        const rightBoard = Number.isInteger(right.board_count) ? right.board_count : 0;
+        if (leftBoard !== rightBoard) return rightBoard - leftBoard;
+        const leftTime = Date.parse(text(left.first_sealed_at, ""));
+        const rightTime = Date.parse(text(right.first_sealed_at, ""));
+        if (Number.isFinite(leftTime) && Number.isFinite(rightTime) && leftTime !== rightTime) {
+          return leftTime - rightTime;
+        }
+        return text(left.instrument_id, "").localeCompare(text(right.instrument_id, ""));
+      });
+    const board = byId("limit-up-pool-board");
+    if (!filtered.length) {
+      board.replaceChildren(createElement("p", "limit-up-pool-empty", "当前分类没有股票。"));
+      return;
+    }
+    const groups = new Map();
+    filtered.forEach((item) => {
+      const key = Number.isInteger(item.board_count) ? item.board_count : 0;
+      if (!groups.has(key)) groups.set(key, []);
+      groups.get(key).push(item);
+    });
+    const sections = [...groups.entries()].map(([height, items]) => {
+      const section = createElement("section", "limit-up-board-group");
+      section.appendChild(createElement(
+        "div",
+        "limit-up-board-height",
+        height > 0 ? `${height}板` : "高度\n待核验",
+      ));
+      const grid = createElement("div", "limit-up-stock-grid");
+      items.forEach((item) => grid.appendChild(limitUpPoolCard(item, analysisPending)));
+      section.appendChild(grid);
+      return section;
+    });
+    board.replaceChildren(...sections);
+  }
+
+  function renderLimitUpPoolPending(message) {
+    byId("limit-up-pool-status").textContent = message;
+    byId("limit-up-pool-board").replaceChildren(
+      createElement("p", "limit-up-pool-empty", message),
+    );
+  }
+
+  async function fetchLimitUpPool({ showPending = true } = {}) {
+    const revision = state.lastSummary?.source_snapshot_revision;
+    if (!isRevision(revision)) {
+      if (showPending) renderLimitUpPoolPending("等待首份真实盘面快照");
+      return;
+    }
+    if (state.limitUpPoolFetchInFlight) return;
+    if (state.limitUpPoolRevision === revision && state.limitUpPool) {
+      renderLimitUpPool(state.limitUpPool);
+      return;
+    }
+    state.limitUpPoolFetchInFlight = true;
+    if (showPending) {
+      renderLimitUpPoolPending("正在读取与当前快照绑定的实时涨停状态…");
+    }
+    try {
+      const query = new URLSearchParams({ source_snapshot_revision: revision });
+      const response = await fetch(`${LIMIT_UP_POOL_ENDPOINT}?${query}`, {
+        cache: "no-cache",
+        headers: { Accept: "application/json" },
+      });
+      if (!response.ok) throw await marketWatchResponseError(response);
+      const pool = validateLimitUpPool(await response.json(), revision);
+      if (state.lastSummary?.source_snapshot_revision !== revision) return;
+      state.limitUpPool = pool;
+      state.limitUpPoolRevision = revision;
+      renderLimitUpPool(pool);
+    } catch (error) {
+      state.limitUpPool = null;
+      state.limitUpPoolRevision = null;
+      if (showPending || byId("limit-up-pool-dialog").open) {
+        renderLimitUpPoolPending(text(error?.message, "实时涨停状态暂不可用"));
+      } else {
+        byId("limit-up-pool-button-count").textContent = "--";
+      }
+      if (error?.status === 503 && byId("limit-up-pool-dialog").open) {
+        window.clearTimeout(state.limitUpPoolRetryTimer);
+        state.limitUpPoolRetryTimer = window.setTimeout(fetchLimitUpPool, 5_000);
+      }
+    } finally {
+      state.limitUpPoolFetchInFlight = false;
+    }
+  }
+
+  function openLimitUpPoolDialog() {
+    const dialog = byId("limit-up-pool-dialog");
+    if (!dialog.open) dialog.showModal();
+    fetchLimitUpPool();
+  }
+
+  function closeLimitUpPoolDialog() {
+    window.clearTimeout(state.limitUpPoolRetryTimer);
+    state.limitUpPoolRetryTimer = null;
+    const dialog = byId("limit-up-pool-dialog");
+    if (dialog.open) dialog.close();
+    byId("limit-up-pool-open-button").focus();
+  }
+
   function updatePollStatus() {
     const target = byId("poll-status");
     if (state.fetchInFlight) {
@@ -4449,7 +5173,9 @@
   }
 
   function selectStockSelectionTab(tabName, { focus = false } = {}) {
-    const requested = tabName === "long-upper-shadow" ? tabName : "daily";
+    const requested = new Set(["daily", "limit-up-tendency", "long-upper-shadow"]).has(tabName)
+      ? tabName
+      : "daily";
     document.querySelectorAll("[data-stock-selection-tab]").forEach((button) => {
       const selected = button.dataset.stockSelectionTab === requested;
       button.setAttribute("aria-selected", String(selected));
@@ -4468,12 +5194,25 @@
     pollStockSelectionGeneration();
   }
 
+  function closeStockSelectionDialog() {
+    const dialog = byId("stock-selection-dialog");
+    if (dialog.open) dialog.close();
+    byId("stock-selection-open-button").focus();
+  }
+
   function bindUserActions() {
     byId("refresh-button").addEventListener("click", () => fetchSnapshot({ force: true }));
     byId("collection-recovery-button").addEventListener("click", requestDailyRecovery);
     byId("notification-button").addEventListener("click", handleNotificationOptIn);
     byId("sound-button").addEventListener("click", handleSoundToggle);
     byId("mute-button").addEventListener("click", handleMuteToggle);
+    byId("limit-up-pool-open-button").addEventListener("click", openLimitUpPoolDialog);
+    byId("limit-up-pool-close-button").addEventListener("click", closeLimitUpPoolDialog);
+    const limitUpDialog = byId("limit-up-pool-dialog");
+    limitUpDialog.addEventListener("click", (event) => {
+      if (event.target !== limitUpDialog) return;
+      closeLimitUpPoolDialog();
+    });
     byId("mark-read-button").addEventListener("click", markAllAlertsRead);
     document.querySelectorAll("[data-flow-mode]").forEach((button) => {
       button.addEventListener("click", () => {
@@ -4570,9 +5309,11 @@
     });
     byId("stock-selection-generate-button").addEventListener("click", generateStockSelection);
     byId("stock-selection-open-button").addEventListener("click", openStockSelectionDialog);
-    byId("stock-selection-close-button").addEventListener("click", () => {
-      byId("stock-selection-dialog").close();
-      byId("stock-selection-open-button").focus();
+    byId("stock-selection-close-button").addEventListener("click", closeStockSelectionDialog);
+    const dialog = byId("stock-selection-dialog");
+    dialog.addEventListener("click", (event) => {
+      if (event.target !== dialog) return;
+      closeStockSelectionDialog();
     });
     document.querySelectorAll("[data-stock-selection-tab]").forEach((button) => {
       button.addEventListener("click", () => {
@@ -4623,6 +5364,7 @@
     });
     loadPanelWhenVisible("daily-review-section", () => {
       fetchPostMarketReviewHistory();
+      pollPostMarketReviewGeneration();
     });
     loadPanelWhenVisible("replay-section", () => {
       fetchReplayData();

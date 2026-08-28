@@ -139,6 +139,27 @@ def test_restart_replays_confirmed_lifecycle(tmp_path: Path):
         resumed.close()
 
 
+def test_get_as_of_excludes_later_persisted_rotation_minutes(tmp_path: Path):
+    store = RotationRadarStore(tmp_path / "as-of.sqlite3")
+    try:
+        for offset in range(7):
+            _record(
+                store,
+                START + timedelta(minutes=offset),
+                target_change=-3.0 + offset,
+                target_breadth=0.3 + offset * 0.05,
+            )
+
+        replay = store.get_as_of(TRADE_DATE, START + timedelta(minutes=4))
+        current = store.get_current(TRADE_DATE)
+
+        assert replay["storage"]["stored_points"] == 5
+        assert current["storage"]["stored_points"] == 7
+        assert replay["as_of"] == (START + timedelta(minutes=4)).isoformat()
+    finally:
+        store.close()
+
+
 def test_midday_does_not_store_or_advance(tmp_path: Path):
     store = RotationRadarStore(tmp_path / "lunch.sqlite3")
     try:

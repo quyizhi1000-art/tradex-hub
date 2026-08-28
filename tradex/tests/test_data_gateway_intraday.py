@@ -14,6 +14,8 @@ from tradex.data_gateway.contracts import QualityStatus
 from tradex.data_gateway.intraday import (
     IntradayMinuteCache,
     fetch_intraday_minute_series,
+    fetch_intraday_minute_series_batch,
+    fetch_intraday_minute_series_batch_partial,
     intraday_minute_to_legacy_payload,
 )
 
@@ -94,6 +96,69 @@ def _eltdx_frame() -> pd.DataFrame:
     return frame
 
 
+def test_batch_gateway_maps_multiple_stocks_from_one_provider_route() -> None:
+    frame = pd.concat(
+        [
+            _tushare_frame(),
+            _tushare_frame().assign(
+                代码="600000.SH",
+                收盘=[12.0, 11.9],
+                开盘=[12.0, 11.9],
+                最高=[12.0, 11.9],
+                最低=[12.0, 11.9],
+                成交额=[240_000, 119_000],
+            ),
+        ],
+        ignore_index=True,
+    )
+    frame.attrs.update(_tushare_frame().attrs)
+
+    class _BatchRouter:
+        def __init__(self) -> None:
+            self.calls = 0
+
+        def route_validated(self, data_type, validator, **kwargs):
+            self.calls += 1
+            assert data_type == "minute_data_batch"
+            assert kwargs["symbols"] == ("000001.SZ", "600000.SH")
+            return validator(frame, "tushare"), "tushare"
+
+    router = _BatchRouter()
+    result = fetch_intraday_minute_series_batch(
+        ("600000.SH", "000001.SZ"),
+        router=router,
+        now=_NOW,
+    )
+
+    assert router.calls == 1
+    assert tuple(result) == ("000001.SZ", "600000.SH")
+    assert all(series.metadata.provider == "tushare" for series in result.values())
+
+
+def test_partial_batch_preserves_omitted_instrument_for_exact_single_fallback() -> None:
+    frame = _tushare_frame()
+
+    class _PartialRouter:
+        def route_validated(self, data_type, validator, **kwargs):
+            assert data_type == "minute_data_batch_partial"
+            assert kwargs["symbols"] == ("000001.SZ", "600000.SH")
+            return validator(frame, "tushare"), "tushare"
+
+    result = fetch_intraday_minute_series_batch_partial(
+        ("600000.SH", "000001.SZ"),
+        router=_PartialRouter(),
+        now=_NOW,
+    )
+
+    assert tuple(result) == ("000001.SZ",)
+
+
+def test_batch_contract_rejects_more_than_verified_40_instruments() -> None:
+    symbols = tuple(f"{number:06d}.SZ" for number in range(1, 42))
+    with pytest.raises(ValueError, match="at most 40"):
+        fetch_intraday_minute_series_batch(symbols, router=object(), now=_NOW)
+
+
 def test_tushare_minutes_sort_and_derive_cumulative_vwap() -> None:
     series = fetch_intraday_minute_series(
         "000001",
@@ -116,6 +181,27 @@ def test_tushare_minutes_sort_and_derive_cumulative_vwap() -> None:
     assert series.metadata.provider == "tushare"
     assert series.metadata.provider_request_id == "minute-request-1"
     assert series.metadata.quality is QualityStatus.ACCEPTED
+
+
+def test_tushare_partial_amount_preserves_price_series_as_degraded() -> None:
+    frame = _tushare_frame()
+    frame.loc[1, "成交额"] = None
+
+    series = fetch_intraday_minute_series(
+        "000001",
+        router=_Router(frame, "tushare"),
+        now=_NOW,
+        use_cache=False,
+    )
+
+    assert [point.price for point in series.points] == [10.08, 10.16]
+    assert series.points[0].amount_cny is None
+    assert all(point.cumulative_average_price is None for point in series.points)
+    assert series.metadata.quality is QualityStatus.DEGRADED
+    assert set(series.metadata.quality_flags) == {
+        "amount_partial",
+        "cumulative_average_partial",
+    }
 
 
 def test_eltdx_lots_map_to_same_canonical_share_units() -> None:

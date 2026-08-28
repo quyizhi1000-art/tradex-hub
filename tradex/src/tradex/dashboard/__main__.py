@@ -9,13 +9,16 @@
   POST /api/market-watch/daily-recovery → 排队一次收盘完整性检查与追补
   GET /api/market-watch/summary → 无轨迹点的精简盘面摘要
   GET /api/market-watch/trajectory → 按板块精确读取完整盘中轨迹
+  GET /api/limit-up-pool → 按最新真实快照读取涨停池资金跟随归因
+  GET /api/stock-relationships → 读取统一证券关系目录状态或单股关系
   GET /api/market-watch/history → 按交易日返回分钟快照与提醒历史
-  GET /api/market-watch/evaluation → 按交易日返回回放验收与噪声评估
-  GET /api/post-market-review/history → 返回日复盘档案与次日回看
-  POST /api/post-market-review → 17:30 后手动生成当日日复盘
-  GET /api/daily-stock-selection/history → 返回每日选股档案与回看
+  GET /api/market-watch/evaluation → 读取 Analysis Worker 预计算回放评估
+  GET /api/post-market-review/history → 读取预计算日复盘展示档案
+  GET /api/post-market-review/generation → 返回后台生成任务状态
+  POST /api/post-market-review → 排队生成当日日复盘
+  GET /api/daily-stock-selection/history → 读取预计算每日选股档案
   GET /api/daily-stock-selection/generation → 返回后台生成任务状态
-  POST /api/daily-stock-selection → 18:00 后排队生成当日候选池
+  POST /api/daily-stock-selection → 排队生成当日候选池
   GET /api/market      → 兼容的指数实时行情 JSON
   GET /api/risk-appetite → 兼容的市场参与度与资金风格信号 JSON
   GET /api/dashboard   → 看板数据 JSON（与 MCP 工具 get_data_source_dashboard 结构一致）
@@ -27,6 +30,7 @@ import asyncio
 import json
 import logging
 import os
+import re
 import threading
 import time
 from datetime import datetime
@@ -67,14 +71,10 @@ _MARKET_WATCH_WEB_API = None
 _MARKET_WATCH_WEB_API_LOCK = threading.Lock()
 _SECTOR_RESONANCE_STORE = None
 _SECTOR_RESONANCE_STORE_LOCK = threading.Lock()
-_POST_MARKET_REVIEW_STORE = None
-_POST_MARKET_REVIEW_STORE_LOCK = threading.Lock()
-_POST_MARKET_REVIEW_SERVICE = None
-_POST_MARKET_REVIEW_SERVICE_LOCK = threading.Lock()
-_DAILY_STOCK_SELECTION_STORE = None
-_DAILY_STOCK_SELECTION_STORE_LOCK = threading.Lock()
-_DAILY_STOCK_SELECTION_SERVICE = None
-_DAILY_STOCK_SELECTION_SERVICE_LOCK = threading.Lock()
+_ANALYSIS_JOB_STORE = None
+_ANALYSIS_JOB_STORE_LOCK = threading.Lock()
+_ANALYSIS_JOB_READER = None
+_ANALYSIS_JOB_READER_LOCK = threading.Lock()
 logger = logging.getLogger(__name__)
 
 
@@ -475,117 +475,109 @@ def get_market_watch_history(
     }
 
 
-def _evaluation_alerts(events: list[dict]) -> list[dict]:
-    """Narrow persisted history envelopes to the evaluator's public input."""
-
-    return [
-        {
-            "alert": item["alert"],
-            "trade_date": item["trade_date"],
-            "emitted_at": item["observed_at"],
-            "snapshot_id": item["snapshot_id"],
-        }
-        for item in events
-    ]
-
-
 def get_market_watch_evaluation(
     *,
     trade_date: str | None = None,
     days: int | None = None,
 ) -> dict:
-    """Evaluate one stored session or an explicitly bounded multi-day window."""
+    """Read one Analysis Worker materialized evaluation without recomputing it."""
 
     if days is not None:
         if not 1 <= days <= 30:
             raise ValueError("days 必须介于 1 与 30 之间")
         if trade_date is not None:
             raise ValueError("trade_date 与 days 不能同时指定")
-        store = _get_market_watch_history_store()
-        selected_dates = [
-            str(item["trade_date"])
-            for item in reversed(store.list_dates(limit=days))
-        ]
-        samples = [
-            item["payload"]
-            for item_date in selected_dates
-            for item in store.get_replay_timeline(item_date, limit=1000)
-        ]
-        persisted_alerts = [
-            item
-            for item_date in selected_dates
-            for item in store.get_alerts(item_date, limit=1000)
-        ]
-        if not samples:
-            raise ValueError("尚无可用的多日盘面历史")
-        from tradex.market_watch.evaluation import (
-            EvaluationConfigV1,
-            evaluate_market_watch_history,
-        )
+        scope_key = f"days:{days}"
+    else:
+        dates = _get_market_watch_history_store().list_dates()
+        target_date = _history_trade_date(trade_date, dates)
+        scope_key = f"date:{target_date}"
+    from tradex.analysis_jobs import MARKET_WATCH_EVALUATION
 
-        return evaluate_market_watch_history(
-            samples,
-            alerts=_evaluation_alerts(persisted_alerts),
-            config=EvaluationConfigV1(minimum_sessions_for_multi_day=days),
-        ).model_dump(mode="json")
-
-    history = get_market_watch_history(trade_date=trade_date, limit=1000)
-    from tradex.market_watch.evaluation import evaluate_market_watch_session
-
-    report = evaluate_market_watch_session(
-        [item["payload"] for item in history["samples"]],
-        alerts=_evaluation_alerts(history["alerts"]),
-        trade_date=history["trade_date"],
+    artifact = _get_analysis_job_reader().get_artifact(
+        MARKET_WATCH_EVALUATION,
+        scope_key=scope_key,
     )
-    return report.model_dump(mode="json")
+    if artifact is None:
+        raise LookupError("回放评估正在由后台准备")
+    return artifact["payload"]
 
 
-def _get_post_market_review_store():
-    """Return the process-wide immutable daily-review archive owner."""
+def _get_analysis_job_store():
+    """Return the command writer used only by explicit Web POST actions."""
 
-    global _POST_MARKET_REVIEW_STORE
-    if _POST_MARKET_REVIEW_STORE is None:
-        with _POST_MARKET_REVIEW_STORE_LOCK:
-            if _POST_MARKET_REVIEW_STORE is None:
-                from tradex.market_watch.review_store import PostMarketReviewStore
+    global _ANALYSIS_JOB_STORE
+    if _ANALYSIS_JOB_STORE is None:
+        with _ANALYSIS_JOB_STORE_LOCK:
+            if _ANALYSIS_JOB_STORE is None:
+                from tradex.analysis_jobs import AnalysisJobCommandWriter
 
-                _POST_MARKET_REVIEW_STORE = PostMarketReviewStore()
-    return _POST_MARKET_REVIEW_STORE
-
-
-def _load_post_market_review_snapshot():
-    """Read the latest collector-accepted snapshot without refreshing providers."""
-
-    view = _get_market_watch_read_facade().read()
-    if view.accepted is None:
-        raise RuntimeError("no collector-accepted real market-watch snapshot")
-    return view.accepted.source_payload
+                _ANALYSIS_JOB_STORE = AnalysisJobCommandWriter()
+    return _ANALYSIS_JOB_STORE
 
 
-def _load_post_market_review_history(trade_date) -> list[dict]:
-    """Read the persisted minute envelopes without starting provider refresh."""
+def _get_analysis_job_reader():
+    """Return a strict read-only view of worker-owned status and artifacts."""
 
-    return _get_market_watch_history_store().get_timeline(
-        trade_date.isoformat(),
-        limit=1000,
+    global _ANALYSIS_JOB_READER
+    if _ANALYSIS_JOB_READER is None:
+        with _ANALYSIS_JOB_READER_LOCK:
+            if _ANALYSIS_JOB_READER is None:
+                from tradex.analysis_jobs import AnalysisJobReader
+
+                _ANALYSIS_JOB_READER = AnalysisJobReader()
+    return _ANALYSIS_JOB_READER
+
+
+def _generation_payload(job: dict | None, *, contract: str) -> dict:
+    """Project one internal analysis job to the stable feature status contract."""
+
+    if job is None:
+        return {
+            "contract": contract,
+            "schema_version": 1,
+            "job_id": None,
+            "trade_date": None,
+            "trigger": None,
+            "state": "idle",
+            "phase": "idle",
+            "started_at": None,
+            "finished_at": None,
+            "error": None,
+            "failure_code": None,
+            "failed_phase": None,
+            "result": None,
+        }
+    return {
+        "contract": contract,
+        "schema_version": 1,
+        "job_id": job["job_id"],
+        "trade_date": job["trade_date"],
+        "trigger": job["trigger"],
+        "state": job["state"],
+        "phase": job["phase"],
+        "started_at": job["started_at"] or job["requested_at"],
+        "finished_at": job["finished_at"],
+        "error": job["error"],
+        "failure_code": job["failure_code"],
+        "failed_phase": job["failed_phase"],
+        "result": job["result"],
+    }
+
+
+def _artifact_payload(capability: str, *, trade_date: str | None, limit: int) -> dict:
+    scope_key = f"date:{trade_date}" if trade_date else "latest"
+    artifact = _get_analysis_job_reader().get_artifact(
+        capability,
+        scope_key=scope_key,
     )
-
-
-def _get_post_market_review_service():
-    """Return the sole owner of manual generation and the 21:00 backstop."""
-
-    global _POST_MARKET_REVIEW_SERVICE
-    if _POST_MARKET_REVIEW_SERVICE is None:
-        with _POST_MARKET_REVIEW_SERVICE_LOCK:
-            if _POST_MARKET_REVIEW_SERVICE is None:
-                from tradex.market_watch.review_service import PostMarketReviewService
-
-                _POST_MARKET_REVIEW_SERVICE = PostMarketReviewService(
-                    _load_post_market_review_snapshot,
-                    _get_post_market_review_store(),
-                    history_loader=_load_post_market_review_history,
-                )
-    return _POST_MARKET_REVIEW_SERVICE
+    if artifact is None:
+        raise LookupError("后台展示结果正在准备")
+    payload = dict(artifact["payload"])
+    payload["dates"] = list(payload.get("dates") or [])[:limit]
+    payload["artifact_revision"] = artifact["payload_digest"]
+    payload["artifact_generated_at"] = artifact["generated_at"]
+    return payload
 
 
 def _review_history_limit(value: str | None, *, default: int = 90) -> int:
@@ -601,11 +593,29 @@ def _review_history_limit(value: str | None, *, default: int = 90) -> int:
 
 
 def generate_post_market_review() -> dict:
-    """Generate or read back today's one immutable manual review."""
+    """Queue today's manual review; Analysis Worker performs the generation."""
 
-    from tradex.market_watch.review import ReviewTrigger
+    from tradex.analysis_jobs import POST_MARKET_REVIEW
 
-    return _get_post_market_review_service().generate(trigger=ReviewTrigger.MANUAL)
+    now = datetime.now(ZoneInfo("Asia/Shanghai"))
+    job = _get_analysis_job_store().enqueue(
+        POST_MARKET_REVIEW,
+        trade_date=now.date(),
+        trigger="manual",
+        requested_at=now,
+    )
+    return _generation_payload(job, contract="post_market_review_generation.v1")
+
+
+def get_post_market_review_generation() -> dict:
+    from tradex.analysis_jobs import POST_MARKET_REVIEW
+
+    today = datetime.now(ZoneInfo("Asia/Shanghai")).date()
+    job = _get_analysis_job_reader().latest_job(
+        POST_MARKET_REVIEW,
+        trade_date=today,
+    )
+    return _generation_payload(job, contract="post_market_review_generation.v1")
 
 
 def get_post_market_review_history(
@@ -613,40 +623,15 @@ def get_post_market_review_history(
     trade_date: str | None = None,
     limit: int = 90,
 ) -> dict:
-    """Return the bounded review archive without starting a market refresh."""
+    """Return one precomputed display archive without rebuilding presentation."""
 
-    return _get_post_market_review_service().history(
+    from tradex.analysis_jobs import POST_MARKET_REVIEW
+
+    return _artifact_payload(
+        POST_MARKET_REVIEW,
         trade_date=trade_date,
         limit=limit,
     )
-
-
-def _get_daily_stock_selection_store():
-    """Return the process-wide immutable daily selection archive."""
-
-    global _DAILY_STOCK_SELECTION_STORE
-    if _DAILY_STOCK_SELECTION_STORE is None:
-        with _DAILY_STOCK_SELECTION_STORE_LOCK:
-            if _DAILY_STOCK_SELECTION_STORE is None:
-                from tradex.stock_selection.store import DailyStockSelectionStore
-
-                _DAILY_STOCK_SELECTION_STORE = DailyStockSelectionStore()
-    return _DAILY_STOCK_SELECTION_STORE
-
-
-def _get_daily_stock_selection_service():
-    """Return the sole owner of selection refresh, archive and evaluation."""
-
-    global _DAILY_STOCK_SELECTION_SERVICE
-    if _DAILY_STOCK_SELECTION_SERVICE is None:
-        with _DAILY_STOCK_SELECTION_SERVICE_LOCK:
-            if _DAILY_STOCK_SELECTION_SERVICE is None:
-                from tradex.stock_selection.service import DailyStockSelectionService
-
-                _DAILY_STOCK_SELECTION_SERVICE = DailyStockSelectionService(
-                    _get_daily_stock_selection_store()
-                )
-    return _DAILY_STOCK_SELECTION_SERVICE
 
 
 def _selection_history_limit(value: str | None, *, default: int = 90) -> int:
@@ -662,15 +647,31 @@ def _selection_history_limit(value: str | None, *, default: int = 90) -> int:
 
 
 def generate_daily_stock_selection() -> dict:
-    """Start or reuse today's sole background stock-selection job."""
+    """Queue today's selection; Analysis Worker performs provider acquisition."""
 
-    return _get_daily_stock_selection_service().start_generation()
+    from tradex.analysis_jobs import DAILY_STOCK_SELECTION
+
+    now = datetime.now(ZoneInfo("Asia/Shanghai"))
+    job = _get_analysis_job_store().enqueue(
+        DAILY_STOCK_SELECTION,
+        trade_date=now.date(),
+        trigger="manual",
+        requested_at=now,
+    )
+    return _generation_payload(job, contract="daily_stock_selection_generation.v1")
 
 
 def get_daily_stock_selection_generation() -> dict:
-    """Return the current background stock-selection job without refreshing."""
+    """Return today's durable worker-owned stock-selection job state."""
 
-    return _get_daily_stock_selection_service().generation_status()
+    from tradex.analysis_jobs import DAILY_STOCK_SELECTION
+
+    today = datetime.now(ZoneInfo("Asia/Shanghai")).date()
+    job = _get_analysis_job_reader().latest_job(
+        DAILY_STOCK_SELECTION,
+        trade_date=today,
+    )
+    return _generation_payload(job, contract="daily_stock_selection_generation.v1")
 
 
 def get_daily_stock_selection_history(
@@ -678,9 +679,12 @@ def get_daily_stock_selection_history(
     trade_date: str | None = None,
     limit: int = 90,
 ) -> dict:
-    """Return a bounded stock-selection archive without refreshing providers."""
+    """Return one Analysis Worker materialized stock-selection display."""
 
-    return _get_daily_stock_selection_service().history(
+    from tradex.analysis_jobs import DAILY_STOCK_SELECTION
+
+    return _artifact_payload(
+        DAILY_STOCK_SELECTION,
         trade_date=trade_date,
         limit=limit,
     )
@@ -708,6 +712,55 @@ def request_market_watch_daily_recovery(*, now: datetime | None = None) -> dict:
     return {
         "action": result["action"],
         "recovery": result["recovery"].model_dump(mode="json"),
+    }
+
+
+def get_limit_up_follow_pool(source_snapshot_revision: str | None) -> dict:
+    """Read one exact Collector-owned attribution artifact without refreshing it."""
+
+    revision = str(source_snapshot_revision or "").strip().lower()
+    if re.fullmatch(r"[0-9a-f]{64}", revision) is None:
+        raise ValueError("source_snapshot_revision 必须是 64 位小写摘要")
+    from tradex.market_watch.limit_up_pool_store import LimitUpFollowPoolStore
+
+    with LimitUpFollowPoolStore(read_only=True) as store:
+        pool = store.get_by_source_revision(revision)
+    if pool is None:
+        raise LookupError("涨停池归因正在由采集进程准备，请稍后重试")
+    return pool.model_dump(mode="json")
+
+
+def get_stock_relationships(symbol: str | None = None) -> dict:
+    """Read one immutable catalog revision; this endpoint never refreshes data."""
+
+    from tradex.instrument_taxonomy.store import InstrumentTaxonomyReader
+
+    with InstrumentTaxonomyReader() as reader:
+        status = reader.status()
+        if status is None:
+            raise LookupError("证券关系目录尚未生成，请等待后台刷新")
+        profile = None
+        if symbol:
+            raw = str(symbol).strip().upper()
+            matched = re.search(r"\d{6}", raw)
+            if matched is None:
+                raise ValueError("symbol 必须包含 6 位股票代码")
+            code = matched.group(0)
+            instrument_id = (
+                f"{code}.SH"
+                if code.startswith("6")
+                else f"{code}.BJ"
+                if code.startswith(("4", "8"))
+                else f"{code}.SZ"
+            )
+            profile = reader.get(instrument_id)
+            if profile is None:
+                raise LookupError(f"{instrument_id} 尚未进入证券关系目录")
+    return {
+        "contract": "stock_relationship_read.v1",
+        "schema_version": 1,
+        "catalog_status": status.model_dump(mode="json"),
+        "profile": profile.model_dump(mode="json") if profile is not None else None,
     }
 
 
@@ -740,6 +793,18 @@ class DashboardHandler(BaseHTTPRequestHandler):
                 )[0],
                 trajectory_revision=query.get("trajectory_revision", [None])[0],
             )
+        elif request.path == "/api/limit-up-pool":
+            query = parse_qs(request.query)
+            self._handle_limit_up_pool_api(
+                source_snapshot_revision=query.get(
+                    "source_snapshot_revision", [None]
+                )[0],
+            )
+        elif request.path == "/api/stock-relationships":
+            query = parse_qs(request.query)
+            self._handle_stock_relationships_api(
+                symbol=query.get("symbol", [None])[0],
+            )
         elif request.path == "/api/market-watch":
             self._handle_market_watch_legacy_api()
         elif request.path == "/api/market-watch/history":
@@ -760,6 +825,8 @@ class DashboardHandler(BaseHTTPRequestHandler):
                 trade_date=query.get("trade_date", [None])[0],
                 limit=query.get("limit", [None])[0],
             )
+        elif request.path == "/api/post-market-review/generation":
+            self._handle_post_market_review_generation_api()
         elif request.path == "/api/daily-stock-selection/history":
             query = parse_qs(request.query)
             self._handle_daily_stock_selection_history_api(
@@ -930,6 +997,35 @@ class DashboardHandler(BaseHTTPRequestHandler):
             },
         )
 
+    def _handle_limit_up_pool_api(
+        self,
+        *,
+        source_snapshot_revision: str | None,
+    ):
+        try:
+            self._send_json(
+                200,
+                get_limit_up_follow_pool(source_snapshot_revision),
+            )
+        except ValueError as exc:
+            self._send_json(400, {"error": str(exc)})
+        except LookupError as exc:
+            self._send_json(503, {"error": str(exc)})
+        except Exception:
+            logger.exception("limit-up follow pool read failed")
+            self._send_json(502, {"error": "涨停池归因暂不可用"})
+
+    def _handle_stock_relationships_api(self, *, symbol: str | None):
+        try:
+            self._send_json(200, get_stock_relationships(symbol))
+        except ValueError as exc:
+            self._send_json(400, {"error": str(exc)})
+        except LookupError as exc:
+            self._send_json(503, {"error": str(exc)})
+        except Exception:
+            logger.exception("stock relationship catalog read failed")
+            self._send_json(502, {"error": "证券关系目录暂不可用"})
+
     def _handle_market_watch_history_api(
         self,
         *,
@@ -966,6 +1062,8 @@ class DashboardHandler(BaseHTTPRequestHandler):
             )
         except ValueError as exc:
             self._send_json(400, {"error": str(exc)})
+        except LookupError as exc:
+            self._send_json(503, {"error": str(exc)})
         except Exception:
             logger.exception("market watch evaluation failed")
             self._send_json(502, {"error": "盘面回放评估暂不可用"})
@@ -986,6 +1084,8 @@ class DashboardHandler(BaseHTTPRequestHandler):
             )
         except ValueError as exc:
             self._send_json(400, {"error": str(exc)})
+        except LookupError as exc:
+            self._send_json(503, {"error": str(exc)})
         except Exception:
             logger.exception("post-market review history read failed")
             self._send_json(502, {"error": "日复盘档案暂不可用"})
@@ -993,23 +1093,22 @@ class DashboardHandler(BaseHTTPRequestHandler):
     def _handle_post_market_review_api(self):
         try:
             result = generate_post_market_review()
-            status = 201 if result.get("action") == "inserted" else 200
+            status = 202 if result.get("state") in {"queued", "running"} else 200
             self._send_json(status, result)
-        except Exception as exc:
-            from tradex.market_watch.review_service import (
-                PostMarketReviewError,
-                ReviewSnapshotUnavailableError,
-            )
+        except ValueError as exc:
+            self._send_json(400, {"error": str(exc)})
+        except Exception:
+            logger.exception("post-market review enqueue failed")
+            self._send_json(502, {"error": "日复盘任务排队失败，请稍后重试"})
 
-            if isinstance(exc, ReviewSnapshotUnavailableError):
-                self._send_json(503, {"error": exc.safe_message})
-            elif isinstance(exc, PostMarketReviewError):
-                self._send_json(409, {"error": exc.safe_message})
-            elif isinstance(exc, ValueError):
-                self._send_json(400, {"error": str(exc)})
-            else:
-                logger.exception("post-market review generation failed")
-                self._send_json(502, {"error": "日复盘生成失败，请稍后重试"})
+    def _handle_post_market_review_generation_api(self):
+        try:
+            self._send_json(200, get_post_market_review_generation())
+        except LookupError as exc:
+            self._send_json(503, {"error": str(exc)})
+        except Exception:
+            logger.exception("post-market review generation status read failed")
+            self._send_json(502, {"error": "日复盘任务状态暂不可用"})
 
     def _handle_daily_stock_selection_history_api(
         self,
@@ -1027,6 +1126,8 @@ class DashboardHandler(BaseHTTPRequestHandler):
             )
         except ValueError as exc:
             self._send_json(400, {"error": str(exc)})
+        except LookupError as exc:
+            self._send_json(503, {"error": str(exc)})
         except Exception:
             logger.exception("daily stock selection history read failed")
             self._send_json(502, {"error": "每日选股档案暂不可用"})
@@ -1034,27 +1135,19 @@ class DashboardHandler(BaseHTTPRequestHandler):
     def _handle_daily_stock_selection_api(self):
         try:
             result = generate_daily_stock_selection()
-            status = 202 if result.get("state") == "running" else 200
+            status = 202 if result.get("state") in {"queued", "running"} else 200
             self._send_json(status, result)
-        except Exception as exc:
-            from tradex.stock_selection.service import (
-                DailyStockSelectionError,
-                SelectionDataUnavailableError,
-            )
-
-            if isinstance(exc, SelectionDataUnavailableError):
-                self._send_json(503, {"error": exc.safe_message})
-            elif isinstance(exc, DailyStockSelectionError):
-                self._send_json(409, {"error": exc.safe_message})
-            elif isinstance(exc, ValueError):
-                self._send_json(400, {"error": str(exc)})
-            else:
-                logger.exception("daily stock selection generation failed")
-                self._send_json(502, {"error": "每日选股生成失败，请稍后重试"})
+        except ValueError as exc:
+            self._send_json(400, {"error": str(exc)})
+        except Exception:
+            logger.exception("daily stock selection enqueue failed")
+            self._send_json(502, {"error": "每日选股任务排队失败，请稍后重试"})
 
     def _handle_daily_stock_selection_generation_api(self):
         try:
             self._send_json(200, get_daily_stock_selection_generation())
+        except LookupError as exc:
+            self._send_json(503, {"error": str(exc)})
         except Exception:
             logger.exception("daily stock selection generation status read failed")
             self._send_json(502, {"error": "每日选股任务状态暂不可用"})
@@ -1117,78 +1210,15 @@ class DashboardHandler(BaseHTTPRequestHandler):
         pass
 
 
-def _post_market_review_loop(stop_event: threading.Event) -> None:
-    """Let the domain service own the 21:00 due check and bounded retries."""
-
-    while not stop_event.is_set():
-        try:
-            result = _get_post_market_review_service().maybe_generate_automatic()
-            if result.get("action") == "inserted":
-                logger.info("automatic post-market review archived")
-        except Exception as exc:  # noqa: BLE001 - service owns retry exhaustion/cooldown
-            from tradex.market_watch.review_service import PostMarketReviewError
-
-            if isinstance(exc, PostMarketReviewError):
-                logger.warning(
-                    "automatic post-market review unavailable: %s",
-                    exc.safe_message,
-                )
-            else:
-                logger.exception("automatic post-market review loop failed")
-        stop_event.wait(30.0)
-
-
-def _daily_stock_selection_loop(stop_event: threading.Event) -> None:
-    """Let the feature service own the 18:30 due check and bounded retries."""
-
-    while not stop_event.is_set():
-        try:
-            result = _get_daily_stock_selection_service().maybe_generate_automatic()
-            if result.get("state") == "running" and result.get("phase") == "queued":
-                logger.info("automatic daily stock selection queued")
-        except Exception as exc:  # noqa: BLE001 - service owns retry exhaustion
-            from tradex.stock_selection.service import DailyStockSelectionError
-
-            if isinstance(exc, DailyStockSelectionError):
-                logger.warning("automatic daily stock selection unavailable: %s", exc.safe_message)
-            else:
-                logger.exception("automatic daily stock selection loop failed")
-        stop_event.wait(30.0)
-
-
 def main():
     port = int(os.environ.get("TRADEX_DASHBOARD_PORT", "8765"))
     server = ThreadingHTTPServer(("127.0.0.1", port), DashboardHandler)
-    review_stop = threading.Event()
-    review_scheduler = threading.Thread(
-        target=_post_market_review_loop,
-        args=(review_stop,),
-        name="post-market-review-scheduler",
-        daemon=False,
-    )
-    review_scheduler.start()
-    selection_stop = threading.Event()
-    selection_scheduler = threading.Thread(
-        target=_daily_stock_selection_loop,
-        args=(selection_stop,),
-        name="daily-stock-selection-scheduler",
-        daemon=False,
-    )
-    selection_scheduler.start()
     print(f"tradex 数据源看板启动: http://127.0.0.1:{port}/")
     try:
         server.serve_forever()
     except KeyboardInterrupt:
         print("\n看板已停止")
     finally:
-        review_stop.set()
-        selection_stop.set()
-        # A review may be finishing a bounded provider read.  Wait for that
-        # owner to leave the store before closing the SQLite connection.
-        review_scheduler.join()
-        selection_scheduler.join()
-        if _DAILY_STOCK_SELECTION_SERVICE is not None:
-            _DAILY_STOCK_SELECTION_SERVICE.wait_for_generation()
         from tradex.dashboard.risk_service import close_risk_trajectory_store
 
         close_risk_trajectory_store()
@@ -1196,10 +1226,10 @@ def main():
             _MARKET_WATCH_COLLECTION_STORE.close()
         if _MARKET_WATCH_HISTORY_STORE is not None:
             _MARKET_WATCH_HISTORY_STORE.close()
-        if _POST_MARKET_REVIEW_STORE is not None:
-            _POST_MARKET_REVIEW_STORE.close()
-        if _DAILY_STOCK_SELECTION_STORE is not None:
-            _DAILY_STOCK_SELECTION_STORE.close()
+        if _ANALYSIS_JOB_STORE is not None:
+            _ANALYSIS_JOB_STORE.close()
+        if _ANALYSIS_JOB_READER is not None:
+            _ANALYSIS_JOB_READER.close()
         server.server_close()
 
 

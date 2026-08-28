@@ -409,6 +409,58 @@ class RotationRadarStore:
                 supplemental_points=supplemental_points,
             )
 
+    def get_as_of(
+        self,
+        trade_date: date | str,
+        minute_bucket: datetime | str,
+        config_version: str = ROTATION_CONFIG_VERSION,
+        *,
+        supplemental_points: Mapping[str, Iterable[Mapping[str, Any]]] | None = None,
+    ) -> dict[str, Any]:
+        """Replay only persisted provider snapshots at or before one exact minute."""
+
+        normalized_date = _trade_date(trade_date)
+        cutoff = _minute_iso(minute_bucket)
+        if cutoff[:10] != normalized_date:
+            raise ValueError("rotation as-of minute must belong to trade_date")
+        with self._lock:
+            rows = [
+                row
+                for row in self._rows(normalized_date, str(config_version))
+                if row["minute_bucket"] <= cutoff
+            ]
+            decoded = self._decoded_snapshots(rows)
+            snapshots = self._recent_decoded_snapshots(decoded)
+            result = analyze_rotation_snapshots(
+                snapshots,
+                config_version=str(config_version),
+            )
+            result["sector_flow_trajectory"] = analyze_sector_flow_snapshots(
+                decoded,
+                supplemental_points,
+            )
+            result["offense_sector_flow_trajectory"] = analyze_sector_flow_snapshots(
+                decoded,
+                supplemental_points,
+                direction="offense",
+            )
+            if rows:
+                latest = rows[-1]
+                result["storage"] = {
+                    "board_count": latest["board_count"],
+                    "payload_bytes": latest["payload_bytes"],
+                    "stored_points": len(rows),
+                    "replayed_points": len(snapshots),
+                }
+            else:
+                result["storage"] = {
+                    "board_count": 0,
+                    "payload_bytes": 0,
+                    "stored_points": 0,
+                    "replayed_points": 0,
+                }
+            return result
+
     def get_snapshot_stats(
         self,
         trade_date: date | str,

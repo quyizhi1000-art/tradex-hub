@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import time
 from collections.abc import Callable
-from datetime import datetime
+from datetime import date, datetime
 from threading import Condition
 from typing import Any
 from zoneinfo import ZoneInfo
@@ -17,6 +17,7 @@ from .quality import assess_intraday_minute_series
 
 _SHANGHAI = ZoneInfo("Asia/Shanghai")
 _CACHE_TTL_SECONDS = 30.0
+MAX_INTRADAY_BATCH_INSTRUMENTS = 40
 
 
 class IntradayMinuteCache:
@@ -86,6 +87,40 @@ def _now(value: datetime | None) -> datetime:
     return result
 
 
+def _map_intraday_series(
+    frame: Any,
+    *,
+    provider: str,
+    instrument_id: str,
+    fetched_at: datetime,
+) -> IntradayMinuteSeriesV1:
+    mapped = map_intraday_minute_frame(
+        frame,
+        provider=provider,
+        requested_symbol=instrument_id,
+    )
+    provider_as_of = mapped.pop("provider_as_of")
+    provider_request_id = mapped.pop("provider_request_id")
+    quality, flags = assess_intraday_minute_series(
+        points=mapped["points"],
+        trading_date_missing=mapped["trading_date"] is None,
+        provider_as_of=provider_as_of,
+        provider_units_verified=intraday_units_verified(provider),
+    )
+    return IntradayMinuteSeriesV1(
+        metadata=ContractMetadata(
+            contract="intraday_minute_series.v1",
+            provider=provider,
+            provider_request_id=provider_request_id,
+            provider_as_of=provider_as_of,
+            fetched_at=fetched_at,
+            quality=quality,
+            quality_flags=flags,
+        ),
+        **mapped,
+    )
+
+
 def fetch_intraday_minute_series(
     symbol: str,
     *,
@@ -93,6 +128,7 @@ def fetch_intraday_minute_series(
     now: datetime | None = None,
     cache: IntradayMinuteCache | None = None,
     use_cache: bool = True,
+    expected_trading_date: date | None = None,
 ) -> IntradayMinuteSeriesV1:
     """Fetch, normalize, quality-check, and cache one complete 1-minute curve."""
 
@@ -101,31 +137,20 @@ def fetch_intraday_minute_series(
 
     def load() -> IntradayMinuteSeriesV1:
         def validate(frame: Any, provider: str) -> IntradayMinuteSeriesV1:
-            mapped = map_intraday_minute_frame(
+            series = _map_intraday_series(
                 frame,
                 provider=provider,
-                requested_symbol=instrument_id,
+                instrument_id=instrument_id,
+                fetched_at=fetched_at,
             )
-            provider_as_of = mapped.pop("provider_as_of")
-            provider_request_id = mapped.pop("provider_request_id")
-            quality, flags = assess_intraday_minute_series(
-                points=mapped["points"],
-                trading_date_missing=mapped["trading_date"] is None,
-                provider_as_of=provider_as_of,
-                provider_units_verified=intraday_units_verified(provider),
-            )
-            return IntradayMinuteSeriesV1(
-                metadata=ContractMetadata(
-                    contract="intraday_minute_series.v1",
-                    provider=provider,
-                    provider_request_id=provider_request_id,
-                    provider_as_of=provider_as_of,
-                    fetched_at=fetched_at,
-                    quality=quality,
-                    quality_flags=flags,
-                ),
-                **mapped,
-            )
+            if (
+                expected_trading_date is not None
+                and series.trading_date != expected_trading_date
+            ):
+                raise RuntimeError(
+                    f"intraday provider did not prove trading date {expected_trading_date}"
+                )
+            return series
 
         series, _provider = _router(router).route_validated(
             "minute_data",
@@ -139,6 +164,98 @@ def fetch_intraday_minute_series(
     if not use_cache:
         return load()
     return (cache or _INTRADAY_CACHE).get_or_load(instrument_id, load)
+
+
+def fetch_intraday_minute_series_batch(
+    symbols: tuple[str, ...] | list[str],
+    *,
+    router: Any | None = None,
+    now: datetime | None = None,
+) -> dict[str, IntradayMinuteSeriesV1]:
+    """Fetch and validate multiple complete minute curves in one provider call."""
+
+    instrument_ids = tuple(sorted({canonical_instrument_id(item) for item in symbols}))
+    if not instrument_ids:
+        return {}
+    if len(instrument_ids) > MAX_INTRADAY_BATCH_INSTRUMENTS:
+        raise ValueError("intraday minute batch supports at most 40 instruments")
+    fetched_at = _now(now)
+
+    def validate(frame: Any, provider: str) -> dict[str, IntradayMinuteSeriesV1]:
+        if "代码" not in frame.columns:
+            raise RuntimeError("intraday minute batch is missing instrument identities")
+        canonical_rows = frame["代码"].map(canonical_instrument_id)
+        result: dict[str, IntradayMinuteSeriesV1] = {}
+        for instrument_id in instrument_ids:
+            subset = frame.loc[canonical_rows == instrument_id].copy()
+            if subset.empty:
+                raise RuntimeError(
+                    f"intraday minute batch omitted requested instrument {instrument_id}"
+                )
+            subset.attrs.update(frame.attrs)
+            result[instrument_id] = _map_intraday_series(
+                subset,
+                provider=provider,
+                instrument_id=instrument_id,
+                fetched_at=fetched_at,
+            )
+        return result
+
+    result, _provider = _router(router).route_validated(
+        "minute_data_batch",
+        validate,
+        symbols=instrument_ids,
+    )
+    return result
+
+
+def fetch_intraday_minute_series_batch_partial(
+    symbols: tuple[str, ...] | list[str],
+    *,
+    router: Any | None = None,
+    now: datetime | None = None,
+) -> dict[str, IntradayMinuteSeriesV1]:
+    """Fetch all exact curves present; omissions remain explicit for fallback."""
+
+    instrument_ids = tuple(sorted({canonical_instrument_id(item) for item in symbols}))
+    if not instrument_ids:
+        return {}
+    if len(instrument_ids) > MAX_INTRADAY_BATCH_INSTRUMENTS:
+        raise ValueError("partial intraday minute batch supports at most 40 instruments")
+    fetched_at = _now(now)
+
+    def validate(frame: Any, provider: str) -> dict[str, IntradayMinuteSeriesV1]:
+        if "代码" not in frame.columns:
+            raise RuntimeError("partial intraday minute batch is missing identities")
+        canonical_rows = frame["代码"].map(canonical_instrument_id)
+        returned = tuple(dict.fromkeys(canonical_rows.tolist()))
+        unexpected = set(returned) - set(instrument_ids)
+        if unexpected:
+            raise RuntimeError(
+                "partial intraday minute batch returned unexpected instruments: "
+                f"{sorted(unexpected)}"
+            )
+        result: dict[str, IntradayMinuteSeriesV1] = {}
+        for instrument_id in returned:
+            subset = frame.loc[canonical_rows == instrument_id].copy()
+            subset.attrs.update(frame.attrs)
+            result[instrument_id] = _map_intraday_series(
+                subset,
+                provider=provider,
+                instrument_id=instrument_id,
+                fetched_at=fetched_at,
+            )
+        if not result:
+            raise RuntimeError("partial intraday minute batch returned no exact curves")
+        return result
+
+    result, _provider = _router(router).route_validated(
+        "minute_data_batch_partial",
+        validate,
+        symbols=instrument_ids,
+        trade_date=fetched_at.astimezone(_SHANGHAI).date(),
+    )
+    return result
 
 
 def _legacy_number(value: float) -> float | int:
@@ -167,6 +284,9 @@ def intraday_minute_to_legacy_payload(
 
 __all__ = [
     "IntradayMinuteCache",
+    "MAX_INTRADAY_BATCH_INSTRUMENTS",
     "fetch_intraday_minute_series",
+    "fetch_intraday_minute_series_batch",
+    "fetch_intraday_minute_series_batch_partial",
     "intraday_minute_to_legacy_payload",
 ]

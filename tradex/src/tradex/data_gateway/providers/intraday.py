@@ -13,7 +13,7 @@ from .securities import canonical_instrument_id, frame_request_id
 
 
 _SHANGHAI = ZoneInfo("Asia/Shanghai")
-_VERIFIED_UNIT_PROVIDERS = {"eltdx", "tushare"}
+_VERIFIED_UNIT_PROVIDERS = {"eastmoney", "eltdx", "tushare"}
 
 
 def _record_code(row: dict[str, Any]) -> str | None:
@@ -80,7 +80,7 @@ def _volume_shares(
     if value is None:
         return None
     unit = str(attrs.get("volume_unit") or "").strip().lower()
-    if unit == "lots" or (not unit and provider == "eltdx"):
+    if unit == "lots" or (not unit and provider in {"eastmoney", "eltdx"}):
         return value * 100
     if unit == "shares" or (not unit and provider == "tushare"):
         return value
@@ -158,6 +158,7 @@ def map_intraday_minute_frame(
         raise RuntimeError("intraday provider returned duplicate minute points")
 
     derive_cumulative_average = provider == "tushare"
+    cumulative_average_complete = derive_cumulative_average
     cumulative_amount = 0.0
     cumulative_volume = 0.0
     points: list[IntradayMinutePointV1] = []
@@ -167,16 +168,17 @@ def map_intraday_minute_frame(
         average = item["provider_average"]
         if derive_cumulative_average:
             if amount is None or volume is None:
-                raise RuntimeError(
-                    "TuShare intraday data cannot derive cumulative average price"
+                cumulative_average_complete = False
+            if cumulative_average_complete:
+                cumulative_amount += amount
+                cumulative_volume += volume
+                average = (
+                    cumulative_amount / cumulative_volume
+                    if cumulative_volume > 0
+                    else None
                 )
-            cumulative_amount += amount
-            cumulative_volume += volume
-            average = (
-                cumulative_amount / cumulative_volume
-                if cumulative_volume > 0
-                else None
-            )
+            else:
+                average = None
         points.append(
             IntradayMinutePointV1(
                 minute=item["minute"],
