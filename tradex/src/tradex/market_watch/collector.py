@@ -18,6 +18,7 @@ from .collection_contracts import (
     CollectorRuntimeState,
     DailyCollectionRecoveryV1,
     DailyRecoveryTrigger,
+    TerminalCollectionError,
 )
 from .collection_store import MarketWatchCollectionStore
 from .session_schedule import FINAL_CLOSE_TIME
@@ -229,10 +230,14 @@ class MarketWatchCollector:
             )
         except Exception as error:
             completed_at = self._now()
-            next_retry_at = self.retry_policy.next_retry_at(
-                attempt_count=slot.attempt_count,
-                completed_at=completed_at,
-                minute_bucket=slot.minute_bucket,
+            next_retry_at = (
+                None
+                if isinstance(error, TerminalCollectionError)
+                else self.retry_policy.next_retry_at(
+                    attempt_count=slot.attempt_count,
+                    completed_at=completed_at,
+                    minute_bucket=slot.minute_bucket,
+                )
             )
             failed = self._store.mark_failed(
                 attempt_id,

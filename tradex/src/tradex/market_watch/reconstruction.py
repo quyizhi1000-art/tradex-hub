@@ -18,6 +18,7 @@ from tradex.data_gateway import (
 )
 
 from .analysis import build_market_watch_snapshot
+from .collection_contracts import TerminalCollectionError
 from .contracts import FreshnessStatus, MarketPhase, MarketWatchSnapshotV1
 from .history import MarketWatchHistoryStore
 
@@ -32,6 +33,67 @@ _INDEX_ROLES = (
     ("399006.SZ", "growth", "创业板指"),
 )
 _TURNOVER_INDICES = ("000001.SH", "399001.SZ")
+_ROTATION_MAX_AGE_SECONDS = 60
+
+
+class HistoricalTrajectoryUnavailable(TerminalCollectionError):
+    """The persisted target minute lacks a current trajectory branch."""
+
+
+def _provider_time(value: Any) -> datetime | None:
+    if not value:
+        return None
+    try:
+        parsed = datetime.fromisoformat(str(value))
+    except (TypeError, ValueError):
+        return None
+    if parsed.tzinfo is None or parsed.utcoffset() is None:
+        return None
+    return parsed.astimezone(SHANGHAI)
+
+
+def _assert_rotation_trajectory_current(
+    risk: dict[str, Any],
+    target: datetime,
+) -> None:
+    """Fail before costly whole-market loading when a trajectory is already stale."""
+
+    local = target.astimezone(SHANGHAI)
+    stale: list[str] = []
+    for field in (
+        "sector_flow_trajectory",
+        "offense_sector_flow_trajectory",
+    ):
+        trajectory = risk.get(field)
+        if not isinstance(trajectory, dict):
+            continue
+        sectors = trajectory.get("sectors")
+        if not isinstance(sectors, list) or not sectors:
+            stale.append(field)
+            continue
+        for sector in sectors:
+            latest = sector.get("latest") if isinstance(sector, dict) else None
+            provider = _provider_time(
+                latest.get("provider_as_of") if isinstance(latest, dict) else None
+            )
+            if (
+                provider is None
+                or provider.date() != local.date()
+                or not -120
+                <= (local - provider).total_seconds()
+                <= _ROTATION_MAX_AGE_SECONDS
+            ):
+                key = (
+                    str(sector.get("sector_key") or field)
+                    if isinstance(sector, dict)
+                    else field
+                )
+                stale.append(key)
+    if stale:
+        raise HistoricalTrajectoryUnavailable(
+            "rotation trajectory is not current for target minute: "
+            + ", ".join(stale[:8])
+        )
 
 
 class SameDayPostCloseReconstructor:
@@ -71,6 +133,10 @@ class SameDayPostCloseReconstructor:
             raise RuntimeError(
                 "same-day exact reconstruction is available only after close and before midnight"
             )
+        progress(0, 6, "preflight", "正在校验目标分钟板块轨迹与成交额基线")
+        risk = dict(self._rotation_loader(local))
+        _assert_rotation_trajectory_current(risk, local)
+        previous_date, previous_amount = self._previous_turnover(local)
         self._ensure_loaded(local, progress)
         progress(2, 6, "breadth", "正在按目标分钟与昨收重算全市场涨跌家数")
         prices = self._stock_prices.get(local.time()) or {}
@@ -114,10 +180,8 @@ class SameDayPostCloseReconstructor:
                 point.amount_cny for minute, point in series.items() if minute <= local.time()
             )
 
-        progress(4, 6, "turnover_baseline", "正在读取上一交易日同分钟已验收成交额")
-        previous_date, previous_amount = self._previous_turnover(local)
+        progress(4, 6, "turnover_baseline", "上一交易日同分钟成交额基线已通过预检")
         progress(5, 6, "rotation", "正在按目标分钟回放已持久化板块轮动")
-        risk = dict(self._rotation_loader(local))
         risk.update(
             {
                 "timestamp": observed.isoformat(),
@@ -310,4 +374,4 @@ class SameDayPostCloseReconstructor:
         raise RuntimeError("no accepted previous-trading-day same-minute turnover baseline")
 
 
-__all__ = ["SameDayPostCloseReconstructor"]
+__all__ = ["HistoricalTrajectoryUnavailable", "SameDayPostCloseReconstructor"]
