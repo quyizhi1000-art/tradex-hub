@@ -522,13 +522,9 @@
               <span class="panel-state" id="stock-selection-status">正在读取存档…</span>
             </div>
 
-            <div class="stock-selection-tabs" role="tablist" aria-label="选股功能">
-              <button id="stock-selection-tab-daily" type="button" role="tab" aria-selected="true" aria-controls="stock-selection-panel-daily" data-stock-selection-tab="daily">每日量化候选池</button>
-              <button id="stock-selection-tab-limit-up-tendency" type="button" role="tab" aria-selected="false" aria-controls="stock-selection-panel-limit-up-tendency" data-stock-selection-tab="limit-up-tendency" tabindex="-1">次日涨停机会 20 强</button>
-              <button id="stock-selection-tab-long-upper-shadow" type="button" role="tab" aria-selected="false" aria-controls="stock-selection-panel-long-upper-shadow" data-stock-selection-tab="long-upper-shadow" tabindex="-1">长上影疑似试盘形态</button>
-            </div>
+            <div class="stock-selection-tabs" id="stock-selection-tabs" role="tablist" aria-label="选股策略"></div>
 
-            <section id="stock-selection-panel-daily" role="tabpanel" aria-labelledby="stock-selection-tab-daily" data-stock-selection-panel="daily">
+            <section id="stock-selection-panel-daily" role="tabpanel" data-stock-selection-result-contract="balanced_stock_selection_result.v1">
               <div class="stock-selection-schedule" id="stock-selection-schedule" role="status" aria-live="polite">上海时间 18:00 后可手动生成；当日缺失时 18:30 自动生成。</div>
               <div class="stock-selection-empty" id="stock-selection-empty">尚无每日候选池存档。生成前会核验全市场覆盖、财务公告时点和下一交易日成交边界。</div>
               <div class="stock-selection-content" id="stock-selection-content" hidden>
@@ -559,9 +555,9 @@
               </div>
             </section>
 
-            <section id="stock-selection-panel-limit-up-tendency" role="tabpanel" aria-labelledby="stock-selection-tab-limit-up-tendency" data-stock-selection-panel="limit-up-tendency" hidden>
+            <section id="stock-selection-panel-limit-up-tendency" role="tabpanel" data-stock-selection-result-contract="stock_limit_up_tendency_screen.v1" hidden>
               <div class="stock-pattern-rule" aria-label="次日涨停机会筛选规则">
-                <strong>固定规则 v2</strong>
+                <strong id="stock-limit-up-tendency-version">固定规则</strong>
                 <span>主板且非 ST</span><span>完整 15 日证据</span><span>区分未涨停启动与已涨停延续</span><span>突破位置</span><span>行业共振</span><span>量价换手</span><span>T+1 风险</span>
               </div>
               <div class="stock-limit-up-tendency-empty" id="stock-limit-up-tendency-empty">该历史档案尚未包含当前次日涨停机会规则，请生成当前版本选股档案。</div>
@@ -584,7 +580,8 @@
                     <ul id="stock-limit-up-tendency-methodology"><li>方法尚未随档案返回。</li></ul>
                   </article>
                   <article class="panel">
-                    <div class="panel-heading"><h3>证据边界</h3><span class="panel-state">含 T+1 时序风险</span></div>
+                    <div class="panel-heading"><h3>下一交易日验证</h3><span class="panel-state" id="stock-limit-up-tendency-outcome-status">尚未验证</span></div>
+                    <p id="stock-limit-up-tendency-outcome-detail">结果会分别统计下一有效交易日的盘中触板率与收盘封板率。</p>
                     <ul id="stock-limit-up-tendency-limitations"><li>分数不是收益承诺。</li></ul>
                     <dl class="stock-selection-exclusions" id="stock-limit-up-tendency-exclusions"></dl>
                   </article>
@@ -592,9 +589,9 @@
               </div>
             </section>
 
-            <section id="stock-selection-panel-long-upper-shadow" role="tabpanel" aria-labelledby="stock-selection-tab-long-upper-shadow" data-stock-selection-panel="long-upper-shadow" hidden>
+            <section id="stock-selection-panel-long-upper-shadow" role="tabpanel" data-stock-selection-result-contract="stock_pattern_screen.v1" hidden>
               <div class="stock-pattern-rule" aria-label="长上影疑似试盘形态筛选规则">
-                <strong>固定 Demo 规则</strong>
+                <strong id="stock-pattern-version">固定 Demo 规则</strong>
                 <span>10 个交易日</span><span>至少 2 次</span><span>上影 ≥ 收盘价 3%</span><span>上影 ≥ 实体 2 倍</span><span>上影 ≥ 振幅 50%</span><span>主板且非 ST</span><span>同一 10 日窗口无收盘涨停</span>
               </div>
               <div class="stock-pattern-empty" id="stock-pattern-empty">该历史档案尚未包含当前 10 日长上影疑似试盘形态证据，请生成当前版本选股档案。</div>

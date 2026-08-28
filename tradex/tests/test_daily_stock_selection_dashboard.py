@@ -82,6 +82,55 @@ def test_stock_selection_strategy_catalog_and_results_routes():
     ]
 
 
+def test_strategy_results_projection_filters_without_touching_legacy_archive(monkeypatch):
+    payload = {
+        "trade_date": "2026-08-27",
+        "dates": [{"trade_date": "2026-08-27"}],
+        "selection": {"selection_id": "daily-stock-selection:fixture"},
+        "outcome": {"selection_id": "daily-stock-selection:fixture"},
+        "recent_outcomes": [],
+        "artifact_revision": "artifact-revision",
+        "artifact_generated_at": "2026-08-27T18:31:00+08:00",
+        "strategy_archive": {
+            "contract": "stock_selection_strategy_archive.v1",
+            "schema_version": 1,
+            "trade_date": "2026-08-27",
+            "dates": [{"trade_date": "2026-08-27", "strategy_count": 2}],
+            "catalog": {
+                "contract": "stock_selection_strategy_catalog.v1",
+                "schema_version": 1,
+                "strategies": [],
+            },
+            "results": [
+                {"strategy_id": "balanced-multifactor-a-share", "result_id": "balanced"},
+                {
+                    "strategy_id": "next-session-limit-up-tendency-main-board",
+                    "result_id": "limit-up",
+                },
+            ],
+            "outcomes": [
+                {"strategy_id": "balanced-multifactor-a-share", "result_id": "balanced"},
+                {
+                    "strategy_id": "next-session-limit-up-tendency-main-board",
+                    "result_id": "limit-up",
+                },
+            ],
+            "recent_outcomes": [],
+            "schedule": {},
+        },
+    }
+    monkeypatch.setattr(dashboard_app, "_artifact_payload", lambda *_args, **_kwargs: payload)
+
+    result = dashboard_app.get_stock_selection_strategy_results(
+        strategy_id="next-session-limit-up-tendency-main-board"
+    )
+
+    assert [item["result_id"] for item in result["results"]] == ["limit-up"]
+    assert [item["result_id"] for item in result["outcomes"]] == ["limit-up"]
+    assert result["legacy_selection"] == payload["selection"]
+    assert result["artifact_revision"] == "artifact-revision"
+
+
 @pytest.mark.parametrize("value", ["0", "366", "abc", "1.5"])
 def test_daily_stock_selection_history_limit_is_bounded(value):
     with pytest.raises(ValueError):
@@ -119,10 +168,10 @@ def test_dashboard_has_no_daily_selection_scheduler_or_provider_owner():
 
 
 def test_desktop_page_exposes_versioned_daily_stock_selection_archive():
-    assert 'const STOCK_SELECTION_HISTORY_ENDPOINT = "/api/daily-stock-selection/history"' in JS
+    assert 'const STOCK_SELECTION_RESULTS_ENDPOINT = "/api/stock-selection/results"' in JS
     assert 'const STOCK_SELECTION_GENERATE_ENDPOINT = "/api/daily-stock-selection"' in JS
     assert 'const STOCK_SELECTION_GENERATION_ENDPOINT = "/api/daily-stock-selection/generation"' in JS
-    assert 'payload.contract !== "daily_stock_selection_archive.v1"' in JS
+    assert 'payload.contract !== "stock_selection_strategy_archive.v1"' in JS
     assert 'payload.contract !== "daily_stock_selection_result.v1"' in JS
     assert 'payload.contract !== "daily_stock_selection_generation.v1"' in JS
     assert '["idle", "queued", "running", "succeeded", "failed"]' in JS
@@ -130,28 +179,33 @@ def test_desktop_page_exposes_versioned_daily_stock_selection_archive():
     assert 'id="stock-selection-section"' in HTML
     assert 'id="stock-selection-dialog"' in HTML
     assert 'role="tablist"' in HTML
-    assert 'data-stock-selection-tab="daily"' in HTML
-    assert 'data-stock-selection-tab="limit-up-tendency"' in HTML
-    assert 'data-stock-selection-tab="long-upper-shadow"' in HTML
+    assert 'id="stock-selection-tabs"' in HTML
+    assert 'data-stock-selection-tab=' not in HTML
+    assert 'data-stock-selection-result-contract="balanced_stock_selection_result.v1"' in HTML
+    assert 'data-stock-selection-result-contract="stock_limit_up_tendency_screen.v1"' in HTML
+    assert 'data-stock-selection-result-contract="stock_pattern_screen.v1"' in HTML
     assert 'id="stock-limit-up-tendency-table-body"' in HTML
     assert 'id="stock-pattern-table-body"' in HTML
     assert "同一 10 日窗口无收盘涨停" in HTML
     assert "完整 10 日" in HTML
     assert "完整 15 日证据" in HTML
     assert "长上影疑似试盘形态" in HTML
-    assert 'const CURRENT_STOCK_SELECTION_CONFIG = "daily-stock-selection-balanced.v6"' in JS
-    assert 'item.screen_version === "next-session-limit-up-tendency-main-board.v2"' in JS
+    assert "CURRENT_STOCK_SELECTION_CONFIG" not in JS
+    assert "renderStockSelectionStrategyTabs" in JS
+    assert "definition.strategy_id" in JS
+    assert 'item.screen_version === "next-session-limit-up-tendency-main-board.v2"' not in JS
+    assert "text(payload.screen_version, definition.strategy_version)" in JS
     assert "区分未涨停启动与已涨停延续" in HTML
-    assert 'item.screen_version === "long-upper-shadow-main-board.v3"' in JS
+    assert 'item.screen_version === "long-upper-shadow-main-board.v3"' not in JS
+    assert 'id="stock-limit-up-tendency-outcome-status"' in HTML
+    assert 'id="stock-limit-up-tendency-outcome-detail"' in HTML
     assert 'id="stock-selection-generate-button"' in HTML
     assert 'id="stock-selection-date-select"' in HTML
     assert 'id="stock-selection-table-body"' in HTML
     assert "候选池不是买入建议" in HTML
     assert "收益从下一交易日开盘起验证" in HTML
     assert "renderStockSelectionCandidates(canonical.candidates)" in JS
-    assert "renderStockSelectionOutcome(history)" in JS
-    assert "renderStockPatternScreen(canonical.pattern_screens)" in JS
-    assert "renderLimitUpTendencyScreen(canonical.limit_up_tendency_screens)" in JS
+    assert "renderLimitUpTendencyOutcome" in JS
     assert 'dialog.showModal()' in JS
     assert 'dialog.addEventListener("click", (event) =>' in JS
     assert "if (event.target !== dialog) return;" in JS

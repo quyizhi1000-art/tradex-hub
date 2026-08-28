@@ -478,11 +478,14 @@ class DailyStockSelectionStore:
             self._ensure_open()
             rows = self._connection.execute(
                 """
-                SELECT trade_date, COUNT(*) AS strategy_count,
-                       MAX(generated_at) AS generated_at,
-                       GROUP_CONCAT(result_id, ',') AS result_ids
-                FROM stock_selection_strategy_results
-                GROUP BY trade_date
+                SELECT results.trade_date, COUNT(*) AS strategy_count,
+                       MAX(results.generated_at) AS generated_at,
+                       GROUP_CONCAT(results.result_id, ',') AS result_ids,
+                       GROUP_CONCAT(outcomes.outcome_id, ',') AS outcome_ids
+                FROM stock_selection_strategy_results AS results
+                LEFT JOIN stock_selection_strategy_outcomes AS outcomes
+                  ON outcomes.result_id = results.result_id
+                GROUP BY results.trade_date
                 ORDER BY trade_date DESC LIMIT ?
                 """,
                 (int(limit),),

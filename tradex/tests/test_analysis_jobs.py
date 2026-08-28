@@ -8,6 +8,7 @@ from zoneinfo import ZoneInfo
 import pytest
 
 from tradex.analysis_jobs import (
+    DAILY_STOCK_SELECTION,
     MARKET_WATCH_EVALUATION,
     POST_MARKET_REVIEW,
     AnalysisJobCommandWriter,
@@ -207,3 +208,55 @@ def test_worker_executes_review_job_and_publishes_only_a_small_result(tmp_path):
             "review_id": "review-1",
         }
         assert "evidence" not in completed["result"]
+
+
+def test_worker_materializes_strategy_archive_from_the_single_selection_owner(tmp_path):
+    trade_date = "2026-08-27"
+    strategy_archive = {
+        "contract": "stock_selection_strategy_archive.v1",
+        "schema_version": 1,
+        "trade_date": trade_date,
+        "dates": [{"trade_date": trade_date, "strategy_count": 3}],
+        "catalog": {
+            "contract": "stock_selection_strategy_catalog.v1",
+            "schema_version": 1,
+            "strategies": [{"strategy_id": "balanced-multifactor-a-share"}],
+        },
+        "results": [],
+        "outcomes": [],
+        "recent_outcomes": [],
+        "schedule": {},
+    }
+    history = {
+        "contract": "daily_stock_selection_archive.v1",
+        "schema_version": 1,
+        "trade_date": trade_date,
+        "dates": [{"trade_date": trade_date}],
+        "selection": {},
+        "outcome": None,
+        "recent_outcomes": [],
+        "schedule": {},
+        "strategy_archive": strategy_archive,
+    }
+    with AnalysisJobStore(tmp_path / "analysis.sqlite3") as store:
+        runtime = AnalysisRuntime.__new__(AnalysisRuntime)
+        runtime.jobs = store
+        runtime.selection_store = SimpleNamespace(
+            list_dates=lambda **_kwargs: [{"trade_date": trade_date}],
+            list_strategy_dates=lambda **_kwargs: [
+                {"trade_date": trade_date, "strategy_count": 3}
+            ],
+        )
+        runtime.selection_service = SimpleNamespace(
+            strategy_history=lambda **_kwargs: strategy_archive,
+            history=lambda **_kwargs: history,
+        )
+
+        assert runtime.materialize_selection_views(force=True) == 2
+        artifact = store.get_artifact(
+            DAILY_STOCK_SELECTION,
+            scope_key=f"date:{trade_date}",
+        )
+
+    assert artifact is not None
+    assert artifact["payload"]["strategy_archive"] == strategy_archive
