@@ -1,9 +1,10 @@
-"""Revision-bound live limit-up pool enriched by the stock relationship catalog.
+"""Revision-bound limit-up pool with stable relationships and day-level display.
 
 The Collector owns refresh and persistence. The pool keeps canonical live
 limit-up identity/status fields and joins the immutable instrument taxonomy
-catalog by ``instrument_id``. It intentionally performs no price-path,
-sector-flow, cohort, or provider-editorial attribution.
+catalog by ``instrument_id``. A current display theme is allowed only after an
+exact-date human review or a reusable cross-check between the event reason and
+direct business evidence. It never rewrites the long-term business identity.
 """
 
 from __future__ import annotations
@@ -28,6 +29,11 @@ from tradex.instrument_taxonomy.contracts import (
 
 from .contracts import ContractModel, MarketWatchSnapshotV1
 from .integrity import REVISION_PATTERN, stable_sha256
+from .market_theme_attribution import (
+    ReviewedMarketAttributionV1,
+    infer_current_market_category,
+    load_reviewed_market_attributions,
+)
 
 
 class LimitUpPoolItemV2(ContractModel):
@@ -43,6 +49,29 @@ class LimitUpPoolItemV2(ContractModel):
     resealed: bool | None = None
     order_amount_cny: float | None = Field(default=None, ge=0)
     relationship_match_status: Literal["matched", "unmatched"]
+    display_category_key: str | None = Field(
+        default=None,
+        pattern=r"^[a-z][a-z0-9_]*$",
+    )
+    display_category_name: str | None = None
+    display_category_basis: Literal[
+        "manual_market_review",
+        "event_business_crosscheck",
+        "relationship_directory",
+        "primary_business",
+        "unresolved",
+    ]
+    display_category_effective_on: date
+    business_domain_key: str | None = Field(
+        default=None,
+        pattern=r"^[a-z][a-z0-9_]*$",
+    )
+    business_domain_name: str | None = None
+    directory_category_key: str | None = Field(
+        default=None,
+        pattern=r"^[a-z][a-z0-9_]*$",
+    )
+    directory_category_name: str | None = None
     primary_business_key: str | None = Field(
         default=None,
         pattern=r"^[a-z][a-z0-9_]*$",
@@ -78,9 +107,23 @@ class LimitUpPoolItemV2(ContractModel):
 
     @model_validator(mode="after")
     def validate_relationship_match(self) -> "LimitUpPoolItemV2":
+        if bool(self.display_category_key) != bool(self.display_category_name):
+            raise ValueError("display category key and name must be present together")
+        if bool(self.business_domain_key) != bool(self.business_domain_name):
+            raise ValueError("business domain key and name must be present together")
+        if bool(self.directory_category_key) != bool(self.directory_category_name):
+            raise ValueError("directory category key and name must be present together")
         if bool(self.primary_business_key) != bool(self.primary_business_name):
             raise ValueError("primary business key and name must be present together")
+        if self.business_domain_key and not self.primary_business_key:
+            raise ValueError("business domain requires a primary-business leaf")
+        if self.directory_category_key and not self.primary_business_key:
+            raise ValueError("directory category requires a primary-business leaf")
         relationship_fields = (
+            self.business_domain_key,
+            self.business_domain_name,
+            self.directory_category_key,
+            self.directory_category_name,
             self.primary_business_key,
             self.primary_business_name,
             self.business_tags,
@@ -94,6 +137,13 @@ class LimitUpPoolItemV2(ContractModel):
                 raise ValueError("unmatched stock must explain the missing relationship")
         elif self.relationship_verification_status is None:
             raise ValueError("matched stock requires a catalog verification status")
+        if self.display_category_basis == "unresolved":
+            if self.display_category_key or self.display_category_name:
+                raise ValueError("unresolved display category must stay empty")
+        elif not self.display_category_key or not self.display_category_name:
+            raise ValueError("resolved display category requires key and name")
+        if self.relationship_match_status == "unmatched" and self.display_category_basis != "unresolved":
+            raise ValueError("unmatched stock cannot carry an unverified display category")
         return self
 
 
@@ -104,7 +154,7 @@ class LimitUpPoolCategoryV2(ContractModel):
 
 
 class LimitUpPoolV2(ContractModel):
-    """Live limit-up status joined only to ``stock_relationship_profile.v1``."""
+    """Live limit-up status joined to stable and exact-date attribution evidence."""
 
     contract: Literal["limit_up_pool.v2"] = "limit_up_pool.v2"
     schema_version: Literal[2] = 2
@@ -123,6 +173,7 @@ class LimitUpPoolV2(ContractModel):
     pool_total: int = Field(ge=0, le=300)
     catalog_matched_count: int = Field(ge=0)
     business_classified_count: int = Field(ge=0)
+    market_attributed_count: int = Field(ge=0)
     unmatched_count: int = Field(ge=0)
     categories: tuple[LimitUpPoolCategoryV2, ...] = ()
     items: tuple[LimitUpPoolItemV2, ...] = Field(default=(), max_length=300)
@@ -141,6 +192,8 @@ class LimitUpPoolV2(ContractModel):
             raise ValueError("limit-up pool trade date must match the source snapshot")
         if self.pool_total != len(self.items):
             raise ValueError("limit-up pool total must equal item count")
+        if any(item.display_category_effective_on != self.trade_date for item in self.items):
+            raise ValueError("display categories must match the pool trade date")
         counts = Counter(item.relationship_match_status for item in self.items)
         if self.catalog_matched_count != counts["matched"]:
             raise ValueError("limit-up pool catalog matched count is inconsistent")
@@ -151,6 +204,13 @@ class LimitUpPoolV2(ContractModel):
         classified_count = sum(bool(item.primary_business_key) for item in self.items)
         if self.business_classified_count != classified_count:
             raise ValueError("limit-up pool business classified count is inconsistent")
+        market_attributed_count = sum(
+            item.display_category_basis
+            in {"manual_market_review", "event_business_crosscheck"}
+            for item in self.items
+        )
+        if self.market_attributed_count != market_attributed_count:
+            raise ValueError("limit-up pool market attribution count is inconsistent")
         category_keys = [item.business_key for item in self.categories]
         if len(category_keys) != len(set(category_keys)):
             raise ValueError("limit-up pool business categories must be unique")
@@ -174,6 +234,11 @@ class LimitUpPoolV2(ContractModel):
             "schema_version": 2,
             "quality_flags": (),
             "categories": _business_categories(items),
+            "market_attributed_count": sum(
+                item.display_category_basis
+                in {"manual_market_review", "event_business_crosscheck"}
+                for item in items
+            ),
             "items": items,
             **values,
         }
@@ -221,7 +286,13 @@ def _pool_items(
     *,
     trade_date: date,
     tzinfo,
+    reviewed_attributions: Mapping[str, ReviewedMarketAttributionV1] | None = None,
 ) -> tuple[LimitUpPoolItemV2, ...]:
+    reviewed = (
+        dict(reviewed_attributions)
+        if reviewed_attributions is not None
+        else load_reviewed_market_attributions(trade_date)
+    )
     items = []
     for event in events:
         relationship = relationships.get(event.instrument_id)
@@ -230,6 +301,39 @@ def _pool_items(
             if relationship is not None and relationship.statistical_industry is not None
             else None
         )
+        reviewed_entry = reviewed.get(event.instrument_id)
+        inferred = (
+            infer_current_market_category(
+                event.reason,
+                (
+                    relationship.primary_business_name or "",
+                    relationship.business_summary or "",
+                    *relationship.business_tags,
+                ),
+            )
+            if relationship is not None
+            else None
+        )
+        if reviewed_entry is not None:
+            display_key = reviewed_entry.category_key
+            display_name = reviewed_entry.category_name
+            display_basis = "manual_market_review"
+        elif inferred is not None:
+            display_key = inferred.category_key
+            display_name = inferred.category_name
+            display_basis = "event_business_crosscheck"
+        elif relationship is not None and relationship.directory_category_key:
+            display_key = relationship.directory_category_key
+            display_name = relationship.directory_category_name
+            display_basis = "relationship_directory"
+        elif relationship is not None and relationship.primary_business_key:
+            display_key = relationship.primary_business_key
+            display_name = relationship.primary_business_name
+            display_basis = "primary_business"
+        else:
+            display_key = None
+            display_name = None
+            display_basis = "unresolved"
         items.append(LimitUpPoolItemV2(
             instrument_id=event.instrument_id,
             name=event.name,
@@ -241,6 +345,18 @@ def _pool_items(
             resealed=event.resealed,
             order_amount_cny=getattr(event, "order_amount_cny", None),
             relationship_match_status="matched" if relationship else "unmatched",
+            display_category_key=display_key,
+            display_category_name=display_name,
+            display_category_basis=display_basis,
+            display_category_effective_on=trade_date,
+            business_domain_key=(relationship.business_domain_key if relationship else None),
+            business_domain_name=(relationship.business_domain_name if relationship else None),
+            directory_category_key=(
+                relationship.directory_category_key if relationship else None
+            ),
+            directory_category_name=(
+                relationship.directory_category_name if relationship else None
+            ),
             primary_business_key=(relationship.primary_business_key if relationship else None),
             primary_business_name=(relationship.primary_business_name if relationship else None),
             business_tags=(relationship.business_tags if relationship else ()),
@@ -262,15 +378,15 @@ def _business_categories(
 ) -> tuple[LimitUpPoolCategoryV2, ...]:
     grouped: dict[str, list[LimitUpPoolItemV2]] = {}
     for item in items:
-        key = item.primary_business_key or "unresolved_business"
+        key = item.display_category_key or "unresolved_business"
         grouped.setdefault(key, []).append(item)
     categories = [
         LimitUpPoolCategoryV2(
             business_key=key,
             label=(
-                "主营待核验"
-                if key == "unresolved_business"
-                else str(members[0].primary_business_name)
+                str(members[0].display_category_name)
+                if members[0].display_category_name
+                else "主显示待核验"
             ),
             count=len(members),
         )
@@ -359,6 +475,11 @@ def build_limit_up_pool(
             item.relationship_match_status == "matched" for item in items
         ),
         business_classified_count=classified_count,
+        market_attributed_count=sum(
+            item.display_category_basis
+            in {"manual_market_review", "event_business_crosscheck"}
+            for item in items
+        ),
         unmatched_count=sum(
             item.relationship_match_status == "unmatched" for item in items
         ),

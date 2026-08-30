@@ -77,6 +77,15 @@ from .limit_events import (
     limit_event_series_to_component_metadata,
     limit_event_series_to_legacy_records,
 )
+from .limit_sentiment import fetch_limit_sentiment_daily
+from .limit_sentiment_contracts import LimitSentimentDailyV1
+from .review_announcements import fetch_review_official_announcements
+from .review_announcement_contracts import (
+    OfficialAnnouncementV1,
+    ReviewAnnouncementCandidateManifestV1,
+    ReviewAnnouncementCandidateV1,
+    ReviewOfficialAnnouncementArchiveV1,
+)
 from .market import fetch_market_overview, market_overview_to_legacy_payload
 from .intraday import (
     IntradayMinuteCache,
@@ -131,6 +140,7 @@ __all__ = [
     "LeaderQuoteV1",
     "LimitEventSeriesV1",
     "LimitEventTradeStatusV1",
+    "LimitSentimentDailyV1",
     "LimitUpEventV1",
     "LimitUpStatusSeriesV1",
     "LimitUpStatusV1",
@@ -140,11 +150,15 @@ __all__ = [
     "MarketTurnoverV1",
     "OpeningAuctionMarketV1",
     "OpeningAuctionSnapshotV1",
+    "OfficialAnnouncementV1",
     "OHLCVBarV1",
     "OHLCVSeriesV1",
     "ParticipationIndexV1",
     "QualityStatus",
     "QuoteSnapshotV1",
+    "ReviewAnnouncementCandidateManifestV1",
+    "ReviewAnnouncementCandidateV1",
+    "ReviewOfficialAnnouncementArchiveV1",
     "SectorQuoteSeriesV1",
     "SectorQuoteV1",
     "SectorFundFlowIntradayV1",
@@ -166,6 +180,7 @@ __all__ = [
     "fetch_leader_quotes",
     "fetch_limit_up_events",
     "fetch_limit_up_status",
+    "fetch_limit_sentiment_daily",
     "fetch_market_breadth_snapshot",
     "fetch_market_overview",
     "fetch_intraday_minute_series",
@@ -176,6 +191,7 @@ __all__ = [
     "fetch_opening_auction_market",
     "fetch_ohlcv_series",
     "fetch_quote_snapshot",
+    "fetch_review_official_announcements",
     "fetch_sector_quotes",
     "fetch_sector_intraday_fund_flow",
     "fetch_sector_intraday_fund_flow_backfill",

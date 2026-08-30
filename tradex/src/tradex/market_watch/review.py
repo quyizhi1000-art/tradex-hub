@@ -13,6 +13,10 @@ from typing import Literal
 from zoneinfo import ZoneInfo
 
 from pydantic import Field, field_validator, model_validator
+from tradex.data_gateway.review_announcement_contracts import (
+    OfficialAnnouncementV1,
+    ReviewOfficialAnnouncementArchiveV1,
+)
 from tradex.instrument_taxonomy.contracts import StockRelationshipProfileV1
 
 from tradex.market_calendar import (
@@ -42,7 +46,7 @@ from .review_evidence import (
 SHANGHAI = ZoneInfo("Asia/Shanghai")
 # The policy version is part of the immutable archive key. Older policy rows
 # remain readable and are never overwritten when presentation logic changes.
-REVIEW_CONFIG_VERSION = "post-market-review-policy.v5"
+REVIEW_CONFIG_VERSION = "post-market-review-policy.v6"
 
 # Provider concept catalogs also contain eligibility universes, prior-day
 # performance buckets and style baskets.  They are useful market context but
@@ -686,6 +690,15 @@ def _recap(
             f"{evidence.limit_events.limit_down_count if evidence.limit_events.limit_down_count is not None else '未知'}只跌停，"
             f"最高{evidence.limit_events.max_board_count or 1}板；活跃题材主要是{reason}。"
         )
+        if (
+            evidence.limit_sentiment is not None
+            and evidence.limit_sentiment.break_rate_pct is not None
+        ):
+            sentiment_text += (
+                f" 同源封板质量为：涨停{evidence.limit_sentiment.limit_up_count}只、"
+                f"炸板{evidence.limit_sentiment.broken_count}只、"
+                f"炸板率{evidence.limit_sentiment.break_rate_pct:.1f}%。"
+            )
     else:
         sentiment_text = "涨停、跌停和连板数据缺失，今天无法可靠判断短线情绪。"
     if evidence.stock_fund_flow is not None:
@@ -2041,6 +2054,7 @@ def _sentiment_section(evidence: DailyMarketReviewEvidenceV1, recap: MarketRecap
         ),
     )
     limits = evidence.limit_events
+    sentiment = evidence.limit_sentiment
     limit_rows = (
         (
             _cell("涨停家数"),
@@ -2058,8 +2072,43 @@ def _sentiment_section(evidence: DailyMarketReviewEvidenceV1, recap: MarketRecap
             if limits is not None and limits.max_board_count is not None
             else _missing_cell(),
         ),
-        (_cell("炸板率"), _missing_cell()),
-        (_cell("昨日涨停反馈"), _missing_cell()),
+        (
+            _cell("炸板家数"),
+            _cell(str(sentiment.broken_count)) if sentiment is not None else _missing_cell(),
+        ),
+        (
+            _cell("封板率 / 炸板率"),
+            _cell(
+                f"{sentiment.seal_rate_pct:.1f}% / {sentiment.break_rate_pct:.1f}%"
+            )
+            if sentiment is not None
+            and sentiment.seal_rate_pct is not None
+            and sentiment.break_rate_pct is not None
+            else _missing_cell(),
+        ),
+        (
+            _cell("首板晋级率"),
+            _cell(
+                f"{sentiment.first_board_promoted_count}/{sentiment.previous_first_board_count}，"
+                f"{sentiment.first_board_promotion_rate_pct:.1f}%"
+            )
+            if sentiment is not None
+            and sentiment.first_board_promotion_rate_pct is not None
+            else _missing_cell(),
+        ),
+        (
+            _cell("昨日涨停次日反馈"),
+            _cell(
+                f"开盘均值{sentiment.previous_limit_up_avg_open_premium_pct:+.2f}% / "
+                f"收盘均值{sentiment.previous_limit_up_avg_close_premium_pct:+.2f}% / "
+                f"红盘率{sentiment.previous_limit_up_red_close_rate_pct:.1f}%"
+            )
+            if sentiment is not None
+            and sentiment.previous_limit_up_avg_open_premium_pct is not None
+            and sentiment.previous_limit_up_avg_close_premium_pct is not None
+            and sentiment.previous_limit_up_red_close_rate_pct is not None
+            else _missing_cell(),
+        ),
     )
     ladder_rows = tuple(
         (_cell(f"{item.board_count}板"), _cell(str(item.count)))
@@ -2104,7 +2153,14 @@ def _sentiment_section(evidence: DailyMarketReviewEvidenceV1, recap: MarketRecap
                 rows=distribution_rows,
             ),
         ),
-        notes=("炸板率和昨日涨停反馈不在现有 evidence 合同中，均明确标记为未取得。",),
+        notes=(
+            (
+                "封板、炸板、晋级和昨日溢价来自同一 TuShare limit_list_ths + 日线批次；"
+                "连板梯队与题材原因仍保留原涨停事件源，各自显示来源，禁止交叉拼分母。"
+            )
+            if sentiment is not None
+            else "同源情绪归档未取得，炸板率、晋级率和昨日涨停反馈保持缺失。"
+        ,),
     )
 
 
@@ -2470,6 +2526,7 @@ def _tomorrow_section(
     outlook: NextDayOutlookV1,
     scenarios: tuple[NextDayScenarioV2, ...],
     opportunities: tuple[OpportunitySectorV1, ...],
+    official_announcements: ReviewOfficialAnnouncementArchiveV1 | None = None,
 ) -> SectionV3:
     scenario_rows = tuple(
         (
@@ -2517,7 +2574,37 @@ def _tomorrow_section(
         avoid_rows.append(
             (_cell("回避方向"), _missing_cell(), _missing_cell(), _missing_cell(), _missing_cell())
         )
-    catalyst_rows = ((_cell("可靠新闻催化"), _missing_cell()),)
+    if official_announcements is None:
+        catalyst_rows = ((_cell("可靠新闻催化"), _missing_cell()),)
+        catalyst_note = "候选标的官方公告归档未取得；媒体新闻不进入事实栏。"
+    elif official_announcements.announcements:
+        catalyst_rows = tuple(
+            (
+                _cell(f"{item.name} {item.instrument_id[:6]}"),
+                _cell(
+                    f"{item.published_at.astimezone(SHANGHAI).strftime('%Y-%m-%d')} "
+                    f"{item.title}｜巨潮原文：{item.source_url}"
+                ),
+            )
+            for item in official_announcements.announcements[:12]
+        )
+        catalyst_note = (
+            f"巨潮定向归档截至{official_announcements.window_end.isoformat()}，"
+            "公告属于正式披露，但标题不自动判定为利好、利空或次日因果。"
+        )
+    else:
+        catalyst_rows = tuple(
+            (
+                _cell(f"{item.name} {item.instrument_id[:6]}"),
+                _cell(
+                    f"{official_announcements.window_start.isoformat()}至"
+                    f"{official_announcements.window_end.isoformat()}无官方公告",
+                    CellToneV3.MUTED,
+                ),
+            )
+            for item in official_announcements.candidates
+        )
+        catalyst_note = "已完成候选标的定向查询；窗口内没有官方公告。"
     return SectionV3(
         section_id="tomorrow",
         title="明日观察",
@@ -2543,16 +2630,22 @@ def _tomorrow_section(
             ),
             TableV3(
                 table_id="news_catalysts",
-                title="催化证据",
+                title="官方公告与催化证据",
                 columns=("项目", "状态"),
                 rows=catalyst_rows,
             ),
         ),
-        notes=("明日部分只给确认和失效条件；现有 evidence 没有可靠新闻源，不能补写新闻催化。",),
+        notes=(
+            "明日部分只给确认和失效条件；媒体新闻仍不能补写为可靠催化。",
+            catalyst_note,
+        ),
     )
 
 
-def _methodology_section(review: PostMarketReviewV1) -> SectionV3:
+def _methodology_section(
+    review: PostMarketReviewV1,
+    official_announcements: ReviewOfficialAnnouncementArchiveV1 | None = None,
+) -> SectionV3:
     evidence = review.evidence
     component_rows = tuple(
         (
@@ -2589,6 +2682,15 @@ def _methodology_section(review: PostMarketReviewV1) -> SectionV3:
             ),
         ),
         (_cell("可靠新闻催化"), _missing_cell()),
+        (
+            _cell("候选标的官方公告"),
+            _cell(
+                f"已取得：{len(official_announcements.announcements)}条，"
+                f"巨潮，窗口截至{official_announcements.window_end.isoformat()}"
+            )
+            if official_announcements is not None
+            else _missing_cell(),
+        ),
     )
     notes = tuple(
         dict.fromkeys(
@@ -2630,6 +2732,7 @@ def _presentation_sections_v3(
     outlook: NextDayOutlookV1,
     scenarios: tuple[NextDayScenarioV2, ...],
     opportunities: tuple[OpportunitySectorV1, ...],
+    official_announcements: ReviewOfficialAnnouncementArchiveV1 | None = None,
 ) -> tuple[SectionV3, ...]:
     evidence = review.evidence
     return (
@@ -2640,8 +2743,14 @@ def _presentation_sections_v3(
         _stocks_section(evidence),
         _etfs_section(evidence, recap),
         _flows_section(evidence, recap),
-        _tomorrow_section(evidence, outlook, scenarios, opportunities),
-        _methodology_section(review),
+        _tomorrow_section(
+            evidence,
+            outlook,
+            scenarios,
+            opportunities,
+            official_announcements,
+        ),
+        _methodology_section(review, official_announcements),
     )
 
 
@@ -3075,10 +3184,46 @@ def _article_sentiment_section(
         structure_parts.append(f"全池重复最多的原因标签是{reason_clusters}")
     structure = "；".join(structure_parts) + "。" if structure_parts else "涨停梯队与原因聚类没有完整取得。"
 
-    disclosure = (
-        "当前事实合同仍缺炸板池和昨日涨停全量反馈，因此炸板率、首板晋级率、昨日涨停溢价没有写入。"
-        "在这些字段补齐前，只能说高度是否维持、涨停是否扩容，不能仅凭涨停家数把情绪定成升温或高潮。"
-    )
+    sentiment = evidence.limit_sentiment
+    if sentiment is not None:
+        quality = (
+            f"封板率{sentiment.seal_rate_pct:.1f}%、炸板率{sentiment.break_rate_pct:.1f}%"
+            if sentiment.seal_rate_pct is not None
+            and sentiment.break_rate_pct is not None
+            else "封板率与炸板率无有效分母"
+        )
+        continuation = (
+            f"{sentiment.previous_limit_up_continued_count}只"
+            f"（{sentiment.continuation_rate_pct:.1f}%）"
+            if sentiment.continuation_rate_pct is not None
+            else f"{sentiment.previous_limit_up_continued_count}只（昨日池为空）"
+        )
+        promotion = (
+            f"{sentiment.first_board_promoted_count}只"
+            f"（{sentiment.first_board_promotion_rate_pct:.1f}%）"
+            if sentiment.first_board_promotion_rate_pct is not None
+            else f"{sentiment.first_board_promoted_count}只（昨日首板池为空）"
+        )
+        feedback = (
+            f"平均开盘溢价{sentiment.previous_limit_up_avg_open_premium_pct:+.2f}%、"
+            f"平均收盘溢价{sentiment.previous_limit_up_avg_close_premium_pct:+.2f}%、"
+            f"收红率{sentiment.previous_limit_up_red_close_rate_pct:.1f}%"
+            if sentiment.previous_limit_up_avg_open_premium_pct is not None
+            and sentiment.previous_limit_up_avg_close_premium_pct is not None
+            and sentiment.previous_limit_up_red_close_rate_pct is not None
+            else "有效日线反馈不足"
+        )
+        disclosure = (
+            f"封板质量按同一数据源重算：涨停{sentiment.limit_up_count}只、炸板{sentiment.broken_count}只，"
+            f"{quality}。昨日涨停{sentiment.previous_limit_up_count}只，今天继续涨停{continuation}；"
+            f"昨日首板{sentiment.previous_first_board_count}只，晋级{promotion}。"
+            f"昨日涨停今天{feedback}。这组数据才用于判断接力质量。"
+        )
+    else:
+        disclosure = (
+            "同源情绪归档未取得，因此炸板率、首板晋级率、昨日涨停溢价没有写入。"
+            "只能说高度是否维持、涨停是否扩容，不能仅凭涨停家数把情绪定成升温或高潮。"
+        )
     return ArticleSectionV4(
         section_id="sentiment",
         title="短线情绪质量",
@@ -3470,6 +3615,39 @@ def _article_watch_items(
     return tuple(items)
 
 
+def _article_official_announcement_section(
+    archive: ReviewOfficialAnnouncementArchiveV1,
+) -> ArticleSectionV4:
+    by_instrument: dict[str, list[OfficialAnnouncementV1]] = {}
+    for item in archive.announcements:
+        by_instrument.setdefault(item.instrument_id, []).append(item)
+    paragraphs = [
+        f"以下内容来自巨潮资讯定向查询，窗口为{archive.window_start.isoformat()}至"
+        f"{archive.window_end.isoformat()}。公告是上市公司正式披露，但标题本身不自动等于"
+        "利好、利空或次日涨跌原因；需要结合正文和盘面确认。"
+    ]
+    for candidate in archive.candidates[:3]:
+        items = by_instrument.get(candidate.instrument_id, [])[:3]
+        if not items:
+            paragraphs.append(
+                f"{candidate.name}（{candidate.instrument_id[:6]}）：窗口内没有查询到官方公告。"
+            )
+            continue
+        details = "；".join(
+            f"{item.published_at.astimezone(SHANGHAI).strftime('%Y-%m-%d')}《{item.title}》"
+            for item in items
+        )
+        paragraphs.append(
+            f"{candidate.name}（{candidate.instrument_id[:6]}，来自“"
+            f"{candidate.watch_item_title}”）：{details}。"
+        )
+    return ArticleSectionV4(
+        section_id="official_announcements",
+        title="候选标的官方公告",
+        paragraphs=tuple(paragraphs),
+    )
+
+
 def _article_sections_v4(
     review: PostMarketReviewV1,
     *,
@@ -3478,19 +3656,23 @@ def _article_sections_v4(
     scenarios: tuple[NextDayScenarioV2, ...],
     opportunities: tuple[OpportunitySectorV1, ...],
     business_profiles: Mapping[str, StockRelationshipProfileV1] | None = None,
+    official_announcements: ReviewOfficialAnnouncementArchiveV1 | None = None,
 ) -> tuple[ArticleSectionV4, ...]:
     evidence = review.evidence
     stealth = _stealth_sector_candidates(evidence, opportunities)
     avoid = _avoid_sector_candidates(evidence)
     stocks = _watch_stocks(opportunities, stealth, business_profiles)
-    return (
+    sections = [
         _article_brief_section(review, previous=previous, opportunities=opportunities),
         _article_session_section(evidence),
         _article_mainline_section(evidence, opportunities, previous),
         _article_sentiment_section(evidence, previous),
         _article_payoff_section(evidence),
-        _article_reconciliation_section(review, previous),
-    )
+    ]
+    if official_announcements is not None:
+        sections.append(_article_official_announcement_section(official_announcements))
+    sections.append(_article_reconciliation_section(review, previous))
+    return tuple(sections)
 
 
 def build_post_market_review(
@@ -3545,10 +3727,21 @@ def build_post_market_review_presentation(
     review: PostMarketReviewV1,
     previous_review: PostMarketReviewV1 | None = None,
     business_profiles: Mapping[str, StockRelationshipProfileV1] | None = None,
+    official_announcements: ReviewOfficialAnnouncementArchiveV1 | None = None,
 ) -> PostMarketReviewPresentationV4:
     """Render a readable V4 article without changing the immutable evidence row."""
 
     canonical = PostMarketReviewV1.model_validate(review)
+    official_archive = (
+        ReviewOfficialAnnouncementArchiveV1.model_validate(official_announcements)
+        if official_announcements is not None
+        else None
+    )
+    if official_archive is not None and (
+        official_archive.trade_date != canonical.trade_date
+        or official_archive.review_id != canonical.review_id
+    ):
+        raise ValueError("official announcement archive does not match the review")
     previous = (
         PostMarketReviewV1.model_validate(previous_review)
         if previous_review is not None and previous_review.trade_date < canonical.trade_date
@@ -3578,6 +3771,7 @@ def build_post_market_review_presentation(
         outlook=outlook,
         scenarios=scenarios,
         opportunities=opportunities,
+        official_announcements=official_archive,
     )
     return PostMarketReviewPresentationV4(
         review_id=canonical.review_id,
@@ -3590,6 +3784,7 @@ def build_post_market_review_presentation(
             scenarios=scenarios,
             opportunities=opportunities,
             business_profiles=business_profiles,
+            official_announcements=official_archive,
         ),
         watch_items=_article_watch_items(
             canonical.evidence,

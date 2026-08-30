@@ -5012,6 +5012,9 @@
       || !Number.isInteger(payload.business_classified_count)
       || payload.business_classified_count < 0
       || payload.business_classified_count > payload.catalog_matched_count
+      || !Number.isInteger(payload.market_attributed_count)
+      || payload.market_attributed_count < 0
+      || payload.market_attributed_count > payload.pool_total
       || counts.some((value) => !Number.isInteger(value) || value < 0)
       || counts.reduce((total, value) => total + value, 0) !== payload.pool_total
       || categories.reduce((total, item) => total + Number(item?.count || 0), 0)
@@ -5029,14 +5032,31 @@
     }
     items.forEach((item) => {
       const status = text(item?.relationship_match_status, "");
-      const hasCatalogFields = Boolean(text(item?.primary_business_name, ""))
+      const displayKey = text(item?.display_category_key, "");
+      const displayName = text(item?.display_category_name, "");
+      const displayBasis = text(item?.display_category_basis, "");
+      const hasCatalogFields = Boolean(text(item?.directory_category_name, ""))
+        || Boolean(text(item?.business_domain_name, ""))
+        || Boolean(text(item?.primary_business_name, ""))
         || asArray(item?.business_tags).length > 0
         || Boolean(text(item?.statistical_industry_name, ""))
         || Boolean(text(item?.relationship_verification_status, ""));
       const matched = status === "matched"
         && Boolean(text(item?.relationship_verification_status, ""));
       const unmatched = status === "unmatched" && !hasCatalogFields;
-      if (!matched && !unmatched) {
+      const validDisplayBasis = new Set([
+        "manual_market_review",
+        "event_business_crosscheck",
+        "relationship_directory",
+        "primary_business",
+        "unresolved",
+      ]).has(displayBasis);
+      const validDisplay = validDisplayBasis
+        && text(item?.display_category_effective_on, "") === text(payload.trade_date, "")
+        && (displayBasis === "unresolved"
+          ? !displayKey && !displayName
+          : Boolean(displayKey && displayName));
+      if ((!matched && !unmatched) || !validDisplay) {
         throw new Error(`涨停池 ${text(item?.name, item?.instrument_id)} 归属匹配状态不完整`);
       }
     });
@@ -5056,8 +5076,7 @@
   }
 
   function limitUpPoolCategoryKey(item) {
-    return text(item?.primary_business_key, "")
-      || "unresolved_business";
+    return text(item?.display_category_key, "") || "unresolved_business";
   }
 
   function renderLimitUpPoolCategories(pool) {
@@ -5112,7 +5131,7 @@
     const card = createElement("article", `limit-up-stock-card is-${status}`);
     card.title = [
       `真实归属库状态：${text(item.relationship_verification_status, "未匹配")}`,
-      `统计行业：${text(item.statistical_industry_name, "待核验")}`,
+      `主显示依据：${text(item.display_category_basis, "待核验")}`,
       `目录标志：${asArray(item.relationship_flags).join(" / ") || "无"}`,
     ].join("\n");
     card.appendChild(createElement(
@@ -5129,23 +5148,23 @@
     if (item.is_one_word_board) {
       sector.appendChild(createElement("i", "one-word-badge", "一字"));
     }
-    const sectorLabel = item.primary_business_name
-      ? `主营 · ${text(item.primary_business_name, "待核验")}`
-      : "主营归属待核验";
+    const displayLabel = text(item.display_category_name, "");
+    const sectorLabel = displayLabel ? `主显示 · ${displayLabel}` : "主显示待核验";
     sector.appendChild(createElement("span", "", sectorLabel));
     card.appendChild(sector);
-    const tags = asArray(item.business_tags).map((value) => text(value, "")).filter(Boolean);
+    const businessPath = [
+      text(item.business_domain_name, ""),
+      text(item.primary_business_name, ""),
+    ].filter((value, index, values) => value && values.indexOf(value) === index).join(" → ");
     card.appendChild(createElement(
       "span",
       "limit-up-stock-card__meta",
-      tags.length ? `标签 · ${tags.join(" / ")}` : "业务标签待核验",
+      businessPath ? `主营 · ${businessPath}` : "主营明细待核验",
     ));
     card.appendChild(createElement(
       "span",
       "limit-up-stock-card__meta",
-      `统计 · ${text(item.statistical_industry_name, "待核验")} · 证据 ${
-        text(item.relationship_verification_status, "未匹配")
-      }`,
+      `长期目录 · ${text(item.directory_category_name, "待核验")}`,
     ));
     return card;
   }
@@ -5159,7 +5178,9 @@
     const catalogRevision = text(pool.relationship_catalog_revision, "");
     byId("limit-up-pool-status").textContent = `${
       pool.quality === "accepted" ? "真实归属已完整匹配" : "部分股票归属或主营待核验"
-    } · 归属库 ${catalogRevision ? catalogRevision.slice(0, 8) : "不可用"} · 快照 ${
+    } · 当期题材归因 ${Number(pool.market_attributed_count || 0)}只 · 归属库 ${
+      catalogRevision ? catalogRevision.slice(0, 8) : "不可用"
+    } · 快照 ${
       formatTimestamp(pool.source_as_of)
     }`;
     byId("limit-up-pool-button-count").textContent = String(pool.pool_total);

@@ -23,6 +23,7 @@ from tradex.data_gateway.contracts import (
     StockFundFlowSeriesV1,
     StockFundFlowV1,
 )
+from tradex.data_gateway.limit_sentiment_contracts import LimitSentimentDailyV1
 from tradex.market_watch.review_evidence import (
     EVIDENCE_COMPONENT_ORDER,
     EvidenceStatus,
@@ -46,6 +47,32 @@ def _metadata(contract: str, *, quality: QualityStatus = QualityStatus.ACCEPTED)
         provider_as_of=AS_OF,
         fetched_at=NOW,
         quality=quality,
+    )
+
+
+def _sentiment() -> LimitSentimentDailyV1:
+    return LimitSentimentDailyV1(
+        metadata=_metadata("limit_sentiment_daily.v1", quality=QualityStatus.DEGRADED),
+        trade_date=TRADE_DATE,
+        previous_trade_date=date(2026, 8, 21),
+        source_revision="a" * 64,
+        limit_up_count=55,
+        broken_count=10,
+        attempted_count=65,
+        seal_rate_pct=55 / 65 * 100,
+        break_rate_pct=10 / 65 * 100,
+        previous_limit_up_count=50,
+        previous_feedback_eligible_count=50,
+        previous_feedback_coverage=1,
+        previous_limit_up_continued_count=8,
+        continuation_rate_pct=16,
+        previous_first_board_count=40,
+        first_board_promoted_count=6,
+        first_board_promotion_rate_pct=15,
+        previous_limit_up_avg_open_premium_pct=2.1,
+        previous_limit_up_avg_close_premium_pct=1.4,
+        previous_limit_up_median_close_premium_pct=0.8,
+        previous_limit_up_red_close_rate_pct=58,
     )
 
 
@@ -159,9 +186,17 @@ def test_collector_scans_all_surfaces_and_keeps_compact_ranked_evidence():
         history_samples=history,
         collected_at=NOW,
         loaders=_loaders(),
+        limit_sentiment=_sentiment(),
     )
     assert tuple(item.component for item in evidence.components) == EVIDENCE_COMPONENT_ORDER
-    assert all(item.status == EvidenceStatus.ACCEPTED for item in evidence.components[:-1])
+    assert all(
+        item.status == EvidenceStatus.ACCEPTED
+        for item in evidence.components[:-1]
+        if item.component != "limit_sentiment"
+    )
+    assert next(
+        item for item in evidence.components if item.component == "limit_sentiment"
+    ).status == EvidenceStatus.DEGRADED
     assert evidence.components[0].provider == "tradex_market_watch"
     assert evidence.components[1].provider == "fixture"
     assert evidence.components[-1].provider == "tradex_history"
@@ -189,6 +224,7 @@ def test_late_components_degrade_independently_without_leaking_error_details():
         _closing_snapshot(AS_OF),
         collected_at=NOW,
         loaders=_loaders(fail_etf=True, fail_dragon=True),
+        limit_sentiment=_sentiment(),
     )
     by_name = {item.component: item for item in evidence.components}
     assert evidence.universe is not None

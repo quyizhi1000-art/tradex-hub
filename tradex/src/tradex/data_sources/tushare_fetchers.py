@@ -893,6 +893,87 @@ def fetch_stock_selection_daily_basic(
     }
 
 
+_LIMIT_SENTIMENT_FIELDS = (
+    "trade_date",
+    "ts_code",
+    "name",
+    "pct_chg",
+    "open_num",
+    "lu_desc",
+    "limit_type",
+    "tag",
+    "status",
+    "first_lu_time",
+    "last_lu_time",
+    "limit_amount",
+    "limit_up_suc_rate",
+)
+
+
+def fetch_limit_sentiment_daily(
+    trade_date: str = "",
+    previous_trade_date: str = "",
+    **kwargs: Any,
+) -> dict[str, Any]:
+    """Fetch one complete same-provider limit-sentiment bundle.
+
+    The gateway owns all calculations. This provider function only acquires
+    bounded raw tables and preserves their individual request identifiers.
+    """
+
+    del kwargs
+    compact, trading_date = _daily_trade_date(trade_date, required=True)
+    previous_compact = _compact_date(
+        previous_trade_date,
+        "previous_trade_date",
+        allow_empty=False,
+    )
+    previous_date = datetime.strptime(previous_compact, "%Y%m%d").date()
+    if previous_date >= trading_date:
+        raise ValueError("previous_trade_date must precede trade_date")
+
+    request_ids: list[tuple[str, str | None]] = []
+
+    def limit_rows(limit_type: str, label: str, *, previous: bool = False):
+        rows, ids = _paged_records(
+            "limit_list_ths",
+            {
+                "trade_date": previous_compact if previous else compact,
+                "limit_type": limit_type,
+            },
+            _LIMIT_SENTIMENT_FIELDS,
+            context=f"涨跌停情绪:{label}",
+            allow_empty=True,
+            page_size=4000,
+            max_pages=2,
+        )
+        request_ids.extend((f"{label}:{name}", value) for name, value in ids)
+        return rows
+
+    limit_up = limit_rows("涨停池", "limit_up")
+    broken = limit_rows("炸板池", "broken")
+    previous_limit_up = limit_rows("涨停池", "previous_limit_up", previous=True)
+    daily, daily_ids = _paged_records(
+        "daily",
+        {"trade_date": compact},
+        _BAR_FIELDS,
+        context="涨跌停情绪:次日反馈",
+        allow_empty=False,
+        page_size=6000,
+        max_pages=2,
+    )
+    request_ids.extend((f"daily:{name}", value) for name, value in daily_ids)
+    return {
+        "trade_date": trading_date.isoformat(),
+        "previous_trade_date": previous_date.isoformat(),
+        "request_id": _request_id_bundle(*request_ids),
+        "limit_up": limit_up,
+        "broken": broken,
+        "previous_limit_up": previous_limit_up,
+        "daily": daily,
+    }
+
+
 def fetch_stock_selection_master(
     trade_date: str = "",
     code: str = "",

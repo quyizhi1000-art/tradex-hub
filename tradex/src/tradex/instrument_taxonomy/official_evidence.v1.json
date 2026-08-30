@@ -148,6 +148,8 @@
       "instrument_id": "000560.SZ",
       "primary_business_key": "real_estate_services",
       "primary_business_name": "房产经纪服务",
+      "directory_category_key": "real_estate",
+      "directory_category_name": "房地产",
       "business_tags": ["房产经纪服务", "房屋资产管理", "新房", "商业租赁及服务"],
       "evidence": [
         {
@@ -166,7 +168,9 @@
       "instrument_id": "600479.SH",
       "primary_business_key": "traditional_chinese_medicine",
       "primary_business_name": "中成药",
-      "business_tags": ["中成药", "化学药", "女性卫生用品", "医药批发零售"],
+      "directory_category_key": "innovative_drugs",
+      "directory_category_name": "创新药",
+      "business_tags": ["中成药", "创新药研发", "化学药", "女性卫生用品", "医药批发零售"],
       "evidence": [
         {
           "evidence_id": "official-qianjin-annual-report-2025",
@@ -176,7 +180,7 @@
           "source_url": "https://static.sse.com.cn/disclosure/listedinfo/announcement/c/new/2026-04-29/600479_20260429_ZFQD.pdf",
           "published_at": "2026-04-29",
           "retrieved_at": "2026-08-29T12:00:00+08:00",
-          "assertions": ["主营归属:中成药", "业务:化学药", "业务:女性卫生用品", "业务:医药批发零售"]
+          "assertions": ["主营归属:中成药", "研发:中药创新药", "研发:化药创新药", "业务:化学药", "业务:女性卫生用品", "业务:医药批发零售", "边界:创新药仍处研发阶段不覆盖已实现收入主营"]
         }
       ]
     },
@@ -184,6 +188,8 @@
       "instrument_id": "002742.SZ",
       "primary_business_key": "pharmaceuticals",
       "primary_business_name": "医药",
+      "directory_category_key": "medical_pharma",
+      "directory_category_name": "医疗医药",
       "business_tags": ["医药", "原料药及制剂", "药品及中间体"],
       "evidence": [
         {
@@ -195,6 +201,455 @@
           "published_at": "2026-03-31",
           "retrieved_at": "2026-08-29T12:00:00+08:00",
           "assertions": ["主营归属:医药", "当前收入构成:药品及中间体", "历史建材化工分部当期收入为零"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "600689.SH",
+      "primary_business_key": "textiles",
+      "primary_business_name": "纺织贸易",
+      "directory_category_key": "consumer",
+      "directory_category_name": "消费",
+      "business_tags": ["纺织贸易", "服装和纺织制品进出口", "安防服务", "园区物业租赁"],
+      "evidence": [
+        {
+          "evidence_id": "official-shanghai-sanmao-annual-report-2025",
+          "source_kind": "official_filing",
+          "publisher": "上海三毛企业（集团）股份有限公司",
+          "title": "上海三毛企业（集团）股份有限公司2025年年度报告",
+          "source_url": "https://www.600689.com/baogao.aspx",
+          "published_at": "2026-04-18",
+          "retrieved_at": "2026-08-29T16:00:00+08:00",
+          "assertions": ["主营归属:纺织贸易", "当前主营约七成为进出口贸易", "主要商品:服装和纺织制品", "次要业务:安防服务", "次要业务:园区物业租赁"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "000062.SZ",
+      "primary_business_key": "electronics_distribution",
+      "primary_business_name": "电子分销",
+      "directory_category_key": "chips",
+      "directory_category_name": "芯片",
+      "business_tags": ["电子分销", "电子元器件交易及服务", "半导体授权分销", "长尾现货交易"],
+      "evidence": [
+        {
+          "evidence_id": "official-shenzhen-huaqiang-annual-report-2025",
+          "source_kind": "official_filing",
+          "publisher": "深圳华强实业股份有限公司",
+          "title": "深圳华强实业股份有限公司2025年年度报告",
+          "source_url": "https://www.szhq000062.com/skin/default/images/investoreducation/2023/2025%E5%B9%B4%E5%B9%B4%E5%BA%A6%E6%8A%A5%E5%91%8A.pdf",
+          "published_at": "2026-03-27",
+          "retrieved_at": "2026-08-29T16:00:00+08:00",
+          "assertions": ["主营归属:电子分销", "平台:电子元器件交易及服务", "模式:半导体授权分销", "模式:长尾现货交易", "产业链位置:连接半导体原厂与电子制造客户"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "002949.SZ",
+      "primary_business_key": "architectural_design",
+      "primary_business_name": "建筑设计",
+      "directory_category_key": "ai_application",
+      "directory_category_name": "AI应用",
+      "business_tags": ["建筑设计", "AI建筑设计", "AI Agent平台", "BIM", "自动成图", "智能审图"],
+      "evidence": [
+        {
+          "evidence_id": "official-capol-midyear-report-2025",
+          "source_kind": "official_filing",
+          "publisher": "深圳市华阳国际工程设计股份有限公司",
+          "title": "深圳市华阳国际工程设计股份有限公司2025年半年度报告",
+          "source_url": "https://static.cninfo.com.cn/finalpage/2025-08-27/1224575252.PDF",
+          "published_at": "2025-08-27",
+          "retrieved_at": "2026-08-29T18:00:00+08:00",
+          "assertions": ["主营归属:建筑设计", "战略:设计加科技", "研发及应用:AI设计", "平台:建筑行业AI Agent", "应用:BIM和自动成图", "边界:AI应用是设计业务的技术方向而非收入主营替代"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "002855.SZ",
+      "primary_business_key": "precision_structural_components",
+      "primary_business_name": "精密结构件",
+      "directory_category_key": "consumer_electronics",
+      "directory_category_name": "消费电子",
+      "business_tags": ["精密结构件", "消费电子", "3C", "智能终端", "精密模具", "手机零部件"],
+      "evidence": [
+        {
+          "evidence_id": "official-chitwing-midyear-report-2025",
+          "source_kind": "official_filing",
+          "publisher": "东莞捷荣技术股份有限公司",
+          "title": "东莞捷荣技术股份有限公司2025年半年度报告",
+          "source_url": "https://static.cninfo.com.cn/finalpage/2025-08-27/1224585499.PDF",
+          "published_at": "2025-08-27",
+          "retrieved_at": "2026-08-29T18:00:00+08:00",
+          "assertions": ["主营归属:精密结构件", "产业链:消费电子", "客户行业:3C", "应用:智能终端", "能力:精密模具", "边界:消费电子是主显示归属而精密结构件保留为真实主营"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "002084.SZ",
+      "primary_business_key": "bathroom_kitchen_products",
+      "primary_business_name": "卫浴及厨房产品",
+      "directory_category_key": "consumer",
+      "directory_category_name": "消费",
+      "business_tags": ["卫浴及厨房产品", "水龙头", "卫浴部品", "智能卫浴", "整装卫浴", "瓷砖"],
+      "evidence": [
+        {
+          "evidence_id": "official-seagull-investor-response-2025",
+          "source_kind": "official_filing",
+          "publisher": "广州海鸥住宅工业股份有限公司",
+          "title": "海鸥住工投资者关系活动记录表",
+          "source_url": "https://static.cninfo.com.cn/finalpage/2025-06-05/1223785697.PDF",
+          "published_at": "2025-06-05",
+          "retrieved_at": "2026-08-29T18:00:00+08:00",
+          "assertions": ["主营归属:卫浴及厨房产品", "产品:整组龙头", "产品:卫浴及厨房部品部件", "业务:制造服务与销售", "边界:消费是上层市场归属"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "600371.SH",
+      "primary_business_key": "corn_seed",
+      "primary_business_name": "玉米种业",
+      "directory_category_key": "agriculture",
+      "directory_category_name": "农业",
+      "business_tags": ["玉米种业", "玉米种子", "种子生产", "种子销售", "品种研发", "农业服务"],
+      "evidence": [
+        {
+          "evidence_id": "official-wens-midyear-report-2025",
+          "source_kind": "official_filing",
+          "publisher": "万向德农股份有限公司",
+          "title": "万向德农股份有限公司2025年半年度报告",
+          "source_url": "https://static.cninfo.com.cn/finalpage/2025-08-27/1224575996.PDF",
+          "published_at": "2025-08-27",
+          "retrieved_at": "2026-08-29T18:00:00+08:00",
+          "assertions": ["主营归属:玉米种业", "产品:玉米种子", "环节:种子生产和加工", "能力:品种研发", "服务对象:种植户", "边界:农业是上层市场归属"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "600378.SH",
+      "primary_business_key": "fluorochemicals",
+      "primary_business_name": "氟化工",
+      "directory_category_key": "tungsten_hexafluoride",
+      "directory_category_name": "六氟化钨",
+      "business_tags": ["氟化工", "六氟化钨", "电子级六氟化钨", "电子特气", "含氟气体", "半导体材料"],
+      "evidence": [
+        {
+          "evidence_id": "official-haohua-annual-report-2023",
+          "source_kind": "official_filing",
+          "publisher": "昊华化工科技集团股份有限公司",
+          "title": "昊华化工科技集团股份有限公司2023年年度报告",
+          "source_url": "https://dataclouds.cninfo.com.cn/shgonggao/2024/2024-04-30/e1fb5bf5063b11efaccefa163e26e5de.pdf",
+          "published_at": "2024-04-30",
+          "retrieved_at": "2026-08-29T18:00:00+08:00",
+          "assertions": ["主营归属:氟化工", "业务:电子特气", "核心产品:电子级六氟化钨", "应用:集成电路和显示面板", "产能:特种含氟电子气体项目已投产", "边界:六氟化钨是核心细分产品而非公司全部主营"]
+        },
+        {
+          "evidence_id": "official-haohua-midyear-operating-data-2025",
+          "source_kind": "official_filing",
+          "publisher": "昊华化工科技集团股份有限公司",
+          "title": "昊华科技2025年半年度主要经营数据公告",
+          "source_url": "https://static.cninfo.com.cn/finalpage/2025-08-30/1224623875.PDF",
+          "published_at": "2025-08-30",
+          "retrieved_at": "2026-08-29T18:00:00+08:00",
+          "assertions": ["经营分类:含氟气体", "2025年上半年含氟气体存在产量销量及销售金额", "交叉验证:六氟化钨属于持续经营的含氟气体业务层"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "002942.SZ",
+      "primary_business_key": "pesticide",
+      "primary_business_name": "农药",
+      "business_tags": ["农药", "农业生产资料", "农药制剂", "原药及中间体", "作物保护", "服务农户"],
+      "evidence": [
+        {
+          "evidence_id": "official-xinnong-midyear-report-2025",
+          "source_kind": "official_filing",
+          "publisher": "浙江新农化工股份有限公司",
+          "title": "浙江新农化工股份有限公司2025年半年度报告",
+          "source_url": "https://static.cninfo.com.cn/finalpage/2025-08-27/1224577448.PDF",
+          "published_at": "2025-08-27",
+          "retrieved_at": "2026-08-29T20:00:00+08:00",
+          "assertions": ["主营归属:农药", "产品:农药制剂", "产品:原药及中间体", "产业属性:农业生产资料", "服务对象:目标作物和农户", "目录关系:农药主营进入农业市场目录"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "603082.SH",
+      "primary_business_key": "smart_logistics",
+      "primary_business_name": "智能物流",
+      "business_tags": ["智能物流", "机器人工作站", "AGV", "人形机器人合作", "堆垛机", "输送分拣"],
+      "evidence": [
+        {
+          "evidence_id": "official-bzsi-midyear-report-2025",
+          "source_kind": "official_filing",
+          "publisher": "北自所（北京）科技发展股份有限公司",
+          "title": "北自所（北京）科技发展股份有限公司2025年半年度报告",
+          "source_url": "https://static.cninfo.com.cn/finalpage/2025-08-26/1224564983.PDF",
+          "published_at": "2025-08-26",
+          "retrieved_at": "2026-08-29T20:00:00+08:00",
+          "assertions": ["主营归属:智能物流", "装备:机器人工作站", "装备:AGV", "合作:推动人形机器人在智能物流场景落地", "边界:机器人是有直接装备和合作证据的市场目录而非收入主营替代"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "600714.SH",
+      "primary_business_key": "strontium_salts",
+      "primary_business_name": "锶盐",
+      "business_tags": ["锶盐", "小金属", "碳酸锶", "金属锶", "铝锶合金", "硝酸锶"],
+      "evidence": [
+        {
+          "evidence_id": "official-jinrui-midyear-report-2025",
+          "source_kind": "official_filing",
+          "publisher": "青海金瑞矿业发展股份有限公司",
+          "title": "青海金瑞矿业发展股份有限公司2025年半年度报告",
+          "source_url": "https://static.cninfo.com.cn/finalpage/2025-08-29/1224605484.PDF",
+          "published_at": "2025-08-29",
+          "retrieved_at": "2026-08-29T20:00:00+08:00",
+          "assertions": ["主营归属:锶盐", "产品:碳酸锶", "产品:金属锶", "产品:铝锶合金", "产品:硝酸锶", "目录关系:锶系列产品进入小金属市场目录"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "002886.SZ",
+      "primary_business_key": "specialty_polymer_materials",
+      "primary_business_name": "特种高分子材料",
+      "business_tags": ["特种高分子材料", "PCB材料", "服务器用PCB", "LCP", "PTFE薄膜", "高频高速传输"],
+      "evidence": [
+        {
+          "evidence_id": "official-wotlon-midyear-report-2025",
+          "source_kind": "official_filing",
+          "publisher": "深圳市沃特新材料股份有限公司",
+          "title": "深圳市沃特新材料股份有限公司2025年半年度报告",
+          "source_url": "https://static.cninfo.com.cn/finalpage/2025-08-23/1224554254.PDF",
+          "published_at": "2025-08-23",
+          "retrieved_at": "2026-08-29T20:00:00+08:00",
+          "assertions": ["主营归属:特种高分子材料", "产品:LCP", "产品:PTFE", "应用:高频通讯和高速数据传输", "边界:材料主营不改写为PCB制造"]
+        },
+        {
+          "evidence_id": "official-wotlon-investor-record-2025",
+          "source_kind": "official_filing",
+          "publisher": "深圳市沃特新材料股份有限公司",
+          "title": "沃特股份投资者关系活动记录表",
+          "source_url": "https://static.cninfo.com.cn/finalpage/2025-08-25/1224567542.PDF",
+          "published_at": "2025-08-25",
+          "retrieved_at": "2026-08-29T20:00:00+08:00",
+          "assertions": ["直接下游证据:服务器用PCB", "产品:PTFE薄膜和氟材料制品", "目录关系:有明确PCB应用证据时进入PCB市场目录"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "603900.SH",
+      "primary_business_key": "jewelry_retail",
+      "primary_business_name": "珠宝首饰零售",
+      "business_tags": ["珠宝首饰零售", "珠宝品牌运营", "黄金珠宝", "黄金镶嵌", "钻石"],
+      "evidence": [
+        {
+          "evidence_id": "official-leysen-annual-report-2024",
+          "source_kind": "official_filing",
+          "publisher": "莱绅通灵珠宝股份有限公司",
+          "title": "莱绅通灵珠宝股份有限公司2024年年度报告",
+          "source_url": "https://static.cninfo.com.cn/finalpage/2025-04-23/1223210993.PDF",
+          "published_at": "2025-04-23",
+          "retrieved_at": "2026-08-29T23:00:00+08:00",
+          "assertions": ["主营归属:珠宝首饰零售", "业务:珠宝品牌运营", "产品:黄金珠宝", "产品:钻石", "边界:贵金属是本轮市场主显示而非矿产主营"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "603269.SH",
+      "primary_business_key": "cooling_tower",
+      "primary_business_name": "冷却塔",
+      "business_tags": ["冷却塔", "数据中心冷却", "液冷配套", "核电冷却", "工业冷却"],
+      "evidence": [
+        {
+          "evidence_id": "official-seagull-cooling-results-briefing-2025",
+          "source_kind": "official_filing",
+          "publisher": "江苏海鸥冷却塔股份有限公司",
+          "title": "海鸥股份2025年度暨2026年第一季度业绩说明会会议记录",
+          "source_url": "https://static.cninfo.com.cn/finalpage/2026-05-13/1225301421.PDF",
+          "published_at": "2026-05-13",
+          "retrieved_at": "2026-08-29T23:00:00+08:00",
+          "assertions": ["主营归属:冷却塔", "应用:数据中心", "应用:核电", "数据中心领域存在在手订单", "边界:液冷是本轮市场主显示"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "600162.SH",
+      "primary_business_key": "commercial_real_estate_operations",
+      "primary_business_name": "商贸流通运营",
+      "business_tags": ["商贸流通运营", "家居商贸", "房地产开发", "互联网数据中心业务", "IDC"],
+      "evidence": [
+        {
+          "evidence_id": "official-hkhc-annual-report-list-2025",
+          "source_kind": "official_company",
+          "publisher": "深圳香江控股股份有限公司",
+          "title": "香江控股投资者关系定期公告",
+          "source_url": "https://www.hkhc.com.cn/investor_regularly.php",
+          "published_at": "2026-04-11",
+          "retrieved_at": "2026-08-29T23:00:00+08:00",
+          "assertions": ["主营归属:商贸流通运营", "业务:家居商贸", "业务:房地产开发", "边界:长期主营不因当期算力交易标签而改写"]
+        },
+        {
+          "evidence_id": "official-hkhc-idc-contract-20260717",
+          "source_kind": "official_filing",
+          "publisher": "深圳香江控股股份有限公司",
+          "title": "香江控股关于全资子公司签订重大合同的公告",
+          "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12450918&stockid=600162",
+          "published_at": "2026-07-17",
+          "retrieved_at": "2026-08-29T23:00:00+08:00",
+          "assertions": ["合同:互联网数据中心业务协议", "服务:IDC主机托管及网络接入", "边界:截至公告日尚未取得互联网数据中心业务客户订单"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "603011.SH",
+      "primary_business_key": "color_sorter",
+      "primary_business_name": "色选机",
+      "business_tags": ["色选机", "智能分选设备", "高端成形装备", "CCL/PCB层压设备", "核聚变装备"],
+      "evidence": [
+        {
+          "evidence_id": "official-heforging-annual-report-2025",
+          "source_kind": "official_filing",
+          "publisher": "合肥合锻智能制造股份有限公司",
+          "title": "合锻智能2025年年度报告",
+          "source_url": "https://stockmc.xueqiu.com/202604/603011_20260424_4H97.pdf",
+          "published_at": "2026-04-24",
+          "retrieved_at": "2026-08-29T23:00:00+08:00",
+          "assertions": ["主营归属:色选机", "业务:智能分选设备", "产品方向:CCL/PCB层压机", "边界:PCB设备方向不改写收入主营"]
+        },
+        {
+          "evidence_id": "official-heforging-risk-warning-20260529",
+          "source_kind": "official_filing",
+          "publisher": "合肥合锻智能制造股份有限公司",
+          "title": "合锻智能股票交易风险提示公告",
+          "source_url": "https://pdf.dfcfw.com/pdf/H2_AN202605291823020548_1.pdf",
+          "published_at": "2026-05-30",
+          "retrieved_at": "2026-08-29T23:00:00+08:00",
+          "assertions": ["直接产品关系:用于CCL和PCB的层压设备", "边界:截至公告日PCB概念尚未取得相关业务收入"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "002354.SZ",
+      "primary_business_key": "media",
+      "primary_business_name": "传媒",
+      "business_tags": ["传媒", "AI营销", "AI应用分发", "天星大模型", "空间智能MaaS"],
+      "evidence": [
+        {
+          "evidence_id": "official-tianyushuke-midyear-report-2025",
+          "source_kind": "official_filing",
+          "publisher": "天娱数字科技集团股份有限公司",
+          "title": "天娱数科2025年半年度报告",
+          "source_url": "https://static.cninfo.com.cn/finalpage/2025-08-22/1224532123.PDF",
+          "published_at": "2025-08-22",
+          "retrieved_at": "2026-08-29T23:00:00+08:00",
+          "assertions": ["主营归属:传媒", "业务:AI营销", "业务:AI应用分发", "业务:空间智能", "边界:AI应用是当前市场主显示且不覆盖长期主营叶子"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "002396.SZ",
+      "primary_business_key": "communications_equipment",
+      "primary_business_name": "通信设备",
+      "business_tags": ["通信设备", "企业级网络设备", "数据中心交换机", "400G交换机", "800G交换机", "算力网络"],
+      "evidence": [
+        {
+          "evidence_id": "official-star-net-ruijie-results-briefing-2025",
+          "source_kind": "official_filing",
+          "publisher": "福建星网锐捷通讯股份有限公司",
+          "title": "星网锐捷2025年度业绩说明会投资者问答",
+          "source_url": "https://pdf.dfcfw.com/pdf/H2_AN202604131821154437_1.pdf",
+          "published_at": "2026-04-14",
+          "retrieved_at": "2026-08-30T00:30:00+08:00",
+          "assertions": ["主营归属:通信设备", "产品:企业级网络设备", "直接产品:数据中心交换机", "边界:交换机是当期主显示，长期主营仍为通信设备"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "300378.SZ",
+      "primary_business_key": "digital_intelligence_services",
+      "primary_business_name": "数智技术服务",
+      "business_tags": ["数智技术服务", "自研数智软件", "AI智能体", "企业智能运行空间EIOSpace", "工业软件AI应用", "AI应用订阅"],
+      "evidence": [
+        {
+          "evidence_id": "official-digiwin-investor-record-20260828",
+          "source_kind": "official_filing",
+          "publisher": "鼎捷数智股份有限公司",
+          "title": "鼎捷数智投资者关系活动记录表",
+          "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12571664&stockid=300378",
+          "published_at": "2026-08-28",
+          "retrieved_at": "2026-08-30T00:30:00+08:00",
+          "assertions": ["主营归属:数智技术服务", "产品:AI智能体", "产品:企业智能运行空间", "业务:AI应用订阅", "边界:AI应用不改写长期主营叶子"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "002229.SZ",
+      "primary_business_key": "ticket_printing",
+      "primary_business_name": "票证",
+      "business_tags": ["票证", "算力及相关服务", "包装办公用纸", "算力出租", "智算中心托管运营"],
+      "evidence": [
+        {
+          "evidence_id": "official-hongbo-compute-business-20231107",
+          "source_kind": "official_filing",
+          "publisher": "鸿博股份有限公司",
+          "title": "鸿博股份投资者关系活动记录表",
+          "source_url": "https://static.cninfo.com.cn/finalpage/2023-11-07/1218273144.PDF",
+          "published_at": "2023-11-07",
+          "retrieved_at": "2026-08-30T00:30:00+08:00",
+          "assertions": ["主营归属:票证", "业务:算力出租", "业务:智算中心托管运营", "边界:算力是当期主显示且不覆盖长期主营"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "601700.SH",
+      "primary_business_key": "angle_steel_towers",
+      "primary_business_name": "角钢塔",
+      "business_tags": ["角钢塔", "输电线路铁塔", "钢管塔", "1000kV", "变电构支架", "电网设备"],
+      "evidence": [
+        {
+          "evidence_id": "official-fengfan-midyear-report-2026",
+          "source_kind": "official_filing",
+          "publisher": "常熟风范电力设备股份有限公司",
+          "title": "风范股份2026年半年度报告",
+          "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12559190&stockid=601700",
+          "published_at": "2026-08-28",
+          "retrieved_at": "2026-08-30T00:30:00+08:00",
+          "assertions": ["主营归属:角钢塔", "产品:输电线路铁塔", "行业:电网设备", "边界:电力电网是当期市场主显示"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "603045.SH",
+      "primary_business_key": "electrical_contact_materials",
+      "primary_business_name": "触头材料",
+      "business_tags": ["触头材料", "复层触头", "触头元件", "白银", "贵金属回收", "稀贵金属提纯", "银锭", "黄金循环利用", "小金属"],
+      "evidence": [
+        {
+          "evidence_id": "official-fuda-material-business-2026",
+          "source_kind": "official_company",
+          "publisher": "福达新材料集团股份有限公司",
+          "title": "福达新材料集团产业布局",
+          "source_url": "https://www.fudar.com/",
+          "retrieved_at": "2026-08-30T00:30:00+08:00",
+          "assertions": ["主营归属:触头材料", "业务:贵金属回收", "业务:稀贵金属提纯", "目录关系:工业金属材料进入小金属当期显示", "边界:不套用珠宝零售型贵金属规则"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "600654.SH",
+      "primary_business_key": "cyber_security",
+      "primary_business_name": "网络安全",
+      "business_tags": ["网络安全", "安保运营服务", "智慧城市系统集成", "人工智能算力中心", "算力中心设备采购及运营", "1000P算力中心"],
+      "evidence": [
+        {
+          "evidence_id": "official-chinasecurity-midyear-report-2026",
+          "source_kind": "official_filing",
+          "publisher": "中安科股份有限公司",
+          "title": "中安科2026年半年度报告",
+          "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12544671&stockid=600654",
+          "published_at": "2026-08-27",
+          "retrieved_at": "2026-08-30T00:30:00+08:00",
+          "assertions": ["主营归属:网络安全", "项目:宜兴人工智能算力中心", "业务:算力中心设备采购及运营", "边界:算力是当期主显示且不改写长期主营"]
         }
       ]
     }

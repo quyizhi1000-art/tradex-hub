@@ -29,6 +29,9 @@ from tradex.market_watch.review_service import (
 )
 from tradex.market_watch.review import _is_actionable_sector, _same_opportunity_theme
 from tradex.market_watch.review_store import PostMarketReviewStore
+from tradex.data_gateway.review_announcement_contracts import (
+    ReviewOfficialAnnouncementArchiveV1,
+)
 
 
 SHANGHAI = ZoneInfo("Asia/Shanghai")
@@ -318,7 +321,7 @@ def test_manual_review_is_immutable_and_uses_cross_market_evidence(tmp_path: Pat
         review = first["review"]
         assert first["action"] == "inserted"
         assert second["action"] == "existing"
-        assert review["config_version"] == "post-market-review-policy.v5"
+        assert review["config_version"] == "post-market-review-policy.v6"
         assert first["presentation"]["contract"] == "post_market_review_presentation.v4"
         assert first["presentation"]["schema_version"] == 4
         assert first["presentation"]["review_id"] == review["review_id"]
@@ -773,7 +776,151 @@ def test_v3_discloses_unavailable_metrics_without_inventing_values():
         ).rows
     }
 
-    assert sentiment_disclosure["炸板率"] == "未取得"
-    assert sentiment_disclosure["昨日涨停反馈"] == "未取得"
+    assert sentiment_disclosure["封板率 / 炸板率"] == "未取得"
+    assert sentiment_disclosure["昨日涨停次日反馈"] == "未取得"
     assert methodology_disclosure["成交额环比"] == "未取得"
     assert catalyst_disclosure["可靠新闻催化"] == "未取得"
+
+
+def test_v6_renders_same_source_limit_sentiment_metrics():
+    generated_at = datetime(2026, 8, 24, 20, 30, tzinfo=SHANGHAI)
+    evidence_payload = _evidence(
+        _closing_snapshot(datetime(2026, 8, 24, 15, 1, tzinfo=SHANGHAI)),
+        generated_at,
+    ).model_dump(mode="json")
+    evidence_payload["limit_sentiment"] = {
+        "metadata": {
+            "contract": "limit_sentiment_daily.v1",
+            "schema_version": 1,
+            "provider": "tushare_limit_list_ths",
+            "provider_as_of": None,
+            "fetched_at": generated_at.isoformat(),
+            "quality": "degraded",
+            "quality_flags": ["provider_timestamp_missing"],
+        },
+        "trade_date": "2026-08-24",
+        "previous_trade_date": "2026-08-21",
+        "source_revision": "a" * 64,
+        "limit_up_count": 55,
+        "broken_count": 10,
+        "attempted_count": 65,
+        "seal_rate_pct": 55 / 65 * 100,
+        "break_rate_pct": 10 / 65 * 100,
+        "previous_limit_up_count": 50,
+        "previous_feedback_eligible_count": 50,
+        "previous_feedback_coverage": 1,
+        "previous_limit_up_continued_count": 8,
+        "continuation_rate_pct": 16,
+        "previous_first_board_count": 40,
+        "first_board_promoted_count": 6,
+        "first_board_promotion_rate_pct": 15,
+        "previous_limit_up_avg_open_premium_pct": 2.1,
+        "previous_limit_up_avg_close_premium_pct": 1.4,
+        "previous_limit_up_median_close_premium_pct": 0.8,
+        "previous_limit_up_red_close_rate_pct": 58,
+    }
+    evidence_payload["components"].insert(
+        -1,
+        {
+            "component": "limit_sentiment",
+            "status": "degraded",
+            "record_count": 65,
+            "contract": "limit_sentiment_daily.v1",
+            "provider": "tushare_limit_list_ths",
+            "provider_as_of": None,
+            "flags": ["provider_timestamp_missing"],
+        },
+    )
+    evidence = DailyMarketReviewEvidenceV1.model_validate(evidence_payload)
+    review = build_post_market_review(
+        evidence,
+        generated_at=generated_at,
+        trigger=ReviewTrigger.MANUAL,
+    )
+    presentation = build_post_market_review_presentation(review)
+    sentiment_section = next(
+        item for item in presentation.appendix_sections if item.section_id == "sentiment"
+    )
+    rows = {
+        row[0].value: row[1].value
+        for row in next(
+            table
+            for table in sentiment_section.tables
+            if table.table_id == "limit_summary"
+        ).rows
+    }
+
+    assert rows["炸板家数"] == "10"
+    assert rows["封板率 / 炸板率"] == "84.6% / 15.4%"
+    assert rows["首板晋级率"] == "6/40，15.0%"
+    assert rows["昨日涨停次日反馈"] == "开盘均值+2.10% / 收盘均值+1.40% / 红盘率58.0%"
+
+
+def test_v6_renders_candidate_bound_official_announcements_without_direction_claim():
+    generated_at = datetime(2026, 8, 24, 20, 30, tzinfo=SHANGHAI)
+    review = build_post_market_review(
+        _evidence(
+            _closing_snapshot(datetime(2026, 8, 24, 15, 1, tzinfo=SHANGHAI)),
+            generated_at,
+        ),
+        generated_at=generated_at,
+        trigger=ReviewTrigger.MANUAL,
+    )
+    archive = ReviewOfficialAnnouncementArchiveV1.model_validate(
+        {
+            "metadata": {
+                "contract": "review_official_announcements.v1",
+                "schema_version": 1,
+                "provider": "cninfo",
+                "provider_as_of": "2026-08-24T00:00:00+08:00",
+                "fetched_at": "2026-08-24T21:10:00+08:00",
+                "quality": "accepted",
+                "quality_flags": [],
+            },
+            "trade_date": "2026-08-24",
+            "review_id": review.review_id,
+            "candidate_manifest_revision": "a" * 64,
+            "source_revision": "b" * 64,
+            "window_start": "2026-08-24",
+            "window_end": "2026-08-24",
+            "candidates": [
+                {
+                    "instrument_id": "600001.SH",
+                    "name": "领涨股",
+                    "watch_item_rank": 5,
+                    "watch_item_title": "主板条件观察标的",
+                }
+            ],
+            "announcements": [
+                {
+                    "announcement_id": "official-1",
+                    "instrument_id": "600001.SH",
+                    "name": "领涨股",
+                    "title": "关于半年度报告的公告",
+                    "published_at": "2026-08-24T00:00:00+08:00",
+                    "publication_precision": "date",
+                    "announcement_type": None,
+                    "source_url": "https://static.cninfo.com.cn/finalpage/2026-08-24/official-1.PDF",
+                    "source": "cninfo",
+                }
+            ],
+        }
+    )
+
+    presentation = build_post_market_review_presentation(
+        review,
+        official_announcements=archive,
+    )
+
+    official = next(
+        item for item in presentation.sections if item.section_id == "official_announcements"
+    )
+    assert "正式披露" in official.paragraphs[0]
+    assert "不自动等于利好、利空" in official.paragraphs[0]
+    assert "关于半年度报告的公告" in official.paragraphs[1]
+    tomorrow = next(
+        item for item in presentation.appendix_sections if item.section_id == "tomorrow"
+    )
+    table = next(item for item in tomorrow.tables if item.table_id == "news_catalysts")
+    assert table.rows[0][0].value == "领涨股 600001"
+    assert "static.cninfo.com.cn" in table.rows[0][1].value

@@ -149,6 +149,7 @@ def _register_all_sources_unlocked() -> None:
         ("stock_selection_calendar", tsf.fetch_stock_selection_calendar),
         ("stock_selection_daily", tsf.fetch_stock_selection_daily),
         ("stock_selection_daily_basic", tsf.fetch_stock_selection_daily_basic),
+        ("limit_sentiment_daily", tsf.fetch_limit_sentiment_daily),
         ("stock_selection_master", tsf.fetch_stock_selection_master),
         (
             "stock_selection_financial_period",
@@ -375,6 +376,13 @@ def _register_all_sources_unlocked() -> None:
     router.register("news_data", "akshare", akf.fetch_news_data, priority=100)
     router.register("telegraph_news", "cls_telegraph", nf.fetch_cls_telegraph, priority=1)
     router.register("cninfo_announcement", "cninfo_direct", nf.fetch_cninfo_direct, priority=1)
+    router.register(
+        "review_candidate_announcements",
+        "cninfo",
+        nf.fetch_cninfo_candidate_announcements,
+        priority=1,
+        exclusive=True,
+    )
     router.register("macro_data", "akshare", akf.fetch_macro_data, priority=1)
     router.register("etf_data", "astock_signals", asf.fetch_etf_data, priority=1)
     tushare_etfs = tushare_provides("etf_quotes")

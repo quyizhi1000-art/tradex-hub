@@ -839,7 +839,7 @@ def test_watch_page_is_self_contained_and_desktop_only():
     assert "cdn" not in combined.lower()
 
 
-def test_limit_up_pool_is_revision_bound_and_uses_only_the_relationship_catalog():
+def test_limit_up_pool_is_revision_bound_and_separates_current_display_from_relationships():
     assert 'const LIMIT_UP_POOL_ENDPOINT = "/api/limit-up-pool"' in JS
     assert 'id="limit-up-pool-open-button"' in HTML
     assert 'id="limit-up-pool-dialog"' in HTML
@@ -849,12 +849,26 @@ def test_limit_up_pool_is_revision_bound_and_uses_only_the_relationship_catalog(
     assert "new URLSearchParams({ source_snapshot_revision: revision })" in JS
     assert "payload.source_snapshot_revision !== expectedRevision" in JS
     assert 'item?.relationship_match_status' in JS
-    assert "item.business_tags" in JS
-    assert "item.statistical_industry_name" in JS
+    assert "item?.directory_category_name" in JS
+    assert "item?.business_domain_name" in JS
+    assert 'text(item?.display_category_key, "") || "unresolved_business"' in JS
+    assert "item?.display_category_name" in JS
+    assert "item?.display_category_basis" in JS
+    assert "payload.market_attributed_count" in JS
+    assert "item?.business_tags" in JS
+    assert "item?.statistical_industry_name" in JS
     assert "item.relationship_verification_status" in JS
-    assert "不使用涨停原因、价格路径或板块资金轨迹推断" in HTML
+    assert "只有题材而无直接业务证据时退回长期目录" in HTML
     assert 'height > 0 ? `${height}板`' in JS
     assert "formatLimitUpSealTime(item.first_sealed_at)" in JS
+    card_source = JS.split("function limitUpPoolCard", 1)[1].split(
+        "function renderLimitUpPool",
+        1,
+    )[0]
+    assert "标签 ·" not in card_source
+    assert "业务标签待核验" not in card_source
+    assert "统计 ·" not in card_source
+    assert "统计行业：" not in card_source
     assert 'fetchLimitUpPool({ showPending: byId("limit-up-pool-dialog").open })' in JS
     assert "analysis_pending_midday_or_post_close" not in JS
     assert "followed_sector" not in JS
@@ -863,6 +877,9 @@ def test_limit_up_pool_is_revision_bound_and_uses_only_the_relationship_catalog(
     assert 'id="limit-up-pool-classified"' in HTML
     assert 'id="limit-up-pool-unmatched"' in HTML
     assert "每分钟刷新涨停名单、板数与首次封板时间" in HTML
-    assert "主营归属和业务标签只读取统一真实归属库" in HTML
-    assert "申万三级行业单独展示为统计行业" in HTML
+    assert "主显示优先读取当日人工复核" in HTML
+    assert "长期主营仍只读取统一真实归属库" in HTML
+    assert "申万三级行业单独展示为统计行业" not in HTML
+    assert 'displayLabel ? `主显示 · ${displayLabel}`' in JS
+    assert "长期目录 ·" in JS
     assert "@media" not in CSS

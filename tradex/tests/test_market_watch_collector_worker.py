@@ -15,6 +15,20 @@ from tradex.dashboard import collector_worker
 SHANGHAI = ZoneInfo("Asia/Shanghai")
 
 
+@pytest.fixture(autouse=True)
+def _disable_review_announcement_network(monkeypatch):
+    monkeypatch.setattr(
+        collector_worker,
+        "_generate_latest_review_announcements",
+        lambda: {
+            "source_revision": "9" * 64,
+            "candidate_count": 0,
+            "announcement_count": 0,
+            "rematerialize_job_id": "fixture",
+        },
+    )
+
+
 def test_status_is_ledger_only_and_does_not_import_dashboard_provider_runtime(
     tmp_path: Path,
     monkeypatch,
@@ -473,3 +487,109 @@ def test_midday_does_not_run_a_second_limit_up_analysis(monkeypatch) -> None:
     )
 
     assert pool_calls == []
+
+
+def test_limit_sentiment_runs_once_only_after_1610(monkeypatch) -> None:
+    class TwoIterationStopEvent:
+        index = 0
+
+        def is_set(self):
+            return self.index >= 2
+
+        def wait(self, _seconds):
+            self.index += 1
+            return self.is_set()
+
+    observations = (
+        datetime(2026, 8, 26, 16, 9, tzinfo=SHANGHAI),
+        datetime(2026, 8, 26, 16, 10, tzinfo=SHANGHAI),
+    )
+    stop_event = TwoIterationStopEvent()
+    sentiment_calls = []
+    monkeypatch.setattr(
+        collector_worker,
+        "_generate_latest_resonance",
+        lambda *, reuse_existing: {
+            "resonance_revision": "a" * 64,
+            "entry_count": 1,
+        },
+    )
+    monkeypatch.setattr(
+        collector_worker,
+        "_generate_latest_limit_up_pool",
+        lambda *, reuse_existing: {
+            "pool_revision": "b" * 64,
+            "pool_total": 1,
+        },
+    )
+    monkeypatch.setattr(
+        collector_worker,
+        "_generate_latest_limit_sentiment",
+        lambda: sentiment_calls.append(stop_event.index)
+        or {
+            "source_revision": "c" * 64,
+            "limit_up_count": 81,
+            "broken_count": 19,
+        },
+    )
+
+    collector_worker._run_post_close_resonance_loop(
+        stop_event,
+        clock=lambda: observations[min(stop_event.index, 1)],
+        check_interval_seconds=0,
+    )
+
+    assert sentiment_calls == [1]
+
+
+def test_review_announcements_refresh_once_in_morning_and_evening(monkeypatch) -> None:
+    class TwoIterationStopEvent:
+        index = 0
+
+        def is_set(self):
+            return self.index >= 2
+
+        def wait(self, _seconds):
+            self.index += 1
+            return self.is_set()
+
+    observations = (
+        datetime(2026, 8, 26, 8, 0, tzinfo=SHANGHAI),
+        datetime(2026, 8, 26, 21, 10, tzinfo=SHANGHAI),
+    )
+    stop_event = TwoIterationStopEvent()
+    announcement_calls = []
+    monkeypatch.setattr(
+        collector_worker,
+        "_generate_latest_resonance",
+        lambda *, reuse_existing: {"resonance_revision": "a" * 64, "entry_count": 1},
+    )
+    monkeypatch.setattr(
+        collector_worker,
+        "_generate_latest_limit_up_pool",
+        lambda *, reuse_existing: {"pool_revision": "b" * 64, "pool_total": 1},
+    )
+    monkeypatch.setattr(
+        collector_worker,
+        "_generate_latest_limit_sentiment",
+        lambda: {"source_revision": "c" * 64, "limit_up_count": 1, "broken_count": 0},
+    )
+    monkeypatch.setattr(
+        collector_worker,
+        "_generate_latest_review_announcements",
+        lambda: announcement_calls.append(stop_event.index)
+        or {
+            "source_revision": "d" * 64,
+            "candidate_count": 3,
+            "announcement_count": 2,
+            "rematerialize_job_id": "fixture",
+        },
+    )
+
+    collector_worker._run_post_close_resonance_loop(
+        stop_event,
+        clock=lambda: observations[min(stop_event.index, 1)],
+        check_interval_seconds=0,
+    )
+
+    assert announcement_calls == [0, 1]

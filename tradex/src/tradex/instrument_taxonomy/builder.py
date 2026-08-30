@@ -18,12 +18,28 @@ from .contracts import (
     StockRelationshipCatalogStatusV1,
     StockRelationshipProfileV1,
 )
-from .normalization import clean_segment_name, matched_business_rules
+from .normalization import (
+    business_domain_by_business_key,
+    clean_segment_name,
+    matched_business_rules,
+    reviewed_directory_category,
+)
 
 
 TUSHARE_STOCK_COMPANY_DOC = "https://tushare.pro/document/2?doc_id=112"
 TUSHARE_MAINBZ_DOC = "https://tushare.pro/document/2?doc_id=81"
 TUSHARE_SW_MEMBER_DOC = "https://tushare.pro/document/2?doc_id=335"
+_SEGMENT_REQUIRED_BUSINESS_KEYS = frozenset({
+    "textiles",
+    "fluorochemicals",
+    "traditional_chinese_medicine",
+})
+_BROAD_ROLLUP_BUSINESS_KEYS = frozenset({
+    "textiles",
+    "traditional_chinese_medicine",
+})
+_MIN_BROAD_ROLLUP_REVENUE_SHARE = 0.20
+_MIN_PRIMARY_RULE_REVENUE_SHARE = 0.20
 
 
 def _text(value: Any) -> str | None:
@@ -180,9 +196,11 @@ def _business_identity(
 
     revenue_by_rule: defaultdict[tuple[str, str], float] = defaultdict(float)
     segment_supported_rule_keys: set[str] = set()
+    segment_rule_matches: list[tuple[BusinessSegmentV1, tuple[Any, ...]]] = []
     ordered_rule_names: list[tuple[str, str]] = []
     for segment in segments:
         rules = matched_business_rules((segment.name,))
+        segment_rule_matches.append((segment, rules))
         segment_supported_rule_keys.update(rule.key for rule in rules)
         for rule in rules:
             pair = (rule.key, rule.name)
@@ -193,17 +211,50 @@ def _business_identity(
                 segment.revenue_cny or 0.0,
                 0.0,
             )
+    total_segment_revenue = sum(max(segment.revenue_cny or 0.0, 0.0) for segment in segments)
+    weak_rollups = {
+        pair
+        for pair, revenue in revenue_by_rule.items()
+        if pair[0] in _BROAD_ROLLUP_BUSINESS_KEYS
+        and total_segment_revenue > 0
+        and (
+            revenue / total_segment_revenue < _MIN_BROAD_ROLLUP_REVENUE_SHARE
+            or revenue < max(
+                (
+                    max(segment.revenue_cny or 0.0, 0.0)
+                    for segment, rules in segment_rule_matches
+                    if not any(
+                        rule.key == pair[0]
+                        for rule in rules
+                    )
+                ),
+                default=0.0,
+            )
+        )
+    }
+    if weak_rollups:
+        revenue_by_rule.clear()
+        for segment, rules in segment_rule_matches:
+            fallback = next(
+                (
+                    rule
+                    for rule in rules
+                    if (rule.key, rule.name) not in weak_rollups
+                ),
+                None,
+            )
+            if fallback is not None:
+                revenue_by_rule[(fallback.key, fallback.name)] += max(
+                    segment.revenue_cny or 0.0,
+                    0.0,
+                )
+    for pair in weak_rollups:
+        segment_supported_rule_keys.discard(pair[0])
+    ordered_rule_names = [pair for pair in ordered_rule_names if pair not in weak_rollups]
     summary_rules = matched_business_rules((summary or "",))
     for rule in summary_rules:
         if (
-            rule.key in {
-                "electronics_distribution",
-                "precious_metals",
-                "textiles",
-                "fluorochemicals",
-                "traditional_chinese_medicine",
-                "pharmaceuticals",
-            }
+            rule.key in _SEGMENT_REQUIRED_BUSINESS_KEYS
             and rule.key not in segment_supported_rule_keys
         ):
             continue
@@ -217,6 +268,29 @@ def _business_identity(
             revenue_by_rule,
             key=lambda pair: (-revenue_by_rule[pair], pair[1]),
         )[0]
+        primary_revenue = revenue_by_rule[primary_pair]
+        largest_competing_segment = max(
+            (
+                max(segment.revenue_cny or 0.0, 0.0)
+                for segment, rules in segment_rule_matches
+                if not any(rule.key == primary_pair[0] for rule in rules)
+            ),
+            default=0.0,
+        )
+        if total_segment_revenue > 0 and (
+            primary_revenue / total_segment_revenue < _MIN_PRIMARY_RULE_REVENUE_SHARE
+            or primary_revenue < largest_competing_segment
+        ):
+            leading_segment = segments[0]
+            leading_rules = matched_business_rules((leading_segment.name,))
+            primary_pair = (
+                (leading_rules[0].key, leading_rules[0].name)
+                if leading_rules
+                else (
+                    f"disclosed_{hashlib.sha1(leading_segment.name.encode('utf-8')).hexdigest()[:12]}",
+                    leading_segment.name,
+                )
+            )
     elif ordered_rule_names:
         primary_pair = ordered_rule_names[0]
     elif segments:
@@ -232,6 +306,32 @@ def _business_identity(
     if primary_pair is None:
         return None, None, unique_tags
     return primary_pair[0], primary_pair[1], unique_tags
+
+
+def _directory_category(
+    business_key: str | None,
+    business_name: str | None,
+    official: Mapping[str, Any] | None,
+    evidence_texts: Iterable[str],
+) -> tuple[str | None, str | None]:
+    """Choose the reviewed category shown in the market directory.
+
+    The category may be a broad domain (for example ``芯片``) or a material,
+    evidence-backed business theme (for example ``创新药``).  The exact
+    primary-business leaf remains separate and is never overwritten.
+    """
+
+    if official is not None:
+        key = _text(official.get("directory_category_key"))
+        name = _text(official.get("directory_category_name"))
+        if bool(key) != bool(name):
+            raise ValueError("official directory category key and name must appear together")
+        if key and name:
+            return key, name
+    learned = reviewed_directory_category(business_key, evidence_texts)
+    if learned is not None:
+        return learned
+    return business_key, business_name
 
 
 def _business_support(
@@ -309,6 +409,18 @@ def build_stock_relationship_catalog(
         segments = _business_segments(segments_by_id.get(instrument_id, ()))
         official = official_by_id.get(instrument_id)
         business_key, business_name, business_tags = _business_identity(summary, segments, official)
+        business_domain = business_domain_by_business_key(business_key)
+        directory_key, directory_name = _directory_category(
+            business_key,
+            business_name,
+            official,
+            (
+                summary or "",
+                business_name or "",
+                *(segment.name for segment in segments),
+                *business_tags,
+            ),
+        )
         summary_support, segment_support = _business_support(
             summary,
             segments,
@@ -368,6 +480,10 @@ def build_stock_relationship_catalog(
             regulatory_industry=None,
             statistical_industry=statistical,
             provider_industry=_text(stock.get("industry")),
+            business_domain_key=(business_domain.key if business_domain else None),
+            business_domain_name=(business_domain.name if business_domain else None),
+            directory_category_key=directory_key,
+            directory_category_name=directory_name,
             primary_business_key=business_key,
             primary_business_name=business_name,
             business_tags=business_tags,

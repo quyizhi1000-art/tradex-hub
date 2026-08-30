@@ -185,7 +185,8 @@ def primary_capabilities() -> frozenset[str]:
             "etf_quotes,stock_fund_flow,dragon_tiger_market_day,"
             "minute_data,stock_selection_calendar,stock_selection_daily,"
             "stock_selection_daily_basic,stock_selection_master,"
-            "stock_selection_financial_period,instrument_taxonomy"
+            "stock_selection_financial_period,instrument_taxonomy,"
+            "limit_sentiment_daily"
         ),
     )
     return frozenset(item.strip() for item in raw.split(",") if item.strip())

@@ -1,0 +1,346 @@
+{
+  "contract": "reviewed_market_attribution.v1",
+  "schema_version": 1,
+  "entries": [
+    {
+      "instrument_id": "603900.SH",
+      "effective_on": "2026-08-28",
+      "category_key": "precious_metals",
+      "category_name": "贵金属",
+      "rule_id": "precious_metals_from_jewellery_following",
+      "reason_text": "黄金概念继续活跃，黄金珠宝股同步走强",
+      "business_evidence": ["黄金珠宝首饰零售", "黄金镶嵌业务"],
+      "evidence": [
+        {
+          "evidence_id": "official-leysen-earnings-preview-2025",
+          "source_kind": "official_filing",
+          "publisher": "莱绅通灵珠宝股份有限公司",
+          "title": "莱绅通灵2025年年度业绩预盈公告",
+          "source_url": "https://dataclouds.cninfo.com.cn/shgonggao/hsomarket/2026/20260130/f0ec7c78ebf34b2dbae06b8646db2f59.PDF",
+          "published_at": "2026-01-31",
+          "retrieved_at": "2026-08-29T23:00:00+08:00",
+          "assertions": ["业务:黄金珠宝首饰零售", "业务变化:黄金业务拓展", "产品结构:黄金镶嵌占比提高"]
+        },
+        {
+          "evidence_id": "market-leysen-gold-following-20260828",
+          "source_kind": "web_secondary",
+          "publisher": "证券时报",
+          "title": "黄金概念继续活跃 深中华A七连板",
+          "source_url": "https://www.stcn.com/article/detail/4149582.html",
+          "published_at": "2026-08-28",
+          "retrieved_at": "2026-08-29T23:00:00+08:00",
+          "assertions": ["当日板块:黄金概念", "同向股票:莱绅通灵涨停", "人工复核主显示:贵金属"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "603269.SH",
+      "effective_on": "2026-08-28",
+      "category_key": "liquid_cooling",
+      "category_name": "液冷",
+      "rule_id": "liquid_cooling_from_cooling_equipment",
+      "reason_text": "数据中心液冷、核电冷却和冷却塔持续活跃",
+      "business_evidence": ["数据中心液冷配套冷却塔", "适配高密度算力的冷却设备"],
+      "evidence": [
+        {
+          "evidence_id": "official-seagull-cooling-results-briefing-2025",
+          "source_kind": "official_filing",
+          "publisher": "江苏海鸥冷却塔股份有限公司",
+          "title": "海鸥股份2025年度暨2026年第一季度业绩说明会会议记录",
+          "source_url": "https://static.cninfo.com.cn/finalpage/2026-05-13/1225301421.PDF",
+          "published_at": "2026-05-13",
+          "retrieved_at": "2026-08-29T23:00:00+08:00",
+          "assertions": ["主营产品:冷却塔", "应用:数据中心", "应用:核电", "数据中心领域存在在手订单"]
+        },
+        {
+          "evidence_id": "market-seagull-liquid-cooling-20260812",
+          "source_kind": "web_secondary",
+          "publisher": "同花顺金融研究中心",
+          "title": "涨停雷达：数据中心液冷+核电冷却+冷却塔 海鸥股份触及涨停",
+          "source_url": "https://news.10jqka.com.cn/20260812/c678891741.shtml",
+          "published_at": "2026-08-12",
+          "retrieved_at": "2026-08-29T23:00:00+08:00",
+          "assertions": ["近期交易标签:数据中心液冷", "近期交易标签:核电冷却", "人工复核主显示:液冷"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "600162.SH",
+      "effective_on": "2026-08-28",
+      "category_key": "computing_power",
+      "category_name": "算力",
+      "rule_id": "compute_from_idc_service",
+      "reason_text": "算力、IDC和数据中心业务成为本轮主要交易标签",
+      "business_evidence": ["互联网数据中心业务协议", "IDC主机托管服务", "数据中心业务"],
+      "evidence": [
+        {
+          "evidence_id": "official-hkhc-investor-reports-2025",
+          "source_kind": "official_company",
+          "publisher": "深圳香江控股股份有限公司",
+          "title": "香江控股投资者关系定期公告",
+          "source_url": "https://www.hkhc.com.cn/investor_regularly.php",
+          "published_at": "2026-04-11",
+          "retrieved_at": "2026-08-29T23:00:00+08:00",
+          "assertions": ["稳定主营:房地产及家居商贸", "当前新增业务证据需与长期主营分层"]
+        },
+        {
+          "evidence_id": "market-hkhc-compute-following-20260827",
+          "source_kind": "web_secondary",
+          "publisher": "打板客",
+          "title": "香江控股涨跌停原因分析",
+          "source_url": "https://dabanke.com/gupiao-600162.html",
+          "published_at": "2026-08-27",
+          "retrieved_at": "2026-08-29T23:00:00+08:00",
+          "assertions": ["本轮标签:算力和IDC", "直接业务关系:互联网数据中心业务协议", "人工复核主显示:算力"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "603011.SH",
+      "effective_on": "2026-08-28",
+      "category_key": "pcb",
+      "category_name": "PCB",
+      "rule_id": "pcb_from_lamination_equipment",
+      "reason_text": "PCB层压机、CCL和高端成形机床反复活跃",
+      "business_evidence": ["用于CCL、PCB的层压设备", "CCL/PCB层压机"],
+      "evidence": [
+        {
+          "evidence_id": "official-heforging-risk-warning-20260529",
+          "source_kind": "official_filing",
+          "publisher": "合肥合锻智能制造股份有限公司",
+          "title": "合锻智能股票交易风险提示公告",
+          "source_url": "https://pdf.dfcfw.com/pdf/H2_AN202605291823020548_1.pdf",
+          "published_at": "2026-05-30",
+          "retrieved_at": "2026-08-29T23:00:00+08:00",
+          "assertions": ["产品关系:CCL/PCB层压设备", "边界:截至公告日PCB概念尚未取得相关业务收入"]
+        },
+        {
+          "evidence_id": "market-heforging-pcb-following-20260817",
+          "source_kind": "web_secondary",
+          "publisher": "打板客",
+          "title": "合锻智能涨跌停原因分析",
+          "source_url": "https://dabanke.com/gupiao-603011.html",
+          "published_at": "2026-08-17",
+          "retrieved_at": "2026-08-29T23:00:00+08:00",
+          "assertions": ["多日交易标签:PCB层压机", "多日交易标签:CCL", "人工复核主显示:PCB"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "002354.SZ",
+      "effective_on": "2026-08-28",
+      "category_key": "ai_application",
+      "category_name": "AI应用",
+      "rule_id": "ai_application_from_deployed_product",
+      "reason_text": "AI营销和AI应用板块走强",
+      "business_evidence": ["AI营销", "AI应用分发", "空间智能MaaS"],
+      "evidence": [
+        {
+          "evidence_id": "official-tianyushuke-midyear-report-2025",
+          "source_kind": "official_filing",
+          "publisher": "天娱数字科技集团股份有限公司",
+          "title": "天娱数科2025年半年度报告",
+          "source_url": "https://static.cninfo.com.cn/finalpage/2025-08-22/1224532123.PDF",
+          "published_at": "2025-08-22",
+          "retrieved_at": "2026-08-29T23:00:00+08:00",
+          "assertions": ["业务:AI营销", "业务:AI应用分发", "业务:空间智能"]
+        },
+        {
+          "evidence_id": "market-tianyushuke-ai-marketing-20260828",
+          "source_kind": "web_secondary",
+          "publisher": "证券时报",
+          "title": "AI营销概念走高 天娱数科涨停",
+          "source_url": "https://www.stcn.com/article/detail/4149434.html",
+          "published_at": "2026-08-28",
+          "retrieved_at": "2026-08-29T23:00:00+08:00",
+          "assertions": ["当日板块:AI营销", "同向股票:天娱数科涨停", "人工复核主显示:AI应用"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "002396.SZ",
+      "effective_on": "2026-08-28",
+      "category_key": "network_switches",
+      "category_name": "交换机",
+      "rule_id": "switches_from_data_center_networking",
+      "reason_text": "超节点和算力网络行情走强，数据中心交换机是公司直接产品锚点",
+      "business_evidence": ["企业级网络设备", "数据中心400G、800G高速交换机"],
+      "evidence": [
+        {
+          "evidence_id": "official-star-net-ruijie-results-briefing-2025",
+          "source_kind": "official_filing",
+          "publisher": "福建星网锐捷通讯股份有限公司",
+          "title": "星网锐捷2025年度业绩说明会投资者问答",
+          "source_url": "https://pdf.dfcfw.com/pdf/H2_AN202604131821154437_1.pdf",
+          "published_at": "2026-04-14",
+          "retrieved_at": "2026-08-30T00:30:00+08:00",
+          "assertions": ["主营产品:企业级网络设备", "直接产品:数据中心交换机", "边界:算力是需求场景，主显示优先直接产品交换机"]
+        },
+        {
+          "evidence_id": "market-star-net-ruijie-switch-following-20260828",
+          "source_kind": "web_secondary",
+          "publisher": "金融界",
+          "title": "星网锐捷AI算力与CPO共振",
+          "source_url": "https://stock.jrj.com.cn/2026/08/28142858266399.shtml",
+          "published_at": "2026-08-28",
+          "retrieved_at": "2026-08-30T00:30:00+08:00",
+          "assertions": ["当日标签:AI算力和超节点", "直接产品:数据中心交换机", "人工复核主显示:交换机"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "300378.SZ",
+      "effective_on": "2026-08-28",
+      "category_key": "ai_application",
+      "category_name": "AI应用",
+      "rule_id": "ai_application_from_deployed_product",
+      "reason_text": "AI应用和工业软件板块走强",
+      "business_evidence": ["AI智能体产品", "企业智能运行空间EIOSpace", "工业软件AI应用"],
+      "evidence": [
+        {
+          "evidence_id": "official-digiwin-investor-record-20260828",
+          "source_kind": "official_filing",
+          "publisher": "鼎捷数智股份有限公司",
+          "title": "鼎捷数智投资者关系活动记录表",
+          "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12571664&stockid=300378",
+          "published_at": "2026-08-28",
+          "retrieved_at": "2026-08-30T00:30:00+08:00",
+          "assertions": ["产品:AI智能体", "产品:企业智能运行空间", "业务:AI应用订阅", "AI相关签约已规模化落地"]
+        },
+        {
+          "evidence_id": "market-digiwin-ai-application-20260828",
+          "source_kind": "web_secondary",
+          "publisher": "证券时报·数据宝",
+          "title": "AI应用板块走强 鼎捷数智20cm涨停",
+          "source_url": "https://www.dzh.com.cn/index/detail?mod=txs&url=%2Fwap%2Fdata%2Fnews%2Ftxs%2F2026%2F08%2F543475.json",
+          "published_at": "2026-08-28",
+          "retrieved_at": "2026-08-30T00:30:00+08:00",
+          "assertions": ["当日板块:AI应用", "同向股票:鼎捷数智涨停", "人工复核主显示:AI应用"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "002229.SZ",
+      "effective_on": "2026-08-28",
+      "category_key": "computing_power",
+      "category_name": "算力",
+      "rule_id": "compute_from_compute_service",
+      "reason_text": "算力租赁概念反弹，鸿博股份涨停",
+      "business_evidence": ["算力及相关服务", "算力出租", "智算中心托管运营"],
+      "evidence": [
+        {
+          "evidence_id": "official-hongbo-compute-business-20231107",
+          "source_kind": "official_filing",
+          "publisher": "鸿博股份有限公司",
+          "title": "鸿博股份投资者关系活动记录表",
+          "source_url": "https://static.cninfo.com.cn/finalpage/2023-11-07/1218273144.PDF",
+          "published_at": "2023-11-07",
+          "retrieved_at": "2026-08-30T00:30:00+08:00",
+          "assertions": ["业务:算力出租", "业务:智算中心托管运营", "边界:长期收入主营仍按最新财务分部确定"]
+        },
+        {
+          "evidence_id": "market-hongbo-compute-following-20260828",
+          "source_kind": "web_secondary",
+          "publisher": "证券时报",
+          "title": "算力租赁概念震荡走强 鸿博股份涨停",
+          "source_url": "https://www.stcn.com/article/detail/4149552.html",
+          "published_at": "2026-08-28",
+          "retrieved_at": "2026-08-30T00:30:00+08:00",
+          "assertions": ["当日板块:算力租赁", "同向股票:鸿博股份涨停", "人工复核主显示:算力"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "601700.SH",
+      "effective_on": "2026-08-28",
+      "category_key": "power_grid",
+      "category_name": "电力电网",
+      "rule_id": "power_grid_from_transmission_equipment",
+      "reason_text": "电网设备、特高压和南网中标反复活跃",
+      "business_evidence": ["输电线路铁塔", "角钢塔", "1000kV输电线路产品"],
+      "evidence": [
+        {
+          "evidence_id": "official-fengfan-midyear-report-2026",
+          "source_kind": "official_filing",
+          "publisher": "常熟风范电力设备股份有限公司",
+          "title": "风范股份2026年半年度报告",
+          "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12559190&stockid=601700",
+          "published_at": "2026-08-28",
+          "retrieved_at": "2026-08-30T00:30:00+08:00",
+          "assertions": ["核心业务:金属结构制造", "产品:输电线路铁塔", "行业:电网设备", "边界:主显示采用电力电网而非单一电压等级"]
+        },
+        {
+          "evidence_id": "market-fengfan-power-grid-following-20260824",
+          "source_kind": "web_secondary",
+          "publisher": "打板客",
+          "title": "风范股份涨跌停原因分析",
+          "source_url": "https://dabanke.com/gupiao-601700.html",
+          "published_at": "2026-08-24",
+          "retrieved_at": "2026-08-30T00:30:00+08:00",
+          "assertions": ["近期标签:电网设备和特高压", "直接业务:输电线路铁塔", "人工复核主显示:电力电网"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "603045.SH",
+      "effective_on": "2026-08-28",
+      "category_key": "small_metals",
+      "category_name": "小金属",
+      "rule_id": "small_metals_from_industrial_precious_materials",
+      "reason_text": "黄金和小金属方向活跃，福达合金随板块涨停",
+      "business_evidence": ["电接触材料以白银为主要原材料", "贵金属回收", "银锭及黄金循环利用"],
+      "evidence": [
+        {
+          "evidence_id": "official-fuda-material-business-2026",
+          "source_kind": "official_company",
+          "publisher": "福达新材料集团股份有限公司",
+          "title": "福达新材料集团产业布局",
+          "source_url": "https://www.fudar.com/",
+          "retrieved_at": "2026-08-30T00:30:00+08:00",
+          "assertions": ["主营产品:电接触材料", "业务:贵金属回收", "业务:稀贵金属提纯", "边界:工业金属材料按小金属显示，不套用珠宝零售的贵金属标签"]
+        },
+        {
+          "evidence_id": "market-fuda-small-metals-following-20260828",
+          "source_kind": "web_secondary",
+          "publisher": "第一财经",
+          "title": "黄金概念股震荡拉升",
+          "source_url": "https://www.yicai.com/brief/103338031.html",
+          "published_at": "2026-08-28",
+          "retrieved_at": "2026-08-30T00:30:00+08:00",
+          "assertions": ["当日板块:黄金和贵金属", "同向股票:福达合金涨停", "人工复核主显示:小金属"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "600654.SH",
+      "effective_on": "2026-08-28",
+      "category_key": "computing_power",
+      "category_name": "算力",
+      "rule_id": "compute_from_compute_service",
+      "reason_text": "半年报增长、安防和AI算力共同催化，宜兴算力中心是直接业务锚点",
+      "business_evidence": ["1000P人工智能算力中心", "算力中心设备采购及运营", "500P低碳AI算力中心"],
+      "evidence": [
+        {
+          "evidence_id": "official-chinasecurity-midyear-report-2026",
+          "source_kind": "official_filing",
+          "publisher": "中安科股份有限公司",
+          "title": "中安科2026年半年度报告",
+          "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12544671&stockid=600654",
+          "published_at": "2026-08-27",
+          "retrieved_at": "2026-08-30T00:30:00+08:00",
+          "assertions": ["项目:宜兴人工智能算力中心", "业务:算力中心设备采购及运营", "边界:长期主营仍保留网络安全和安保业务"]
+        },
+        {
+          "evidence_id": "market-chinasecurity-compute-following-20260828",
+          "source_kind": "web_secondary",
+          "publisher": "同花顺金融研究中心",
+          "title": "中安科半年报增长加安保安防加AI算力涨停分析",
+          "source_url": "https://basic.10jqka.com.cn/600654/event.html",
+          "published_at": "2026-08-28",
+          "retrieved_at": "2026-08-30T00:30:00+08:00",
+          "assertions": ["当日标签:AI算力", "直接项目:1000P人工智能算力中心", "人工复核主显示:算力"]
+        }
+      ]
+    }
+  ]
+}

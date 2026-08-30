@@ -522,6 +522,128 @@ def _backfill_limit_up_pool() -> int:
     return 0
 
 
+def _previous_verified_trading_date(value: date) -> date:
+    from tradex.market_calendar import CalendarDayStatus, calendar_day_status
+
+    candidate = value - timedelta(days=1)
+    for _ in range(10):
+        status = calendar_day_status(candidate)
+        if status is CalendarDayStatus.VERIFIED_TRADING_DAY:
+            return candidate
+        if status is CalendarDayStatus.UNVERIFIED:
+            raise HistoricalMarketWatchUnavailable(
+                "previous trading day is not verified for limit sentiment"
+            )
+        candidate -= timedelta(days=1)
+    raise HistoricalMarketWatchUnavailable(
+        "previous trading day is outside the bounded calendar lookup"
+    )
+
+
+def _generate_latest_limit_sentiment() -> dict:
+    """Collect and persist one provider-consistent post-close sentiment day."""
+
+    from tradex.data_gateway.limit_sentiment import fetch_limit_sentiment_daily
+    from tradex.market_watch.limit_sentiment_store import LimitSentimentStore
+    from tradex.market_watch.read_facade import MarketWatchReadFacade
+
+    with (
+        MarketWatchCollectionStore(read_only=True) as ledger,
+        MarketWatchHistoryStore(read_only=True) as history,
+    ):
+        view = MarketWatchReadFacade(
+            collection_reader=ledger,
+            history_reader=history,
+        ).read()
+    if view.accepted is None:
+        raise HistoricalMarketWatchUnavailable(
+            "no accepted real snapshot is available for limit sentiment"
+        )
+    trade_date = view.accepted.pointer.trade_date
+    previous = _previous_verified_trading_date(trade_date)
+    sentiment = fetch_limit_sentiment_daily(
+        trade_date,
+        previous,
+        now=_now(),
+    )
+    with LimitSentimentStore() as store:
+        return store.record(sentiment)
+
+
+def _backfill_limit_sentiment() -> int:
+    result = _generate_latest_limit_sentiment()
+    print(json.dumps(result, ensure_ascii=False, sort_keys=True))
+    return 0
+
+
+def _generate_latest_review_announcements() -> dict:
+    """Archive official announcements for the current review watchlist."""
+
+    from tradex.analysis_jobs import (
+        POST_MARKET_REVIEW,
+        AnalysisJobCommandWriter,
+        AnalysisJobReader,
+    )
+    from tradex.data_gateway.review_announcements import (
+        fetch_review_official_announcements,
+    )
+    from tradex.market_watch.review_announcement_candidates import (
+        NoReviewAnnouncementCandidates,
+        manifest_from_review_artifact,
+    )
+    from tradex.market_watch.review_announcement_store import (
+        ReviewOfficialAnnouncementStore,
+    )
+
+    with AnalysisJobReader() as reader:
+        artifact = reader.get_artifact(
+            POST_MARKET_REVIEW,
+            scope_key="latest",
+        )
+    if artifact is None:
+        raise HistoricalMarketWatchUnavailable(
+            "no materialized review is available for official announcements"
+        )
+    try:
+        manifest = manifest_from_review_artifact(artifact)
+    except NoReviewAnnouncementCandidates:
+        return {
+            "action": "skipped_no_candidates",
+            "source_revision": None,
+            "candidate_count": 0,
+            "announcement_count": 0,
+            "rematerialize_job_id": None,
+        }
+    observed = _now()
+    window_end = min(observed.date(), manifest.trade_date + timedelta(days=7))
+    archive = fetch_review_official_announcements(
+        manifest,
+        window_end=window_end,
+        now=observed,
+    )
+    with ReviewOfficialAnnouncementStore() as store:
+        result = store.record(archive)
+    with AnalysisJobCommandWriter() as writer:
+        job = writer.enqueue(
+            POST_MARKET_REVIEW,
+            trade_date=manifest.trade_date,
+            trigger="official-announcements-rematerialize",
+            requested_at=manifest.review_generated_at,
+        )
+    return {
+        **result,
+        "candidate_manifest_revision": manifest.manifest_revision,
+        "rematerialize_job_id": job["job_id"],
+        "rematerialize_state": job["state"],
+    }
+
+
+def _backfill_review_announcements() -> int:
+    result = _generate_latest_review_announcements()
+    print(json.dumps(result, ensure_ascii=False, sort_keys=True))
+    return 0
+
+
 def _run_post_close_resonance_loop(
     stop_event: threading.Event,
     *,
@@ -535,6 +657,8 @@ def _run_post_close_resonance_loop(
     completed_dates = set()
     completed_resonance_buckets = set()
     completed_limit_up_buckets = set()
+    completed_sentiment_dates = set()
+    completed_announcement_buckets = set()
     while not stop_event.is_set():
         observed = clock()
         session = a_share_session(observed)
@@ -554,6 +678,21 @@ def _run_post_close_resonance_loop(
             and session.phase is TradingSessionPhase.CLOSED
             and local_time >= time(15, 0)
             and observed.date() not in completed_dates
+        )
+        sentiment_due = (
+            session.is_trading_day
+            and session.phase is TradingSessionPhase.CLOSED
+            and local_time >= time(16, 10)
+            and observed.date() not in completed_sentiment_dates
+        )
+        announcement_bucket = None
+        if session.is_trading_day and local_time >= time(21, 10):
+            announcement_bucket = (observed.date(), "evening")
+        elif local_time >= time(8, 0):
+            announcement_bucket = (observed.date(), "morning")
+        announcement_due = (
+            announcement_bucket is not None
+            and announcement_bucket not in completed_announcement_buckets
         )
         if limit_up_due:
             try:
@@ -606,6 +745,33 @@ def _run_post_close_resonance_loop(
                     limit_up_result.get("pool_total"),
                     session.phase.value,
                 )
+        if sentiment_due:
+            try:
+                sentiment_result = _generate_latest_limit_sentiment()
+                completed_sentiment_dates.add(observed.date())
+                logger.info(
+                    "post-close limit sentiment ready revision=%s "
+                    "limit_up=%s broken=%s",
+                    sentiment_result.get("source_revision"),
+                    sentiment_result.get("limit_up_count"),
+                    sentiment_result.get("broken_count"),
+                )
+            except Exception:
+                logger.exception("post-close limit sentiment collection failed")
+        if announcement_due:
+            try:
+                announcement_result = _generate_latest_review_announcements()
+                completed_announcement_buckets.add(announcement_bucket)
+                logger.info(
+                    "review official announcements ready revision=%s "
+                    "candidates=%s announcements=%s rematerialize=%s",
+                    announcement_result.get("source_revision"),
+                    announcement_result.get("candidate_count"),
+                    announcement_result.get("announcement_count"),
+                    announcement_result.get("rematerialize_job_id"),
+                )
+            except Exception:
+                logger.exception("review official announcement collection failed")
         stop_event.wait(check_interval_seconds)
 
 
@@ -686,6 +852,16 @@ def main(argv: list[str] | None = None) -> int:
         action="store_true",
         help="match the latest accepted real limit-up pool to the relationship catalog",
     )
+    parser.add_argument(
+        "--backfill-limit-sentiment",
+        action="store_true",
+        help="collect the latest accepted trade day's limit sentiment",
+    )
+    parser.add_argument(
+        "--backfill-review-announcements",
+        action="store_true",
+        help="collect official announcements for the latest review candidates",
+    )
     args = parser.parse_args(argv)
     if args.status:
         return _status()
@@ -703,6 +879,10 @@ def main(argv: list[str] | None = None) -> int:
             return _backfill_resonance()
         if args.backfill_limit_up_pool:
             return _backfill_limit_up_pool()
+        if args.backfill_limit_sentiment:
+            return _backfill_limit_sentiment()
+        if args.backfill_review_announcements:
+            return _backfill_review_announcements()
         with exclusive_worker_lock():
             if args.once:
                 _run_collector_cycle(stop_event, once=True)
@@ -731,5 +911,7 @@ __all__ = [
     "exclusive_worker_lock",
     "main",
     "_generate_latest_limit_up_pool",
+    "_generate_latest_limit_sentiment",
+    "_generate_latest_review_announcements",
     "_run_post_close_resonance_loop",
 ]

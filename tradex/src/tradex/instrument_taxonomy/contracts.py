@@ -114,6 +114,16 @@ class StockRelationshipProfileV1(TaxonomyModel):
     regulatory_industry: IndustryPathV1 | None = None
     statistical_industry: IndustryPathV1 | None = None
     provider_industry: str | None = None
+    business_domain_key: str | None = Field(
+        default=None,
+        pattern=r"^[a-z][a-z0-9_]*$",
+    )
+    business_domain_name: str | None = None
+    directory_category_key: str | None = Field(
+        default=None,
+        pattern=r"^[a-z][a-z0-9_]*$",
+    )
+    directory_category_name: str | None = None
     primary_business_key: str | None = Field(
         default=None,
         pattern=r"^[a-z][a-z0-9_]*$",
@@ -138,8 +148,16 @@ class StockRelationshipProfileV1(TaxonomyModel):
 
     @model_validator(mode="after")
     def validate_primary_business(self) -> "StockRelationshipProfileV1":
+        if bool(self.business_domain_key) != bool(self.business_domain_name):
+            raise ValueError("business domain key and name must be present together")
+        if bool(self.directory_category_key) != bool(self.directory_category_name):
+            raise ValueError("directory category key and name must be present together")
         if bool(self.primary_business_key) != bool(self.primary_business_name):
             raise ValueError("primary business key and name must be present together")
+        if self.business_domain_key and not self.primary_business_key:
+            raise ValueError("business domain requires a primary-business leaf")
+        if self.directory_category_key and not self.primary_business_key:
+            raise ValueError("directory category requires a primary-business leaf")
         if self.primary_business_name and self.primary_business_name not in self.business_tags:
             raise ValueError("primary business must also appear in business_tags")
         if self.verification_status in {"verified", "corroborated"} and not self.evidence:

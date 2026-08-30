@@ -18,6 +18,25 @@ class BusinessRule:
     patterns: tuple[re.Pattern[str], ...]
 
 
+@dataclass(frozen=True)
+class BusinessDomain:
+    """Stable top-level directory for a verified primary-business leaf."""
+
+    key: str
+    name: str
+    business_keys: frozenset[str]
+
+
+@dataclass(frozen=True)
+class DirectoryRule:
+    """Evidence-gated mapping from an exact business leaf to a market directory."""
+
+    category_key: str
+    category_name: str
+    business_keys: frozenset[str]
+    evidence_patterns: tuple[re.Pattern[str], ...] = ()
+
+
 def _patterns(*values: str) -> tuple[re.Pattern[str], ...]:
     return tuple(re.compile(value, re.IGNORECASE) for value in values)
 
@@ -71,9 +90,13 @@ BUSINESS_RULES: tuple[BusinessRule, ...] = (
     BusinessRule("wind_power", "风电", _patterns(r"风力发电", r"风电", r"风机叶片", r"风电塔筒")),
     BusinessRule("power_grid", "电网设备", _patterns(r"电网设备", r"输配电", r"变压器", r"电力设备")),
     BusinessRule("electric_power", "电力", _patterns(r"电力生产", r"火力发电", r"水力发电", r"核电", r"发电业务")),
+    BusinessRule("fertilizer", "化肥", _patterns(r"尿素", r"复合肥", r"磷肥", r"氮肥", r"化肥")),
     BusinessRule("coal", "煤炭", _patterns(r"煤炭", r"焦煤", r"动力煤", r"煤化工")),
     BusinessRule("oil_gas", "油气", _patterns(r"石油", r"天然气", r"油气")),
     BusinessRule("nonferrous_metals", "有色金属", _patterns(r"有色金属", r"铜产品", r"电解铝", r"锌锭", r"稀土")),
+    BusinessRule("jewelry_retail", "珠宝首饰零售", _patterns(
+        r"珠宝首饰(?:的)?(?:品牌运营管理|零售)", r"珠宝(?:品牌运营|零售)",
+    )),
     BusinessRule("precious_metals", "贵金属", _patterns(
         r"黄金", r"白银", r"贵金属", r"金银珠宝", r"黄金珠宝",
     )),
@@ -86,11 +109,8 @@ BUSINESS_RULES: tuple[BusinessRule, ...] = (
     BusinessRule("traditional_chinese_medicine", "中成药", _patterns(
         r"中成药", r"中药制剂", r"中药材", r"中药饮片",
     )),
-    BusinessRule("pharmaceuticals", "医药", _patterns(
-        r"药品及中间体", r"医药制药", r"化学原料药", r"化学药(?:制剂)?",
-        r"药品(?:研发|生产|销售)",
-    )),
-    BusinessRule("chemical", "化工", _patterns(r"化工产品", r"精细化工", r"化学原料")),
+    BusinessRule("pesticide", "农药", _patterns(r"化学农药", r"农药", r"杀虫剂", r"除草剂", r"杀菌剂")),
+    BusinessRule("chemical", "化工", _patterns(r"^化工$", r"化工产品", r"精细化工", r"化学原料")),
     BusinessRule("innovative_drugs", "创新药", _patterns(r"创新药", r"生物药", r"单克隆抗体", r"疫苗")),
     BusinessRule("medical_devices", "医疗器械", _patterns(r"医疗器械", r"医疗设备", r"诊断试剂", r"检测试剂")),
     BusinessRule("cro", "医药研发服务", _patterns(r"\bCRO\b", r"\bCDMO\b", r"医药研发服务", r"临床研究服务")),
@@ -98,13 +118,21 @@ BUSINESS_RULES: tuple[BusinessRule, ...] = (
     BusinessRule("securities", "证券", _patterns(r"证券经纪", r"证券投资", r"证券承销", r"券商")),
     BusinessRule("insurance", "保险", _patterns(r"保险业务", r"人寿保险", r"财产保险")),
     BusinessRule("real_estate", "房地产", _patterns(r"房地产开发", r"商品房")),
+    BusinessRule("commercial_real_estate_operations", "商贸流通运营", _patterns(
+        r"商贸流通运营", r"家居商贸(?:运营|卖场)",
+    )),
     BusinessRule("construction", "建筑工程", _patterns(r"建筑施工", r"工程承包", r"基础设施建设")),
     BusinessRule("building_materials", "建材", _patterns(r"建筑材料", r"水泥", r"玻璃纤维", r"防水材料")),
     BusinessRule("agriculture", "农业", _patterns(r"种子", r"种业", r"农作物", r"农业种植")),
     BusinessRule("animal_husbandry", "养殖", _patterns(r"生猪养殖", r"家禽养殖", r"水产养殖", r"饲料")),
-    BusinessRule("food_beverage", "食品饮料", _patterns(r"食品", r"饮料", r"乳制品", r"调味品")),
+    BusinessRule("food_beverage", "食品饮料", _patterns(
+        r"食品", r"饮料", r"冲饮", r"乳制品", r"调味品",
+    )),
     BusinessRule("liquor", "白酒", _patterns(r"白酒")),
     BusinessRule("retail", "零售", _patterns(r"商品零售", r"百货", r"连锁零售", r"电商平台")),
+    BusinessRule("smart_logistics", "智能物流", _patterns(
+        r"智能物流系统", r"智能仓储物流", r"智能生产物流", r"自动化立体仓库",
+    )),
     BusinessRule("logistics", "物流", _patterns(r"物流", r"供应链服务", r"快递")),
     BusinessRule("shipping", "航运港口", _patterns(r"航运", r"港口", r"海运")),
     BusinessRule("air_transport", "航空运输", _patterns(r"航空运输", r"航空客运", r"航空货运")),
@@ -112,6 +140,177 @@ BUSINESS_RULES: tuple[BusinessRule, ...] = (
     BusinessRule("media", "传媒", _patterns(r"传媒", r"广告业务", r"影视", r"出版")),
     BusinessRule("games", "游戏", _patterns(r"网络游戏", r"移动游戏", r"游戏研发")),
     BusinessRule("education", "教育", _patterns(r"教育培训", r"职业教育", r"教育服务")),
+)
+
+
+# Domains are deliberately much coarser than primary-business leaves.  They
+# power directory navigation only and must never replace the leaf used for
+# company identity or peer comparisons.
+BUSINESS_DOMAINS: tuple[BusinessDomain, ...] = (
+    BusinessDomain("chips", "芯片", frozenset({
+        "storage",
+        "package_substrate",
+        "pcb",
+        "electronic_assembly",
+        "semiconductor_equipment",
+        "semiconductor_material",
+        "wafer_foundry",
+        "chip_design",
+        "electronics_distribution",
+    })),
+    BusinessDomain("communications", "通信", frozenset({
+        "optical_fiber_cable",
+        "optical_module",
+        "communications_equipment",
+        "data_center",
+    })),
+    BusinessDomain("digital_technology", "数字科技", frozenset({
+        "software",
+        "cyber_security",
+        "games",
+    })),
+    BusinessDomain("industrial_manufacturing", "工业制造", frozenset({
+        "robotics",
+        "industrial_automation",
+        "smart_logistics",
+        "cooling_tower",
+        "color_sorter",
+    })),
+    BusinessDomain("automotive", "汽车", frozenset({
+        "auto_parts",
+        "new_energy_vehicle",
+    })),
+    BusinessDomain("new_energy", "新能源", frozenset({
+        "lithium_battery",
+        "photovoltaic",
+        "wind_power",
+    })),
+    BusinessDomain("utilities", "电力公用", frozenset({
+        "power_grid",
+        "electric_power",
+    })),
+    BusinessDomain("chemicals", "化工", frozenset({
+        "fertilizer",
+        "fluorochemicals",
+        "chemical",
+        "specialty_polymer_materials",
+    })),
+    BusinessDomain("resources", "资源", frozenset({
+        "coal",
+        "oil_gas",
+        "nonferrous_metals",
+        "precious_metals",
+        "steel",
+        "strontium_salts",
+    })),
+    BusinessDomain("medical_pharma", "医疗医药", frozenset({
+        "pharmaceuticals",
+        "traditional_chinese_medicine",
+        "innovative_drugs",
+        "medical_devices",
+        "cro",
+    })),
+    BusinessDomain("real_estate", "房地产", frozenset({
+        "real_estate",
+        "real_estate_services",
+        "commercial_real_estate_operations",
+    })),
+    BusinessDomain("consumer", "消费", frozenset({
+        "consumer_electronics",
+        "precision_structural_components",
+        "home_appliances",
+        "textiles",
+        "food_beverage",
+        "liquor",
+        "retail",
+        "tourism",
+        "bathroom_kitchen_products",
+        "jewelry_retail",
+    })),
+    BusinessDomain("finance", "金融", frozenset({
+        "banking",
+        "securities",
+        "insurance",
+    })),
+    BusinessDomain("infrastructure", "基建建材", frozenset({
+        "construction",
+        "building_materials",
+        "architectural_design",
+    })),
+    BusinessDomain("agriculture", "农业", frozenset({
+        "agriculture",
+        "corn_seed",
+        "animal_husbandry",
+        "pesticide",
+    })),
+    BusinessDomain("transport_logistics", "交通物流", frozenset({
+        "logistics",
+        "shipping",
+        "air_transport",
+    })),
+    BusinessDomain("media_education", "传媒教育", frozenset({
+        "media",
+        "education",
+    })),
+)
+
+
+# Human review teaches reusable directory relationships rather than permanent
+# per-symbol aliases.  Exact leaves remain the company identity.  A thematic
+# or downstream directory is selected only when the controlled leaf and the
+# disclosed evidence text satisfy the same rule.
+DIRECTORY_RULES: tuple[DirectoryRule, ...] = (
+    DirectoryRule(
+        "innovative_drugs",
+        "创新药",
+        frozenset({"traditional_chinese_medicine"}),
+        _patterns(r"创新药研发", r"中药创新药", r"化药创新药"),
+    ),
+    DirectoryRule(
+        "tungsten_hexafluoride",
+        "六氟化钨",
+        frozenset({"fluorochemicals"}),
+        _patterns(r"六氟化钨"),
+    ),
+    DirectoryRule(
+        "pcb",
+        "PCB",
+        frozenset({"specialty_polymer_materials"}),
+        _patterns(r"\bPCB\b", r"印制电路板", r"服务器用PCB"),
+    ),
+    DirectoryRule(
+        "ai_application",
+        "AI应用",
+        frozenset({"architectural_design"}),
+        _patterns(r"AI(?:建筑)?设计", r"AI Agent", r"自动成图", r"智能审图"),
+    ),
+    DirectoryRule(
+        "robotics",
+        "机器人",
+        frozenset({"smart_logistics"}),
+        _patterns(r"机器人", r"\bAGV\b"),
+    ),
+    DirectoryRule(
+        "consumer_electronics",
+        "消费电子",
+        frozenset({"precision_structural_components"}),
+        _patterns(r"消费电子", r"\b3C\b", r"智能终端", r"手机零部件"),
+    ),
+    DirectoryRule(
+        "chips",
+        "芯片",
+        frozenset({"electronics_distribution"}),
+        _patterns(r"半导体", r"芯片", r"授权分销"),
+    ),
+    DirectoryRule("small_metals", "小金属", frozenset({"strontium_salts"})),
+    DirectoryRule("medical_pharma", "医疗医药", frozenset({"pharmaceuticals"})),
+    DirectoryRule("real_estate", "房地产", frozenset({"real_estate_services"})),
+    DirectoryRule(
+        "consumer",
+        "消费",
+        frozenset({"textiles", "bathroom_kitchen_products"}),
+    ),
+    DirectoryRule("agriculture", "农业", frozenset({"corn_seed", "pesticide"})),
 )
 
 
@@ -129,7 +328,6 @@ _GENERIC_SEGMENTS = {
     "境外",
     "内销",
     "外销",
-    "销售商品",
     "合计特别调整",
     "分部间抵销",
 }
@@ -165,11 +363,50 @@ def business_rule_by_key(key: str) -> BusinessRule | None:
     return next((rule for rule in BUSINESS_RULES if rule.key == normalized), None)
 
 
+def business_domain_by_business_key(key: str | None) -> BusinessDomain | None:
+    normalized = str(key or "").strip()
+    if not normalized:
+        return None
+    return next(
+        (domain for domain in BUSINESS_DOMAINS if normalized in domain.business_keys),
+        None,
+    )
+
+
+def reviewed_directory_category(
+    business_key: str | None,
+    evidence_texts: Iterable[str],
+) -> tuple[str, str] | None:
+    """Return a learned market directory only when its evidence gate passes."""
+
+    normalized_key = str(business_key or "").strip()
+    if not normalized_key:
+        return None
+    corpus = "；".join(
+        str(item or "").strip()
+        for item in evidence_texts
+        if str(item or "").strip()
+    )
+    for rule in DIRECTORY_RULES:
+        if normalized_key not in rule.business_keys:
+            continue
+        if rule.evidence_patterns and not any(pattern.search(corpus) for pattern in rule.evidence_patterns):
+            continue
+        return rule.category_key, rule.category_name
+    return None
+
+
 __all__ = [
+    "BUSINESS_DOMAINS",
     "BUSINESS_RULES",
+    "DIRECTORY_RULES",
+    "BusinessDomain",
     "BusinessRule",
+    "DirectoryRule",
+    "business_domain_by_business_key",
     "business_rule_by_key",
     "business_rule_by_name",
     "clean_segment_name",
     "matched_business_rules",
+    "reviewed_directory_category",
 ]

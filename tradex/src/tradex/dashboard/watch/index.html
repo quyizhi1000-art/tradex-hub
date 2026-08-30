@@ -150,7 +150,7 @@
             </div>
           </div>
 
-          <div class="limit-up-pool-categories" id="limit-up-pool-categories" role="tablist" aria-label="按真实主营归属分类">
+          <div class="limit-up-pool-categories" id="limit-up-pool-categories" role="tablist" aria-label="按当期主显示归属分类">
             <button type="button" role="tab" aria-selected="true" data-limit-up-category="all">全部</button>
           </div>
 
@@ -160,9 +160,9 @@
 
           <footer class="limit-up-pool-method">
             <span>盘中每分钟刷新涨停名单、板数与首次封板时间。</span>
-            <span>主营归属和业务标签只读取统一真实归属库。</span>
-            <span>申万三级行业单独展示为统计行业，不覆盖公司主营。</span>
-            <span>目录无记录或主营未核验时明确留空，不用供应商原因补齐。</span>
+            <span>主显示优先读取当日人工复核或“行情题材 + 直接业务证据”的交叉归因。</span>
+            <span>长期主营仍只读取统一真实归属库，不被当日题材改写。</span>
+            <span>只有题材而无直接业务证据时退回长期目录，不用供应商原因单独补齐。</span>
           </footer>
         </div>
       </dialog>

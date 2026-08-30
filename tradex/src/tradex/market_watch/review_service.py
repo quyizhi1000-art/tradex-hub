@@ -31,6 +31,9 @@ from .review_store import (
     ARCHIVE_SCHEMA_VERSION,
     PostMarketReviewStore,
 )
+from tradex.data_gateway.review_announcement_contracts import (
+    ReviewOfficialAnnouncementArchiveV1,
+)
 
 
 SHANGHAI = ZoneInfo("Asia/Shanghai")
@@ -76,12 +79,18 @@ class PostMarketReviewService:
         ]
         | None = None,
         history_loader: Callable[[date], Sequence[Mapping[str, Any]]] | None = None,
+        official_announcement_loader: Callable[
+            [date],
+            ReviewOfficialAnnouncementArchiveV1 | Mapping[str, Any] | None,
+        ]
+        | None = None,
     ) -> None:
         self._snapshot_loader = snapshot_loader
         self.store = store
         self._clock = clock or (lambda: datetime.now(SHANGHAI))
         self._evidence_loader = evidence_loader
         self._history_loader = history_loader
+        self._official_announcement_loader = official_announcement_loader
         self._lock = threading.RLock()
         self._auto_date: date | None = None
         self._auto_attempts = 0
@@ -225,10 +234,16 @@ class PostMarketReviewService:
                     collect(item)
 
         collect(evidence_payload)
+        official_announcements = (
+            self._official_announcement_loader(review.trade_date)
+            if self._official_announcement_loader is not None
+            else None
+        )
         return build_post_market_review_presentation(
             review,
             previous_review=previous,
             business_profiles=read_profiles(instrument_ids),
+            official_announcements=official_announcements,
         ).model_dump(mode="json")
 
     def _result(self, action: str, review: PostMarketReviewV1) -> dict[str, Any]:

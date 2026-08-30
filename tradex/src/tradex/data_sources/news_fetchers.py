@@ -15,12 +15,15 @@
 from __future__ import annotations
 
 import hashlib
+import html
 import json
 import logging
+import re
 import time
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
 from typing import Any
 from urllib.parse import urlencode
+from zoneinfo import ZoneInfo
 
 import pandas as pd
 from curl_cffi import requests as curl_requests
@@ -32,6 +35,7 @@ logger = logging.getLogger("tradex.news")
 
 _UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
 _TIMEOUT = 15  # 秒
+_SHANGHAI = ZoneInfo("Asia/Shanghai")
 
 
 # ============================================================
@@ -391,6 +395,149 @@ def _resolve_org_id(symbol: str) -> str:
         return ""
 
 
+def _resolve_org_id_strict(symbol: str) -> str:
+    org_id = _resolve_org_id(symbol)
+    if not org_id:
+        raise RuntimeError(f"CNInfo orgId unavailable for {symbol}")
+    return org_id
+
+
+def _plain_cninfo_title(value: Any) -> str:
+    return html.unescape(re.sub(r"<[^>]+>", "", str(value or ""))).strip()
+
+
+def fetch_cninfo_candidate_announcements(
+    *,
+    candidates: list[dict[str, Any]],
+    start_date: str,
+    end_date: str,
+    page_size: int = 50,
+    max_pages_per_candidate: int = 2,
+    **kwargs,
+) -> dict[str, Any]:
+    """Strict, bounded official announcements for exact review candidates."""
+
+    start = date.fromisoformat(start_date)
+    end = date.fromisoformat(end_date)
+    if end < start or (end - start).days > 7:
+        raise ValueError("CNInfo candidate date window must be between 0 and 7 days")
+    bounded_page_size = min(max(int(page_size), 1), 50)
+    bounded_pages = min(max(int(max_pages_per_candidate), 1), 2)
+    if not isinstance(candidates, list) or not 1 <= len(candidates) <= 12:
+        raise ValueError("CNInfo candidate count must be between 1 and 12")
+
+    url = "http://www.cninfo.com.cn/new/hisAnnouncement/query"
+    headers = {
+        "User-Agent": _UA,
+        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+        "Origin": "http://www.cninfo.com.cn",
+        "Referer": "http://www.cninfo.com.cn/new/commonUrl/pageOfSearch?url=disclosure/list/search",
+        "X-Requested-With": "XMLHttpRequest",
+        "Accept": "*/*",
+    }
+    output: list[dict[str, Any]] = []
+    seen_candidates: set[str] = set()
+    for candidate in candidates:
+        instrument_id = str(candidate.get("instrument_id") or "").strip()
+        code, separator, exchange = instrument_id.partition(".")
+        if (
+            not separator
+            or not re.fullmatch(r"\d{6}", code)
+            or exchange not in {"SH", "SZ", "BJ"}
+            or instrument_id in seen_candidates
+        ):
+            raise ValueError("CNInfo candidate instrument is invalid or duplicated")
+        seen_candidates.add(instrument_id)
+        org_id = _resolve_org_id_strict(code)
+        for page_number in range(1, bounded_pages + 1):
+            post_data: dict[str, Any] = {
+                "pageNum": page_number,
+                "pageSize": str(bounded_page_size),
+                "column": "szse",
+                "tabName": "fulltext",
+                "plate": "",
+                "stock": f"{code},{org_id}",
+                "searchkey": "",
+                "secid": "",
+                "category": "",
+                "trade": "",
+                "seDate": f"{start.isoformat()}~{end.isoformat()}",
+                "sortName": "",
+                "sortType": "",
+                "isHLtitle": "true",
+            }
+            wait_for_free_source(
+                "free:cninfo:web",
+                interval_env="CNINFO_FREE_RATE_LIMIT_INTERVAL",
+                default_interval=1.0,
+                max_wait_env="CNINFO_FREE_MAX_QUEUE_WAIT",
+                default_max_wait=4.0,
+                label="CNInfo free",
+            )
+            response = curl_requests.post(
+                url,
+                data=post_data,
+                headers=headers,
+                timeout=_TIMEOUT,
+            )
+            response.raise_for_status()
+            result = response.json()
+            announcements = result.get("announcements")
+            if announcements is None and int(result.get("totalAnnouncement") or 0) == 0:
+                announcements = []
+            if not isinstance(announcements, list):
+                raise RuntimeError("CNInfo announcements payload is malformed")
+            total_pages = int(result.get("totalpages") or 0)
+            if total_pages > bounded_pages:
+                raise RuntimeError(
+                    f"CNInfo candidate result exceeds bounded pages for {code}"
+                )
+            for announcement in announcements:
+                if not isinstance(announcement, dict):
+                    raise RuntimeError("CNInfo announcement row is malformed")
+                if str(announcement.get("secCode") or "").strip() != code:
+                    continue
+                title = _plain_cninfo_title(announcement.get("announcementTitle"))
+                announcement_id = str(
+                    announcement.get("announcementId") or ""
+                ).strip()
+                timestamp_ms = announcement.get("announcementTime")
+                adjunct_url = str(announcement.get("adjunctUrl") or "").lstrip("/")
+                if not title or not announcement_id or not timestamp_ms or not adjunct_url:
+                    raise RuntimeError("CNInfo announcement is missing required fields")
+                published_at = datetime.fromtimestamp(
+                    float(timestamp_ms) / 1000,
+                    tz=_SHANGHAI,
+                )
+                output.append(
+                    {
+                        "announcement_id": announcement_id,
+                        "instrument_id": instrument_id,
+                        "name": str(announcement.get("secName") or candidate.get("name") or "").strip(),
+                        "title": title,
+                        "published_at": published_at.isoformat(),
+                        "publication_precision": (
+                            "date"
+                            if published_at.hour == published_at.minute == published_at.second == 0
+                            else "timestamp"
+                        ),
+                        "announcement_type": str(
+                            announcement.get("announcementTypeName") or ""
+                        ).strip()
+                        or None,
+                        "source_url": f"https://static.cninfo.com.cn/{adjunct_url}",
+                        "source": "cninfo",
+                    }
+                )
+            if page_number >= total_pages:
+                break
+    return {
+        "provider": "cninfo",
+        "start_date": start.isoformat(),
+        "end_date": end.isoformat(),
+        "candidates": candidates,
+        "announcements": output,
+    }
 # ============================================================
 # 新浪财经新闻直连 — sina_finance_news
 # ============================================================

@@ -30,6 +30,7 @@ from tradex.data_gateway.contracts import (
     SectorQuoteSeriesV1,
     StockFundFlowSeriesV1,
 )
+from tradex.data_gateway.limit_sentiment_contracts import LimitSentimentDailyV1
 
 from .contracts import ContractModel, MarketWatchSnapshotV1
 from .session_schedule import (
@@ -49,7 +50,11 @@ EVIDENCE_COMPONENT_ORDER = (
     "limit_events",
     "stock_fund_flow",
     "dragon_tiger",
+    "limit_sentiment",
     "intraday_history",
+)
+LEGACY_EVIDENCE_COMPONENT_ORDER = tuple(
+    item for item in EVIDENCE_COMPONENT_ORDER if item != "limit_sentiment"
 )
 
 
@@ -309,8 +314,9 @@ class DailyMarketReviewEvidenceV1(ContractModel):
     limit_events: LimitReviewSummaryV1 | None = None
     stock_fund_flow: StockFundFlowReviewSummaryV1 | None = None
     dragon_tiger: DragonTigerReviewSummaryV1 | None = None
+    limit_sentiment: LimitSentimentDailyV1 | None = None
     intraday: IntradayReviewSummaryV1
-    components: tuple[EvidenceComponentV1, ...] = Field(min_length=10, max_length=10)
+    components: tuple[EvidenceComponentV1, ...] = Field(min_length=10, max_length=11)
     quality_notes: tuple[str, ...] = ()
 
     @field_validator("collected_at")
@@ -326,8 +332,17 @@ class DailyMarketReviewEvidenceV1(ContractModel):
             raise ValueError("evidence collection cannot predate trade_date")
         if self.market_watch.market_state.trading_date != self.trade_date:
             raise ValueError("market_watch date must match evidence trade_date")
-        if tuple(item.component for item in self.components) != EVIDENCE_COMPONENT_ORDER:
+        component_order = tuple(item.component for item in self.components)
+        expected_order = (
+            EVIDENCE_COMPONENT_ORDER
+            if len(self.components) == len(EVIDENCE_COMPONENT_ORDER)
+            else LEGACY_EVIDENCE_COMPONENT_ORDER
+        )
+        if component_order != expected_order:
             raise ValueError("evidence components must use the canonical order")
+        if len(self.components) == len(LEGACY_EVIDENCE_COMPONENT_ORDER):
+            if self.limit_sentiment is not None:
+                raise ValueError("legacy evidence cannot carry limit sentiment")
         expected_presence = {
             "market_universe": self.universe is not None,
             "etfs": self.etfs is not None,
@@ -337,6 +352,8 @@ class DailyMarketReviewEvidenceV1(ContractModel):
             "stock_fund_flow": self.stock_fund_flow is not None,
             "dragon_tiger": self.dragon_tiger is not None,
         }
+        if "limit_sentiment" in component_order:
+            expected_presence["limit_sentiment"] = self.limit_sentiment is not None
         by_name = {item.component: item for item in self.components}
         for name, present in expected_presence.items():
             if present == (by_name[name].status == EvidenceStatus.UNAVAILABLE):
@@ -675,6 +692,7 @@ def collect_daily_market_review_evidence(
     history_samples: Sequence[Mapping[str, Any]] = (),
     collected_at: datetime | None = None,
     loaders: Mapping[str, Callable[[], Any]] | None = None,
+    limit_sentiment: LimitSentimentDailyV1 | Mapping[str, Any] | None = None,
 ) -> DailyMarketReviewEvidenceV1:
     """Collect each configured market surface once with independent degradation."""
 
@@ -709,6 +727,8 @@ def collect_daily_market_review_evidence(
     values: dict[str, Any] = {}
     errors: dict[str, Exception | str] = {}
     for name in EVIDENCE_COMPONENT_ORDER[1:-1]:
+        if name == "limit_sentiment":
+            continue
         loader = loaders.get(name)
         if loader is None:
             errors[name] = "loader_missing"
@@ -717,6 +737,17 @@ def collect_daily_market_review_evidence(
             values[name] = loader()
         except Exception as exc:  # component failures are intentionally isolated
             errors[name] = exc
+
+    if limit_sentiment is None:
+        errors["limit_sentiment"] = "sentiment_archive_missing"
+    else:
+        try:
+            canonical_sentiment = LimitSentimentDailyV1.model_validate(limit_sentiment)
+            if canonical_sentiment.trade_date != trade_date:
+                raise ValueError("component_trade_date_mismatch")
+            values["limit_sentiment"] = canonical_sentiment
+        except Exception as exc:
+            errors["limit_sentiment"] = exc
 
     summaries: dict[str, Any] = {}
     names: dict[str, str] = {}
@@ -766,6 +797,11 @@ def collect_daily_market_review_evidence(
         "limit_events": values["limit_events"].pool_total if "limit_events" in values else 0,
         "stock_fund_flow": len(values["stock_fund_flow"].flows) if "stock_fund_flow" in values else 0,
         "dragon_tiger": len(values["dragon_tiger"].trades) if "dragon_tiger" in values else 0,
+        "limit_sentiment": (
+            values["limit_sentiment"].attempted_count
+            if "limit_sentiment" in values
+            else 0
+        ),
     }
     for name in EVIDENCE_COMPONENT_ORDER[1:-1]:
         components.append(_metadata_component(name, values[name], counts[name]) if name in values else _unavailable(name, errors.get(name, "unavailable")))
@@ -795,6 +831,7 @@ def collect_daily_market_review_evidence(
         limit_events=summaries.get("limit_events"),
         stock_fund_flow=summaries.get("stock_fund_flow"),
         dragon_tiger=summaries.get("dragon_tiger"),
+        limit_sentiment=values.get("limit_sentiment"),
         intraday=intraday,
         components=tuple(components),
         quality_notes=tuple(quality_notes),

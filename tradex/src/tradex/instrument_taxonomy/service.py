@@ -16,6 +16,25 @@ from .store import InstrumentTaxonomyStore
 SHANGHAI = ZoneInfo("Asia/Shanghai")
 
 
+def _require_publishable_source(source: Mapping[str, Any]) -> None:
+    reporting_periods = tuple(
+        str(item).strip()
+        for item in source.get("reporting_periods", ())
+        if str(item).strip()
+    )
+    if not reporting_periods:
+        return
+    latest_period = max(reporting_periods)
+    unavailable_prefix = f"business_segments_unavailable:{latest_period}:"
+    if any(
+        str(flag).startswith(unavailable_prefix)
+        for flag in source.get("flags", ())
+    ):
+        raise RuntimeError(
+            "latest business segments are unavailable; preserving the prior catalog"
+        )
+
+
 class InstrumentTaxonomyService:
     def __init__(self, store: InstrumentTaxonomyStore | None = None) -> None:
         self.store = store or InstrumentTaxonomyStore()
@@ -37,6 +56,7 @@ class InstrumentTaxonomyService:
 
             source_loader = fetch_stock_relationship_source_bundle
         source = source_loader(as_of)
+        _require_publishable_source(source)
         status, profiles = build_stock_relationship_catalog(
             source,
             generated_at=generated_at,

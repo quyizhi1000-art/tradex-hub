@@ -36,6 +36,75 @@ def _bar(
     }
 
 
+def test_limit_sentiment_fetcher_reads_four_bounded_same_provider_tables(monkeypatch):
+    calls = []
+
+    def fake_request(api_name, params=None, fields=None):
+        calls.append((api_name, dict(params or {}), tuple(fields or ())))
+        if api_name == "daily":
+            return _result(
+                _bar(
+                    "20260828",
+                    open_price=11,
+                    high=11.2,
+                    low=10.5,
+                    close=10.8,
+                    pre_close=10,
+                    vol=1_000,
+                    amount=11_000,
+                ),
+                request_id="daily-request",
+            )
+        limit_type = params["limit_type"]
+        trade_date = params["trade_date"]
+        if limit_type == "炸板池":
+            return _result(
+                {
+                    "trade_date": trade_date,
+                    "ts_code": "000002.SZ",
+                    "name": "炸板股",
+                    "pct_chg": 5.2,
+                    "tag": "首板",
+                },
+                request_id="broken-request",
+            )
+        return _result(
+            {
+                "trade_date": trade_date,
+                "ts_code": "000001.SZ",
+                "name": "涨停股",
+                "pct_chg": 10.0,
+                "tag": "首板",
+            },
+            request_id=f"limit-{trade_date}",
+        )
+
+    monkeypatch.setattr(tushare_fetchers, "_request", fake_request)
+
+    payload = tushare_fetchers.fetch_limit_sentiment_daily(
+        trade_date="2026-08-28",
+        previous_trade_date="2026-08-27",
+    )
+
+    assert [item[0] for item in calls] == [
+        "limit_list_ths",
+        "limit_list_ths",
+        "limit_list_ths",
+        "daily",
+    ]
+    assert calls[0][1]["limit_type"] == "涨停池"
+    assert calls[1][1]["limit_type"] == "炸板池"
+    assert calls[2][1]["trade_date"] == "20260827"
+    assert all(item[1]["offset"] == 0 for item in calls)
+    assert payload["trade_date"] == "2026-08-28"
+    assert payload["previous_trade_date"] == "2026-08-27"
+    assert len(payload["limit_up"]) == 1
+    assert len(payload["broken"]) == 1
+    assert len(payload["previous_limit_up"]) == 1
+    assert len(payload["daily"]) == 1
+    assert "daily-request" in payload["request_id"]
+
+
 def test_realtime_quote_keeps_documented_rt_k_share_and_yuan_units(monkeypatch):
     calls = []
 
