@@ -27,6 +27,16 @@ def _disable_review_announcement_network(monkeypatch):
             "rematerialize_job_id": "fixture",
         },
     )
+    monkeypatch.setattr(
+        collector_worker,
+        "_refresh_manual_portfolio_market",
+        lambda: {
+            "portfolio_revision": "7" * 64,
+            "snapshot_revision": "8" * 64,
+            "item_count": 0,
+            "alert_count": 0,
+        },
+    )
 
 
 def test_status_is_ledger_only_and_does_not_import_dashboard_provider_runtime(
@@ -498,6 +508,18 @@ def test_intraday_loop_generates_one_batch_for_the_five_minute_bucket(monkeypatc
     observed = datetime(2026, 8, 26, 10, 37, tzinfo=SHANGHAI)
     calls = []
     pool_calls = []
+    portfolio_calls = []
+    monkeypatch.setattr(
+        collector_worker,
+        "_refresh_manual_portfolio_market",
+        lambda: portfolio_calls.append(observed)
+        or {
+            "portfolio_revision": "7" * 64,
+            "snapshot_revision": "8" * 64,
+            "item_count": 2,
+            "alert_count": 0,
+        },
+    )
 
     def generate(*, reuse_existing):
         assert reuse_existing is True
@@ -523,6 +545,7 @@ def test_intraday_loop_generates_one_batch_for_the_five_minute_bucket(monkeypatc
 
     assert calls == [observed]
     assert pool_calls == [(observed, True)]
+    assert portfolio_calls == [observed]
 
 
 def test_intraday_loop_rechecks_a_new_minute_instead_of_waiting_five_minutes(

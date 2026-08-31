@@ -19,6 +19,13 @@ JS = (WATCH_DIR / "app.js").read_text(encoding="utf-8")
 def _bare_handler() -> dashboard_app.DashboardHandler:
     handler = dashboard_app.DashboardHandler.__new__(dashboard_app.DashboardHandler)
     handler.wfile = BytesIO()
+    handler.rfile = BytesIO(b"{}")
+    handler.headers = {
+        "Content-Type": "application/json",
+        "Content-Length": "2",
+        "Origin": "http://127.0.0.1:8765",
+        "Host": "127.0.0.1:8765",
+    }
     return handler
 
 

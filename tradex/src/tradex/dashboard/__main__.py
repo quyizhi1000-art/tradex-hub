@@ -22,6 +22,10 @@
   POST /api/daily-stock-selection → 排队生成当日候选池
   GET /api/stock-selection/strategies → 读取独立策略清单
   GET /api/stock-selection/results → 读取独立策略结果与评估
+  GET /api/manual-portfolio → 读取手动维护的持仓观察列表
+  GET /api/manual-portfolio/market → 读取 Collector 物化的持仓行情与提醒
+  POST /api/manual-portfolio → 显式新增、更新或删除手动代码
+  POST /api/manual-portfolio/outlook → 排队生成条件式持仓前瞻
   GET /api/market      → 兼容的指数实时行情 JSON
   GET /api/risk-appetite → 兼容的市场参与度与资金风格信号 JSON
   GET /api/dashboard   → 看板数据 JSON（与 MCP 工具 get_data_source_dashboard 结构一致）
@@ -877,6 +881,179 @@ def get_stock_relationships(symbol: str | None = None) -> dict:
     }
 
 
+def get_manual_portfolio() -> dict:
+    """Read the manually maintained list without creating persistence state."""
+
+    from tradex.manual_portfolio.contracts import ManualPortfolioV1
+    from tradex.manual_portfolio.store import ManualPortfolioReader, portfolio_revision
+
+    now = datetime.now(ZoneInfo("Asia/Shanghai"))
+    with ManualPortfolioReader() as reader:
+        items = reader.list_entries()
+    return ManualPortfolioV1(
+        revision=portfolio_revision(items),
+        generated_at=now,
+        enabled_count=sum(item.enabled for item in items),
+        items=items,
+    ).model_dump(mode="json")
+
+
+def mutate_manual_portfolio(command: dict) -> dict:
+    """Apply one explicit, local manual-list command through the domain service."""
+
+    from tradex.manual_portfolio.service import ManualPortfolioService
+    from tradex.manual_portfolio.store import ManualPortfolioStore
+
+    action = str(command.get("action") or "").strip().lower()
+    if action not in {"add", "update", "delete"}:
+        raise ValueError("action 必须是 add、update 或 delete")
+    symbol = str(command.get("instrument_id") or "").strip()
+    if not symbol:
+        raise ValueError("instrument_id 不能为空")
+    if "enabled" in command and not isinstance(command["enabled"], bool):
+        raise ValueError("enabled 必须是布尔值")
+    now = datetime.now(ZoneInfo("Asia/Shanghai"))
+    with ManualPortfolioStore() as store:
+        service = ManualPortfolioService(store)
+        if action == "add":
+            entry = service.add(
+                symbol,
+                display_name=command.get("display_name"),
+                note=command.get("note"),
+                enabled=command.get("enabled", True),
+                now=now,
+            )
+            outcome = {"action": "added", "entry": entry.model_dump(mode="json")}
+        elif action == "update":
+            changes = {
+                key: command[key]
+                for key in ("display_name", "note", "enabled")
+                if key in command
+            }
+            if not changes:
+                raise ValueError("update 至少需要一个可更新字段")
+            entry = service.update(symbol, now=now, **changes)
+            outcome = {"action": "updated", "entry": entry.model_dump(mode="json")}
+        else:
+            deleted = service.delete(symbol)
+            if not deleted:
+                raise LookupError("证券代码不在持仓观察中")
+            from tradex.data_gateway.securities import canonical_instrument_id
+
+            outcome = {
+                "action": "deleted",
+                "instrument_id": canonical_instrument_id(symbol),
+            }
+        portfolio = service.read(now=now).model_dump(mode="json")
+    return {
+        "contract": "manual_portfolio_command_result.v1",
+        "schema_version": 1,
+        **outcome,
+        "portfolio": portfolio,
+    }
+
+
+def get_manual_portfolio_market() -> dict:
+    from tradex.manual_portfolio.store import ManualPortfolioReader
+
+    with ManualPortfolioReader() as reader:
+        snapshot = reader.latest_snapshot()
+    if snapshot is None:
+        raise LookupError("持仓行情正在由采集进程准备")
+    return snapshot.model_dump(mode="json")
+
+
+def generate_manual_portfolio_outlook() -> dict:
+    from tradex.analysis_jobs import MANUAL_PORTFOLIO_OUTLOOK
+    from tradex.manual_portfolio.store import ManualPortfolioReader, portfolio_revision
+
+    with ManualPortfolioReader() as reader:
+        entries = reader.list_entries()
+        snapshot = reader.latest_snapshot()
+    if snapshot is None:
+        raise LookupError("请等待采集进程先生成持仓行情")
+    current_revision = portfolio_revision(entries)
+    if snapshot.portfolio_revision != current_revision:
+        raise ValueError("持仓列表已变化，请等待下一次行情刷新后再生成前瞻")
+    now = datetime.now(ZoneInfo("Asia/Shanghai"))
+    job = _get_analysis_job_store().enqueue(
+        MANUAL_PORTFOLIO_OUTLOOK,
+        trade_date=now.date(),
+        trigger="manual",
+        scope_key=f"portfolio:{current_revision}",
+        requested_at=now,
+    )
+    return _generation_payload(job, contract="manual_portfolio_outlook_generation.v1")
+
+
+def get_manual_portfolio_outlook_generation() -> dict:
+    from tradex.analysis_jobs import MANUAL_PORTFOLIO_OUTLOOK
+
+    job = _get_analysis_job_reader().latest_job(MANUAL_PORTFOLIO_OUTLOOK)
+    return _generation_payload(job, contract="manual_portfolio_outlook_generation.v1")
+
+
+def get_manual_portfolio_outlook() -> dict:
+    from tradex.analysis_jobs import MANUAL_PORTFOLIO_OUTLOOK
+    from tradex.manual_portfolio.store import ManualPortfolioReader, portfolio_revision
+
+    artifact = _get_analysis_job_reader().get_artifact(
+        MANUAL_PORTFOLIO_OUTLOOK,
+        scope_key="latest",
+    )
+    if artifact is None:
+        raise LookupError("条件式前瞻尚未生成")
+    with ManualPortfolioReader() as reader:
+        current_revision = portfolio_revision(reader.list_entries())
+    payload = dict(artifact["payload"])
+    if payload.get("portfolio_revision") != current_revision:
+        raise LookupError("持仓列表已变化，请重新生成条件式前瞻")
+    payload["artifact_revision"] = artifact["payload_digest"]
+    payload["artifact_generated_at"] = artifact["generated_at"]
+    return payload
+
+
+class DashboardWriteRejected(ValueError):
+    def __init__(self, status: int, message: str) -> None:
+        super().__init__(message)
+        self.status = status
+
+
+def _read_same_origin_json_body(handler, *, max_bytes: int = 16_384) -> dict:
+    """Reject form posts, oversized bodies and cross-origin local writes."""
+
+    content_type = str(handler.headers.get("Content-Type") or "")
+    if content_type.split(";", 1)[0].strip().lower() != "application/json":
+        raise DashboardWriteRejected(415, "写接口仅接受 application/json")
+    origin = str(handler.headers.get("Origin") or "").strip()
+    host = str(handler.headers.get("Host") or "").strip().lower()
+    parsed_origin = urlsplit(origin)
+    if (
+        parsed_origin.scheme.lower() != "http"
+        or parsed_origin.netloc.lower() != host
+        or parsed_origin.hostname not in {"127.0.0.1", "localhost"}
+        or parsed_origin.path not in {"", "/"}
+    ):
+        raise DashboardWriteRejected(403, "写接口要求同源本地页面")
+    raw_length = handler.headers.get("Content-Length")
+    try:
+        length = int(raw_length)
+    except (TypeError, ValueError) as exc:
+        raise DashboardWriteRejected(411, "缺少有效 Content-Length") from exc
+    if not 0 < length <= max_bytes:
+        raise DashboardWriteRejected(413, "请求体大小无效或超过限制")
+    raw = handler.rfile.read(length)
+    if len(raw) != length:
+        raise DashboardWriteRejected(400, "请求体不完整")
+    try:
+        payload = json.loads(raw.decode("utf-8"))
+    except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+        raise DashboardWriteRejected(400, "JSON 请求体无效") from exc
+    if not isinstance(payload, dict):
+        raise DashboardWriteRejected(400, "JSON 请求体必须是对象")
+    return payload
+
+
 class DashboardHandler(BaseHTTPRequestHandler):
     """看板 HTTP 请求处理器。"""
 
@@ -923,6 +1100,14 @@ class DashboardHandler(BaseHTTPRequestHandler):
             self._handle_stock_relationships_api(
                 symbol=query.get("symbol", [None])[0],
             )
+        elif request.path == "/api/manual-portfolio":
+            self._handle_manual_portfolio_read_api()
+        elif request.path == "/api/manual-portfolio/market":
+            self._handle_manual_portfolio_market_api()
+        elif request.path == "/api/manual-portfolio/outlook":
+            self._handle_manual_portfolio_outlook_api()
+        elif request.path == "/api/manual-portfolio/outlook/generation":
+            self._handle_manual_portfolio_outlook_generation_api()
         elif request.path == "/api/market-watch":
             self._handle_market_watch_legacy_api()
         elif request.path == "/api/market-watch/history":
@@ -985,14 +1170,29 @@ class DashboardHandler(BaseHTTPRequestHandler):
 
     def do_POST(self):  # noqa: N802 - stdlib 接口命名
         request = urlsplit(self.path)
+        supported = {
+            "/api/post-market-review",
+            "/api/market-watch/daily-recovery",
+            "/api/daily-stock-selection",
+            "/api/manual-portfolio",
+            "/api/manual-portfolio/outlook",
+        }
+        if request.path not in supported:
+            self.send_error(404)
+            return
+        command = self._read_local_json_command()
+        if command is None:
+            return
         if request.path == "/api/post-market-review":
             self._handle_post_market_review_api()
         elif request.path == "/api/market-watch/daily-recovery":
             self._handle_market_watch_daily_recovery_api()
         elif request.path == "/api/daily-stock-selection":
             self._handle_daily_stock_selection_api()
-        else:
-            self.send_error(404)
+        elif request.path == "/api/manual-portfolio":
+            self._handle_manual_portfolio_command_api(command)
+        elif request.path == "/api/manual-portfolio/outlook":
+            self._handle_manual_portfolio_outlook_command_api(command)
 
     def _handle_html(self):
         try:
@@ -1019,6 +1219,72 @@ class DashboardHandler(BaseHTTPRequestHandler):
             self.send_error(404)
         except Exception as e:
             self._send_json(500, {"error": str(e)})
+
+    def _handle_manual_portfolio_read_api(self):
+        try:
+            self._send_json(200, get_manual_portfolio())
+        except Exception:
+            logger.exception("manual portfolio read failed")
+            self._send_json(502, {"error": "手动持仓列表暂不可读"})
+
+    def _handle_manual_portfolio_market_api(self):
+        try:
+            self._send_json(200, get_manual_portfolio_market())
+        except LookupError as exc:
+            self._send_json(503, {"error": str(exc)})
+        except Exception:
+            logger.exception("manual portfolio market read failed")
+            self._send_json(502, {"error": "持仓行情暂不可读"})
+
+    def _handle_manual_portfolio_outlook_api(self):
+        try:
+            self._send_json(200, get_manual_portfolio_outlook())
+        except LookupError as exc:
+            self._send_json(503, {"error": str(exc)})
+        except Exception:
+            logger.exception("manual portfolio outlook read failed")
+            self._send_json(502, {"error": "条件式前瞻暂不可读"})
+
+    def _handle_manual_portfolio_outlook_generation_api(self):
+        try:
+            self._send_json(200, get_manual_portfolio_outlook_generation())
+        except LookupError as exc:
+            self._send_json(503, {"error": str(exc)})
+        except Exception:
+            logger.exception("manual portfolio outlook status read failed")
+            self._send_json(502, {"error": "条件式前瞻任务状态暂不可读"})
+
+    def _read_local_json_command(self) -> dict | None:
+        try:
+            return _read_same_origin_json_body(self)
+        except DashboardWriteRejected as exc:
+            self._send_json(exc.status, {"error": str(exc)})
+            return None
+
+    def _handle_manual_portfolio_command_api(self, command: dict):
+        try:
+            self._send_json(200, mutate_manual_portfolio(command))
+        except ValueError as exc:
+            self._send_json(400, {"error": str(exc)})
+        except LookupError as exc:
+            self._send_json(404, {"error": str(exc)})
+        except Exception:
+            logger.exception("manual portfolio command failed")
+            self._send_json(502, {"error": "手动持仓修改失败"})
+
+    def _handle_manual_portfolio_outlook_command_api(self, command: dict):
+        if command not in ({}, {"action": "generate"}):
+            self._send_json(400, {"error": "仅支持 generate 命令"})
+            return
+        try:
+            result = generate_manual_portfolio_outlook()
+            status = 202 if result.get("state") in {"queued", "running"} else 200
+            self._send_json(status, result)
+        except (ValueError, LookupError) as exc:
+            self._send_json(409, {"error": str(exc)})
+        except Exception:
+            logger.exception("manual portfolio outlook enqueue failed")
+            self._send_json(502, {"error": "条件式前瞻任务排队失败"})
 
     def _handle_api(self):
         try:

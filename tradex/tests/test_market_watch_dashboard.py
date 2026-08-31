@@ -16,7 +16,13 @@ from tradex.market_watch.web_api import MarketWatchHttpResponse
 def _bare_handler() -> dashboard_app.DashboardHandler:
     handler = dashboard_app.DashboardHandler.__new__(dashboard_app.DashboardHandler)
     handler.wfile = BytesIO()
-    handler.headers = {}
+    handler.rfile = BytesIO(b"{}")
+    handler.headers = {
+        "Content-Type": "application/json",
+        "Content-Length": "2",
+        "Origin": "http://127.0.0.1:8765",
+        "Host": "127.0.0.1:8765",
+    }
     return handler
 
 
