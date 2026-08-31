@@ -482,6 +482,46 @@
           </article>
         </section>
 
+        <section class="section-block manual-portfolio-block" id="manual-portfolio-section" aria-labelledby="manual-portfolio-heading">
+          <div class="section-heading manual-portfolio-heading">
+            <div>
+              <span class="section-kicker">MANUAL PORTFOLIO WATCH</span>
+              <h2 id="manual-portfolio-heading">持仓观察 <small>最多启用 40 个代码</small></h2>
+              <p><strong>手动维护，并非券商账户事实。</strong> 这里只保存证券代码和可选名称/备注；不记录数量、成本、盈亏、现金或实际可卖状态。</p>
+            </div>
+            <div class="manual-portfolio-heading__status">
+              <span class="panel-state" id="manual-portfolio-status">正在读取手动列表…</span>
+              <button class="button button-primary" id="manual-portfolio-outlook-button" type="button" disabled>生成条件式前瞻</button>
+            </div>
+          </div>
+
+          <form class="manual-portfolio-form" id="manual-portfolio-form">
+            <label>证券代码<input id="manual-portfolio-code" name="instrument_id" inputmode="numeric" maxlength="12" placeholder="例如 000001" required></label>
+            <label>名称（可选）<input id="manual-portfolio-name" name="display_name" maxlength="80" placeholder="目录有名称时可留空"></label>
+            <label class="manual-portfolio-form__note">备注（可选）<input id="manual-portfolio-note" name="note" maxlength="500" placeholder="只写观察备注，不写账户数据"></label>
+            <button class="button button-secondary" id="manual-portfolio-add-button" type="submit">新增代码</button>
+          </form>
+
+          <div class="manual-portfolio-table-scroll" tabindex="0" aria-label="手动持仓观察列表">
+            <table class="manual-portfolio-table">
+              <thead><tr><th scope="col">代码 / 名称</th><th scope="col">行情</th><th scope="col">质量</th><th scope="col">备注</th><th scope="col">状态与操作</th></tr></thead>
+              <tbody id="manual-portfolio-table-body"><tr><td colspan="5" class="manual-portfolio-empty">尚未手工添加证券代码。</td></tr></tbody>
+            </table>
+          </div>
+
+          <div class="manual-portfolio-lower-grid">
+            <article class="panel">
+              <div class="panel-heading"><h3>条件式前瞻</h3><span class="panel-state" id="manual-portfolio-outlook-status">尚未生成</span></div>
+              <div class="manual-portfolio-outlook" id="manual-portfolio-outlook"><p class="empty-state">前瞻由 Analysis Worker 基于采集进程物化的行情生成；只写确认条件和失效条件，不给确定性价格预测。</p></div>
+            </article>
+            <article class="panel">
+              <div class="panel-heading"><h3>盘中观察提醒</h3><span class="panel-state">observation-only</span></div>
+              <p class="manual-portfolio-notification-note">仅在本页面打开、浏览器已授权通知时尝试送达；页面关闭不保证送达。stale / degraded / unavailable 会抑制方向性通知。</p>
+              <div class="manual-portfolio-alerts" id="manual-portfolio-alerts"><p class="empty-state">暂无新鲜样本触发的观察提醒。</p></div>
+            </article>
+          </div>
+        </section>
+
         <section class="section-block stock-selection-block" id="stock-selection-section" aria-labelledby="stock-selection-heading">
           <div class="stock-selection-launcher">
             <div>

@@ -257,6 +257,7 @@ def ohlcv_series_to_legacy_records(
 
 
 __all__ = [
+    "canonical_instrument_id",
     "fetch_ohlcv_series",
     "fetch_quote_snapshot",
     "ohlcv_series_to_legacy_records",

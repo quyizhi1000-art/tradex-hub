@@ -14,6 +14,10 @@
   const STOCK_SELECTION_RESULTS_ENDPOINT = "/api/stock-selection/results";
   const STOCK_SELECTION_GENERATE_ENDPOINT = "/api/daily-stock-selection";
   const STOCK_SELECTION_GENERATION_ENDPOINT = "/api/daily-stock-selection/generation";
+  const MANUAL_PORTFOLIO_ENDPOINT = "/api/manual-portfolio";
+  const MANUAL_PORTFOLIO_MARKET_ENDPOINT = "/api/manual-portfolio/market";
+  const MANUAL_PORTFOLIO_OUTLOOK_ENDPOINT = "/api/manual-portfolio/outlook";
+  const MANUAL_PORTFOLIO_OUTLOOK_GENERATION_ENDPOINT = "/api/manual-portfolio/outlook/generation";
   const POLL_INTERVAL_MS = 15_000;
   const POLL_WATCHDOG_INTERVAL_MS = 1_000;
   const RESONANCE_REFRESH_INTERVAL_MS = 30_000;
@@ -67,6 +71,7 @@
     sectorFlowSelection: "tradex.marketWatch.sectorFlowSelection.v1",
     offenseSectorFlowSelection: "tradex.marketWatch.offenseSectorFlowSelection.v2",
     sectorFlowSurgeThreshold: "tradex.marketWatch.sectorFlowSurgeThreshold.v1",
+    manualPortfolioDeliveredAlerts: "tradex.manualPortfolio.deliveredAlerts.v1",
   };
 
   const ROLE_CONFIG = {
@@ -109,6 +114,15 @@
     limitUpPoolRetryTimer: null,
     limitUpPoolRevision: null,
     muted: readStoredText(STORAGE_KEYS.muted) === "true",
+    manualPortfolio: null,
+    manualPortfolioMarket: null,
+    manualPortfolioFetchInFlight: false,
+    manualPortfolioMutationInFlight: false,
+    manualPortfolioOutlook: null,
+    manualPortfolioOutlookPollTimer: null,
+    manualPortfolioDeliveredAlerts: new Set(
+      loadStoredArray(STORAGE_KEYS.manualPortfolioDeliveredAlerts),
+    ),
     nextPollAt: 0,
     notificationEnabled: false,
     readAlertKeys: new Set(loadStoredArray(STORAGE_KEYS.readAlerts)),
@@ -3394,7 +3408,8 @@
       const response = await fetch(STOCK_SELECTION_GENERATE_ENDPOINT, {
         method: "POST",
         cache: "no-store",
-        headers: { Accept: "application/json" },
+        headers: { Accept: "application/json", "Content-Type": "application/json" },
+        body: "{}",
       });
       const payload = await response.json();
       if (!response.ok) throw new Error(text(payload.error, `服务返回 ${response.status}`));
@@ -4200,7 +4215,8 @@
       const response = await fetch(REVIEW_GENERATE_ENDPOINT, {
         method: "POST",
         cache: "no-store",
-        headers: { Accept: "application/json" },
+        headers: { Accept: "application/json", "Content-Type": "application/json" },
+        body: "{}",
       });
       const payload = await response.json();
       if (!response.ok) throw new Error(text(payload.error, `服务返回 ${response.status}`));
@@ -4481,7 +4497,8 @@
       const response = await fetch(DAILY_RECOVERY_ENDPOINT, {
         method: "POST",
         cache: "no-store",
-        headers: { Accept: "application/json" },
+        headers: { Accept: "application/json", "Content-Type": "application/json" },
+        body: "{}",
       });
       if (!response.ok) throw await marketWatchResponseError(response);
       const result = await response.json();
@@ -5293,6 +5310,295 @@
     byId("limit-up-pool-open-button").focus();
   }
 
+  function validateManualPortfolio(payload) {
+    if (
+      !payload
+      || payload.contract !== "manual_portfolio.v1"
+      || payload.schema_version !== 1
+      || payload.enabled_limit !== 40
+      || !isRevision(payload.revision)
+      || !Array.isArray(payload.items)
+    ) {
+      throw new Error("手动持仓契约不匹配");
+    }
+    return payload;
+  }
+
+  function validateManualPortfolioMarket(payload) {
+    if (
+      !payload
+      || payload.contract !== "manual_portfolio_market_snapshot.v1"
+      || payload.schema_version !== 1
+      || !isRevision(payload.portfolio_revision)
+      || !isRevision(payload.snapshot_revision)
+      || !Array.isArray(payload.items)
+      || !Array.isArray(payload.alerts)
+    ) {
+      throw new Error("持仓行情契约不匹配");
+    }
+    return payload;
+  }
+
+  async function readManualJson(endpoint) {
+    const response = await fetch(endpoint, {
+      cache: "no-store",
+      headers: { Accept: "application/json" },
+    });
+    if (!response.ok) throw await marketWatchResponseError(response);
+    return response.json();
+  }
+
+  async function postManualJson(endpoint, payload) {
+    const response = await fetch(endpoint, {
+      method: "POST",
+      cache: "no-store",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+    if (!response.ok) throw await marketWatchResponseError(response);
+    return response.json();
+  }
+
+  function manualPortfolioQualityLabel(status) {
+    return {
+      accepted: "新鲜 / 可观察",
+      degraded: "降级 / 抑制提醒",
+      stale: "过期 / 抑制提醒",
+      unavailable: "不可用",
+      disabled: "已停用",
+    }[status] || "尚无行情";
+  }
+
+  function manualPortfolioRow(entry, quote) {
+    const row = document.createElement("tr");
+    const identity = document.createElement("td");
+    const name = createElement("div", "manual-portfolio-identity");
+    name.append(
+      createElement("strong", "", entry.instrument_id),
+      createElement("span", "", entry.display_name || "名称未提供"),
+      createElement(
+        "small",
+        "",
+        entry.code_validation_status === "catalog_verified"
+          ? `代码已入目录 · 归因 ${entry.attribution_status}`
+          : "代码格式有效 · 业务归因未核验",
+      ),
+    );
+    identity.appendChild(name);
+    const market = document.createElement("td");
+    const marketBox = createElement("div", "manual-portfolio-market");
+    const price = createElement("strong", "", quote ? formatLevel(quote.last_price) : "--");
+    const change = createElement("span", "", quote ? formatChangePct(quote.session_change_pct) : "等待采集");
+    if (quote) setTone(change, quote.session_change_pct);
+    marketBox.append(price, change);
+    market.appendChild(marketBox);
+    const quality = document.createElement("td");
+    const status = quote?.status || (entry.enabled ? "unavailable" : "disabled");
+    quality.append(
+      createElement("strong", `manual-portfolio-quality quality-${status}`, manualPortfolioQualityLabel(status)),
+      createElement("small", "manual-portfolio-quality-detail", quote?.reason || (entry.enabled ? "等待采集进程物化" : "已停用，不请求行情")),
+    );
+    const note = createElement("td", "manual-portfolio-note", entry.note || "--");
+    const actions = document.createElement("td");
+    const controls = createElement("div", "manual-portfolio-actions");
+    const toggle = createElement("button", "button button-secondary", entry.enabled ? "停用" : "启用");
+    toggle.type = "button";
+    toggle.dataset.manualPortfolioAction = "toggle";
+    toggle.dataset.instrumentId = entry.instrument_id;
+    toggle.dataset.enabled = String(!entry.enabled);
+    const remove = createElement("button", "text-button manual-portfolio-delete", "删除");
+    remove.type = "button";
+    remove.dataset.manualPortfolioAction = "delete";
+    remove.dataset.instrumentId = entry.instrument_id;
+    controls.append(
+      createElement("span", entry.enabled ? "portfolio-enabled" : "portfolio-disabled", entry.enabled ? "已启用" : "已停用"),
+      toggle,
+      remove,
+    );
+    actions.appendChild(controls);
+    row.append(identity, market, quality, note, actions);
+    return row;
+  }
+
+  function renderManualPortfolio() {
+    const portfolio = state.manualPortfolio;
+    if (!portfolio) return;
+    const market = state.manualPortfolioMarket;
+    const marketMatches = market?.portfolio_revision === portfolio.revision;
+    const quoteMap = new Map(
+      asArray(marketMatches ? market.items : []).map((item) => [item.instrument_id, item]),
+    );
+    const rows = asArray(portfolio.items).map((entry) => (
+      manualPortfolioRow(entry, quoteMap.get(entry.instrument_id))
+    ));
+    byId("manual-portfolio-table-body").replaceChildren(...(
+      rows.length
+        ? rows
+        : [(() => {
+          const row = document.createElement("tr");
+          const cell = createElement("td", "manual-portfolio-empty", "尚未手工添加证券代码。");
+          cell.colSpan = 5;
+          row.appendChild(cell);
+          return row;
+        })()]
+    ));
+    byId("manual-portfolio-status").textContent = (
+      `${portfolio.enabled_count} / ${portfolio.enabled_limit} 已启用 · ${marketMatches ? `行情 ${formatTimestamp(market.generated_at)}` : "等待对应版本行情"}`
+    );
+    byId("manual-portfolio-outlook-button").disabled = (
+      state.manualPortfolioMutationInFlight
+      || portfolio.enabled_count === 0
+      || !marketMatches
+    );
+    renderManualPortfolioAlerts(asArray(market?.alerts));
+  }
+
+  function renderManualPortfolioAlerts(alerts) {
+    const target = byId("manual-portfolio-alerts");
+    if (!alerts.length) {
+      target.replaceChildren(createElement("p", "empty-state", "暂无新鲜样本触发的观察提醒。"));
+      return;
+    }
+    target.replaceChildren(...alerts.map((alert) => {
+      const card = createElement("article", "manual-portfolio-alert");
+      card.append(
+        createElement("strong", "", alert.title),
+        createElement("p", "", alert.message),
+        createElement("small", "", `证据 ${asArray(alert.evidence).map((item) => `${formatTimestamp(item.observed_at)} ${formatLevel(item.price)}`).join(" → ")} · ${alert.invalidation_condition}`),
+      );
+      return card;
+    }));
+  }
+
+  function deliverManualPortfolioAlerts(alerts) {
+    if (!state.notificationEnabled || !("Notification" in window) || Notification.permission !== "granted") return;
+    let changed = false;
+    alerts.forEach((alert) => {
+      if (!isRevision(alert.alert_id) || state.manualPortfolioDeliveredAlerts.has(alert.alert_id)) return;
+      state.manualPortfolioDeliveredAlerts.add(alert.alert_id);
+      changed = true;
+      showSystemNotification({
+        title: alert.title,
+        message: `${alert.message} ${alert.invalidation_condition}`,
+        dedupe_key: `manual_portfolio:${alert.alert_id}`,
+      });
+    });
+    if (changed) {
+      const keys = [...state.manualPortfolioDeliveredAlerts].slice(-200);
+      state.manualPortfolioDeliveredAlerts = new Set(keys);
+      storeJson(STORAGE_KEYS.manualPortfolioDeliveredAlerts, keys);
+    }
+  }
+
+  async function fetchManualPortfolio({ silent = false } = {}) {
+    if (state.manualPortfolioFetchInFlight) return;
+    state.manualPortfolioFetchInFlight = true;
+    try {
+      const portfolio = validateManualPortfolio(await readManualJson(MANUAL_PORTFOLIO_ENDPOINT));
+      let market = null;
+      try {
+        market = validateManualPortfolioMarket(await readManualJson(MANUAL_PORTFOLIO_MARKET_ENDPOINT));
+      } catch (error) {
+        if (error?.status !== 503) throw error;
+      }
+      state.manualPortfolio = portfolio;
+      state.manualPortfolioMarket = market;
+      renderManualPortfolio();
+      if (market?.portfolio_revision === portfolio.revision) {
+        deliverManualPortfolioAlerts(asArray(market.alerts));
+      }
+      if (!state.manualPortfolioOutlook) fetchManualPortfolioOutlook({ silent: true });
+    } catch (error) {
+      if (!silent) byId("manual-portfolio-status").textContent = text(error?.message, "手动持仓暂不可用");
+    } finally {
+      state.manualPortfolioFetchInFlight = false;
+    }
+  }
+
+  async function mutateManualPortfolio(command) {
+    if (state.manualPortfolioMutationInFlight) return;
+    state.manualPortfolioMutationInFlight = true;
+    byId("manual-portfolio-status").textContent = "正在保存手动列表…";
+    try {
+      await postManualJson(MANUAL_PORTFOLIO_ENDPOINT, command);
+      if (command.action === "add") byId("manual-portfolio-form").reset();
+      state.manualPortfolioMarket = null;
+      state.manualPortfolioOutlook = null;
+      await fetchManualPortfolio();
+    } catch (error) {
+      byId("manual-portfolio-status").textContent = text(error?.message, "保存失败");
+    } finally {
+      state.manualPortfolioMutationInFlight = false;
+      renderManualPortfolio();
+    }
+  }
+
+  function renderManualPortfolioOutlook(payload) {
+    const target = byId("manual-portfolio-outlook");
+    const items = asArray(payload?.items);
+    if (!items.length) {
+      target.replaceChildren(createElement("p", "empty-state", "当前没有可生成前瞻的已启用代码。"));
+      return;
+    }
+    target.replaceChildren(...items.map((item) => {
+      const card = createElement("article", `manual-portfolio-outlook-card outlook-${item.status}`);
+      card.append(
+        createElement("strong", "", `${item.instrument_id} · ${item.status === "conditional" ? "条件式" : "证据不足"}`),
+        createElement("p", "", `次日：${item.next_session}`),
+        createElement("p", "", `未来 2–5 日：${item.next_2_to_5_sessions}`),
+        createElement("small", "", `确认：${stringList(item.confirmation_conditions).join("；") || "无"} · 失效：${stringList(item.invalidation_conditions).join("；") || "无"}`),
+      );
+      return card;
+    }));
+  }
+
+  async function fetchManualPortfolioOutlook({ silent = false } = {}) {
+    try {
+      const payload = await readManualJson(MANUAL_PORTFOLIO_OUTLOOK_ENDPOINT);
+      if (payload?.contract !== "manual_portfolio_outlook.v1") throw new Error("条件式前瞻契约不匹配");
+      state.manualPortfolioOutlook = payload;
+      renderManualPortfolioOutlook(payload);
+      byId("manual-portfolio-outlook-status").textContent = `已生成 ${formatTimestamp(payload.generated_at)}`;
+    } catch (error) {
+      if (!silent) byId("manual-portfolio-outlook-status").textContent = text(error?.message, "前瞻暂不可用");
+    }
+  }
+
+  async function pollManualPortfolioOutlook() {
+    window.clearTimeout(state.manualPortfolioOutlookPollTimer);
+    state.manualPortfolioOutlookPollTimer = null;
+    try {
+      const generation = await readManualJson(MANUAL_PORTFOLIO_OUTLOOK_GENERATION_ENDPOINT);
+      byId("manual-portfolio-outlook-status").textContent = `后台：${text(generation.phase, generation.state)}`;
+      if (new Set(["queued", "running"]).has(generation.state)) {
+        state.manualPortfolioOutlookPollTimer = window.setTimeout(pollManualPortfolioOutlook, 2_000);
+      } else if (generation.state === "succeeded") {
+        await fetchManualPortfolioOutlook();
+        renderManualPortfolio();
+      } else if (generation.state === "failed") {
+        byId("manual-portfolio-outlook-status").textContent = text(generation.error, "前瞻生成失败");
+      }
+    } catch (error) {
+      byId("manual-portfolio-outlook-status").textContent = text(error?.message, "任务状态暂不可用");
+    }
+  }
+
+  async function generateManualPortfolioOutlook() {
+    const button = byId("manual-portfolio-outlook-button");
+    button.disabled = true;
+    byId("manual-portfolio-outlook-status").textContent = "正在排队…";
+    try {
+      await postManualJson(MANUAL_PORTFOLIO_OUTLOOK_ENDPOINT, { action: "generate" });
+      pollManualPortfolioOutlook();
+    } catch (error) {
+      byId("manual-portfolio-outlook-status").textContent = text(error?.message, "前瞻排队失败");
+      renderManualPortfolio();
+    }
+  }
+
   function updatePollStatus() {
     const target = byId("poll-status");
     if (state.fetchInFlight) {
@@ -5371,6 +5677,31 @@
     byId("notification-button").addEventListener("click", handleNotificationOptIn);
     byId("sound-button").addEventListener("click", handleSoundToggle);
     byId("mute-button").addEventListener("click", handleMuteToggle);
+    byId("manual-portfolio-form").addEventListener("submit", (event) => {
+      event.preventDefault();
+      mutateManualPortfolio({
+        action: "add",
+        instrument_id: byId("manual-portfolio-code").value,
+        display_name: byId("manual-portfolio-name").value,
+        note: byId("manual-portfolio-note").value,
+      });
+    });
+    byId("manual-portfolio-table-body").addEventListener("click", (event) => {
+      const button = event.target.closest("[data-manual-portfolio-action]");
+      if (!button) return;
+      const instrumentId = button.dataset.instrumentId;
+      if (button.dataset.manualPortfolioAction === "delete") {
+        if (!window.confirm(`确认从手动持仓观察中删除 ${instrumentId}？`)) return;
+        mutateManualPortfolio({ action: "delete", instrument_id: instrumentId });
+      } else {
+        mutateManualPortfolio({
+          action: "update",
+          instrument_id: instrumentId,
+          enabled: button.dataset.enabled === "true",
+        });
+      }
+    });
+    byId("manual-portfolio-outlook-button").addEventListener("click", generateManualPortfolioOutlook);
     byId("limit-up-pool-open-button").addEventListener("click", openLimitUpPoolDialog);
     byId("limit-up-pool-close-button").addEventListener("click", closeLimitUpPoolDialog);
     const limitUpDialog = byId("limit-up-pool-dialog");
@@ -5526,10 +5857,12 @@
     setupDeferredPanelLoading();
     bindPollingRecovery();
     fetchSnapshot();
+    fetchManualPortfolio();
     window.setInterval(runScheduledPoll, POLL_WATCHDOG_INTERVAL_MS);
     window.setInterval(updatePollStatus, 1000);
     window.setInterval(updateReviewSchedule, 30_000);
     window.setInterval(updateStockSelectionSchedule, 30_000);
+    window.setInterval(() => fetchManualPortfolio({ silent: true }), 30_000);
     window.setInterval(
       () => {
         if (state.reviewHasLoaded) {

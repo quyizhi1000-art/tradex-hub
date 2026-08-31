@@ -30,8 +30,14 @@ ENV_DB_PATH = "TRADEX_ANALYSIS_DB"
 POST_MARKET_REVIEW = "post_market_review"
 DAILY_STOCK_SELECTION = "daily_stock_selection"
 MARKET_WATCH_EVALUATION = "market_watch_evaluation"
+MANUAL_PORTFOLIO_OUTLOOK = "manual_portfolio_outlook"
 CAPABILITIES = frozenset(
-    {POST_MARKET_REVIEW, DAILY_STOCK_SELECTION, MARKET_WATCH_EVALUATION}
+    {
+        POST_MARKET_REVIEW,
+        DAILY_STOCK_SELECTION,
+        MARKET_WATCH_EVALUATION,
+        MANUAL_PORTFOLIO_OUTLOOK,
+    }
 )
 ACTIVE_STATES = ("queued", "running")
 

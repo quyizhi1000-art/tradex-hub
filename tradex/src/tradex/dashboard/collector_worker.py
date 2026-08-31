@@ -638,6 +638,22 @@ def _generate_latest_review_announcements() -> dict:
     }
 
 
+def _refresh_manual_portfolio_market() -> dict:
+    """Refresh the manual portfolio inside the existing managed collector."""
+
+    from tradex.manual_portfolio.market import refresh_manual_portfolio_market
+    from tradex.manual_portfolio.store import ManualPortfolioStore
+
+    with ManualPortfolioStore() as store:
+        snapshot = refresh_manual_portfolio_market(store, now=_now())
+    return {
+        "portfolio_revision": snapshot.portfolio_revision,
+        "snapshot_revision": snapshot.snapshot_revision,
+        "item_count": snapshot.item_count,
+        "alert_count": len(snapshot.alerts),
+    }
+
+
 def _backfill_review_announcements() -> int:
     result = _generate_latest_review_announcements()
     print(json.dumps(result, ensure_ascii=False, sort_keys=True))
@@ -659,6 +675,7 @@ def _run_post_close_resonance_loop(
     completed_limit_up_buckets = set()
     completed_sentiment_dates = set()
     completed_announcement_buckets = set()
+    completed_portfolio_buckets = set()
     while not stop_event.is_set():
         observed = clock()
         session = a_share_session(observed)
@@ -694,6 +711,10 @@ def _run_post_close_resonance_loop(
             announcement_bucket is not None
             and announcement_bucket not in completed_announcement_buckets
         )
+        portfolio_due = (
+            session.is_open
+            and intraday_bucket not in completed_portfolio_buckets
+        )
         if limit_up_due:
             try:
                 result = _generate_latest_limit_up_pool(
@@ -718,6 +739,18 @@ def _run_post_close_resonance_loop(
                 )
             except Exception:
                 logger.exception("intraday sector resonance backfill failed")
+        if portfolio_due:
+            try:
+                portfolio_result = _refresh_manual_portfolio_market()
+                completed_portfolio_buckets.add(intraday_bucket)
+                logger.info(
+                    "manual portfolio market ready revision=%s items=%s alerts=%s",
+                    portfolio_result.get("snapshot_revision"),
+                    portfolio_result.get("item_count"),
+                    portfolio_result.get("alert_count"),
+                )
+            except Exception:
+                logger.exception("manual portfolio market refresh failed")
         if post_close_due:
             succeeded = True
             resonance_result = {}
@@ -789,6 +822,13 @@ def _run_collector_cycle(
         collector = build_collector(ledger=ledger, history=history)
         if once:
             result = collector.run_once()
+            try:
+                result["manual_portfolio"] = _refresh_manual_portfolio_market()
+            except Exception as exc:  # noqa: BLE001 - keep the primary collector result
+                result["manual_portfolio"] = {
+                    "status": "unavailable",
+                    "failure_code": type(exc).__name__,
+                }
             print(json.dumps(result, ensure_ascii=False, sort_keys=True))
             return
         resonance_stop_event = threading.Event()
@@ -913,5 +953,6 @@ __all__ = [
     "_generate_latest_limit_up_pool",
     "_generate_latest_limit_sentiment",
     "_generate_latest_review_announcements",
+    "_refresh_manual_portfolio_market",
     "_run_post_close_resonance_loop",
 ]

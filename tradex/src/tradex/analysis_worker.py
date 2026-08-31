@@ -23,6 +23,7 @@ from zoneinfo import ZoneInfo
 
 from tradex.analysis_jobs import (
     DAILY_STOCK_SELECTION,
+    MANUAL_PORTFOLIO_OUTLOOK,
     MARKET_WATCH_EVALUATION,
     POST_MARKET_REVIEW,
     AnalysisJobStore,
@@ -46,6 +47,8 @@ from tradex.stock_selection.service import (
     DailyStockSelectionService,
 )
 from tradex.stock_selection.store import DailyStockSelectionStore
+from tradex.manual_portfolio.outlook import build_manual_portfolio_outlook
+from tradex.manual_portfolio.store import ManualPortfolioReader
 
 
 SHANGHAI = ZoneInfo("Asia/Shanghai")
@@ -140,6 +143,7 @@ class AnalysisRuntime:
         limit_sentiment_store: LimitSentimentStore | None = None,
         official_announcement_store: ReviewOfficialAnnouncementStore | None = None,
         selection_store: DailyStockSelectionStore | None = None,
+        portfolio_reader: ManualPortfolioReader | None = None,
         enable_taxonomy_auto_refresh: bool = False,
     ) -> None:
         self.jobs = jobs
@@ -154,6 +158,7 @@ class AnalysisRuntime:
             or ReviewOfficialAnnouncementStore(read_only=True)
         )
         self.selection_store = selection_store or DailyStockSelectionStore()
+        self.portfolio_reader = portfolio_reader or ManualPortfolioReader()
         self.read_facade = MarketWatchReadFacade(
             collection_reader=self.collection,
             history_reader=self.history,
@@ -202,6 +207,15 @@ class AnalysisRuntime:
                 "trade_date": review.get("trade_date"),
                 "review_id": review.get("review_id"),
             }
+        if capability == MANUAL_PORTFOLIO_OUTLOOK:
+            outlook = result.get("outlook")
+            outlook = outlook if isinstance(outlook, Mapping) else {}
+            return {
+                "action": result.get("action"),
+                "portfolio_revision": outlook.get("portfolio_revision"),
+                "source_snapshot_revision": outlook.get("source_snapshot_revision"),
+                "item_count": len(outlook.get("items") or ()),
+            }
         selection = result.get("selection")
         selection = selection if isinstance(selection, Mapping) else {}
         return {
@@ -226,13 +240,45 @@ class AnalysisRuntime:
                 )
             elif capability == DAILY_STOCK_SELECTION:
                 result = self.selection_service.generate(now=current, automatic=False)
+            elif capability == MANUAL_PORTFOLIO_OUTLOOK:
+                snapshot = self.portfolio_reader.latest_snapshot()
+                if snapshot is None:
+                    raise RuntimeError("no collector-owned manual portfolio snapshot")
+                expected_scope = f"portfolio:{snapshot.portfolio_revision}"
+                if str(job["scope_key"]) != expected_scope:
+                    raise RuntimeError(
+                        "manual portfolio revision changed before analysis"
+                    )
+                outlook = build_manual_portfolio_outlook(
+                    snapshot,
+                    generated_at=current,
+                )
+                result = {
+                    "action": "materialized",
+                    "outlook": outlook.model_dump(mode="json"),
+                }
             else:
                 raise ValueError(f"unsupported queued capability: {capability}")
             self.jobs.set_phase(job_id, "publishing")
             if capability == POST_MARKET_REVIEW:
                 self.materialize_review_views(force=True)
-            else:
+            elif capability == DAILY_STOCK_SELECTION:
                 self.materialize_selection_views(force=True)
+            else:
+                self.jobs.put_artifact(
+                    MANUAL_PORTFOLIO_OUTLOOK,
+                    scope_key=f"portfolio:{outlook.portfolio_revision}",
+                    source_revision=outlook.source_snapshot_revision,
+                    payload=outlook.model_dump(mode="json"),
+                    generated_at=current,
+                )
+                self.jobs.put_artifact(
+                    MANUAL_PORTFOLIO_OUTLOOK,
+                    scope_key="latest",
+                    source_revision=outlook.source_snapshot_revision,
+                    payload=outlook.model_dump(mode="json"),
+                    generated_at=current,
+                )
             summary = self._job_result_summary(capability, result)
             self.jobs.succeed(job_id, result=summary)
         except (PostMarketReviewError, DailyStockSelectionError) as exc:
@@ -544,6 +590,7 @@ class AnalysisRuntime:
             self._taxonomy_refresh_thread.join(timeout=5)
         self.selection_service.wait_for_generation()
         self.selection_store.close()
+        self.portfolio_reader.close()
         self.review_store.close()
         self.limit_sentiment_store.close()
         self.official_announcement_store.close()
