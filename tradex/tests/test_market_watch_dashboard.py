@@ -50,6 +50,27 @@ def test_limit_up_pool_route_requires_and_forwards_the_exact_source_revision(
     assert responses == [(200, {"contract": "limit_up_pool.v2"})]
 
 
+def test_limit_up_pool_latest_route_forwards_snapshot_cutoff(monkeypatch):
+    observed = []
+    handler = _bare_handler()
+    handler.path = "/api/limit-up-pool/latest?not_after=2026-08-31T11%3A29%3A00%2B08%3A00"
+    monkeypatch.setattr(
+        dashboard_app,
+        "get_latest_limit_up_pool",
+        lambda not_after: observed.append(not_after)
+        or {"contract": "limit_up_pool.v2"},
+    )
+    responses = []
+    handler._send_json = lambda status, payload, **_kwargs: responses.append(
+        (status, payload)
+    )
+
+    handler.do_GET()
+
+    assert observed == ["2026-08-31T11:29:00+08:00"]
+    assert responses == [(200, {"contract": "limit_up_pool.v2"})]
+
+
 def test_watch_asset_loader_is_allow_listed_and_uncached(tmp_path, monkeypatch):
     watch_path = tmp_path / "watch"
     watch_path.mkdir()

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import math
+import re
 from datetime import date, datetime, time
 from enum import Enum
 from typing import Literal
@@ -1302,6 +1303,34 @@ class LimitUpStatusV1(ContractModel):
         if value is not None and not math.isfinite(value):
             raise ValueError("limit-up status numbers must be finite")
         return value
+
+
+class DailyLimitUpMembershipV1(ContractModel):
+    """One verified post-close limit-up membership set for a trading day."""
+
+    metadata: ContractMetadata
+    trading_date: date
+    instrument_ids: tuple[str, ...] = ()
+
+    @model_validator(mode="after")
+    def validate_daily_membership(self) -> "DailyLimitUpMembershipV1":
+        if (
+            self.metadata.contract != "daily_limit_up_membership.v1"
+            or self.metadata.schema_version != 1
+        ):
+            raise ValueError(
+                "daily limit-up membership requires daily_limit_up_membership.v1 metadata"
+            )
+        if tuple(sorted(self.instrument_ids)) != self.instrument_ids:
+            raise ValueError("daily limit-up membership instruments must be sorted")
+        if len(self.instrument_ids) != len(set(self.instrument_ids)):
+            raise ValueError("daily limit-up membership cannot contain duplicates")
+        if any(
+            re.fullmatch(r"\d{6}\.(?:SH|SZ|BJ)", item) is None
+            for item in self.instrument_ids
+        ):
+            raise ValueError("daily limit-up membership contains invalid instruments")
+        return self
 
 
 class LimitUpStatusSeriesV1(ContractModel):

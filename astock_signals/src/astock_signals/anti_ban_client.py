@@ -78,6 +78,7 @@ def em_get(
     params: dict | None = None,
     headers: dict | None = None,
     timeout: int = 15,
+    max_queue_wait: float | None = None,
     **kwargs,
 ) -> _requests.Response:
     """东财统一请求入口：自动节流 + 复用 session + 默认 UA。
@@ -99,7 +100,7 @@ def em_get(
     Returns:
         requests.Response object.
     """
-    sleep_time = reserve_em_request_slot()
+    sleep_time = reserve_em_request_slot(max_wait=max_queue_wait)
 
     # 第二阶段：锁外 sleep，不阻塞其他线程计算等待时间
     if sleep_time > 0:
@@ -111,23 +112,29 @@ def em_get(
     )
 
 
-def reserve_em_request_slot() -> float:
+def reserve_em_request_slot(*, max_wait: float | None = None) -> float:
     """Reserve the machine-local cross-process Eastmoney/IP request slot.
 
     Both the requests-based astock client and Tradex's curl_cffi client call
     this function.  HTTP sessions remain worker-local in their owning module;
-    only the provider/IP admission budget is shared.
+    only the provider/IP admission budget is shared.  ``max_wait`` lets
+    optional enrichments fail fast without changing the global live-data
+    queue budget.
     """
     with _lock:
         interval = max(0.0, _EM_MIN_INTERVAL) + random.uniform(
             _EM_JITTER_MIN, _EM_JITTER_MAX
         )
-        max_wait = max(0.0, _EM_MAX_QUEUE_WAIT)
+        effective_max_wait = (
+            max(0.0, _EM_MAX_QUEUE_WAIT)
+            if max_wait is None
+            else float(max_wait)
+        )
     try:
         wait = reserve_shared_request_slot(
             "free:eastmoney:ip",
             min_interval=interval,
-            max_wait=max_wait,
+            max_wait=effective_max_wait,
         )
     except (SharedRateLimitExceeded, SharedRateLimitUnavailable):
         raise SourceBusyError("Eastmoney request queue is busy") from None

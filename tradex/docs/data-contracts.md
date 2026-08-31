@@ -216,9 +216,15 @@ Provider 明确声明 `valid_empty=true`、总数为 0、交易日和结构均�
 
 每条 `LimitUpEventV1` 至少包含标准证券代码、名称和非空涨停原因。价格及封单额
 使用人民币元，涨幅和封板成功率使用百分点；Provider 返回的 `0.95` 封板成功率
-由 Mapper 转换为 `95.0`。连板文本同时保留为兼容标签，并解析出可比较的
-`board_count`；无法可靠解析时保持 `None`，通过 `board_count_partial` 标记降级，
-不得猜测为首板。
+由 Mapper 转换为 `95.0`。连板文本同时保留为兼容标签，`board_count`
+只表达可验证的连续涨停板数：`3天3板`可解析为 `3`，`5天4板`这类区间累计
+标签因为不证明连续性，必须保留原文但将 `board_count` 置为 `None`。无法可靠解析时
+通过 `board_count_partial` 标记降级，不得猜测为首板或连板。
+
+`daily_limit_up_membership.v1` 是按交易日固化的收盘涨停成员集，只包含标准证券
+代码、精确交易日、Provider 来源和请求踪迹。连板解析器从上一个已验证交易日开始
+向前遍历该成员集，第一个缺席交易日立即中断连续计数。历史成员集按交易日
+在 Collector 进程内唯一缓存；日榜缺失时必须保持 `None`，不得回退到区间标签。
 
 Provider 的交易状态统一映射为 `pre_open`、`trading`、`closed`、
 `non_trading` 或 `unknown`。Dashboard 只根据这些规范状态决定是否可参与风险偏好
@@ -247,6 +253,9 @@ Dashboard，TTL 为 60 秒、最大陈旧窗口为 120 秒，且缓存身份包�
 不能把财务分部名称直接提升为页签。`directory_category`、`primary_business` 和业务标签仍在
 个股卡片中分别展示。目录缺失、部分股票未匹配、主营未分类或规范涨停状态降级时，
 `quality=degraded` 并保留明确 `quality_flags`。
+页面中的 `board_count` 必须来自 `daily_closed_limit_up_history`：当日实时涨停计为 1，
+再叠加向前连续命中的已收盘涨停交易日。`5天4板` 只作为区间原始记录展示，
+不参与连板数、分组、排序或强度投票。
 
 该结果由 Collector 生成并持久化；Web 必须携带精确
 `source_snapshot_revision` 只读查询。Web 不调用行情 Provider，不拥有刷新缓存，也

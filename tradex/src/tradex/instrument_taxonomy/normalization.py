@@ -101,6 +101,8 @@ BUSINESS_RULES: tuple[BusinessRule, ...] = (
         r"黄金", r"白银", r"贵金属", r"金银珠宝", r"黄金珠宝",
     )),
     BusinessRule("steel", "钢铁", _patterns(r"钢铁", r"钢材", r"特钢")),
+    BusinessRule("apparel", "服装", _patterns(r"童装", r"服装品牌", r"儿童服饰")),
+    BusinessRule("packaging", "包装", _patterns(r"包装一体化", r"运输包装", r"精品包装", r"包装产品")),
     BusinessRule("textiles", "纺织", _patterns(r"纺织品", r"纺织面料", r"纺织服装")),
     BusinessRule("fluorochemicals", "氟化工", _patterns(
         r"高端氟材料", r"氟化工", r"氟碳化学品",
@@ -219,6 +221,8 @@ BUSINESS_DOMAINS: tuple[BusinessDomain, ...] = (
         "consumer_electronics",
         "precision_structural_components",
         "home_appliances",
+        "apparel",
+        "packaging",
         "textiles",
         "food_beverage",
         "liquor",

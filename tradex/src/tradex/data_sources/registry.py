@@ -149,6 +149,7 @@ def _register_all_sources_unlocked() -> None:
         ("stock_selection_calendar", tsf.fetch_stock_selection_calendar),
         ("stock_selection_daily", tsf.fetch_stock_selection_daily),
         ("stock_selection_daily_basic", tsf.fetch_stock_selection_daily_basic),
+        ("limit_up_daily_membership", tsf.fetch_limit_up_daily_membership),
         ("limit_sentiment_daily", tsf.fetch_limit_sentiment_daily),
         ("stock_selection_master", tsf.fetch_stock_selection_master),
         (

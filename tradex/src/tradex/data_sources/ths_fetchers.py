@@ -160,7 +160,12 @@ def _has_parseable_ths_board_count(value: object) -> bool:
     label = "".join(str(value).split())
     if label == "首板":
         return True
-    for pattern in (_THS_DAY_BOARD_PATTERN, _THS_STREAK_BOARD_PATTERN, _THS_BOARD_PATTERN):
+    day_match = _THS_DAY_BOARD_PATTERN.fullmatch(label)
+    if day_match is not None:
+        days = int(day_match.group("days"))
+        boards = int(day_match.group("boards"))
+        return days == boards and boards > 0
+    for pattern in (_THS_STREAK_BOARD_PATTERN, _THS_BOARD_PATTERN):
         match = pattern.fullmatch(label)
         if match is not None:
             return int(match.group("boards")) > 0

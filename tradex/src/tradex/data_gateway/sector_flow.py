@@ -5,7 +5,7 @@ from __future__ import annotations
 import re
 import time
 from collections.abc import Callable, Iterable, Mapping
-from datetime import date, datetime
+from datetime import date, datetime, time as datetime_time
 from threading import Condition, Thread
 from typing import Any
 from zoneinfo import ZoneInfo
@@ -146,6 +146,7 @@ class SectorFundFlowBackfillCache:
         self._entries: dict[_BackfillKey, SectorFundFlowIntradayV1] = {}
         self._loading: set[_BackfillKey] = set()
         self._last_loaded_at: dict[_BackfillKey, datetime] = {}
+        self._target_fingerprints: dict[date, tuple[tuple[str, ...], ...]] = {}
         self._store = store
         self._persistent = bool(persistent)
         self.refresh_min_interval_seconds = float(refresh_min_interval_seconds)
@@ -203,12 +204,63 @@ class SectorFundFlowBackfillCache:
         store = self._get_store()
         return () if store is None else store.get_targets(trading_date)
 
+    def remember_targets(
+        self,
+        trading_date: date,
+        targets: Iterable[Mapping[str, Any]],
+    ) -> int:
+        """Persist every resolved identity without starting provider work."""
+
+        normalized = tuple(
+            sorted(
+                (
+                    str(target.get("sector_key") or "").strip(),
+                    str(target.get("name") or "").strip(),
+                    str(target.get("taxonomy") or "").strip(),
+                    str(target.get("provider_sector_code") or "").strip().upper(),
+                    str(target.get("source_family") or "eastmoney").strip(),
+                )
+                for target in targets
+            )
+        )
+        if not normalized:
+            return 0
+        store = self._get_store()
+        if store is None:
+            return 0
+        with self._condition:
+            if self._target_fingerprints.get(trading_date) == normalized:
+                return len(normalized)
+        remembered = store.record_target_identities(
+            trading_date,
+            (
+                {
+                    "sector_key": item[0],
+                    "name": item[1],
+                    "taxonomy": item[2],
+                    "provider_sector_code": item[3],
+                    "source_family": item[4],
+                }
+                for item in normalized
+            ),
+        )
+        with self._condition:
+            self._target_fingerprints[trading_date] = normalized
+            retained_dates = sorted(self._target_fingerprints)[-2:]
+            self._target_fingerprints = {
+                key: value
+                for key, value in self._target_fingerprints.items()
+                if key in retained_dates
+            }
+        return remembered
+
     def get_or_load(
         self,
         key: _BackfillKey,
         loader: Callable[[], SectorFundFlowIntradayV1],
         *,
         refresh_existing: bool = False,
+        force_refresh: bool = False,
         refreshed_at: datetime | None = None,
     ) -> SectorFundFlowIntradayV1:
         effective_refresh_at = refreshed_at or datetime.now(_SHANGHAI)
@@ -231,6 +283,7 @@ class SectorFundFlowBackfillCache:
             if (
                 cached is not None
                 and last_loaded is not None
+                and not force_refresh
                 and (
                     effective_refresh_at - last_loaded
                 ).total_seconds() < self.refresh_min_interval_seconds
@@ -355,6 +408,7 @@ def fetch_sector_intraday_fund_flow_backfill(
     cache: SectorFundFlowBackfillCache | None = None,
     load_missing: bool = False,
     refresh_existing: bool = False,
+    force_refresh: bool = False,
 ) -> dict[str, tuple[dict[str, Any], ...]]:
     """Return cached exact curves; only the minute sampler may fill misses.
 
@@ -405,6 +459,7 @@ def fetch_sector_intraday_fund_flow_backfill(
                         router=router,
                     ),
                     refresh_existing=series is not None and refresh_existing,
+                    force_refresh=force_refresh,
                     refreshed_at=now,
                 )
         except Exception:
@@ -525,8 +580,135 @@ def prepare_sector_intraday_fund_flow_backfill(
         "complete": bool(targets) and not missing_keys,
         "known_targets": len(targets),
         "ready_targets": ready_targets,
+        "ready_target_keys": tuple(
+            str(target.get("sector_key") or "").strip()
+            for target in targets
+            if str(target.get("sector_key") or "").strip() not in missing_keys
+        ),
         "refreshed_targets": total,
         "missing_targets": missing_keys,
+    }
+
+
+def finalize_sector_intraday_fund_flow_backfill(
+    *,
+    trading_date: date | str,
+    required_through: datetime,
+    now: datetime | None = None,
+    cache: SectorFundFlowBackfillCache | None = None,
+    router: Any | None = None,
+    progress: Callable[[int, int, str], None] | None = None,
+) -> dict[str, Any]:
+    """Refresh every persisted target once before replaying close gaps.
+
+    This is deliberately separate from the intraday rotating refresher, whose
+    one-target request budget remains unchanged.  The report is an optimization
+    preflight only; exact requested minutes are still checked by
+    ``prepare_sector_intraday_fund_flow_backfill`` before a snapshot is accepted.
+    """
+
+    requested_date = (
+        trading_date
+        if isinstance(trading_date, date)
+        else date.fromisoformat(str(trading_date))
+    )
+    if required_through.tzinfo is None or required_through.utcoffset() is None:
+        raise ValueError("sector-flow finalization cutoff must include a timezone")
+    cutoff = required_through.astimezone(_SHANGHAI).replace(second=0, microsecond=0)
+    if cutoff.date() != requested_date:
+        raise ValueError("sector-flow finalization cutoff belongs to another date")
+    effective_now = now or datetime.now(_SHANGHAI)
+    if effective_now.tzinfo is None or effective_now.utcoffset() is None:
+        raise ValueError("sector-flow finalization now must include a timezone")
+    effective_now = effective_now.astimezone(_SHANGHAI)
+    if effective_now.date() != requested_date or effective_now.time() < cutoff.time():
+        raise ValueError("sector-flow finalization now must reach the requested cutoff")
+    owner = cache or _SECTOR_FLOW_BACKFILL_CACHE
+    targets = tuple(
+        sorted(
+            owner.get_known_targets(requested_date),
+            key=lambda item: str(item.get("sector_key") or ""),
+        )
+    )
+    total = len(targets)
+    existing_curves = read_sector_intraday_fund_flow_backfill(
+        trading_date=requested_date,
+        cache=owner,
+    )
+
+    def curve_is_complete(points: Iterable[Mapping[str, Any]]) -> bool:
+        provider_times: list[datetime] = []
+        for point in points:
+            try:
+                provider = datetime.fromisoformat(str(point.get("provider_as_of") or ""))
+            except ValueError:
+                return False
+            if provider.tzinfo is None:
+                return False
+            provider_times.append(provider.astimezone(_SHANGHAI))
+        if not provider_times or provider_times[-1] < cutoff:
+            return False
+        for previous, current in zip(provider_times, provider_times[1:]):
+            if current <= previous:
+                return False
+            same_segment = (
+                previous.time() <= datetime_time(11, 30)
+                and current.time() <= datetime_time(11, 30)
+            ) or (
+                previous.time() >= datetime_time(13, 0)
+                and current.time() >= datetime_time(13, 0)
+            )
+            if same_segment and (current - previous).total_seconds() > 5 * 60:
+                return False
+        return True
+
+    refreshed_count = 0
+    for completed, target in enumerate(targets, start=1):
+        key = str(target.get("sector_key") or "").strip()
+        if not curve_is_complete(existing_curves.get(key) or ()):
+            fetch_sector_intraday_fund_flow_backfill(
+                (target,),
+                trading_date=requested_date,
+                now=effective_now,
+                router=router,
+                cache=owner,
+                load_missing=True,
+                refresh_existing=True,
+                force_refresh=True,
+            )
+            refreshed_count += 1
+        if progress is not None:
+            progress(completed, total, key)
+
+    curves = read_sector_intraday_fund_flow_backfill(
+        trading_date=requested_date,
+        cache=owner,
+    )
+    point_counts: list[int] = []
+    complete_keys: list[str] = []
+    for target in targets:
+        key = str(target.get("sector_key") or "").strip()
+        points = tuple(curves.get(key) or ())
+        point_counts.append(len(points))
+        if curve_is_complete(points):
+            complete_keys.append(key)
+    return {
+        "contract": "sector_intraday_fund_flow_finalization.v1",
+        "schema_version": 1,
+        "trade_date": requested_date.isoformat(),
+        "required_through": cutoff.isoformat(timespec="seconds"),
+        "target_count": total,
+        "refreshed_target_count": refreshed_count,
+        "complete_count": len(complete_keys),
+        "complete": bool(total) and len(complete_keys) == total,
+        "complete_target_keys": tuple(complete_keys),
+        "missing_target_keys": tuple(
+            str(target.get("sector_key") or "").strip()
+            for target in targets
+            if str(target.get("sector_key") or "").strip() not in complete_keys
+        ),
+        "min_point_count": min(point_counts, default=0),
+        "max_point_count": max(point_counts, default=0),
     }
 
 
@@ -545,13 +727,17 @@ def schedule_sector_intraday_fund_flow_backfill(
         if isinstance(trading_date, date)
         else date.fromisoformat(str(trading_date))
     )
+    current_targets = tuple(dict(target) for target in targets)
+    _SECTOR_FLOW_BACKFILL_CACHE.remember_targets(
+        requested_date,
+        current_targets,
+    )
     merged_targets = {
         str(target.get("sector_key") or "").strip(): dict(target)
         for target in _SECTOR_FLOW_BACKFILL_CACHE.get_known_targets(requested_date)
         if str(target.get("sector_key") or "").strip()
     }
-    for target in targets:
-        normalized = dict(target)
+    for normalized in current_targets:
         sector_key = str(normalized.get("sector_key") or "").strip()
         if sector_key:
             merged_targets[sector_key] = normalized
@@ -567,6 +753,7 @@ __all__ = [
     "SectorFundFlowStore",
     "fetch_sector_intraday_fund_flow",
     "fetch_sector_intraday_fund_flow_backfill",
+    "finalize_sector_intraday_fund_flow_backfill",
     "prepare_sector_intraday_fund_flow_backfill",
     "read_sector_intraday_fund_flow_backfill",
     "schedule_sector_intraday_fund_flow_backfill",

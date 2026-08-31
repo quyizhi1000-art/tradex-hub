@@ -6,7 +6,7 @@ import logging
 import threading
 from collections.abc import Callable, Iterable, Mapping
 from dataclasses import dataclass
-from datetime import datetime, time, timedelta
+from datetime import date, datetime, time, timedelta
 from typing import Any
 from zoneinfo import ZoneInfo
 
@@ -38,6 +38,9 @@ ProgressCaptureCallable = Callable[
 ]
 PersistCallable = Callable[[MarketWatchSnapshotV1], Mapping[str, Any]]
 HistoryRecordsCallable = Callable[[], Iterable[Mapping[str, Any]]]
+RecoveryPreparationCallable = Callable[
+    [date, datetime, Callable[[], None]], Mapping[str, Any] | None
+]
 
 
 @dataclass(frozen=True, slots=True)
@@ -105,6 +108,7 @@ class MarketWatchCollector:
         repair_historical_with_progress: ProgressCaptureCallable | None = None,
         persist_snapshot: PersistCallable,
         history_records: HistoryRecordsCallable | None = None,
+        prepare_daily_recovery: RecoveryPreparationCallable | None = None,
         clock: Callable[[], datetime] | None = None,
         retry_policy: CollectorRetryPolicy | None = None,
         recovery_batch_limit: int = EXPECTED_MARKET_WATCH_MINUTES,
@@ -115,6 +119,7 @@ class MarketWatchCollector:
         self._repair_historical_with_progress = repair_historical_with_progress
         self._persist_snapshot = persist_snapshot
         self._history_records = history_records
+        self._prepare_daily_recovery = prepare_daily_recovery
         self._clock = clock or (lambda: datetime.now(SHANGHAI))
         self.retry_policy = retry_policy or CollectorRetryPolicy()
         if not 1 <= int(recovery_batch_limit) <= EXPECTED_MARKET_WATCH_MINUTES:
@@ -168,7 +173,14 @@ class MarketWatchCollector:
         recovery_run_id: int | None = None,
     ) -> dict[str, Any]:
         self._store.update_runtime(CollectorRuntimeState.RUNNING, heartbeat_at=observed)
-        claimed = self._store.claim_due(observed, trade_date=trade_date)
+        session = a_share_session(observed)
+        claimed = self._store.claim_due(
+            observed,
+            trade_date=trade_date,
+            current_only=(
+                recovery_run_id is None and session.phase.value != "closed"
+            ),
+        )
         if claimed is None:
             return {"action": "idle", "reason": "no_due_slot"}
         attempt_id, slot = claimed
@@ -198,6 +210,7 @@ class MarketWatchCollector:
                     message: str | None = None,
                 ) -> None:
                     if recovery_run_id is not None:
+                        progress_at = self._now()
                         self._store.record_daily_recovery_attempt_progress(
                             recovery_run_id,
                             slot,
@@ -205,7 +218,11 @@ class MarketWatchCollector:
                             total=total,
                             stage=stage,
                             message=message,
-                            observed_at=self._now(),
+                            observed_at=progress_at,
+                        )
+                        self._store.update_runtime(
+                            CollectorRuntimeState.RUNNING,
+                            heartbeat_at=progress_at,
                         )
 
                 captured = self._repair_historical_with_progress(
@@ -379,13 +396,23 @@ class MarketWatchCollector:
                     result = self._store.reconcile_history_record(item)
                     if result.get("action") == "imported":
                         reconciled += 1
+            if self._prepare_daily_recovery is not None:
+                self._prepare_daily_recovery(
+                    recovery.trade_date,
+                    observed,
+                    lambda: self._store.update_runtime(
+                        CollectorRuntimeState.RUNNING,
+                        heartbeat_at=self._now(),
+                    ),
+                )
             self._store.requeue_daily_recovery_gaps(
                 recovery.trade_date,
                 requested_at=observed,
             )
             while attempted < self._recovery_batch_limit:
+                attempt_observed = self._now()
                 result = self._run_due_slot(
-                    observed,
+                    attempt_observed,
                     trade_date=recovery.trade_date,
                     recovery_run_id=recovery.run_id,
                 )

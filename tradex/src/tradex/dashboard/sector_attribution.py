@@ -385,10 +385,12 @@ def parse_reason_tags(reason: Any) -> list[str]:
 
 
 def parse_board_count(value: Any) -> int | None:
-    """Return the semantic board count from a provider streak label.
+    """Return a verified continuous-board count from a provider label.
 
-    ``3天2板`` is two boards, not three.  Strict full-label patterns prevent an
-    unrelated first number from being mistaken for the streak count.
+    ``3天2板`` is a three-session window with two limit-ups, not a verified
+    two-board streak. Preserve that raw label but keep the continuous count
+    unknown. Strict full-label patterns also prevent unrelated numbers from
+    being mistaken for streak counts.
     """
 
     if isinstance(value, bool) or value is None:
@@ -401,7 +403,12 @@ def parse_board_count(value: Any) -> int | None:
     label = _normalize_tag(value)
     if label == "首板":
         return 1
-    for pattern in (_DAY_BOARD_PATTERN, _STREAK_BOARD_PATTERN, _BOARD_PATTERN):
+    day_match = _DAY_BOARD_PATTERN.fullmatch(label)
+    if day_match is not None:
+        days = int(day_match.group("days"))
+        boards = int(day_match.group("boards"))
+        return boards if days == boards and boards > 0 else None
+    for pattern in (_STREAK_BOARD_PATTERN, _BOARD_PATTERN):
         match = pattern.fullmatch(label)
         if match is not None:
             count = int(match.group("boards"))

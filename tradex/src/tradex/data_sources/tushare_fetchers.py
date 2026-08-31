@@ -910,6 +910,34 @@ _LIMIT_SENTIMENT_FIELDS = (
 )
 
 
+def fetch_limit_up_daily_membership(
+    trade_date: str = "",
+    **kwargs: Any,
+) -> dict[str, Any]:
+    """Fetch one immutable post-close daily limit-up membership set."""
+
+    del kwargs
+    compact, trading_date = _daily_trade_date(trade_date, required=True)
+    members, request_ids = _paged_records(
+        "limit_list_ths",
+        {"trade_date": compact, "limit_type": "涨停池"},
+        ("ts_code", "trade_date"),
+        context="连板历史:日级收盘涨停池",
+        allow_empty=True,
+        page_size=4000,
+        max_pages=2,
+    )
+    return {
+        "trade_date": trading_date.isoformat(),
+        "members": members,
+        "request_id": _request_id_bundle(
+            *((f"limit_up:{name}", value) for name, value in request_ids)
+        ),
+        "provider_as_of": None,
+        "source_valid": True,
+    }
+
+
 def fetch_limit_sentiment_daily(
     trade_date: str = "",
     previous_trade_date: str = "",

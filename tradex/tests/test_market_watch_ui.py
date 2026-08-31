@@ -359,11 +359,17 @@ def test_sector_flow_chart_is_versioned_bounded_and_honestly_degraded():
     assert "1, 9, 5, 13, 3, 11, 7, 15" in JS
     assert "const SECTOR_FLOW_COLOR_BANDS = [" in JS
     assert "function sectorFlowPaletteColor(slot)" in JS
+    assert "function sectorFlowColorSlots(payload, entries)" in JS
     assert "function sectorFlowSeries(payload, mode)" in JS
-    assert "color: sectorFlowPaletteColor(index)" in JS
+    assert 'sectorFlowColorAssignments: "tradex.marketWatch.sectorFlowColorAssignments.v1"' in JS
+    assert "stored.tradeDate !== tradeDate" in JS
+    assert "const scope = payload?.direction === \"offense\" ? \"offense\" : \"defense\"" in JS
+    assert "Number.isInteger(assignments[sectorKey])" in JS
+    assert "!usedSlots.has(candidate)" in JS
+    assert "storeJson(STORAGE_KEYS.sectorFlowColorAssignments, stored)" in JS
+    assert "color: sectorFlowPaletteColor(colorSlots[index])" in JS
     assert JS.count("const series = sectorFlowSeries(payload, mode)") == 2
     assert "sectorFlowStableHash" not in JS
-    assert "sectorFlowColorAssignments" not in JS
     assert "[index % 8]" not in JS
     assert "const height = Math.max(" in JS
     assert 'svg.setAttribute("viewBox", `0 0 ${width} ${height}`)' in JS
@@ -841,6 +847,7 @@ def test_watch_page_is_self_contained_and_desktop_only():
 
 def test_limit_up_pool_is_revision_bound_and_separates_current_display_from_relationships():
     assert 'const LIMIT_UP_POOL_ENDPOINT = "/api/limit-up-pool"' in JS
+    assert 'const LIMIT_UP_POOL_LATEST_ENDPOINT = "/api/limit-up-pool/latest"' in JS
     assert 'id="limit-up-pool-open-button"' in HTML
     assert 'id="limit-up-pool-dialog"' in HTML
     assert 'id="limit-up-pool-categories"' in HTML
@@ -854,17 +861,36 @@ def test_limit_up_pool_is_revision_bound_and_separates_current_display_from_rela
     assert 'text(item?.display_category_key, "") || "unresolved_business"' in JS
     assert "item?.display_category_name" in JS
     assert "item?.display_category_basis" in JS
+    assert 'boardCountBasis === "daily_closed_limit_up_history"' in JS
+    assert 'boardCountBasis === "unavailable"' in JS
     assert "payload.market_attributed_count" in JS
     assert "item?.business_tags" in JS
     assert "item?.statistical_industry_name" in JS
     assert "item.relationship_verification_status" in JS
     assert "只有题材而无直接业务证据时退回长期目录" in HTML
-    assert 'height > 0 ? `${height}板`' in JS
+    assert 'height > 0 ? `${height}板` : "历史日榜\\n不可用"' in JS
     assert "formatLimitUpSealTime(item.first_sealed_at)" in JS
+    assert (
+        'if (!state.limitUpPool) byId("limit-up-pool-button-count").textContent = "…";'
+        in JS
+    )
+    fetch_source = JS.split("async function fetchLimitUpPool", 1)[1].split(
+        "function openLimitUpPoolDialog",
+        1,
+    )[0]
+    assert "const hasPreviousPool = Boolean(state.limitUpPool);" in fetch_source
+    assert "等待新的真实盘面快照…当前继续显示上一版涨停池" in fetch_source
+    assert "正在刷新…当前继续显示上一版涨停池" in fetch_source
+    assert "继续显示上一版涨停池" in fetch_source
+    assert "fetchLatestAvailableLimitUpPool(summary)" in fetch_source
+    assert "精确版本准备中 · 当前显示同交易日上一版涨停池" in fetch_source
+    assert "state.limitUpPool = null;" not in fetch_source
+    assert "state.limitUpPoolRevision = null;" not in fetch_source
     card_source = JS.split("function limitUpPoolCard", 1)[1].split(
         "function renderLimitUpPool",
         1,
     )[0]
+    assert "区间记录 ·" in card_source
     assert "标签 ·" not in card_source
     assert "业务标签待核验" not in card_source
     assert "统计 ·" not in card_source

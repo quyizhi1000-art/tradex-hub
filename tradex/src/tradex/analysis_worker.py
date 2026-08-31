@@ -34,6 +34,7 @@ from tradex.market_watch.limit_sentiment_store import LimitSentimentStore
 from tradex.market_watch.read_facade import MarketWatchReadFacade
 from tradex.market_watch.review import ReviewTrigger
 from tradex.market_watch.review_evidence import collect_daily_market_review_evidence
+from tradex.market_watch.review_editorial_store import ReviewEditorialOverrideStore
 from tradex.market_watch.review_announcement_store import (
     ReviewOfficialAnnouncementStore,
 )
@@ -142,6 +143,7 @@ class AnalysisRuntime:
         review_store: PostMarketReviewStore | None = None,
         limit_sentiment_store: LimitSentimentStore | None = None,
         official_announcement_store: ReviewOfficialAnnouncementStore | None = None,
+        editorial_override_store: ReviewEditorialOverrideStore | None = None,
         selection_store: DailyStockSelectionStore | None = None,
         portfolio_reader: ManualPortfolioReader | None = None,
         enable_taxonomy_auto_refresh: bool = False,
@@ -157,6 +159,9 @@ class AnalysisRuntime:
             official_announcement_store
             or ReviewOfficialAnnouncementStore(read_only=True)
         )
+        self.editorial_override_store = (
+            editorial_override_store or ReviewEditorialOverrideStore()
+        )
         self.selection_store = selection_store or DailyStockSelectionStore()
         self.portfolio_reader = portfolio_reader or ManualPortfolioReader()
         self.read_facade = MarketWatchReadFacade(
@@ -169,6 +174,7 @@ class AnalysisRuntime:
             evidence_loader=self._load_review_evidence,
             history_loader=self._load_full_history,
             official_announcement_loader=self.official_announcement_store.get,
+            editorial_override_loader=self.editorial_override_store.get,
         )
         self.selection_service = DailyStockSelectionService(self.selection_store)
         self._enable_taxonomy_auto_refresh = bool(enable_taxonomy_auto_refresh)
@@ -325,6 +331,12 @@ class AnalysisRuntime:
             )
             for item in dates
         }
+        editorial_revisions = {
+            str(item["trade_date"]): self.editorial_override_store.revision(
+                str(item["trade_date"])
+            )
+            for item in dates
+        }
         with InstrumentTaxonomyReader() as reader:
             relationship_status = reader.status()
         catalog_revision = _revision({
@@ -334,6 +346,7 @@ class AnalysisRuntime:
                 relationship_status.catalog_revision if relationship_status else None
             ),
             "official_announcement_revisions": announcement_revisions,
+            "editorial_revisions": editorial_revisions,
         })
         published = 0
         latest_payload = None
@@ -347,6 +360,7 @@ class AnalysisRuntime:
                     "official_announcement_revision": announcement_revisions.get(
                         trade_date
                     ),
+                    "editorial_revision": editorial_revisions.get(trade_date),
                 }
             )
             existing = self.jobs.get_artifact(POST_MARKET_REVIEW, scope_key=scope)

@@ -347,6 +347,22 @@ def test_missing_high_days_uses_change_tag_without_guessing_limit_back(monkeypat
     assert df.attrs["unknown_board_count"] == 2
 
 
+def test_nonconsecutive_high_days_is_not_counted_as_streak_coverage(monkeypatch):
+    monkeypatch.setattr(
+        ths_fetchers,
+        "_get",
+        lambda *args, **kwargs: _FakeResponse(
+            _payload([_row("002418", high_days="5天4板")])
+        ),
+    )
+
+    frame = ths_fetchers.fetch_ths_limit_up_status("20260819")
+
+    assert frame.loc[0, "连板"] == "5天4板"
+    assert frame.attrs["board_count_coverage"] == 0.0
+    assert frame.attrs["unknown_board_count"] == 1
+
+
 @pytest.mark.parametrize(
     "trade_status",
     [None, "closed", {}, {"id": "closed"}, {"name": "已收盘"}],

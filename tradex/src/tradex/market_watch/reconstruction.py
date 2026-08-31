@@ -5,6 +5,7 @@ from __future__ import annotations
 import time as time_module
 from collections.abc import Callable, Iterable, Mapping
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from dataclasses import dataclass
 from datetime import date, datetime, time, timedelta
 from threading import Lock
 from typing import Any
@@ -24,6 +25,7 @@ from .analysis import build_market_watch_snapshot
 from .collection_contracts import RetryableCollectionError
 from .contracts import FreshnessStatus, MarketPhase, MarketWatchSnapshotV1
 from .history import MarketWatchHistoryStore
+from .recovery_source_cache import RecoverySourceMatrixStore
 
 
 SHANGHAI = ZoneInfo("Asia/Shanghai")
@@ -57,6 +59,12 @@ class HistoricalTrajectoryUnavailable(RetryableCollectionError):
         )
 
 
+@dataclass(frozen=True, slots=True)
+class _CachedIndexPoint:
+    close: float
+    amount_cny: float
+
+
 def _provider_time(value: Any) -> datetime | None:
     if not value:
         return None
@@ -72,11 +80,14 @@ def _provider_time(value: Any) -> datetime | None:
 def _assert_rotation_trajectory_current(
     risk: dict[str, Any],
     target: datetime,
+    *,
+    required_sector_keys: set[str] | None = None,
 ) -> None:
     """Fail before costly whole-market loading when a trajectory is already stale."""
 
     local = target.astimezone(SHANGHAI)
     stale: list[str] = []
+    observed_keys: set[str] = set()
     for field in (
         "sector_flow_trajectory",
         "offense_sector_flow_trajectory",
@@ -89,6 +100,14 @@ def _assert_rotation_trajectory_current(
             stale.append(field)
             continue
         for sector in sectors:
+            key = (
+                str(sector.get("sector_key") or field)
+                if isinstance(sector, dict)
+                else field
+            )
+            if required_sector_keys is not None and key not in required_sector_keys:
+                continue
+            observed_keys.add(key)
             latest = sector.get("latest") if isinstance(sector, dict) else None
             provider = _provider_time(
                 latest.get("provider_as_of") if isinstance(latest, dict) else None
@@ -100,12 +119,9 @@ def _assert_rotation_trajectory_current(
                 <= (local - provider).total_seconds()
                 <= _ROTATION_MAX_AGE_SECONDS
             ):
-                key = (
-                    str(sector.get("sector_key") or field)
-                    if isinstance(sector, dict)
-                    else field
-                )
                 stale.append(key)
+    if required_sector_keys is not None:
+        stale.extend(sorted(required_sector_keys - observed_keys))
     if stale:
         raise HistoricalTrajectoryUnavailable(
             "rotation trajectory is not current for target minute: "
@@ -153,6 +169,8 @@ def _rotation_cross_section_is_current(
 def _exact_flow_rotation_sectors(
     risk: dict[str, Any],
     target: datetime,
+    *,
+    required_sector_keys: set[str] | None = None,
 ) -> list[dict[str, Any]] | None:
     """Build current, flow-only evidence without inventing price or breadth."""
 
@@ -165,7 +183,9 @@ def _exact_flow_rotation_sectors(
         trajectory = risk.get(field)
         sectors = trajectory.get("sectors") if isinstance(trajectory, dict) else None
         if not isinstance(sectors, list) or not sectors:
-            return None
+            if required_sector_keys is None:
+                return None
+            continue
         for sector in sectors:
             if not isinstance(sector, dict):
                 return None
@@ -175,6 +195,8 @@ def _exact_flow_rotation_sectors(
             provider = _provider_time(latest.get("provider_as_of"))
             cumulative = latest.get("cumulative_cny")
             key = str(sector.get("sector_key") or "").strip()
+            if required_sector_keys is not None and key not in required_sector_keys:
+                continue
             name = str(sector.get("name") or "").strip()
             if (
                 not key
@@ -194,12 +216,16 @@ def _exact_flow_rotation_sectors(
                 "main_net_inflow_ratio": latest.get("main_net_inflow_pct"),
                 "provider_as_of": provider.isoformat(),
             }
+    if required_sector_keys is not None and not required_sector_keys.issubset(result):
+        return None
     return list(result.values()) or None
 
 
 def _prepare_historical_rotation(
     risk: dict[str, Any],
     target: datetime,
+    *,
+    required_sector_keys: set[str] | None = None,
 ) -> dict[str, Any]:
     component = {
         "status": "ready",
@@ -208,7 +234,11 @@ def _prepare_historical_rotation(
     }
     if _rotation_cross_section_is_current(risk, target):
         return component
-    sectors = _exact_flow_rotation_sectors(risk, target)
+    sectors = _exact_flow_rotation_sectors(
+        risk,
+        target,
+        required_sector_keys=required_sector_keys,
+    )
     if sectors is None:
         raise HistoricalTrajectoryUnavailable(
             "rotation cross-section is stale and exact flow-only evidence is unavailable",
@@ -234,6 +264,7 @@ class SameDayPostCloseReconstructor:
         rotation_loader: Callable[[datetime], dict[str, Any]],
         clock: Callable[[], datetime],
         rotation_curve_preparer: Callable[..., Mapping[str, Any]] | None = None,
+        source_cache: RecoverySourceMatrixStore | None = None,
         sleep: Callable[[float], None] = time_module.sleep,
         batch_pause_seconds: float = 0.0,
         batch_concurrency: int = 4,
@@ -242,6 +273,7 @@ class SameDayPostCloseReconstructor:
         self._target_minutes = target_minutes
         self._rotation_loader = rotation_loader
         self._rotation_curve_preparer = rotation_curve_preparer
+        self._source_cache = source_cache
         self._clock = clock
         self._sleep = sleep
         self._batch_pause_seconds = float(batch_pause_seconds)
@@ -256,8 +288,12 @@ class SameDayPostCloseReconstructor:
         self._stock_prices: dict[time, dict[str, float]] = {}
         self._index_points: dict[str, dict[time, Any]] = {}
         self._index_previous_close: dict[str, tuple[str, float]] = {}
+        self._partial_trade_date: date | None = None
+        self._partial_previous_close: dict[str, float] = {}
+        self._partial_stock_prices: dict[time, dict[str, float]] = {}
         self._prepared_rotation_date: date | None = None
         self._prepared_rotation_minutes: set[time] = set()
+        self._prepared_rotation_keys: set[str] = set()
 
     def reconstruct_opening_auction(
         self,
@@ -438,6 +474,7 @@ class SameDayPostCloseReconstructor:
         if self._prepared_rotation_date != local.date():
             self._prepared_rotation_date = local.date()
             self._prepared_rotation_minutes = set()
+            self._prepared_rotation_keys = set()
         if (
             self._rotation_curve_preparer is not None
             and not required_times.issubset(self._prepared_rotation_minutes)
@@ -457,10 +494,37 @@ class SameDayPostCloseReconstructor:
                     "exact sector-flow curves are still converging: " + detail,
                     target=local,
                 )
+            prepared_keys = {
+                str(item).strip()
+                for item in preparation.get("ready_target_keys") or ()
+                if str(item).strip()
+            }
+            if int(preparation.get("known_targets") or 0) and not prepared_keys:
+                raise HistoricalTrajectoryUnavailable(
+                    "exact sector-flow preparation omitted its recovery scope",
+                    target=local,
+                )
             self._prepared_rotation_minutes.update(required_times)
+            self._prepared_rotation_keys.update(prepared_keys)
         risk = dict(self._rotation_loader(local))
-        _assert_rotation_trajectory_current(risk, local)
-        rotation_component = _prepare_historical_rotation(risk, local)
+        _assert_rotation_trajectory_current(
+            risk,
+            local,
+            required_sector_keys=(
+                self._prepared_rotation_keys
+                if self._rotation_curve_preparer is not None
+                else None
+            ),
+        )
+        rotation_component = _prepare_historical_rotation(
+            risk,
+            local,
+            required_sector_keys=(
+                self._prepared_rotation_keys
+                if self._rotation_curve_preparer is not None
+                else None
+            ),
+        )
         previous_date, previous_amount = self._previous_turnover(local)
         self._ensure_loaded(local, progress)
         progress(2, 6, "breadth", "正在按目标分钟与昨收重算全市场涨跌家数")
@@ -586,6 +650,17 @@ class SameDayPostCloseReconstructor:
             }
             requested_times.add(target.time())
             observed = self._clock().astimezone(SHANGHAI)
+            if self._source_cache is not None:
+                cached = self._source_cache.read(target.date(), requested_times)
+                if cached is not None:
+                    self._restore_source_cache(cached)
+                    progress(
+                        1,
+                        6,
+                        "source_cache",
+                        "已复用进程重启前保存的同日精确分钟源",
+                    )
+                    return
             universe = fetch_a_share_universe_snapshot(
                 now=observed,
                 trade_date=target.date(),
@@ -600,11 +675,30 @@ class SameDayPostCloseReconstructor:
             }
             if len(previous_close) != len(universe.quotes) or universe.excluded_row_count:
                 raise RuntimeError("A-share universe lacks complete previous-close coverage")
-            stock_prices = {minute: {} for minute in requested_times}
-            codes = tuple(previous_close)
+            if (
+                self._partial_trade_date == target.date()
+                and self._partial_previous_close == previous_close
+            ):
+                stock_prices = {
+                    minute: dict(self._partial_stock_prices.get(minute) or {})
+                    for minute in requested_times
+                }
+            else:
+                stock_prices = {minute: {} for minute in requested_times}
+            self._partial_trade_date = target.date()
+            self._partial_previous_close = previous_close
+            self._partial_stock_prices = stock_prices
+            codes = tuple(
+                instrument_id
+                for instrument_id in previous_close
+                if any(
+                    instrument_id not in stock_prices[minute]
+                    for minute in requested_times
+                )
+            )
             batches = tuple(codes[offset:offset + 40] for offset in range(0, len(codes), 40))
             completed_batches = 0
-            loaded_instruments = 0
+            loaded_instruments = len(previous_close) - len(codes)
 
             def accept_batch(
                 batch: tuple[str, ...],
@@ -625,7 +719,7 @@ class SameDayPostCloseReconstructor:
                     completed_batches,
                     len(batches),
                     "stock_minutes",
-                    f"已加载 {loaded_instruments}/{len(codes)} 只，逐只回退 {omitted_count} 只",
+                    f"已加载 {loaded_instruments}/{len(previous_close)} 只，逐只回退 {omitted_count} 只",
                 )
 
             worker_count = (
@@ -689,11 +783,70 @@ class SameDayPostCloseReconstructor:
             missing_identities = {item[0] for item in _INDEX_ROLES} - set(identities)
             if missing_identities:
                 raise RuntimeError(f"final index overview lacks previous close: {sorted(missing_identities)}")
+            incomplete_minutes = {
+                minute: len(previous_close) - len(stock_prices.get(minute) or {})
+                for minute in requested_times
+                if set(stock_prices.get(minute) or {}) != set(previous_close)
+            }
+            if incomplete_minutes:
+                detail = ", ".join(
+                    f"{minute:%H:%M} missing {count}"
+                    for minute, count in sorted(incomplete_minutes.items())[:8]
+                )
+                raise RuntimeError("same-day stock minute matrix is incomplete: " + detail)
+            if self._source_cache is not None:
+                self._source_cache.record(
+                    trade_date=target.date(),
+                    provider_as_of=provider_as_of,
+                    previous_close=previous_close,
+                    stock_prices=stock_prices,
+                    index_points=index_points,
+                    index_previous_close=identities,
+                )
             self._trade_date = target.date()
             self._previous_close = previous_close
             self._stock_prices = stock_prices
             self._index_points = index_points
             self._index_previous_close = identities
+            self._partial_trade_date = None
+            self._partial_previous_close = {}
+            self._partial_stock_prices = {}
+
+    def _restore_source_cache(self, payload: Mapping[str, Any]) -> None:
+        trade_date = date.fromisoformat(str(payload["trade_date"]))
+        previous_close = {
+            str(instrument_id): float(value)
+            for instrument_id, value in dict(payload["previous_close"]).items()
+        }
+        stock_prices = {
+            time.fromisoformat(str(minute)): {
+                str(instrument_id): float(value)
+                for instrument_id, value in dict(values).items()
+            }
+            for minute, values in dict(payload["stock_prices"]).items()
+        }
+        index_points = {
+            str(instrument_id): {
+                time.fromisoformat(str(minute)): _CachedIndexPoint(
+                    close=float(point["close"]),
+                    amount_cny=float(point["amount_cny"]),
+                )
+                for minute, point in dict(series).items()
+            }
+            for instrument_id, series in dict(payload["index_points"]).items()
+        }
+        index_previous_close = {
+            str(instrument_id): (str(value[0]), float(value[1]))
+            for instrument_id, value in dict(payload["index_previous_close"]).items()
+        }
+        self._trade_date = trade_date
+        self._previous_close = previous_close
+        self._stock_prices = stock_prices
+        self._index_points = index_points
+        self._index_previous_close = index_previous_close
+        self._partial_trade_date = None
+        self._partial_previous_close = {}
+        self._partial_stock_prices = {}
 
     def _load_stock_batch(
         self,

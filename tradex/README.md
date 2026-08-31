@@ -439,7 +439,7 @@ TUSHARE_REALTIME_DAILY_RATE_LIMIT_PER_MINUTE=50
 TUSHARE_REALTIME_MINUTE_RATE_LIMIT_PER_MINUTE=500
 TUSHARE_AUCTION_RATE_LIMIT_PER_MINUTE=500
 # sector_quotes 仅在账号已单独开通 rt_sw_k 后加入
-TUSHARE_PRIMARY_CAPABILITIES=realtime_quote,historical_kline,auction_data,market_universe,etf_quotes,stock_fund_flow,dragon_tiger_market_day,minute_data
+TUSHARE_PRIMARY_CAPABILITIES=realtime_quote,historical_kline,auction_data,market_universe,etf_quotes,stock_fund_flow,dragon_tiger_market_day,minute_data,limit_up_daily_membership
 
 BIYING_ENABLED=true
 BIYING_LICENCE_FILE=../key/必营key.txt
