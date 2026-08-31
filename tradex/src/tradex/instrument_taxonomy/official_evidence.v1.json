@@ -652,6 +652,750 @@
           "assertions": ["主营归属:网络安全", "项目:宜兴人工智能算力中心", "业务:算力中心设备采购及运营", "边界:算力是当期主显示且不改写长期主营"]
         }
       ]
+    },
+    {
+      "instrument_id": "688152.SH",
+      "primary_business_key": "operating_system",
+      "primary_business_name": "操作系统",
+      "business_tags": ["操作系统", "云计算", "信息安全", "智能Shell", "智能运维", "AI场景全栈支撑", "AI应用"],
+      "evidence": [
+        {
+          "evidence_id": "official-kylinsec-midyear-report-2026",
+          "source_kind": "official_filing",
+          "publisher": "湖南麒麟信安科技股份有限公司",
+          "title": "麒麟信安2026年半年度报告",
+          "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12545073&stockid=688152",
+          "published_at": "2026-08-27",
+          "retrieved_at": "2026-08-31T12:30:00+08:00",
+          "assertions": ["主营归属:操作系统", "应用:智能Shell", "应用:智能运维", "应用:AI场景全栈支撑", "边界:AI应用是当期市场主显示"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "003005.SZ",
+      "primary_business_key": "education",
+      "primary_business_name": "智慧教育",
+      "business_tags": ["智慧教育", "智慧招考", "智慧轨道", "星空教育大模型", "星空AI智能体平台", "AI教学应用", "智能体", "AI应用"],
+      "evidence": [
+        {
+          "evidence_id": "official-jingyeda-midyear-report-2026",
+          "source_kind": "official_filing",
+          "publisher": "北京竞业达数码科技股份有限公司",
+          "title": "竞业达2026年半年度报告",
+          "source_url": "https://stock.stockstar.com/notice/SN2026082900006496.shtml",
+          "published_at": "2026-08-29",
+          "retrieved_at": "2026-08-31T12:30:00+08:00",
+          "assertions": ["主营归属:智慧教育", "产品:星空教育大模型", "产品:星空AI智能体平台", "应用:AI教学", "边界:AI应用是当期市场主显示"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "002328.SZ",
+      "primary_business_key": "auto_parts",
+      "primary_business_name": "汽车零部件",
+      "business_tags": ["汽车零部件", "金属及通信零部件", "数据中心机柜", "自主液冷机柜", "液冷配套结构件", "液冷产品小批量交付"],
+      "evidence": [
+        {
+          "evidence_id": "official-xinpeng-midyear-report-2026",
+          "source_kind": "official_filing",
+          "publisher": "上海新朋实业股份有限公司",
+          "title": "新朋股份2026年半年度报告",
+          "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12561365&stockid=002328",
+          "published_at": "2026-08-28",
+          "retrieved_at": "2026-08-31T12:30:00+08:00",
+          "assertions": ["主营归属:汽车零部件", "产品:自主液冷机柜", "产品:液冷配套结构件", "进展:部分产品小批量交付", "边界:液冷是当期市场主显示"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "605287.SH",
+      "primary_business_key": "construction",
+      "primary_business_name": "建筑装饰",
+      "business_tags": ["建筑装饰", "城市更新", "AI漫剧", "AI内容生产", "AIGC智能体", "互动影游Agent", "AI应用"],
+      "evidence": [
+        {
+          "evidence_id": "official-decai-midyear-report-2026",
+          "source_kind": "official_filing",
+          "publisher": "德才装饰股份有限公司",
+          "title": "德才股份2026年半年度报告",
+          "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12570045&stockid=605287",
+          "published_at": "2026-08-29",
+          "retrieved_at": "2026-08-31T12:30:00+08:00",
+          "assertions": ["主营归属:建筑装饰", "控股子公司:奇想无限", "业务:AI漫剧与AI内容生产", "产品:AIGC智能体与互动影游Agent", "边界:AI应用是当期市场主显示"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "603533.SH",
+      "primary_business_key": "media",
+      "primary_business_name": "数字内容",
+      "directory_category_key": "media",
+      "directory_category_name": "传媒",
+      "business_tags": ["数字内容", "数字阅读", "短剧", "AI短剧", "AI漫剧", "泡漫AI漫剧一站式生成平台", "AI短剧全链路生产运营系统", "AI应用"],
+      "evidence": [
+        {
+          "evidence_id": "official-ireader-annual-report-2025",
+          "source_kind": "official_filing",
+          "publisher": "掌阅科技股份有限公司",
+          "title": "掌阅科技2025年年度报告",
+          "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12187821&stockid=603533",
+          "published_at": "2026-04-25",
+          "retrieved_at": "2026-08-31T12:55:00+08:00",
+          "assertions": ["主营归属:数字内容", "平台:泡漫AI漫剧一站式生成平台", "能力:AI短剧全链路生产运营系统", "业务:AI真人剧与AI漫剧", "边界:有实际AI生产应用时当期主显示为AI应用"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "600551.SH",
+      "primary_business_key": "media",
+      "primary_business_name": "出版传媒",
+      "directory_category_key": "media",
+      "directory_category_name": "传媒",
+      "business_tags": ["出版传媒", "图书期刊出版", "新媒体出版", "教育服务", "印刷包装", "AI出版"],
+      "evidence": [
+        {
+          "evidence_id": "official-time-publishing-midyear-report-2026",
+          "source_kind": "official_filing",
+          "publisher": "时代出版传媒股份有限公司",
+          "title": "时代出版2026年半年度报告",
+          "source_url": "https://static.sse.com.cn/disclosure/listedinfo/announcement/c/new/2026-08-28/600551_20260828_9JHH.pdf",
+          "published_at": "2026-08-28",
+          "retrieved_at": "2026-08-31T14:18:00+08:00",
+          "assertions": ["主营归属:出版传媒", "业务:图书期刊出版", "业务:新媒体出版", "业务:教育服务", "边界:AI出版不自动改写传媒主营"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "000917.SZ",
+      "primary_business_key": "media",
+      "primary_business_name": "综合传媒",
+      "directory_category_key": "media",
+      "directory_category_name": "传媒",
+      "business_tags": ["综合传媒", "影视节目制作", "广播电视节目传送", "广告运营", "文化创意", "文旅"],
+      "evidence": [
+        {
+          "evidence_id": "official-tvbroadcast-midyear-report-2026",
+          "source_kind": "official_filing",
+          "publisher": "湖南电广传媒股份有限公司",
+          "title": "电广传媒2026年半年度报告",
+          "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12506665&stockid=000917",
+          "published_at": "2026-08-20",
+          "retrieved_at": "2026-08-31T14:18:00+08:00",
+          "assertions": ["主营归属:综合传媒", "业务:影视节目制作发行销售", "业务:广播电视节目传送", "业务:广告设计制作发布代理"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "603139.SH",
+      "primary_business_key": "traditional_chinese_medicine",
+      "primary_business_name": "中成药",
+      "directory_category_key": "medical_pharma",
+      "directory_category_name": "医疗医药",
+      "business_tags": ["中成药", "医药制造", "医药流通", "算力服务", "高性能算力服务器", "全周期运维"],
+      "evidence": [
+        {
+          "evidence_id": "official-kanghui-midyear-report-2026",
+          "source_kind": "official_filing",
+          "publisher": "陕西康惠制药股份有限公司",
+          "title": "康惠股份2026年半年度报告",
+          "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12571130&stockid=603139",
+          "published_at": "2026-08-29",
+          "retrieved_at": "2026-08-31T14:18:00+08:00",
+          "assertions": ["主营归属:中成药", "业务:医药制造", "业务:医药流通", "已实现收入:算力服务", "边界:算力是当期主显示但不改写长期主营"]
+        },
+        {
+          "evidence_id": "official-kanghui-compute-service-contract-2026",
+          "source_kind": "official_filing",
+          "publisher": "陕西康惠制药股份有限公司",
+          "title": "关于全资子公司签署算力服务合同的公告",
+          "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12456906&stockid=603139",
+          "published_at": "2026-07-22",
+          "retrieved_at": "2026-08-31T14:18:00+08:00",
+          "assertions": ["业务:算力服务", "服务:高性能算力服务器组网", "服务:全周期运维", "合同预计金额:4.15亿元至6.79亿元"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "601929.SH",
+      "primary_business_key": "media",
+      "primary_business_name": "广电传媒",
+      "directory_category_key": "media",
+      "directory_category_name": "传媒",
+      "business_tags": ["广电传媒", "有线电视", "IPTV集成播控", "广电5G", "广播电视节目传输", "算力租赁", "IDC"],
+      "evidence": [
+        {
+          "evidence_id": "official-jishimedia-midyear-report-2026",
+          "source_kind": "official_filing",
+          "publisher": "吉视传媒股份有限公司",
+          "title": "吉视传媒2026年半年度报告",
+          "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12525415&stockid=601929",
+          "published_at": "2026-08-25",
+          "retrieved_at": "2026-08-31T14:18:00+08:00",
+          "assertions": ["主营归属:广电传媒", "业务:有线电视运营", "业务:IPTV集成播控", "业务:广播电视节目传输", "伴随业务:算力租赁和IDC"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "603058.SH",
+      "primary_business_key": "printing_packaging",
+      "primary_business_name": "精品纸包装",
+      "business_tags": ["精品纸包装", "烟标", "酒标", "管制药品", "AIGC漫剧", "AIGC互动IP", "IP衍生品"],
+      "evidence": [
+        {
+          "evidence_id": "official-yongji-midyear-report-2026",
+          "source_kind": "official_filing",
+          "publisher": "贵州永吉印务股份有限公司",
+          "title": "永吉股份2026年半年度报告",
+          "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12472586&stockid=603058",
+          "published_at": "2026-08-01",
+          "retrieved_at": "2026-08-31T14:18:00+08:00",
+          "assertions": ["主营归属:精品纸包装", "业务:管制药品", "新业务:AIGC漫剧", "新业务:AIGC互动IP与IP衍生品", "边界:AI应用是当期主显示且不改写长期主营"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "301262.SZ",
+      "primary_business_key": "media",
+      "primary_business_name": "IPTV与视听内容",
+      "directory_category_key": "media",
+      "directory_category_name": "传媒",
+      "business_tags": ["IPTV与视听内容", "IPTV", "视听内容", "微短剧", "海看鲸灵AI影视创作平台", "视听传媒智创大模型", "AI漫剧规模化量产", "AI应用"],
+      "evidence": [
+        {
+          "evidence_id": "official-haikan-midyear-report-2026",
+          "source_kind": "official_filing",
+          "publisher": "海看网络科技（山东）股份有限公司",
+          "title": "海看股份2026年半年度报告",
+          "source_url": "https://stock.stockstar.com/notice/SN2026082600050059.shtml",
+          "published_at": "2026-08-27",
+          "retrieved_at": "2026-08-31T14:40:00+08:00",
+          "assertions": ["主营归属:IPTV与视听内容", "平台:海看鲸灵AI影视创作平台", "产品:视听传媒智创大模型", "进展:AI漫剧规模化量产", "边界:AI应用是当期主显示且不改写传媒主营"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "603068.SH",
+      "primary_business_key": "chips",
+      "primary_business_name": "无线通信芯片",
+      "directory_category_key": "chips",
+      "directory_category_name": "芯片",
+      "business_tags": ["无线通信芯片", "Wi-Fi芯片", "蓝牙芯片", "Wi-Fi 6芯片", "边缘AI芯片", "AIoT"],
+      "evidence": [
+        {
+          "evidence_id": "official-beken-midyear-report-2026",
+          "source_kind": "official_filing",
+          "publisher": "博通集成电路（上海）股份有限公司",
+          "title": "博通集成2026年半年度报告",
+          "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12509251&stockid=603068",
+          "published_at": "2026-08-21",
+          "retrieved_at": "2026-08-31T14:40:00+08:00",
+          "assertions": ["主营归属:无线通信芯片", "产品:Wi-Fi芯片", "产品:蓝牙芯片", "产品:边缘AI芯片", "边界:边缘AI和AIoT题材不改写芯片归属"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "002757.SZ",
+      "primary_business_key": "digital_infrastructure",
+      "primary_business_name": "数字基础设施",
+      "business_tags": ["数字基础设施", "数据中心", "云计算", "算力资源池", "一站式MaaS服务平台", "行业智能体", "小鹭AIGC智能助手", "AI应用"],
+      "evidence": [
+        {
+          "evidence_id": "official-nanxing-midyear-report-2026",
+          "source_kind": "official_filing",
+          "publisher": "南兴装备股份有限公司",
+          "title": "南兴股份2026年半年度报告",
+          "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12569402&stockid=002757",
+          "published_at": "2026-08-29",
+          "retrieved_at": "2026-08-31T14:40:00+08:00",
+          "assertions": ["主营归属:数字基础设施", "平台:一站式MaaS服务平台", "产品:行业智能体", "产品:小鹭AIGC智能助手", "边界:当日主显示取已落地AI应用层且不改写长期基础设施业务"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "300911.SZ",
+      "primary_business_key": "home_appliances",
+      "primary_business_name": "厨房电器",
+      "directory_category_key": "consumer",
+      "directory_category_name": "消费",
+      "business_tags": ["厨房电器", "集成灶", "算力服务", "亿田算力中心", "万卡智算", "智算算力", "大模型应用技术支持"],
+      "evidence": [
+        {
+          "evidence_id": "official-entive-midyear-report-2026",
+          "source_kind": "official_filing",
+          "publisher": "浙江亿田智能厨电股份有限公司",
+          "title": "亿田智能2026年半年度报告",
+          "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12567576&stockid=300911",
+          "published_at": "2026-08-29",
+          "retrieved_at": "2026-08-31T14:40:00+08:00",
+          "assertions": ["稳定主营:厨房电器", "新业务:算力服务", "定位:智算一站式先锋服务商", "进展:算力服务已确认收入", "边界:算力是当期主显示且不改写长期厨电主营"]
+        },
+        {
+          "evidence_id": "official-entive-compute-center-contract-2026",
+          "source_kind": "official_filing",
+          "publisher": "浙江亿田智能厨电股份有限公司",
+          "title": "关于子公司签署算力中心项目建设合同的公告",
+          "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12502935&stockid=300911",
+          "published_at": "2026-08-18",
+          "retrieved_at": "2026-08-31T14:40:00+08:00",
+          "assertions": ["合同:亿田算力中心项目建设", "合同金额:10亿元", "服务:智算算力", "服务:大模型应用技术支持"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "603950.SH",
+      "primary_business_key": "auto_parts",
+      "primary_business_name": "发动机零部件",
+      "directory_category_key": "auto_parts",
+      "directory_category_name": "汽车零部件",
+      "business_tags": ["发动机零部件", "缸体", "缸盖", "连杆", "发电用大缸径柴油发动机", "燃气轮机发电机组", "燃机与电力"],
+      "evidence": [
+        {
+          "evidence_id": "official-changyuandonggu-midyear-report-2026",
+          "source_kind": "official_filing",
+          "publisher": "襄阳长源东谷实业股份有限公司",
+          "title": "长源东谷2026年半年度报告",
+          "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12546796&stockid=603950",
+          "published_at": "2026-08-27",
+          "retrieved_at": "2026-08-31T14:40:00+08:00",
+          "assertions": ["稳定主营:发动机核心零部件", "产品:发电用大缸径柴油发动机核心零部件", "新板块:燃机与电力", "合同:燃气轮机发电机组", "边界:当日按算力电源链显示且不改写汽车零部件主营"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "603236.SH",
+      "primary_business_key": "communication_modules",
+      "primary_business_name": "无线通信模组",
+      "directory_category_key": "communications",
+      "directory_category_name": "通信",
+      "business_tags": ["无线通信模组", "物联网模组", "车载模组", "端侧AI", "AI算力模组", "100TOPS以上智能模组", "AI解决方案", "物理AI", "具身智能机器人", "Robrain AI机器人解决方案", "机器人核心算力板卡", "机器人大小脑域控制器", "端侧AI大模型", "端云协同AI Agent", "移远轮臂式具身机器人平台", "感知决策执行闭环"],
+      "evidence": [
+        {
+          "evidence_id": "official-quectel-midyear-report-2026",
+          "source_kind": "official_filing",
+          "publisher": "上海移远通信技术股份有限公司",
+          "title": "移远通信2026年半年度报告",
+          "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12490083&stockid=603236",
+          "published_at": "2026-08-13",
+          "retrieved_at": "2026-08-31T15:56:00+08:00",
+          "assertions": ["稳定主营:无线通信模组", "项目:AI算力模组及AI解决方案产业化", "产品:不同算力等级的AI模组", "规划:100TOPS以上智能模组", "边界:稳定主营不因当日物理AI主显示而改写"]
+        },
+        {
+          "evidence_id": "official-quectel-embedded-world-2026",
+          "source_kind": "official_company",
+          "publisher": "上海移远通信技术股份有限公司",
+          "title": "移远通信亮相embedded world 2026",
+          "source_url": "https://www.quectel.com.cn/news-and-pr/embedded-world-2026",
+          "published_at": "2026-03-14",
+          "retrieved_at": "2026-08-31T15:56:00+08:00",
+          "assertions": ["赛道:具身智能机器人", "方案:连接+计算+AI能力+工程化平台", "产品:机器人核心算力板卡", "产品:机器人大小脑域控制器", "能力:适配端侧大模型与端云协同框架"]
+        },
+        {
+          "evidence_id": "official-quectel-waic-embodied-platform-2026",
+          "source_kind": "official_company",
+          "publisher": "上海移远通信技术股份有限公司",
+          "title": "WAIC 2026移远轮臂式具身机器人平台",
+          "source_url": "https://www.quectel.com.cn/news-and-pr/waic-2026-wheeled-arm-embodied-robot-platform",
+          "published_at": "2026-07-20",
+          "retrieved_at": "2026-08-31T15:56:00+08:00",
+          "assertions": ["产品:自研轮臂式具身机器人平台", "产品:自研大小脑协同控制器", "闭环:感知推理决策执行", "进展:实机完成自主识别抓取递送"]
+        },
+        {
+          "evidence_id": "official-quectel-uniclaw-agentic-iot-2026",
+          "source_kind": "official_company",
+          "publisher": "上海移远通信技术股份有限公司",
+          "title": "移远通信发布UniClaw Agentic IoT框架",
+          "source_url": "https://www.quectel.com.cn/news-and-pr/uniclaw",
+          "published_at": "2026-06-25",
+          "retrieved_at": "2026-08-31T15:56:00+08:00",
+          "assertions": ["产品:AI Agent嵌入式部署框架", "目标:推动AI Agent从数字世界落地物理世界", "闭环:感知决策行动协作进化"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "603090.SH",
+      "primary_business_key": "heat_exchangers",
+      "primary_business_name": "换热器与热管理",
+      "business_tags": ["换热器与热管理", "铝制板翅式换热器", "热管理系统", "数据中心散热", "储能热管理", "高效换热产品"],
+      "evidence": [
+        {
+          "evidence_id": "official-hongsheng-midyear-report-2026",
+          "source_kind": "official_filing",
+          "publisher": "无锡宏盛换热器制造股份有限公司",
+          "title": "宏盛股份2026年半年度报告",
+          "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12543973&stockid=603090",
+          "published_at": "2026-08-27",
+          "retrieved_at": "2026-08-31T15:10:00+08:00",
+          "assertions": ["稳定主营:换热器与热管理", "产品:铝制板翅式换热器", "产品:热管理系统", "应用:数据中心高功率设备散热", "边界:当期液冷主显示不改写稳定业务名称"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "603559.SH",
+      "primary_business_key": "communication_services",
+      "primary_business_name": "通信技术服务",
+      "directory_category_key": "communications",
+      "directory_category_name": "通信",
+      "business_tags": ["通信技术服务", "通信工程", "网络维护", "IDC运维及增值服务", "数据中心", "系统集成"],
+      "evidence": [
+        {
+          "evidence_id": "official-zhongtongguomai-midyear-report-2026",
+          "source_kind": "official_filing",
+          "publisher": "中通国脉通信股份有限公司",
+          "title": "中通国脉2026年半年度报告",
+          "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12532545&stockid=603559",
+          "published_at": "2026-08-26",
+          "retrieved_at": "2026-08-31T15:10:00+08:00",
+          "assertions": ["稳定主营:通信技术服务", "业务:通信工程与网络维护", "已实现收入:IDC运维及增值服务", "边界:IDC服务支持当期算力主显示"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "001330.SZ",
+      "primary_business_key": "film_and_cinema",
+      "primary_business_name": "影视与院线",
+      "directory_category_key": "media",
+      "directory_category_name": "传媒",
+      "business_tags": ["影视与院线", "电影", "影院及院线", "AI影视剧", "博卡云平台", "AI短剧", "AI电影", "全流程AI影视制作"],
+      "evidence": [
+        {
+          "evidence_id": "official-bonafilm-midyear-report-2026",
+          "source_kind": "official_filing",
+          "publisher": "博纳影业集团股份有限公司",
+          "title": "博纳影业2026年半年度报告",
+          "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12539906&stockid=001330",
+          "published_at": "2026-08-26",
+          "retrieved_at": "2026-08-31T15:10:00+08:00",
+          "assertions": ["稳定主营:影视与院线", "交付:两部AI短剧", "产品:博卡云平台", "能力:全流程AI影视制作", "收入:AI影视剧已产生收入", "边界:AI应用是当期主显示且不改写传媒主营"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "003018.SZ",
+      "primary_business_key": "packaging_and_liquid_cooling",
+      "primary_business_name": "包装制品与液冷散热",
+      "business_tags": ["包装制品与液冷散热", "食品饮料包装", "液冷管路", "液冷组件", "液冷板", "服务器散热", "数据中心散热", "双主业"],
+      "evidence": [
+        {
+          "evidence_id": "official-jinfu-midyear-report-2026",
+          "source_kind": "official_filing",
+          "publisher": "金富科技股份有限公司",
+          "title": "金富科技2026年半年度报告",
+          "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12573633&stockid=003018",
+          "published_at": "2026-08-29",
+          "retrieved_at": "2026-08-31T15:10:00+08:00",
+          "assertions": ["稳定主营:包装制品与液冷散热", "战略:包装与液冷双主业", "产品:液冷管路和液冷组件", "进展:液冷业务已并表并贡献收入利润", "应用:服务器和数据中心散热"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "002881.SZ",
+      "primary_business_key": "communication_modules",
+      "primary_business_name": "无线通信模组及解决方案",
+      "directory_category_key": "communications",
+      "directory_category_name": "通信",
+      "business_tags": ["无线通信模组及解决方案", "高算力模组", "0.5TOPS到700TOPS算力模组", "智能模组", "AI推理服务器", "ARM架构服务器", "端侧AI全栈能力", "物理AI", "AI模组+Agent", "连接、感知、决策、执行", "具身智能机器人方案", "智能体终端"],
+      "evidence": [
+        {
+          "evidence_id": "official-meigsmart-midyear-report-2026",
+          "source_kind": "official_filing",
+          "publisher": "美格智能技术股份有限公司",
+          "title": "美格智能2026年半年度报告",
+          "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12560853&stockid=002881",
+          "published_at": "2026-08-28",
+          "retrieved_at": "2026-08-31T16:05:00+08:00",
+          "assertions": ["稳定主营:无线通信模组及解决方案", "产品:0.5TOPS到700TOPS算力模组矩阵", "产品:原生融合端侧算力与Agent能力的AI模组", "能力:连接、感知、决策、执行", "应用:物理AI和智能体硬件", "能力:端侧AI全栈软件平台", "边界:直接提供物理AI端侧产品栈而非只有通用算力参数"]
+        },
+        {
+          "evidence_id": "official-meigsmart-physical-ai-delivery-2026",
+          "source_kind": "official_company",
+          "publisher": "美格智能技术股份有限公司",
+          "title": "物理AI加速落地：77TOPS AI模组大规模量产交付",
+          "source_url": "https://www.meigsmart.com/article/4/xwzx10.html",
+          "published_at": "2026-05-20",
+          "retrieved_at": "2026-08-31T16:05:00+08:00",
+          "assertions": ["官方表述:物理AI加速落地", "产品:77TOPS AI模组", "进展:大规模量产交付", "方案:端侧Agent开发和部署"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "000977.SZ",
+      "primary_business_key": "servers_and_ai_systems",
+      "primary_business_name": "服务器及人工智能计算系统",
+      "directory_category_key": "data_center",
+      "directory_category_name": "数据中心",
+      "business_tags": ["服务器及人工智能计算系统", "AI服务器", "服务器及部件", "存储产品", "交换机产品", "X400超级AI以太网交换机", "数据中心交换机", "400G交换机"],
+      "evidence": [
+        {
+          "evidence_id": "official-inspur-midyear-report-2026",
+          "source_kind": "official_filing",
+          "publisher": "浪潮电子信息产业股份有限公司",
+          "title": "浪潮信息2026年半年度报告",
+          "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12571681&stockid=000977",
+          "published_at": "2026-08-29",
+          "retrieved_at": "2026-08-31T16:05:00+08:00",
+          "assertions": ["稳定主营:服务器及人工智能计算系统", "产品:存储类与交换类产品", "收入:存储与交换产品收入同比增长"]
+        },
+        {
+          "evidence_id": "official-inspur-x400-switch",
+          "source_kind": "official_company",
+          "publisher": "浪潮电子信息产业股份有限公司",
+          "title": "SC8670EL-128QH（X400）超级AI以太网交换机",
+          "source_url": "https://www.ieisystem.com/product/networking/20366.html",
+          "published_at": "2026-08-01",
+          "retrieved_at": "2026-08-31T16:05:00+08:00",
+          "assertions": ["产品:X400超级AI以太网交换机", "规格:128个400G端口", "应用:AIGC网络和数据中心网络"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "603001.SH",
+      "primary_business_key": "footwear_retail",
+      "primary_business_name": "鞋履品牌与零售",
+      "directory_category_key": "consumer",
+      "directory_category_name": "消费",
+      "business_tags": ["鞋履品牌与零售", "皮鞋", "男鞋", "女鞋", "皮具", "直营店", "加盟店", "线上销售", "线下销售"],
+      "evidence": [
+        {
+          "evidence_id": "official-aokang-midyear-report-2026",
+          "source_kind": "official_filing",
+          "publisher": "浙江奥康鞋业股份有限公司",
+          "title": "奥康国际2026年半年度报告",
+          "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12484108&stockid=603001",
+          "published_at": "2026-08-08",
+          "retrieved_at": "2026-08-31T16:05:00+08:00",
+          "assertions": ["稳定主营:皮鞋及皮具研发生产零售分销", "产品:男鞋女鞋及皮具", "渠道:直营加盟线上线下", "目录归属:消费"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "603297.SH",
+      "primary_business_key": "precision_optics",
+      "primary_business_name": "精密光学元组件与显微镜",
+      "directory_category_key": "precision_optics",
+      "directory_category_name": "精密光学",
+      "business_tags": ["精密光学元组件与显微镜", "光学元组件", "显微镜", "机器视觉", "激光雷达", "空间激光通信光学元组件", "高速光通信光学元件"],
+      "evidence": [
+        {
+          "evidence_id": "official-yongxin-midyear-report-2026",
+          "source_kind": "official_filing",
+          "publisher": "宁波永新光学股份有限公司",
+          "title": "永新光学2026年半年度报告",
+          "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12547146&stockid=603297",
+          "published_at": "2026-08-27",
+          "retrieved_at": "2026-08-31T16:05:00+08:00",
+          "assertions": ["稳定主营:精密光学元组件与显微镜", "产品:光学元组件", "应用:机器视觉和激光雷达", "应用:空间激光通信光学元组件", "边界:CPO为当日上游光学主显示且不改写稳定主营"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "601136.SH",
+      "primary_business_key": "securities_services",
+      "primary_business_name": "综合证券服务",
+      "directory_category_key": "securities",
+      "directory_category_name": "证券",
+      "business_tags": ["综合证券服务", "证券公司", "资产管理类业务", "投资类业务", "投资银行类业务", "财富管理类业务", "代理买卖证券"],
+      "evidence": [
+        {
+          "evidence_id": "official-capital-securities-midyear-report-2026",
+          "source_kind": "official_filing",
+          "publisher": "首创证券股份有限公司",
+          "title": "首创证券2026年半年度报告",
+          "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12540136&stockid=601136",
+          "published_at": "2026-08-26",
+          "retrieved_at": "2026-08-31T16:05:00+08:00",
+          "assertions": ["所属行业:证券行业", "业务:资产管理", "业务:投资银行", "业务:财富管理", "业务:代理买卖证券"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "600892.SH",
+      "primary_business_key": "games_and_film",
+      "primary_business_name": "游戏与影视",
+      "directory_category_key": "media",
+      "directory_category_name": "传媒",
+      "business_tags": ["游戏与影视", "网络游戏", "游戏研发", "游戏发行", "游戏运营", "影视剧", "短剧", "淘乐网络"],
+      "evidence": [
+        {
+          "evidence_id": "official-dasheng-midyear-report-2026",
+          "source_kind": "official_filing",
+          "publisher": "大晟时代文化投资股份有限公司",
+          "title": "大晟文化2026年半年度报告",
+          "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12551625&stockid=600892",
+          "published_at": "2026-08-27",
+          "retrieved_at": "2026-08-31T16:05:00+08:00",
+          "assertions": ["稳定主营:游戏与影视", "业务:网络游戏研发发行运营", "模式:国内与海外发行运营双轮驱动", "边界:当日主显示取游戏"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "601595.SH",
+      "primary_business_key": "film_distribution_and_cinema",
+      "primary_business_name": "电影发行与院线",
+      "directory_category_key": "media",
+      "directory_category_name": "传媒",
+      "business_tags": ["电影发行与院线", "电影院线", "影院经营", "电影发行", "电影放映", "IP运营", "电影发行放映产业链"],
+      "evidence": [
+        {
+          "evidence_id": "official-shanghai-film-midyear-report-2026",
+          "source_kind": "official_filing",
+          "publisher": "上海电影股份有限公司",
+          "title": "上海电影2026年半年度报告",
+          "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12547862&stockid=601595",
+          "published_at": "2026-08-27",
+          "retrieved_at": "2026-08-31T16:05:00+08:00",
+          "assertions": ["稳定主营:电影发行与院线", "业务:电影院线", "业务:影院经营和电影放映", "业务:电影发行", "目录归属:传媒"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "603721.SH",
+      "primary_business_key": "video_content_and_digital_services",
+      "primary_business_name": "视频内容制作与运营",
+      "directory_category_key": "media",
+      "directory_category_name": "传媒",
+      "business_tags": ["视频内容制作与运营", "综艺节目", "纪录片", "影视剧", "短视频", "AI训练数据", "AI智审", "AI译制", "AI剪辑", "微短剧智能服务平台", "AIGC智能生产"],
+      "evidence": [
+        {
+          "evidence_id": "official-tvzone-midyear-report-2026",
+          "source_kind": "official_filing",
+          "publisher": "中广天择传媒股份有限公司",
+          "title": "中广天择2026年半年度报告",
+          "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12543982&stockid=603721",
+          "published_at": "2026-08-26",
+          "retrieved_at": "2026-08-31T16:05:00+08:00",
+          "assertions": ["稳定主营:视频内容制作与运营", "产品:微短剧智能服务平台", "功能:AI智审AI译制AI剪辑", "业务:AI训练数据交付", "能力:AIGC智能生产", "边界:当日主显示取已落地AI应用"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "601882.SH",
+      "primary_business_key": "cnc_machine_tools",
+      "primary_business_name": "高端数控机床",
+      "directory_category_key": "industrial_machine_tools",
+      "directory_category_name": "工业母机",
+      "business_tags": ["高端数控机床", "数控机床研发生产", "数控龙门加工中心", "数控卧式加工中心", "数控立式加工中心"],
+      "evidence": [
+        {
+          "evidence_id": "official-haitian-precision-midyear-report-2026",
+          "source_kind": "official_filing",
+          "publisher": "宁波海天精工股份有限公司",
+          "title": "海天精工2026年半年度报告",
+          "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12568923&stockid=601882",
+          "published_at": "2026-08-29",
+          "retrieved_at": "2026-08-31T16:05:00+08:00",
+          "assertions": ["稳定主营:高端数控机床", "产品:数控龙门加工中心", "产品:数控卧式和立式加工中心", "边界:当日机器人主显示不改写工业母机主营"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "600671.SH",
+      "primary_business_key": "traditional_chinese_medicine",
+      "primary_business_name": "中药制剂与医药流通",
+      "directory_category_key": "medical_pharma",
+      "directory_category_name": "医疗医药",
+      "business_tags": ["中药制剂与医药流通", "医药制造", "中药制剂", "中成药", "药品流通", "原料药", "天目山医药品牌"],
+      "evidence": [
+        {
+          "evidence_id": "official-tianmu-midyear-report-2026",
+          "source_kind": "official_filing",
+          "publisher": "杭州天目山药业股份有限公司",
+          "title": "天目药业2026年半年度报告",
+          "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12559273&stockid=600671",
+          "published_at": "2026-08-28",
+          "retrieved_at": "2026-08-31T16:28:00+08:00",
+          "assertions": ["所属行业:医药制造业", "业务:中药制剂", "业务:药品流通和原料药", "稳定目录:医疗医药"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "002875.SZ",
+      "primary_business_key": "apparel",
+      "primary_business_name": "童装品牌运营",
+      "directory_category_key": "consumer",
+      "directory_category_name": "消费",
+      "business_tags": ["童装品牌运营", "ANNIL安奈儿", "童装", "儿童服饰", "婴童产品", "童鞋童袜", "线上线下零售", "跨境电商"],
+      "evidence": [
+        {
+          "evidence_id": "official-annil-midyear-report-2026",
+          "source_kind": "official_filing",
+          "publisher": "深圳市安奈儿股份有限公司",
+          "title": "安奈儿2026年半年度报告",
+          "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12540210&stockid=002875",
+          "published_at": "2026-08-26",
+          "retrieved_at": "2026-08-31T16:28:00+08:00",
+          "assertions": ["稳定主营:童装品牌运营", "品牌:ANNIL安奈儿", "产品:3至12岁儿童休闲服饰", "渠道:线上线下和跨境电商", "稳定目录:消费"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "002303.SZ",
+      "primary_business_key": "packaging",
+      "primary_business_name": "包装一体化服务",
+      "directory_category_key": "consumer",
+      "directory_category_name": "消费",
+      "business_tags": ["包装一体化服务", "运输包装", "精品包装", "标签产品", "电子功能材料模切", "消费电子包装", "白酒包装", "家电包装"],
+      "evidence": [
+        {
+          "evidence_id": "official-mys-company-business",
+          "source_kind": "official_company",
+          "publisher": "美盈森集团股份有限公司",
+          "title": "美盈森集团业务与产品展示",
+          "source_url": "https://www.szmys.com/",
+          "published_at": "2026-08-31",
+          "retrieved_at": "2026-08-31T16:28:00+08:00",
+          "assertions": ["稳定主营:包装一体化服务", "产品:运输包装和精品包装", "产品:电子功能材料模切", "下游:消费电子白酒家电", "稳定目录:消费"]
+        },
+        {
+          "evidence_id": "official-mys-annual-report-2025",
+          "source_kind": "official_filing",
+          "publisher": "美盈森集团股份有限公司",
+          "title": "美盈森2025年年度报告摘要",
+          "source_url": "https://pdf.dfcfw.com/pdf/H2_AN202604021820991194_1.pdf",
+          "published_at": "2026-04-02",
+          "retrieved_at": "2026-08-31T16:28:00+08:00",
+          "assertions": ["主营:运输包装精品包装标签及电子功能材料模切", "模式:包装一体化综合服务", "客户:消费电子家具家电汽车白酒食品饮料"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "603201.SH",
+      "primary_business_key": "auto_parts",
+      "primary_business_name": "汽车维修保养设备与零部件",
+      "directory_category_key": "automotive",
+      "directory_category_name": "汽车",
+      "business_tags": ["汽车维修保养设备与零部件", "汽车维修保养设备", "汽车配套零部件", "专业汽保维修设备", "汽车后市场", "新能源汽车维修装备", "跨境电商"],
+      "evidence": [
+        {
+          "evidence_id": "official-changrun-midyear-report-2026",
+          "source_kind": "official_filing",
+          "publisher": "常熟通润汽车零部件股份有限公司",
+          "title": "常润股份2026年半年度报告",
+          "source_url": "https://stock.stockstar.com/notice/SN2026082800051378.shtml",
+          "published_at": "2026-08-29",
+          "retrieved_at": "2026-08-31T16:28:00+08:00",
+          "assertions": ["稳定主营:汽车维修保养设备与汽车配套零部件", "产品:汽车举升机千斤顶和维保工具", "市场:汽车后市场和整车配套市场", "布局:新能源汽车维修装备", "稳定目录:汽车"]
+        }
+      ]
+    },
+    {
+      "instrument_id": "603113.SH",
+      "primary_business_key": "coal",
+      "primary_business_name": "焦炭与循环化工",
+      "directory_category_key": "coal",
+      "directory_category_name": "煤炭",
+      "business_tags": ["焦炭与循环化工", "焦炭", "煤焦", "煤化工", "烯烃", "丙烯", "聚丙烯", "炭黑", "精细化工"],
+      "evidence": [
+        {
+          "evidence_id": "official-jinneng-midyear-report-2026",
+          "source_kind": "official_filing",
+          "publisher": "金能科技股份有限公司",
+          "title": "金能科技2026年半年度报告",
+          "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12526713&stockid=603113",
+          "published_at": "2026-08-25",
+          "retrieved_at": "2026-08-31T16:28:00+08:00",
+          "assertions": ["稳定主营:石油化工煤化工精细化工", "核心产品:焦炭", "业务板块:煤化工", "当日煤炭跟随依据:焦炭业务", "稳定目录:煤炭"]
+        }
+      ]
     }
   ]
 }

@@ -8,11 +8,15 @@ from zoneinfo import ZoneInfo
 
 from .contracts import (
     ContractMetadata,
+    DailyLimitUpMembershipV1,
     LimitEventSeriesV1,
     LimitUpStatusSeriesV1,
     QualityStatus,
 )
-from .providers.limit_events import map_limit_event_frame
+from .providers.limit_events import (
+    map_daily_limit_up_membership,
+    map_limit_event_frame,
+)
 from .providers.securities import frame_request_id
 from .quality import assess_limit_events
 
@@ -138,6 +142,50 @@ def fetch_limit_up_status(
     return series
 
 
+def fetch_daily_limit_up_membership(
+    trade_date: str,
+    *,
+    router: Any | None = None,
+    now: datetime | None = None,
+) -> DailyLimitUpMembershipV1:
+    """Fetch one exact post-close daily limit-up membership set."""
+
+    requested_date = _trade_date(trade_date)
+    fetched_at = _now(now)
+
+    def validate(raw: Any, route_provider: str) -> DailyLimitUpMembershipV1:
+        mapped = map_daily_limit_up_membership(
+            raw,
+            route_provider=route_provider,
+            requested_date=requested_date,
+        )
+        provider = mapped.pop("provider")
+        provider_as_of = mapped.pop("provider_as_of")
+        request_id = raw.get("request_id") if isinstance(raw, dict) else None
+        flags = () if provider_as_of is not None else ("provider_timestamp_missing",)
+        return DailyLimitUpMembershipV1(
+            metadata=ContractMetadata(
+                contract="daily_limit_up_membership.v1",
+                provider=provider,
+                provider_request_id=(
+                    str(request_id) if request_id not in (None, "") else None
+                ),
+                provider_as_of=provider_as_of,
+                fetched_at=fetched_at,
+                quality=QualityStatus.DEGRADED if flags else QualityStatus.ACCEPTED,
+                quality_flags=flags,
+            ),
+            **mapped,
+        )
+
+    result, _route_provider = _router(router).route_validated(
+        "limit_up_daily_membership",
+        validate,
+        trade_date=requested_date.strftime("%Y%m%d"),
+    )
+    return result
+
+
 def _legacy_trade_status(series: LimitEventSeriesV1) -> dict[str, str]:
     return {
         "id": series.trade_status.code,
@@ -211,6 +259,7 @@ def limit_event_series_to_component_metadata(
 
 
 __all__ = [
+    "fetch_daily_limit_up_membership",
     "fetch_limit_up_events",
     "fetch_limit_up_status",
     "limit_event_series_to_component_metadata",

@@ -140,6 +140,151 @@ def test_final_close_requires_provider_date_and_1500_turnover_proof() -> None:
     )
 
 
+def test_final_close_uses_exact_close_trajectory_instead_of_latest_live_cutoff(
+    monkeypatch,
+) -> None:
+    from tradex.dashboard import __main__ as dashboard_app
+    from tradex.dashboard import risk_service
+
+    minute = datetime(2026, 8, 26, 15, 0, tzinfo=SHANGHAI)
+    observed = minute + timedelta(minutes=20)
+    slot = SimpleNamespace(minute_bucket=minute)
+    exact_defense = {"as_of": minute.isoformat(), "sectors": [{"points": [1]}]}
+    exact_offense = {"as_of": minute.isoformat(), "sectors": [{"points": [2]}]}
+    captured = {}
+    snapshot = SimpleNamespace(
+        market_state=SimpleNamespace(phase=collector_worker.MarketPhase.CLOSED),
+        freshness=SimpleNamespace(
+            status=collector_worker.FreshnessStatus.FRESH,
+            components=tuple(
+                SimpleNamespace(
+                    component=name,
+                    status=collector_worker.FreshnessStatus.FRESH,
+                )
+                for name in ("indices", "breadth", "turnover", "rotation")
+            ),
+        ),
+        indices=(SimpleNamespace(available=True), SimpleNamespace(available=True)),
+        breadth=SimpleNamespace(available=True),
+        turnover=SimpleNamespace(available=True),
+        rotation=SimpleNamespace(sectors=(object(),)),
+    )
+
+    def exact_rotation(received):
+        captured["as_of"] = received
+        return {
+            "sector_flow_trajectory": exact_defense,
+            "offense_sector_flow_trajectory": exact_offense,
+        }
+
+    def build_snapshot(payload):
+        captured["payload"] = payload
+        return snapshot
+
+    monkeypatch.setattr(dashboard_app, "get_market_data", lambda *, force: {"close": True})
+    monkeypatch.setattr(
+        collector_worker,
+        "_market_payload_has_final_close",
+        lambda _payload, _date: True,
+    )
+    monkeypatch.setattr(
+        collector_worker,
+        "_provider_verified_final_breadth",
+        lambda _date, _observed: ({"available": True}, {"status": "fresh"}),
+    )
+    monkeypatch.setattr(
+        risk_service,
+        "get_risk_appetite_data",
+        lambda *_args, **_kwargs: {
+            "sector_flow_trajectory": {"as_of": "2026-08-26T14:43:00+08:00"},
+            "offense_sector_flow_trajectory": {"as_of": "2026-08-26T14:43:00+08:00"},
+            "components": {},
+        },
+    )
+    monkeypatch.setattr(
+        risk_service,
+        "get_rotation_radar_as_of",
+        exact_rotation,
+    )
+    monkeypatch.setattr(
+        dashboard_app,
+        "_build_market_watch_snapshot",
+        build_snapshot,
+    )
+    monkeypatch.setattr(
+        collector_worker.MarketWatchSnapshotV1,
+        "model_validate",
+        lambda _payload: snapshot,
+    )
+
+    assert collector_worker._capture_final_close(slot, observed) is snapshot
+    assert captured["as_of"] == minute
+    assert captured["payload"]["risk_data"]["sector_flow_trajectory"] == exact_defense
+    assert (
+        captured["payload"]["risk_data"]["offense_sector_flow_trajectory"]
+        == exact_offense
+    )
+
+
+def test_recovery_rematerializes_final_close_and_rebinds_ledger(monkeypatch) -> None:
+    trade_date = datetime(2026, 8, 26, tzinfo=SHANGHAI).date()
+    observed = datetime(2026, 8, 26, 16, 5, tzinfo=SHANGHAI)
+    snapshot = object()
+    record = {
+        "trade_date": trade_date.isoformat(),
+        "minute_bucket": f"{trade_date.isoformat()}T15:00:00+08:00",
+        "record_kind": "accepted_real",
+        "snapshot_id": "mw-rematerialized-close",
+        "payload_digest": "a" * 64,
+        "updated_at": observed.isoformat(),
+    }
+    calls: list[tuple[str, object]] = []
+
+    class History:
+        def record(self, received):
+            calls.append(("record", received))
+            return {"action": "updated", "payload_digest": "a" * 64}
+
+        def get_collection_records(self, received_date):
+            calls.append(("records", received_date))
+            return [record]
+
+    class Ledger:
+        def reconcile_history_record(self, received):
+            calls.append(("reconcile", received))
+            return {"action": "imported"}
+
+    monkeypatch.setattr(
+        collector_worker,
+        "_capture_final_close",
+        lambda slot, received_at: calls.append(
+            ("capture", (slot.minute_bucket, received_at))
+        )
+        or snapshot,
+    )
+
+    result = collector_worker._rematerialize_final_close(
+        trade_date,
+        observed,
+        history=History(),
+        ledger=Ledger(),
+    )
+
+    assert calls[0] == (
+        "capture",
+        (datetime(2026, 8, 26, 15, 0, tzinfo=SHANGHAI), observed),
+    )
+    assert calls[1:] == [
+        ("record", snapshot),
+        ("records", trade_date),
+        ("reconcile", record),
+    ]
+    assert result == {
+        "action": "updated",
+        "source_snapshot_revision": "a" * 64,
+    }
+
+
 def test_final_breadth_is_derived_from_provider_timestamped_full_universe(
     monkeypatch,
 ) -> None:
@@ -459,34 +604,42 @@ def test_opening_minutes_publish_limit_status_before_resonance(monkeypatch) -> N
     assert resonance_calls == []
 
 
-def test_midday_does_not_run_a_second_limit_up_analysis(monkeypatch) -> None:
-    class OneIterationStopEvent:
-        stopped = False
+def test_midday_materializes_the_last_open_snapshot_once(monkeypatch) -> None:
+    class TwoIterationStopEvent:
+        index = 0
 
         def is_set(self):
-            return self.stopped
+            return self.index >= 2
 
         def wait(self, _seconds):
-            self.stopped = True
-            return True
+            self.index += 1
+            return self.is_set()
 
-    stop_event = OneIterationStopEvent()
-    observed = datetime(2026, 8, 26, 11, 35, tzinfo=SHANGHAI)
+    stop_event = TwoIterationStopEvent()
+    observations = (
+        datetime(2026, 8, 26, 11, 30, tzinfo=SHANGHAI),
+        datetime(2026, 8, 26, 11, 31, tzinfo=SHANGHAI),
+    )
     pool_calls = []
 
     monkeypatch.setattr(
         collector_worker,
         "_generate_latest_limit_up_pool",
-        lambda *, reuse_existing: pool_calls.append(reuse_existing),
+        lambda *, reuse_existing: pool_calls.append(reuse_existing)
+        or {
+            "source_snapshot_revision": "a" * 64,
+            "pool_revision": "b" * 64,
+            "pool_total": 12,
+        },
     )
 
     collector_worker._run_post_close_resonance_loop(
         stop_event,
-        clock=lambda: observed,
+        clock=lambda: observations[min(stop_event.index, 1)],
         check_interval_seconds=0,
     )
 
-    assert pool_calls == []
+    assert pool_calls == [True]
 
 
 def test_limit_sentiment_runs_once_only_after_1610(monkeypatch) -> None:

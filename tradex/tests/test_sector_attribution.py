@@ -282,8 +282,8 @@ def test_multiple_tags_and_duplicate_records_do_not_inflate_sector_count():
     [
         ("首板", 1),
         ("2天2板", 2),
-        ("3天2板", 2),
-        ("10天3板", 3),
+        ("3天2板", None),
+        ("10天3板", None),
         ("4连板", 4),
         ("5板", 5),
         (2, 2),
@@ -295,7 +295,7 @@ def test_multiple_tags_and_duplicate_records_do_not_inflate_sector_count():
         ("未知", None),
     ],
 )
-def test_board_count_parser_uses_the_board_number_not_the_first_number(label, expected):
+def test_board_count_parser_only_claims_verified_continuous_streaks(label, expected):
     assert parse_board_count(label) == expected
 
 
@@ -304,7 +304,7 @@ def test_leaders_have_deterministic_board_amount_code_order():
         [
             {"代码": "000004", "名称": "丁", "涨停原因": "种业", "连板": "首板", "封单额": 9999},
             {"代码": "000003", "名称": "丙", "涨停原因": "粮食", "连板": "2天2板", "封单额": 50},
-            {"代码": "000002", "名称": "乙", "涨停原因": "农机", "连板": "3天2板", "封单额": 100},
+            {"代码": "000002", "名称": "乙", "涨停原因": "农机", "连板": "2天2板", "封单额": 100},
             {"代码": "000001", "名称": "甲", "涨停原因": "饲料", "连板": "2天2板", "封单额": 100},
         ]
     )
@@ -332,7 +332,7 @@ def test_leadership_vote_uses_unique_count_and_streak_thresholds():
     two_with_streak = attribute_limit_up_records(
         [
             {"代码": "1", "涨停原因": "粮食", "连板": "首板"},
-            {"代码": "2", "涨停原因": "种业", "连板": "3天2板"},
+            {"代码": "2", "涨停原因": "种业", "连板": "2天2板"},
         ]
     )
     one_stock = attribute_limit_up_records(

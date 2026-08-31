@@ -259,7 +259,7 @@ def test_backfill_cache_is_success_only_and_read_paths_do_not_start_network_call
     assert loaded["electric_power"][0]["source_family"] == "eastmoney"
 
 
-def test_backfill_refresher_is_non_blocking_single_flight_and_coalesces_latest():
+def test_backfill_refresher_is_non_blocking_single_flight_and_rotates_one_target():
     started = Event()
     release = Event()
     calls = []
@@ -283,10 +283,7 @@ def test_backfill_refresher_is_non_blocking_single_flight_and_coalesces_latest()
 
     assert refresher.wait_for_idle(2)
     assert [target["sector_key"] for target in calls[0][0]] == ["electric_power"]
-    assert {target["sector_key"] for target in calls[1][0]} == {
-        "coal",
-        "electric_power",
-    }
+    assert [target["sector_key"] for target in calls[1][0]] == ["coal"]
     assert all(call[1]["load_missing"] for call in calls)
     assert all(call[1]["refresh_existing"] for call in calls)
 
@@ -298,6 +295,13 @@ def test_backfill_scheduler_keeps_persisted_target_missing_from_current_snapshot
     captured = {}
 
     class _KnownTargetCache:
+        remembered = ()
+
+        @classmethod
+        def remember_targets(cls, trading_date, targets):
+            assert trading_date == TRADE_DATE
+            cls.remembered = tuple(targets)
+
         @staticmethod
         def get_known_targets(trading_date):
             assert trading_date == TRADE_DATE
@@ -327,6 +331,56 @@ def test_backfill_scheduler_keeps_persisted_target_missing_from_current_snapshot
     )
     assert captured["trading_date"] == TRADE_DATE
     assert {target["sector_key"] for target in captured["targets"]} == {
+        "coal",
+        "electric_power",
+    }
+    assert _KnownTargetCache.remembered == (current,)
+
+
+def test_backfill_scheduler_persists_every_resolved_target_before_bounded_sweep(
+    tmp_path,
+    monkeypatch,
+):
+    second = {
+        **TARGET,
+        "sector_key": "coal",
+        "name": "煤炭",
+        "provider_sector_code": "BK0437",
+    }
+    captured = {}
+
+    class _Refresher:
+        @staticmethod
+        def request(targets, *, trading_date):
+            captured["targets"] = tuple(targets)
+            captured["trading_date"] = trading_date
+            return True
+
+    with SectorFundFlowStore(tmp_path / "target-registry.sqlite3") as store:
+        cache = SectorFundFlowBackfillCache(store=store)
+        monkeypatch.setattr(
+            sector_flow_module,
+            "_SECTOR_FLOW_BACKFILL_CACHE",
+            cache,
+        )
+        monkeypatch.setattr(
+            sector_flow_module,
+            "_SECTOR_FLOW_BACKFILL_REFRESHER",
+            _Refresher(),
+        )
+
+        assert schedule_sector_intraday_fund_flow_backfill(
+            (TARGET, second),
+            trading_date=TRADE_DATE,
+        )
+        remembered = store.get_targets(TRADE_DATE)
+
+    assert {item["sector_key"] for item in remembered} == {
+        "coal",
+        "electric_power",
+    }
+    assert captured["trading_date"] == TRADE_DATE
+    assert {item["sector_key"] for item in captured["targets"]} == {
         "coal",
         "electric_power",
     }
@@ -529,6 +583,21 @@ def test_collector_refresh_repairs_missing_curve_minutes_and_persists_them(
 def test_post_close_finalization_refreshes_every_target_through_common_cutoff(
     tmp_path,
 ):
+    class _ExtendedRouter(_Router):
+        def route_validated(self, data_type: str, validator, **kwargs: object):
+            self.calls.append((data_type, kwargs))
+            frame = _frame(kwargs["trade_date"])
+            final = frame.iloc[-1].copy()
+            final["provider_as_of"] = (
+                datetime.fromisoformat(str(final["provider_as_of"]))
+                + timedelta(minutes=1)
+            ).isoformat()
+            final["main_net_inflow_cny"] = (
+                float(final["main_net_inflow_cny"]) + 10_000_000.0
+            )
+            frame = pd.concat([frame, pd.DataFrame([final])], ignore_index=True)
+            return validator(frame, "eastmoney"), "eastmoney"
+
     second_target = {
         **TARGET,
         "sector_key": "coal",
@@ -540,7 +609,7 @@ def test_post_close_finalization_refreshes_every_target_through_common_cutoff(
     with SectorFundFlowStore(db_path) as store:
         cache = SectorFundFlowBackfillCache(
             store=store,
-            refresh_min_interval_seconds=0,
+            refresh_min_interval_seconds=300,
         )
         fetch_sector_intraday_fund_flow_backfill(
             (TARGET, second_target),
@@ -552,9 +621,9 @@ def test_post_close_finalization_refreshes_every_target_through_common_cutoff(
         )
         report = finalize_sector_intraday_fund_flow_backfill(
             trading_date=TRADE_DATE,
-            required_through=NOW.replace(hour=9, minute=35),
+            required_through=NOW.replace(hour=9, minute=37),
             now=NOW + timedelta(minutes=1),
-            router=_Router(),
+            router=_ExtendedRouter(),
             cache=cache,
             progress=lambda completed, total, sector_key: progress.append(
                 (completed, total, sector_key)
@@ -563,7 +632,76 @@ def test_post_close_finalization_refreshes_every_target_through_common_cutoff(
 
     assert report["contract"] == "sector_intraday_fund_flow_finalization.v1"
     assert report["target_count"] == 2
+    assert report["refreshed_target_count"] == 2
     assert report["complete_count"] == 2
-    assert report["min_point_count"] == 6
-    assert report["max_point_count"] == 6
+    assert report["min_point_count"] == 7
+    assert report["max_point_count"] == 7
     assert progress == [(1, 2, "coal"), (2, 2, "electric_power")]
+
+
+def test_post_close_finalization_does_not_refetch_a_curve_past_the_cutoff(
+    tmp_path,
+):
+    router = _Router()
+    with SectorFundFlowStore(tmp_path / "finalize-reuse.sqlite3") as store:
+        cache = SectorFundFlowBackfillCache(
+            store=store,
+            refresh_min_interval_seconds=300,
+        )
+        fetch_sector_intraday_fund_flow_backfill(
+            (TARGET,),
+            trading_date=TRADE_DATE,
+            now=NOW,
+            router=router,
+            cache=cache,
+            load_missing=True,
+        )
+        report = finalize_sector_intraday_fund_flow_backfill(
+            trading_date=TRADE_DATE,
+            required_through=NOW.replace(hour=9, minute=35),
+            now=NOW + timedelta(minutes=1),
+            router=router,
+            cache=cache,
+        )
+
+    assert len(router.calls) == 1
+    assert report["complete"] is True
+    assert report["refreshed_target_count"] == 0
+
+
+def test_post_close_finalization_rejects_a_curve_with_rendered_intraday_gaps(
+    tmp_path,
+):
+    class _GappedRouter(_Router):
+        def route_validated(self, data_type: str, validator, **kwargs: object):
+            self.calls.append((data_type, kwargs))
+            frame = _frame(kwargs["trade_date"]).iloc[[0, 5]].copy()
+            frame.iloc[1, frame.columns.get_loc("provider_as_of")] = (
+                datetime.combine(kwargs["trade_date"], datetime.min.time(), SHANGHAI)
+                .replace(hour=9, minute=37)
+                .isoformat()
+            )
+            return validator(frame, "eastmoney"), "eastmoney"
+
+    db_path = tmp_path / "finalize-gapped.sqlite3"
+    with SectorFundFlowStore(db_path) as store:
+        cache = SectorFundFlowBackfillCache(store=store)
+        fetch_sector_intraday_fund_flow_backfill(
+            (TARGET,),
+            trading_date=TRADE_DATE,
+            now=NOW,
+            router=_GappedRouter(),
+            cache=cache,
+            load_missing=True,
+        )
+        report = finalize_sector_intraday_fund_flow_backfill(
+            trading_date=TRADE_DATE,
+            required_through=NOW.replace(hour=9, minute=37),
+            now=NOW,
+            router=_GappedRouter(),
+            cache=cache,
+        )
+
+    assert report["complete"] is False
+    assert report["complete_count"] == 0
+    assert report["missing_target_keys"] == ("electric_power",)

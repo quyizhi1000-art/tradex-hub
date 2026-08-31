@@ -7,6 +7,7 @@ import os
 import sqlite3
 import threading
 import zlib
+from datetime import date, datetime
 from pathlib import Path
 
 from .integrity import canonical_json_bytes, stable_sha256
@@ -182,6 +183,40 @@ class LimitUpPoolStore:
                     return None
                 raise
         return self._decode(row, expected_source_revision=revision)
+
+    def get_latest_for_trade_date(
+        self,
+        trade_date: date,
+        *,
+        not_after: datetime,
+    ) -> LimitUpPoolV2 | None:
+        """Read the newest same-day pool that is not newer than a snapshot."""
+
+        if not_after.tzinfo is None or not_after.utcoffset() is None:
+            raise ValueError("not_after must be timezone-aware")
+        if not_after.date() != trade_date:
+            raise ValueError("not_after must belong to trade_date")
+        with self._lock:
+            self._ensure_open()
+            if self._connection is None:
+                return None
+            try:
+                row = self._connection.execute(
+                    "SELECT payload_digest, payload_blob FROM limit_up_follow_pools "
+                    "WHERE trade_date = ? AND source_as_of <= ? "
+                    "ORDER BY source_as_of DESC, generated_at DESC LIMIT 1",
+                    (trade_date.isoformat(), not_after.isoformat()),
+                ).fetchone()
+            except sqlite3.OperationalError as exc:
+                if self.read_only and "no such table" in str(exc).lower():
+                    return None
+                raise
+        pool = self._decode(row)
+        if pool is None:
+            return None
+        if pool.trade_date != trade_date or pool.source_as_of > not_after:
+            raise RuntimeError("limit-up pool fallback crossed its snapshot cutoff")
+        return pool
 
     @staticmethod
     def _decode(

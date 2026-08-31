@@ -664,6 +664,33 @@ def test_inflight_attempt_is_recovered_as_retryable_after_restart(tmp_path: Path
     assert attempts[0]["outcome"] == "interrupted"
 
 
+def test_restart_requeues_the_interrupted_daily_recovery_run(tmp_path: Path) -> None:
+    started_at = datetime(2026, 8, 24, 15, 6, tzinfo=SHANGHAI)
+    restarted_at = started_at + timedelta(minutes=4)
+    db_path = tmp_path / "interrupted-daily-recovery.sqlite3"
+    with MarketWatchCollectionStore(db_path, clock=lambda: started_at) as first:
+        first.request_daily_recovery(
+            started_at.date(),
+            trigger=DailyRecoveryTrigger.AUTOMATIC,
+            requested_at=started_at,
+        )
+        claimed = first.claim_daily_recovery(started_at=started_at)
+        assert claimed is not None
+        assert claimed.status is DailyRecoveryStatus.RUNNING
+
+    with MarketWatchCollectionStore(db_path, clock=lambda: restarted_at) as second:
+        assert second.recover_inflight(restarted_at) == 1
+        recovered = second.read_latest_daily_recovery(
+            started_at.date(),
+            as_of=restarted_at,
+        )
+
+    assert recovered is not None
+    assert recovered.status is DailyRecoveryStatus.RETRYING
+    assert recovered.completed_at == restarted_at
+    assert recovered.last_error_code is None
+
+
 def test_real_acceptance_and_repair_are_exact_and_heartbeat_never_wins(
     tmp_path: Path,
 ) -> None:
@@ -759,7 +786,7 @@ def test_stale_or_wrong_minute_snapshot_cannot_be_published_as_real(tmp_path: Pa
     assert slot.source_snapshot_revision is None
 
 
-def test_collector_prioritizes_current_retry_then_repairs_oldest_gap(
+def test_collector_retries_current_but_defers_older_gap_until_close(
     tmp_path: Path,
 ) -> None:
     db_path = tmp_path / "collector.sqlite3"
@@ -799,17 +826,20 @@ def test_collector_prioritizes_current_retry_then_repairs_oldest_gap(
         guarded = collector.run_once()
         clock[0] += timedelta(seconds=5)
         retried = collector.run_once()
+        live_idle = collector.run_once()
+        clock[0] = datetime(2026, 8, 24, 15, 10, tzinfo=SHANGHAI)
         repaired_old = collector.run_once()
 
     assert first["action"] == "failed"
     assert first["current"] is True
     assert guarded == {"action": "idle", "reason": "no_due_slot"}
-    assert repair_calls == [datetime(2026, 8, 24, 9, 25, tzinfo=SHANGHAI)]
     assert retried["action"] == "accepted"
     assert retried["current"] is True
     assert retried["status"] == "repaired"
+    assert live_idle == {"action": "idle", "reason": "no_due_slot"}
     assert repaired_old["action"] == "accepted"
     assert repaired_old["current"] is False
+    assert repair_calls == [datetime(2026, 8, 24, 9, 25, tzinfo=SHANGHAI)]
     assert current_calls == [
         datetime(2026, 8, 24, 10, 30, tzinfo=SHANGHAI),
         datetime(2026, 8, 24, 10, 30, tzinfo=SHANGHAI),

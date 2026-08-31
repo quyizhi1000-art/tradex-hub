@@ -4,11 +4,211 @@ from datetime import date, datetime, time
 from types import SimpleNamespace
 from zoneinfo import ZoneInfo
 
+import pytest
+
 from tradex.market_watch import reconstruction
-from tradex.market_watch.reconstruction import SameDayPostCloseReconstructor
+from tradex.market_watch.reconstruction import (
+    HistoricalTrajectoryUnavailable,
+    SameDayPostCloseReconstructor,
+    _assert_rotation_trajectory_current,
+    _prepare_historical_rotation,
+)
+from tradex.market_watch.recovery_source_cache import RecoverySourceMatrixStore
 
 
 SHANGHAI = ZoneInfo("Asia/Shanghai")
+
+
+def _trajectory_sector(key: str, provider_as_of: datetime) -> dict:
+    return {
+        "sector_key": key,
+        "name": key,
+        "latest": {
+            "provider_as_of": provider_as_of.isoformat(),
+            "cumulative_cny": 100.0,
+        },
+    }
+
+
+def test_rotation_preflight_checks_only_the_prepared_backfill_scope() -> None:
+    target = datetime(2026, 8, 31, 13, 30, tzinfo=SHANGHAI)
+    risk = {
+        "sector_flow_trajectory": {
+            "sectors": [
+                _trajectory_sector("required", target),
+                _trajectory_sector("optional", target.replace(minute=28)),
+            ]
+        }
+    }
+
+    _assert_rotation_trajectory_current(
+        risk,
+        target,
+        required_sector_keys={"required"},
+    )
+    component = _prepare_historical_rotation(
+        risk,
+        target,
+        required_sector_keys={"required"},
+    )
+
+    assert component["quality"] == "degraded"
+    assert [item["sector_key"] for item in risk["rotation"]["sectors"]] == [
+        "required"
+    ]
+
+    with pytest.raises(HistoricalTrajectoryUnavailable, match="required"):
+        _assert_rotation_trajectory_current(
+            risk,
+            target,
+            required_sector_keys={"required", "missing_required"},
+        )
+
+
+def test_reconstructor_reuses_persisted_same_day_source_matrix(
+    tmp_path,
+    monkeypatch,
+) -> None:
+    target = datetime(2026, 8, 31, 13, 30, tzinfo=SHANGHAI)
+    cache = RecoverySourceMatrixStore(tmp_path / "recovery-source.sqlite3")
+    cache.record(
+        trade_date=target.date(),
+        provider_as_of=target.replace(hour=15, minute=0),
+        previous_close={"000001.SZ": 10.0},
+        stock_prices={target.time(): {"000001.SZ": 10.2}},
+        index_points={
+            instrument_id: {
+                target.time(): {"close": 100.0, "amount_cny": 10.0}
+            }
+            for instrument_id in (
+                "000001.SH",
+                "000300.SH",
+                "000852.SH",
+                "399006.SZ",
+                "399001.SZ",
+            )
+        },
+        index_previous_close={
+            instrument_id: (instrument_id, 99.0)
+            for instrument_id in (
+                "000001.SH",
+                "000300.SH",
+                "000852.SH",
+                "399006.SZ",
+            )
+        },
+    )
+    monkeypatch.setattr(
+        reconstruction,
+        "fetch_a_share_universe_snapshot",
+        lambda **_kwargs: pytest.fail("a valid same-day cache must avoid provider reload"),
+    )
+    progress = []
+    owner = SameDayPostCloseReconstructor(
+        history=_History(),
+        target_minutes=lambda _date: (target,),
+        rotation_loader=lambda _target: {},
+        clock=lambda: target.replace(hour=16),
+        source_cache=cache,
+    )
+
+    owner._ensure_loaded(
+        target,
+        lambda done, total, stage, message=None: progress.append(
+            (done, total, stage, message)
+        ),
+    )
+
+    assert owner._stock_prices[target.time()] == {"000001.SZ": 10.2}
+    assert owner._index_points["000001.SH"][target.time()].close == 100.0
+    assert progress[-1][2] == "source_cache"
+
+
+def test_reconstructor_retries_only_stock_batches_still_missing(
+    monkeypatch,
+) -> None:
+    target = datetime(2026, 8, 31, 13, 30, tzinfo=SHANGHAI)
+    codes = tuple(f"{number:06d}.SZ" for number in range(1, 42))
+    universe = SimpleNamespace(
+        metadata=SimpleNamespace(provider_as_of=target.replace(hour=15, minute=0)),
+        quotes=tuple(
+            SimpleNamespace(instrument_id=code, previous_close=10.0)
+            for code in codes
+        ),
+        excluded_row_count=0,
+    )
+    batch_sizes = []
+
+    def load_batch(batch, **_kwargs):
+        batch_sizes.append(len(batch))
+        if len(batch_sizes) == 2:
+            raise RuntimeError("fixture transient batch failure")
+        return {
+            code: SimpleNamespace(
+                trading_date=target.date(),
+                points=(SimpleNamespace(minute=target.time(), price=10.2),),
+            )
+            for code in batch
+        }
+
+    monkeypatch.setattr(
+        reconstruction,
+        "fetch_a_share_universe_snapshot",
+        lambda **_kwargs: universe,
+    )
+    monkeypatch.setattr(
+        reconstruction,
+        "fetch_intraday_minute_series_batch_partial",
+        load_batch,
+    )
+    monkeypatch.setattr(
+        reconstruction,
+        "fetch_market_overview",
+        lambda **_kwargs: SimpleNamespace(
+            indices=tuple(
+                SimpleNamespace(
+                    instrument_id=instrument_id,
+                    name=instrument_id,
+                    previous_close=99.0,
+                    available=True,
+                )
+                for instrument_id in (
+                    "000001.SH",
+                    "000300.SH",
+                    "000852.SH",
+                    "399006.SZ",
+                )
+            )
+        ),
+    )
+    monkeypatch.setattr(
+        reconstruction,
+        "fetch_index_intraday_series",
+        lambda _instrument_id, **_kwargs: SimpleNamespace(
+            points=(
+                SimpleNamespace(
+                    trading_date=target.date(),
+                    minute=target.time(),
+                    close=100.0,
+                    amount_cny=10.0,
+                ),
+            )
+        ),
+    )
+    owner = SameDayPostCloseReconstructor(
+        history=_History(),
+        target_minutes=lambda _date: (target,),
+        rotation_loader=lambda _target: {},
+        clock=lambda: target.replace(hour=16),
+        batch_concurrency=1,
+    )
+
+    with pytest.raises(RuntimeError, match="transient batch failure"):
+        owner._ensure_loaded(target, lambda *_args: None)
+    owner._ensure_loaded(target, lambda *_args: None)
+
+    assert batch_sizes == [40, 1, 1]
+    assert len(owner._stock_prices[target.time()]) == 41
 
 
 class _History:

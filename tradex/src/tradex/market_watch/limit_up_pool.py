@@ -12,6 +12,7 @@ from __future__ import annotations
 from collections import Counter
 from collections.abc import Callable, Mapping
 from datetime import date, datetime
+from functools import lru_cache
 from typing import Literal
 
 from pydantic import Field, field_validator, model_validator
@@ -43,6 +44,11 @@ class LimitUpPoolItemV2(ContractModel):
     name: str = Field(min_length=1)
     board_count: int | None = Field(default=None, ge=1)
     board_label: str | None = None
+    board_count_basis: Literal[
+        "daily_closed_limit_up_history",
+        "unavailable",
+        "provider_label_legacy",
+    ] = "provider_label_legacy"
     first_sealed_at: datetime | None = None
     limit_up_type: str | None = None
     is_one_word_board: bool = False
@@ -107,6 +113,11 @@ class LimitUpPoolItemV2(ContractModel):
 
     @model_validator(mode="after")
     def validate_relationship_match(self) -> "LimitUpPoolItemV2":
+        if self.board_count_basis == "daily_closed_limit_up_history":
+            if self.board_count is None:
+                raise ValueError("verified board-count basis requires a board count")
+        elif self.board_count_basis == "unavailable" and self.board_count is not None:
+            raise ValueError("unavailable board-count basis cannot carry a count")
         if bool(self.display_category_key) != bool(self.display_category_name):
             raise ValueError("display category key and name must be present together")
         if bool(self.business_domain_key) != bool(self.business_domain_name):
@@ -287,6 +298,7 @@ def _pool_items(
     trade_date: date,
     tzinfo,
     reviewed_attributions: Mapping[str, ReviewedMarketAttributionV1] | None = None,
+    board_counts_verified: bool = False,
 ) -> tuple[LimitUpPoolItemV2, ...]:
     reviewed = (
         dict(reviewed_attributions)
@@ -322,14 +334,6 @@ def _pool_items(
             display_key = inferred.category_key
             display_name = inferred.category_name
             display_basis = "event_business_crosscheck"
-        elif relationship is not None and relationship.directory_category_key:
-            display_key = relationship.directory_category_key
-            display_name = relationship.directory_category_name
-            display_basis = "relationship_directory"
-        elif relationship is not None and relationship.primary_business_key:
-            display_key = relationship.primary_business_key
-            display_name = relationship.primary_business_name
-            display_basis = "primary_business"
         else:
             display_key = None
             display_name = None
@@ -339,6 +343,13 @@ def _pool_items(
             name=event.name,
             board_count=event.board_count,
             board_label=event.board_label,
+            board_count_basis=(
+                "daily_closed_limit_up_history"
+                if board_counts_verified and event.board_count is not None
+                else "unavailable"
+                if board_counts_verified
+                else "provider_label_legacy"
+            ),
             first_sealed_at=_seal_datetime(event, trade_date, tzinfo),
             limit_up_type=event.limit_up_type,
             is_one_word_board=_is_one_word(event),
@@ -400,6 +411,27 @@ def _business_categories(
     return tuple(categories)
 
 
+def _events_not_after_source_snapshot(
+    events: tuple[LimitUpEventV1 | LimitUpStatusV1, ...],
+    source_as_of: datetime,
+) -> tuple[LimitUpEventV1 | LimitUpStatusV1, ...]:
+    """Exclude events that cannot be proven visible at the source snapshot."""
+
+    cutoff = source_as_of.timetz().replace(tzinfo=None)
+    return tuple(
+        item
+        for item in events
+        if item.first_sealed_at is not None and item.first_sealed_at <= cutoff
+    )
+
+
+@lru_cache(maxsize=1)
+def _default_streak_resolver():
+    from .limit_up_streak import LimitUpStreakResolver
+
+    return LimitUpStreakResolver()
+
+
 def build_limit_up_pool(
     snapshot: MarketWatchSnapshotV1 | Mapping,
     *,
@@ -432,12 +464,37 @@ def build_limit_up_pool(
     if events.trading_date != trade_date:
         raise ValueError("limit-event pool does not match the accepted snapshot date")
 
-    instruments = tuple(item.instrument_id for item in events.events)
+    source_events = _events_not_after_source_snapshot(events.events, canonical.as_of)
+    missing_first_sealed_at = sum(
+        item.first_sealed_at is None for item in events.events
+    )
+    events_after_source_cutoff = len(events.events) - len(source_events) - missing_first_sealed_at
+    instruments = tuple(item.instrument_id for item in source_events)
+    streak_resolution = _default_streak_resolver().resolve(
+        trade_date=trade_date,
+        instrument_ids=instruments,
+        now=generated_at,
+    )
+    verified_events = tuple(
+        item.model_copy(
+            update={"board_count": streak_resolution.board_counts[item.instrument_id]}
+        )
+        for item in source_events
+    )
     relationship_reader = relationship_reader or _read_relationship_catalog
     catalog_status = None
     relationships: Mapping[str, StockRelationshipProfileV1] = {}
-    quality_flags = list(events.metadata.quality_flags)
-    if getattr(events.metadata.quality, "value", events.metadata.quality) != "accepted":
+    quality_flags = [
+        flag for flag in events.metadata.quality_flags if flag != "board_count_partial"
+    ]
+    if missing_first_sealed_at:
+        quality_flags.append("limit_up_first_sealed_at_unavailable")
+    if events_after_source_cutoff:
+        quality_flags.append("limit_up_events_after_source_cutoff")
+    quality_flags.extend(streak_resolution.quality_flags)
+    if quality_flags and getattr(
+        events.metadata.quality, "value", events.metadata.quality
+    ) != "accepted":
         quality_flags.append("limit_up_status_degraded")
     try:
         catalog_status, relationships = relationship_reader(instruments)
@@ -449,10 +506,11 @@ def build_limit_up_pool(
         quality_flags.append("stock_relationship_profiles_partial")
 
     items = _pool_items(
-        events.events,
+        verified_events,
         relationships,
         trade_date=trade_date,
         tzinfo=canonical.as_of.tzinfo,
+        board_counts_verified=True,
     )
     classified_count = sum(bool(item.primary_business_key) for item in items)
     if classified_count != len(items):

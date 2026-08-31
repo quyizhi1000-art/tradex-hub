@@ -10,6 +10,7 @@
   GET /api/market-watch/summary → 无轨迹点的精简盘面摘要
   GET /api/market-watch/trajectory → 按板块精确读取完整盘中轨迹
   GET /api/limit-up-pool → 按最新真实快照读取涨停池与真实股票归属
+  GET /api/limit-up-pool/latest → 读取不晚于指定快照的同交易日上一版涨停池
   GET /api/stock-relationships → 读取统一证券关系目录状态或单股关系
   GET /api/market-watch/history → 按交易日返回分钟快照与提醒历史
   GET /api/market-watch/evaluation → 读取 Analysis Worker 预计算回放评估
@@ -819,6 +820,29 @@ def get_limit_up_pool(source_snapshot_revision: str | None) -> dict:
     return pool.model_dump(mode="json")
 
 
+def get_latest_limit_up_pool(not_after: str | None) -> dict:
+    """Read one same-day fallback without weakening the exact revision route."""
+
+    raw = str(not_after or "").strip()
+    try:
+        cutoff = datetime.fromisoformat(raw)
+    except ValueError as exc:
+        raise ValueError("not_after 必须是带时区的 ISO 时间") from exc
+    if cutoff.tzinfo is None or cutoff.utcoffset() is None:
+        raise ValueError("not_after 必须是带时区的 ISO 时间")
+    cutoff = cutoff.astimezone(ZoneInfo("Asia/Shanghai"))
+    from tradex.market_watch.limit_up_pool_store import LimitUpPoolStore
+
+    with LimitUpPoolStore(read_only=True) as store:
+        pool = store.get_latest_for_trade_date(
+            cutoff.date(),
+            not_after=cutoff,
+        )
+    if pool is None:
+        raise LookupError("当前交易日尚无可回看的涨停池")
+    return pool.model_dump(mode="json")
+
+
 def get_stock_relationships(symbol: str | None = None) -> dict:
     """Read one immutable catalog revision; this endpoint never refreshes data."""
 
@@ -888,6 +912,11 @@ class DashboardHandler(BaseHTTPRequestHandler):
                 source_snapshot_revision=query.get(
                     "source_snapshot_revision", [None]
                 )[0],
+            )
+        elif request.path == "/api/limit-up-pool/latest":
+            query = parse_qs(request.query)
+            self._handle_latest_limit_up_pool_api(
+                not_after=query.get("not_after", [None])[0],
             )
         elif request.path == "/api/stock-relationships":
             query = parse_qs(request.query)
@@ -1115,6 +1144,21 @@ class DashboardHandler(BaseHTTPRequestHandler):
         except Exception:
             logger.exception("limit-up catalog pool read failed")
             self._send_json(502, {"error": "涨停池归属匹配暂不可用"})
+
+    def _handle_latest_limit_up_pool_api(
+        self,
+        *,
+        not_after: str | None,
+    ):
+        try:
+            self._send_json(200, get_latest_limit_up_pool(not_after))
+        except ValueError as exc:
+            self._send_json(400, {"error": str(exc)})
+        except LookupError as exc:
+            self._send_json(503, {"error": str(exc)})
+        except Exception:
+            logger.exception("latest available limit-up catalog pool read failed")
+            self._send_json(502, {"error": "上一版涨停池暂不可用"})
 
     def _handle_stock_relationships_api(self, *, symbol: str | None):
         try:

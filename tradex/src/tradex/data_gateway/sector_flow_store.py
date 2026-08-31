@@ -8,6 +8,7 @@ import os
 import sqlite3
 import threading
 import zlib
+from collections.abc import Iterable, Mapping
 from datetime import date, datetime
 from pathlib import Path
 from typing import Any
@@ -222,16 +223,51 @@ class SectorFundFlowStore:
         provider_sector_code: str,
     ) -> None:
         canonical = SectorFundFlowIntradayV1.model_validate(series)
-        code = str(provider_sector_code).strip().upper()
-        if not code.startswith("BK") or not code[2:].isdigit():
-            raise ValueError("sector fund-flow target code must match BK plus digits")
-        updated_at = datetime.now(canonical.metadata.fetched_at.tzinfo).isoformat(
-            timespec="seconds"
+        self.record_target_identities(
+            canonical.trading_date,
+            ({
+                "sector_key": canonical.sector_key,
+                "name": canonical.name,
+                "taxonomy": canonical.taxonomy,
+                "provider_sector_code": provider_sector_code,
+                "source_family": canonical.metadata.provider,
+            },),
         )
+
+    def record_target_identities(
+        self,
+        trading_date: date,
+        targets: Iterable[Mapping[str, Any]],
+    ) -> int:
+        """Persist resolved target identities before their serial curve sweep."""
+
+        normalized: list[tuple[str, str, str, str, str]] = []
+        seen_keys: set[str] = set()
+        for target in targets:
+            sector_key = str(target.get("sector_key") or "").strip()
+            name = str(target.get("name") or "").strip()
+            taxonomy = str(target.get("taxonomy") or "").strip()
+            code = str(target.get("provider_sector_code") or "").strip().upper()
+            source_family = str(target.get("source_family") or "eastmoney").strip()
+            if not sector_key or not name:
+                raise ValueError("sector fund-flow target lacks identity")
+            if sector_key in seen_keys:
+                raise ValueError("sector fund-flow target identities must be unique")
+            if taxonomy not in {"industry", "concept"}:
+                raise ValueError("sector fund-flow target taxonomy is invalid")
+            if not code.startswith("BK") or not code[2:].isdigit():
+                raise ValueError("sector fund-flow target code must match BK plus digits")
+            if not source_family:
+                raise ValueError("sector fund-flow target source family is required")
+            seen_keys.add(sector_key)
+            normalized.append((sector_key, name, taxonomy, code, source_family))
+        if not normalized:
+            return 0
+        updated_at = datetime.now().astimezone().isoformat(timespec="seconds")
         with self._lock:
             self._ensure_open()
             with self._connection:
-                self._connection.execute(
+                self._connection.executemany(
                     """
                     INSERT INTO sector_flow_targets (
                         trade_date, sector_key, name, taxonomy,
@@ -244,16 +280,12 @@ class SectorFundFlowStore:
                         source_family = excluded.source_family,
                         updated_at = excluded.updated_at
                     """,
-                    (
-                        canonical.trading_date.isoformat(),
-                        canonical.sector_key,
-                        canonical.name,
-                        canonical.taxonomy,
-                        code,
-                        canonical.metadata.provider,
-                        updated_at,
-                    ),
+                    [
+                        (trading_date.isoformat(), *target, updated_at)
+                        for target in normalized
+                    ],
                 )
+        return len(normalized)
 
     def get_targets(self, trading_date: date) -> tuple[dict[str, str], ...]:
         with self._lock:

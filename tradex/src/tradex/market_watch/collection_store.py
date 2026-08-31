@@ -952,6 +952,7 @@ class MarketWatchCollectionStore:
         now: datetime,
         *,
         trade_date: date | None = None,
+        current_only: bool = False,
     ) -> tuple[int, CollectionSlotV1] | None:
         self._ensure_writable()
         current = _minute(now, name="now")
@@ -1002,6 +1003,7 @@ class MarketWatchCollectionStore:
                         AND status IN (?, ?)
                         AND minute_bucket <= ?
                         AND (next_retry_at IS NULL OR next_retry_at <= ?)
+                        AND (? = 0 OR minute_bucket = ?)
                     ORDER BY
                         CASE WHEN minute_bucket = ? THEN 0 ELSE 1 END,
                         trade_date ASC, minute_bucket ASC
@@ -1015,6 +1017,8 @@ class MarketWatchCollectionStore:
                         CollectionSlotStatus.RETRYING.value,
                         current_iso,
                         now_iso,
+                        int(bool(current_only)),
+                        current_iso,
                         current_iso,
                     ),
                 ).fetchone()
@@ -1248,28 +1252,34 @@ class MarketWatchCollectionStore:
                     """,
                     (self.config_version, CollectionSlotStatus.CAPTURING.value),
                 ).fetchall()
-                if not rows:
-                    return 0
-                revision = self._bump_revision_locked()
-                self._connection.execute(
+                recovery_rows = self._connection.execute(
                     """
-                    UPDATE market_watch_collection_slots
-                    SET status = ?, next_retry_at = ?, last_error_code = ?,
-                        last_error_message = ?, gap_heartbeat = 1,
-                        ledger_revision = ?, updated_at = ?
+                    SELECT id FROM market_watch_daily_recovery_runs
                     WHERE config_version = ? AND status = ?
                     """,
-                    (
-                        CollectionSlotStatus.RETRYING.value,
-                        recovered_at,
-                        "CollectorRestarted",
-                        "collector stopped before the attempt completed",
-                        revision,
-                        recovered_at,
-                        self.config_version,
-                        CollectionSlotStatus.CAPTURING.value,
-                    ),
-                )
+                    (self.config_version, DailyRecoveryStatus.RUNNING.value),
+                ).fetchall()
+                if rows:
+                    revision = self._bump_revision_locked()
+                    self._connection.execute(
+                        """
+                        UPDATE market_watch_collection_slots
+                        SET status = ?, next_retry_at = ?, last_error_code = ?,
+                            last_error_message = ?, gap_heartbeat = 1,
+                            ledger_revision = ?, updated_at = ?
+                        WHERE config_version = ? AND status = ?
+                        """,
+                        (
+                            CollectionSlotStatus.RETRYING.value,
+                            recovered_at,
+                            "CollectorRestarted",
+                            "collector stopped before the attempt completed",
+                            revision,
+                            recovered_at,
+                            self.config_version,
+                            CollectionSlotStatus.CAPTURING.value,
+                        ),
+                    )
                 self._connection.execute(
                     """
                     UPDATE market_watch_collection_attempts
@@ -1280,7 +1290,27 @@ class MarketWatchCollectionStore:
                     """,
                     (recovered_at, self.config_version),
                 )
-                return len(rows)
+                if recovery_rows:
+                    self._connection.execute(
+                        """
+                        UPDATE market_watch_daily_recovery_runs
+                        SET status = ?, completed_at = ?,
+                            latest_attempt_outcome = CASE
+                                WHEN latest_attempt_minute_bucket IS NULL
+                                THEN latest_attempt_outcome ELSE 'interrupted' END,
+                            last_error_code = ?, last_error_message = ?
+                        WHERE config_version = ? AND status = ?
+                        """,
+                        (
+                            DailyRecoveryStatus.RETRYING.value,
+                            recovered_at,
+                            "CollectorRestarted",
+                            "collector restarted before the daily recovery completed",
+                            self.config_version,
+                            DailyRecoveryStatus.RUNNING.value,
+                        ),
+                    )
+                return len(rows) + len(recovery_rows)
 
     def reconcile_history_record(self, item: Mapping[str, Any]) -> dict[str, Any]:
         """Import one authoritative history row without inventing an attempt.

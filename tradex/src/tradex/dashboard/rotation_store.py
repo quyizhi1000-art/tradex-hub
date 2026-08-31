@@ -127,6 +127,9 @@ class RotationRadarStore:
         self.max_points = int(max_points)
         self.replay_steps = int(replay_steps)
         self._lock = threading.RLock()
+        self._decoded_row_cache: dict[
+            int, tuple[bytes, dict[str, Any]]
+        ] = {}
         self._connection = sqlite3.connect(
             self.db_path,
             check_same_thread=False,
@@ -167,6 +170,7 @@ class RotationRadarStore:
 
     def close(self) -> None:
         with self._lock:
+            self._decoded_row_cache.clear()
             self._connection.close()
 
     def __enter__(self) -> "RotationRadarStore":
@@ -329,10 +333,23 @@ class RotationRadarStore:
         ).fetchall()
 
     def _decoded_snapshots(self, rows: list[sqlite3.Row]) -> list[dict[str, Any]]:
-        return [
-            _expand_payload(row["payload_blob"], row["minute_bucket"], row["market_phase"])
-            for row in rows
-        ]
+        decoded: list[dict[str, Any]] = []
+        for row in rows:
+            row_id = int(row["id"])
+            payload = bytes(row["payload_blob"])
+            payload_digest = hashlib.sha256(payload).digest()
+            cached = self._decoded_row_cache.get(row_id)
+            if cached is not None and cached[0] == payload_digest:
+                snapshot = cached[1]
+            else:
+                snapshot = _expand_payload(
+                    payload,
+                    row["minute_bucket"],
+                    row["market_phase"],
+                )
+                self._decoded_row_cache[row_id] = (payload_digest, snapshot)
+            decoded.append(snapshot)
+        return decoded
 
     def _recent_decoded_snapshots(
         self, decoded: list[dict[str, Any]]

@@ -6,6 +6,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
+from tradex.dashboard import rotation_store as rotation_store_module
 from tradex.dashboard.rotation_store import RotationRadarStore
 
 
@@ -158,6 +159,40 @@ def test_get_as_of_excludes_later_persisted_rotation_minutes(tmp_path: Path):
         assert replay["as_of"] == (START + timedelta(minutes=4)).isoformat()
     finally:
         store.close()
+
+
+def test_get_as_of_decodes_each_persisted_row_only_once(tmp_path: Path, monkeypatch):
+    path = tmp_path / "decoded-cache.sqlite3"
+    store = RotationRadarStore(path)
+    for offset in range(7):
+        _record(store, START + timedelta(minutes=offset), target_change=float(offset))
+    store.close()
+
+    decode_calls = 0
+    expand_payload = rotation_store_module._expand_payload
+
+    def counted_expand_payload(payload: bytes, minute_bucket: str, market_phase: str):
+        nonlocal decode_calls
+        decode_calls += 1
+        return expand_payload(payload, minute_bucket, market_phase)
+
+    monkeypatch.setattr(rotation_store_module, "_expand_payload", counted_expand_payload)
+    resumed = RotationRadarStore(path)
+    try:
+        first = resumed.get_as_of(TRADE_DATE, START + timedelta(minutes=4))
+        assert decode_calls == 5
+
+        repeated = resumed.get_as_of(TRADE_DATE, START + timedelta(minutes=4))
+        assert repeated == first
+        assert decode_calls == 5
+
+        resumed.get_as_of(TRADE_DATE, START + timedelta(minutes=6))
+        assert decode_calls == 7
+
+        resumed.get_as_of(TRADE_DATE, START + timedelta(minutes=2))
+        assert decode_calls == 7
+    finally:
+        resumed.close()
 
 
 def test_midday_does_not_store_or_advance(tmp_path: Path):

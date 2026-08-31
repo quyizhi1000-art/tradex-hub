@@ -31,6 +31,10 @@ from .review_store import (
     ARCHIVE_SCHEMA_VERSION,
     PostMarketReviewStore,
 )
+from .review_editorial_store import (
+    ReviewEditorialOverrideV1,
+    apply_review_editorial_override,
+)
 from tradex.data_gateway.review_announcement_contracts import (
     ReviewOfficialAnnouncementArchiveV1,
 )
@@ -84,6 +88,11 @@ class PostMarketReviewService:
             ReviewOfficialAnnouncementArchiveV1 | Mapping[str, Any] | None,
         ]
         | None = None,
+        editorial_override_loader: Callable[
+            [date],
+            ReviewEditorialOverrideV1 | Mapping[str, Any] | None,
+        ]
+        | None = None,
     ) -> None:
         self._snapshot_loader = snapshot_loader
         self.store = store
@@ -91,6 +100,7 @@ class PostMarketReviewService:
         self._evidence_loader = evidence_loader
         self._history_loader = history_loader
         self._official_announcement_loader = official_announcement_loader
+        self._editorial_override_loader = editorial_override_loader
         self._lock = threading.RLock()
         self._auto_date: date | None = None
         self._auto_attempts = 0
@@ -239,11 +249,25 @@ class PostMarketReviewService:
             if self._official_announcement_loader is not None
             else None
         )
-        return build_post_market_review_presentation(
+        presentation = build_post_market_review_presentation(
             review,
             previous_review=previous,
             business_profiles=read_profiles(instrument_ids),
             official_announcements=official_announcements,
+        )
+        editorial_override = (
+            self._editorial_override_loader(review.trade_date)
+            if self._editorial_override_loader is not None
+            else None
+        )
+        if editorial_override is not None:
+            editorial_override = ReviewEditorialOverrideV1.model_validate(
+                editorial_override
+            )
+        return apply_review_editorial_override(
+            presentation,
+            review,
+            editorial_override,
         ).model_dump(mode="json")
 
     def _result(self, action: str, review: PostMarketReviewV1) -> dict[str, Any]:

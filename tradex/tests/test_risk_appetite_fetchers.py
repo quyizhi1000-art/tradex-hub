@@ -233,8 +233,8 @@ def test_fetch_board_leaders_uses_a_bounded_first_page_and_preserves_missing(mon
         },
     }
 
-    def fake_em_get(url, params, timeout):
-        calls.append((url, params, timeout))
+    def fake_em_get(url, params, timeout, max_queue_wait=None):
+        calls.append((url, params, timeout, max_queue_wait))
         return _FakeResponse(payload=payload)
 
     monkeypatch.setattr(em_client, "em_get", fake_em_get)
@@ -249,6 +249,7 @@ def test_fetch_board_leaders_uses_a_bounded_first_page_and_preserves_missing(mon
     assert calls[0][1]["fid"] == "f22"
     assert calls[0][1]["fs"] == "b:BK1036 f:!50"
     assert calls[0][1]["fields"] == "f12,f14,f2,f3,f22,f6,f8,f62,f184,f124"
+    assert calls[0][3] == 0.0
     assert records[0] == {
         "code": "600001",
         "name": "领涨一号",
@@ -272,7 +273,8 @@ def test_fetch_board_leaders_uses_a_bounded_first_page_and_preserves_missing(mon
 def test_fetch_board_leaders_can_request_falling_speed_order(monkeypatch):
     calls = []
 
-    def fake_em_get(url, params, timeout):
+    def fake_em_get(url, params, timeout, max_queue_wait=None):
+        assert max_queue_wait == 0.0
         calls.append((url, params, timeout))
         return _FakeResponse(payload={
             "data": {
@@ -306,7 +308,8 @@ def test_fetch_board_leaders_can_request_falling_speed_order(monkeypatch):
 def test_fetch_board_leaders_falls_back_to_delay_and_validates_bounds(monkeypatch):
     calls = []
 
-    def fake_em_get(url, params, timeout):
+    def fake_em_get(url, params, timeout, max_queue_wait=None):
+        assert max_queue_wait == 0.0
         calls.append(url)
         if "push2delay" not in url:
             raise RuntimeError("primary unavailable")
@@ -329,7 +332,8 @@ def test_fetch_board_leaders_falls_back_to_delay_and_validates_bounds(monkeypatc
 def test_fetch_board_leaders_reuses_the_known_board_quote_source(monkeypatch):
     calls = []
 
-    def fake_em_get(url, params, timeout):
+    def fake_em_get(url, params, timeout, max_queue_wait=None):
+        assert max_queue_wait == 0.0
         calls.append(url)
         return _FakeResponse(payload={
             "data": {"diff": [{"f12": "600001", "f14": "样本", "f3": 1.0}]},
@@ -575,6 +579,25 @@ def test_em_get_fails_fast_when_the_provider_queue_is_busy(
 
     with pytest.raises(SourceBusyError, match="queue is busy"):
         em_client.em_get("https://example.test/busy")
+
+
+def test_em_get_can_reserve_only_an_idle_provider_slot(monkeypatch, tmp_path):
+    from astock_signals.smart_router import SourceBusyError
+
+    monkeypatch.setenv(
+        "TRADEX_RATE_LIMIT_STATE_FILE",
+        str(tmp_path / "provider-rate-limits.sqlite3"),
+    )
+    monkeypatch.setattr(anti_ban_client, "_EM_MIN_INTERVAL", 1.0)
+    monkeypatch.setattr(anti_ban_client, "_EM_MAX_QUEUE_WAIT", 8.0)
+    monkeypatch.setattr(anti_ban_client.random, "uniform", lambda *_: 0.0)
+    anti_ban_client.reserve_em_request_slot()
+
+    with pytest.raises(SourceBusyError, match="queue is busy"):
+        em_client.em_get(
+            "https://example.test/opportunistic",
+            max_queue_wait=0.0,
+        )
 
 
 @pytest.mark.parametrize(

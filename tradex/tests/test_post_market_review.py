@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 from datetime import date, datetime
 from pathlib import Path
 from types import SimpleNamespace
@@ -28,6 +29,10 @@ from tradex.market_watch.review_service import (
     ReviewTooEarlyError,
 )
 from tradex.market_watch.review import _is_actionable_sector, _same_opportunity_theme
+from tradex.market_watch.review_editorial_store import (
+    ReviewEditorialOverrideStore,
+    apply_review_editorial_override,
+)
 from tradex.market_watch.review_store import PostMarketReviewStore
 from tradex.data_gateway.review_announcement_contracts import (
     ReviewOfficialAnnouncementArchiveV1,
@@ -293,6 +298,64 @@ def test_opportunity_list_collapses_repeated_market_themes():
     assert not _is_actionable_sector(SimpleNamespace(sector_type="concept", name="破净股"))
     assert not _is_actionable_sector(SimpleNamespace(sector_type="concept", name="宁组合"))
     assert _is_actionable_sector(SimpleNamespace(sector_type="industry", name="计算机"))
+
+
+def test_researched_editorial_override_changes_only_the_presentation(tmp_path: Path):
+    generated_at = datetime(2026, 8, 24, 20, 30, tzinfo=SHANGHAI)
+    snapshot = _closing_snapshot(datetime(2026, 8, 24, 15, 1, tzinfo=SHANGHAI))
+    review = build_post_market_review(
+        _evidence(snapshot, generated_at),
+        generated_at=generated_at,
+        trigger=ReviewTrigger.MANUAL,
+    )
+    original = build_post_market_review_presentation(review)
+    payload = {
+        "contract": "post_market_review_editorial_override.v1",
+        "schema_version": 1,
+        "review_id": review.review_id,
+        "trade_date": review.trade_date.isoformat(),
+        "source_count": 50,
+        "source_audit_path": "audit.md",
+        "title": "研究纠偏后的标题",
+        "standfirst": "这是一份经过五十个来源对账的研究编辑稿。",
+        "day_character": "高低切换日",
+        "core_conclusion": "旧强线兑现，新方向只完成首日试错。",
+        "sections": [item.model_dump(mode="json") for item in original.sections],
+        "watch_items": [item.model_dump(mode="json") for item in original.watch_items],
+        "themes": [item.model_dump(mode="json") for item in original.themes],
+        "money_making_effect": ["赚钱效应集中在低位承接。"],
+        "loss_making_effect": ["亏钱效应集中在旧强线兑现。"],
+    }
+    directory = tmp_path / "editorial"
+    directory.mkdir()
+    path = directory / f"{review.trade_date.isoformat()}.json"
+    path.write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")
+    editorial_store = ReviewEditorialOverrideStore(directory)
+
+    override = editorial_store.get(review.trade_date)
+    revised = apply_review_editorial_override(original, review, override)
+
+    archive_store = PostMarketReviewStore(tmp_path / "review.sqlite3")
+    archive_store.record(review)
+    service = PostMarketReviewService(
+        lambda: snapshot,
+        archive_store,
+        evidence_loader=lambda value, now: _evidence(value, now),
+        editorial_override_loader=editorial_store.get,
+    )
+    served = service.history(trade_date=review.trade_date)["presentation"]
+
+    assert revised.title == "研究纠偏后的标题"
+    assert revised.standfirst == "这是一份经过五十个来源对账的研究编辑稿。"
+    assert revised.appendix_sections == original.appendix_sections
+    assert review.recap == build_post_market_review(
+        _evidence(snapshot, generated_at),
+        generated_at=generated_at,
+        trigger=ReviewTrigger.MANUAL,
+    ).recap
+    assert editorial_store.revision(review.trade_date)
+    assert served["title"] == "研究纠偏后的标题"
+    archive_store.close()
 
 
 def test_manual_review_is_gated_at_1730_and_does_not_fetch_early(tmp_path: Path):

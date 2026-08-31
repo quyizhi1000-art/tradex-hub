@@ -44,20 +44,20 @@ def _get_session():
     return session
 
 
-def _reserve_request_slot() -> float:
+def _reserve_request_slot(*, max_wait: float | None = None) -> float:
     """Reserve the shared cross-process Eastmoney/IP request slot."""
-    return _shared_em_throttle.reserve_em_request_slot()
+    return _shared_em_throttle.reserve_em_request_slot(max_wait=max_wait)
 
 
 def em_get(url: str, params: dict | None = None, headers: dict | None = None,
-           timeout: int = 15, **kwargs):
+           timeout: int = 15, max_queue_wait: float | None = None, **kwargs):
     """东财统一请求入口：有界排队、线程本地 session、默认 UA。
 
     只在锁内预定下一个 IP 请求时隙；等待和网络请求都在锁外完成。
     当预计等待超过预算时立即交给 SmartRouter 做本次请求的源切换，避免
     东财拥塞占满整个 MCP worker 池。
     """
-    wait = _reserve_request_slot()
+    wait = _reserve_request_slot(max_wait=max_queue_wait)
     if wait > 0:
         time.sleep(wait)
     h = {"User-Agent": _UA, "Referer": _REFERER}

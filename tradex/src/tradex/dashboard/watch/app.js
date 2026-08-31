@@ -6,6 +6,7 @@
   const SUMMARY_ENDPOINT = "/api/market-watch/summary";
   const TRAJECTORY_ENDPOINT = "/api/market-watch/trajectory";
   const LIMIT_UP_POOL_ENDPOINT = "/api/limit-up-pool";
+  const LIMIT_UP_POOL_LATEST_ENDPOINT = "/api/limit-up-pool/latest";
   const HISTORY_ENDPOINT = "/api/market-watch/history";
   const EVALUATION_ENDPOINT = "/api/market-watch/evaluation";
   const REVIEW_HISTORY_ENDPOINT = "/api/post-market-review/history";
@@ -66,6 +67,7 @@
     soundEnabled: "tradex.marketWatch.soundEnabled.v1",
     sectorFlowSelection: "tradex.marketWatch.sectorFlowSelection.v1",
     offenseSectorFlowSelection: "tradex.marketWatch.offenseSectorFlowSelection.v2",
+    sectorFlowColorAssignments: "tradex.marketWatch.sectorFlowColorAssignments.v1",
     sectorFlowSurgeThreshold: "tradex.marketWatch.sectorFlowSurgeThreshold.v1",
   };
 
@@ -160,6 +162,7 @@
     offenseSectorFlowSelection: readStoredText(STORAGE_KEYS.offenseSectorFlowSelection) === null
       ? null
       : new Set(loadStoredArray(STORAGE_KEYS.offenseSectorFlowSelection)),
+    sectorFlowColorAssignments: loadStoredObject(STORAGE_KEYS.sectorFlowColorAssignments),
     sectorFlowSurgeThreshold: Number(readStoredText(
       STORAGE_KEYS.sectorFlowSurgeThreshold,
       String(DEFAULT_SECTOR_FLOW_SURGE_THRESHOLD),
@@ -1005,18 +1008,75 @@
     return `hsl(${hue.toFixed(1)} ${saturation}% ${lightness}%)`;
   }
 
+  function sectorFlowColorSlots(payload, entries) {
+    const tradeDate = text(payload?.tradeDate, "");
+    const scope = payload?.direction === "offense" ? "offense" : "defense";
+    let stored = state.sectorFlowColorAssignments;
+    let changed = false;
+    if (
+      !stored
+      || typeof stored !== "object"
+      || Array.isArray(stored)
+      || stored.tradeDate !== tradeDate
+    ) {
+      stored = { tradeDate, defense: {}, offense: {} };
+      state.sectorFlowColorAssignments = stored;
+      changed = true;
+    }
+
+    const rawAssignments = stored[scope];
+    const assignments = {};
+    const usedSlots = new Set();
+    if (rawAssignments && typeof rawAssignments === "object" && !Array.isArray(rawAssignments)) {
+      Object.entries(rawAssignments).forEach(([sectorKey, slot]) => {
+        if (
+          sectorKey
+          && Number.isInteger(slot)
+          && slot >= 0
+          && slot < SECTOR_FLOW_COLOR_SLOT_COUNT
+          && !usedSlots.has(slot)
+        ) {
+          assignments[sectorKey] = slot;
+          usedSlots.add(slot);
+        } else {
+          changed = true;
+        }
+      });
+    } else {
+      changed = true;
+    }
+    stored[scope] = assignments;
+
+    const slots = entries.map(({ item }) => {
+      const sectorKey = text(item?.sector_key, "unknown");
+      if (Number.isInteger(assignments[sectorKey])) return assignments[sectorKey];
+      const slot = Array.from(
+        { length: SECTOR_FLOW_COLOR_SLOT_COUNT },
+        (_unused, candidate) => candidate,
+      ).find((candidate) => !usedSlots.has(candidate));
+      const assignedSlot = slot ?? 0;
+      assignments[sectorKey] = assignedSlot;
+      usedSlots.add(assignedSlot);
+      changed = true;
+      return assignedSlot;
+    });
+    if (changed) storeJson(STORAGE_KEYS.sectorFlowColorAssignments, stored);
+    return slots;
+  }
+
   function sectorFlowSeries(payload, mode) {
-    return asArray(payload?.sectors)
+    const entries = asArray(payload?.sectors)
       .map((item) => ({
         item,
         segments: sectorFlowSegments(item, mode),
       }))
       .filter((entry) => entry.segments.some((segment) => segment.length >= 2))
-      .slice(0, MAX_SECTOR_FLOW_CHART_SERIES)
-      .map((entry, index) => ({
-        ...entry,
-        color: sectorFlowPaletteColor(index),
-      }));
+      .slice(0, MAX_SECTOR_FLOW_CHART_SERIES);
+    const colorSlots = sectorFlowColorSlots(payload, entries);
+    return entries.map((entry, index) => ({
+      ...entry,
+      color: sectorFlowPaletteColor(colorSlots[index]),
+    }));
   }
 
   function hideSectorFlowTooltip(scope) {
@@ -2430,7 +2490,7 @@
     renderAlerts(snapshot);
     updateDataRisk(snapshot);
     if (state.lastSummary?.source_snapshot_revision !== state.limitUpPoolRevision) {
-      byId("limit-up-pool-button-count").textContent = "…";
+      if (!state.limitUpPool) byId("limit-up-pool-button-count").textContent = "…";
       fetchLimitUpPool({ showPending: byId("limit-up-pool-dialog").open });
     }
   }
@@ -5032,6 +5092,15 @@
     }
     items.forEach((item) => {
       const status = text(item?.relationship_match_status, "");
+      const boardCountBasis = text(item?.board_count_basis, "");
+      const validBoardCount = (
+        boardCountBasis === "daily_closed_limit_up_history"
+        && Number.isInteger(item?.board_count)
+        && item.board_count >= 1
+      ) || (
+        boardCountBasis === "unavailable"
+        && item?.board_count === null
+      );
       const displayKey = text(item?.display_category_key, "");
       const displayName = text(item?.display_category_name, "");
       const displayBasis = text(item?.display_category_basis, "");
@@ -5056,7 +5125,7 @@
         && (displayBasis === "unresolved"
           ? !displayKey && !displayName
           : Boolean(displayKey && displayName));
-      if ((!matched && !unmatched) || !validDisplay) {
+      if ((!matched && !unmatched) || !validDisplay || !validBoardCount) {
         throw new Error(`涨停池 ${text(item?.name, item?.instrument_id)} 归属匹配状态不完整`);
       }
     });
@@ -5144,6 +5213,14 @@
       "limit-up-stock-card__name",
       text(item.name, item.instrument_id),
     ));
+    const boardLabel = text(item.board_label, "");
+    if (boardLabel) {
+      card.appendChild(createElement(
+        "span",
+        "limit-up-stock-card__meta",
+        `区间记录 · ${boardLabel}`,
+      ));
+    }
     const sector = createElement("div", "limit-up-stock-card__sector");
     if (item.is_one_word_board) {
       sector.appendChild(createElement("i", "one-word-badge", "一字"));
@@ -5218,7 +5295,7 @@
       section.appendChild(createElement(
         "div",
         "limit-up-board-height",
-        height > 0 ? `${height}板` : "高度\n待核验",
+        height > 0 ? `${height}板` : "历史日榜\n不可用",
       ));
       const grid = createElement("div", "limit-up-stock-grid");
       items.forEach((item) => grid.appendChild(limitUpPoolCard(item)));
@@ -5235,10 +5312,49 @@
     );
   }
 
+  async function fetchLatestAvailableLimitUpPool(summary) {
+    const notAfter = text(summary?.as_of, "");
+    const expectedTradeDate = notAfter.slice(0, 10);
+    if (!notAfter || !/^\d{4}-\d{2}-\d{2}$/.test(expectedTradeDate)) {
+      throw new Error("当前快照时间不可用于读取上一版涨停池");
+    }
+    const query = new URLSearchParams({ not_after: notAfter });
+    const response = await fetch(`${LIMIT_UP_POOL_LATEST_ENDPOINT}?${query}`, {
+      cache: "no-cache",
+      headers: { Accept: "application/json" },
+    });
+    if (!response.ok) throw await marketWatchResponseError(response);
+    const payload = await response.json();
+    const actualRevision = text(payload?.source_snapshot_revision, "");
+    if (!isRevision(actualRevision)) {
+      throw new Error("上一版涨停池缺少真实快照版本");
+    }
+    const pool = validateLimitUpPool(payload, actualRevision);
+    const poolAsOf = Date.parse(text(pool.source_as_of, ""));
+    const cutoff = Date.parse(notAfter);
+    if (
+      pool.trade_date !== expectedTradeDate
+      || !Number.isFinite(poolAsOf)
+      || !Number.isFinite(cutoff)
+      || poolAsOf > cutoff
+    ) {
+      throw new Error("上一版涨停池越过当前快照时点");
+    }
+    return pool;
+  }
+
   async function fetchLimitUpPool({ showPending = true } = {}) {
-    const revision = state.lastSummary?.source_snapshot_revision;
+    const summary = state.lastSummary;
+    const revision = summary?.source_snapshot_revision;
+    const hasPreviousPool = Boolean(state.limitUpPool);
     if (!isRevision(revision)) {
-      if (showPending) renderLimitUpPoolPending("等待首份真实盘面快照");
+      if (showPending) {
+        if (hasPreviousPool) {
+          byId("limit-up-pool-status").textContent = "等待新的真实盘面快照…当前继续显示上一版涨停池";
+        } else {
+          renderLimitUpPoolPending("等待首份真实盘面快照");
+        }
+      }
       return;
     }
     if (state.limitUpPoolFetchInFlight) return;
@@ -5248,7 +5364,11 @@
     }
     state.limitUpPoolFetchInFlight = true;
     if (showPending) {
-      renderLimitUpPoolPending("正在读取与当前快照绑定的实时涨停状态…");
+      if (hasPreviousPool) {
+        byId("limit-up-pool-status").textContent = "正在刷新…当前继续显示上一版涨停池";
+      } else {
+        renderLimitUpPoolPending("正在读取与当前快照绑定的实时涨停状态…");
+      }
     }
     try {
       const query = new URLSearchParams({ source_snapshot_revision: revision });
@@ -5263,10 +5383,31 @@
       state.limitUpPoolRevision = revision;
       renderLimitUpPool(pool);
     } catch (error) {
-      state.limitUpPool = null;
-      state.limitUpPoolRevision = null;
-      if (showPending || byId("limit-up-pool-dialog").open) {
-        renderLimitUpPoolPending(text(error?.message, "实时涨停状态暂不可用"));
+      const message = text(error?.message, "实时涨停状态暂不可用");
+      let recoveredPreviousPool = null;
+      if (error?.status === 503 && !hasPreviousPool) {
+        try {
+          recoveredPreviousPool = await fetchLatestAvailableLimitUpPool(summary);
+        } catch (_fallbackError) {
+          recoveredPreviousPool = null;
+        }
+      }
+      if (state.lastSummary?.source_snapshot_revision !== revision) return;
+      if (recoveredPreviousPool) {
+        state.limitUpPool = recoveredPreviousPool;
+        state.limitUpPoolRevision = recoveredPreviousPool.source_snapshot_revision;
+        renderLimitUpPool(recoveredPreviousPool);
+        if (recoveredPreviousPool.source_snapshot_revision !== revision) {
+          byId("limit-up-pool-status").textContent = (
+            "精确版本准备中 · 当前显示同交易日上一版涨停池"
+          );
+        }
+      } else if (hasPreviousPool) {
+        if (showPending || byId("limit-up-pool-dialog").open) {
+          byId("limit-up-pool-status").textContent = `${message} · 继续显示上一版涨停池`;
+        }
+      } else if (showPending || byId("limit-up-pool-dialog").open) {
+        renderLimitUpPoolPending(message);
       } else {
         byId("limit-up-pool-button-count").textContent = "--";
       }

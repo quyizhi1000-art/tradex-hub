@@ -168,6 +168,24 @@ def test_unknown_board_count_is_explicitly_degraded() -> None:
     assert series.board_count_coverage == 0.0
 
 
+def test_nonconsecutive_window_label_does_not_claim_a_continuous_streak() -> None:
+    router = SmartRouter()
+    router.register(
+        "limit_events",
+        "ths",
+        lambda date: _frame(board_label="5天4板"),
+        priority=1,
+    )
+
+    series = fetch_limit_up_events("2026-08-19", router=router, now=_NOW)
+
+    assert series.events[0].board_label == "5天4板"
+    assert series.events[0].board_count is None
+    assert series.unknown_board_count == 1
+    assert series.board_count_coverage == 0.0
+    assert "board_count_partial" in series.metadata.quality_flags
+
+
 def test_optional_dataframe_na_is_degraded_instead_of_rejecting_the_source() -> None:
     frame = _frame()
     frame.loc[0, "封单额"] = pd.NA

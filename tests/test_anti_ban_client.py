@@ -186,6 +186,24 @@ def test_busy_queue_fails_fast_without_network_call():
     mock_session.get.assert_not_called()
 
 
+def test_optional_request_can_use_only_an_idle_provider_slot():
+    """Display enrichment cannot queue ahead of live market-data requests."""
+
+    set_min_interval(1.0)
+    anti_ban_client._EM_MAX_QUEUE_WAIT = 8.0
+    reserve_em_request_slot()
+    mock_session = MagicMock()
+
+    with patch(
+        "astock_signals.anti_ban_client._ensure_session",
+        return_value=mock_session,
+    ):
+        with pytest.raises(SourceBusyError, match="queue is busy"):
+            em_get("https://example.com/optional", max_queue_wait=0.0)
+
+    mock_session.get.assert_not_called()
+
+
 def test_tradex_client_uses_the_same_process_wide_slot(monkeypatch):
     """requests and curl_cffi clients must not admit the same IP slot twice."""
     from tradex.data_sources import em_client

@@ -122,7 +122,12 @@ def _board_count(value: Any) -> int | None:
     label = "".join(str(value).split())
     if label == "首板":
         return 1
-    for pattern in (_DAY_BOARD_PATTERN, _STREAK_BOARD_PATTERN, _BOARD_PATTERN):
+    day_match = _DAY_BOARD_PATTERN.fullmatch(label)
+    if day_match is not None:
+        days = int(day_match.group("days"))
+        boards = int(day_match.group("boards"))
+        return boards if days == boards and boards > 0 else None
+    for pattern in (_STREAK_BOARD_PATTERN, _BOARD_PATTERN):
         match = pattern.fullmatch(label)
         if match is not None:
             count = int(match.group("boards"))
@@ -329,4 +334,54 @@ def map_limit_event_frame(
     }
 
 
-__all__ = ["map_limit_event_frame"]
+def map_daily_limit_up_membership(
+    raw: Any,
+    *,
+    route_provider: str,
+    requested_date: date,
+) -> dict[str, Any]:
+    if not isinstance(raw, dict) or raw.get("source_valid") is not True:
+        raise RuntimeError("daily limit-up membership source is not explicitly valid")
+    trading_date = _normalise_date(
+        raw.get("trade_date"),
+        "daily limit-up membership trade_date",
+    )
+    if trading_date != requested_date:
+        raise RuntimeError("daily limit-up membership date does not match request")
+    members = raw.get("members")
+    if not isinstance(members, (list, tuple)):
+        raise RuntimeError("daily limit-up membership omitted members")
+
+    instrument_ids: list[str] = []
+    seen: set[str] = set()
+    for row in members:
+        if not isinstance(row, dict):
+            raise RuntimeError("daily limit-up membership row must be an object")
+        row_date = _normalise_date(
+            row.get("trade_date"),
+            "daily limit-up membership row trade_date",
+        )
+        if row_date != requested_date:
+            raise RuntimeError("daily limit-up membership row date does not match request")
+        instrument_id = canonical_instrument_id(
+            _required_text(
+                row.get("ts_code") or row.get("code"),
+                "daily limit-up membership instrument",
+            )
+        )
+        if instrument_id in seen:
+            raise RuntimeError(
+                f"daily limit-up membership duplicated instrument {instrument_id}"
+            )
+        seen.add(instrument_id)
+        instrument_ids.append(instrument_id)
+
+    return {
+        "provider": route_provider,
+        "provider_as_of": parse_provider_time(raw.get("provider_as_of")),
+        "trading_date": trading_date,
+        "instrument_ids": tuple(sorted(instrument_ids)),
+    }
+
+
+__all__ = ["map_daily_limit_up_membership", "map_limit_event_frame"]

@@ -12,6 +12,7 @@ import threading
 from contextlib import contextmanager
 from datetime import date, datetime, time, timedelta
 from pathlib import Path
+from types import SimpleNamespace
 from typing import BinaryIO, Iterator
 from zoneinfo import ZoneInfo
 
@@ -138,7 +139,10 @@ def _capture_final_close(slot, observed: datetime) -> MarketWatchSnapshotV1:
     """Build one close snapshot from provider-proven final values."""
 
     from tradex.dashboard import __main__ as dashboard_app
-    from tradex.dashboard.risk_service import get_risk_appetite_data
+    from tradex.dashboard.risk_service import (
+        get_risk_appetite_data,
+        get_rotation_radar_as_of,
+    )
 
     minute = slot.minute_bucket.astimezone(SHANGHAI).replace(second=0, microsecond=0)
     if (
@@ -158,11 +162,27 @@ def _capture_final_close(slot, observed: datetime) -> MarketWatchSnapshotV1:
         force=True,
         record_trajectory=minute.date() == observed.date(),
     )
+    exact_rotation = get_rotation_radar_as_of(minute)
+    risk_data = dict(risk_data)
+    for field in (
+        "sector_flow_trajectory",
+        "offense_sector_flow_trajectory",
+    ):
+        trajectory = dict(exact_rotation.get(field) or {})
+        trajectory_as_of = _provider_time(trajectory.get("as_of"))
+        if (
+            trajectory_as_of is None
+            or trajectory_as_of.astimezone(SHANGHAI) < minute
+            or not trajectory.get("sectors")
+        ):
+            raise HistoricalMarketWatchUnavailable(
+                f"final close {field} does not reach the exact close"
+            )
+        risk_data[field] = trajectory
     breadth, breadth_status = _provider_verified_final_breadth(
         minute.date(),
         observed,
     )
-    risk_data = dict(risk_data)
     risk_data["breadth"] = breadth
     components = {
         str(name): dict(status)
@@ -250,6 +270,49 @@ def _repair_historical(
     )
 
 
+def _rematerialize_final_close(
+    trade_date: date,
+    observed: datetime,
+    *,
+    history: MarketWatchHistoryStore,
+    ledger: MarketWatchCollectionStore,
+) -> dict[str, str]:
+    """Publish a new close revision only after its canonical snapshot persists."""
+
+    close_minute = datetime.combine(trade_date, FINAL_CLOSE_TIME).replace(
+        tzinfo=SHANGHAI
+    )
+    snapshot = _capture_final_close(
+        SimpleNamespace(minute_bucket=close_minute),
+        observed,
+    )
+    persistence = dict(history.record(snapshot))
+    action = str(persistence.get("action") or "")
+    digest = str(persistence.get("payload_digest") or "")
+    if action not in {"inserted", "updated", "unchanged"} or len(digest) != 64:
+        raise RuntimeError("final close rematerialization was not persisted")
+    close_iso = close_minute.isoformat(timespec="seconds")
+    record = next(
+        (
+            item
+            for item in history.get_collection_records(trade_date)
+            if item.get("minute_bucket") == close_iso
+            and item.get("record_kind") == "accepted_real"
+            and item.get("payload_digest") == digest
+        ),
+        None,
+    )
+    if record is None:
+        raise RuntimeError("persisted final close revision cannot be read back")
+    reconciliation = ledger.reconcile_history_record(record)
+    if reconciliation.get("action") not in {"imported", "unchanged"}:
+        raise RuntimeError("final close revision was not rebound to the collection ledger")
+    return {
+        "action": action,
+        "source_snapshot_revision": digest,
+    }
+
+
 def build_collector(
     *,
     ledger: MarketWatchCollectionStore,
@@ -257,10 +320,12 @@ def build_collector(
     clock=_now,
 ) -> MarketWatchCollector:
     from tradex.data_gateway.sector_flow import (
+        finalize_sector_intraday_fund_flow_backfill,
         prepare_sector_intraday_fund_flow_backfill,
     )
     from tradex.dashboard.risk_service import get_rotation_radar_as_of
     from tradex.market_watch.reconstruction import SameDayPostCloseReconstructor
+    from tradex.market_watch.recovery_source_cache import RecoverySourceMatrixStore
 
     reconstructor = SameDayPostCloseReconstructor(
         history=history,
@@ -268,7 +333,39 @@ def build_collector(
         rotation_loader=get_rotation_radar_as_of,
         clock=clock,
         rotation_curve_preparer=prepare_sector_intraday_fund_flow_backfill,
+        source_cache=RecoverySourceMatrixStore(),
     )
+
+    def prepare_daily_recovery(trade_date, observed, heartbeat):
+        gap_minutes = tuple(
+            minute
+            for minute in ledger.list_recovery_gap_minutes(trade_date)
+            if OPENING_AUCTION_RESULT_TIME < minute.time().replace(tzinfo=None) < FINAL_CLOSE_TIME
+        )
+        if not gap_minutes:
+            return {"action": "skipped", "reason": "no_intraday_curve_gaps"}
+        finalization = finalize_sector_intraday_fund_flow_backfill(
+            trading_date=trade_date,
+            required_through=max(gap_minutes),
+            now=observed,
+            progress=lambda _completed, _total, _sector_key: heartbeat(),
+        )
+        if not finalization.get("complete"):
+            raise HistoricalMarketWatchUnavailable(
+                "final close rematerialization requires complete persisted sector curves"
+            )
+        heartbeat()
+        publication = _rematerialize_final_close(
+            trade_date,
+            observed,
+            history=history,
+            ledger=ledger,
+        )
+        heartbeat()
+        return {
+            **finalization,
+            "close_snapshot": publication,
+        }
 
     def repair(slot):
         return _repair_historical(
@@ -299,6 +396,7 @@ def build_collector(
         repair_historical_with_progress=repair_with_progress,
         persist_snapshot=history.record,
         history_records=retained_history_records,
+        prepare_daily_recovery=prepare_daily_recovery,
         clock=clock,
     )
 
@@ -499,6 +597,11 @@ def _generate_latest_limit_up_pool(
             existing is not None
             and existing.relationship_catalog_revision
             == (taxonomy_status.catalog_revision if taxonomy_status else None)
+            and all(
+                item.board_count_basis
+                in {"daily_closed_limit_up_history", "unavailable"}
+                for item in existing.items
+            )
         )
         if existing_is_reusable:
             return {
@@ -657,6 +760,7 @@ def _run_post_close_resonance_loop(
     completed_dates = set()
     completed_resonance_buckets = set()
     completed_limit_up_buckets = set()
+    completed_midday_limit_up_dates = set()
     completed_sentiment_dates = set()
     completed_announcement_buckets = set()
     while not stop_event.is_set():
@@ -664,10 +768,15 @@ def _run_post_close_resonance_loop(
         session = a_share_session(observed)
         intraday_bucket = observed.replace(second=0, microsecond=0)
         local_time = observed.time().replace(tzinfo=None)
+        midday_limit_up_due = (
+            session.is_trading_day
+            and session.phase is TradingSessionPhase.MIDDAY_BREAK
+            and observed.date() not in completed_midday_limit_up_dates
+        )
         limit_up_due = (
             session.is_open
             and intraday_bucket not in completed_limit_up_buckets
-        )
+        ) or midday_limit_up_due
         resonance_due = (
             session.is_open
             and local_time >= time(9, 35)
@@ -700,6 +809,8 @@ def _run_post_close_resonance_loop(
                     reuse_existing=True,
                 )
                 completed_limit_up_buckets.add(intraday_bucket)
+                if time(11, 30) <= local_time < time(13, 0):
+                    completed_midday_limit_up_dates.add(observed.date())
                 logger.info(
                     "live limit-up catalog pool ready revision=%s total=%s",
                     result.get("pool_revision"),
