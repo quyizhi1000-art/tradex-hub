@@ -133,6 +133,26 @@ def test_eastmoney_fetcher_maps_exact_minutes_and_filters_other_dates(monkeypatc
     assert frame.attrs["provider_transport"] == "push2"
 
 
+def test_eastmoney_fetcher_honors_low_priority_repair_budget(monkeypatch):
+    captured = {}
+
+    def em_get(_url, **kwargs):
+        captured.update(kwargs)
+        return _Response(["2026-08-24 09:31,100000000,0,0,0,0,0"])
+
+    monkeypatch.setattr("tradex.data_sources.em_client.em_get", em_get)
+
+    fetch_sector_intraday_fund_flow_eastmoney(
+        provider_sector_code="BK0428",
+        trade_date=TRADE_DATE,
+        max_queue_wait=2.0,
+        request_timeout=4,
+    )
+
+    assert captured["max_queue_wait"] == 2.0
+    assert captured["timeout"] == 4
+
+
 def test_eastmoney_fetcher_uses_delay_mirror_after_main_transport_failure(
     monkeypatch,
 ):
@@ -415,6 +435,50 @@ def test_backfill_success_survives_process_cache_restart(tmp_path):
     assert len(first_router.calls) == 1
     assert second_router.calls == []
     assert restored == first
+
+
+def test_intraday_repair_request_is_persisted_coalesced_and_audited(tmp_path):
+    db_path = tmp_path / "intraday-repair.sqlite3"
+    cutoff = NOW.replace(minute=39)
+    with SectorFundFlowStore(db_path) as store:
+        queued = store.request_intraday_repair(
+            TRADE_DATE,
+            required_through=cutoff,
+            requested_at=NOW,
+        )
+        coalesced = store.request_intraday_repair(
+            TRADE_DATE,
+            required_through=NOW,
+            requested_at=NOW + timedelta(seconds=5),
+        )
+        running = store.update_intraday_repair(
+            TRADE_DATE,
+            status="running",
+            observed_at=NOW + timedelta(seconds=10),
+            target_count=2,
+            attempted_delta=1,
+            improved_delta=1,
+            remaining_targets=1,
+            last_sector_key="electric_power",
+        )
+        finished = store.update_intraday_repair(
+            TRADE_DATE,
+            status="partial",
+            observed_at=NOW + timedelta(seconds=20),
+            failed_delta=1,
+            remaining_targets=1,
+            last_error="upstream incomplete",
+        )
+
+    assert queued["action"] == "queued"
+    assert coalesced["action"] == "coalesced"
+    assert coalesced["repair"]["required_through"] == NOW.isoformat()
+    assert running["attempted_targets"] == 1
+    assert running["improved_targets"] == 1
+    assert running["last_sector_key"] == "electric_power"
+    assert finished["status"] == "partial"
+    assert finished["failed_targets"] == 1
+    assert finished["remaining_targets"] == 1
 
 
 def test_read_all_backfill_restores_curves_without_current_target_resolution(tmp_path):

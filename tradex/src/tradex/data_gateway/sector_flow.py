@@ -5,7 +5,7 @@ from __future__ import annotations
 import re
 import time
 from collections.abc import Callable, Iterable, Mapping
-from datetime import date, datetime, time as datetime_time
+from datetime import date, datetime, time as datetime_time, timedelta
 from threading import Condition, Thread
 from typing import Any
 from zoneinfo import ZoneInfo
@@ -355,6 +355,8 @@ def fetch_sector_intraday_fund_flow(
     trading_date: date | str,
     now: datetime | None = None,
     router: Any | None = None,
+    max_queue_wait: float | None = None,
+    request_timeout: int = 10,
 ) -> SectorFundFlowIntradayV1:
     """Fetch one exact curve through the paid-first capability route.
 
@@ -382,6 +384,14 @@ def fetch_sector_intraday_fund_flow(
 
         register_all_sources()
         router = get_router()
+    route_kwargs: dict[str, Any] = {
+        "provider_sector_code": code,
+        "trade_date": requested_date,
+    }
+    if max_queue_wait is not None:
+        route_kwargs["max_queue_wait"] = max_queue_wait
+    if request_timeout != 10:
+        route_kwargs["request_timeout"] = request_timeout
     series, _provider = router.route_validated(
         "sector_intraday_fund_flow",
         lambda payload, source: map_sector_intraday_fund_flow(
@@ -393,8 +403,7 @@ def fetch_sector_intraday_fund_flow(
             trading_date=requested_date,
             fetched_at=fetched_at,
         ),
-        provider_sector_code=code,
-        trade_date=requested_date,
+        **route_kwargs,
     )
     return series
 
@@ -409,6 +418,8 @@ def fetch_sector_intraday_fund_flow_backfill(
     load_missing: bool = False,
     refresh_existing: bool = False,
     force_refresh: bool = False,
+    max_queue_wait: float | None = None,
+    request_timeout: int = 10,
 ) -> dict[str, tuple[dict[str, Any], ...]]:
     """Return cached exact curves; only the minute sampler may fill misses.
 
@@ -457,6 +468,8 @@ def fetch_sector_intraday_fund_flow_backfill(
                         trading_date=requested_date,
                         now=now,
                         router=router,
+                        max_queue_wait=max_queue_wait,
+                        request_timeout=request_timeout,
                     ),
                     refresh_existing=series is not None and refresh_existing,
                     force_refresh=force_refresh,
@@ -715,6 +728,289 @@ def finalize_sector_intraday_fund_flow_backfill(
 _SECTOR_FLOW_BACKFILL_REFRESHER = SectorFundFlowBackfillRefresher()
 
 
+def _expected_intraday_minutes(cutoff: datetime) -> set[datetime]:
+    local = cutoff.astimezone(_SHANGHAI).replace(second=0, microsecond=0)
+    morning_start = local.replace(hour=9, minute=31)
+    morning_end = min(local, local.replace(hour=11, minute=30))
+    expected: set[datetime] = set()
+    if morning_end >= morning_start:
+        cursor = morning_start
+        while cursor <= morning_end:
+            expected.add(cursor)
+            cursor += timedelta(minutes=1)
+    afternoon_start = local.replace(hour=13, minute=0)
+    if local >= afternoon_start:
+        cursor = afternoon_start
+        afternoon_end = min(local, local.replace(hour=15, minute=0))
+        while cursor <= afternoon_end:
+            expected.add(cursor)
+            cursor += timedelta(minutes=1)
+    return expected
+
+
+def _curve_missing_count(
+    series: SectorFundFlowIntradayV1 | None,
+    cutoff: datetime,
+) -> int:
+    expected = _expected_intraday_minutes(cutoff)
+    if series is None:
+        return len(expected)
+    actual = {
+        point.provider_as_of.astimezone(_SHANGHAI).replace(second=0, microsecond=0)
+        for point in series.points
+        if point.provider_as_of.astimezone(_SHANGHAI) <= cutoff
+    }
+    return len(expected - actual)
+
+
+def _intraday_repair_window_open(observed: datetime) -> bool:
+    from tradex.market_calendar import TradingSessionPhase, a_share_session
+
+    local = observed.astimezone(_SHANGHAI)
+    session = a_share_session(local)
+    if not session.is_trading_day:
+        return False
+    if session.phase is TradingSessionPhase.MIDDAY_BREAK:
+        return True
+    if session.phase in {
+        TradingSessionPhase.OPENING_OBSERVATION,
+        TradingSessionPhase.TRADING,
+    }:
+        # Current-minute acquisition normally finishes around second 20.  Stop
+        # early enough that a slow mirror attempt cannot cross the next minute.
+        return 22 <= local.second <= 46
+    return False
+
+
+class SectorFundFlowIntradayRepairWorker:
+    """Run one persisted manual repair round only in Collector slack windows."""
+
+    def __init__(self, *, clock: Callable[[], datetime] | None = None) -> None:
+        self._clock = clock or (lambda: datetime.now(_SHANGHAI))
+        self._condition = Condition()
+        self._thread: Thread | None = None
+
+    def request(self, trading_date: date) -> bool:
+        with self._condition:
+            if self._thread is not None and self._thread.is_alive():
+                return False
+            self._thread = Thread(
+                target=self._run,
+                args=(trading_date,),
+                name="tradex-sector-flow-intraday-repair",
+                daemon=True,
+            )
+            self._thread.start()
+            return True
+
+    def _run(self, trading_date: date) -> None:
+        try:
+            with SectorFundFlowStore() as store:
+                repair = store.read_intraday_repair(trading_date)
+                if repair is None or repair["status"] not in {"pending", "running"}:
+                    return
+                cutoff = datetime.fromisoformat(str(repair["required_through"]))
+                targets = tuple(store.get_targets(trading_date))
+                curves = _SECTOR_FLOW_BACKFILL_CACHE.get_all_cached(trading_date)
+                ordered = tuple(
+                    sorted(
+                        targets,
+                        key=lambda item: (
+                            -_curve_missing_count(
+                                curves.get(str(item.get("sector_key") or "")),
+                                cutoff,
+                            ),
+                            str(item.get("sector_key") or ""),
+                        ),
+                    )
+                )
+                remaining = sum(
+                    _curve_missing_count(
+                        curves.get(str(item.get("sector_key") or "")),
+                        cutoff,
+                    )
+                    > 0
+                    for item in ordered
+                )
+                store.update_intraday_repair(
+                    trading_date,
+                    status="running",
+                    observed_at=self._clock(),
+                    target_count=len(ordered),
+                    remaining_targets=remaining,
+                )
+                if not ordered:
+                    store.update_intraday_repair(
+                        trading_date,
+                        status="partial",
+                        observed_at=self._clock(),
+                        target_count=0,
+                        remaining_targets=0,
+                        last_error="尚未记录可追补的板块标识",
+                    )
+                    return
+                for target in ordered:
+                    sector_key = str(target.get("sector_key") or "")
+                    before = _SECTOR_FLOW_BACKFILL_CACHE.get_cached(
+                        (
+                            trading_date,
+                            sector_key,
+                            str(target.get("provider_sector_code") or ""),
+                        )
+                    )
+                    before_missing = _curve_missing_count(before, cutoff)
+                    if before_missing == 0:
+                        continue
+                    observed = self._clock()
+                    if not _intraday_repair_window_open(observed):
+                        store.update_intraday_repair(
+                            trading_date,
+                            status="pending",
+                            observed_at=observed,
+                            remaining_targets=remaining,
+                            last_error=None,
+                        )
+                        return
+                    fetch_sector_intraday_fund_flow_backfill(
+                        (target,),
+                        trading_date=trading_date,
+                        now=observed,
+                        cache=_SECTOR_FLOW_BACKFILL_CACHE,
+                        load_missing=True,
+                        refresh_existing=True,
+                        force_refresh=True,
+                        max_queue_wait=2.0,
+                        request_timeout=4,
+                    )
+                    after = _SECTOR_FLOW_BACKFILL_CACHE.get_cached(
+                        (
+                            trading_date,
+                            sector_key,
+                            str(target.get("provider_sector_code") or ""),
+                        )
+                    )
+                    after_missing = _curve_missing_count(after, cutoff)
+                    improved = after_missing < before_missing
+                    failed = (
+                        after is None
+                        or (
+                            not improved
+                            and (
+                                before is None
+                                or after.metadata.fetched_at == before.metadata.fetched_at
+                            )
+                        )
+                    )
+                    if after_missing == 0:
+                        remaining = max(0, remaining - 1)
+                    store.update_intraday_repair(
+                        trading_date,
+                        status="running",
+                        observed_at=self._clock(),
+                        attempted_delta=1,
+                        improved_delta=int(improved),
+                        failed_delta=int(failed),
+                        remaining_targets=remaining,
+                        last_sector_key=sector_key,
+                        last_error=("上游繁忙或本轮未返回更完整曲线" if failed else None),
+                    )
+                    if failed:
+                        store.update_intraday_repair(
+                            trading_date,
+                            status="pending",
+                            observed_at=self._clock(),
+                            remaining_targets=remaining,
+                            last_sector_key=sector_key,
+                            last_error="上游繁忙；已暂停并等待下一采集空档",
+                        )
+                        return
+                final_curves = _SECTOR_FLOW_BACKFILL_CACHE.get_all_cached(trading_date)
+                remaining = sum(
+                    _curve_missing_count(
+                        final_curves.get(str(item.get("sector_key") or "")),
+                        cutoff,
+                    )
+                    > 0
+                    for item in ordered
+                )
+                store.update_intraday_repair(
+                    trading_date,
+                    status="complete" if remaining == 0 else "partial",
+                    observed_at=self._clock(),
+                    remaining_targets=remaining,
+                    last_error=(None if remaining == 0 else "部分板块的精确分钟仍未由上游返回"),
+                )
+        except Exception as error:
+            try:
+                with SectorFundFlowStore() as store:
+                    current = store.read_intraday_repair(trading_date)
+                    if current is not None and current["status"] in {"pending", "running"}:
+                        store.update_intraday_repair(
+                            trading_date,
+                            status="partial",
+                            observed_at=self._clock(),
+                            remaining_targets=current["remaining_targets"],
+                            last_error=f"{type(error).__name__}: {error}"[:300],
+                        )
+            except Exception:
+                pass
+        finally:
+            with self._condition:
+                self._thread = None
+                self._condition.notify_all()
+
+    def wait_for_idle(self, timeout: float) -> bool:
+        deadline = time.monotonic() + max(0.0, timeout)
+        with self._condition:
+            while self._thread is not None:
+                remaining = deadline - time.monotonic()
+                if remaining <= 0:
+                    return False
+                self._condition.wait(remaining)
+            return True
+
+
+_SECTOR_FLOW_INTRADAY_REPAIR_WORKER = SectorFundFlowIntradayRepairWorker()
+
+
+def request_sector_intraday_fund_flow_repair(
+    *,
+    trading_date: date,
+    required_through: datetime,
+    requested_at: datetime,
+) -> dict[str, Any]:
+    with SectorFundFlowStore() as store:
+        return store.request_intraday_repair(
+            trading_date,
+            required_through=required_through,
+            requested_at=requested_at,
+        )
+
+
+def read_sector_intraday_fund_flow_repair(
+    *,
+    trading_date: date,
+) -> dict[str, Any] | None:
+    with SectorFundFlowStore() as store:
+        return store.read_intraday_repair(trading_date)
+
+
+def schedule_requested_sector_intraday_fund_flow_repair(
+    *,
+    observed_at: datetime,
+) -> bool:
+    """Let the managed Collector poll a Web-queued repair without provider work."""
+
+    if observed_at.tzinfo is None or observed_at.utcoffset() is None:
+        raise ValueError("intraday repair observed_at must include a timezone")
+    local = observed_at.astimezone(_SHANGHAI)
+    with SectorFundFlowStore() as store:
+        repair = store.read_intraday_repair(local.date())
+    if repair is None or repair["status"] not in {"pending", "running"}:
+        return False
+    return _SECTOR_FLOW_INTRADAY_REPAIR_WORKER.request(local.date())
+
+
 def schedule_sector_intraday_fund_flow_backfill(
     targets: Iterable[Mapping[str, Any]],
     *,
@@ -741,6 +1037,10 @@ def schedule_sector_intraday_fund_flow_backfill(
         sector_key = str(normalized.get("sector_key") or "").strip()
         if sector_key:
             merged_targets[sector_key] = normalized
+    with SectorFundFlowStore() as store:
+        repair = store.read_intraday_repair(requested_date)
+    if repair is not None and repair["status"] in {"pending", "running"}:
+        return _SECTOR_FLOW_INTRADAY_REPAIR_WORKER.request(requested_date)
     return _SECTOR_FLOW_BACKFILL_REFRESHER.request(
         merged_targets.values(),
         trading_date=requested_date,
@@ -750,11 +1050,15 @@ def schedule_sector_intraday_fund_flow_backfill(
 __all__ = [
     "SectorFundFlowBackfillCache",
     "SectorFundFlowBackfillRefresher",
+    "SectorFundFlowIntradayRepairWorker",
     "SectorFundFlowStore",
     "fetch_sector_intraday_fund_flow",
     "fetch_sector_intraday_fund_flow_backfill",
     "finalize_sector_intraday_fund_flow_backfill",
     "prepare_sector_intraday_fund_flow_backfill",
     "read_sector_intraday_fund_flow_backfill",
+    "read_sector_intraday_fund_flow_repair",
+    "request_sector_intraday_fund_flow_repair",
+    "schedule_requested_sector_intraday_fund_flow_repair",
     "schedule_sector_intraday_fund_flow_backfill",
 ]

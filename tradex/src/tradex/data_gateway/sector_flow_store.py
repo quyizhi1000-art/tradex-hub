@@ -103,6 +103,24 @@ class SectorFundFlowStore:
                     updated_at TEXT NOT NULL,
                     PRIMARY KEY (trade_date, sector_key)
                 );
+                CREATE TABLE IF NOT EXISTS sector_flow_intraday_repair (
+                    trade_date TEXT PRIMARY KEY,
+                    contract TEXT NOT NULL,
+                    schema_version INTEGER NOT NULL,
+                    status TEXT NOT NULL,
+                    required_through TEXT NOT NULL,
+                    requested_at TEXT NOT NULL,
+                    started_at TEXT,
+                    completed_at TEXT,
+                    target_count INTEGER NOT NULL DEFAULT 0,
+                    attempted_targets INTEGER NOT NULL DEFAULT 0,
+                    improved_targets INTEGER NOT NULL DEFAULT 0,
+                    failed_targets INTEGER NOT NULL DEFAULT 0,
+                    remaining_targets INTEGER NOT NULL DEFAULT 0,
+                    last_sector_key TEXT,
+                    last_error TEXT,
+                    updated_at TEXT NOT NULL
+                );
                 """
             )
             expected = {
@@ -301,6 +319,185 @@ class SectorFundFlowStore:
                 (trading_date.isoformat(),),
             ).fetchall()
         return tuple(dict(row) for row in rows)
+
+    @staticmethod
+    def _repair_payload(row: sqlite3.Row) -> dict[str, Any]:
+        return {
+            "contract": row["contract"],
+            "schema_version": int(row["schema_version"]),
+            "trade_date": row["trade_date"],
+            "status": row["status"],
+            "required_through": row["required_through"],
+            "requested_at": row["requested_at"],
+            "started_at": row["started_at"],
+            "completed_at": row["completed_at"],
+            "target_count": int(row["target_count"]),
+            "attempted_targets": int(row["attempted_targets"]),
+            "improved_targets": int(row["improved_targets"]),
+            "failed_targets": int(row["failed_targets"]),
+            "remaining_targets": int(row["remaining_targets"]),
+            "last_sector_key": row["last_sector_key"],
+            "last_error": row["last_error"],
+            "updated_at": row["updated_at"],
+        }
+
+    def request_intraday_repair(
+        self,
+        trading_date: date,
+        *,
+        required_through: datetime,
+        requested_at: datetime,
+    ) -> dict[str, Any]:
+        """Queue or coalesce one same-day low-priority trajectory repair."""
+
+        for value, name in (
+            (required_through, "required_through"),
+            (requested_at, "requested_at"),
+        ):
+            if value.tzinfo is None or value.utcoffset() is None:
+                raise ValueError(f"intraday repair {name} must include a timezone")
+        if required_through.date() != trading_date or requested_at.date() != trading_date:
+            raise ValueError("intraday repair timestamps must match trading_date")
+        cutoff = required_through.replace(second=0, microsecond=0).isoformat()
+        requested = requested_at.isoformat(timespec="seconds")
+        with self._lock:
+            self._ensure_open()
+            with self._connection:
+                existing = self._connection.execute(
+                    "SELECT * FROM sector_flow_intraday_repair WHERE trade_date = ?",
+                    (trading_date.isoformat(),),
+                ).fetchone()
+                active = existing is not None and existing["status"] in {
+                    "pending",
+                    "running",
+                }
+                if active:
+                    effective_cutoff = max(str(existing["required_through"]), cutoff)
+                    self._connection.execute(
+                        """
+                        UPDATE sector_flow_intraday_repair
+                        SET required_through = ?, updated_at = ?
+                        WHERE trade_date = ?
+                        """,
+                        (effective_cutoff, requested, trading_date.isoformat()),
+                    )
+                    action = "coalesced"
+                else:
+                    self._connection.execute(
+                        """
+                        INSERT INTO sector_flow_intraday_repair (
+                            trade_date, contract, schema_version, status,
+                            required_through, requested_at, started_at,
+                            completed_at, target_count, attempted_targets,
+                            improved_targets, failed_targets, remaining_targets,
+                            last_sector_key, last_error, updated_at
+                        ) VALUES (?, ?, 1, 'pending', ?, ?, NULL, NULL, 0, 0, 0, 0, 0, NULL, NULL, ?)
+                        ON CONFLICT (trade_date) DO UPDATE SET
+                            contract = excluded.contract,
+                            schema_version = excluded.schema_version,
+                            status = excluded.status,
+                            required_through = excluded.required_through,
+                            requested_at = excluded.requested_at,
+                            started_at = NULL,
+                            completed_at = NULL,
+                            target_count = 0,
+                            attempted_targets = 0,
+                            improved_targets = 0,
+                            failed_targets = 0,
+                            remaining_targets = 0,
+                            last_sector_key = NULL,
+                            last_error = NULL,
+                            updated_at = excluded.updated_at
+                        """,
+                        (
+                            trading_date.isoformat(),
+                            "sector_intraday_fund_flow_repair.v1",
+                            cutoff,
+                            requested,
+                            requested,
+                        ),
+                    )
+                    action = "queued"
+                row = self._connection.execute(
+                    "SELECT * FROM sector_flow_intraday_repair WHERE trade_date = ?",
+                    (trading_date.isoformat(),),
+                ).fetchone()
+        assert row is not None
+        return {"action": action, "repair": self._repair_payload(row)}
+
+    def read_intraday_repair(self, trading_date: date) -> dict[str, Any] | None:
+        with self._lock:
+            self._ensure_open()
+            row = self._connection.execute(
+                "SELECT * FROM sector_flow_intraday_repair WHERE trade_date = ?",
+                (trading_date.isoformat(),),
+            ).fetchone()
+        return None if row is None else self._repair_payload(row)
+
+    def update_intraday_repair(
+        self,
+        trading_date: date,
+        *,
+        status: str,
+        observed_at: datetime,
+        target_count: int | None = None,
+        attempted_delta: int = 0,
+        improved_delta: int = 0,
+        failed_delta: int = 0,
+        remaining_targets: int | None = None,
+        last_sector_key: str | None = None,
+        last_error: str | None = None,
+    ) -> dict[str, Any]:
+        """Advance the Collector-owned repair without losing prior slices."""
+
+        if status not in {"pending", "running", "complete", "partial"}:
+            raise ValueError("invalid intraday repair status")
+        if observed_at.tzinfo is None or observed_at.utcoffset() is None:
+            raise ValueError("intraday repair observed_at must include a timezone")
+        updated = observed_at.isoformat(timespec="seconds")
+        completed = updated if status in {"complete", "partial"} else None
+        with self._lock:
+            self._ensure_open()
+            with self._connection:
+                row = self._connection.execute(
+                    "SELECT * FROM sector_flow_intraday_repair WHERE trade_date = ?",
+                    (trading_date.isoformat(),),
+                ).fetchone()
+                if row is None:
+                    raise KeyError("intraday repair was not requested")
+                started = row["started_at"] or (updated if status == "running" else None)
+                self._connection.execute(
+                    """
+                    UPDATE sector_flow_intraday_repair
+                    SET status = ?, started_at = ?, completed_at = ?,
+                        target_count = ?, attempted_targets = attempted_targets + ?,
+                        improved_targets = improved_targets + ?,
+                        failed_targets = failed_targets + ?, remaining_targets = ?,
+                        last_sector_key = COALESCE(?, last_sector_key),
+                        last_error = ?, updated_at = ?
+                    WHERE trade_date = ?
+                    """,
+                    (
+                        status,
+                        started,
+                        completed,
+                        int(row["target_count"] if target_count is None else target_count),
+                        max(0, int(attempted_delta)),
+                        max(0, int(improved_delta)),
+                        max(0, int(failed_delta)),
+                        int(row["remaining_targets"] if remaining_targets is None else remaining_targets),
+                        last_sector_key,
+                        last_error,
+                        updated,
+                        trading_date.isoformat(),
+                    ),
+                )
+                current = self._connection.execute(
+                    "SELECT * FROM sector_flow_intraday_repair WHERE trade_date = ?",
+                    (trading_date.isoformat(),),
+                ).fetchone()
+        assert current is not None
+        return self._repair_payload(current)
 
     def get_best(
         self,

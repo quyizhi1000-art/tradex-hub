@@ -84,6 +84,13 @@ class ManualPortfolioStore:
                 );
                 CREATE INDEX IF NOT EXISTS idx_manual_portfolio_alerts_latest
                     ON manual_portfolio_alerts (instrument_id, emitted_at DESC);
+                CREATE TABLE IF NOT EXISTS manual_portfolio_outlook_requests (
+                    portfolio_revision TEXT PRIMARY KEY,
+                    requested_at TEXT NOT NULL,
+                    state TEXT NOT NULL CHECK (state IN ('waiting_for_market', 'dispatched')),
+                    job_id TEXT,
+                    updated_at TEXT NOT NULL
+                );
                 """
             )
 
@@ -230,6 +237,73 @@ class ManualPortfolioStore:
             ).fetchone()
         return ManualPortfolioAlertV1.model_validate_json(row["payload_json"]) if row else None
 
+    @staticmethod
+    def _outlook_request(row: sqlite3.Row | None) -> dict[str, Any] | None:
+        if row is None:
+            return None
+        return {
+            "portfolio_revision": row["portfolio_revision"],
+            "requested_at": row["requested_at"],
+            "state": row["state"],
+            "job_id": row["job_id"],
+            "updated_at": row["updated_at"],
+        }
+
+    def request_outlook(
+        self,
+        portfolio_revision: str,
+        *,
+        requested_at: datetime,
+    ) -> dict[str, Any]:
+        timestamp = requested_at.isoformat()
+        with self._lock, self._connection:
+            self._connection.execute(
+                """
+                INSERT INTO manual_portfolio_outlook_requests (
+                    portfolio_revision, requested_at, state, job_id, updated_at
+                ) VALUES (?, ?, 'waiting_for_market', NULL, ?)
+                ON CONFLICT(portfolio_revision) DO UPDATE SET
+                    requested_at=excluded.requested_at,
+                    state='waiting_for_market',
+                    job_id=NULL,
+                    updated_at=excluded.updated_at
+                """,
+                (portfolio_revision, timestamp, timestamp),
+            )
+        request = self.outlook_request(portfolio_revision)
+        if request is None:
+            raise RuntimeError("manual portfolio outlook request was not persisted")
+        return request
+
+    def outlook_request(self, portfolio_revision: str) -> dict[str, Any] | None:
+        with self._lock:
+            row = self._connection.execute(
+                """
+                SELECT * FROM manual_portfolio_outlook_requests
+                WHERE portfolio_revision = ?
+                """,
+                (portfolio_revision,),
+            ).fetchone()
+        return self._outlook_request(row)
+
+    def mark_outlook_request_dispatched(
+        self,
+        portfolio_revision: str,
+        *,
+        job_id: str,
+        dispatched_at: datetime,
+    ) -> dict[str, Any] | None:
+        with self._lock, self._connection:
+            self._connection.execute(
+                """
+                UPDATE manual_portfolio_outlook_requests
+                SET state = 'dispatched', job_id = ?, updated_at = ?
+                WHERE portfolio_revision = ? AND state = 'waiting_for_market'
+                """,
+                (job_id, dispatched_at.isoformat(), portfolio_revision),
+            )
+        return self.outlook_request(portfolio_revision)
+
     def close(self) -> None:
         with self._lock:
             if not self._closed:
@@ -297,6 +371,25 @@ class ManualPortfolioReader:
                 "SELECT payload_json FROM manual_portfolio_snapshots ORDER BY id DESC LIMIT 1"
             ).fetchone()
         return ManualPortfolioMarketSnapshotV1.model_validate_json(row["payload_json"]) if row else None
+
+    def outlook_request(self, portfolio_revision: str) -> dict[str, Any] | None:
+        self._connect_if_available()
+        if self._connection is None:
+            return None
+        with self._lock:
+            try:
+                row = self._connection.execute(
+                    """
+                    SELECT * FROM manual_portfolio_outlook_requests
+                    WHERE portfolio_revision = ?
+                    """,
+                    (portfolio_revision,),
+                ).fetchone()
+            except sqlite3.OperationalError as exc:
+                if "no such table" not in str(exc).lower():
+                    raise
+                return None
+        return ManualPortfolioStore._outlook_request(row)
 
     def close(self) -> None:
         with self._lock:

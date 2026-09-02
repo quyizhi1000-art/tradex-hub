@@ -31,12 +31,14 @@ POST_MARKET_REVIEW = "post_market_review"
 DAILY_STOCK_SELECTION = "daily_stock_selection"
 MARKET_WATCH_EVALUATION = "market_watch_evaluation"
 MANUAL_PORTFOLIO_OUTLOOK = "manual_portfolio_outlook"
+MANUAL_PORTFOLIO_INTRADAY_ANALYSIS = "manual_portfolio_intraday_analysis"
 CAPABILITIES = frozenset(
     {
         POST_MARKET_REVIEW,
         DAILY_STOCK_SELECTION,
         MARKET_WATCH_EVALUATION,
         MANUAL_PORTFOLIO_OUTLOOK,
+        MANUAL_PORTFOLIO_INTRADAY_ANALYSIS,
     }
 )
 ACTIVE_STATES = ("queued", "running")
@@ -760,5 +762,7 @@ __all__ = [
     "DAILY_STOCK_SELECTION",
     "ENV_DB_PATH",
     "MARKET_WATCH_EVALUATION",
+    "MANUAL_PORTFOLIO_INTRADAY_ANALYSIS",
+    "MANUAL_PORTFOLIO_OUTLOOK",
     "POST_MARKET_REVIEW",
 ]

@@ -265,6 +265,8 @@ def fetch_index_intraday_amount_eastmoney(**kwargs) -> list[dict]:
 def fetch_sector_intraday_fund_flow_eastmoney(
     provider_sector_code: str = "",
     trade_date: date | str | None = None,
+    max_queue_wait: float | None = None,
+    request_timeout: int = 10,
     **_kwargs,
 ) -> pd.DataFrame:
     """Fetch the exact Eastmoney board minute main-net-flow curve.
@@ -312,7 +314,8 @@ def fetch_sector_intraday_fund_flow_eastmoney(
                 f"{host}/api/qt/stock/fflow/kline/get",
                 params=params,
                 headers=headers,
-                timeout=10,
+                timeout=max(1, int(request_timeout)),
+                max_queue_wait=max_queue_wait,
             )
             candidate.raise_for_status()
             payload = candidate.json()

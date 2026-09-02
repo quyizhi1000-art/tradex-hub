@@ -118,6 +118,21 @@ def test_post_close_recovery_has_audited_status_and_one_manual_command():
     assert ".collection-recovery-strip.is-attention" in CSS
 
 
+def test_intraday_trajectory_repair_is_separate_from_post_close_recovery():
+    assert (
+        'const INTRADAY_TRAJECTORY_REPAIR_ENDPOINT = '
+        '"/api/market-watch/intraday-trajectory-repair"' in JS
+    )
+    assert 'id="trajectory-repair-button"' in HTML
+    assert 'id="trajectory-repair-status"' in HTML
+    assert 'id="trajectory-repair-remaining"' in HTML
+    assert 'id="trajectory-repair-improved"' in HTML
+    assert "requestIntradayTrajectoryRepair" in JS
+    assert "fetchIntradayTrajectoryRepair" in JS
+    assert "低优先级追补中" in JS
+    assert "上游仍有真实缺口" in JS
+
+
 def test_collector_health_comes_from_envelope_heartbeat_not_process_presence():
     assert "COLLECTOR_HEARTBEAT_STALE_MS = 90_000" in JS
     assert "state.collectionStatus?.collector_heartbeat_at" in JS
@@ -417,6 +432,12 @@ def test_sector_flow_chart_is_versioned_bounded_and_honestly_degraded():
     assert "renderSectorFlowTrajectories(snapshot)" in JS
     assert "fetch(`${TRAJECTORY_ENDPOINT}?${query}`" in JS
     assert "sectorFlowCache" not in JS
+
+
+def test_sector_flow_chart_renders_one_real_point_without_fabricating_a_path():
+    assert ".filter((entry) => entry.segments.some((segment) => segment.length >= 1))" in JS
+    assert '"data-sector-flow-first-point": !hasConfirmedPath ? sectorKey : null' in JS
+    assert "等待首个真实板块资金点；不会复制集合竞价数据补线。" in JS
 
 
 def test_sector_flow_chart_expand_reuses_the_pre_rendered_svg():

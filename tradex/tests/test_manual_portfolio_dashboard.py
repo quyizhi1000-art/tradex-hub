@@ -1,14 +1,24 @@
 from __future__ import annotations
 
 import json
+from datetime import datetime
 from io import BytesIO
 from pathlib import Path
 from types import SimpleNamespace
 
 import pytest
 
+from tradex.analysis_jobs import (
+    MANUAL_PORTFOLIO_INTRADAY_ANALYSIS,
+    MANUAL_PORTFOLIO_OUTLOOK,
+    AnalysisJobReader,
+    AnalysisJobStore,
+)
 from tradex.dashboard import __main__ as dashboard_app
+from tradex.dashboard import collector_worker
 from tradex.dashboard.__main__ import DashboardWriteRejected
+from tradex.manual_portfolio.contracts import ManualPortfolioMarketSnapshotV1
+from tradex.manual_portfolio.store import ManualPortfolioStore, portfolio_revision
 
 
 WATCH_DIR = Path(__file__).parents[1] / "src" / "tradex" / "dashboard" / "watch"
@@ -113,15 +123,99 @@ def test_manual_portfolio_dashboard_rejects_non_boolean_enabled(tmp_path, monkey
         )
 
 
+def test_outlook_can_be_queued_before_matching_market_exists(tmp_path, monkeypatch):
+    monkeypatch.setenv("TRADEX_MANUAL_PORTFOLIO_DB", str(tmp_path / "portfolio.sqlite3"))
+    dashboard_app.mutate_manual_portfolio(
+        {"action": "add", "instrument_id": "000001", "note": "观察"}
+    )
+
+    queued = dashboard_app.generate_manual_portfolio_outlook()
+    status = dashboard_app.get_manual_portfolio_outlook_generation()
+
+    assert queued["state"] == "queued"
+    assert queued["phase"] == "waiting_for_market"
+    assert queued["readiness"]["state"] == "waiting_for_market"
+    assert queued["readiness"]["next_collection_at"] is not None
+    assert status["phase"] == "waiting_for_market"
+    assert status["readiness"]["automatic_generation_requested"] is True
+
+
+def test_collector_dispatches_waiting_outlook_after_matching_snapshot(
+    tmp_path,
+    monkeypatch,
+):
+    portfolio_path = tmp_path / "portfolio.sqlite3"
+    analysis_path = tmp_path / "analysis.sqlite3"
+    monkeypatch.setenv("TRADEX_MANUAL_PORTFOLIO_DB", str(portfolio_path))
+    monkeypatch.setenv("TRADEX_ANALYSIS_DB", str(analysis_path))
+    observed = datetime.fromisoformat("2026-09-02T09:30:30+08:00")
+    with AnalysisJobStore(analysis_path):
+        pass
+    dashboard_app.mutate_manual_portfolio(
+        {"action": "add", "instrument_id": "000001"}
+    )
+    with ManualPortfolioStore(portfolio_path) as store:
+        revision = portfolio_revision(store.list_entries())
+        store.request_outlook(revision, requested_at=observed)
+        snapshot = ManualPortfolioMarketSnapshotV1(
+            portfolio_revision=revision,
+            snapshot_revision="b" * 64,
+            generated_at=observed,
+            item_count=0,
+            items=(),
+        )
+
+    monkeypatch.setattr(collector_worker, "_now", lambda: observed)
+    monkeypatch.setattr(
+        "tradex.manual_portfolio.market.refresh_manual_portfolio_market",
+        lambda store, now: store.record_snapshot(snapshot),
+    )
+
+    result = collector_worker._refresh_manual_portfolio_market()
+    with AnalysisJobReader(analysis_path) as reader:
+        job = reader.latest_job(
+            MANUAL_PORTFOLIO_OUTLOOK,
+            scope_key=f"portfolio:{revision}",
+        )
+        intraday_job = reader.latest_job(
+            MANUAL_PORTFOLIO_INTRADAY_ANALYSIS,
+            scope_key=f"snapshot:{snapshot.snapshot_revision}",
+        )
+
+    assert result["outlook_generation"]["state"] == "queued"
+    assert job["trigger"] == "manual-after-market-refresh"
+    assert result["intraday_analysis_generation"]["state"] == "queued"
+    assert intraday_job["trigger"] == "collector-market-refresh"
+
+
 def test_manual_portfolio_desktop_ui_exposes_only_observation_scope():
     html = (WATCH_DIR / "index.html").read_text(encoding="utf-8")
     js = (WATCH_DIR / "app.js").read_text(encoding="utf-8")
+    css = (WATCH_DIR / "styles.css").read_text(encoding="utf-8")
 
     assert 'id="manual-portfolio-section"' in html
+    assert 'class="intraday-focus-grid"' in html
+    assert html.index('id="sector-move-radar"') < html.index('id="manual-portfolio-section"')
+    assert 'id="manual-portfolio-dialog"' in html
+    assert 'id="manual-portfolio-open-button"' in html
+    assert 'id="manual-portfolio-preview"' in html
     assert "手动维护，并非券商账户事实" in html
     assert "最多启用 40 个代码" in html
     assert "页面关闭不保证送达" in html
+    assert "function renderManualPortfolioSummary(" in js
+    assert "function openManualPortfolioDialog()" in js
+    assert 'byId("manual-portfolio-open-button").addEventListener("click", openManualPortfolioDialog)' in js
+    assert ".intraday-focus-grid" in css
+    assert "grid-template-columns: minmax(0, 2.15fr) minmax(330px, 0.85fr)" in css
     assert "manual_portfolio_outlook.v1" in js
     assert "manual_portfolio_market_snapshot.v1" in js
+    assert "manual_portfolio_intraday_analysis.v1" in js
+    assert "不会覆盖昨晚生成的次日前瞻" in html
+    assert "回撤观察区" in js
+    assert "压力观察区" in js
+    assert "盘面联动" in js
+    assert "排队生成前瞻" in js
+    assert "最早" in js
+    assert "采集后自动生成" in js
     for forbidden in ("成本线", "真实盈亏", "自动下单", "交割单", "成交历史"):
         assert forbidden not in html

@@ -37,6 +37,11 @@ def _disable_review_announcement_network(monkeypatch):
             "alert_count": 0,
         },
     )
+    monkeypatch.setattr(
+        collector_worker,
+        "_manual_portfolio_outlook_request_waiting",
+        lambda: False,
+    )
 
 
 def test_status_is_ledger_only_and_does_not_import_dashboard_provider_runtime(
@@ -545,6 +550,63 @@ def test_intraday_loop_generates_one_batch_for_the_five_minute_bucket(monkeypatc
 
     assert calls == [observed]
     assert pool_calls == [(observed, True)]
+    assert portfolio_calls == [observed]
+
+
+def test_post_close_loop_services_waiting_next_session_outlook(monkeypatch) -> None:
+    observed = datetime(2026, 9, 1, 23, 45, tzinfo=SHANGHAI)
+
+    class OneCycleStopEvent:
+        stopped = False
+
+        def is_set(self):
+            return self.stopped
+
+        def wait(self, _seconds):
+            self.stopped = True
+            return True
+
+    stop_event = OneCycleStopEvent()
+    portfolio_calls = []
+    monkeypatch.setattr(
+        collector_worker,
+        "_manual_portfolio_outlook_request_waiting",
+        lambda: True,
+    )
+    monkeypatch.setattr(
+        collector_worker,
+        "_refresh_manual_portfolio_market",
+        lambda: portfolio_calls.append(observed)
+        or {
+            "portfolio_revision": "7" * 64,
+            "snapshot_revision": "8" * 64,
+            "item_count": 2,
+            "alert_count": 0,
+        },
+    )
+    monkeypatch.setattr(
+        collector_worker,
+        "_generate_latest_resonance",
+        lambda *, reuse_existing: {
+            "resonance_revision": "b" * 64,
+            "entry_count": 8,
+        },
+    )
+    monkeypatch.setattr(
+        collector_worker,
+        "_generate_latest_limit_up_pool",
+        lambda *, reuse_existing: {
+            "pool_revision": "e" * 64,
+            "pool_total": 12,
+        },
+    )
+
+    collector_worker._run_post_close_resonance_loop(
+        stop_event,
+        clock=lambda: observed,
+        check_interval_seconds=0,
+    )
+
     assert portfolio_calls == [observed]
 
 

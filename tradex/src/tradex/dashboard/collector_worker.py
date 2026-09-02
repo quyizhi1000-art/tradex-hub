@@ -744,17 +744,72 @@ def _generate_latest_review_announcements() -> dict:
 def _refresh_manual_portfolio_market() -> dict:
     """Refresh the manual portfolio inside the existing managed collector."""
 
+    from tradex.analysis_jobs import (
+        MANUAL_PORTFOLIO_INTRADAY_ANALYSIS,
+        MANUAL_PORTFOLIO_OUTLOOK,
+        AnalysisJobCommandWriter,
+    )
+    from tradex.market_calendar import a_share_session
     from tradex.manual_portfolio.market import refresh_manual_portfolio_market
     from tradex.manual_portfolio.store import ManualPortfolioStore
 
     with ManualPortfolioStore() as store:
         snapshot = refresh_manual_portfolio_market(store, now=_now())
+        request = store.outlook_request(snapshot.portfolio_revision)
+        generation = None
+        if request is not None and request["state"] == "waiting_for_market":
+            dispatched_at = _now()
+            with AnalysisJobCommandWriter() as writer:
+                job = writer.enqueue(
+                    MANUAL_PORTFOLIO_OUTLOOK,
+                    trade_date=snapshot.trading_date or dispatched_at.date(),
+                    trigger="manual-after-market-refresh",
+                    scope_key=f"portfolio:{snapshot.portfolio_revision}",
+                    requested_at=dispatched_at,
+                )
+            store.mark_outlook_request_dispatched(
+                snapshot.portfolio_revision,
+                job_id=job["job_id"],
+                dispatched_at=dispatched_at,
+            )
+            generation = {
+                "job_id": job["job_id"],
+                "state": job["state"],
+            }
+        intraday_generation = None
+        if a_share_session(snapshot.generated_at).is_open:
+            with AnalysisJobCommandWriter() as writer:
+                intraday_job = writer.enqueue(
+                    MANUAL_PORTFOLIO_INTRADAY_ANALYSIS,
+                    trade_date=snapshot.trading_date or snapshot.generated_at.date(),
+                    trigger="collector-market-refresh",
+                    scope_key=f"snapshot:{snapshot.snapshot_revision}",
+                    requested_at=snapshot.generated_at,
+                )
+            intraday_generation = {
+                "job_id": intraday_job["job_id"],
+                "state": intraday_job["state"],
+            }
     return {
         "portfolio_revision": snapshot.portfolio_revision,
         "snapshot_revision": snapshot.snapshot_revision,
         "item_count": snapshot.item_count,
         "alert_count": len(snapshot.alerts),
+        "outlook_generation": generation,
+        "intraday_analysis_generation": intraday_generation,
     }
+
+
+def _manual_portfolio_outlook_request_waiting() -> bool:
+    """Read whether the current portfolio has a deferred next-session request."""
+
+    from tradex.manual_portfolio.store import ManualPortfolioReader, portfolio_revision
+
+    with ManualPortfolioReader() as reader:
+        entries = reader.list_entries()
+        revision = portfolio_revision(entries)
+        request = reader.outlook_request(revision)
+    return request is not None and request["state"] == "waiting_for_market"
 
 
 def _backfill_review_announcements() -> int:
@@ -820,10 +875,15 @@ def _run_post_close_resonance_loop(
             announcement_bucket is not None
             and announcement_bucket not in completed_announcement_buckets
         )
+        post_close_portfolio_due = (
+            session.is_trading_day
+            and session.phase is TradingSessionPhase.CLOSED
+            and _manual_portfolio_outlook_request_waiting()
+        )
         portfolio_due = (
             session.is_open
             and intraday_bucket not in completed_portfolio_buckets
-        )
+        ) or post_close_portfolio_due
         if limit_up_due:
             try:
                 result = _generate_latest_limit_up_pool(
@@ -916,6 +976,16 @@ def _run_post_close_resonance_loop(
                 )
             except Exception:
                 logger.exception("review official announcement collection failed")
+        try:
+            from tradex.data_gateway.sector_flow import (
+                schedule_requested_sector_intraday_fund_flow_repair,
+            )
+
+            schedule_requested_sector_intraday_fund_flow_repair(
+                observed_at=clock(),
+            )
+        except Exception:
+            logger.exception("intraday sector trajectory repair scheduling failed")
         stop_event.wait(check_interval_seconds)
 
 
@@ -1065,5 +1135,6 @@ __all__ = [
     "_generate_latest_limit_sentiment",
     "_generate_latest_review_announcements",
     "_refresh_manual_portfolio_market",
+    "_manual_portfolio_outlook_request_waiting",
     "_run_post_close_resonance_loop",
 ]

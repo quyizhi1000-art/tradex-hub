@@ -278,6 +278,25 @@ def test_manual_daily_recovery_route_is_a_single_post_command():
     assert calls == ["daily-recovery"]
 
 
+def test_intraday_trajectory_repair_has_one_read_and_one_post_command():
+    calls = []
+    read_handler = _bare_handler()
+    read_handler.path = "/api/market-watch/intraday-trajectory-repair"
+    read_handler._handle_market_watch_intraday_trajectory_repair_read_api = (
+        lambda: calls.append("repair-read")
+    )
+    read_handler.do_GET()
+
+    write_handler = _bare_handler()
+    write_handler.path = "/api/market-watch/intraday-trajectory-repair"
+    write_handler._handle_market_watch_intraday_trajectory_repair_api = (
+        lambda: calls.append("repair-request")
+    )
+    write_handler.do_POST()
+
+    assert calls == ["repair-read", "repair-request"]
+
+
 def test_market_watch_http_handlers_forward_etag_without_provider_refresh(
     monkeypatch,
 ):

@@ -23,6 +23,7 @@ from zoneinfo import ZoneInfo
 
 from tradex.analysis_jobs import (
     DAILY_STOCK_SELECTION,
+    MANUAL_PORTFOLIO_INTRADAY_ANALYSIS,
     MANUAL_PORTFOLIO_OUTLOOK,
     MARKET_WATCH_EVALUATION,
     POST_MARKET_REVIEW,
@@ -48,6 +49,9 @@ from tradex.stock_selection.service import (
     DailyStockSelectionService,
 )
 from tradex.stock_selection.store import DailyStockSelectionStore
+from tradex.manual_portfolio.intraday_analysis import (
+    build_manual_portfolio_intraday_analysis,
+)
 from tradex.manual_portfolio.outlook import build_manual_portfolio_outlook
 from tradex.manual_portfolio.store import ManualPortfolioReader
 
@@ -213,14 +217,22 @@ class AnalysisRuntime:
                 "trade_date": review.get("trade_date"),
                 "review_id": review.get("review_id"),
             }
-        if capability == MANUAL_PORTFOLIO_OUTLOOK:
-            outlook = result.get("outlook")
-            outlook = outlook if isinstance(outlook, Mapping) else {}
+        if capability in {
+            MANUAL_PORTFOLIO_OUTLOOK,
+            MANUAL_PORTFOLIO_INTRADAY_ANALYSIS,
+        }:
+            result_key = (
+                "outlook"
+                if capability == MANUAL_PORTFOLIO_OUTLOOK
+                else "intraday_analysis"
+            )
+            analysis = result.get(result_key)
+            analysis = analysis if isinstance(analysis, Mapping) else {}
             return {
                 "action": result.get("action"),
-                "portfolio_revision": outlook.get("portfolio_revision"),
-                "source_snapshot_revision": outlook.get("source_snapshot_revision"),
-                "item_count": len(outlook.get("items") or ()),
+                "portfolio_revision": analysis.get("portfolio_revision"),
+                "source_snapshot_revision": analysis.get("source_snapshot_revision"),
+                "item_count": len(analysis.get("items") or ()),
             }
         selection = result.get("selection")
         selection = selection if isinstance(selection, Mapping) else {}
@@ -255,13 +267,72 @@ class AnalysisRuntime:
                     raise RuntimeError(
                         "manual portfolio revision changed before analysis"
                     )
+                market_context = None
+                review_artifact = self.jobs.get_artifact(
+                    POST_MARKET_REVIEW,
+                    scope_key="latest",
+                )
+                if review_artifact is not None:
+                    review_archive = review_artifact.get("payload") or {}
+                    review = review_archive.get("review") or {}
+                    next_day = review.get("next_day_outlook") or {}
+                    if isinstance(review, Mapping) and isinstance(next_day, Mapping):
+                        market_context = {
+                            "source_trade_date": review.get("trade_date"),
+                            "bias": next_day.get("bias", "uncertain"),
+                            "confidence": next_day.get("confidence", "abstain"),
+                            "thesis": next_day.get("thesis", "盘面方向尚未形成。"),
+                            "expected_shape": next_day.get(
+                                "expected_shape",
+                                "等待盘中价格、广度与资金形成同向确认。",
+                            ),
+                            "confirmation": next_day.get(
+                                "confirmation",
+                                "至少三项盘面证据连续同向。",
+                            ),
+                            "invalidation": next_day.get(
+                                "invalidation",
+                                "盘面证据持续背离时维持观望。",
+                            ),
+                            "risk_control": next_day.get(
+                                "risk_control",
+                                "等待条件确认，不追单点异动。",
+                            ),
+                            "supporting_evidence": next_day.get(
+                                "supporting_evidence",
+                                (),
+                            ),
+                            "counter_evidence": next_day.get(
+                                "counter_evidence",
+                                (),
+                            ),
+                            "limitations": review.get("limitations", ()),
+                        }
                 outlook = build_manual_portfolio_outlook(
+                    snapshot,
+                    generated_at=current,
+                    market_context=market_context,
+                )
+                result = {
+                    "action": "materialized",
+                    "outlook": outlook.model_dump(mode="json"),
+                }
+            elif capability == MANUAL_PORTFOLIO_INTRADAY_ANALYSIS:
+                snapshot = self.portfolio_reader.latest_snapshot()
+                if snapshot is None:
+                    raise RuntimeError("no collector-owned manual portfolio snapshot")
+                expected_scope = f"snapshot:{snapshot.snapshot_revision}"
+                if str(job["scope_key"]) != expected_scope:
+                    raise RuntimeError(
+                        "manual portfolio snapshot changed before intraday analysis"
+                    )
+                intraday_analysis = build_manual_portfolio_intraday_analysis(
                     snapshot,
                     generated_at=current,
                 )
                 result = {
                     "action": "materialized",
-                    "outlook": outlook.model_dump(mode="json"),
+                    "intraday_analysis": intraday_analysis.model_dump(mode="json"),
                 }
             else:
                 raise ValueError(f"unsupported queued capability: {capability}")
@@ -270,7 +341,7 @@ class AnalysisRuntime:
                 self.materialize_review_views(force=True)
             elif capability == DAILY_STOCK_SELECTION:
                 self.materialize_selection_views(force=True)
-            else:
+            elif capability == MANUAL_PORTFOLIO_OUTLOOK:
                 self.jobs.put_artifact(
                     MANUAL_PORTFOLIO_OUTLOOK,
                     scope_key=f"portfolio:{outlook.portfolio_revision}",
@@ -283,6 +354,21 @@ class AnalysisRuntime:
                     scope_key="latest",
                     source_revision=outlook.source_snapshot_revision,
                     payload=outlook.model_dump(mode="json"),
+                    generated_at=current,
+                )
+            else:
+                self.jobs.put_artifact(
+                    MANUAL_PORTFOLIO_INTRADAY_ANALYSIS,
+                    scope_key=f"snapshot:{intraday_analysis.source_snapshot_revision}",
+                    source_revision=intraday_analysis.source_snapshot_revision,
+                    payload=intraday_analysis.model_dump(mode="json"),
+                    generated_at=current,
+                )
+                self.jobs.put_artifact(
+                    MANUAL_PORTFOLIO_INTRADAY_ANALYSIS,
+                    scope_key="latest",
+                    source_revision=intraday_analysis.source_snapshot_revision,
+                    payload=intraday_analysis.model_dump(mode="json"),
                     generated_at=current,
                 )
             summary = self._job_result_summary(capability, result)

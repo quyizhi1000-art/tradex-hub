@@ -10,6 +10,7 @@ import pytest
 from tradex.analysis_jobs import (
     DAILY_STOCK_SELECTION,
     MARKET_WATCH_EVALUATION,
+    MANUAL_PORTFOLIO_INTRADAY_ANALYSIS,
     MANUAL_PORTFOLIO_OUTLOOK,
     POST_MARKET_REVIEW,
     AnalysisJobCommandWriter,
@@ -292,6 +293,28 @@ def test_worker_materializes_manual_portfolio_outlook_from_collector_snapshot(tm
         ),
     )
     with AnalysisJobStore(tmp_path / "analysis.sqlite3") as store:
+        store.put_artifact(
+            POST_MARKET_REVIEW,
+            scope_key="latest",
+            source_revision="c" * 64,
+            payload={
+                "review": {
+                    "trade_date": "2026-08-31",
+                    "limitations": ["market_watch:degraded"],
+                    "next_day_outlook": {
+                        "bias": "balanced",
+                        "confidence": "weak",
+                        "thesis": "市场尚未形成一致方向。",
+                        "expected_shape": "先按震荡和轮动观察。",
+                        "confirmation": "广度、指数和成交至少三项同向。",
+                        "invalidation": "价格、广度和资金继续背离。",
+                        "risk_control": "等待条件出现，不追单点异动。",
+                        "supporting_evidence": ["上涨家数占优"],
+                        "counter_evidence": ["成交额收缩"],
+                    },
+                }
+            },
+        )
         store.enqueue(
             MANUAL_PORTFOLIO_OUTLOOK,
             trade_date=requested.date(),
@@ -311,6 +334,13 @@ def test_worker_materializes_manual_portfolio_outlook_from_collector_snapshot(tm
     assert artifact is not None
     assert artifact["source_revision"] == snapshot_revision
     assert artifact["payload"]["contract"] == "manual_portfolio_outlook.v1"
+    assert artifact["payload"]["market_context"]["bias"] == "balanced"
+    assert artifact["payload"]["market_context"]["limitations"] == [
+        "market_watch:degraded"
+    ]
+    assert artifact["payload"]["items"][0]["price_plan"]["deterministic_target"] is False
+    assert len(artifact["payload"]["items"][0]["opening_scenarios"]) == 3
+    assert len(artifact["payload"]["items"][0]["market_scenarios"]) == 3
 
 
 def test_worker_abstains_when_portfolio_revision_changes_after_enqueue(tmp_path):
@@ -341,3 +371,51 @@ def test_worker_abstains_when_portfolio_revision_changes_after_enqueue(tmp_path)
         assert completed["state"] == "failed"
         assert completed["failure_code"] == "RuntimeError"
         assert store.get_artifact(MANUAL_PORTFOLIO_OUTLOOK, scope_key="latest") is None
+
+
+def test_worker_materializes_intraday_analysis_without_overwriting_outlook(tmp_path):
+    requested = datetime(2026, 9, 2, 9, 35, tzinfo=SHANGHAI)
+    portfolio_revision = digest(["000001.SZ"])
+    snapshot_revision = digest(["snapshot", portfolio_revision, "09:35"])
+    snapshot = ManualPortfolioMarketSnapshotV1(
+        portfolio_revision=portfolio_revision,
+        snapshot_revision=snapshot_revision,
+        generated_at=requested,
+        trading_date=requested.date(),
+        item_count=1,
+        items=(
+            ManualPortfolioQuoteV1(
+                instrument_id="000001.SZ",
+                trading_date=requested.date(),
+                status="accepted",
+                last_price=10.2,
+                session_change_pct=2.0,
+                session_high=10.2,
+                session_low=10.0,
+                provider="fixture",
+                provider_as_of=requested,
+                fetched_at=requested,
+            ),
+        ),
+    )
+    with AnalysisJobStore(tmp_path / "analysis.sqlite3") as store:
+        store.enqueue(
+            MANUAL_PORTFOLIO_INTRADAY_ANALYSIS,
+            trade_date=requested.date(),
+            trigger="collector-market-refresh",
+            scope_key=f"snapshot:{snapshot_revision}",
+            requested_at=requested,
+        )
+        runtime = AnalysisRuntime.__new__(AnalysisRuntime)
+        runtime.jobs = store
+        runtime.portfolio_reader = SimpleNamespace(latest_snapshot=lambda: snapshot)
+
+        completed = runtime.execute_next_job()
+        artifact = store.get_artifact(
+            MANUAL_PORTFOLIO_INTRADAY_ANALYSIS,
+            scope_key="latest",
+        )
+
+    assert completed["state"] == "succeeded"
+    assert artifact["payload"]["contract"] == "manual_portfolio_intraday_analysis.v1"
+    assert artifact["payload"]["analysis_scope"] == "current_session"

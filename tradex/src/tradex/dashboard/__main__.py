@@ -809,6 +809,65 @@ def request_market_watch_daily_recovery(*, now: datetime | None = None) -> dict:
     }
 
 
+def get_market_watch_intraday_trajectory_repair(
+    *,
+    now: datetime | None = None,
+) -> dict:
+    from tradex.data_gateway.sector_flow import (
+        read_sector_intraday_fund_flow_repair,
+    )
+
+    observed = (now or datetime.now(ZoneInfo("Asia/Shanghai"))).astimezone(
+        ZoneInfo("Asia/Shanghai")
+    )
+    return {
+        "contract": "market_watch_intraday_trajectory_repair_response.v1",
+        "schema_version": 1,
+        "trade_date": observed.date().isoformat(),
+        "repair": read_sector_intraday_fund_flow_repair(
+            trading_date=observed.date(),
+        ),
+    }
+
+
+def request_market_watch_intraday_trajectory_repair(
+    *,
+    now: datetime | None = None,
+) -> dict:
+    """Queue Collector-owned curve repair through the provider-neutral gateway."""
+
+    from tradex.data_gateway.sector_flow import (
+        request_sector_intraday_fund_flow_repair,
+    )
+    from tradex.market_calendar import TradingSessionPhase, a_share_session
+    from tradex.market_watch.collection_store import MarketWatchCollectionStore
+
+    observed = (now or datetime.now(ZoneInfo("Asia/Shanghai"))).astimezone(
+        ZoneInfo("Asia/Shanghai")
+    )
+    session = a_share_session(observed)
+    if not session.is_trading_day or session.phase not in {
+        TradingSessionPhase.OPENING_OBSERVATION,
+        TradingSessionPhase.TRADING,
+        TradingSessionPhase.MIDDAY_BREAK,
+    }:
+        raise ValueError("盘中轨迹追补仅在已核验交易日开盘后、收盘前可执行")
+    with MarketWatchCollectionStore(read_only=True) as store:
+        envelope = store.read_envelope(as_of=observed)
+    accepted = envelope.latest_accepted_real
+    if accepted is None or accepted.trade_date != observed.date():
+        raise ValueError("当前交易日尚无可作为追补截止点的真实快照")
+    result = request_sector_intraday_fund_flow_repair(
+        trading_date=observed.date(),
+        required_through=accepted.minute_bucket,
+        requested_at=observed,
+    )
+    return {
+        "action": result["action"],
+        "repair": result["repair"],
+    }
+
+
 def get_limit_up_pool(source_snapshot_revision: str | None) -> dict:
     """Read one exact Collector-owned catalog match without refreshing it."""
 
@@ -965,17 +1024,43 @@ def get_manual_portfolio_market() -> dict:
 
 def generate_manual_portfolio_outlook() -> dict:
     from tradex.analysis_jobs import MANUAL_PORTFOLIO_OUTLOOK
-    from tradex.manual_portfolio.store import ManualPortfolioReader, portfolio_revision
+    from tradex.manual_portfolio.readiness import portfolio_outlook_readiness
+    from tradex.manual_portfolio.store import ManualPortfolioStore, portfolio_revision
 
-    with ManualPortfolioReader() as reader:
-        entries = reader.list_entries()
-        snapshot = reader.latest_snapshot()
-    if snapshot is None:
-        raise LookupError("请等待采集进程先生成持仓行情")
-    current_revision = portfolio_revision(entries)
-    if snapshot.portfolio_revision != current_revision:
-        raise ValueError("持仓列表已变化，请等待下一次行情刷新后再生成前瞻")
     now = datetime.now(ZoneInfo("Asia/Shanghai"))
+    with ManualPortfolioStore() as store:
+        entries = store.list_entries()
+        snapshot = store.latest_snapshot()
+        current_revision = portfolio_revision(entries)
+        enabled_count = sum(item.enabled for item in entries)
+        if enabled_count == 0:
+            raise ValueError("当前没有已启用的证券代码")
+        if snapshot is None or snapshot.portfolio_revision != current_revision:
+            request = store.request_outlook(current_revision, requested_at=now)
+            readiness = portfolio_outlook_readiness(
+                portfolio_revision=current_revision,
+                enabled_count=enabled_count,
+                snapshot=snapshot,
+                now=now,
+                automatic_generation_requested=True,
+            )
+            return {
+                "contract": "manual_portfolio_outlook_generation.v1",
+                "schema_version": 1,
+                "job_id": None,
+                "trade_date": None,
+                "trigger": "manual",
+                "state": "queued",
+                "phase": "waiting_for_market",
+                "requested_at": request["requested_at"],
+                "started_at": None,
+                "finished_at": None,
+                "error": None,
+                "failure_code": None,
+                "failed_phase": None,
+                "result": None,
+                "readiness": readiness.model_dump(mode="json"),
+            }
     job = _get_analysis_job_store().enqueue(
         MANUAL_PORTFOLIO_OUTLOOK,
         trade_date=now.date(),
@@ -983,14 +1068,67 @@ def generate_manual_portfolio_outlook() -> dict:
         scope_key=f"portfolio:{current_revision}",
         requested_at=now,
     )
-    return _generation_payload(job, contract="manual_portfolio_outlook_generation.v1")
+    payload = _generation_payload(
+        job,
+        contract="manual_portfolio_outlook_generation.v1",
+    )
+    payload["readiness"] = portfolio_outlook_readiness(
+        portfolio_revision=current_revision,
+        enabled_count=enabled_count,
+        snapshot=snapshot,
+        now=now,
+    ).model_dump(mode="json")
+    return payload
 
 
 def get_manual_portfolio_outlook_generation() -> dict:
     from tradex.analysis_jobs import MANUAL_PORTFOLIO_OUTLOOK
+    from tradex.manual_portfolio.readiness import portfolio_outlook_readiness
+    from tradex.manual_portfolio.store import ManualPortfolioReader, portfolio_revision
 
-    job = _get_analysis_job_reader().latest_job(MANUAL_PORTFOLIO_OUTLOOK)
-    return _generation_payload(job, contract="manual_portfolio_outlook_generation.v1")
+    now = datetime.now(ZoneInfo("Asia/Shanghai"))
+    with ManualPortfolioReader() as reader:
+        entries = reader.list_entries()
+        snapshot = reader.latest_snapshot()
+        current_revision = portfolio_revision(entries)
+        request = reader.outlook_request(current_revision)
+    enabled_count = sum(item.enabled for item in entries)
+    waiting = request is not None and request["state"] == "waiting_for_market"
+    readiness = portfolio_outlook_readiness(
+        portfolio_revision=current_revision,
+        enabled_count=enabled_count,
+        snapshot=snapshot,
+        now=now,
+        automatic_generation_requested=waiting,
+    )
+    if waiting:
+        payload = {
+            "contract": "manual_portfolio_outlook_generation.v1",
+            "schema_version": 1,
+            "job_id": None,
+            "trade_date": None,
+            "trigger": "manual",
+            "state": "queued",
+            "phase": "waiting_for_market",
+            "requested_at": request["requested_at"],
+            "started_at": None,
+            "finished_at": None,
+            "error": None,
+            "failure_code": None,
+            "failed_phase": None,
+            "result": None,
+        }
+    else:
+        job = _get_analysis_job_reader().latest_job(
+            MANUAL_PORTFOLIO_OUTLOOK,
+            scope_key=f"portfolio:{current_revision}",
+        )
+        payload = _generation_payload(
+            job,
+            contract="manual_portfolio_outlook_generation.v1",
+        )
+    payload["readiness"] = readiness.model_dump(mode="json")
+    return payload
 
 
 def get_manual_portfolio_outlook() -> dict:
@@ -1008,6 +1146,29 @@ def get_manual_portfolio_outlook() -> dict:
     payload = dict(artifact["payload"])
     if payload.get("portfolio_revision") != current_revision:
         raise LookupError("持仓列表已变化，请重新生成条件式前瞻")
+    payload["artifact_revision"] = artifact["payload_digest"]
+    payload["artifact_generated_at"] = artifact["generated_at"]
+    return payload
+
+
+def get_manual_portfolio_intraday_analysis() -> dict:
+    from tradex.analysis_jobs import MANUAL_PORTFOLIO_INTRADAY_ANALYSIS
+    from tradex.manual_portfolio.store import ManualPortfolioReader, portfolio_revision
+
+    artifact = _get_analysis_job_reader().get_artifact(
+        MANUAL_PORTFOLIO_INTRADAY_ANALYSIS,
+        scope_key="latest",
+    )
+    if artifact is None:
+        raise LookupError("盘中分析将在交易时段取得首份行情后生成")
+    with ManualPortfolioReader() as reader:
+        current_revision = portfolio_revision(reader.list_entries())
+        snapshot = reader.latest_snapshot()
+    payload = dict(artifact["payload"])
+    if payload.get("portfolio_revision") != current_revision:
+        raise LookupError("持仓列表已变化，等待对应版本盘中分析")
+    if snapshot is None or payload.get("source_snapshot_revision") != snapshot.snapshot_revision:
+        raise LookupError("最新盘中行情正在分析")
     payload["artifact_revision"] = artifact["payload_digest"]
     payload["artifact_generated_at"] = artifact["generated_at"]
     return payload
@@ -1061,6 +1222,8 @@ class DashboardHandler(BaseHTTPRequestHandler):
         request = urlsplit(self.path)
         if request.path == "/api/market-watch/collection-status":
             self._handle_market_watch_collection_status_api()
+        elif request.path == "/api/market-watch/intraday-trajectory-repair":
+            self._handle_market_watch_intraday_trajectory_repair_read_api()
         elif request.path == "/api/market-watch/summary":
             query = parse_qs(request.query)
             self._handle_market_watch_summary_api(
@@ -1108,6 +1271,8 @@ class DashboardHandler(BaseHTTPRequestHandler):
             self._handle_manual_portfolio_outlook_api()
         elif request.path == "/api/manual-portfolio/outlook/generation":
             self._handle_manual_portfolio_outlook_generation_api()
+        elif request.path == "/api/manual-portfolio/intraday-analysis":
+            self._handle_manual_portfolio_intraday_analysis_api()
         elif request.path == "/api/market-watch":
             self._handle_market_watch_legacy_api()
         elif request.path == "/api/market-watch/history":
@@ -1173,6 +1338,7 @@ class DashboardHandler(BaseHTTPRequestHandler):
         supported = {
             "/api/post-market-review",
             "/api/market-watch/daily-recovery",
+            "/api/market-watch/intraday-trajectory-repair",
             "/api/daily-stock-selection",
             "/api/manual-portfolio",
             "/api/manual-portfolio/outlook",
@@ -1187,6 +1353,8 @@ class DashboardHandler(BaseHTTPRequestHandler):
             self._handle_post_market_review_api()
         elif request.path == "/api/market-watch/daily-recovery":
             self._handle_market_watch_daily_recovery_api()
+        elif request.path == "/api/market-watch/intraday-trajectory-repair":
+            self._handle_market_watch_intraday_trajectory_repair_api()
         elif request.path == "/api/daily-stock-selection":
             self._handle_daily_stock_selection_api()
         elif request.path == "/api/manual-portfolio":
@@ -1253,6 +1421,15 @@ class DashboardHandler(BaseHTTPRequestHandler):
         except Exception:
             logger.exception("manual portfolio outlook status read failed")
             self._send_json(502, {"error": "条件式前瞻任务状态暂不可读"})
+
+    def _handle_manual_portfolio_intraday_analysis_api(self):
+        try:
+            self._send_json(200, get_manual_portfolio_intraday_analysis())
+        except LookupError as exc:
+            self._send_json(503, {"error": str(exc)})
+        except Exception:
+            logger.exception("manual portfolio intraday analysis read failed")
+            self._send_json(502, {"error": "盘中分析暂不可读"})
 
     def _read_local_json_command(self) -> dict | None:
         try:
@@ -1325,6 +1502,23 @@ class DashboardHandler(BaseHTTPRequestHandler):
         except Exception:
             logger.exception("market watch daily recovery request failed")
             self._send_json(502, {"error": "收盘完整性检查暂时无法排队"})
+
+    def _handle_market_watch_intraday_trajectory_repair_read_api(self):
+        try:
+            self._send_json(200, get_market_watch_intraday_trajectory_repair())
+        except Exception:
+            logger.exception("market watch intraday trajectory repair read failed")
+            self._send_json(502, {"error": "盘中轨迹追补状态暂时不可用"})
+
+    def _handle_market_watch_intraday_trajectory_repair_api(self):
+        try:
+            result = request_market_watch_intraday_trajectory_repair()
+            self._send_json(202 if result.get("action") == "queued" else 200, result)
+        except ValueError as exc:
+            self._send_json(409, {"error": str(exc)})
+        except Exception:
+            logger.exception("market watch intraday trajectory repair request failed")
+            self._send_json(502, {"error": "盘中轨迹追补暂时无法排队"})
 
     def _handle_market_watch_summary_api(
         self,

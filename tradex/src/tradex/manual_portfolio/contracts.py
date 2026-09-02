@@ -178,6 +178,61 @@ class ManualPortfolioMarketSnapshotV1(ContractModel):
         return self
 
 
+class ManualPortfolioPricePlanV1(ContractModel):
+    basis: Literal["previous_session_range"] = "previous_session_range"
+    previous_close: float = Field(gt=0)
+    previous_low: float = Field(gt=0)
+    previous_midpoint: float = Field(gt=0)
+    previous_high: float = Field(gt=0)
+    pullback_observation_zone: tuple[float, float]
+    pressure_observation_zone: tuple[float, float]
+    risk_reference: float = Field(gt=0)
+    deterministic_target: Literal[False] = False
+    note: Literal[
+        "区间来自上一交易日价格路径，只作条件观察，不是必到价或买卖指令"
+    ] = "区间来自上一交易日价格路径，只作条件观察，不是必到价或买卖指令"
+
+    @model_validator(mode="after")
+    def validate_levels(self) -> "ManualPortfolioPricePlanV1":
+        pullback_low, pullback_high = self.pullback_observation_zone
+        pressure_low, pressure_high = self.pressure_observation_zone
+        values = (
+            self.previous_low,
+            self.previous_midpoint,
+            self.previous_high,
+            pullback_low,
+            pullback_high,
+            pressure_low,
+            pressure_high,
+            self.risk_reference,
+        )
+        if any(not math.isfinite(value) or value <= 0 for value in values):
+            raise ValueError("portfolio price-plan levels must be finite and positive")
+        if not self.previous_low <= self.previous_midpoint <= self.previous_high:
+            raise ValueError("portfolio price-plan midpoint must be inside prior range")
+        if pullback_low > pullback_high or pressure_low > pressure_high:
+            raise ValueError("portfolio price-plan zones must be ordered")
+        return self
+
+
+class ManualPortfolioMarketContextV1(ContractModel):
+    contract: Literal[
+        "manual_portfolio_market_context.v1"
+    ] = "manual_portfolio_market_context.v1"
+    schema_version: Literal[1] = 1
+    source_trade_date: date | None = None
+    bias: Literal["constructive", "balanced", "defensive", "uncertain"]
+    confidence: Literal["strong", "moderate", "weak", "abstain"]
+    thesis: str
+    expected_shape: str
+    confirmation: str
+    invalidation: str
+    risk_control: str
+    supporting_evidence: tuple[str, ...] = ()
+    counter_evidence: tuple[str, ...] = ()
+    limitations: tuple[str, ...] = ()
+
+
 class ManualPortfolioOutlookItemV1(ContractModel):
     instrument_id: str = Field(pattern=r"^\d{6}\.(?:SH|SZ|BJ)$")
     status: Literal["conditional", "abstain"]
@@ -187,6 +242,9 @@ class ManualPortfolioOutlookItemV1(ContractModel):
     confirmation_conditions: tuple[str, ...]
     invalidation_conditions: tuple[str, ...]
     limitations: tuple[str, ...]
+    price_plan: ManualPortfolioPricePlanV1 | None = None
+    opening_scenarios: tuple[str, ...] = ()
+    market_scenarios: tuple[str, ...] = ()
 
 
 class ManualPortfolioOutlookV1(ContractModel):
@@ -202,6 +260,7 @@ class ManualPortfolioOutlookV1(ContractModel):
         "next_session_and_2_to_5_sessions"
     )
     deterministic_price_prediction: Literal[False] = False
+    market_context: ManualPortfolioMarketContextV1 | None = None
     items: tuple[ManualPortfolioOutlookItemV1, ...]
 
     @field_validator("generated_at")
@@ -212,13 +271,72 @@ class ManualPortfolioOutlookV1(ContractModel):
         return value
 
 
+class ManualPortfolioIntradayAnalysisItemV1(ContractModel):
+    instrument_id: str = Field(pattern=r"^\d{6}\.(?:SH|SZ|BJ)$")
+    status: Literal["conditional", "abstain"]
+    evidence_status: Literal["accepted", "degraded", "stale", "unavailable"]
+    current_observation: str
+    confirmation_conditions: tuple[str, ...]
+    invalidation_conditions: tuple[str, ...]
+    limitations: tuple[str, ...]
+
+
+class ManualPortfolioIntradayAnalysisV1(ContractModel):
+    contract: Literal[
+        "manual_portfolio_intraday_analysis.v1"
+    ] = "manual_portfolio_intraday_analysis.v1"
+    schema_version: Literal[1] = 1
+    portfolio_revision: str = Field(pattern=r"^[0-9a-f]{64}$")
+    source_snapshot_revision: str = Field(pattern=r"^[0-9a-f]{64}$")
+    source_trading_date: date | None = None
+    generated_at: datetime
+    analysis_scope: Literal["current_session"] = "current_session"
+    deterministic_price_prediction: Literal[False] = False
+    items: tuple[ManualPortfolioIntradayAnalysisItemV1, ...]
+
+    @field_validator("generated_at")
+    @classmethod
+    def require_timezone(cls, value: datetime) -> datetime:
+        if value.tzinfo is None or value.utcoffset() is None:
+            raise ValueError("portfolio intraday analysis timestamp must include a timezone")
+        return value
+
+
+class ManualPortfolioOutlookReadinessV1(ContractModel):
+    contract: Literal[
+        "manual_portfolio_outlook_readiness.v1"
+    ] = "manual_portfolio_outlook_readiness.v1"
+    schema_version: Literal[1] = 1
+    state: Literal["ready", "waiting_for_market", "empty"]
+    portfolio_revision: str = Field(pattern=r"^[0-9a-f]{64}$")
+    market_portfolio_revision: str | None = Field(
+        default=None,
+        pattern=r"^[0-9a-f]{64}$",
+    )
+    market_generated_at: datetime | None = None
+    next_collection_at: datetime | None = None
+    automatic_generation_requested: bool = False
+
+    @field_validator("market_generated_at", "next_collection_at")
+    @classmethod
+    def require_optional_timezone(cls, value: datetime | None) -> datetime | None:
+        if value is not None and (value.tzinfo is None or value.utcoffset() is None):
+            raise ValueError("portfolio outlook readiness timestamps must include a timezone")
+        return value
+
+
 __all__ = [
     "MAX_ENABLED_INSTRUMENTS",
     "ManualPortfolioAlertV1",
     "ManualPortfolioEntryV1",
+    "ManualPortfolioIntradayAnalysisItemV1",
+    "ManualPortfolioIntradayAnalysisV1",
     "ManualPortfolioMarketSnapshotV1",
+    "ManualPortfolioMarketContextV1",
     "ManualPortfolioOutlookItemV1",
+    "ManualPortfolioOutlookReadinessV1",
     "ManualPortfolioOutlookV1",
+    "ManualPortfolioPricePlanV1",
     "ManualPortfolioQuoteV1",
     "ManualPortfolioSampleV1",
     "ManualPortfolioV1",

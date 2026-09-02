@@ -3,6 +3,7 @@
 
   const COLLECTION_STATUS_ENDPOINT = "/api/market-watch/collection-status";
   const DAILY_RECOVERY_ENDPOINT = "/api/market-watch/daily-recovery";
+  const INTRADAY_TRAJECTORY_REPAIR_ENDPOINT = "/api/market-watch/intraday-trajectory-repair";
   const SUMMARY_ENDPOINT = "/api/market-watch/summary";
   const TRAJECTORY_ENDPOINT = "/api/market-watch/trajectory";
   const LIMIT_UP_POOL_ENDPOINT = "/api/limit-up-pool";
@@ -19,6 +20,7 @@
   const MANUAL_PORTFOLIO_MARKET_ENDPOINT = "/api/manual-portfolio/market";
   const MANUAL_PORTFOLIO_OUTLOOK_ENDPOINT = "/api/manual-portfolio/outlook";
   const MANUAL_PORTFOLIO_OUTLOOK_GENERATION_ENDPOINT = "/api/manual-portfolio/outlook/generation";
+  const MANUAL_PORTFOLIO_INTRADAY_ANALYSIS_ENDPOINT = "/api/manual-portfolio/intraday-analysis";
   const POLL_INTERVAL_MS = 15_000;
   const POLL_WATCHDOG_INTERVAL_MS = 1_000;
   const RESONANCE_REFRESH_INTERVAL_MS = 30_000;
@@ -99,6 +101,9 @@
     collectionStatusEtag: null,
     recoveryRequestError: null,
     recoveryRequestInFlight: false,
+    trajectoryRepair: null,
+    trajectoryRepairError: null,
+    trajectoryRepairRequestInFlight: false,
     detailEtags: new Map(),
     detailPayloads: new Map(),
     deliveredAlertKeys: loadStoredObject(STORAGE_KEYS.deliveredAlerts),
@@ -119,6 +124,8 @@
     manualPortfolio: null,
     manualPortfolioMarket: null,
     manualPortfolioFetchInFlight: false,
+    manualPortfolioIntradayAnalysis: null,
+    manualPortfolioOutlookGeneration: null,
     manualPortfolioMutationInFlight: false,
     manualPortfolioOutlook: null,
     manualPortfolioOutlookPollTimer: null,
@@ -1084,7 +1091,7 @@
         item,
         segments: sectorFlowSegments(item, mode),
       }))
-      .filter((entry) => entry.segments.some((segment) => segment.length >= 2))
+      .filter((entry) => entry.segments.some((segment) => segment.length >= 1))
       .slice(0, MAX_SECTOR_FLOW_CHART_SERIES);
     const colorSlots = sectorFlowColorSlots(payload, entries);
     return entries.map((entry, index) => ({
@@ -1258,6 +1265,19 @@
           "vector-effect": "non-scaling-stroke",
         }));
       }
+      const endpointSegment = [...entry.segments].reverse().find((segment) => segment.length >= 1);
+      if (endpointSegment) {
+        const endpoint = endpointSegment[endpointSegment.length - 1];
+        group.append(createSvgElement("circle", {
+          cx: x(endpoint.tradingMinute),
+          cy: y(endpoint.value),
+          r: 2.2,
+          fill: entry.color,
+          stroke: "#071016",
+          "stroke-width": 0.8,
+          "vector-effect": "non-scaling-stroke",
+        }));
+      }
       svg.append(group);
     });
   }
@@ -1275,7 +1295,7 @@
       empty.hidden = false;
       empty.textContent = mode === "delta_5m"
         ? "近 5 分钟同源基线仍在积累，不会用相邻分钟或跨午休数据替代。"
-        : "至少需要两个连续同源水位才能绘制资金轨迹；当前只保留观察分层。";
+        : "等待首个真实板块资金点；不会复制集合竞价数据补线。";
       renderSectorFlowLegend([], scope);
       return;
     }
@@ -1284,7 +1304,7 @@
     const width = 980;
     const margin = { top: 24, right: 185, bottom: 38, left: 72 };
     const endpointLabelCount = series.filter((entry) => (
-      [...entry.segments].reverse().some((segment) => segment.length >= 2)
+      [...entry.segments].reverse().some((segment) => segment.length >= 1)
     )).length;
     const height = Math.max(
       360,
@@ -1296,6 +1316,8 @@
     svg.style.height = `${height}px`;
     const plotBottom = height - margin.bottom;
     const allPoints = series.flatMap((entry) => entry.segments.flat());
+    const includesMorning = allPoints.some((point) => point.segment === "am");
+    const includesAfternoon = allPoints.some((point) => point.segment === "pm");
     let xMin = Math.min(...allPoints.map((point) => point.tradingMinute));
     let xMax = Math.max(...allPoints.map((point) => point.tradingMinute));
     if (xMin === xMax) {
@@ -1315,7 +1337,7 @@
       yScaleMax += pad;
     }
     const endpointScaleValues = [...new Set(series.flatMap((entry) => {
-      const finalSegment = [...entry.segments].reverse().find((segment) => segment.length >= 2);
+      const finalSegment = [...entry.segments].reverse().find((segment) => segment.length >= 1);
       return finalSegment ? [finalSegment[finalSegment.length - 1].value] : [];
     }))].sort((left, right) => left - right);
     const y = (value) => {
@@ -1388,8 +1410,6 @@
       label.textContent = formatSectorFlowTradingMinute(value);
       grid.append(label);
     });
-    const includesMorning = allPoints.some((point) => point.segment === "am");
-    const includesAfternoon = allPoints.some((point) => point.segment === "pm");
     if (
       includesMorning
       && includesAfternoon
@@ -1424,6 +1444,7 @@
       lineGroup.dataset.defaultStrokeOpacity = "0.96";
       lineGroup.dataset.defaultStrokeWidth = "2";
       const pathData = sectorFlowPathData(entry.segments, x, y);
+      const hasConfirmedPath = entry.segments.some((segment) => segment.length >= 2);
       if (pathData) {
         lineGroup.append(createSvgElement("path", {
           d: pathData,
@@ -1466,7 +1487,7 @@
         });
         lineGroup.append(hitPath);
       }
-      const finalSegment = [...entry.segments].reverse().find((segment) => segment.length >= 2);
+      const finalSegment = [...entry.segments].reverse().find((segment) => segment.length >= 1);
       if (finalSegment) {
         const endpoint = finalSegment[finalSegment.length - 1];
         const endpointNode = createSvgElement("circle", {
@@ -1477,6 +1498,7 @@
           stroke: "#071016",
           "stroke-width": 1.2,
           "data-sector-flow-endpoint": text(entry.item.sector_key, "unknown"),
+          "data-sector-flow-first-point": !hasConfirmedPath ? sectorKey : null,
           "data-sector-flow-click-target": sectorKey,
         });
         const showEndpointTooltip = (event) => {
@@ -1502,7 +1524,7 @@
             "data-sector-flow-endpoint-label": sectorKey,
             "data-sector-flow-click-target": sectorKey,
           });
-          textNode.textContent = `${text(entry.item.name, entry.item.sector_key)} ${formatChartCny(endpoint.value)}`;
+          textNode.textContent = `${text(entry.item.name, entry.item.sector_key)} ${formatChartCny(endpoint.value)}${hasConfirmedPath ? "" : " · 1次观测"}`;
           textNode.addEventListener("pointerenter", showEndpointTooltip);
           textNode.addEventListener("pointermove", showEndpointTooltip);
           textNode.addEventListener("pointerleave", () => {
@@ -4531,6 +4553,85 @@
           : "检查并追补";
   }
 
+  function renderIntradayTrajectoryRepair() {
+    const repair = state.trajectoryRepair;
+    const status = text(repair?.status, "idle");
+    const active = status === "pending" || status === "running";
+    const labels = {
+      pending: "等待采集空档",
+      running: "低优先级追补中",
+      complete: "已补齐到请求分钟",
+      partial: "上游仍有真实缺口",
+      idle: "可在盘中手动追补",
+    };
+    byId("trajectory-repair-status").textContent = state.trajectoryRepairError
+      ? "追补排队失败"
+      : labels[status] || "等待轨迹状态";
+    byId("trajectory-repair-remaining").textContent = repair
+      ? String(Number(repair.remaining_targets || 0))
+      : "--";
+    byId("trajectory-repair-improved").textContent = repair
+      ? `${Number(repair.improved_targets || 0)} / ${Number(repair.attempted_targets || 0)}`
+      : "--";
+    const clock = shanghaiClock();
+    const canRequest = (
+      state.collectionStatus?.latest_accepted_real
+      && clock.minuteOfDay >= 9 * 60 + 31
+      && clock.minuteOfDay < 15 * 60
+    );
+    const button = byId("trajectory-repair-button");
+    button.disabled = state.trajectoryRepairRequestInFlight || active || !canRequest;
+    button.textContent = state.trajectoryRepairRequestInFlight
+      ? "正在排队…"
+      : active
+        ? "追补已排队"
+        : status === "partial"
+          ? "重试真实缺口"
+          : "盘中追补轨迹";
+  }
+
+  async function fetchIntradayTrajectoryRepair() {
+    const response = await fetch(INTRADAY_TRAJECTORY_REPAIR_ENDPOINT, {
+      cache: "no-store",
+      headers: { Accept: "application/json" },
+    });
+    if (!response.ok) throw await marketWatchResponseError(response);
+    const payload = await response.json();
+    if (
+      payload?.contract !== "market_watch_intraday_trajectory_repair_response.v1"
+      || payload.schema_version !== 1
+    ) {
+      throw new Error("盘中轨迹追补状态契约无效");
+    }
+    state.trajectoryRepair = payload.repair || null;
+    state.trajectoryRepairError = null;
+    renderIntradayTrajectoryRepair();
+  }
+
+  async function requestIntradayTrajectoryRepair() {
+    if (state.trajectoryRepairRequestInFlight) return;
+    state.trajectoryRepairRequestInFlight = true;
+    state.trajectoryRepairError = null;
+    renderIntradayTrajectoryRepair();
+    try {
+      const response = await fetch(INTRADAY_TRAJECTORY_REPAIR_ENDPOINT, {
+        method: "POST",
+        cache: "no-store",
+        headers: { Accept: "application/json", "Content-Type": "application/json" },
+        body: "{}",
+      });
+      if (!response.ok) throw await marketWatchResponseError(response);
+      const payload = await response.json();
+      state.trajectoryRepair = payload.repair || null;
+      await fetchIntradayTrajectoryRepair();
+    } catch (error) {
+      state.trajectoryRepairError = text(error?.message, "盘中轨迹追补暂时无法排队");
+    } finally {
+      state.trajectoryRepairRequestInFlight = false;
+      renderIntradayTrajectoryRepair();
+    }
+  }
+
   async function fetchCollectionStatus({ force = false } = {}) {
     const response = await fetch(COLLECTION_STATUS_ENDPOINT, {
       cache: "no-cache",
@@ -4538,6 +4639,12 @@
     });
     if (response.status === 304) {
       if (!state.collectionStatus) throw new Error("采集状态 304 缺少本地基线");
+      try {
+        await fetchIntradayTrajectoryRepair();
+      } catch (error) {
+        state.trajectoryRepairError = text(error?.message, "盘中轨迹追补状态暂不可用");
+        renderIntradayTrajectoryRepair();
+      }
       return state.collectionStatus;
     }
     if (!response.ok) throw await marketWatchResponseError(response);
@@ -4545,6 +4652,12 @@
     state.collectionStatus = status;
     state.collectionStatusEtag = response.headers.get("ETag");
     renderCollectionRecoveryStatus(status);
+    try {
+      await fetchIntradayTrajectoryRepair();
+    } catch (error) {
+      state.trajectoryRepairError = text(error?.message, "盘中轨迹追补状态暂不可用");
+      renderIntradayTrajectoryRepair();
+    }
     return status;
   }
 
@@ -5513,6 +5626,66 @@
     }[status] || "尚无行情";
   }
 
+  function setManualPortfolioStatus(message) {
+    byId("manual-portfolio-status").textContent = message;
+    byId("manual-portfolio-launch-status").textContent = message;
+  }
+
+  function renderManualPortfolioSummary(portfolio, market, marketMatches, quoteMap) {
+    const entries = asArray(portfolio.items);
+    const enabledEntries = entries.filter((entry) => entry.enabled);
+    const enabledIds = new Set(enabledEntries.map((entry) => entry.instrument_id));
+    const freshCount = marketMatches
+      ? asArray(market.items).filter((item) => (
+        enabledIds.has(item.instrument_id) && item.status === "accepted"
+      )).length
+      : 0;
+    const alertCount = marketMatches ? asArray(market.alerts).length : 0;
+    byId("manual-portfolio-summary-enabled").textContent = `${portfolio.enabled_count} / ${portfolio.enabled_limit}`;
+    byId("manual-portfolio-summary-fresh").textContent = marketMatches
+      ? `${freshCount} / ${portfolio.enabled_count}`
+      : `0 / ${portfolio.enabled_count}`;
+    byId("manual-portfolio-summary-alerts").textContent = String(alertCount);
+
+    const previewEntries = (enabledEntries.length ? enabledEntries : entries).slice(0, 3);
+    const preview = byId("manual-portfolio-preview");
+    if (!previewEntries.length) {
+      preview.replaceChildren(createElement("p", "empty-state", "尚未手工添加证券代码。"));
+      return;
+    }
+    const cards = previewEntries.map((entry) => {
+      const quote = marketMatches ? quoteMap.get(entry.instrument_id) : null;
+      const card = createElement("article", "manual-portfolio-preview__item");
+      const identity = createElement("div", "manual-portfolio-preview__identity");
+      identity.append(
+        createElement("strong", "", entry.instrument_id),
+        createElement("small", "", entry.display_name || (entry.enabled ? "名称未提供" : "已停用")),
+      );
+      const quoteStatus = quote?.status || (entry.enabled ? "unavailable" : "disabled");
+      const marketBox = createElement("div", "manual-portfolio-preview__market");
+      const marketValue = createElement(
+        "strong",
+        "",
+        quote ? `${formatLevel(quote.last_price)} · ${formatChangePct(quote.session_change_pct)}` : "--",
+      );
+      if (quote) setTone(marketValue, quote.session_change_pct);
+      marketBox.append(
+        marketValue,
+        createElement("small", `quality-${quoteStatus}`, manualPortfolioQualityLabel(quoteStatus)),
+      );
+      card.append(identity, marketBox);
+      return card;
+    });
+    if ((enabledEntries.length ? enabledEntries : entries).length > previewEntries.length) {
+      cards.push(createElement(
+        "p",
+        "manual-portfolio-preview__more",
+        `另有 ${(enabledEntries.length ? enabledEntries : entries).length - previewEntries.length} 个代码，打开后查看`,
+      ));
+    }
+    preview.replaceChildren(...cards);
+  }
+
   function manualPortfolioRow(entry, quote) {
     const row = document.createElement("tr");
     const identity = document.createElement("td");
@@ -5575,6 +5748,7 @@
     const rows = asArray(portfolio.items).map((entry) => (
       manualPortfolioRow(entry, quoteMap.get(entry.instrument_id))
     ));
+    renderManualPortfolioSummary(portfolio, market, marketMatches, quoteMap);
     byId("manual-portfolio-table-body").replaceChildren(...(
       rows.length
         ? rows
@@ -5586,14 +5760,25 @@
           return row;
         })()]
     ));
-    byId("manual-portfolio-status").textContent = (
-      `${portfolio.enabled_count} / ${portfolio.enabled_limit} 已启用 · ${marketMatches ? `行情 ${formatTimestamp(market.generated_at)}` : "等待对应版本行情"}`
-    );
+    const generation = state.manualPortfolioOutlookGeneration;
+    const waitingForMarket = generation?.phase === "waiting_for_market";
+    const marketStatus = marketMatches
+      ? `行情 ${formatTimestamp(market.generated_at)}`
+      : waitingForMarket
+        ? "前瞻已排队，等待对应版本行情"
+        : "等待对应版本行情";
+    byId("manual-portfolio-status").textContent = `${portfolio.enabled_count} / ${portfolio.enabled_limit} 已启用 · ${marketStatus}`;
+    byId("manual-portfolio-launch-status").textContent = marketStatus;
     byId("manual-portfolio-outlook-button").disabled = (
       state.manualPortfolioMutationInFlight
       || portfolio.enabled_count === 0
-      || !marketMatches
+      || new Set(["queued", "running"]).has(generation?.state)
     );
+    byId("manual-portfolio-outlook-button").textContent = waitingForMarket
+      ? "已排队等待行情"
+      : marketMatches
+        ? "生成条件式前瞻"
+        : "排队生成前瞻";
     renderManualPortfolioAlerts(asArray(market?.alerts));
   }
 
@@ -5650,10 +5835,12 @@
       renderManualPortfolio();
       if (market?.portfolio_revision === portfolio.revision) {
         deliverManualPortfolioAlerts(asArray(market.alerts));
+        fetchManualPortfolioIntradayAnalysis({ silent: true });
       }
       if (!state.manualPortfolioOutlook) fetchManualPortfolioOutlook({ silent: true });
+      if (!state.manualPortfolioOutlookGeneration) pollManualPortfolioOutlook();
     } catch (error) {
-      if (!silent) byId("manual-portfolio-status").textContent = text(error?.message, "手动持仓暂不可用");
+      if (!silent) setManualPortfolioStatus(text(error?.message, "手动持仓暂不可用"));
     } finally {
       state.manualPortfolioFetchInFlight = false;
     }
@@ -5662,15 +5849,17 @@
   async function mutateManualPortfolio(command) {
     if (state.manualPortfolioMutationInFlight) return;
     state.manualPortfolioMutationInFlight = true;
-    byId("manual-portfolio-status").textContent = "正在保存手动列表…";
+    setManualPortfolioStatus("正在保存手动列表…");
     try {
       await postManualJson(MANUAL_PORTFOLIO_ENDPOINT, command);
       if (command.action === "add") byId("manual-portfolio-form").reset();
       state.manualPortfolioMarket = null;
+      state.manualPortfolioIntradayAnalysis = null;
       state.manualPortfolioOutlook = null;
+      state.manualPortfolioOutlookGeneration = null;
       await fetchManualPortfolio();
     } catch (error) {
-      byId("manual-portfolio-status").textContent = text(error?.message, "保存失败");
+      setManualPortfolioStatus(text(error?.message, "保存失败"));
     } finally {
       state.manualPortfolioMutationInFlight = false;
       renderManualPortfolio();
@@ -5684,16 +5873,89 @@
       target.replaceChildren(createElement("p", "empty-state", "当前没有可生成前瞻的已启用代码。"));
       return;
     }
-    target.replaceChildren(...items.map((item) => {
+    const marketContext = payload?.market_context;
+    const nodes = [];
+    if (marketContext) {
+      const contextCard = createElement("article", "manual-portfolio-outlook-card outlook-market-context");
+      contextCard.append(
+        createElement("strong", "", `次日盘面基准 · ${text(marketContext.bias, "uncertain")} / ${text(marketContext.confidence, "abstain")}`),
+        createElement("p", "", marketContext.thesis),
+        createElement("p", "", `预计形态：${marketContext.expected_shape}`),
+        createElement("small", "", `转强确认：${marketContext.confirmation} · 失效：${marketContext.invalidation}`),
+      );
+      nodes.push(contextCard);
+    }
+    nodes.push(...items.map((item) => {
       const card = createElement("article", `manual-portfolio-outlook-card outlook-${item.status}`);
       card.append(
         createElement("strong", "", `${item.instrument_id} · ${item.status === "conditional" ? "条件式" : "证据不足"}`),
         createElement("p", "", `次日：${item.next_session}`),
         createElement("p", "", `未来 2–5 日：${item.next_2_to_5_sessions}`),
+      );
+      const plan = item.price_plan;
+      if (plan) {
+        const pullback = asArray(plan.pullback_observation_zone);
+        const pressure = asArray(plan.pressure_observation_zone);
+        card.append(
+          createElement(
+            "p",
+            "manual-portfolio-price-plan",
+            `回撤观察区 ${formatLevel(pullback[0])}–${formatLevel(pullback[1])} · 压力观察区 ${formatLevel(pressure[0])}–${formatLevel(pressure[1])} · 中位 ${formatLevel(plan.previous_midpoint)} · 风险参考 ${formatLevel(plan.risk_reference)}`,
+          ),
+          createElement("small", "", plan.note),
+        );
+      }
+      asArray(item.opening_scenarios).forEach((scenario) => {
+        card.append(createElement("p", "manual-portfolio-scenario", `开盘情景：${scenario}`));
+      });
+      asArray(item.market_scenarios).forEach((scenario) => {
+        card.append(createElement("p", "manual-portfolio-scenario", `盘面联动：${scenario}`));
+      });
+      card.append(
         createElement("small", "", `确认：${stringList(item.confirmation_conditions).join("；") || "无"} · 失效：${stringList(item.invalidation_conditions).join("；") || "无"}`),
       );
       return card;
     }));
+    target.replaceChildren(...nodes);
+  }
+
+  function renderManualPortfolioIntradayAnalysis(payload) {
+    const target = byId("manual-portfolio-intraday-analysis");
+    const items = asArray(payload?.items);
+    if (!items.length) {
+      target.replaceChildren(createElement("p", "empty-state", "当前没有可分析的已启用代码。"));
+      return;
+    }
+    target.replaceChildren(...items.map((item) => {
+      const card = createElement("article", `manual-portfolio-outlook-card outlook-${item.status}`);
+      card.append(
+        createElement("strong", "", `${item.instrument_id} · ${item.status === "conditional" ? "盘中条件分析" : "证据不足"}`),
+        createElement("p", "", item.current_observation),
+        createElement("small", "", `确认：${stringList(item.confirmation_conditions).join("；") || "无"} · 失效：${stringList(item.invalidation_conditions).join("；") || "无"}`),
+      );
+      return card;
+    }));
+  }
+
+  async function fetchManualPortfolioIntradayAnalysis({ silent = false } = {}) {
+    try {
+      const payload = await readManualJson(MANUAL_PORTFOLIO_INTRADAY_ANALYSIS_ENDPOINT);
+      if (payload?.contract !== "manual_portfolio_intraday_analysis.v1") {
+        throw new Error("盘中分析契约不匹配");
+      }
+      state.manualPortfolioIntradayAnalysis = payload;
+      renderManualPortfolioIntradayAnalysis(payload);
+      byId("manual-portfolio-intraday-analysis-status").textContent = (
+        `更新 ${formatTimestamp(payload.generated_at)}`
+      );
+    } catch (error) {
+      if (!silent || error?.status === 503) {
+        byId("manual-portfolio-intraday-analysis-status").textContent = text(
+          error?.message,
+          "盘中分析暂不可用",
+        );
+      }
+    }
   }
 
   async function fetchManualPortfolioOutlook({ silent = false } = {}) {
@@ -5713,9 +5975,31 @@
     state.manualPortfolioOutlookPollTimer = null;
     try {
       const generation = await readManualJson(MANUAL_PORTFOLIO_OUTLOOK_GENERATION_ENDPOINT);
-      byId("manual-portfolio-outlook-status").textContent = `后台：${text(generation.phase, generation.state)}`;
+      state.manualPortfolioOutlookGeneration = generation;
+      const readiness = generation?.readiness || {};
+      if (generation.phase === "waiting_for_market") {
+        const nextCollectionAt = readiness.next_collection_at
+          ? formatTimestamp(readiness.next_collection_at, true)
+          : "交易日历核验后";
+        byId("manual-portfolio-outlook-status").textContent = (
+          `已排队 · 最早 ${nextCollectionAt} 采集后自动生成；上游可用时通常约 1 分钟`
+        );
+      } else if (generation.state === "idle" && readiness.state === "waiting_for_market") {
+        const nextCollectionAt = readiness.next_collection_at
+          ? formatTimestamp(readiness.next_collection_at, true)
+          : "交易日历核验后";
+        byId("manual-portfolio-outlook-status").textContent = (
+          `尚未排队 · 最早 ${nextCollectionAt} 采集后可生成`
+        );
+      } else if (generation.state === "idle" && readiness.state === "ready") {
+        byId("manual-portfolio-outlook-status").textContent = "行情已就绪，可立即生成";
+      } else {
+        byId("manual-portfolio-outlook-status").textContent = `后台：${text(generation.phase, generation.state)}`;
+      }
+      renderManualPortfolio();
       if (new Set(["queued", "running"]).has(generation.state)) {
-        state.manualPortfolioOutlookPollTimer = window.setTimeout(pollManualPortfolioOutlook, 2_000);
+        const pollDelay = generation.phase === "waiting_for_market" ? 30_000 : 2_000;
+        state.manualPortfolioOutlookPollTimer = window.setTimeout(pollManualPortfolioOutlook, pollDelay);
       } else if (generation.state === "succeeded") {
         await fetchManualPortfolioOutlook();
         renderManualPortfolio();
@@ -5732,7 +6016,9 @@
     button.disabled = true;
     byId("manual-portfolio-outlook-status").textContent = "正在排队…";
     try {
-      await postManualJson(MANUAL_PORTFOLIO_OUTLOOK_ENDPOINT, { action: "generate" });
+      const generation = await postManualJson(MANUAL_PORTFOLIO_OUTLOOK_ENDPOINT, { action: "generate" });
+      state.manualPortfolioOutlookGeneration = generation;
+      renderManualPortfolio();
       pollManualPortfolioOutlook();
     } catch (error) {
       byId("manual-portfolio-outlook-status").textContent = text(error?.message, "前瞻排队失败");
@@ -5812,9 +6098,23 @@
     byId("stock-selection-open-button").focus();
   }
 
+  function openManualPortfolioDialog() {
+    const dialog = byId("manual-portfolio-dialog");
+    if (!dialog.open) dialog.showModal();
+    fetchManualPortfolio({ silent: true });
+    pollManualPortfolioOutlook();
+  }
+
+  function closeManualPortfolioDialog() {
+    const dialog = byId("manual-portfolio-dialog");
+    if (dialog.open) dialog.close();
+    byId("manual-portfolio-open-button").focus();
+  }
+
   function bindUserActions() {
     byId("refresh-button").addEventListener("click", () => fetchSnapshot({ force: true }));
-    byId("collection-recovery-button").addEventListener("click", requestDailyRecovery);
+      byId("collection-recovery-button").addEventListener("click", requestDailyRecovery);
+      byId("trajectory-repair-button").addEventListener("click", requestIntradayTrajectoryRepair);
     byId("notification-button").addEventListener("click", handleNotificationOptIn);
     byId("sound-button").addEventListener("click", handleSoundToggle);
     byId("mute-button").addEventListener("click", handleMuteToggle);
@@ -5843,6 +6143,13 @@
       }
     });
     byId("manual-portfolio-outlook-button").addEventListener("click", generateManualPortfolioOutlook);
+    byId("manual-portfolio-open-button").addEventListener("click", openManualPortfolioDialog);
+    byId("manual-portfolio-close-button").addEventListener("click", closeManualPortfolioDialog);
+    const manualPortfolioDialog = byId("manual-portfolio-dialog");
+    manualPortfolioDialog.addEventListener("click", (event) => {
+      if (event.target !== manualPortfolioDialog) return;
+      closeManualPortfolioDialog();
+    });
     byId("limit-up-pool-open-button").addEventListener("click", openLimitUpPoolDialog);
     byId("limit-up-pool-close-button").addEventListener("click", closeLimitUpPoolDialog);
     const limitUpDialog = byId("limit-up-pool-dialog");

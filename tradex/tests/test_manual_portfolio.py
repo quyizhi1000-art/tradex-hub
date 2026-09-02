@@ -15,7 +15,11 @@ from tradex.data_gateway.contracts import (
 from tradex.data_gateway.intraday import MAX_INTRADAY_BATCH_INSTRUMENTS
 from tradex.manual_portfolio.contracts import MAX_ENABLED_INSTRUMENTS
 from tradex.manual_portfolio.market import refresh_manual_portfolio_market
+from tradex.manual_portfolio.intraday_analysis import (
+    build_manual_portfolio_intraday_analysis,
+)
 from tradex.manual_portfolio.outlook import build_manual_portfolio_outlook
+from tradex.manual_portfolio.readiness import portfolio_outlook_readiness
 from tradex.manual_portfolio.service import ManualPortfolioService
 from tradex.manual_portfolio.store import ManualPortfolioReader, ManualPortfolioStore
 
@@ -150,6 +154,41 @@ def test_long_running_reader_attaches_after_first_manual_write(tmp_path):
         reader.close()
 
 
+def test_outlook_request_persists_until_collector_dispatch(tmp_path):
+    path = tmp_path / "portfolio.sqlite3"
+    with ManualPortfolioStore(path) as store:
+        revision = "a" * 64
+        request = store.request_outlook(revision, requested_at=NOW)
+
+        assert request["state"] == "waiting_for_market"
+        assert request["job_id"] is None
+        dispatched = store.mark_outlook_request_dispatched(
+            revision,
+            job_id="manual_portfolio_outlook:fixture",
+            dispatched_at=NOW.replace(minute=3),
+        )
+
+    assert dispatched["state"] == "dispatched"
+    assert dispatched["job_id"] == "manual_portfolio_outlook:fixture"
+    with ManualPortfolioReader(path) as reader:
+        assert reader.outlook_request(revision) == dispatched
+
+
+def test_outlook_readiness_services_a_post_close_request_immediately():
+    observed = datetime(2026, 9, 1, 23, 30, tzinfo=SHANGHAI)
+    readiness = portfolio_outlook_readiness(
+        portfolio_revision="a" * 64,
+        enabled_count=2,
+        snapshot=None,
+        now=observed,
+        automatic_generation_requested=True,
+    )
+
+    assert readiness.state == "waiting_for_market"
+    assert readiness.next_collection_at == observed
+    assert readiness.automatic_generation_requested is True
+
+
 def test_partial_batch_materializes_missing_item_without_deleting_it(tmp_path):
     with ManualPortfolioStore(tmp_path / "portfolio.sqlite3") as store:
         service = _service(store)
@@ -242,7 +281,20 @@ def test_outlook_is_conditional_and_abstains_on_unavailable_evidence(tmp_path):
             fetcher=lambda *_args, **_kwargs: {"000001.SZ": _series(prices=(10.0, 10.2))},
         )
 
-    outlook = build_manual_portfolio_outlook(snapshot, generated_at=NOW)
+    outlook = build_manual_portfolio_outlook(
+        snapshot,
+        generated_at=NOW,
+        market_context={
+            "source_trade_date": "2026-08-31",
+            "bias": "balanced",
+            "confidence": "weak",
+            "thesis": "指数与个股分化，次日先按震荡轮动观察。",
+            "expected_shape": "机会更可能集中在局部方向。",
+            "confirmation": "指数、广度、成交至少三项连续同向。",
+            "invalidation": "价格、广度与资金持续背离。",
+            "risk_control": "等待盘中条件确认。",
+        },
+    )
 
     assert outlook.contract == "manual_portfolio_outlook.v1"
     assert outlook.source_trading_date == date(2026, 8, 31)
@@ -252,3 +304,81 @@ def test_outlook_is_conditional_and_abstains_on_unavailable_evidence(tmp_path):
     assert by_id["000001.SZ"].confirmation_conditions
     assert by_id["600000.SH"].status == "abstain"
     assert "不形成方向性前瞻" in by_id["600000.SH"].next_session
+
+
+def test_outlook_uses_complete_price_path_without_claiming_missing_amount_evidence(
+    tmp_path,
+):
+    with ManualPortfolioStore(tmp_path / "portfolio.sqlite3") as store:
+        _service(store).add("000001", now=NOW)
+        snapshot = refresh_manual_portfolio_market(
+            store,
+            now=NOW,
+            fetcher=lambda *_args, **_kwargs: {
+                "000001.SZ": _series(
+                    quality=QualityStatus.DEGRADED,
+                    prices=(10.0, 10.2),
+                ).model_copy(
+                    update={
+                        "metadata": _series().metadata.model_copy(
+                            update={
+                                "quality": QualityStatus.DEGRADED,
+                                "quality_flags": (
+                                    "amount_partial",
+                                    "cumulative_average_partial",
+                                ),
+                            }
+                        )
+                    }
+                )
+            },
+        )
+
+    outlook = build_manual_portfolio_outlook(
+        snapshot,
+        generated_at=NOW,
+        market_context={
+            "source_trade_date": "2026-08-31",
+            "bias": "balanced",
+            "confidence": "weak",
+            "thesis": "指数与个股分化，次日先按震荡轮动观察。",
+            "expected_shape": "机会更可能集中在局部方向。",
+            "confirmation": "指数、广度、成交至少三项连续同向。",
+            "invalidation": "价格、广度与资金持续背离。",
+            "risk_control": "等待盘中条件确认。",
+        },
+    )
+
+    assert outlook.items[0].status == "conditional"
+    assert outlook.items[0].evidence_status == "degraded"
+    assert "偏强收尾" in outlook.items[0].next_session
+    assert any("不作量价判断" in item for item in outlook.items[0].limitations)
+    assert any("价格样本" in item for item in outlook.items[0].confirmation_conditions)
+    assert any("价格路径" in item for item in outlook.items[0].invalidation_conditions)
+    assert outlook.market_context.bias == "balanced"
+    assert outlook.items[0].price_plan is not None
+    assert outlook.items[0].price_plan.deterministic_target is False
+    assert outlook.items[0].price_plan.pullback_observation_zone == (10.1, 10.13)
+    assert outlook.items[0].price_plan.pressure_observation_zone == (10.16, 10.2)
+    assert len(outlook.items[0].opening_scenarios) == 3
+    assert len(outlook.items[0].market_scenarios) == 3
+
+
+def test_intraday_analysis_is_separate_from_next_session_outlook(tmp_path):
+    with ManualPortfolioStore(tmp_path / "portfolio.sqlite3") as store:
+        _service(store).add("000001", now=NOW)
+        snapshot = refresh_manual_portfolio_market(
+            store,
+            now=NOW,
+            fetcher=lambda *_args, **_kwargs: {
+                "000001.SZ": _series(prices=(10.0, 10.2))
+            },
+        )
+
+    analysis = build_manual_portfolio_intraday_analysis(snapshot, generated_at=NOW)
+
+    assert analysis.contract == "manual_portfolio_intraday_analysis.v1"
+    assert analysis.analysis_scope == "current_session"
+    assert analysis.items[0].status == "conditional"
+    assert "盘中" in analysis.items[0].current_observation
+    assert any("不替代昨晚" in item for item in analysis.items[0].limitations)
