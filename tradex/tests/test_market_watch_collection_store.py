@@ -344,7 +344,8 @@ def test_running_post_close_recovery_projects_live_attempt_progress_and_error(
     )
 
 
-def test_failed_post_close_recovery_preserves_public_error_detail(tmp_path: Path) -> None:
+@pytest.mark.parametrize("ledger_complete", [False, True])
+def test_failed_post_close_recovery_preserves_public_error_detail(tmp_path: Path, monkeypatch, ledger_complete) -> None:
     trade_date = date(2026, 8, 24)
     closed_at = datetime(2026, 8, 24, 15, 6, tzinfo=SHANGHAI)
 
@@ -356,6 +357,13 @@ def test_failed_post_close_recovery_preserves_public_error_detail(tmp_path: Path
         )
         claimed = store.claim_daily_recovery(started_at=closed_at)
         assert claimed is not None
+        if ledger_complete:
+            completeness = store._read_completeness_locked(trade_date, closed_at)
+            complete = completeness.model_copy(update={
+                "accepted_real": completeness.expected_minute_buckets,
+                "pending": 0, "retrying": 0, "unresolved": 0,
+            })
+            monkeypatch.setattr(store, "_read_completeness_locked", lambda *args: complete)
         failed = store.finish_daily_recovery(
             claimed.run_id,
             completed_at=closed_at + timedelta(seconds=1),
@@ -437,6 +445,50 @@ def test_collector_runs_one_automatic_post_close_recovery_batch(
     assert envelope.daily_recovery.remaining_gaps == 238
     assert envelope.daily_recovery.manual_action_required is False
     assert envelope.collection_completeness.repaired == 1
+
+
+def test_daily_recovery_attempts_each_gap_at_most_once_per_run(tmp_path):
+    db_path = tmp_path / "single-attempt-per-run.sqlite3"
+    observed = datetime(2026, 8, 24, 16, 0, tzinfo=SHANGHAI)
+    clock_ticks = 0
+    repaired_minutes = []
+
+    def clock():
+        nonlocal clock_ticks
+        clock_ticks += 1
+        return observed + timedelta(seconds=clock_ticks * 20)
+
+    def repair(slot):
+        repaired_minutes.append(slot.minute_bucket)
+        if len(repaired_minutes) == 1:
+            raise TimeoutError("first gap remains retryable")
+        return _snapshot(slot.minute_bucket, snapshot_id="mw-second-gap")
+
+    with (
+        MarketWatchCollectionStore(db_path, clock=clock) as ledger,
+        MarketWatchHistoryStore(db_path, clock=clock) as history,
+    ):
+        collector = MarketWatchCollector(
+            store=ledger,
+            capture_current=lambda _slot: pytest.fail("closed recovery is historical"),
+            repair_historical=repair,
+            persist_snapshot=history.record,
+            history_records=lambda: (),
+            clock=clock,
+            recovery_batch_limit=2,
+        )
+        ledger.request_daily_recovery(
+            observed.date(),
+            trigger=DailyRecoveryTrigger.MANUAL,
+            requested_at=observed,
+        )
+        recovery = ledger.claim_daily_recovery(started_at=observed)
+        assert recovery is not None
+
+        result = collector._run_daily_recovery(recovery, observed)
+
+    assert result["attempted_slots"] == 2
+    assert len(set(repaired_minutes)) == 2
 
 
 def test_read_envelope_is_zero_write_and_never_initializes_collection_state(
@@ -641,6 +693,27 @@ def test_retry_state_and_attempt_audit_survive_process_restart(tmp_path: Path) -
     assert restored.last_error_code == "TimeoutError"
     assert len(attempts) == 1
     assert attempts[0]["outcome"] == "retrying"
+
+
+def test_claim_due_can_skip_a_minute_already_attempted_in_this_recovery(tmp_path):
+    now = datetime(2026, 8, 24, 16, 0, tzinfo=SHANGHAI)
+    trade_date = now.date()
+    with MarketWatchCollectionStore(tmp_path / "claim-exclusion.sqlite3") as store:
+        first_attempt, first = store.claim_due(now, trade_date=trade_date)
+        store.mark_failed(
+            first_attempt,
+            error=TimeoutError("retry later"),
+            completed_at=now,
+            next_retry_at=now,
+        )
+
+        _second_attempt, second = store.claim_due(
+            now,
+            trade_date=trade_date,
+            exclude_minutes=(first.minute_bucket,),
+        )
+
+    assert second.minute_bucket != first.minute_bucket
 
 
 def test_inflight_attempt_is_recovered_as_retryable_after_restart(tmp_path: Path) -> None:

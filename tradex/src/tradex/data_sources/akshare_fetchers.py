@@ -956,6 +956,12 @@ def fetch_hot_stocks(direction: str = "涨停", date: str = "", **kwargs):
     return ak.stock_zt_pool_dtgc_em(date=date)
 
 
+def fetch_eastmoney_limit_up_status(date: str = "", **kwargs):
+    """Fetch Eastmoney's non-ST limit-up pool, including Beijing Exchange stocks."""
+
+    return fetch_hot_stocks(direction="涨停", date=date, **kwargs)
+
+
 # ============================================================
 # profit_forecast — 一致预期（同花顺 HTTP 抓取）
 # ============================================================

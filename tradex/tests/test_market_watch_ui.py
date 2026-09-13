@@ -292,7 +292,7 @@ def test_watch_page_keeps_the_decision_path_and_evidence_boundaries_visible():
     assert 'id="breadth-unclassified"' in HTML
     assert 'id="breadth-total"' in HTML
     assert "median_change_pct" not in JS
-    assert "limit_up_count" not in JS
+    assert re.search(r"(?<![A-Za-z0-9_])limit_up_count(?![A-Za-z0-9_])", JS) is None
     assert "limit_down_count" not in JS
 
 
@@ -323,7 +323,9 @@ def test_sector_flow_chart_is_versioned_bounded_and_honestly_degraded():
     assert 'MAX_SECTOR_FLOW_CHART_SERIES = 64' in JS
     assert 'MAX_SECTOR_FLOW_ENDPOINT_LABELS = 64' in JS
     assert 'data-flow-mode="cumulative"' in HTML
-    assert 'data-flow-mode="delta_5m"' in HTML
+    assert HTML.count('data-flow-mode="five_day"') == 2
+    assert 'data-flow-mode="delta_5m"' not in HTML
+    assert "近五日" in HTML
     assert 'data-flow-scope="defense"' in HTML
     assert 'data-flow-scope="offense"' in HTML
     for scope in ("defense", "offense"):
@@ -342,7 +344,7 @@ def test_sector_flow_chart_is_versioned_bounded_and_honestly_degraded():
     assert 'classList.toggle("is-chart-open", chartCard.open)' in JS
     assert "function renderSectorFlowMiniChart(payload, scope)" in JS
     assert '"data-mini-sector-flow"' in JS
-    assert "renderSectorFlowMiniChart(displayPayload, scope)" in JS
+    assert "renderSectorFlowMiniChart(chartPayload, scope, preparedSeries)" in JS
     assert "if (chartCard.open)" in JS
     assert "clearSectorFlowExpandedChart(scope)" in JS
     assert ".sector-flow-visual[open] .sector-flow-mini-chart" in CSS
@@ -383,7 +385,9 @@ def test_sector_flow_chart_is_versioned_bounded_and_honestly_degraded():
     assert "!usedSlots.has(candidate)" in JS
     assert "storeJson(STORAGE_KEYS.sectorFlowColorAssignments, stored)" in JS
     assert "color: sectorFlowPaletteColor(colorSlots[index])" in JS
-    assert JS.count("const series = sectorFlowSeries(payload, mode)") == 2
+    assert JS.count(
+        "const series = preparedSeries || sectorFlowSeries(payload, mode)"
+    ) == 2
     assert "sectorFlowStableHash" not in JS
     assert "[index % 8]" not in JS
     assert "const height = Math.max(" in JS
@@ -399,7 +403,8 @@ def test_sector_flow_chart_is_versioned_bounded_and_honestly_degraded():
     assert "const amountPosition = (value - yScaleMin) / (yScaleMax - yScaleMin)" in JS
     assert "const densityPosition = sectorFlowEndpointRank(value, endpointScaleValues)" in JS
     assert "const blendedPosition = (1 - SECTOR_FLOW_ENDPOINT_DENSITY_WEIGHT)" in JS
-    assert 'scaleLabel.textContent = "金额比例 + 终点密度混合 Y 轴 · 刻度为真实金额"' in JS
+    assert 'scaleLabel.textContent = mode === "five_day"' in JS
+    assert "五日连续累计净额" in JS
     assert "endpointLabelTitle" not in JS
     assert "layoutSectorFlowEndpointLabel" not in JS
     assert '"data-sector-flow-endpoint": text(entry.item.sector_key' in JS
@@ -431,6 +436,26 @@ def test_sector_flow_chart_is_versioned_bounded_and_honestly_degraded():
     assert "近 5 分钟同源基线仍在积累" in JS
     assert "renderSectorFlowTrajectories(snapshot)" in JS
     assert "fetch(`${TRAJECTORY_ENDPOINT}?${query}`" in JS
+    assert 'FIVE_DAY_TRAJECTORY_ENDPOINT = "/api/market-watch/five-day-trajectory"' in JS
+    assert 'payload.contract !== "sector_flow_five_day_trajectory.v1"' in JS
+    assert 'day?.contract !== "sector_flow_five_day_slice.v1"' in JS
+    assert "function sectorFlowFiveDayPayload(history, displayPayload)" in JS
+    assert "_historyDayIndex: dayIndex" in JS
+    assert "_historyTradeDate: day.trade_date" in JS
+    assert "_historyContinuousCny: cumulativeOffset + dailyCumulative" in JS
+    assert "cumulativeOffset += finalDailyCumulative" in JS
+    assert "dayIndex !== previousDayIndex" in JS
+    assert "previousEndpoint.dayIndex === first.dayIndex" in JS
+    assert "const canBridgeDay = previousEndpoint" in JS
+    assert "first.dayIndex === previousEndpoint.dayIndex + 1" in JS
+    assert "previousEndpoint.sessionMinute >= SECTOR_FLOW_SESSION_SPAN_MINUTES" in JS
+    assert "SECTOR_FLOW_DAY_SPAN_MINUTES" in JS
+    assert "historyTradeDates.forEach((tradeDate, dayIndex)" in JS
+    assert "近五个交易日连续分钟资金轨迹" in JS
+    assert "连续累计" in JS
+    assert "每日独立" not in JS
+    assert "相邻交易日首尾接续" in JS
+    assert "缺失分钟仍保持断点" in JS
     assert "sectorFlowCache" not in JS
 
 
@@ -564,6 +589,18 @@ def test_sector_flow_large_selection_is_deferred_toggleable_and_dismissible():
     assert 'event.key !== "Escape"' in JS
     assert "!picker.contains(event.target)" in JS
     assert "segment.forEach((point)" not in JS
+    assert "const SHANGHAI_TIME_PARTS_FORMATTER = new Intl.DateTimeFormat" in JS
+    time_parser = JS.split("function shanghaiMinuteOfDay", 1)[1].split(
+        "function sectorFlowTradingMinute", 1
+    )[0]
+    assert "new Intl.DateTimeFormat" not in time_parser
+    assert "SHANGHAI_TIME_PARTS_FORMATTER.formatToParts(parsed)" in time_parser
+    assert "const fiveDayTrajectoryRequests = new Map()" in JS
+    assert "fiveDayTrajectoryRequests.get(cacheKey)" in JS
+    assert "fiveDayTrajectoryRequests.set(cacheKey, request)" in JS
+    assert "const preparedSeries = sectorFlowSeries(chartPayload" in JS
+    assert "renderSectorFlowMiniChart(chartPayload, scope, preparedSeries)" in JS
+    assert "renderSectorFlowChart(chartPayload, scope, preparedSeries)" in JS
 
 
 def test_sector_flow_observations_keep_sector_change_and_leaders_visible():
@@ -873,6 +910,8 @@ def test_limit_up_pool_is_revision_bound_and_separates_current_display_from_rela
     assert 'id="limit-up-pool-dialog"' in HTML
     assert 'id="limit-up-pool-categories"' in HTML
     assert 'id="limit-up-pool-board"' in HTML
+    assert '{ business_key: "all", label: "全部", count: pool.pool_total }' in JS
+    assert '{ sector_key: "all", label: "全部", count: pool.pool_total }' not in JS
     assert 'payload.contract !== "limit_up_pool.v2"' in JS
     assert "new URLSearchParams({ source_snapshot_revision: revision })" in JS
     assert "payload.source_snapshot_revision !== expectedRevision" in JS
@@ -882,6 +921,7 @@ def test_limit_up_pool_is_revision_bound_and_separates_current_display_from_rela
     assert 'text(item?.display_category_key, "") || "unresolved_business"' in JS
     assert "item?.display_category_name" in JS
     assert "item?.display_category_basis" in JS
+    assert '"evidence_candidate_ranking"' in JS
     assert 'boardCountBasis === "daily_closed_limit_up_history"' in JS
     assert 'boardCountBasis === "unavailable"' in JS
     assert "payload.market_attributed_count" in JS

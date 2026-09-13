@@ -65,6 +65,46 @@ def _frame(
     return frame
 
 
+def _eastmoney_status_frame(*, include_st: bool = False) -> pd.DataFrame:
+    rows = [
+        {
+            "代码": "920006",
+            "名称": "晟楠科技",
+            "涨跌幅": 29.96,
+            "最新价": 22.21,
+            "首次封板时间": "111309",
+            "最后封板时间": "111309",
+            "炸板次数": 0,
+            "涨停统计": "2/2",
+            "连板数": 2,
+        },
+        {
+            "代码": "603395",
+            "名称": "红四方",
+            "涨跌幅": 10.01,
+            "最新价": 12.34,
+            "首次封板时间": "093102",
+            "最后封板时间": "101500",
+            "炸板次数": 1,
+            "涨停统计": "3/2",
+            "连板数": 1,
+        },
+    ]
+    if include_st:
+        rows.append({
+            "代码": "603595",
+            "名称": "ST东尼",
+            "涨跌幅": 5.02,
+            "最新价": 8.37,
+            "首次封板时间": "100000",
+            "最后封板时间": "100000",
+            "炸板次数": 0,
+            "涨停统计": "1/1",
+            "连板数": 1,
+        })
+    return pd.DataFrame(rows)
+
+
 def test_limit_events_use_canonical_contract_and_preserve_dashboard_payload() -> None:
     router = SmartRouter()
     router.register("limit_events", "ths", lambda date: _frame(), priority=1)
@@ -271,3 +311,88 @@ def test_live_status_does_not_require_analysis_reason() -> None:
     assert series.events[0].board_count == 3
     assert series.events[0].first_sealed_at.isoformat() == "09:31:02"
     assert series.events[0].reason is None
+
+
+def test_live_status_uses_complete_eastmoney_pool_and_keeps_beijing_members() -> None:
+    router = SmartRouter()
+    router.register(
+        "limit_event_status",
+        "akshare_eastmoney",
+        lambda date: _eastmoney_status_frame(),
+        priority=1,
+    )
+
+    series = fetch_limit_up_status("2026-08-19", router=router, now=_NOW)
+
+    assert series.metadata.provider == "akshare_eastmoney"
+    assert series.trade_status.code == "trading"
+    assert [item.instrument_id for item in series.events] == [
+        "920006.BJ",
+        "603395.SH",
+    ]
+    assert series.events[0].first_sealed_at.isoformat() == "11:13:09"
+    assert series.events[0].board_label == "2天2板"
+    assert series.events[0].board_count == 2
+    assert series.events[1].resealed is True
+    assert series.events[0].reason is None
+    assert "reason_enrichment_unavailable" in series.metadata.quality_flags
+
+
+def test_eastmoney_membership_is_enriched_without_losing_beijing_members() -> None:
+    router = SmartRouter()
+    router.register(
+        "limit_event_status",
+        "akshare_eastmoney",
+        lambda date: _eastmoney_status_frame(),
+        priority=1,
+    )
+    router.register("limit_events", "ths", lambda date: _frame(), priority=1)
+
+    series = fetch_limit_up_status("2026-08-19", router=router, now=_NOW)
+
+    assert series.metadata.provider == "akshare_eastmoney+ths"
+    assert [item.instrument_id for item in series.events] == [
+        "920006.BJ",
+        "603395.SH",
+    ]
+    assert series.events[0].reason is None
+    assert series.events[1].reason == "复合肥+煤化工"
+    assert series.events[1].limit_up_type == "换手板"
+    assert "reason_enrichment_partial" in series.metadata.quality_flags
+
+
+def test_live_status_rejects_st_rows_before_falling_back_to_non_st_pool() -> None:
+    router = SmartRouter()
+    router.register(
+        "limit_event_status",
+        "akshare_eastmoney",
+        lambda date: _eastmoney_status_frame(include_st=True),
+        priority=1,
+    )
+    router.register(
+        "limit_event_status",
+        "ths",
+        lambda date: _frame(reason=""),
+        priority=2,
+    )
+
+    series = fetch_limit_up_status("2026-08-19", router=router, now=_NOW)
+
+    assert series.metadata.provider == "ths"
+
+
+def test_eastmoney_status_preserves_verifiable_one_word_board_semantics() -> None:
+    frame = _eastmoney_status_frame().iloc[[0]].copy()
+    frame.loc[frame.index[0], "首次封板时间"] = "092500"
+    frame.loc[frame.index[0], "最后封板时间"] = "092500"
+    router = SmartRouter()
+    router.register(
+        "limit_event_status",
+        "akshare_eastmoney",
+        lambda date: frame,
+        priority=1,
+    )
+
+    series = fetch_limit_up_status("2026-08-19", router=router, now=_NOW)
+
+    assert series.events[0].limit_up_type == "一字板"

@@ -27,14 +27,14 @@ from tradex.instrument_taxonomy.contracts import (
     StockRelationshipCatalogStatusV1,
     StockRelationshipProfileV1,
 )
+from tradex.smart_sector_library import (
+    ReviewedMarketAttributionV1,
+    SmartSectorLibrary,
+    load_reviewed_market_attributions,
+)
 
 from .contracts import ContractModel, MarketWatchSnapshotV1
 from .integrity import REVISION_PATTERN, stable_sha256
-from .market_theme_attribution import (
-    ReviewedMarketAttributionV1,
-    infer_current_market_category,
-    load_reviewed_market_attributions,
-)
 
 
 class LimitUpPoolItemV2(ContractModel):
@@ -63,6 +63,7 @@ class LimitUpPoolItemV2(ContractModel):
     display_category_basis: Literal[
         "manual_market_review",
         "event_business_crosscheck",
+        "evidence_candidate_ranking",
         "relationship_directory",
         "primary_business",
         "unresolved",
@@ -217,7 +218,11 @@ class LimitUpPoolV2(ContractModel):
             raise ValueError("limit-up pool business classified count is inconsistent")
         market_attributed_count = sum(
             item.display_category_basis
-            in {"manual_market_review", "event_business_crosscheck"}
+            in {
+                "manual_market_review",
+                "event_business_crosscheck",
+                "evidence_candidate_ranking",
+            }
             for item in self.items
         )
         if self.market_attributed_count != market_attributed_count:
@@ -247,7 +252,11 @@ class LimitUpPoolV2(ContractModel):
             "categories": _business_categories(items),
             "market_attributed_count": sum(
                 item.display_category_basis
-                in {"manual_market_review", "event_business_crosscheck"}
+                in {
+                    "manual_market_review",
+                    "event_business_crosscheck",
+                    "evidence_candidate_ranking",
+                }
                 for item in items
             ),
             "items": items,
@@ -305,6 +314,16 @@ def _pool_items(
         if reviewed_attributions is not None
         else load_reviewed_market_attributions(trade_date)
     )
+    smart_sectors = SmartSectorLibrary(
+        trade_date,
+        reviewed_attributions=reviewed,
+    )
+    decisions = smart_sectors.resolve_relationships(
+        (
+            (event.instrument_id, event.reason, relationships.get(event.instrument_id))
+            for event in events
+        )
+    )
     items = []
     for event in events:
         relationship = relationships.get(event.instrument_id)
@@ -313,31 +332,10 @@ def _pool_items(
             if relationship is not None and relationship.statistical_industry is not None
             else None
         )
-        reviewed_entry = reviewed.get(event.instrument_id)
-        inferred = (
-            infer_current_market_category(
-                event.reason,
-                (
-                    relationship.primary_business_name or "",
-                    relationship.business_summary or "",
-                    *relationship.business_tags,
-                ),
-            )
-            if relationship is not None
-            else None
-        )
-        if reviewed_entry is not None:
-            display_key = reviewed_entry.category_key
-            display_name = reviewed_entry.category_name
-            display_basis = "manual_market_review"
-        elif inferred is not None:
-            display_key = inferred.category_key
-            display_name = inferred.category_name
-            display_basis = "event_business_crosscheck"
-        else:
-            display_key = None
-            display_name = None
-            display_basis = "unresolved"
+        decision = decisions[event.instrument_id]
+        display_key = decision.category_key
+        display_name = decision.category_name
+        display_basis = decision.basis
         items.append(LimitUpPoolItemV2(
             instrument_id=event.instrument_id,
             name=event.name,
@@ -535,7 +533,11 @@ def build_limit_up_pool(
         business_classified_count=classified_count,
         market_attributed_count=sum(
             item.display_category_basis
-            in {"manual_market_review", "event_business_crosscheck"}
+            in {
+                "manual_market_review",
+                "event_business_crosscheck",
+                "evidence_candidate_ranking",
+            }
             for item in items
         ),
         unmatched_count=sum(

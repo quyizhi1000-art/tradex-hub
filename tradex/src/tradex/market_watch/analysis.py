@@ -660,6 +660,31 @@ def classify_rotation(sectors: Sequence[Mapping[str, Any]]) -> RotationSnapshotV
 
 
 def _rotation_inputs(risk_data: Mapping[str, Any]) -> list[Mapping[str, Any]]:
+    """Share direction membership with the canonical trajectory catalogs."""
+    directions: dict[str, set[str]] = {}
+    for field, tag in (("sector_flow_trajectory", "defense"),
+                       ("offense_sector_flow_trajectory", "attack")):
+        for item in _sequence(_mapping(risk_data.get(field)).get("sectors")):
+            item = _mapping(item)
+            for identity in (item.get("sector_key"), item.get("name")):
+                if identity:
+                    directions.setdefault(str(identity), set()).add(tag)
+    rows = []
+    for raw in _raw_rotation_inputs(risk_data):
+        if _sequence(raw.get("tags")):
+            rows.append(raw)
+            continue
+        tags = set()
+        for field in ("sector_key", "key", "id", "name", "label"):
+            tags.update(directions.get(str(raw.get(field) or ""), ()))
+        if tags:
+            tags.update(tag.value for tag in _sector_tags(raw)
+                        if tag not in {SectorTag.MIXED, SectorTag.ATTACK, SectorTag.DEFENSE})
+        rows.append({**raw, "tags": sorted(tags)} if tags else raw)
+    return rows
+
+
+def _raw_rotation_inputs(risk_data: Mapping[str, Any]) -> list[Mapping[str, Any]]:
     direct = _mapping(risk_data.get("rotation"))
     direct_sectors = _sequence(direct.get("sectors"))
     if direct_sectors:

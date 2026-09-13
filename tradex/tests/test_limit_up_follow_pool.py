@@ -144,6 +144,57 @@ def test_limit_up_item_keeps_real_relationship_fields_beneath_the_display_catego
     assert "evidence" not in LimitUpPoolItemV2.model_fields
 
 
+def test_limit_up_pool_uses_smart_sector_pool_ranking_for_liquid_cooling() -> None:
+    jindi_event = _event("603270.SH", "金帝股份").model_copy(update={
+        "reason": "液冷散热+人形机器人+电驱动定转子",
+    })
+    snowman_event = _event("002639.SZ", "雪人集团").model_copy(update={
+        "reason": "液冷服务器+油气服务+压缩机",
+    })
+    jindi = StockRelationshipProfileV1(
+        instrument_id="603270.SH",
+        name="金帝股份",
+        as_of=TRADE_DATE,
+        primary_business_key="auto_parts",
+        primary_business_name="汽车零部件",
+        directory_category_key="automotive",
+        directory_category_name="汽车",
+        business_tags=(
+            "汽车零部件",
+            "精密零部件",
+            "轴承保持架",
+            "向心式油冷",
+            "齿部油冷",
+        ),
+        business_summary="精密机械零部件的研发、生产和销售。",
+        verification_status="provider_only",
+    )
+    snowman = StockRelationshipProfileV1(
+        instrument_id="002639.SZ",
+        name="雪人集团",
+        as_of=TRADE_DATE,
+        primary_business_key="compressor",
+        primary_business_name="压缩机",
+        directory_category_key="compressor",
+        directory_category_name="压缩机",
+        business_tags=("压缩机", "数据中心", "中央空调系统"),
+        business_summary="制冰设备、压缩机产品及系统应用。",
+        verification_status="provider_only",
+    )
+
+    items = _pool_items(
+        (jindi_event, snowman_event),
+        {"603270.SH": jindi, "002639.SZ": snowman},
+        trade_date=TRADE_DATE,
+        tzinfo=SHANGHAI,
+    )
+    by_id = {item.instrument_id: item for item in items}
+
+    assert by_id["603270.SH"].display_category_name == "液冷"
+    assert by_id["603270.SH"].display_category_basis == "evidence_candidate_ranking"
+    assert by_id["002639.SZ"].display_category_name == "液冷"
+
+
 def test_limit_up_events_cannot_leak_past_the_bound_source_snapshot() -> None:
     source_as_of = datetime(2026, 8, 31, 13, 28, 49, tzinfo=SHANGHAI)
     visible = _event("600001.SH", "已封板").model_copy(
@@ -292,9 +343,9 @@ def test_limit_up_pool_uses_specific_display_categories_instead_of_broad_domains
         ("特高压+电网设备", ("1000kV输电线路角钢塔",), "电力电网"),
         ("黄金和小金属走强", ("触头材料和贵金属回收",), "小金属"),
         ("安防+AI算力", ("1000P人工智能算力中心设备采购及运营",), "算力"),
-        ("人形机器人+汽车热管理", ("汽车零部件和精密零部件",), "机器人"),
-        ("液冷油泵+机器人+汽车热管理", ("汽车油泵和热管理产品",), "机器人"),
-        ("机器人+精密制造", ("商用车精密零件",), "机器人"),
+        ("人形机器人+汽车热管理", ("汽车零部件和精密零部件",), None),
+        ("液冷油泵+机器人+汽车热管理", ("汽车油泵和热管理产品",), None),
+        ("机器人+精密制造", ("商用车精密零件",), None),
         ("液冷服务器+家电制冷", ("制冷管路及配件",), "液冷"),
         ("液冷机柜+海外交付", ("自主液冷机柜和液冷配套结构件",), "液冷"),
         ("AIGC长剧+AI应用+微短剧", ("新媒体互动娱乐内容制作",), "传媒"),
@@ -518,7 +569,7 @@ def test_third_manual_review_round_preserves_reviewed_display_semantics() -> Non
     assert load_reviewed_market_attributions(date(2026, 9, 1)) == {}
 
 
-def test_exact_date_manual_review_can_override_the_stable_relationship_directory() -> None:
+def test_rule_supported_review_is_recomputed_over_the_stable_relationship_directory() -> None:
     trade_date = date(2026, 8, 28)
     target = datetime(2026, 8, 28, 10, 2, tzinfo=SHANGHAI)
     event = LimitUpEventV1(
@@ -551,7 +602,7 @@ def test_exact_date_manual_review_can_override_the_stable_relationship_directory
     )[0]
 
     assert item.display_category_name == "算力"
-    assert item.display_category_basis == "manual_market_review"
+    assert item.display_category_basis == "evidence_candidate_ranking"
     assert item.directory_category_name == "商贸流通运营"
     assert item.primary_business_name == "商贸流通运营"
     assert item.first_sealed_at == target

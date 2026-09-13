@@ -250,3 +250,17 @@ def test_board_leaders_skip_only_rows_without_required_speed() -> None:
     assert [item.name for item in snapshot.leaders] == ["中信证券"]
     assert snapshot.metadata.quality is QualityStatus.DEGRADED
     assert snapshot.metadata.quality_flags == ("leader_rows_without_speed",)
+
+
+@pytest.mark.parametrize("b_share", ["900938", "200002"])
+def test_board_candidates_exclude_b_shares_without_poisoning_a_shares(b_share):
+    frame = _board_frame(name="中信证券", source="fixture")
+    row = dict(frame.iloc[0])
+    row.update(code=b_share, name="B股候选", speed_pct=9.0)
+    frame.loc[len(frame)] = row
+    router = SmartRouter()
+    router.register("board_leaders", "fixture", lambda **kwargs: frame, priority=1)
+    snapshot = fetch_board_leader_snapshot("BK0473", limit=3, router=router, now=_NOW)
+    assert [item.instrument_id for item in snapshot.leaders] == ["600030.SH"]
+    assert snapshot.metadata.quality_flags == ("leader_non_a_shares_excluded",)
+    assert snapshot.metadata.quality is QualityStatus.DEGRADED

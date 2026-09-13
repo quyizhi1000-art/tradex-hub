@@ -26,6 +26,10 @@ def main(argv: list[str] | None = None) -> int:
     subparsers = parser.add_subparsers(dest="command", required=True)
     refresh = subparsers.add_parser("refresh", help="refresh and atomically publish the catalog")
     refresh.add_argument("--as-of", default="")
+    subparsers.add_parser(
+        "refresh-official-evidence",
+        help="overlay official evidence on the accepted provider snapshot",
+    )
     subparsers.add_parser("status", help="read accepted catalog status")
     show = subparsers.add_parser("show", help="show one exact stock profile")
     show.add_argument("symbol")
@@ -34,6 +38,9 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "refresh":
         with InstrumentTaxonomyService() as service:
             payload = service.refresh(as_of=args.as_of or None).model_dump(mode="json")
+    elif args.command == "refresh-official-evidence":
+        with InstrumentTaxonomyService() as service:
+            payload = service.refresh_official_evidence().model_dump(mode="json")
     else:
         with InstrumentTaxonomyReader() as reader:
             if args.command == "status":

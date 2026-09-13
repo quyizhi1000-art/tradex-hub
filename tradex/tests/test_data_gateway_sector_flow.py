@@ -19,6 +19,7 @@ from tradex.data_gateway import (
 )
 from tradex.data_gateway.sector_flow import (
     SectorFundFlowBackfillRefresher,
+    prepare_sector_intraday_fund_flow_backfill,
     read_sector_intraday_fund_flow_backfill,
     schedule_sector_intraday_fund_flow_backfill,
 )
@@ -592,6 +593,29 @@ def test_explicit_backfill_refresh_is_bounded_and_keeps_last_success_on_failure(
     assert stale_success == first
 
 
+def test_backfill_preparation_does_not_refresh_an_unpublished_boundary_minute(
+    tmp_path,
+):
+    router = _Router()
+    boundary = NOW.replace(hour=9, minute=30)
+    with SectorFundFlowStore(tmp_path / "boundary.sqlite3") as store:
+        cache = SectorFundFlowBackfillCache(store=store)
+        cache.remember_targets(TRADE_DATE, (TARGET,))
+        report = prepare_sector_intraday_fund_flow_backfill(
+            trading_date=TRADE_DATE,
+            required_minutes=(boundary,),
+            now=NOW,
+            router=router,
+            cache=cache,
+        )
+
+    assert router.calls == []
+    assert report["complete"] is False
+    assert report["refreshed_targets"] == 0
+    assert report["missing_targets"] == (TARGET["sector_key"],)
+    assert report["unavailable_minutes"] == (boundary,)
+
+
 def test_collector_refresh_repairs_missing_curve_minutes_and_persists_them(
     tmp_path,
 ):
@@ -649,6 +673,8 @@ def test_post_close_finalization_refreshes_every_target_through_common_cutoff(
 ):
     class _ExtendedRouter(_Router):
         def route_validated(self, data_type: str, validator, **kwargs: object):
+            assert kwargs["max_queue_wait"] == 6.0
+            assert kwargs["request_timeout"] == 4
             self.calls.append((data_type, kwargs))
             frame = _frame(kwargs["trade_date"])
             final = frame.iloc[-1].copy()

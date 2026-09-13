@@ -45,8 +45,12 @@ def build_manual_portfolio_intraday_analysis(
                 )
             )
             continue
-        change = quote.session_change_pct or 0.0
-        if change >= 1.0:
+        change = quote.session_change_pct
+        if change is None:
+            state = "盘中方向待核验"
+            confirmation = "标准实时行情恢复可核验的当日涨幅后再判断方向"
+            invalidation = "涨幅基准继续缺失时不形成方向结论"
+        elif change >= 1.0:
             state = "盘中偏强"
             confirmation = "后续新鲜分钟样本继续处于当日区间中上部"
             invalidation = "价格跌回当日区间中部以下"
@@ -59,8 +63,11 @@ def build_manual_portfolio_intraday_analysis(
             confirmation = "新鲜分钟样本有效离开当日区间并连续确认"
             invalidation = "突破后重新回到原区间"
         last_price = f"{quote.last_price:.2f}" if quote.last_price is not None else "--"
-        observation = f"{state}；最新价 {last_price}，当日路径变化 {change:+.2f}%。"
+        change_label = f"{change:+.2f}%" if change is not None else "涨幅基准不可用"
+        observation = f"{state}；最新价 {last_price}，当日涨幅 {change_label}。"
         limitations = ["仅分析当前交易时段，不替代昨晚的次日前瞻"]
+        if change is None:
+            limitations.append("未把缺失的标准涨幅替换为 0%")
         if quote.status == "degraded":
             limitations.append("成交额或累计均价字段不完整；不作量价判断")
         items.append(

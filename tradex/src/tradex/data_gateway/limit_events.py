@@ -15,6 +15,7 @@ from .contracts import (
 )
 from .providers.limit_events import (
     map_daily_limit_up_membership,
+    map_eastmoney_limit_up_status_frame,
     map_limit_event_frame,
 )
 from .providers.securities import frame_request_id
@@ -103,12 +104,20 @@ def fetch_limit_up_status(
     fetched_at = _now(now)
 
     def validate(frame: Any, route_provider: str) -> LimitUpStatusSeriesV1:
-        mapped = map_limit_event_frame(
-            frame,
-            route_provider=route_provider,
-            requested_date=requested_date,
-            require_reason=False,
-        )
+        if route_provider == "akshare_eastmoney":
+            mapped = map_eastmoney_limit_up_status_frame(
+                frame,
+                route_provider=route_provider,
+                requested_date=requested_date,
+                fetched_at=fetched_at,
+            )
+        else:
+            mapped = map_limit_event_frame(
+                frame,
+                route_provider=route_provider,
+                requested_date=requested_date,
+                require_reason=False,
+            )
         provider = mapped.pop("provider")
         provider_as_of = mapped.pop("provider_as_of")
         mapped.pop("reason_coverage", None)
@@ -134,12 +143,68 @@ def fetch_limit_up_status(
             **mapped,
         )
 
-    series, _route_provider = _router(router).route_validated(
+    source_router = _router(router)
+    series, _route_provider = source_router.route_validated(
         "limit_event_status",
         validate,
         date=requested_date.strftime("%Y%m%d"),
     )
-    return series
+    if series.metadata.provider != "akshare_eastmoney":
+        return series
+
+    try:
+        details = fetch_limit_up_events(
+            trade_date,
+            router=source_router,
+            now=fetched_at,
+        )
+    except RuntimeError:
+        flags = tuple(dict.fromkeys(
+            (*series.metadata.quality_flags, "reason_enrichment_unavailable")
+        ))
+        return series.model_copy(update={
+            "metadata": series.metadata.model_copy(update={
+                "quality": QualityStatus.DEGRADED,
+                "quality_flags": flags,
+            }),
+        })
+
+    status_ids = {item.instrument_id for item in series.events}
+    detail_by_id = {item.instrument_id: item for item in details.events}
+    enriched_events = []
+    enriched_count = 0
+    for item in series.events:
+        detail = detail_by_id.get(item.instrument_id)
+        if detail is None:
+            enriched_events.append(item)
+            continue
+        enriched_count += 1
+        enriched_events.append(item.model_copy(update={
+            "reason": detail.reason,
+            "limit_up_type": detail.limit_up_type or item.limit_up_type,
+        }))
+
+    extra_flags: list[str] = []
+    if enriched_count < series.pool_total:
+        extra_flags.append("reason_enrichment_partial")
+    if set(detail_by_id) - status_ids:
+        extra_flags.append("reason_enrichment_membership_mismatch")
+    if enriched_count == 0:
+        extra_flags.append("reason_enrichment_unavailable")
+    flags = tuple(dict.fromkeys((*series.metadata.quality_flags, *extra_flags)))
+    provider = (
+        f"{series.metadata.provider}+{details.metadata.provider}"
+        if enriched_count
+        else series.metadata.provider
+    )
+    return series.model_copy(update={
+        "metadata": series.metadata.model_copy(update={
+            "provider": provider,
+            "quality": QualityStatus.DEGRADED if flags else QualityStatus.ACCEPTED,
+            "quality_flags": flags,
+        }),
+        "events": tuple(enriched_events),
+    })
 
 
 def fetch_daily_limit_up_membership(

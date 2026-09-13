@@ -171,6 +171,7 @@ class MarketWatchCollector:
         *,
         trade_date=None,
         recovery_run_id: int | None = None,
+        exclude_minutes: Iterable[datetime] = (),
     ) -> dict[str, Any]:
         self._store.update_runtime(CollectorRuntimeState.RUNNING, heartbeat_at=observed)
         session = a_share_session(observed)
@@ -180,6 +181,7 @@ class MarketWatchCollector:
             current_only=(
                 recovery_run_id is None and session.phase.value != "closed"
             ),
+            exclude_minutes=exclude_minutes,
         )
         if claimed is None:
             return {"action": "idle", "reason": "no_due_slot"}
@@ -388,6 +390,7 @@ class MarketWatchCollector:
 
         reconciled = 0
         attempted = 0
+        attempted_minutes: set[datetime] = set()
         try:
             if self._history_records is not None:
                 for item in self._history_records():
@@ -415,9 +418,13 @@ class MarketWatchCollector:
                     attempt_observed,
                     trade_date=recovery.trade_date,
                     recovery_run_id=recovery.run_id,
+                    exclude_minutes=attempted_minutes,
                 )
                 if result.get("action") == "idle":
                     break
+                minute_bucket = result.get("minute_bucket")
+                if minute_bucket:
+                    attempted_minutes.add(datetime.fromisoformat(str(minute_bucket)))
                 attempted += 1
         except Exception as error:
             finished = self._store.finish_daily_recovery(

@@ -7,7 +7,7 @@ into a compact summary and exact, revision-bound trajectory details.
 
 from __future__ import annotations
 
-from collections.abc import Mapping
+from collections.abc import Mapping, Sequence
 from datetime import date, datetime, timedelta
 from typing import Any, Literal
 
@@ -45,6 +45,7 @@ from .integrity import (
     stable_sha256,
 )
 from .sector_resonance import SectorResonanceBatchV1
+from .read_facade import HistoricalMarketWatchSnapshot, HistoricalSectorFlowProjection
 
 
 class ProjectionConsistencyError(ValueError):
@@ -263,6 +264,86 @@ class SectorFlowTrajectoryDetailV1(ContractModel):
                 raise ValueError("detail series point count does not match integrity")
             if stable_sha256(series.points) != integrity.points_revision:
                 raise ValueError("detail series points do not match integrity revision")
+        return self
+
+
+class SectorFlowFiveDaySliceV1(ContractModel):
+    contract: Literal["sector_flow_five_day_slice.v1"] = (
+        "sector_flow_five_day_slice.v1"
+    )
+    schema_version: Literal[1] = 1
+    trade_date: date
+    snapshot_id: str = Field(min_length=1)
+    source_snapshot_revision: str = Field(pattern=REVISION_PATTERN)
+    trajectory_revision: str = Field(pattern=REVISION_PATTERN)
+    direction: Literal["defense", "offense"]
+    status: SectorFlowTrajectoryStatus
+    as_of: datetime
+    market_phase: MarketPhase
+    point_count: int = Field(ge=0, le=64 * 256)
+    sectors: tuple[SectorFlowSeriesV1, ...] = Field(default=(), max_length=64)
+    flags: tuple[str, ...] = ()
+    reason: str | None = None
+
+    @model_validator(mode="after")
+    def validate_slice(self) -> "SectorFlowFiveDaySliceV1":
+        keys = tuple(item.sector_key for item in self.sectors)
+        if len(keys) != len(set(keys)):
+            raise ValueError("five-day slice sector keys must be unique")
+        if self.point_count != sum(len(item.points) for item in self.sectors):
+            raise ValueError("five-day slice point_count does not match sectors")
+        if self.as_of.date() != self.trade_date:
+            raise ValueError("five-day slice as_of must belong to trade_date")
+        for series in self.sectors:
+            if any(point.provider_as_of.date() != self.trade_date for point in series.points):
+                raise ValueError("five-day slice points must belong to trade_date")
+        return self
+
+
+class SectorFlowFiveDayTrajectoryV1(ContractModel):
+    contract: Literal["sector_flow_five_day_trajectory.v1"] = (
+        "sector_flow_five_day_trajectory.v1"
+    )
+    schema_version: Literal[1] = 1
+    history_revision: str = Field(pattern=REVISION_PATTERN)
+    direction: Literal["defense", "offense"]
+    requested_trade_days: Literal[5] = 5
+    available_trade_days: int = Field(ge=0, le=5)
+    status: Literal["ready", "partial", "unavailable"]
+    as_of: datetime | None = None
+    trade_dates: tuple[date, ...] = Field(default=(), max_length=5)
+    sector_keys: tuple[str, ...] = Field(min_length=1, max_length=64)
+    sector_count: int = Field(ge=1, le=64)
+    point_count: int = Field(ge=0, le=5 * 64 * 256)
+    days: tuple[SectorFlowFiveDaySliceV1, ...] = Field(default=(), max_length=5)
+    flags: tuple[str, ...] = ()
+
+    @model_validator(mode="after")
+    def validate_history(self) -> "SectorFlowFiveDayTrajectoryV1":
+        if len(self.sector_keys) != len(set(self.sector_keys)):
+            raise ValueError("five-day sector keys must be unique")
+        if self.sector_count != len(self.sector_keys):
+            raise ValueError("five-day sector_count does not match sector_keys")
+        if self.available_trade_days != len(self.days):
+            raise ValueError("available_trade_days does not match days")
+        if self.trade_dates != tuple(item.trade_date for item in self.days):
+            raise ValueError("trade_dates do not match five-day slices")
+        if self.trade_dates != tuple(sorted(self.trade_dates)):
+            raise ValueError("five-day slices must be chronological")
+        if self.point_count != sum(item.point_count for item in self.days):
+            raise ValueError("five-day point_count does not match slices")
+        if self.as_of != (self.days[-1].as_of if self.days else None):
+            raise ValueError("five-day as_of must match the newest slice")
+        expected_status = (
+            "unavailable"
+            if not self.days
+            else "ready"
+            if len(self.days) == self.requested_trade_days
+            and all(item.status == SectorFlowTrajectoryStatus.READY for item in self.days)
+            else "partial"
+        )
+        if self.status != expected_status:
+            raise ValueError("five-day status does not match retained slices")
         return self
 
 
@@ -536,6 +617,188 @@ def build_sector_flow_detail(
     )
 
 
+def build_five_day_sector_flow_trajectory(
+    snapshots: Sequence[HistoricalMarketWatchSnapshot],
+    *,
+    direction: Literal["defense", "offense"],
+    sector_keys: tuple[str, ...],
+) -> SectorFlowFiveDayTrajectoryV1:
+    """Project exact retained daily minute curves without cross-day synthesis."""
+
+    if not sector_keys or len(sector_keys) != len(set(sector_keys)):
+        raise SectorSelectionError("five-day sector keys must be non-empty and unique")
+    requested = set(sector_keys)
+    slices: list[SectorFlowFiveDaySliceV1] = []
+    revision_evidence: list[dict[str, Any]] = []
+    for retained in snapshots[-5:]:
+        if stable_sha256(retained.source_payload) != retained.source_snapshot_revision:
+            raise SourceSnapshotRevisionMismatch(
+                "historical source revision does not match its strict payload"
+            )
+        canonical = MarketWatchSnapshotV1.model_validate(retained.source_payload)
+        if (
+            canonical.snapshot_id != retained.snapshot_id
+            or canonical.market_state.trading_date != retained.trade_date
+            or canonical.as_of.replace(second=0, microsecond=0)
+            != retained.minute_bucket
+        ):
+            raise SourceSnapshotRevisionMismatch(
+                "historical snapshot identity does not match its retained pointer"
+            )
+        trajectory = (
+            canonical.sector_flow_trajectory
+            if direction == "defense"
+            else canonical.offense_sector_flow_trajectory
+        )
+        field = (
+            "sector_flow_trajectory"
+            if direction == "defense"
+            else "offense_sector_flow_trajectory"
+        )
+        raw_trajectory = retained.source_payload.get(field)
+        if trajectory is None or not isinstance(raw_trajectory, Mapping):
+            continue
+        trajectory_revision = stable_sha256(raw_trajectory)
+        selected = tuple(
+            item for item in trajectory.sectors if item.sector_key in requested
+        )
+        slices.append(
+            SectorFlowFiveDaySliceV1(
+                trade_date=retained.trade_date,
+                snapshot_id=retained.snapshot_id,
+                source_snapshot_revision=retained.source_snapshot_revision,
+                trajectory_revision=trajectory_revision,
+                direction=direction,
+                status=trajectory.status,
+                as_of=trajectory.as_of or canonical.as_of,
+                market_phase=trajectory.market_phase,
+                point_count=sum(len(item.points) for item in selected),
+                sectors=selected,
+                flags=trajectory.flags,
+                reason=trajectory.reason,
+            )
+        )
+        revision_evidence.append(
+            {
+                "trade_date": retained.trade_date.isoformat(),
+                "source_snapshot_revision": retained.source_snapshot_revision,
+                "trajectory_revision": trajectory_revision,
+            }
+        )
+    days = tuple(slices)
+    status: Literal["ready", "partial", "unavailable"] = (
+        "unavailable"
+        if not days
+        else "ready"
+        if len(days) == 5
+        and all(item.status == SectorFlowTrajectoryStatus.READY for item in days)
+        else "partial"
+    )
+    flags = []
+    if len(days) < 5:
+        flags.append("fewer_than_five_retained_trade_days")
+    if any(item.status != SectorFlowTrajectoryStatus.READY for item in days):
+        flags.append("one_or_more_daily_trajectories_partial")
+    history_revision = stable_sha256(
+        {
+            "direction": direction,
+            "sector_keys": sector_keys,
+            "days": revision_evidence,
+        }
+    )
+    return SectorFlowFiveDayTrajectoryV1(
+        history_revision=history_revision,
+        direction=direction,
+        available_trade_days=len(days),
+        status=status,
+        as_of=days[-1].as_of if days else None,
+        trade_dates=tuple(item.trade_date for item in days),
+        sector_keys=sector_keys,
+        sector_count=len(sector_keys),
+        point_count=sum(item.point_count for item in days),
+        days=days,
+        flags=tuple(flags),
+    )
+
+
+def build_five_day_sector_flow_from_projections(
+    projections: Sequence[HistoricalSectorFlowProjection],
+    *,
+    direction: Literal["defense", "offense"],
+    sector_keys: tuple[str, ...],
+) -> SectorFlowFiveDayTrajectoryV1:
+    """Build the same Web contract from Collector-materialized close series."""
+
+    if not sector_keys or len(sector_keys) != len(set(sector_keys)):
+        raise SectorSelectionError("five-day sector keys must be non-empty and unique")
+    requested = set(sector_keys)
+    slices = []
+    revision_evidence = []
+    previous_date = None
+    for retained in projections[-5:]:
+        if retained.direction != direction:
+            raise ProjectionConsistencyError("daily sector-flow direction mismatch")
+        if previous_date is not None and retained.trade_date <= previous_date:
+            raise ProjectionConsistencyError("daily sector-flow projections are not ordered")
+        previous_date = retained.trade_date
+        keys = tuple(item.sector_key for item in retained.sectors)
+        if len(keys) != len(set(keys)) or any(key not in requested for key in keys):
+            raise ProjectionConsistencyError("daily sector-flow projection selection mismatch")
+        slices.append(
+            SectorFlowFiveDaySliceV1(
+                trade_date=retained.trade_date,
+                snapshot_id=retained.snapshot_id,
+                source_snapshot_revision=retained.source_snapshot_revision,
+                trajectory_revision=retained.trajectory_revision,
+                direction=direction,
+                status=retained.status,
+                as_of=retained.as_of,
+                market_phase=retained.market_phase,
+                point_count=sum(len(item.points) for item in retained.sectors),
+                sectors=retained.sectors,
+                flags=retained.flags,
+                reason=retained.reason,
+            )
+        )
+        revision_evidence.append(
+            {
+                "trade_date": retained.trade_date.isoformat(),
+                "source_snapshot_revision": retained.source_snapshot_revision,
+                "trajectory_revision": retained.trajectory_revision,
+            }
+        )
+    days = tuple(slices)
+    status: Literal["ready", "partial", "unavailable"] = (
+        "unavailable"
+        if not days
+        else "ready"
+        if len(days) == 5
+        and all(item.status == SectorFlowTrajectoryStatus.READY for item in days)
+        else "partial"
+    )
+    flags = []
+    if len(days) < 5:
+        flags.append("fewer_than_five_retained_trade_days")
+    if any(item.status != SectorFlowTrajectoryStatus.READY for item in days):
+        flags.append("one_or_more_daily_trajectories_partial")
+    history_revision = stable_sha256(
+        {"direction": direction, "sector_keys": sector_keys, "days": revision_evidence}
+    )
+    return SectorFlowFiveDayTrajectoryV1(
+        history_revision=history_revision,
+        direction=direction,
+        available_trade_days=len(days),
+        status=status,
+        as_of=days[-1].as_of if days else None,
+        trade_dates=tuple(item.trade_date for item in days),
+        sector_keys=sector_keys,
+        sector_count=len(sector_keys),
+        point_count=sum(item.point_count for item in days),
+        days=days,
+        flags=tuple(flags),
+    )
+
+
 __all__ = [
     "AcceptedRealUnavailable",
     "MarketWatchSummaryV1",
@@ -543,6 +806,8 @@ __all__ = [
     "ProjectionConsistencyError",
     "SectorFlowSeriesIntegrityV1",
     "SectorFlowSeriesSummaryV1",
+    "SectorFlowFiveDaySliceV1",
+    "SectorFlowFiveDayTrajectoryV1",
     "SectorFlowTrajectoryDetailV1",
     "SectorFlowTrajectorySummaryV1",
     "SectorSelectionError",
@@ -550,6 +815,8 @@ __all__ = [
     "TrajectoryPayloadIntegrityV1",
     "TrajectoryRevisionMismatch",
     "build_market_watch_summary",
+    "build_five_day_sector_flow_trajectory",
+    "build_five_day_sector_flow_from_projections",
     "build_sector_flow_detail",
     "overlay_sector_resonance",
 ]

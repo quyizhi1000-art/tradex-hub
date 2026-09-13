@@ -2619,7 +2619,18 @@ def get_rotation_radar_as_of(target: datetime) -> dict[str, Any]:
         ROTATION_CONFIG_VERSION,
         supplemental_points=supplemental_points,
     )
-    if int(current.get("sample_count") or 0) == 0:
+    has_exact_flow = any(
+        isinstance(sector.get("latest"), dict)
+        for field in (
+            "sector_flow_trajectory",
+            "offense_sector_flow_trajectory",
+        )
+        for sector in (
+            (current.get(field) or {}).get("sectors") or ()
+        )
+        if isinstance(sector, dict)
+    )
+    if int(current.get("sample_count") or 0) == 0 and not has_exact_flow:
         raise RuntimeError("no persisted rotation snapshot exists at the target minute")
     result: dict[str, Any] = {
         "offense": _rotation_frontend_view(

@@ -87,12 +87,63 @@ class ManualPortfolioSampleV1(ContractModel):
         return value
 
 
+class ManualPortfolioSessionPathV1(ContractModel):
+    """Small, provider-neutral summary of the accepted minute-price path."""
+
+    basis: Literal["intraday_minute_series"] = "intraday_minute_series"
+    sample_count: int = Field(ge=1)
+    opening_reference: float = Field(gt=0)
+    close_reference: float = Field(gt=0)
+    high_reference: float = Field(gt=0)
+    low_reference: float = Field(gt=0)
+    high_at: datetime
+    low_at: datetime
+    close_location: float = Field(ge=0, le=1)
+    open_gap_pct: float | None = None
+    morning_return_pct: float | None = None
+    afternoon_return_pct: float | None = None
+    closing_30m_return_pct: float | None = None
+    max_drawdown_pct: float = Field(le=0)
+    max_rebound_pct: float = Field(ge=0)
+    quality_flags: tuple[str, ...] = ()
+
+    @field_validator("high_at", "low_at")
+    @classmethod
+    def require_path_timezone(cls, value: datetime) -> datetime:
+        if value.tzinfo is None or value.utcoffset() is None:
+            raise ValueError("portfolio session-path timestamps must include a timezone")
+        return value
+
+    @field_validator(
+        "open_gap_pct",
+        "morning_return_pct",
+        "afternoon_return_pct",
+        "closing_30m_return_pct",
+        "max_drawdown_pct",
+        "max_rebound_pct",
+    )
+    @classmethod
+    def require_finite_path_metric(cls, value: float | None) -> float | None:
+        if value is not None and not math.isfinite(value):
+            raise ValueError("portfolio session-path metrics must be finite")
+        return value
+
+    @model_validator(mode="after")
+    def validate_path_levels(self) -> "ManualPortfolioSessionPathV1":
+        if not self.low_reference <= self.opening_reference <= self.high_reference:
+            raise ValueError("portfolio opening reference must be inside the session range")
+        if not self.low_reference <= self.close_reference <= self.high_reference:
+            raise ValueError("portfolio close reference must be inside the session range")
+        return self
+
+
 class ManualPortfolioQuoteV1(ContractModel):
     instrument_id: str = Field(pattern=r"^\d{6}\.(?:SH|SZ|BJ)$")
     trading_date: date | None = None
     status: Literal["accepted", "degraded", "stale", "unavailable"]
     reason: str | None = None
     last_price: float | None = Field(default=None, gt=0)
+    previous_close: float | None = Field(default=None, gt=0)
     session_change_pct: float | None = None
     session_high: float | None = Field(default=None, gt=0)
     session_low: float | None = Field(default=None, gt=0)
@@ -100,10 +151,19 @@ class ManualPortfolioQuoteV1(ContractModel):
     provider_request_id: str | None = None
     provider_as_of: datetime | None = None
     fetched_at: datetime | None = None
+    session_change_provider: str | None = None
+    session_change_provider_request_id: str | None = None
+    session_change_provider_as_of: datetime | None = None
+    session_change_basis: Literal["canonical_realtime_quote"] | None = None
+    session_change_status: Literal[
+        "accepted", "degraded", "stale", "unavailable"
+    ] | None = None
+    session_change_quality_flags: tuple[str, ...] = ()
     quality_flags: tuple[str, ...] = ()
     samples: tuple[ManualPortfolioSampleV1, ...] = ()
+    session_path: ManualPortfolioSessionPathV1 | None = None
 
-    @field_validator("provider_as_of", "fetched_at")
+    @field_validator("provider_as_of", "fetched_at", "session_change_provider_as_of")
     @classmethod
     def require_optional_timezone(cls, value: datetime | None) -> datetime | None:
         if value is not None and (value.tzinfo is None or value.utcoffset() is None):
@@ -123,6 +183,24 @@ class ManualPortfolioQuoteV1(ContractModel):
             raise ValueError("unavailable quote requires a reason")
         if self.status != "unavailable" and self.last_price is None:
             raise ValueError("displayable quote requires a last price")
+        if self.session_change_basis is not None:
+            if self.previous_close is None or self.session_change_provider is None:
+                raise ValueError(
+                    "session change requires previous close and provider provenance"
+                )
+            if self.session_change_pct is None:
+                raise ValueError("session change basis requires a session change value")
+            expected = (self.last_price / self.previous_close - 1.0) * 100.0
+            if not math.isclose(
+                expected, self.session_change_pct, rel_tol=1e-6, abs_tol=0.03
+            ):
+                raise ValueError(
+                    "session change conflicts with current price and previous close"
+                )
+            if self.session_change_status not in {"accepted", "degraded"}:
+                raise ValueError("available session change requires usable quality status")
+        if self.session_change_pct is None and self.session_change_basis is not None:
+            raise ValueError("missing session change cannot declare a calculation basis")
         return self
 
 
@@ -233,10 +311,51 @@ class ManualPortfolioMarketContextV1(ContractModel):
     limitations: tuple[str, ...] = ()
 
 
+class ManualPortfolioRelationshipContextV1(ContractModel):
+    """Portfolio-facing projection of the local relationship catalog only."""
+
+    classification_owner: Literal["tradex.instrument_taxonomy"] = (
+        "tradex.instrument_taxonomy"
+    )
+    catalog_revision: str = Field(pattern=r"^[0-9a-f]{64}$")
+    catalog_as_of: date
+    profile_as_of: date
+    profile_name: str = Field(min_length=1)
+    verification_status: Literal[
+        "verified",
+        "corroborated",
+        "provider_only",
+        "disputed",
+        "stale",
+        "unresolved",
+    ]
+    industry_taxonomy: Literal["capco", "sw"] | None = None
+    industry_code: str | None = None
+    industry_path: tuple[str, ...] = ()
+    business_path: tuple[str, ...] = ()
+    concept_names: tuple[str, ...] = ()
+    business_summary: str | None = None
+    quality_flags: tuple[str, ...] = ()
+
+    @model_validator(mode="after")
+    def validate_relationship_projection(self) -> "ManualPortfolioRelationshipContextV1":
+        if bool(self.industry_taxonomy) != bool(self.industry_path):
+            raise ValueError("portfolio relationship industry taxonomy and path must agree")
+        if self.industry_code and not self.industry_taxonomy:
+            raise ValueError("portfolio relationship industry code requires a taxonomy")
+        return self
+
+
 class ManualPortfolioOutlookItemV1(ContractModel):
     instrument_id: str = Field(pattern=r"^\d{6}\.(?:SH|SZ|BJ)$")
+    display_name: str | None = None
     status: Literal["conditional", "abstain"]
     evidence_status: Literal["accepted", "degraded", "stale", "unavailable"]
+    headline: str = ""
+    evidence_digest: tuple[str, ...] = ()
+    tomorrow_checkpoints: tuple[str, ...] = ()
+    relationship_context: ManualPortfolioRelationshipContextV1 | None = None
+    sector_interpretation: str | None = None
     next_session: str
     next_2_to_5_sessions: str
     confirmation_conditions: tuple[str, ...]
@@ -245,6 +364,39 @@ class ManualPortfolioOutlookItemV1(ContractModel):
     price_plan: ManualPortfolioPricePlanV1 | None = None
     opening_scenarios: tuple[str, ...] = ()
     market_scenarios: tuple[str, ...] = ()
+
+
+class ManualPortfolioDailyReviewItemV1(ContractModel):
+    instrument_id: str = Field(pattern=r"^\d{6}\.(?:SH|SZ|BJ)$")
+    outcome: Literal[
+        "conditions_met", "mixed", "invalidated", "not_evaluable"
+    ]
+    observation: str
+    headline: str = ""
+    worked: str | None = None
+    missed: str | None = None
+    next_adjustment: str | None = None
+    evidence: tuple[str, ...] = ()
+    limitations: tuple[str, ...] = ()
+
+
+class ManualPortfolioDailyReviewV1(ContractModel):
+    contract: Literal[
+        "manual_portfolio_daily_review.v1"
+    ] = "manual_portfolio_daily_review.v1"
+    schema_version: Literal[1] = 1
+    reviewed_outlook_date: date
+    realized_trading_date: date
+    generated_at: datetime
+    self_summary: str
+    items: tuple[ManualPortfolioDailyReviewItemV1, ...]
+
+    @field_validator("generated_at")
+    @classmethod
+    def require_timezone(cls, value: datetime) -> datetime:
+        if value.tzinfo is None or value.utcoffset() is None:
+            raise ValueError("portfolio daily review timestamp must include a timezone")
+        return value
 
 
 class ManualPortfolioOutlookV1(ContractModel):
@@ -261,6 +413,7 @@ class ManualPortfolioOutlookV1(ContractModel):
     )
     deterministic_price_prediction: Literal[False] = False
     market_context: ManualPortfolioMarketContextV1 | None = None
+    daily_review: ManualPortfolioDailyReviewV1 | None = None
     items: tuple[ManualPortfolioOutlookItemV1, ...]
 
     @field_validator("generated_at")
@@ -269,6 +422,20 @@ class ManualPortfolioOutlookV1(ContractModel):
         if value.tzinfo is None or value.utcoffset() is None:
             raise ValueError("portfolio outlook timestamp must include a timezone")
         return value
+
+    @model_validator(mode="after")
+    def validate_source_dates(self) -> "ManualPortfolioOutlookV1":
+        if (
+            self.market_context is not None
+            and self.market_context.source_trade_date != self.source_trading_date
+        ):
+            raise ValueError("portfolio market context must match outlook source date")
+        if (
+            self.daily_review is not None
+            and self.daily_review.realized_trading_date != self.source_trading_date
+        ):
+            raise ValueError("portfolio daily review must use the outlook source session")
+        return self
 
 
 class ManualPortfolioIntradayAnalysisItemV1(ContractModel):
@@ -328,6 +495,8 @@ class ManualPortfolioOutlookReadinessV1(ContractModel):
 __all__ = [
     "MAX_ENABLED_INSTRUMENTS",
     "ManualPortfolioAlertV1",
+    "ManualPortfolioDailyReviewItemV1",
+    "ManualPortfolioDailyReviewV1",
     "ManualPortfolioEntryV1",
     "ManualPortfolioIntradayAnalysisItemV1",
     "ManualPortfolioIntradayAnalysisV1",
@@ -338,6 +507,8 @@ __all__ = [
     "ManualPortfolioOutlookV1",
     "ManualPortfolioPricePlanV1",
     "ManualPortfolioQuoteV1",
+    "ManualPortfolioRelationshipContextV1",
     "ManualPortfolioSampleV1",
+    "ManualPortfolioSessionPathV1",
     "ManualPortfolioV1",
 ]

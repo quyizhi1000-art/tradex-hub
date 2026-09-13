@@ -8,6 +8,7 @@ import pytest
 
 from tradex.market_watch import reconstruction
 from tradex.market_watch.reconstruction import (
+    HistoricalTrajectoryNotPublished,
     HistoricalTrajectoryUnavailable,
     SameDayPostCloseReconstructor,
     _assert_rotation_trajectory_current,
@@ -63,6 +64,66 @@ def test_rotation_preflight_checks_only_the_prepared_backfill_scope() -> None:
             target,
             required_sector_keys={"required", "missing_required"},
         )
+
+
+def test_rotation_preflight_does_not_require_an_unrelated_gap_minute() -> None:
+    unavailable = datetime(2026, 9, 2, 9, 30, tzinfo=SHANGHAI)
+    target = datetime(2026, 9, 2, 9, 35, tzinfo=SHANGHAI)
+    prepared_minutes = []
+
+    def prepare_curves(*, required_minutes, **_kwargs):
+        prepared_minutes.append(tuple(required_minutes))
+        requested = set(required_minutes)
+        return {
+            "complete": requested == {target},
+            "known_targets": 1,
+            "ready_target_keys": ("required",),
+            "missing_targets": (() if requested == {target} else ("required",)),
+        }
+
+    owner = SameDayPostCloseReconstructor(
+        history=_History(),
+        target_minutes=lambda _date: (unavailable, target),
+        rotation_loader=lambda _target: (_ for _ in ()).throw(
+            RuntimeError("target-only rotation load reached")
+        ),
+        rotation_curve_preparer=prepare_curves,
+        clock=lambda: target.replace(hour=16),
+    )
+
+    with pytest.raises(RuntimeError, match="target-only rotation load reached"):
+        owner.reconstruct(target, lambda *_args: None)
+
+    assert prepared_minutes == [(target,)]
+
+
+def test_rotation_preflight_marks_an_unpublished_boundary_minute_terminal() -> None:
+    target = datetime(2026, 9, 2, 9, 30, tzinfo=SHANGHAI)
+    rotation_loaded = False
+
+    def load_rotation(_target):
+        nonlocal rotation_loaded
+        rotation_loaded = True
+        return {}
+
+    owner = SameDayPostCloseReconstructor(
+        history=_History(),
+        target_minutes=lambda _date: (target,),
+        rotation_loader=load_rotation,
+        rotation_curve_preparer=lambda **_kwargs: {
+            "complete": False,
+            "known_targets": 1,
+            "ready_target_keys": (),
+            "missing_targets": ("required",),
+            "unavailable_minutes": (target,),
+        },
+        clock=lambda: target.replace(hour=16),
+    )
+
+    with pytest.raises(HistoricalTrajectoryNotPublished, match="09:30"):
+        owner.reconstruct(target, lambda *_args: None)
+
+    assert rotation_loaded is False
 
 
 def test_reconstructor_reuses_persisted_same_day_source_matrix(
@@ -122,6 +183,91 @@ def test_reconstructor_reuses_persisted_same_day_source_matrix(
     assert owner._stock_prices[target.time()] == {"000001.SZ": 10.2}
     assert owner._index_points["000001.SH"][target.time()].close == 100.0
     assert progress[-1][2] == "source_cache"
+
+
+def test_reconstructor_bulk_load_skips_minutes_not_published_by_curve_contracts(
+    monkeypatch,
+) -> None:
+    target = datetime(2026, 9, 4, 11, 21, tzinfo=SHANGHAI)
+    lunch_boundary = target.replace(hour=13, minute=0)
+    later_gap = target.replace(hour=13, minute=1)
+    auction = target.replace(hour=9, minute=25)
+    included_times = {target.time(), later_gap.time()}
+    universe = SimpleNamespace(
+        metadata=SimpleNamespace(provider_as_of=target.replace(hour=15, minute=0)),
+        quotes=(SimpleNamespace(instrument_id="000001.SZ", previous_close=10.0),),
+        excluded_row_count=0,
+    )
+    stock_series = SimpleNamespace(
+        trading_date=target.date(),
+        points=tuple(
+            SimpleNamespace(minute=minute, price=10.2)
+            for minute in included_times
+        ),
+    )
+
+    monkeypatch.setattr(
+        reconstruction,
+        "fetch_a_share_universe_snapshot",
+        lambda **_kwargs: universe,
+    )
+    monkeypatch.setattr(
+        reconstruction,
+        "fetch_intraday_minute_series_batch_partial",
+        lambda _batch, **_kwargs: {"000001.SZ": stock_series},
+    )
+    monkeypatch.setattr(
+        reconstruction,
+        "fetch_market_overview",
+        lambda **_kwargs: SimpleNamespace(
+            indices=tuple(
+                SimpleNamespace(
+                    instrument_id=instrument_id,
+                    name=instrument_id,
+                    previous_close=99.0,
+                    available=True,
+                )
+                for instrument_id in (
+                    "000001.SH",
+                    "000300.SH",
+                    "000852.SH",
+                    "399006.SZ",
+                )
+            )
+        ),
+    )
+    monkeypatch.setattr(
+        reconstruction,
+        "fetch_index_intraday_series",
+        lambda _instrument_id, **_kwargs: SimpleNamespace(
+            points=tuple(
+                SimpleNamespace(
+                    trading_date=target.date(),
+                    minute=minute,
+                    close=100.0,
+                    amount_cny=10.0,
+                )
+                for minute in included_times
+            )
+        ),
+    )
+    owner = SameDayPostCloseReconstructor(
+        history=_History(),
+        target_minutes=lambda _date: (
+            auction,
+            target,
+            lunch_boundary,
+            later_gap,
+        ),
+        rotation_loader=lambda _target: {},
+        clock=lambda: target.replace(hour=16),
+        batch_concurrency=1,
+    )
+
+    owner._ensure_loaded(target, lambda *_args: None)
+
+    assert set(owner._stock_prices) == included_times
+    assert set(owner._index_points["000001.SH"]) == included_times
 
 
 def test_reconstructor_retries_only_stock_batches_still_missing(
@@ -239,8 +385,12 @@ class _History:
         ]
 
 
-def test_same_day_post_close_reconstruction_uses_exact_target_facts(monkeypatch):
-    target = datetime(2026, 8, 27, 14, 53, tzinfo=SHANGHAI)
+@pytest.mark.parametrize("target_time", [time(9, 35), time(14, 53)])
+def test_same_day_post_close_reconstruction_uses_exact_target_facts(
+    monkeypatch,
+    target_time,
+):
+    target = datetime.combine(date(2026, 8, 27), target_time, SHANGHAI)
     observed = datetime(2026, 8, 27, 16, 0, tzinfo=SHANGHAI)
     universe = SimpleNamespace(
         metadata=SimpleNamespace(
@@ -346,6 +496,8 @@ def test_same_day_post_close_reconstruction_uses_exact_target_facts(monkeypatch)
         sleep=lambda _seconds: None,
         batch_pause_seconds=0,
     )
+    if target_time == time(9, 35):
+        owner._previous_turnover = lambda _target: (date(2026, 8, 26), 250.0)
 
     snapshot = owner.reconstruct(
         target,

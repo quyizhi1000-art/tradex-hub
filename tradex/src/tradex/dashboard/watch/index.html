@@ -243,10 +243,10 @@
               </div>
 
               <form class="manual-portfolio-form" id="manual-portfolio-form">
-                <label>证券代码<input id="manual-portfolio-code" name="instrument_id" inputmode="numeric" maxlength="12" placeholder="例如 000001" required></label>
+                <label>股票代码或名称<input id="manual-portfolio-code" name="instrument_id" maxlength="80" placeholder="例如 000001 或 平安银行" required></label>
                 <label>名称（可选）<input id="manual-portfolio-name" name="display_name" maxlength="80" placeholder="目录有名称时可留空"></label>
                 <label class="manual-portfolio-form__note">备注（可选）<input id="manual-portfolio-note" name="note" maxlength="500" placeholder="只写观察备注，不写账户数据"></label>
-                <button class="button button-secondary" id="manual-portfolio-add-button" type="submit">新增代码</button>
+                <button class="button button-secondary" id="manual-portfolio-add-button" type="submit">新增股票</button>
               </form>
 
               <div class="manual-portfolio-table-scroll" tabindex="0" aria-label="手动持仓观察列表">
@@ -256,21 +256,51 @@
                 </table>
               </div>
 
-              <div class="manual-portfolio-lower-grid">
-                <article class="panel">
-                  <div class="panel-heading"><h3>条件式前瞻</h3><span class="panel-state" id="manual-portfolio-outlook-status">尚未生成</span></div>
-                  <div class="manual-portfolio-outlook" id="manual-portfolio-outlook"><p class="empty-state">可先排队。前瞻会在 Collector 取得当前列表版本的真实行情后由 Analysis Worker 自动生成；页面会显示最早采集时间。只写确认条件和失效条件，不给确定性价格预测。</p></div>
-                </article>
-                <article class="panel">
-                  <div class="panel-heading"><h3>盘中分析</h3><span class="panel-state" id="manual-portfolio-intraday-analysis-status">等待交易时段</span></div>
-                  <div class="manual-portfolio-outlook" id="manual-portfolio-intraday-analysis"><p class="empty-state">开盘后基于当前交易日的新鲜分钟行情独立更新；不会覆盖昨晚生成的次日前瞻。</p></div>
-                </article>
-                <article class="panel">
-                  <div class="panel-heading"><h3>盘中观察提醒</h3><span class="panel-state">observation-only</span></div>
+              <div class="manual-portfolio-live-tabs">
+                <div class="manual-portfolio-tablist" role="tablist" aria-label="盘中观察页签">
+                  <button class="button button-secondary is-active" id="manual-portfolio-live-tab-analysis" type="button" role="tab" aria-selected="true" aria-controls="manual-portfolio-live-panel-analysis" data-manual-portfolio-live-tab="analysis">盘中分析</button>
+                  <button class="button button-secondary" id="manual-portfolio-live-tab-alerts" type="button" role="tab" aria-selected="false" aria-controls="manual-portfolio-live-panel-alerts" data-manual-portfolio-live-tab="alerts">盘中提醒</button>
+                  <span class="panel-state" id="manual-portfolio-intraday-analysis-status">等待交易时段</span>
+                  <span class="panel-state" id="manual-portfolio-outlook-status">次日前瞻尚未生成</span>
+                </div>
+                <section class="panel manual-portfolio-live-panel" id="manual-portfolio-live-panel-analysis" role="tabpanel" aria-labelledby="manual-portfolio-live-tab-analysis">
+                  <div class="manual-portfolio-intraday-table" id="manual-portfolio-intraday-analysis"><p class="empty-state">开盘后按时间续写分析；点击每行可展开详情，不会覆盖昨晚生成的次日前瞻，也不会覆盖之前的盘中记录。</p></div>
+                </section>
+                <section class="panel manual-portfolio-live-panel" id="manual-portfolio-live-panel-alerts" role="tabpanel" aria-labelledby="manual-portfolio-live-tab-alerts" hidden>
                   <p class="manual-portfolio-notification-note">仅在本页面打开、浏览器已授权通知时尝试送达；页面关闭不保证送达。stale / degraded / unavailable 会抑制方向性通知。</p>
                   <div class="manual-portfolio-alerts" id="manual-portfolio-alerts"><p class="empty-state">暂无新鲜样本触发的观察提醒。</p></div>
-                </article>
+                </section>
               </div>
+            </div>
+          </div>
+        </dialog>
+
+        <dialog class="manual-portfolio-dialog manual-portfolio-analysis-dialog" id="manual-portfolio-analysis-dialog" aria-labelledby="manual-portfolio-analysis-dialog-title">
+          <div class="manual-portfolio-dialog__shell">
+            <header class="manual-portfolio-dialog__header">
+              <div>
+                <span class="section-kicker">STOCK ANALYSIS ARCHIVE</span>
+                <h2 id="manual-portfolio-analysis-dialog-title">个股分析 <small id="manual-portfolio-analysis-identity">--</small></h2>
+                <p>三级页面按交易日保存次日分析与前一日分析回顾；只复核可核验条件，不推断账户事实。</p>
+              </div>
+              <button class="manual-portfolio-dialog__close" id="manual-portfolio-analysis-close-button" type="button" aria-label="关闭个股分析">×</button>
+            </header>
+            <div class="manual-portfolio-dialog__content">
+              <div class="manual-portfolio-tablist" role="tablist" aria-label="个股分析类型">
+                <button class="button button-secondary is-active" type="button" role="tab" aria-selected="true" data-manual-portfolio-analysis-tab="outlook">次日分析</button>
+                <button class="button button-secondary" type="button" role="tab" aria-selected="false" data-manual-portfolio-analysis-tab="review">每日回顾</button>
+              </div>
+              <nav class="manual-portfolio-date-nav" aria-label="分析日期分页">
+                <button class="button button-secondary" id="manual-portfolio-analysis-past" type="button">← 往前日期</button>
+                <label class="manual-portfolio-date-jump" for="manual-portfolio-analysis-date-select">
+                  <span>跳选日期</span>
+                  <select id="manual-portfolio-analysis-date-select"><option value="">暂无档案</option></select>
+                </label>
+                <strong id="manual-portfolio-analysis-date">暂无档案</strong>
+                <button class="button button-secondary" id="manual-portfolio-analysis-future" type="button">往后日期 →</button>
+              </nav>
+              <section class="manual-portfolio-analysis-page" id="manual-portfolio-analysis-outlook" role="tabpanel"><p class="empty-state">正在读取次日分析档案…</p></section>
+              <section class="manual-portfolio-analysis-page" id="manual-portfolio-analysis-review" role="tabpanel" hidden><p class="empty-state">正在读取每日回顾档案…</p></section>
             </div>
           </div>
         </dialog>
@@ -281,7 +311,7 @@
               <div>
                 <span class="section-kicker">DEFENSIVE FUND-FLOW TRAJECTORY</span>
                 <h2 id="sector-flow-defense-heading">防御方向资金轨迹 <small>估计 / 辅助</small></h2>
-                <p>累计净额看防御资金驻留，近 5 分钟变化看此刻边际；强度与持续性分开确认。</p>
+                <p>当日累计看当前驻留，近五日图把最近五个交易日的真实分钟净额逐日累加并连续接续；右侧排行仍用近 5 分钟边际识别突变。</p>
               </div>
               <div class="sector-flow-controls">
                 <details class="sector-flow-picker" id="sector-flow-defense-picker">
@@ -329,7 +359,7 @@
                 <div class="sector-flow-chart-body">
                   <div class="flow-mode-switch" role="group" aria-label="防御方向资金轨迹口径">
                     <button class="button button-secondary flow-mode-button is-active" type="button" data-flow-mode="cumulative" aria-pressed="true">当日累计</button>
-                    <button class="button button-secondary flow-mode-button" type="button" data-flow-mode="delta_5m" aria-pressed="false">近 5 分钟</button>
+                    <button class="button button-secondary flow-mode-button" type="button" data-flow-mode="five_day" aria-pressed="false">近五日</button>
                   </div>
                   <div class="sector-flow-chart-shell" id="sector-flow-defense-chart-shell">
                     <svg id="sector-flow-defense-chart" viewBox="0 0 980 360" preserveAspectRatio="xMidYMid meet" role="img" aria-label="防御方向板块资金轨迹"></svg>
@@ -410,7 +440,7 @@
                 <div class="sector-flow-chart-body">
                   <div class="flow-mode-switch" role="group" aria-label="进攻方向资金轨迹口径">
                     <button class="button button-secondary flow-mode-button is-active" type="button" data-flow-mode="cumulative" aria-pressed="true">当日累计</button>
-                    <button class="button button-secondary flow-mode-button" type="button" data-flow-mode="delta_5m" aria-pressed="false">近 5 分钟</button>
+                    <button class="button button-secondary flow-mode-button" type="button" data-flow-mode="five_day" aria-pressed="false">近五日</button>
                   </div>
                   <div class="sector-flow-chart-shell" id="sector-flow-offense-chart-shell">
                     <svg id="sector-flow-offense-chart" viewBox="0 0 980 360" preserveAspectRatio="xMidYMid meet" role="img" aria-label="进攻方向板块资金轨迹"></svg>

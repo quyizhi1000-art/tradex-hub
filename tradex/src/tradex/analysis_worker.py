@@ -16,7 +16,7 @@ import signal
 import sys
 import threading
 from contextlib import contextmanager
-from datetime import datetime
+from datetime import date, datetime
 from pathlib import Path
 from typing import Any, BinaryIO, Iterator, Mapping
 from zoneinfo import ZoneInfo
@@ -52,7 +52,10 @@ from tradex.stock_selection.store import DailyStockSelectionStore
 from tradex.manual_portfolio.intraday_analysis import (
     build_manual_portfolio_intraday_analysis,
 )
+from tradex.manual_portfolio.contracts import ManualPortfolioOutlookV1
+from tradex.manual_portfolio.daily_review import build_manual_portfolio_daily_review
 from tradex.manual_portfolio.outlook import build_manual_portfolio_outlook
+from tradex.manual_portfolio.readiness import portfolio_snapshot_has_final_close
 from tradex.manual_portfolio.store import ManualPortfolioReader
 
 
@@ -86,6 +89,74 @@ def _requested_at(job: Mapping[str, Any]) -> datetime:
     if parsed.tzinfo is None or parsed.utcoffset() is None:
         raise ValueError("analysis job requested_at must include a timezone")
     return parsed.astimezone(SHANGHAI)
+
+
+def _portfolio_relationship_contexts(
+    instrument_ids: tuple[str, ...],
+) -> dict[str, dict[str, Any]]:
+    """Project only the local relationship catalog; never use provider sector labels."""
+
+    from tradex.instrument_taxonomy.store import InstrumentTaxonomyReader
+
+    contexts: dict[str, dict[str, Any]] = {}
+    with InstrumentTaxonomyReader() as reader:
+        status = reader.status()
+        if status is None:
+            return contexts
+        for instrument_id in instrument_ids:
+            profile = reader.get(instrument_id)
+            if profile is None:
+                continue
+            industry = profile.regulatory_industry or profile.statistical_industry
+            industry_path = ()
+            industry_code = None
+            industry_taxonomy = None
+            if industry is not None and industry.taxonomy in {"capco", "sw"}:
+                industry_taxonomy = industry.taxonomy
+                industry_path = tuple(
+                    dict.fromkeys(
+                        value
+                        for value in (
+                            industry.level1_name,
+                            industry.level2_name,
+                            industry.level3_name,
+                        )
+                        if value
+                    )
+                )
+                industry_code = (
+                    industry.level3_code
+                    or industry.level2_code
+                    or industry.level1_code
+                )
+            business_path = tuple(
+                dict.fromkeys(
+                    value
+                    for value in (
+                        profile.business_domain_name,
+                        profile.directory_category_name,
+                        profile.primary_business_name,
+                    )
+                    if value
+                )
+            )
+            contexts[instrument_id] = {
+                "catalog_revision": status.catalog_revision,
+                "catalog_as_of": status.as_of,
+                "profile_as_of": profile.as_of,
+                "profile_name": profile.name,
+                "verification_status": profile.verification_status,
+                "industry_taxonomy": industry_taxonomy,
+                "industry_code": industry_code,
+                "industry_path": industry_path,
+                "business_path": business_path,
+                "concept_names": tuple(
+                    dict.fromkeys(item.name for item in profile.concept_memberships)
+                ),
+                "business_summary": profile.business_summary,
+                "quality_flags": tuple(profile.flags),
+            }
+    return contexts
 
 
 def _evaluation_alerts(events: list[dict[str, Any]]) -> list[dict[str, Any]]:
@@ -257,13 +328,25 @@ class AnalysisRuntime:
                     now=current,
                 )
             elif capability == DAILY_STOCK_SELECTION:
-                result = self.selection_service.generate(now=current, automatic=False)
+                result = self.selection_service.generate(
+                    now=_now(),
+                    trade_date=date.fromisoformat(str(job["trade_date"])),
+                    automatic=False,
+                )
             elif capability == MANUAL_PORTFOLIO_OUTLOOK:
                 snapshot = self.portfolio_reader.latest_snapshot()
                 if snapshot is None:
                     raise RuntimeError("no collector-owned manual portfolio snapshot")
-                expected_scope = f"portfolio:{snapshot.portfolio_revision}"
-                if str(job["scope_key"]) != expected_scope:
+                if not portfolio_snapshot_has_final_close(snapshot):
+                    raise RuntimeError(
+                        "manual portfolio outlook requires a verified final-close snapshot"
+                    )
+                expected_scopes = {f"portfolio:{snapshot.portfolio_revision}"}
+                if snapshot.trading_date is not None:
+                    expected_scopes.add(
+                        f"date:{snapshot.trading_date}:portfolio:{snapshot.portfolio_revision}"
+                    )
+                if str(job["scope_key"]) not in expected_scopes:
                     raise RuntimeError(
                         "manual portfolio revision changed before analysis"
                     )
@@ -276,7 +359,12 @@ class AnalysisRuntime:
                     review_archive = review_artifact.get("payload") or {}
                     review = review_archive.get("review") or {}
                     next_day = review.get("next_day_outlook") or {}
-                    if isinstance(review, Mapping) and isinstance(next_day, Mapping):
+                    if (
+                        isinstance(review, Mapping)
+                        and isinstance(next_day, Mapping)
+                        and snapshot.trading_date is not None
+                        and review.get("trade_date") == snapshot.trading_date.isoformat()
+                    ):
                         market_context = {
                             "source_trade_date": review.get("trade_date"),
                             "bias": next_day.get("bias", "uncertain"),
@@ -308,10 +396,66 @@ class AnalysisRuntime:
                             ),
                             "limitations": review.get("limitations", ()),
                         }
+                daily_review = None
+                if snapshot.trading_date is not None:
+                    archived_candidates = [
+                        *self.jobs.list_artifacts(
+                            MANUAL_PORTFOLIO_OUTLOOK,
+                            scope_prefix="date:",
+                            limit=366,
+                        ),
+                        *self.jobs.list_artifacts(
+                            MANUAL_PORTFOLIO_OUTLOOK,
+                            scope_prefix="portfolio:",
+                            limit=366,
+                        ),
+                    ]
+                    previous_candidates = []
+                    seen_payloads = set()
+                    for archived in archived_candidates:
+                        payload_digest = archived.get("payload_digest")
+                        if payload_digest in seen_payloads:
+                            continue
+                        seen_payloads.add(payload_digest)
+                        try:
+                            previous_outlook = ManualPortfolioOutlookV1.model_validate(
+                                archived.get("payload") or {}
+                            )
+                        except (TypeError, ValueError):
+                            continue
+                        if (
+                            previous_outlook.source_trading_date is not None
+                            and previous_outlook.source_trading_date < snapshot.trading_date
+                        ):
+                            previous_candidates.append(previous_outlook)
+                    if previous_candidates:
+                        previous_outlook = max(
+                            previous_candidates,
+                            key=lambda item: (item.source_trading_date, item.generated_at),
+                        )
+                        daily_review = build_manual_portfolio_daily_review(
+                            previous_outlook,
+                            snapshot,
+                            generated_at=current,
+                        )
+                relationship_loader = getattr(
+                    self,
+                    "portfolio_relationship_loader",
+                    _portfolio_relationship_contexts,
+                )
+                relationship_contexts = relationship_loader(
+                    tuple(item.instrument_id for item in snapshot.items)
+                )
                 outlook = build_manual_portfolio_outlook(
                     snapshot,
                     generated_at=current,
                     market_context=market_context,
+                    daily_review=(
+                        daily_review.model_dump(mode="json")
+                        if daily_review is not None
+                        else None
+                    ),
+                    relationship_contexts=relationship_contexts,
                 )
                 result = {
                     "action": "materialized",
@@ -356,6 +500,14 @@ class AnalysisRuntime:
                     payload=outlook.model_dump(mode="json"),
                     generated_at=current,
                 )
+                if outlook.source_trading_date is not None:
+                    self.jobs.put_artifact(
+                        MANUAL_PORTFOLIO_OUTLOOK,
+                        scope_key=f"date:{outlook.source_trading_date}",
+                        source_revision=outlook.source_snapshot_revision,
+                        payload=outlook.model_dump(mode="json"),
+                        generated_at=current,
+                    )
             else:
                 self.jobs.put_artifact(
                     MANUAL_PORTFOLIO_INTRADAY_ANALYSIS,

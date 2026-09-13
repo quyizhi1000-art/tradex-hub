@@ -5,7 +5,7 @@ from __future__ import annotations
 import os
 import sqlite3
 import threading
-from collections.abc import Mapping
+from collections.abc import Iterable, Mapping
 from datetime import date, datetime, time, timedelta
 from pathlib import Path
 from typing import Any
@@ -953,6 +953,7 @@ class MarketWatchCollectionStore:
         *,
         trade_date: date | None = None,
         current_only: bool = False,
+        exclude_minutes: Iterable[datetime] = (),
     ) -> tuple[int, CollectionSlotV1] | None:
         self._ensure_writable()
         current = _minute(now, name="now")
@@ -963,6 +964,10 @@ class MarketWatchCollectionStore:
         self.ensure_expected_slots(target_date)
         now_iso = _aware_shanghai(now, name="now").isoformat(timespec="seconds")
         current_iso = current.isoformat(timespec="seconds")
+        excluded = {
+            _minute(item, name="exclude_minute").isoformat(timespec="seconds")
+            for item in exclude_minutes
+        }
         with self._lock:
             self._ensure_open()
             with self._connection:
@@ -995,7 +1000,7 @@ class MarketWatchCollectionStore:
                         # repair while the current minute is in flight or
                         # waiting for its owned retry window.
                         return None
-                row = self._connection.execute(
+                rows = self._connection.execute(
                     """
                     SELECT * FROM market_watch_collection_slots
                     WHERE config_version = ?
@@ -1007,7 +1012,6 @@ class MarketWatchCollectionStore:
                     ORDER BY
                         CASE WHEN minute_bucket = ? THEN 0 ELSE 1 END,
                         trade_date ASC, minute_bucket ASC
-                    LIMIT 1
                     """,
                     (
                         self.config_version,
@@ -1021,7 +1025,11 @@ class MarketWatchCollectionStore:
                         current_iso,
                         current_iso,
                     ),
-                ).fetchone()
+                ).fetchall()
+                row = next(
+                    (item for item in rows if item["minute_bucket"] not in excluded),
+                    None,
+                )
                 if row is None:
                     return None
                 revision = self._bump_revision_locked()
@@ -1856,10 +1864,10 @@ class MarketWatchCollectionStore:
             DailyRecoveryStatus.PENDING,
             DailyRecoveryStatus.RUNNING,
         }:
-            if not remaining:
-                status = DailyRecoveryStatus.COMPLETE
-            elif stored_status is DailyRecoveryStatus.FAILED:
+            if stored_status is DailyRecoveryStatus.FAILED:
                 status = DailyRecoveryStatus.FAILED
+            elif not remaining:
+                status = DailyRecoveryStatus.COMPLETE
             elif completeness.unresolved:
                 status = DailyRecoveryStatus.NEEDS_ATTENTION
             else:

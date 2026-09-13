@@ -186,12 +186,14 @@ def fetch_board_leader_snapshot(
             raise RuntimeError(
                 f"{route_provider} explicitly marked its board leaders invalid"
             )
+        mapped = map_board_leader_frame(
+            frame, board_code=code, route_provider=route_provider,
+        )
+        # Board constituents may contain B shares, outside this A-share result.
+        eligible = [item for item in mapped
+                    if not item.instrument_id.startswith(("900", "200"))]
         leaders = sorted(
-            map_board_leader_frame(
-                frame,
-                board_code=code,
-                route_provider=route_provider,
-            ),
+            eligible,
             key=lambda item: item.speed_pct,
             reverse=speed_order == "desc",
         )[:limit]
@@ -200,6 +202,7 @@ def fetch_board_leader_snapshot(
             leaders=leaders,
             provider_as_of=provider_as_of,
             source_row_count=len(frame),
+            excluded_non_a_count=len(mapped) - len(eligible),
         )
         return BoardLeaderSnapshotV2(
             metadata=ContractMetadata(

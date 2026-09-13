@@ -249,7 +249,7 @@ def test_fetch_board_leaders_uses_a_bounded_first_page_and_preserves_missing(mon
     assert calls[0][1]["fid"] == "f22"
     assert calls[0][1]["fs"] == "b:BK1036 f:!50"
     assert calls[0][1]["fields"] == "f12,f14,f2,f3,f22,f6,f8,f62,f184,f124"
-    assert calls[0][3] == 0.0
+    assert calls[0][3] == 2.0
     assert records[0] == {
         "code": "600001",
         "name": "领涨一号",
@@ -274,7 +274,7 @@ def test_fetch_board_leaders_can_request_falling_speed_order(monkeypatch):
     calls = []
 
     def fake_em_get(url, params, timeout, max_queue_wait=None):
-        assert max_queue_wait == 0.0
+        assert max_queue_wait == 2.0
         calls.append((url, params, timeout))
         return _FakeResponse(payload={
             "data": {
@@ -309,7 +309,7 @@ def test_fetch_board_leaders_falls_back_to_delay_and_validates_bounds(monkeypatc
     calls = []
 
     def fake_em_get(url, params, timeout, max_queue_wait=None):
-        assert max_queue_wait == 0.0
+        assert max_queue_wait == 2.0
         calls.append(url)
         if "push2delay" not in url:
             raise RuntimeError("primary unavailable")
@@ -333,7 +333,7 @@ def test_fetch_board_leaders_reuses_the_known_board_quote_source(monkeypatch):
     calls = []
 
     def fake_em_get(url, params, timeout, max_queue_wait=None):
-        assert max_queue_wait == 0.0
+        assert max_queue_wait == 2.0
         calls.append(url)
         return _FakeResponse(payload={
             "data": {"diff": [{"f12": "600001", "f14": "样本", "f3": 1.0}]},

@@ -847,6 +847,36 @@ def test_sector_flow_backfill_merges_with_push2delay_live_points():
     assert "intraday_history_backfilled" in electric_power["flags"]
 
 
+def test_sector_flow_replays_exact_backfill_without_a_base_rotation_snapshot():
+    target = START + timedelta(minutes=5)
+    supplements = {
+        "electric_power": [
+            {
+                "provider_as_of": START + timedelta(minutes=offset),
+                "cumulative_cny": (1.0 + offset) * 100_000_000,
+                "source_family": "eastmoney",
+                "taxonomy": "industry",
+            }
+            for offset in range(6)
+        ]
+    }
+
+    trajectory = analyze_sector_flow_snapshots(
+        [],
+        supplements,
+        as_of=target,
+    )
+    electric_power = next(
+        item for item in trajectory["sectors"] if item["sector_key"] == "electric_power"
+    )
+
+    assert trajectory["market_phase"] == "trading"
+    assert electric_power["status"] == "partial"
+    assert electric_power["latest"]["provider_as_of"] == target
+    assert electric_power["latest"]["delta_5m_cny"] == 500_000_000
+    assert "current_sector_snapshot_missing" in electric_power["flags"]
+
+
 def test_sector_flow_backfill_prefers_live_sample_at_the_same_minute():
     first_live_minute = START + timedelta(minutes=10, seconds=18)
     latest_live_minute = START + timedelta(minutes=10, seconds=57)

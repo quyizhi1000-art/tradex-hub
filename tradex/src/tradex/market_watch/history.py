@@ -33,6 +33,7 @@ from .contracts import (
     MarketRegime,
     MarketStateV1,
     MarketWatchSnapshotV1,
+    SectorFlowSeriesV1,
 )
 from .policy import DEFAULT_MARKET_WATCH_POLICY
 
@@ -41,6 +42,8 @@ HISTORY_CONTRACT = "market_watch_history.v1"
 HISTORY_SCHEMA_VERSION = 1
 REPLAY_SAMPLE_CONTRACT = "market_watch_replay_sample.v1"
 REPLAY_SAMPLE_SCHEMA_VERSION = 1
+SECTOR_FLOW_DAILY_PROJECTION_CONTRACT = "sector_flow_daily_projection.v1"
+SECTOR_FLOW_DAILY_PROJECTION_SCHEMA_VERSION = 1
 DEFAULT_CONFIG_VERSION = DEFAULT_MARKET_WATCH_POLICY.config_version
 DEFAULT_RETENTION_TRADE_DAYS = (
     DEFAULT_MARKET_WATCH_POLICY.history_retention_trade_days
@@ -214,6 +217,7 @@ class MarketWatchHistoryStore:
             self._connection.execute("PRAGMA synchronous = NORMAL")
             self._initialize()
             self._schema_available = True
+            self.materialize_recent_closed_sector_flow_projections(limit=5)
         except Exception:
             self._connection.close()
             self._closed = True
@@ -346,6 +350,44 @@ class MarketWatchHistoryStore:
                 CREATE INDEX IF NOT EXISTS idx_market_watch_alert_history
                     ON market_watch_alert_events (
                         config_version, trade_date, observed_at, id
+                    );
+
+                CREATE TABLE IF NOT EXISTS market_watch_daily_sector_flow (
+                    trade_date TEXT NOT NULL,
+                    config_version TEXT NOT NULL,
+                    direction TEXT NOT NULL,
+                    contract TEXT NOT NULL,
+                    schema_version INTEGER NOT NULL,
+                    minute_bucket TEXT NOT NULL,
+                    snapshot_id TEXT NOT NULL,
+                    source_snapshot_revision TEXT NOT NULL,
+                    trajectory_revision TEXT NOT NULL,
+                    status TEXT NOT NULL,
+                    as_of TEXT NOT NULL,
+                    market_phase TEXT NOT NULL,
+                    flags_json TEXT NOT NULL,
+                    reason TEXT,
+                    series_manifest_digest TEXT NOT NULL,
+                    projection_revision TEXT NOT NULL,
+                    recorded_at TEXT NOT NULL,
+                    updated_at TEXT NOT NULL,
+                    PRIMARY KEY (trade_date, config_version, direction)
+                );
+
+                CREATE TABLE IF NOT EXISTS market_watch_daily_sector_flow_series (
+                    trade_date TEXT NOT NULL,
+                    config_version TEXT NOT NULL,
+                    direction TEXT NOT NULL,
+                    sector_key TEXT NOT NULL,
+                    series_digest TEXT NOT NULL,
+                    payload_bytes INTEGER NOT NULL,
+                    payload_blob BLOB NOT NULL,
+                    PRIMARY KEY (trade_date, config_version, direction, sector_key)
+                );
+
+                CREATE INDEX IF NOT EXISTS idx_market_watch_daily_sector_flow_series
+                    ON market_watch_daily_sector_flow_series (
+                        config_version, trade_date, direction, sector_key
                     );
                 """
             )
@@ -529,6 +571,11 @@ class MarketWatchHistoryStore:
                     minute_bucket=minute_bucket,
                     recorded_at=recorded_at,
                 )
+                projections_updated = self._record_daily_sector_flow_locked(
+                    canonical,
+                    source_snapshot_revision=payload_digest,
+                    recorded_at=recorded_at,
+                )
                 retention = self._apply_retention_locked(
                     self.retention_trade_days
                 )
@@ -547,8 +594,216 @@ class MarketWatchHistoryStore:
             "payload_digest": payload_digest,
             "payload_bytes": len(payload_blob),
             "alerts_added": alerts_added,
+            "sector_flow_projections_updated": projections_updated,
             "retention": retention,
         }
+
+    def _record_daily_sector_flow_locked(
+        self,
+        snapshot: MarketWatchSnapshotV1,
+        *,
+        source_snapshot_revision: str,
+        recorded_at: str,
+    ) -> int:
+        """Materialize one latest close projection per date and direction."""
+
+        if snapshot.market_state.phase != MarketPhase.CLOSED:
+            return 0
+        trade_date = snapshot.market_state.trading_date.isoformat()
+        minute_bucket = _minute_iso(snapshot.as_of)
+        updated = 0
+        for direction, trajectory in (
+            ("defense", snapshot.sector_flow_trajectory),
+            ("offense", snapshot.offense_sector_flow_trajectory),
+        ):
+            if trajectory is None:
+                continue
+            existing = self._connection.execute(
+                """
+                SELECT minute_bucket, source_snapshot_revision
+                FROM market_watch_daily_sector_flow
+                WHERE trade_date = ? AND config_version = ? AND direction = ?
+                """,
+                (trade_date, self.config_version, direction),
+            ).fetchone()
+            if existing is not None and existing["minute_bucket"] > minute_bucket:
+                continue
+            if (
+                existing is not None
+                and existing["minute_bucket"] == minute_bucket
+                and existing["source_snapshot_revision"] == source_snapshot_revision
+            ):
+                continue
+
+            series_rows = []
+            manifest = []
+            for series in trajectory.sectors:
+                raw = _json_bytes(series.model_dump(mode="json"))
+                digest = hashlib.sha256(raw).hexdigest()
+                series_rows.append(
+                    (
+                        trade_date,
+                        self.config_version,
+                        direction,
+                        series.sector_key,
+                        digest,
+                        len(raw),
+                        zlib.compress(raw, level=6),
+                    )
+                )
+                manifest.append(
+                    {"sector_key": series.sector_key, "series_digest": digest}
+                )
+            manifest.sort(key=lambda item: item["sector_key"])
+            manifest_digest = hashlib.sha256(_json_bytes(manifest)).hexdigest()
+            trajectory_revision = hashlib.sha256(
+                _json_bytes(trajectory.model_dump(mode="json"))
+            ).hexdigest()
+            as_of = (trajectory.as_of or snapshot.as_of).isoformat()
+            flags_json = _json_bytes(list(trajectory.flags)).decode("utf-8")
+            projection_evidence = {
+                "contract": SECTOR_FLOW_DAILY_PROJECTION_CONTRACT,
+                "schema_version": SECTOR_FLOW_DAILY_PROJECTION_SCHEMA_VERSION,
+                "trade_date": trade_date,
+                "minute_bucket": minute_bucket,
+                "snapshot_id": snapshot.snapshot_id,
+                "source_snapshot_revision": source_snapshot_revision,
+                "trajectory_revision": trajectory_revision,
+                "direction": direction,
+                "status": trajectory.status.value,
+                "as_of": as_of,
+                "market_phase": trajectory.market_phase.value,
+                "flags": list(trajectory.flags),
+                "reason": trajectory.reason,
+                "series_manifest_digest": manifest_digest,
+            }
+            projection_revision = hashlib.sha256(
+                _json_bytes(projection_evidence)
+            ).hexdigest()
+            self._connection.execute(
+                """
+                DELETE FROM market_watch_daily_sector_flow_series
+                WHERE trade_date = ? AND config_version = ? AND direction = ?
+                """,
+                (trade_date, self.config_version, direction),
+            )
+            self._connection.executemany(
+                """
+                INSERT INTO market_watch_daily_sector_flow_series (
+                    trade_date, config_version, direction, sector_key,
+                    series_digest, payload_bytes, payload_blob
+                ) VALUES (?, ?, ?, ?, ?, ?, ?)
+                """,
+                series_rows,
+            )
+            self._connection.execute(
+                """
+                INSERT INTO market_watch_daily_sector_flow (
+                    trade_date, config_version, direction, contract,
+                    schema_version, minute_bucket, snapshot_id,
+                    source_snapshot_revision, trajectory_revision, status,
+                    as_of, market_phase, flags_json, reason,
+                    series_manifest_digest, projection_revision,
+                    recorded_at, updated_at
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                ON CONFLICT (trade_date, config_version, direction)
+                DO UPDATE SET
+                    contract = excluded.contract,
+                    schema_version = excluded.schema_version,
+                    minute_bucket = excluded.minute_bucket,
+                    snapshot_id = excluded.snapshot_id,
+                    source_snapshot_revision = excluded.source_snapshot_revision,
+                    trajectory_revision = excluded.trajectory_revision,
+                    status = excluded.status,
+                    as_of = excluded.as_of,
+                    market_phase = excluded.market_phase,
+                    flags_json = excluded.flags_json,
+                    reason = excluded.reason,
+                    series_manifest_digest = excluded.series_manifest_digest,
+                    projection_revision = excluded.projection_revision,
+                    updated_at = excluded.updated_at
+                """,
+                (
+                    trade_date,
+                    self.config_version,
+                    direction,
+                    SECTOR_FLOW_DAILY_PROJECTION_CONTRACT,
+                    SECTOR_FLOW_DAILY_PROJECTION_SCHEMA_VERSION,
+                    minute_bucket,
+                    snapshot.snapshot_id,
+                    source_snapshot_revision,
+                    trajectory_revision,
+                    trajectory.status.value,
+                    as_of,
+                    trajectory.market_phase.value,
+                    flags_json,
+                    trajectory.reason,
+                    manifest_digest,
+                    projection_revision,
+                    recorded_at,
+                    recorded_at,
+                ),
+            )
+            updated += 1
+        return updated
+
+    def materialize_recent_closed_sector_flow_projections(
+        self,
+        *,
+        limit: int = 5,
+    ) -> int:
+        """Backfill missing daily projections from strict retained close rows."""
+
+        normalized_limit = _positive_limit(limit, name="limit", allow_none=False)
+        with self._lock:
+            self._ensure_writable()
+        updated = 0
+        for item in self.list_dates(limit=normalized_limit):
+            trade_date = item["trade_date"]
+            records = [
+                record
+                for record in self.get_collection_records(trade_date)
+                if record.get("market_phase") == MarketPhase.CLOSED.value
+                and record.get("record_kind") in {"accepted_real", "stale_snapshot"}
+            ]
+            if not records:
+                continue
+            record = records[-1]
+            with self._lock:
+                current = self._connection.execute(
+                    """
+                    SELECT COUNT(*) AS matched
+                    FROM market_watch_daily_sector_flow
+                    WHERE trade_date = ? AND config_version = ?
+                        AND source_snapshot_revision = ?
+                    """,
+                    (
+                        trade_date,
+                        self.config_version,
+                        record["payload_digest"],
+                    ),
+                ).fetchone()
+            if current is not None and current["matched"] == 2:
+                continue
+            stored = self.get_snapshot_by_pointer(
+                trade_date=trade_date,
+                minute_bucket=record["minute_bucket"],
+                snapshot_id=record["snapshot_id"],
+                payload_digest=record["payload_digest"],
+            )
+            if stored is None:
+                continue
+            snapshot = MarketWatchSnapshotV1.model_validate(stored["payload"])
+            if snapshot.market_state.phase != MarketPhase.CLOSED:
+                continue
+            recorded_at = _aware_shanghai(self._clock()).isoformat(timespec="seconds")
+            with self._lock, self._connection:
+                updated += self._record_daily_sector_flow_locked(
+                    snapshot,
+                    source_snapshot_revision=record["payload_digest"],
+                    recorded_at=recorded_at,
+                )
+        return updated
 
     def _record_alerts_locked(
         self,
@@ -854,6 +1109,121 @@ class MarketWatchHistoryStore:
             "payload": decoded,
         }
 
+    def get_daily_sector_flow_projection(
+        self,
+        trade_date: date | str,
+        *,
+        direction: Literal["defense", "offense"],
+        sector_keys: tuple[str, ...],
+    ) -> dict[str, Any] | None:
+        """Read selected series from one Collector-materialized daily close."""
+
+        normalized_date = _normalize_trade_date(trade_date)
+        if direction not in {"defense", "offense"}:
+            raise ValueError("direction must be defense or offense")
+        normalized_keys = tuple(sorted(set(sector_keys)))
+        if not sector_keys or len(normalized_keys) != len(sector_keys):
+            raise ValueError("sector_keys must be non-empty and unique")
+        with self._lock:
+            if not self._can_read():
+                return None
+            try:
+                header = self._connection.execute(
+                    """
+                    SELECT * FROM market_watch_daily_sector_flow
+                    WHERE trade_date = ? AND config_version = ? AND direction = ?
+                    """,
+                    (normalized_date, self.config_version, direction),
+                ).fetchone()
+                if header is None:
+                    return None
+                manifest_rows = self._connection.execute(
+                    """
+                    SELECT sector_key, series_digest
+                    FROM market_watch_daily_sector_flow_series
+                    WHERE trade_date = ? AND config_version = ? AND direction = ?
+                    ORDER BY sector_key
+                    """,
+                    (normalized_date, self.config_version, direction),
+                ).fetchall()
+                placeholders = ",".join("?" for _ in normalized_keys)
+                series_rows = self._connection.execute(
+                    f"""
+                    SELECT sector_key, series_digest, payload_bytes, payload_blob
+                    FROM market_watch_daily_sector_flow_series
+                    WHERE trade_date = ? AND config_version = ? AND direction = ?
+                        AND sector_key IN ({placeholders})
+                    """,
+                    (
+                        normalized_date,
+                        self.config_version,
+                        direction,
+                        *normalized_keys,
+                    ),
+                ).fetchall()
+            except sqlite3.OperationalError as error:
+                if "no such table" in str(error).lower():
+                    return None
+                raise
+
+        manifest = [
+            {
+                "sector_key": row["sector_key"],
+                "series_digest": row["series_digest"],
+            }
+            for row in manifest_rows
+        ]
+        manifest_digest = hashlib.sha256(_json_bytes(manifest)).hexdigest()
+        if manifest_digest != header["series_manifest_digest"]:
+            raise RuntimeError("daily sector-flow projection manifest digest mismatch")
+        flags = json.loads(header["flags_json"])
+        projection_evidence = {
+            "contract": header["contract"],
+            "schema_version": header["schema_version"],
+            "trade_date": header["trade_date"],
+            "minute_bucket": header["minute_bucket"],
+            "snapshot_id": header["snapshot_id"],
+            "source_snapshot_revision": header["source_snapshot_revision"],
+            "trajectory_revision": header["trajectory_revision"],
+            "direction": header["direction"],
+            "status": header["status"],
+            "as_of": header["as_of"],
+            "market_phase": header["market_phase"],
+            "flags": flags,
+            "reason": header["reason"],
+            "series_manifest_digest": manifest_digest,
+        }
+        projection_revision = hashlib.sha256(
+            _json_bytes(projection_evidence)
+        ).hexdigest()
+        if projection_revision != header["projection_revision"]:
+            raise RuntimeError("daily sector-flow projection header digest mismatch")
+
+        series_by_key = {}
+        for row in series_rows:
+            raw = zlib.decompress(row["payload_blob"])
+            if len(raw) != row["payload_bytes"]:
+                raise RuntimeError("daily sector-flow series byte length mismatch")
+            if hashlib.sha256(raw).hexdigest() != row["series_digest"]:
+                raise RuntimeError("daily sector-flow series digest mismatch")
+            decoded = json.loads(raw.decode("utf-8"))
+            if _json_bytes(decoded) != raw:
+                raise RuntimeError("daily sector-flow series is not canonical JSON")
+            series = SectorFlowSeriesV1.model_validate(decoded)
+            if series.sector_key != row["sector_key"]:
+                raise RuntimeError("daily sector-flow series key mismatch")
+            if any(point.provider_as_of.date().isoformat() != normalized_date for point in series.points):
+                raise RuntimeError("daily sector-flow point belongs to another trade date")
+            series_by_key[series.sector_key] = series.model_dump(mode="json")
+
+        return {
+            **projection_evidence,
+            "projection_revision": projection_revision,
+            "sectors": tuple(
+                series_by_key[key] for key in normalized_keys if key in series_by_key
+            ),
+        }
+
     def find_latest_snapshot(
         self,
         predicate: Callable[[Mapping[str, Any]], bool],
@@ -1033,11 +1403,21 @@ class MarketWatchHistoryStore:
             "DELETE FROM market_watch_alert_events WHERE trade_date < ?",
             (oldest_retained,),
         )
+        projections = self._connection.execute(
+            "DELETE FROM market_watch_daily_sector_flow WHERE trade_date < ?",
+            (oldest_retained,),
+        )
+        projection_series = self._connection.execute(
+            "DELETE FROM market_watch_daily_sector_flow_series WHERE trade_date < ?",
+            (oldest_retained,),
+        )
         return {
             "retention_trade_days": keep,
             "oldest_retained_date": oldest_retained,
             "snapshots_deleted": max(snapshots.rowcount, 0),
             "alerts_deleted": max(alerts.rowcount, 0),
+            "sector_flow_projections_deleted": max(projections.rowcount, 0),
+            "sector_flow_projection_series_deleted": max(projection_series.rowcount, 0),
         }
 
     def close(self) -> None:

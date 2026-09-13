@@ -274,6 +274,24 @@ def _snapshot(
     return MarketWatchSnapshotV1.model_validate(payload)
 
 
+def _closed_snapshot(
+    observed_at: datetime,
+    *,
+    snapshot_id: str,
+    sequence: int,
+) -> MarketWatchSnapshotV1:
+    snapshot = _snapshot(observed_at, snapshot_id=snapshot_id, sequence=sequence)
+    payload = snapshot.model_dump(mode="python")
+    payload["market_state"] = {
+        **payload["market_state"],
+        "phase": "closed",
+        "is_open": False,
+    }
+    for field in ("sector_flow_trajectory", "offense_sector_flow_trajectory"):
+        payload[field] = {**payload[field], "market_phase": "closed"}
+    return MarketWatchSnapshotV1.model_validate(payload)
+
+
 def test_record_replays_the_complete_strict_payload_as_json_safe(tmp_path: Path) -> None:
     observed_at = datetime(2026, 8, 24, 10, 30, 8, tzinfo=SHANGHAI)
     snapshot = _snapshot(observed_at, snapshot_id="mw-1", sequence=1)
@@ -306,6 +324,75 @@ def test_record_replays_the_complete_strict_payload_as_json_safe(tmp_path: Path)
         json.dumps(timeline, ensure_ascii=False, allow_nan=False)
     finally:
         store.close()
+
+
+def test_closed_snapshot_materializes_selected_daily_sector_flow_series(
+    tmp_path: Path,
+) -> None:
+    observed_at = datetime(2026, 8, 24, 15, 0, tzinfo=SHANGHAI)
+    snapshot = _closed_snapshot(
+        observed_at,
+        snapshot_id="mw-closed-projection",
+        sequence=238,
+    )
+    db_path = tmp_path / "daily-sector-flow.sqlite3"
+
+    with MarketWatchHistoryStore(db_path, clock=lambda: observed_at) as owner:
+        result = owner.record(snapshot)
+        projection = owner.get_daily_sector_flow_projection(
+            observed_at.date(),
+            direction="defense",
+            sector_keys=("electric_power",),
+        )
+
+    assert projection is not None
+    assert projection["contract"] == "sector_flow_daily_projection.v1"
+    assert projection["source_snapshot_revision"] == result["payload_digest"]
+    assert projection["direction"] == "defense"
+    assert projection["trade_date"] == observed_at.date().isoformat()
+    assert projection["minute_bucket"] == observed_at.isoformat()
+    assert [item["sector_key"] for item in projection["sectors"]] == [
+        "electric_power"
+    ]
+    assert len(projection["sectors"][0]["points"]) == 2
+
+    with MarketWatchHistoryStore(db_path, read_only=True) as reader:
+        reopened = reader.get_daily_sector_flow_projection(
+            observed_at.date(),
+            direction="offense",
+            sector_keys=("semiconductor",),
+        )
+    assert reopened is not None
+    assert reopened["source_snapshot_revision"] == result["payload_digest"]
+    assert reopened["sectors"][0]["sector_key"] == "semiconductor"
+
+
+def test_writable_reopen_backfills_missing_recent_close_projection(
+    tmp_path: Path,
+) -> None:
+    observed_at = datetime(2026, 8, 24, 15, 0, tzinfo=SHANGHAI)
+    snapshot = _closed_snapshot(
+        observed_at,
+        snapshot_id="mw-legacy-close",
+        sequence=238,
+    )
+    db_path = tmp_path / "legacy-close.sqlite3"
+    with MarketWatchHistoryStore(db_path, clock=lambda: observed_at) as owner:
+        owner.record(snapshot)
+        with owner._connection:
+            owner._connection.execute("DELETE FROM market_watch_daily_sector_flow")
+            owner._connection.execute(
+                "DELETE FROM market_watch_daily_sector_flow_series"
+            )
+
+    with MarketWatchHistoryStore(db_path, clock=lambda: observed_at) as migrated:
+        projection = migrated.get_daily_sector_flow_projection(
+            observed_at.date(),
+            direction="defense",
+            sector_keys=("electric_power",),
+        )
+    assert projection is not None
+    assert projection["snapshot_id"] == "mw-legacy-close"
 
 
 def test_replay_timeline_uses_compact_metadata_without_decoding_snapshot_blob(

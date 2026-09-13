@@ -546,9 +546,15 @@ def _register_all_sources_unlocked() -> None:
     router.register("limit_events", "ths", ths.fetch_ths_limit_up_pool, priority=1)
     router.register(
         "limit_event_status",
+        "akshare_eastmoney",
+        akf.fetch_eastmoney_limit_up_status,
+        priority=1,
+    )
+    router.register(
+        "limit_event_status",
         "ths",
         ths.fetch_ths_limit_up_status,
-        priority=1,
+        priority=100,
     )
     router.register("ths_hot_list", "ths", ths.fetch_ths_hot_list, priority=1)
     router.register("local_kline", "tdx_local", tdx.fetch_local_kline, priority=1)

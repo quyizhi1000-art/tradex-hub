@@ -89,6 +89,24 @@ def assess_quote_snapshot(
     )
 
 
+def assess_universe_breadth(
+    *, quality: str, quality_flags: Sequence[str], excluded_row_count: int,
+) -> tuple[QualityStatus, tuple[str, ...]]:
+    """Project quote-universe quality onto advance/decline counts only.
+
+    Turnover is optional for these counts, but coverage, timestamps, units and
+    unknown source warnings still constrain the breadth result.
+    """
+    flags = tuple(flag for flag in quality_flags if flag != "turnover_partial")
+    if excluded_row_count and "suspended_or_incomplete_rows_excluded" not in flags:
+        flags += ("suspended_or_incomplete_rows_excluded",)
+    if quality == "rejected":
+        return QualityStatus.REJECTED, flags
+    if flags or (quality != "accepted" and not quality_flags):
+        return QualityStatus.DEGRADED, flags
+    return QualityStatus.ACCEPTED, flags
+
+
 def assess_a_share_universe(
     *,
     quotes: Sequence[AShareUniverseQuoteV1],
@@ -352,12 +370,15 @@ def assess_board_leaders(
     leaders: Sequence[BoardLeaderV2],
     provider_as_of: datetime | None,
     source_row_count: int | None = None,
+    excluded_non_a_count: int = 0,
 ) -> tuple[QualityStatus, tuple[str, ...]]:
     if not leaders:
         raise DataQualityError("板块领涨成分为空")
 
     flags: list[str] = []
-    if source_row_count is not None and source_row_count > len(leaders):
+    if excluded_non_a_count:
+        flags.append("leader_non_a_shares_excluded")
+    if source_row_count is not None and source_row_count > len(leaders) + excluded_non_a_count:
         flags.append("leader_rows_without_speed")
     if any(
         any(

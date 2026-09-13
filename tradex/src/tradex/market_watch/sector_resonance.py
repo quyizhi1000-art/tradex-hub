@@ -21,6 +21,7 @@ from tradex.data_gateway.contracts import (
     BoardLeaderV2,
     IntradayMinuteSeriesV1,
 )
+from tradex.data_gateway.intraday import MAX_INTRADAY_BATCH_INSTRUMENTS
 
 from .contracts import (
     ContractModel,
@@ -198,7 +199,7 @@ def _build_sector_resonance_entries_batched(
     fetched_at: datetime,
     max_workers: int,
 ) -> tuple[SectorResonanceEntryV1, ...]:
-    """Fetch board candidates in parallel, then all minute curves once."""
+    """Deduplicate candidates and fetch all curves in bounded batches."""
 
     if not 1 <= max_workers <= 8:
         raise ValueError("max_workers must be between 1 and 8")
@@ -232,14 +233,14 @@ def _build_sector_resonance_entries_batched(
         if snapshot is not None
         for candidate in snapshot.leaders
     }))
-    try:
-        minute_series = (
-            minute_batch_fetcher(instruments, now=fetched_at)
-            if instruments
-            else {}
-        )
-    except Exception:
-        minute_series = {}
+    minute_series: dict[str, IntradayMinuteSeriesV1] = {}
+    for offset in range(0, len(instruments), MAX_INTRADAY_BATCH_INSTRUMENTS):
+        chunk = instruments[offset:offset + MAX_INTRADAY_BATCH_INSTRUMENTS]
+        try:
+            minute_series.update(minute_batch_fetcher(chunk, now=fetched_at))
+        except Exception:
+            # Missing curves stay unavailable without discarding another batch.
+            continue
 
     entries: list[SectorResonanceEntryV1] = []
     for (direction, sector), candidates in zip(
@@ -564,14 +565,18 @@ def build_sector_resonance_batch(
         from tradex.data_gateway.leadership import fetch_board_leader_snapshot
 
         board_fetcher = fetch_board_leader_snapshot
+        # The default gateway shares one rate-limited request queue. Parallel
+        # board attempts consume each other's short queue budget before mirror
+        # fallback can run. Custom independent fetchers retain their concurrency.
+        max_workers = 1
     if minute_fetcher is None and minute_batch_fetcher is None:
         from tradex.data_gateway.intraday import (
             fetch_intraday_minute_series,
-            fetch_intraday_minute_series_batch,
+            fetch_intraday_minute_series_batch_partial,
         )
 
         minute_fetcher = fetch_intraday_minute_series
-        minute_batch_fetcher = fetch_intraday_minute_series_batch
+        minute_batch_fetcher = fetch_intraday_minute_series_batch_partial
 
     jobs: list[tuple[Literal["defense", "offense"], SectorFlowSeriesV1]] = []
     for direction, trajectory in (

@@ -21,6 +21,7 @@ from tradex.analysis_jobs import (
 from tradex.manual_portfolio.contracts import (
     ManualPortfolioMarketSnapshotV1,
     ManualPortfolioQuoteV1,
+    ManualPortfolioSampleV1,
 )
 from tradex.manual_portfolio.store import digest
 from tradex.analysis_worker import AnalysisRuntime, _compact_review_history
@@ -121,12 +122,17 @@ def test_analysis_queue_is_durable_idempotent_and_retryable(tmp_path):
 
 
 def test_analysis_artifact_round_trip_keeps_source_revision(tmp_path):
-    with AnalysisJobStore(tmp_path / "analysis.sqlite3") as store:
+    db_path = tmp_path / "analysis.sqlite3"
+    with AnalysisJobStore(db_path) as store:
         stored = store.put_artifact(
             MARKET_WATCH_EVALUATION,
             scope_key="date:2026-08-26",
             source_revision="source-revision-1",
             payload={"contract": "market_watch_evaluation.v1", "session_count": 1},
+        )
+        listed = store.list_artifacts(
+            MARKET_WATCH_EVALUATION,
+            scope_prefix="date:",
         )
 
         assert stored["source_revision"] == "source-revision-1"
@@ -135,6 +141,15 @@ def test_analysis_artifact_round_trip_keeps_source_revision(tmp_path):
             "session_count": 1,
         }
         assert len(stored["payload_digest"]) == 64
+        assert [item["scope_key"] for item in listed] == ["date:2026-08-26"]
+    with AnalysisJobReader(db_path) as reader:
+        assert [
+            item["scope_key"]
+            for item in reader.list_artifacts(
+                MARKET_WATCH_EVALUATION,
+                scope_prefix="date:",
+            )
+        ] == ["date:2026-08-26"]
 
 
 def test_interrupted_worker_job_returns_to_queue(tmp_path):
@@ -277,10 +292,12 @@ def test_worker_materializes_manual_portfolio_outlook_from_collector_snapshot(tm
         portfolio_revision=portfolio_revision,
         snapshot_revision=snapshot_revision,
         generated_at=requested,
+        trading_date=requested.date(),
         item_count=1,
         items=(
             ManualPortfolioQuoteV1(
                 instrument_id="000001.SZ",
+                trading_date=requested.date(),
                 status="accepted",
                 last_price=10.2,
                 session_change_pct=2.0,
@@ -289,10 +306,54 @@ def test_worker_materializes_manual_portfolio_outlook_from_collector_snapshot(tm
                 provider="fixture",
                 provider_as_of=requested,
                 fetched_at=requested,
+                samples=(
+                    ManualPortfolioSampleV1(
+                        observed_at=requested.replace(hour=14, minute=59),
+                        price=10.2,
+                    ),
+                    ManualPortfolioSampleV1(
+                        observed_at=requested.replace(hour=15, minute=0),
+                        price=10.2,
+                    ),
+                ),
             ),
         ),
     )
     with AnalysisJobStore(tmp_path / "analysis.sqlite3") as store:
+        store.put_artifact(
+            MANUAL_PORTFOLIO_OUTLOOK,
+            scope_key=f"portfolio:{portfolio_revision}",
+            source_revision="b" * 64,
+            payload={
+                "contract": "manual_portfolio_outlook.v1",
+                "schema_version": 1,
+                "portfolio_revision": portfolio_revision,
+                "source_snapshot_revision": "b" * 64,
+                "source_trading_date": "2026-08-30",
+                "generated_at": "2026-08-30T18:30:00+08:00",
+                "items": [
+                    {
+                        "instrument_id": "000001.SZ",
+                        "status": "conditional",
+                        "evidence_status": "accepted",
+                        "next_session": "观察前一日区间条件。",
+                        "next_2_to_5_sessions": "等待连续确认。",
+                        "confirmation_conditions": [],
+                        "invalidation_conditions": [],
+                        "limitations": [],
+                        "price_plan": {
+                            "previous_close": 10.0,
+                            "previous_low": 9.8,
+                            "previous_midpoint": 10.0,
+                            "previous_high": 10.2,
+                            "pullback_observation_zone": [9.9, 10.0],
+                            "pressure_observation_zone": [10.1, 10.2],
+                            "risk_reference": 9.8,
+                        },
+                    }
+                ],
+            },
+        )
         store.put_artifact(
             POST_MARKET_REVIEW,
             scope_key="latest",
@@ -325,22 +386,50 @@ def test_worker_materializes_manual_portfolio_outlook_from_collector_snapshot(tm
         runtime = AnalysisRuntime.__new__(AnalysisRuntime)
         runtime.jobs = store
         runtime.portfolio_reader = SimpleNamespace(latest_snapshot=lambda: snapshot)
+        runtime.portfolio_relationship_loader = lambda _ids: {
+            "000001.SZ": {
+                "catalog_revision": "d" * 64,
+                "catalog_as_of": "2026-08-31",
+                "profile_as_of": "2026-08-31",
+                "profile_name": "平安银行",
+                "verification_status": "verified",
+                "industry_taxonomy": "sw",
+                "industry_code": "850191.SI",
+                "industry_path": ["银行", "股份制银行"],
+                "business_path": ["金融", "银行", "股份制银行"],
+                "concept_names": [],
+            }
+        }
 
         completed = runtime.execute_next_job()
         artifact = store.get_artifact(MANUAL_PORTFOLIO_OUTLOOK, scope_key="latest")
+        dated_artifact = store.get_artifact(
+            MANUAL_PORTFOLIO_OUTLOOK,
+            scope_key="date:2026-08-31",
+        )
 
     assert completed["state"] == "succeeded"
     assert completed["result"]["portfolio_revision"] == portfolio_revision
     assert artifact is not None
+    assert dated_artifact is not None
     assert artifact["source_revision"] == snapshot_revision
     assert artifact["payload"]["contract"] == "manual_portfolio_outlook.v1"
     assert artifact["payload"]["market_context"]["bias"] == "balanced"
     assert artifact["payload"]["market_context"]["limitations"] == [
         "market_watch:degraded"
     ]
+    assert artifact["payload"]["daily_review"]["contract"] == (
+        "manual_portfolio_daily_review.v1"
+    )
+    assert artifact["payload"]["daily_review"]["items"][0]["outcome"] == (
+        "conditions_met"
+    )
     assert artifact["payload"]["items"][0]["price_plan"]["deterministic_target"] is False
     assert len(artifact["payload"]["items"][0]["opening_scenarios"]) == 3
     assert len(artifact["payload"]["items"][0]["market_scenarios"]) == 3
+    assert artifact["payload"]["items"][0]["relationship_context"][
+        "classification_owner"
+    ] == "tradex.instrument_taxonomy"
 
 
 def test_worker_abstains_when_portfolio_revision_changes_after_enqueue(tmp_path):

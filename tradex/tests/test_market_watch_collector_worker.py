@@ -17,6 +17,11 @@ SHANGHAI = ZoneInfo("Asia/Shanghai")
 
 @pytest.fixture(autouse=True)
 def _disable_review_announcement_network(monkeypatch):
+    monkeypatch.setattr(collector_worker, "_latest_final_close_revision", lambda day: "f" * 64)
+    monkeypatch.setattr(
+        "tradex.data_gateway.sector_flow.schedule_requested_sector_intraday_fund_flow_repair",
+        lambda **kwargs: None,
+    )
     monkeypatch.setattr(
         collector_worker,
         "_generate_latest_review_announcements",
@@ -239,6 +244,32 @@ def test_final_close_uses_exact_close_trajectory_instead_of_latest_live_cutoff(
         captured["payload"]["risk_data"]["offense_sector_flow_trajectory"]
         == exact_offense
     )
+
+
+@pytest.mark.parametrize("gap_times", [(), ("14:43",)])
+def test_daily_recovery_finalizes_sector_tails_even_when_minute_ledger_is_complete(monkeypatch, gap_times):
+    from tradex.data_gateway import sector_flow
+    from tradex.market_watch import reconstruction, recovery_source_cache
+
+    observed = datetime(2026, 9, 7, 16, 30, tzinfo=SHANGHAI)
+    cutoff = observed.replace(hour=15, minute=0)
+    captured = {}
+    monkeypatch.setattr(reconstruction, "SameDayPostCloseReconstructor", lambda **kwargs: object())
+    monkeypatch.setattr(recovery_source_cache, "RecoverySourceMatrixStore", lambda: object())
+    monkeypatch.setattr(collector_worker, "MarketWatchCollector", lambda **kwargs: captured.update(kwargs))
+    ledger = SimpleNamespace(list_recovery_gap_minutes=lambda day: tuple(
+        datetime.fromisoformat(f"{day.isoformat()}T{value}:00+08:00") for value in gap_times))
+    history = SimpleNamespace(record=lambda item: None)
+    calls = []
+    monkeypatch.setattr(sector_flow, "finalize_sector_intraday_fund_flow_backfill",
+                        lambda **kwargs: calls.append(kwargs) or {"complete": True})
+    monkeypatch.setattr(collector_worker, "_rematerialize_final_close",
+                        lambda *args, **kwargs: {"source_snapshot_revision": "a" * 64})
+    collector_worker.build_collector(ledger=ledger, history=history)
+    result = captured["prepare_daily_recovery"](observed.date(), observed, lambda: None)
+    assert len(calls) == 1
+    assert calls[0]["required_through"] == cutoff
+    assert result["close_snapshot"]["source_snapshot_revision"] == "a" * 64
 
 
 def test_recovery_rematerializes_final_close_and_rebinds_ledger(monkeypatch) -> None:
@@ -483,7 +514,7 @@ def test_post_close_loop_generates_one_batch_for_the_trading_day(monkeypatch) ->
     pool_calls = []
 
     def generate(*, reuse_existing):
-        assert reuse_existing is True
+        assert reuse_existing is False
         calls.append(observed.date())
         stop_event.set()
         return {"resonance_revision": "a" * 64, "entry_count": 8}

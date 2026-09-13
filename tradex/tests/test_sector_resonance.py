@@ -569,3 +569,33 @@ def test_resonance_store_round_trip_and_missing_read_only_store(tmp_path):
         assert store.get_latest_before(TARGET + timedelta(minutes=7)) is None
     with SectorResonanceStore(tmp_path / "absent.sqlite3", read_only=True) as store:
         assert store.get_by_source_revision("2" * 64) is None
+
+
+@pytest.mark.parametrize("fail_first", [False, True])
+def test_large_candidate_set_keeps_every_instrument_and_isolates_failed_chunk(fail_first):
+    jobs = tuple(("offense", _sector().model_copy(update={
+        "sector_key": f"sector_{index}", "leader_board_code": f"BK{index:04d}",
+    })) for index in range(9))
+    def board_fetcher(board_code, **kwargs):
+        index = int(board_code[2:])
+        return BoardLeaderSnapshotV2(
+            metadata=ContractMetadata(contract="board_leader.v2", schema_version=2,
+                provider="fixture", provider_as_of=TARGET, fetched_at=TARGET,
+                quality=QualityStatus.ACCEPTED),
+            board_code=board_code, speed_order="desc",
+            leaders=tuple(_candidate().model_copy(update={
+                "instrument_id": f"{600000 + index * 5 + offset}.SH",
+            }) for offset in range(5)),
+        )
+    calls = []
+    def minutes(symbols, **kwargs):
+        calls.append(symbols)
+        if fail_first and len(calls) == 1:
+            raise RuntimeError("first chunk unavailable")
+        return {symbol: _stock().model_copy(update={"instrument_id": symbol}) for symbol in symbols}
+    entries = _build_sector_resonance_entries_batched(jobs, board_fetcher=board_fetcher,
+        minute_batch_fetcher=minutes, candidate_limit=5, fetched_at=TARGET, max_workers=1)
+    assert [len(chunk) for chunk in calls] == [40, 5]
+    assert len(set(symbol for chunk in calls for symbol in chunk)) == 45
+    assert entries[-1].leader_snapshot.status == "full"
+    assert entries[0].leader_snapshot.status == ("unavailable" if fail_first else "full")

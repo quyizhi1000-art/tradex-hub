@@ -22,7 +22,7 @@ from tradex.data_gateway import (
 from tradex.market_calendar import CalendarDayStatus, calendar_day_status
 
 from .analysis import build_market_watch_snapshot
-from .collection_contracts import RetryableCollectionError
+from .collection_contracts import RetryableCollectionError, TerminalCollectionError
 from .contracts import FreshnessStatus, MarketPhase, MarketWatchSnapshotV1
 from .history import MarketWatchHistoryStore
 from .recovery_source_cache import RecoverySourceMatrixStore
@@ -40,6 +40,7 @@ _INDEX_ROLES = (
 _TURNOVER_INDICES = ("000001.SH", "399001.SZ")
 _ROTATION_MAX_AGE_SECONDS = 60
 _OPENING_AUCTION_TIME = time(9, 25)
+_BULK_CURVE_UNPUBLISHED_TIMES = frozenset({_OPENING_AUCTION_TIME, time(13, 0)})
 
 
 class HistoricalTrajectoryUnavailable(RetryableCollectionError):
@@ -57,6 +58,10 @@ class HistoricalTrajectoryUnavailable(RetryableCollectionError):
             retry_after_seconds=60.0,
             retry_deadline=deadline,
         )
+
+
+class HistoricalTrajectoryNotPublished(TerminalCollectionError):
+    """The exact sector-flow capability does not publish this boundary minute."""
 
 
 @dataclass(frozen=True, slots=True)
@@ -465,11 +470,10 @@ class SameDayPostCloseReconstructor:
                 "same-day exact reconstruction is available only after close and before midnight"
             )
         progress(0, 6, "preflight", "正在校验目标分钟板块轨迹与成交额基线")
-        required_minutes = {
-            item.astimezone(SHANGHAI).replace(second=0, microsecond=0)
-            for item in self._target_minutes(local.date())
-        }
-        required_minutes.add(local)
+        # A missing sector-flow point in another recovery slot must not block
+        # this target.  Historical providers can have structural edge-minute
+        # gaps (for example 09:30), while later exact minutes remain usable.
+        required_minutes = {local}
         required_times = {item.time() for item in required_minutes}
         if self._prepared_rotation_date != local.date():
             self._prepared_rotation_date = local.date()
@@ -488,6 +492,17 @@ class SameDayPostCloseReconstructor:
                 )
             )
             if not preparation.get("complete"):
+                unavailable = tuple(preparation.get("unavailable_minutes") or ())
+                if unavailable:
+                    detail = ", ".join(
+                        item.astimezone(SHANGHAI).strftime("%H:%M")
+                        if isinstance(item, datetime)
+                        else str(item)
+                        for item in unavailable
+                    )
+                    raise HistoricalTrajectoryNotPublished(
+                        "exact sector-flow history is not published at " + detail
+                    )
                 missing = tuple(preparation.get("missing_targets") or ())
                 detail = ", ".join(str(item) for item in missing[:8]) or "no known exact curves"
                 raise HistoricalTrajectoryUnavailable(
@@ -626,7 +641,10 @@ class SameDayPostCloseReconstructor:
             snapshot_id=f"mw-recovery:{local:%Y%m%d-%H%M}",
         )
         components = {item.component: item for item in snapshot.freshness.components}
-        if snapshot.market_state.phase is not MarketPhase.TRADING:
+        if snapshot.market_state.phase not in {
+            MarketPhase.OPENING_OBSERVATION,
+            MarketPhase.TRADING,
+        }:
             raise RuntimeError("reconstructed snapshot is not in the target trading phase")
         if snapshot.freshness.status in {FreshnessStatus.STALE, FreshnessStatus.UNAVAILABLE}:
             raise RuntimeError("reconstructed snapshot failed freshness validation")
@@ -647,6 +665,8 @@ class SameDayPostCloseReconstructor:
             requested_times = {
                 item.astimezone(SHANGHAI).time().replace(second=0, microsecond=0)
                 for item in self._target_minutes(target.date())
+                if item.astimezone(SHANGHAI).time().replace(second=0, microsecond=0)
+                not in _BULK_CURVE_UNPUBLISHED_TIMES
             }
             requested_times.add(target.time())
             observed = self._clock().astimezone(SHANGHAI)
@@ -915,4 +935,8 @@ class SameDayPostCloseReconstructor:
         raise RuntimeError("previous trading day is unavailable")
 
 
-__all__ = ["HistoricalTrajectoryUnavailable", "SameDayPostCloseReconstructor"]
+__all__ = [
+    "HistoricalTrajectoryNotPublished",
+    "HistoricalTrajectoryUnavailable",
+    "SameDayPostCloseReconstructor",
+]

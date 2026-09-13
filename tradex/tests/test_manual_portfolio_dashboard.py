@@ -17,7 +17,11 @@ from tradex.analysis_jobs import (
 from tradex.dashboard import __main__ as dashboard_app
 from tradex.dashboard import collector_worker
 from tradex.dashboard.__main__ import DashboardWriteRejected
-from tradex.manual_portfolio.contracts import ManualPortfolioMarketSnapshotV1
+from tradex.manual_portfolio.contracts import (
+    ManualPortfolioMarketSnapshotV1,
+    ManualPortfolioQuoteV1,
+    ManualPortfolioSampleV1,
+)
 from tradex.manual_portfolio.store import ManualPortfolioStore, portfolio_revision
 
 
@@ -123,6 +127,91 @@ def test_manual_portfolio_dashboard_rejects_non_boolean_enabled(tmp_path, monkey
         )
 
 
+def test_manual_portfolio_analysis_views_read_dated_and_append_only_artifacts(
+    tmp_path,
+    monkeypatch,
+):
+    portfolio_path = tmp_path / "portfolio.sqlite3"
+    analysis_path = tmp_path / "analysis.sqlite3"
+    monkeypatch.setenv("TRADEX_MANUAL_PORTFOLIO_DB", str(portfolio_path))
+    dashboard_app.mutate_manual_portfolio(
+        {"action": "add", "instrument_id": "000001", "display_name": "平安银行"}
+    )
+    portfolio = dashboard_app.get_manual_portfolio()
+    revision = portfolio["revision"]
+    with AnalysisJobStore(analysis_path) as store:
+        store.put_artifact(
+            MANUAL_PORTFOLIO_OUTLOOK,
+            scope_key="portfolio:legacy-revision",
+            source_revision="9" * 64,
+            payload={
+                "contract": "manual_portfolio_outlook.v1",
+                "source_trading_date": "2026-08-31",
+                "generated_at": "2026-08-31T18:30:00+08:00",
+                "items": [{"instrument_id": "000001.SZ", "status": "conditional"}],
+            },
+        )
+        store.put_artifact(
+            MANUAL_PORTFOLIO_OUTLOOK,
+            scope_key="date:2026-09-01",
+            source_revision="a" * 64,
+            payload={
+                "contract": "manual_portfolio_outlook.v1",
+                "source_trading_date": "2026-09-01",
+                "generated_at": "2026-09-01T18:30:00+08:00",
+                "items": [{"instrument_id": "000001.SZ", "status": "conditional"}],
+                "daily_review": {
+                    "reviewed_outlook_date": "2026-08-31",
+                    "realized_trading_date": "2026-09-01",
+                    "generated_at": "2026-09-01T18:30:00+08:00",
+                    "self_summary": "只复核可核验条件。",
+                    "items": [{"instrument_id": "000001.SZ", "outcome": "mixed"}],
+                },
+            },
+        )
+        for minute in (35, 36):
+            store.put_artifact(
+                MANUAL_PORTFOLIO_INTRADAY_ANALYSIS,
+                scope_key=f"snapshot:{minute}",
+                source_revision=str(minute) * 32,
+                payload={
+                    "contract": "manual_portfolio_intraday_analysis.v1",
+                    "portfolio_revision": revision,
+                    "source_snapshot_revision": str(minute) * 32,
+                    "source_trading_date": "2026-09-02",
+                    "generated_at": f"2026-09-02T09:{minute}:00+08:00",
+                    "items": [{"instrument_id": "000001.SZ", "status": "conditional"}],
+                },
+            )
+        with ManualPortfolioStore(portfolio_path) as portfolio_store:
+            portfolio_store.record_snapshot(
+                ManualPortfolioMarketSnapshotV1(
+                    portfolio_revision=revision,
+                    snapshot_revision="f" * 64,
+                    generated_at=datetime.fromisoformat("2026-09-02T09:36:00+08:00"),
+                    trading_date=datetime.fromisoformat("2026-09-02T09:36:00+08:00").date(),
+                    item_count=0,
+                    items=(),
+                )
+            )
+        monkeypatch.setattr(dashboard_app, "_get_analysis_job_reader", lambda: store)
+
+        history = dashboard_app.get_manual_portfolio_analysis_history("000001")
+        intraday = dashboard_app.get_manual_portfolio_intraday_analysis_history()
+
+    assert history["display_name"] == "平安银行"
+    assert [page["source_trading_date"] for page in history["outlook_pages"]] == [
+        "2026-09-01",
+        "2026-08-31",
+    ]
+    assert len(history["review_pages"]) == 1
+    assert [item["generated_at"] for item in intraday["analyses"]] == [
+        "2026-09-02T09:35:00+08:00",
+        "2026-09-02T09:36:00+08:00",
+    ]
+    assert intraday["analyses"][0]["items"][0]["display_name"] == "平安银行"
+
+
 def test_outlook_can_be_queued_before_matching_market_exists(tmp_path, monkeypatch):
     monkeypatch.setenv("TRADEX_MANUAL_PORTFOLIO_DB", str(tmp_path / "portfolio.sqlite3"))
     dashboard_app.mutate_manual_portfolio(
@@ -148,7 +237,7 @@ def test_collector_dispatches_waiting_outlook_after_matching_snapshot(
     analysis_path = tmp_path / "analysis.sqlite3"
     monkeypatch.setenv("TRADEX_MANUAL_PORTFOLIO_DB", str(portfolio_path))
     monkeypatch.setenv("TRADEX_ANALYSIS_DB", str(analysis_path))
-    observed = datetime.fromisoformat("2026-09-02T09:30:30+08:00")
+    observed = datetime.fromisoformat("2026-09-02T15:10:30+08:00")
     with AnalysisJobStore(analysis_path):
         pass
     dashboard_app.mutate_manual_portfolio(
@@ -161,8 +250,31 @@ def test_collector_dispatches_waiting_outlook_after_matching_snapshot(
             portfolio_revision=revision,
             snapshot_revision="b" * 64,
             generated_at=observed,
-            item_count=0,
-            items=(),
+            trading_date=observed.date(),
+            item_count=1,
+            items=(
+                ManualPortfolioQuoteV1(
+                    instrument_id="000001.SZ",
+                    trading_date=observed.date(),
+                    status="accepted",
+                    last_price=10.2,
+                    session_high=10.3,
+                    session_low=10.0,
+                    provider="fixture",
+                    provider_as_of=observed.replace(hour=15, minute=0),
+                    fetched_at=observed,
+                    samples=(
+                        ManualPortfolioSampleV1(
+                            observed_at=observed.replace(hour=14, minute=59),
+                            price=10.2,
+                        ),
+                        ManualPortfolioSampleV1(
+                            observed_at=observed.replace(hour=15, minute=0),
+                            price=10.2,
+                        ),
+                    ),
+                ),
+            ),
         )
 
     monkeypatch.setattr(collector_worker, "_now", lambda: observed)
@@ -177,15 +289,72 @@ def test_collector_dispatches_waiting_outlook_after_matching_snapshot(
             MANUAL_PORTFOLIO_OUTLOOK,
             scope_key=f"portfolio:{revision}",
         )
-        intraday_job = reader.latest_job(
-            MANUAL_PORTFOLIO_INTRADAY_ANALYSIS,
-            scope_key=f"snapshot:{snapshot.snapshot_revision}",
-        )
 
     assert result["outlook_generation"]["state"] == "queued"
     assert job["trigger"] == "manual-after-market-refresh"
     assert result["intraday_analysis_generation"]["state"] == "queued"
-    assert intraday_job["trigger"] == "collector-market-refresh"
+
+
+def test_collector_queues_one_automatic_post_close_outlook_for_daily_review(
+    tmp_path,
+    monkeypatch,
+):
+    portfolio_path = tmp_path / "portfolio.sqlite3"
+    analysis_path = tmp_path / "analysis.sqlite3"
+    monkeypatch.setenv("TRADEX_MANUAL_PORTFOLIO_DB", str(portfolio_path))
+    monkeypatch.setenv("TRADEX_ANALYSIS_DB", str(analysis_path))
+    observed = datetime.fromisoformat("2026-09-02T15:10:00+08:00")
+    with AnalysisJobStore(analysis_path):
+        pass
+    dashboard_app.mutate_manual_portfolio({"action": "add", "instrument_id": "000001"})
+    with ManualPortfolioStore(portfolio_path) as store:
+        revision = portfolio_revision(store.list_entries())
+    snapshot = ManualPortfolioMarketSnapshotV1(
+        portfolio_revision=revision,
+        snapshot_revision="e" * 64,
+        generated_at=observed,
+        trading_date=observed.date(),
+        item_count=1,
+        items=(
+            ManualPortfolioQuoteV1(
+                instrument_id="000001.SZ",
+                trading_date=observed.date(),
+                status="accepted",
+                last_price=10.2,
+                session_change_pct=1.0,
+                session_high=10.3,
+                session_low=10.0,
+                provider="fixture",
+                provider_as_of=observed,
+                fetched_at=observed,
+                samples=(
+                    ManualPortfolioSampleV1(
+                        observed_at=observed.replace(hour=14, minute=59),
+                        price=10.2,
+                    ),
+                    ManualPortfolioSampleV1(
+                        observed_at=observed.replace(hour=15, minute=0),
+                        price=10.2,
+                    ),
+                ),
+            ),
+        ),
+    )
+    monkeypatch.setattr(collector_worker, "_now", lambda: observed)
+    monkeypatch.setattr(
+        "tradex.manual_portfolio.market.refresh_manual_portfolio_market",
+        lambda store, now: store.record_snapshot(snapshot),
+    )
+
+    result = collector_worker._refresh_manual_portfolio_market()
+    with AnalysisJobReader(analysis_path) as reader:
+        job = reader.latest_job(
+            MANUAL_PORTFOLIO_OUTLOOK,
+            scope_key=f"date:{observed.date()}:portfolio:{revision}",
+        )
+
+    assert result["outlook_generation"]["state"] == "queued"
+    assert job["trigger"] == "automatic-after-close"
 
 
 def test_manual_portfolio_desktop_ui_exposes_only_observation_scope():
@@ -199,6 +368,17 @@ def test_manual_portfolio_desktop_ui_exposes_only_observation_scope():
     assert 'id="manual-portfolio-dialog"' in html
     assert 'id="manual-portfolio-open-button"' in html
     assert 'id="manual-portfolio-preview"' in html
+    assert 'id="manual-portfolio-analysis-dialog"' in html
+    assert 'data-manual-portfolio-analysis-tab="outlook"' in html
+    assert 'data-manual-portfolio-analysis-tab="review"' in html
+    assert 'data-manual-portfolio-live-tab="analysis"' in html
+    assert 'id="manual-portfolio-analysis-past"' in html
+    assert "← 往前日期" in html
+    assert 'id="manual-portfolio-analysis-date-select"' in html
+    assert "跳选日期" in html
+    assert 'id="manual-portfolio-analysis-future"' in html
+    assert "往后日期 →" in html
+    assert "股票代码或名称" in html
     assert "手动维护，并非券商账户事实" in html
     assert "最多启用 40 个代码" in html
     assert "页面关闭不保证送达" in html
@@ -208,6 +388,9 @@ def test_manual_portfolio_desktop_ui_exposes_only_observation_scope():
     assert ".intraday-focus-grid" in css
     assert "grid-template-columns: minmax(0, 2.15fr) minmax(330px, 0.85fr)" in css
     assert "manual_portfolio_outlook.v1" in js
+    assert "本地关系库没有可用归属；不使用供应商板块名称补位。" in js
+    assert "明早按这个顺序复核" in js
+    assert "昨天有用的部分" in js
     assert "manual_portfolio_market_snapshot.v1" in js
     assert "manual_portfolio_intraday_analysis.v1" in js
     assert "不会覆盖昨晚生成的次日前瞻" in html
@@ -217,5 +400,12 @@ def test_manual_portfolio_desktop_ui_exposes_only_observation_scope():
     assert "排队生成前瞻" in js
     assert "最早" in js
     assert "采集后自动生成" in js
+    assert 'analysis.dataset.manualPortfolioAction = "analysis"' in js
+    assert "function renderManualPortfolioAnalysisArchive()" in js
+    assert "function selectManualPortfolioAnalysisDate(" in js
+    assert "function renderManualPortfolioIntradayAnalysis(payload)" in js
+    assert "display_name" in js
+    assert ".manual-portfolio-intraday-log" in css
+    assert ".manual-portfolio-analysis-page[hidden]" in css
     for forbidden in ("成本线", "真实盈亏", "自动下单", "交割单", "成交历史"):
         assert forbidden not in html

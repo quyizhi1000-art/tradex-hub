@@ -6,6 +6,7 @@
   const INTRADAY_TRAJECTORY_REPAIR_ENDPOINT = "/api/market-watch/intraday-trajectory-repair";
   const SUMMARY_ENDPOINT = "/api/market-watch/summary";
   const TRAJECTORY_ENDPOINT = "/api/market-watch/trajectory";
+  const FIVE_DAY_TRAJECTORY_ENDPOINT = "/api/market-watch/five-day-trajectory";
   const LIMIT_UP_POOL_ENDPOINT = "/api/limit-up-pool";
   const LIMIT_UP_POOL_LATEST_ENDPOINT = "/api/limit-up-pool/latest";
   const HISTORY_ENDPOINT = "/api/market-watch/history";
@@ -21,6 +22,8 @@
   const MANUAL_PORTFOLIO_OUTLOOK_ENDPOINT = "/api/manual-portfolio/outlook";
   const MANUAL_PORTFOLIO_OUTLOOK_GENERATION_ENDPOINT = "/api/manual-portfolio/outlook/generation";
   const MANUAL_PORTFOLIO_INTRADAY_ANALYSIS_ENDPOINT = "/api/manual-portfolio/intraday-analysis";
+  const MANUAL_PORTFOLIO_ANALYSIS_HISTORY_ENDPOINT = "/api/manual-portfolio/analysis-history";
+  const MANUAL_PORTFOLIO_INTRADAY_HISTORY_ENDPOINT = "/api/manual-portfolio/intraday-analysis/history";
   const POLL_INTERVAL_MS = 15_000;
   const POLL_WATCHDOG_INTERVAL_MS = 1_000;
   const RESONANCE_REFRESH_INTERVAL_MS = 30_000;
@@ -38,6 +41,10 @@
   const SECTOR_FLOW_ENDPOINT_GAP_PX = 15;
   const SECTOR_FLOW_HIT_STROKE_PX = 10;
   const SECTOR_FLOW_LUNCH_GAP_MINUTES = 18;
+  const SECTOR_FLOW_SESSION_SPAN_MINUTES = 263;
+  const SECTOR_FLOW_DAY_GAP_MINUTES = 16;
+  const SECTOR_FLOW_DAY_SPAN_MINUTES = SECTOR_FLOW_SESSION_SPAN_MINUTES
+    + SECTOR_FLOW_DAY_GAP_MINUTES;
   const MAX_SECTOR_FLOW_SAMPLE_GAP_MINUTES = 5;
   const SECTOR_FLOW_COLOR_SLOT_COUNT = 72;
   const SECTOR_FLOW_HUE_ORDER = [
@@ -64,6 +71,12 @@
   };
   const DEFAULT_SECTOR_FLOW_SURGE_THRESHOLD = 0.5;
   const SVG_NAMESPACE = "http://www.w3.org/2000/svg";
+  const SHANGHAI_TIME_PARTS_FORMATTER = new Intl.DateTimeFormat("en-GB", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hourCycle: "h23",
+    timeZone: "Asia/Shanghai",
+  });
   const STORAGE_KEYS = {
     deliveredAlerts: "tradex.marketWatch.deliveredAlerts.v1",
     readAlerts: "tradex.marketWatch.readAlerts.v1",
@@ -106,6 +119,10 @@
     trajectoryRepairRequestInFlight: false,
     detailEtags: new Map(),
     detailPayloads: new Map(),
+    fiveDayTrajectory: {
+      defense: { cacheKey: null, etag: null, error: null, payload: null },
+      offense: { cacheKey: null, etag: null, error: null, payload: null },
+    },
     deliveredAlertKeys: loadStoredObject(STORAGE_KEYS.deliveredAlerts),
     evaluationDays: null,
     fetchFailed: false,
@@ -125,6 +142,10 @@
     manualPortfolioMarket: null,
     manualPortfolioFetchInFlight: false,
     manualPortfolioIntradayAnalysis: null,
+    manualPortfolioAnalysisHistory: null,
+    manualPortfolioAnalysisInstrumentId: null,
+    manualPortfolioAnalysisTab: "outlook",
+    manualPortfolioAnalysisPage: { outlook: 0, review: 0 },
     manualPortfolioOutlookGeneration: null,
     manualPortfolioMutationInFlight: false,
     manualPortfolioOutlook: null,
@@ -155,6 +176,7 @@
     },
     reviewTradeDate: null,
     stockSelectionFetchInFlight: false,
+    stockSelectionRequestId: 0,
     stockSelectionGenerateInFlight: false,
     stockSelectionGenerationPhase: "idle",
     stockSelectionGenerationPollInFlight: false,
@@ -844,6 +866,52 @@
     };
   }
 
+  function sectorFlowFiveDayPayload(history, displayPayload) {
+    if (!history) return null;
+    const days = asArray(history.days);
+    const sectors = displayPayload.sectors.map((current) => {
+      const points = [];
+      let historicalMetadata = null;
+      let cumulativeOffset = 0;
+      days.forEach((day, dayIndex) => {
+        const series = asArray(day.sectors).find((item) => (
+          item?.sector_key === current.sector_key
+        ));
+        if (!series) return;
+        historicalMetadata = series;
+        let finalDailyCumulative = null;
+        asArray(series.points).forEach((point) => {
+          const dailyCumulative = finiteNumber(point.cumulative_cny);
+          if (dailyCumulative === null) return;
+          points.push({
+            ...point,
+            _historyDayIndex: dayIndex,
+            _historyTradeDate: day.trade_date,
+            _historyContinuousCny: cumulativeOffset + dailyCumulative,
+          });
+          finalDailyCumulative = dailyCumulative;
+        });
+        if (finalDailyCumulative !== null) cumulativeOffset += finalDailyCumulative;
+      });
+      return {
+        ...(historicalMetadata || {}),
+        ...current,
+        points,
+      };
+    });
+    return {
+      ...displayPayload,
+      asOf: history.as_of,
+      flags: stringList(history.flags),
+      historyAvailableDays: Number(history.available_trade_days) || 0,
+      historyRequestedDays: Number(history.requested_trade_days) || 5,
+      historyTradeDates: asArray(history.trade_dates),
+      sectors,
+      status: text(history.status, "unavailable"),
+      tradeDate: text(asArray(history.trade_dates).at(-1), displayPayload.tradeDate),
+    };
+  }
+
   function renderSectorFlowPicker(payload, displayPayload, scope) {
     const selected = ensureSectorFlowSelection(payload);
     const options = sectorFlowElement(scope, "picker-options");
@@ -890,18 +958,14 @@
   }
 
   function sectorFlowPointValue(point, mode) {
+    if (mode === "five_day") return finiteNumber(point._historyContinuousCny);
     return finiteNumber(mode === "delta_5m" ? point.delta_5m_cny : point.cumulative_cny);
   }
 
   function shanghaiMinuteOfDay(value) {
     const parsed = new Date(value);
     if (Number.isNaN(parsed.getTime())) return null;
-    const parts = new Intl.DateTimeFormat("en-GB", {
-      hour: "2-digit",
-      minute: "2-digit",
-      hourCycle: "h23",
-      timeZone: "Asia/Shanghai",
-    }).formatToParts(parsed);
+    const parts = SHANGHAI_TIME_PARTS_FORMATTER.formatToParts(parsed);
     const hour = Number(parts.find((part) => part.type === "hour")?.value);
     const minute = Number(parts.find((part) => part.type === "minute")?.value);
     return Number.isFinite(hour) && Number.isFinite(minute) ? hour * 60 + minute : null;
@@ -938,6 +1002,7 @@
     const segments = [];
     let current = [];
     let previousSegment = null;
+    let previousDayIndex = null;
     let previousTime = null;
     const flush = () => {
       if (current.length) segments.push(current);
@@ -947,16 +1012,22 @@
       if (!point || typeof point !== "object") {
         flush();
         previousSegment = null;
+        previousDayIndex = null;
         previousTime = null;
         return;
       }
       const value = sectorFlowPointValue(point, mode);
       const time = Date.parse(point.provider_as_of);
       const segment = text(point.session_segment, "");
-      const tradingMinute = sectorFlowTradingMinute(point.provider_as_of, segment);
+      const sessionMinute = sectorFlowTradingMinute(point.provider_as_of, segment);
+      const dayIndex = mode === "five_day" ? Number(point._historyDayIndex) : 0;
+      const tradingMinute = sessionMinute === null || !Number.isInteger(dayIndex)
+        ? null
+        : sessionMinute + dayIndex * SECTOR_FLOW_DAY_SPAN_MINUTES;
       if (value === null || !Number.isFinite(time) || tradingMinute === null) {
         flush();
         previousSegment = null;
+        previousDayIndex = null;
         previousTime = null;
         return;
       }
@@ -964,6 +1035,7 @@
         current.length
         && (
           segment !== previousSegment
+          || dayIndex !== previousDayIndex
           || (
             previousTime !== null
             && (
@@ -975,8 +1047,9 @@
       ) {
         flush();
       }
-      current.push({ point, segment, time, tradingMinute, value });
+      current.push({ dayIndex, point, segment, sessionMinute, time, tradingMinute, value });
       previousSegment = segment;
+      previousDayIndex = dayIndex;
       previousTime = time;
     });
     flush();
@@ -990,11 +1063,19 @@
       if (!Array.isArray(segment) || segment.length < 2) return;
       const first = segment[0];
       const canBridgeLunch = previousEndpoint
+        && previousEndpoint.dayIndex === first.dayIndex
         && previousEndpoint.segment === "am"
         && first.segment === "pm"
-        && previousEndpoint.tradingMinute >= 125 - MAX_SECTOR_FLOW_SAMPLE_GAP_MINUTES
-        && first.tradingMinute <= 125 + SECTOR_FLOW_LUNCH_GAP_MINUTES
+        && previousEndpoint.sessionMinute >= 125 - MAX_SECTOR_FLOW_SAMPLE_GAP_MINUTES
+        && first.sessionMinute <= 125 + SECTOR_FLOW_LUNCH_GAP_MINUTES
           + MAX_SECTOR_FLOW_SAMPLE_GAP_MINUTES;
+      const canBridgeDay = previousEndpoint
+        && first.dayIndex === previousEndpoint.dayIndex + 1
+        && previousEndpoint.segment === "pm"
+        && first.segment === "am"
+        && previousEndpoint.sessionMinute >= SECTOR_FLOW_SESSION_SPAN_MINUTES
+          - MAX_SECTOR_FLOW_SAMPLE_GAP_MINUTES
+        && first.sessionMinute <= 10;
       if (canBridgeLunch) {
         const startX = x(previousEndpoint.tradingMinute);
         const startY = y(previousEndpoint.value);
@@ -1007,10 +1088,14 @@
         segment.slice(1).forEach((point) => {
           commands.push(`L${x(point.tradingMinute).toFixed(2)},${y(point.value).toFixed(2)}`);
         });
+      } else if (canBridgeDay) {
+        for (const point of segment) {
+          commands.push(`L${x(point.tradingMinute).toFixed(2)},${y(point.value).toFixed(2)}`);
+        }
       } else {
-        segment.forEach((point, index) => {
+        for (const [index, point] of segment.entries()) {
           commands.push(`${index ? "L" : "M"}${x(point.tradingMinute).toFixed(2)},${y(point.value).toFixed(2)}`);
-        });
+        }
       }
       previousEndpoint = segment[segment.length - 1];
     });
@@ -1110,10 +1195,19 @@
     const tooltip = sectorFlowElement(scope, "tooltip");
     const shell = sectorFlowElement(scope, "chart-shell");
     const value = sectorFlowPointValue(point, mode);
-    const valueLabel = mode === "delta_5m" ? "近 5 分钟变化" : "当日累计估计";
+    const valueLabel = mode === "five_day"
+      ? "五日连续累计估计"
+      : mode === "delta_5m"
+        ? "近 5 分钟变化"
+        : "当日累计估计";
+    const historyDate = text(point._historyTradeDate, "");
     tooltip.replaceChildren(
       createElement("strong", "", text(item.name, item.sector_key)),
-      createElement("span", "", `${formatShortTime(point.provider_as_of)} · ${valueLabel}`),
+      createElement(
+        "span",
+        "",
+        `${historyDate ? `${historyDate} ` : ""}${formatShortTime(point.provider_as_of)} · ${valueLabel}`,
+      ),
       createElement("span", toneClass(value), formatCny(value, true)),
     );
     tooltip.hidden = false;
@@ -1197,7 +1291,8 @@
     svg.replaceChildren();
 
     const mode = state.sectorFlowMode[scope];
-    const series = sectorFlowSeries(payload, mode);
+    const preparedSeries = arguments.length > 2 ? arguments[2] : null;
+    const series = preparedSeries || sectorFlowSeries(payload, mode);
     if (!series.length) {
       const message = createSvgElement("text", {
         x: 210,
@@ -1206,7 +1301,11 @@
         "font-size": 10,
         "text-anchor": "middle",
       });
-      message.textContent = mode === "delta_5m" ? "近 5 分钟轨迹积累中" : "资金轨迹积累中";
+      message.textContent = mode === "five_day"
+        ? "近五日分钟轨迹读取中"
+        : mode === "delta_5m"
+          ? "近 5 分钟轨迹积累中"
+          : "资金轨迹积累中";
       svg.append(message);
       return;
     }
@@ -1290,19 +1389,22 @@
     hideSectorFlowTooltip(scope);
 
     const mode = state.sectorFlowMode[scope];
-    const series = sectorFlowSeries(payload, mode);
+    const preparedSeries = arguments.length > 2 ? arguments[2] : null;
+    const series = preparedSeries || sectorFlowSeries(payload, mode);
     if (!series.length) {
       empty.hidden = false;
-      empty.textContent = mode === "delta_5m"
-        ? "近 5 分钟同源基线仍在积累，不会用相邻分钟或跨午休数据替代。"
-        : "等待首个真实板块资金点；不会复制集合竞价数据补线。";
+      empty.textContent = mode === "five_day"
+        ? "近五个交易日的真实分钟轨迹暂不可用；不会复制旧值或用相邻日补线。"
+        : mode === "delta_5m"
+          ? "近 5 分钟同源基线仍在积累，不会用相邻分钟或跨午休数据替代。"
+          : "等待首个真实板块资金点；不会复制集合竞价数据补线。";
       renderSectorFlowLegend([], scope);
       return;
     }
     empty.hidden = true;
 
     const width = 980;
-    const margin = { top: 24, right: 185, bottom: 38, left: 72 };
+    const margin = { top: 24, right: 185, bottom: mode === "five_day" ? 48 : 38, left: 72 };
     const endpointLabelCount = series.filter((entry) => (
       [...entry.segments].reverse().some((segment) => segment.length >= 1)
     )).length;
@@ -1320,6 +1422,12 @@
     const includesAfternoon = allPoints.some((point) => point.segment === "pm");
     let xMin = Math.min(...allPoints.map((point) => point.tradingMinute));
     let xMax = Math.max(...allPoints.map((point) => point.tradingMinute));
+    const historyTradeDates = mode === "five_day" ? asArray(payload.historyTradeDates) : [];
+    if (historyTradeDates.length) {
+      xMin = 0;
+      xMax = (historyTradeDates.length - 1) * SECTOR_FLOW_DAY_SPAN_MINUTES
+        + SECTOR_FLOW_SESSION_SPAN_MINUTES;
+    }
     if (xMin === xMax) {
       xMin -= 1;
       xMax += 1;
@@ -1388,7 +1496,9 @@
       fill: "#708692",
       "font-size": 8,
     });
-    scaleLabel.textContent = "金额比例 + 终点密度混合 Y 轴 · 刻度为真实金额";
+    scaleLabel.textContent = mode === "five_day"
+      ? "五个交易日连续展开 · 五日连续累计净额 · 刻度为真实金额"
+      : "金额比例 + 终点密度混合 Y 轴 · 刻度为真实金额";
     grid.append(scaleLabel);
     grid.append(createSvgElement("line", {
       x1: margin.left,
@@ -1399,42 +1509,83 @@
       "stroke-opacity": 0.72,
       "stroke-width": 1.2,
     }));
-    [xMin, (xMin + xMax) / 2, xMax].forEach((value, index) => {
-      const label = createSvgElement("text", {
-        x: x(value),
-        y: height - 13,
-        fill: "#708692",
-        "font-size": 9,
-        "text-anchor": index === 0 ? "start" : index === 2 ? "end" : "middle",
+    if (historyTradeDates.length) {
+      historyTradeDates.forEach((tradeDate, dayIndex) => {
+        const dayStart = dayIndex * SECTOR_FLOW_DAY_SPAN_MINUTES;
+        const dayEnd = dayStart + SECTOR_FLOW_SESSION_SPAN_MINUTES;
+        if (dayIndex > 0) {
+          const separatorX = x(dayStart - SECTOR_FLOW_DAY_GAP_MINUTES / 2);
+          grid.append(createSvgElement("line", {
+            x1: separatorX,
+            x2: separatorX,
+            y1: margin.top,
+            y2: plotBottom,
+            stroke: "#4b626f",
+            "stroke-dasharray": "2 5",
+            "stroke-opacity": 0.72,
+            "stroke-width": 1,
+          }));
+        }
+        const lunchX = x(dayStart + 125 + SECTOR_FLOW_LUNCH_GAP_MINUTES / 2);
+        grid.append(createSvgElement("line", {
+          x1: lunchX,
+          x2: lunchX,
+          y1: margin.top,
+          y2: plotBottom,
+          stroke: "#314854",
+          "stroke-dasharray": "2 6",
+          "stroke-opacity": 0.42,
+          "stroke-width": 1,
+        }));
+        const label = createSvgElement("text", {
+          x: x((dayStart + dayEnd) / 2),
+          y: height - 15,
+          fill: "#8da1ad",
+          "font-size": 9,
+          "font-weight": 700,
+          "text-anchor": "middle",
+        });
+        label.textContent = text(tradeDate, "").slice(5);
+        grid.append(label);
       });
-      label.textContent = formatSectorFlowTradingMinute(value);
-      grid.append(label);
-    });
-    if (
-      includesMorning
-      && includesAfternoon
-      && xMin <= 125
-      && xMax >= 125 + SECTOR_FLOW_LUNCH_GAP_MINUTES
-    ) {
-      const breakX = x(125 + SECTOR_FLOW_LUNCH_GAP_MINUTES / 2);
-      grid.append(createSvgElement("line", {
-        x1: breakX,
-        x2: breakX,
-        y1: margin.top,
-        y2: plotBottom,
-        stroke: "#4b626f",
-        "stroke-dasharray": "3 5",
-        "stroke-opacity": 0.62,
-        "stroke-width": 1,
-      }));
-      const breakLabel = createSvgElement("text", {
-        x: breakX + 5,
-        y: margin.top + 10,
-        fill: "#708692",
-        "font-size": 8,
+    } else {
+      [xMin, (xMin + xMax) / 2, xMax].forEach((value, index) => {
+        const label = createSvgElement("text", {
+          x: x(value),
+          y: height - 13,
+          fill: "#708692",
+          "font-size": 9,
+          "text-anchor": index === 0 ? "start" : index === 2 ? "end" : "middle",
+        });
+        label.textContent = formatSectorFlowTradingMinute(value);
+        grid.append(label);
       });
-      breakLabel.textContent = "午间断点";
-      grid.append(breakLabel);
+      if (
+        includesMorning
+        && includesAfternoon
+        && xMin <= 125
+        && xMax >= 125 + SECTOR_FLOW_LUNCH_GAP_MINUTES
+      ) {
+        const breakX = x(125 + SECTOR_FLOW_LUNCH_GAP_MINUTES / 2);
+        grid.append(createSvgElement("line", {
+          x1: breakX,
+          x2: breakX,
+          y1: margin.top,
+          y2: plotBottom,
+          stroke: "#4b626f",
+          "stroke-dasharray": "3 5",
+          "stroke-opacity": 0.62,
+          "stroke-width": 1,
+        }));
+        const breakLabel = createSvgElement("text", {
+          x: breakX + 5,
+          y: margin.top + 10,
+          fill: "#708692",
+          "font-size": 8,
+        });
+        breakLabel.textContent = "午间断点";
+        grid.append(breakLabel);
+      }
     }
     svg.append(grid);
 
@@ -1971,18 +2122,28 @@
     if (renderPicker) renderSectorFlowPicker(payload, displayPayload, scope);
     else updateSectorFlowPickerSummary(payload, displayPayload, scope);
     renderSectorFlowObservations(displayPayload, scope);
-    const deltaAvailable = displayPayload.sectors.some((item) => hasRenderableSectorFlow(item, "delta_5m"));
-    if (state.sectorFlowMode[scope] === "delta_5m" && !deltaAvailable) {
-      state.sectorFlowMode[scope] = "cumulative";
-    }
+    const fiveDayState = state.fiveDayTrajectory[scope];
+    const fiveDayKeys = state.lastSummary
+      ? requiredSectorKeys(state.lastSummary, scope)
+      : displayPayload.sectors.map((item) => text(item.sector_key, "")).filter(Boolean);
+    const fiveDayCacheKey = `${scope}:${[...new Set(fiveDayKeys)].sort().join(",")}`;
+    const currentFiveDayPayload = fiveDayState.cacheKey === fiveDayCacheKey
+      ? fiveDayState.payload
+      : null;
+    const fiveDayPayload = state.sectorFlowMode[scope] === "five_day"
+      ? sectorFlowFiveDayPayload(currentFiveDayPayload, displayPayload)
+      : null;
+    const chartPayload = state.sectorFlowMode[scope] === "five_day"
+      ? (fiveDayPayload || { ...displayPayload, sectors: [] })
+      : displayPayload;
     const panel = document.querySelector(`.sector-flow-panel[data-flow-scope="${scope}"]`);
     panel.querySelectorAll("[data-flow-mode]").forEach((button) => {
       const mode = button.dataset.flowMode;
       const active = mode === state.sectorFlowMode[scope];
       button.classList.toggle("is-active", active);
       button.setAttribute("aria-pressed", String(active));
-      button.disabled = mode === "delta_5m" && !deltaAvailable;
-      button.title = button.disabled ? "至少需要两个带同源 5 分钟基线的真实采样点" : "";
+      button.disabled = false;
+      button.title = mode === "five_day" ? "读取每日缓存中的最近五个交易日分钟轨迹" : "";
     });
     const statusLabels = {
       ready: "同源分钟轨迹已更新",
@@ -1995,19 +2156,35 @@
       : payload.marketPhase === "midday_break"
         ? " · 午休定格"
         : "";
-    sectorFlowElement(scope, "status").textContent = `${statusLabels[payload.status]}${phaseSuffix}`;
-    sectorFlowElement(scope, "chart-caption").textContent = state.sectorFlowMode[scope] === "delta_5m"
-      ? "近 5 分钟边际净流入 / 出"
-      : "当日累计净流入 / 出";
-    sectorFlowElement(scope, "chart-as-of").textContent = `轨迹时点 ${formatTimestamp(payload.asOf)}`;
-    sectorFlowElement(scope, "note").textContent = payload.status === "unavailable"
-      ? `资金轨迹暂不可用（${payload.reason || "缺少可比较同源水位"}）；现有宏观盘面结论保持独立。`
-      : scope === "offense"
-        ? "进攻方向按行业锚与其细分概念分层；概念轨迹复用同一全市场分钟快照，领涨股来自板块快照并由成分行情补全。资金仍是估计 / 辅助，不构成买卖建议。"
-        : "资金为供应商口径下的日内累计估计；行业与概念仅按各自同类分位比较，不代表资金从一个板块确定转移到另一个板块，也不构成买卖建议。";
-    renderSectorFlowMiniChart(displayPayload, scope);
+    if (state.sectorFlowMode[scope] === "five_day") {
+      const dates = asArray(fiveDayPayload?.historyTradeDates);
+      const available = Number(fiveDayPayload?.historyAvailableDays) || 0;
+      sectorFlowElement(scope, "status").textContent = fiveDayState.error
+        ? "近五日读取失败"
+        : fiveDayPayload
+          ? `${fiveDayPayload.status === "ready" ? "近五日完整" : "近五日部分可用"} · ${available}/5 日`
+          : "近五日读取中";
+      sectorFlowElement(scope, "chart-caption").textContent = "近五个交易日连续分钟资金轨迹";
+      sectorFlowElement(scope, "chart-as-of").textContent = dates.length
+        ? `${dates[0]} — ${dates.at(-1)} · 连续累计`
+        : "交易日范围 --";
+      sectorFlowElement(scope, "note").textContent = fiveDayState.error
+        ? `每日缓存读取失败（${fiveDayState.error}）；不会用旧值、相邻日或当前值补线。`
+        : "近五日图按交易日顺序累加同一板块的每日累计净额；相邻交易日首尾接续，日界线保留，缺失分钟仍保持断点。资金仍是估计 / 辅助，不构成买卖建议。";
+    } else {
+      sectorFlowElement(scope, "status").textContent = `${statusLabels[payload.status]}${phaseSuffix}`;
+      sectorFlowElement(scope, "chart-caption").textContent = "当日累计净流入 / 出";
+      sectorFlowElement(scope, "chart-as-of").textContent = `轨迹时点 ${formatTimestamp(payload.asOf)}`;
+      sectorFlowElement(scope, "note").textContent = payload.status === "unavailable"
+        ? `资金轨迹暂不可用（${payload.reason || "缺少可比较同源水位"}）；现有宏观盘面结论保持独立。`
+        : scope === "offense"
+          ? "进攻方向按行业锚与其细分概念分层；概念轨迹复用同一全市场分钟快照，领涨股来自板块快照并由成分行情补全。资金仍是估计 / 辅助，不构成买卖建议。"
+          : "资金为供应商口径下的日内累计估计；行业与概念仅按各自同类分位比较，不代表资金从一个板块确定转移到另一个板块，也不构成买卖建议。";
+    }
+    const preparedSeries = sectorFlowSeries(chartPayload, state.sectorFlowMode[scope]);
+    renderSectorFlowMiniChart(chartPayload, scope, preparedSeries);
     const chartCard = sectorFlowElement(scope, "chart-card");
-    if (chartCard.open) renderSectorFlowChart(displayPayload, scope);
+    if (chartCard.open) renderSectorFlowChart(chartPayload, scope, preparedSeries);
     else clearSectorFlowExpandedChart(scope);
   }
 
@@ -2031,17 +2208,22 @@
       if (!state.lastSnapshot) return;
       try {
         await hydrateCurrentSectorFlow(scope);
+        if (state.sectorFlowMode[scope] === "five_day") {
+          await hydrateFiveDaySectorFlow(scope);
+        }
       } catch (error) {
         if (error.discardBatch || error.noAcceptedReal) {
           discardMarketWatchBatch();
           fetchSnapshot({ force: true });
           return;
         }
-        renderSectorFlowUnavailable(
-          `精确轨迹读取失败：${text(error.message, "等待自动重试")}`,
-          scope,
-        );
-        return;
+        if (state.sectorFlowMode[scope] !== "five_day") {
+          renderSectorFlowUnavailable(
+            `精确轨迹读取失败：${text(error.message, "等待自动重试")}`,
+            scope,
+          );
+          return;
+        }
       }
       renderSectorFlowTrajectory(state.lastSnapshot, scope, {
         renderPicker: request.renderPicker,
@@ -2840,7 +3022,7 @@
     const dates = asArray(history.dates)
       .map((item) => text(objectValue(item).trade_date, text(item, "")))
       .filter(Boolean);
-    const selected = text(history.trade_date, state.stockSelectionTradeDate || dates[0] || "");
+    const selected = state.stockSelectionTradeDate;
     select.replaceChildren();
     if (!dates.length) {
       select.append(createElement("option", "", "尚无存档"));
@@ -2848,6 +3030,10 @@
       state.stockSelectionTradeDate = null;
       return;
     }
+    const latest = createElement("option", "", `最新存档（${dates[0]}）`);
+    latest.value = "";
+    latest.selected = !selected;
+    select.append(latest);
     dates.forEach((tradeDate) => {
       const option = createElement("option", "", tradeDate);
       option.value = tradeDate;
@@ -2855,7 +3041,6 @@
       select.append(option);
     });
     select.disabled = false;
-    state.stockSelectionTradeDate = dates.includes(selected) ? selected : dates[0];
   }
 
   function renderStockSelectionExclusions(
@@ -3391,11 +3576,18 @@
 
   async function fetchStockSelectionHistory({ tradeDate = null, silent = false } = {}) {
     state.stockSelectionHasLoaded = true;
-    if (state.stockSelectionFetchInFlight) return;
+    if (state.stockSelectionFetchInFlight && silent) return;
+    const requestId = ++state.stockSelectionRequestId;
     state.stockSelectionFetchInFlight = true;
     if (!silent) {
       byId("stock-selection-status").textContent = "正在读取策略结果…";
       byId("stock-selection-launch-status").textContent = "正在读取策略结果…";
+      document.querySelectorAll("[data-stock-selection-result-contract]").forEach((panel) => {
+        panel.hidden = true;
+      });
+      document.querySelectorAll("[data-stock-selection-tab]").forEach((button) => {
+        button.disabled = true;
+      });
     }
     try {
       const query = tradeDate ? `?trade_date=${encodeURIComponent(tradeDate)}` : "";
@@ -3404,14 +3596,29 @@
         headers: { Accept: "application/json" },
       });
       const payload = await response.json();
+      if (requestId !== state.stockSelectionRequestId) return;
       if (!response.ok) throw new Error(text(payload.error, `服务返回 ${response.status}`));
-      renderStockSelectionHistory(validateStockSelectionHistory(payload));
+      const history = validateStockSelectionHistory(payload);
+      if ((tradeDate && history.trade_date !== tradeDate)
+        || asArray(history.results).some((item) => item.trade_date !== history.trade_date)) {
+        throw new Error("选股结果日期不匹配，请重新读取");
+      }
+      renderStockSelectionHistory(history);
     } catch (error) {
+      if (requestId !== state.stockSelectionRequestId) return;
+      document.querySelectorAll("[data-stock-selection-result-contract]").forEach((panel) => {
+        panel.hidden = true;
+      });
+      document.querySelectorAll("[data-stock-selection-tab]").forEach((button) => {
+        button.disabled = true;
+      });
       byId("stock-selection-status").textContent = `策略结果暂不可用：${text(error.message, "等待重试")}`;
       byId("stock-selection-launch-status").textContent = "策略结果暂不可用";
     } finally {
-      state.stockSelectionFetchInFlight = false;
-      updateStockSelectionSchedule();
+      if (requestId === state.stockSelectionRequestId) {
+        state.stockSelectionFetchInFlight = false;
+        updateStockSelectionSchedule();
+      }
     }
   }
 
@@ -3460,12 +3667,8 @@
         renderStockSelectionGenerationStatus(generation);
       }
       if (generation.state === "succeeded") {
-        const legacySelection = objectValue(objectValue(generation.result).selection);
-        const tradeDate = text(generation.trade_date, text(legacySelection.trade_date, null));
-        byId("stock-selection-status").textContent = "今日候选池已生成并存档";
-        byId("stock-selection-launch-status").textContent = "今日选股档案已就绪";
         await fetchStockSelectionHistory({
-          tradeDate,
+          tradeDate: state.stockSelectionTradeDate,
           silent: true,
         });
       }
@@ -4914,6 +5117,127 @@
     };
   }
 
+  function validateFiveDayTrajectory(payload, scope, requestedKeys, response) {
+    const requested = new Set(requestedKeys);
+    const days = asArray(payload?.days);
+    const tradeDates = asArray(payload?.trade_dates);
+    const sectorKeys = asArray(payload?.sector_keys);
+    if (
+      !payload
+      || payload.contract !== "sector_flow_five_day_trajectory.v1"
+      || payload.schema_version !== 1
+      || payload.direction !== scope
+      || payload.requested_trade_days !== 5
+      || payload.available_trade_days !== days.length
+      || payload.sector_count !== sectorKeys.length
+      || sectorKeys.length !== requested.size
+      || sectorKeys.some((key) => !requested.has(key))
+      || tradeDates.length !== days.length
+      || !isRevision(payload.history_revision)
+      || response.headers.get("X-Trajectory-Revision") !== payload.history_revision
+    ) {
+      throw new Error(`${scope} 近五日轨迹总契约不一致`);
+    }
+    let pointCount = 0;
+    let previousDate = "";
+    days.forEach((day, dayIndex) => {
+      const sectors = asArray(day?.sectors);
+      const keys = sectors.map((item) => text(item?.sector_key, ""));
+      const tradeDate = text(day?.trade_date, "");
+      const dailyPointCount = sectors.reduce((total, item) => (
+        total + asArray(item?.points).length
+      ), 0);
+      if (
+        day?.contract !== "sector_flow_five_day_slice.v1"
+        || day?.schema_version !== 1
+        || day?.direction !== scope
+        || !tradeDate
+        || tradeDates[dayIndex] !== tradeDate
+        || (previousDate && tradeDate <= previousDate)
+        || !isRevision(day?.source_snapshot_revision)
+        || !isRevision(day?.trajectory_revision)
+        || keys.some((key) => !key || !requested.has(key))
+        || new Set(keys).size !== keys.length
+        || dailyPointCount !== day?.point_count
+        || sectors.some((item) => asArray(item?.points).some((point) => (
+          text(point?.provider_as_of, "").slice(0, 10) !== tradeDate
+        )))
+      ) {
+        throw new Error(`${scope}/${tradeDate || "unknown"} 近五日轨迹日切片不一致`);
+      }
+      previousDate = tradeDate;
+      pointCount += dailyPointCount;
+    });
+    if (pointCount !== payload.point_count) {
+      throw new Error(`${scope} 近五日轨迹点数不一致`);
+    }
+    return payload;
+  }
+
+  const fiveDayTrajectoryRequests = new Map();
+
+  async function fetchFiveDayTrajectory(scope, sectorKeys, { force = false } = {}) {
+    const sortedKeys = [...new Set(sectorKeys)].sort();
+    if (!sortedKeys.length) throw new Error(`${scope} 没有可读取的板块`);
+    const cacheKey = `${scope}:${sortedKeys.join(",")}`;
+    const pending = fiveDayTrajectoryRequests.get(cacheKey);
+    if (pending && !force) return pending;
+    const request = (async () => {
+      const cached = state.fiveDayTrajectory[scope];
+      const query = new URLSearchParams({
+        direction: scope,
+        sector_keys: sortedKeys.join(","),
+      });
+      const response = await fetch(`${FIVE_DAY_TRAJECTORY_ENDPOINT}?${query}`, {
+        cache: "no-cache",
+        headers: marketWatchHeaders(
+          cached.cacheKey === cacheKey ? cached.etag : null,
+          force,
+        ),
+      });
+      let payload;
+      if (response.status === 304) {
+        if (cached.cacheKey !== cacheKey || !cached.payload) {
+          throw new Error("近五日轨迹 304 缺少本地精确批次");
+        }
+        payload = cached.payload;
+      } else {
+        if (!response.ok) throw await marketWatchResponseError(response);
+        payload = await response.json();
+      }
+      validateFiveDayTrajectory(payload, scope, sortedKeys, response);
+      state.fiveDayTrajectory[scope] = {
+        cacheKey,
+        error: null,
+        etag: response.status === 304 ? cached.etag : response.headers.get("ETag"),
+        payload,
+      };
+      return payload;
+    })();
+    fiveDayTrajectoryRequests.set(cacheKey, request);
+    try {
+      return await request;
+    } finally {
+      if (fiveDayTrajectoryRequests.get(cacheKey) === request) {
+        fiveDayTrajectoryRequests.delete(cacheKey);
+      }
+    }
+  }
+
+  async function hydrateFiveDaySectorFlow(scope) {
+    if (!state.lastSummary) return null;
+    const sectorKeys = requiredSectorKeys(state.lastSummary, scope);
+    try {
+      return await fetchFiveDayTrajectory(scope, sectorKeys);
+    } catch (error) {
+      state.fiveDayTrajectory[scope] = {
+        ...state.fiveDayTrajectory[scope],
+        error: text(error?.message, "近五日轨迹读取失败"),
+      };
+      throw error;
+    }
+  }
+
   function hydratedTrajectory(summary, scope, exactByKey) {
     const trajectory = trajectorySummary(summary, scope);
     if (!trajectory) return null;
@@ -5246,6 +5570,7 @@
       const validDisplayBasis = new Set([
         "manual_market_review",
         "event_business_crosscheck",
+        "evidence_candidate_ranking",
         "relationship_directory",
         "primary_business",
         "unresolved",
@@ -5284,7 +5609,7 @@
     const validKeys = new Set(["all", ...categories.map((item) => text(item.business_key, ""))]);
     if (!validKeys.has(state.limitUpPoolCategory)) state.limitUpPoolCategory = "all";
     const specs = [
-      { sector_key: "all", label: "全部", count: pool.pool_total },
+      { business_key: "all", label: "全部", count: pool.pool_total },
       ...categories,
     ];
     const buttons = specs.map((category) => {
@@ -5631,13 +5956,35 @@
     byId("manual-portfolio-launch-status").textContent = message;
   }
 
+  function manualPortfolioDisplayStatus(quote) {
+    const priceStatus = quote?.status || "unavailable";
+    if (priceStatus !== "accepted") return priceStatus;
+    const changeStatus = text(quote?.session_change_status, "");
+    if (!changeStatus) return finiteNumber(quote?.session_change_pct) === null
+      ? "degraded"
+      : priceStatus;
+    if (changeStatus === "stale") return "stale";
+    if (changeStatus === "unavailable" || changeStatus === "degraded") return "degraded";
+    return priceStatus;
+  }
+
+  function manualPortfolioQualityDetail(quote, entry) {
+    if (!quote) return entry.enabled ? "等待采集进程物化" : "已停用，不请求行情";
+    if (quote.reason) return quote.reason;
+    const changeStatus = text(quote.session_change_status, "");
+    if (changeStatus === "stale") return "价格轨迹新鲜，但标准实时涨幅已过期";
+    if (changeStatus === "unavailable") return "价格轨迹可用，但标准实时涨幅不可用";
+    if (changeStatus === "degraded") return "标准实时涨幅证据不完整";
+    return "价格与标准实时涨幅均可核验";
+  }
+
   function renderManualPortfolioSummary(portfolio, market, marketMatches, quoteMap) {
     const entries = asArray(portfolio.items);
     const enabledEntries = entries.filter((entry) => entry.enabled);
     const enabledIds = new Set(enabledEntries.map((entry) => entry.instrument_id));
     const freshCount = marketMatches
       ? asArray(market.items).filter((item) => (
-        enabledIds.has(item.instrument_id) && item.status === "accepted"
+        enabledIds.has(item.instrument_id) && manualPortfolioDisplayStatus(item) === "accepted"
       )).length
       : 0;
     const alertCount = marketMatches ? asArray(market.alerts).length : 0;
@@ -5661,7 +6008,7 @@
         createElement("strong", "", entry.instrument_id),
         createElement("small", "", entry.display_name || (entry.enabled ? "名称未提供" : "已停用")),
       );
-      const quoteStatus = quote?.status || (entry.enabled ? "unavailable" : "disabled");
+      const quoteStatus = quote ? manualPortfolioDisplayStatus(quote) : (entry.enabled ? "unavailable" : "disabled");
       const marketBox = createElement("div", "manual-portfolio-preview__market");
       const marketValue = createElement(
         "strong",
@@ -5710,10 +6057,10 @@
     marketBox.append(price, change);
     market.appendChild(marketBox);
     const quality = document.createElement("td");
-    const status = quote?.status || (entry.enabled ? "unavailable" : "disabled");
+    const status = quote ? manualPortfolioDisplayStatus(quote) : (entry.enabled ? "unavailable" : "disabled");
     quality.append(
       createElement("strong", `manual-portfolio-quality quality-${status}`, manualPortfolioQualityLabel(status)),
-      createElement("small", "manual-portfolio-quality-detail", quote?.reason || (entry.enabled ? "等待采集进程物化" : "已停用，不请求行情")),
+      createElement("small", "manual-portfolio-quality-detail", manualPortfolioQualityDetail(quote, entry)),
     );
     const note = createElement("td", "manual-portfolio-note", entry.note || "--");
     const actions = document.createElement("td");
@@ -5727,8 +6074,13 @@
     remove.type = "button";
     remove.dataset.manualPortfolioAction = "delete";
     remove.dataset.instrumentId = entry.instrument_id;
+    const analysis = createElement("button", "button button-secondary", "次日分析");
+    analysis.type = "button";
+    analysis.dataset.manualPortfolioAction = "analysis";
+    analysis.dataset.instrumentId = entry.instrument_id;
     controls.append(
       createElement("span", entry.enabled ? "portfolio-enabled" : "portfolio-disabled", entry.enabled ? "已启用" : "已停用"),
+      analysis,
       toggle,
       remove,
     );
@@ -5866,87 +6218,204 @@
     }
   }
 
-  function renderManualPortfolioOutlook(payload) {
-    const target = byId("manual-portfolio-outlook");
-    const items = asArray(payload?.items);
-    if (!items.length) {
-      target.replaceChildren(createElement("p", "empty-state", "当前没有可生成前瞻的已启用代码。"));
-      return;
-    }
-    const marketContext = payload?.market_context;
-    const nodes = [];
+  function manualPortfolioOutlookCard(item, marketContext) {
+    const card = createElement("article", `manual-portfolio-outlook-card outlook-${item.status}`);
     if (marketContext) {
-      const contextCard = createElement("article", "manual-portfolio-outlook-card outlook-market-context");
-      contextCard.append(
+      card.append(
         createElement("strong", "", `次日盘面基准 · ${text(marketContext.bias, "uncertain")} / ${text(marketContext.confidence, "abstain")}`),
         createElement("p", "", marketContext.thesis),
         createElement("p", "", `预计形态：${marketContext.expected_shape}`),
-        createElement("small", "", `转强确认：${marketContext.confirmation} · 失效：${marketContext.invalidation}`),
       );
-      nodes.push(contextCard);
     }
-    nodes.push(...items.map((item) => {
-      const card = createElement("article", `manual-portfolio-outlook-card outlook-${item.status}`);
+    card.append(
+      createElement(
+        "strong",
+        "manual-portfolio-outlook-headline",
+        text(item.headline, item.status === "conditional" ? "条件式次日分析" : "证据不足"),
+      ),
+      createElement("small", "", `${text(item.display_name, "名称未提供")} · ${item.instrument_id}`),
+      ...asArray(item.evidence_digest).map((value) => (
+        createElement("p", "manual-portfolio-evidence", `已知事实：${value}`)
+      )),
+      createElement("p", "manual-portfolio-sector", text(
+        item.sector_interpretation,
+        "本地关系库没有可用归属；不使用供应商板块名称补位。",
+      )),
+      createElement("p", "", `明日主问题：${item.next_session}`),
+      createElement("p", "", `未来 2–5 日：${item.next_2_to_5_sessions}`),
+    );
+    const plan = item.price_plan;
+    if (plan) {
+      const pullback = asArray(plan.pullback_observation_zone);
+      const pressure = asArray(plan.pressure_observation_zone);
       card.append(
-        createElement("strong", "", `${item.instrument_id} · ${item.status === "conditional" ? "条件式" : "证据不足"}`),
-        createElement("p", "", `次日：${item.next_session}`),
-        createElement("p", "", `未来 2–5 日：${item.next_2_to_5_sessions}`),
+        createElement(
+          "p",
+          "manual-portfolio-price-plan",
+          `回撤观察区 ${formatLevel(pullback[0])}–${formatLevel(pullback[1])} · 压力观察区 ${formatLevel(pressure[0])}–${formatLevel(pressure[1])} · 中位 ${formatLevel(plan.previous_midpoint)} · 风险参考 ${formatLevel(plan.risk_reference)}`,
+        ),
+        createElement("small", "", plan.note),
       );
-      const plan = item.price_plan;
-      if (plan) {
-        const pullback = asArray(plan.pullback_observation_zone);
-        const pressure = asArray(plan.pressure_observation_zone);
-        card.append(
-          createElement(
-            "p",
-            "manual-portfolio-price-plan",
-            `回撤观察区 ${formatLevel(pullback[0])}–${formatLevel(pullback[1])} · 压力观察区 ${formatLevel(pressure[0])}–${formatLevel(pressure[1])} · 中位 ${formatLevel(plan.previous_midpoint)} · 风险参考 ${formatLevel(plan.risk_reference)}`,
-          ),
-          createElement("small", "", plan.note),
-        );
-      }
-      asArray(item.opening_scenarios).forEach((scenario) => {
-        card.append(createElement("p", "manual-portfolio-scenario", `开盘情景：${scenario}`));
+    }
+    asArray(item.opening_scenarios).forEach((scenario) => {
+      card.append(createElement("p", "manual-portfolio-scenario", `开盘情景：${scenario}`));
+    });
+    asArray(item.market_scenarios).forEach((scenario) => {
+      card.append(createElement("p", "manual-portfolio-scenario", `盘面联动：${scenario}`));
+    });
+    if (asArray(item.tomorrow_checkpoints).length) {
+      card.append(createElement("strong", "manual-portfolio-checkpoint-title", "明早按这个顺序复核"));
+      asArray(item.tomorrow_checkpoints).forEach((checkpoint) => {
+        card.append(createElement("p", "manual-portfolio-scenario", checkpoint));
       });
-      asArray(item.market_scenarios).forEach((scenario) => {
-        card.append(createElement("p", "manual-portfolio-scenario", `盘面联动：${scenario}`));
-      });
+    }
+    card.append(createElement(
+      "small",
+      "",
+      `确认：${stringList(item.confirmation_conditions).join("；") || "无"} · 失效：${stringList(item.invalidation_conditions).join("；") || "无"}`,
+    ));
+    return card;
+  }
+
+  function renderManualPortfolioAnalysisArchive() {
+    const history = state.manualPortfolioAnalysisHistory;
+    const tab = state.manualPortfolioAnalysisTab;
+    const pages = asArray(tab === "outlook" ? history?.outlook_pages : history?.review_pages);
+    const index = Math.min(state.manualPortfolioAnalysisPage[tab] || 0, Math.max(0, pages.length - 1));
+    state.manualPortfolioAnalysisPage[tab] = index;
+    const page = pages[index];
+    const outlookTarget = byId("manual-portfolio-analysis-outlook");
+    const reviewTarget = byId("manual-portfolio-analysis-review");
+    outlookTarget.hidden = tab !== "outlook";
+    reviewTarget.hidden = tab !== "review";
+    document.querySelectorAll("[data-manual-portfolio-analysis-tab]").forEach((button) => {
+      const active = button.dataset.manualPortfolioAnalysisTab === tab;
+      button.classList.toggle("is-active", active);
+      button.setAttribute("aria-selected", String(active));
+    });
+    const dateSelect = byId("manual-portfolio-analysis-date-select");
+    const dateOptions = pages.map((candidate) => {
+      const option = document.createElement("option");
+      const sourceDate = tab === "outlook"
+        ? candidate.source_trading_date
+        : candidate.reviewed_outlook_date;
+      option.value = sourceDate;
+      option.textContent = tab === "outlook"
+        ? sourceDate
+        : `${sourceDate} → ${candidate.realized_trading_date}`;
+      return option;
+    });
+    if (!dateOptions.length) {
+      const option = document.createElement("option");
+      option.value = "";
+      option.textContent = "暂无档案";
+      dateOptions.push(option);
+    }
+    dateSelect.replaceChildren(...dateOptions);
+    dateSelect.disabled = !page;
+    dateSelect.value = page
+      ? (tab === "outlook" ? page.source_trading_date : page.reviewed_outlook_date)
+      : "";
+    byId("manual-portfolio-analysis-past").disabled = !page || index >= pages.length - 1;
+    byId("manual-portfolio-analysis-future").disabled = !page || index === 0;
+    if (!page) {
+      byId("manual-portfolio-analysis-date").textContent = "暂无档案";
+      const target = tab === "outlook" ? outlookTarget : reviewTarget;
+      target.replaceChildren(createElement(
+        "p",
+        "empty-state",
+        tab === "outlook" ? "尚无按交易日保存的次日分析。" : "尚无可核验的前一日分析回顾。",
+      ));
+      return;
+    }
+    if (tab === "outlook") {
+      byId("manual-portfolio-analysis-date").textContent = `基于 ${page.source_trading_date} 收盘 · ${index + 1} / ${pages.length}`;
+      outlookTarget.replaceChildren(
+        createElement("p", "manual-portfolio-archive-time", `生成时间 ${formatTimestamp(page.generated_at)}`),
+        manualPortfolioOutlookCard(page.analysis, page.market_context),
+      );
+    } else {
+      const item = page.review;
+      const outcomeLabel = {
+        conditions_met: "收盘确认",
+        mixed: "只到达、未确认",
+        invalidated: "原方案失效",
+        not_evaluable: "证据不足",
+      }[item.outcome] || item.outcome;
+      byId("manual-portfolio-analysis-date").textContent = `复核 ${page.reviewed_outlook_date} → ${page.realized_trading_date} · ${index + 1} / ${pages.length}`;
+      const card = createElement("article", `manual-portfolio-outlook-card review-${item.outcome}`);
       card.append(
-        createElement("small", "", `确认：${stringList(item.confirmation_conditions).join("；") || "无"} · 失效：${stringList(item.invalidation_conditions).join("；") || "无"}`),
+        createElement("strong", "", text(item.headline, `复核结果 · ${outcomeLabel}`)),
+        createElement("p", "", item.observation),
+        ...asArray(item.evidence).map((evidence) => createElement("p", "manual-portfolio-scenario", evidence)),
+        item.worked ? createElement("p", "manual-portfolio-review-worked", `昨天有用的部分：${item.worked}`) : document.createTextNode(""),
+        item.missed ? createElement("p", "manual-portfolio-review-missed", `昨天漏掉的部分：${item.missed}`) : document.createTextNode(""),
+        item.next_adjustment ? createElement("p", "manual-portfolio-review-adjustment", `下一次怎么改：${item.next_adjustment}`) : document.createTextNode(""),
+        createElement("small", "", `自我总结：${page.self_summary}`),
+        createElement("small", "", `限制：${stringList(item.limitations).join("；") || "无"}`),
       );
-      return card;
-    }));
-    target.replaceChildren(...nodes);
+      reviewTarget.replaceChildren(card);
+    }
   }
 
   function renderManualPortfolioIntradayAnalysis(payload) {
     const target = byId("manual-portfolio-intraday-analysis");
-    const items = asArray(payload?.items);
-    if (!items.length) {
+    const analyses = asArray(payload?.analyses);
+    if (!analyses.length) {
       target.replaceChildren(createElement("p", "empty-state", "当前没有可分析的已启用代码。"));
       return;
     }
-    target.replaceChildren(...items.map((item) => {
-      const card = createElement("article", `manual-portfolio-outlook-card outlook-${item.status}`);
-      card.append(
-        createElement("strong", "", `${item.instrument_id} · ${item.status === "conditional" ? "盘中条件分析" : "证据不足"}`),
-        createElement("p", "", item.current_observation),
-        createElement("small", "", `确认：${stringList(item.confirmation_conditions).join("；") || "无"} · 失效：${stringList(item.invalidation_conditions).join("；") || "无"}`),
+    const table = createElement("table", "manual-portfolio-intraday-log");
+    const head = document.createElement("thead");
+    const headingRow = document.createElement("tr");
+    ["分析时间", "股票数", "分析内容"].forEach((label) => {
+      const cell = createElement("th", "", label);
+      cell.scope = "col";
+      headingRow.append(cell);
+    });
+    head.append(headingRow);
+    const body = document.createElement("tbody");
+    analyses.forEach((analysis) => {
+      const items = asArray(analysis.items);
+      const row = document.createElement("tr");
+      row.append(
+        createElement("td", "manual-portfolio-intraday-time", formatTimestamp(analysis.generated_at)),
+        createElement("td", "", String(items.length)),
       );
-      return card;
-    }));
+      const detailCell = document.createElement("td");
+      const details = createElement("details", "manual-portfolio-intraday-entry");
+      details.append(createElement("summary", "", `展开 ${items.length} 只股票的本次分析`));
+      items.forEach((item) => {
+        const card = createElement("article", `manual-portfolio-intraday-item outlook-${item.status}`);
+        card.append(
+          createElement("strong", "", `${item.display_name || "名称未提供"} · ${item.instrument_id}`),
+          createElement("p", "", item.current_observation),
+          createElement("small", "", `确认：${stringList(item.confirmation_conditions).join("；") || "无"} · 失效：${stringList(item.invalidation_conditions).join("；") || "无"}`),
+        );
+        details.append(card);
+      });
+      detailCell.append(details);
+      row.append(detailCell);
+      body.append(row);
+    });
+    table.append(head, body);
+    target.replaceChildren(table);
   }
 
   async function fetchManualPortfolioIntradayAnalysis({ silent = false } = {}) {
     try {
-      const payload = await readManualJson(MANUAL_PORTFOLIO_INTRADAY_ANALYSIS_ENDPOINT);
-      if (payload?.contract !== "manual_portfolio_intraday_analysis.v1") {
+      const payload = await readManualJson(MANUAL_PORTFOLIO_INTRADAY_HISTORY_ENDPOINT);
+      if (
+        payload?.contract !== "manual_portfolio_intraday_analysis_history.v1"
+        || asArray(payload.analyses).some((item) => item?.contract !== "manual_portfolio_intraday_analysis.v1")
+      ) {
         throw new Error("盘中分析契约不匹配");
       }
       state.manualPortfolioIntradayAnalysis = payload;
       renderManualPortfolioIntradayAnalysis(payload);
+      const latest = asArray(payload.analyses).at(-1);
       byId("manual-portfolio-intraday-analysis-status").textContent = (
-        `更新 ${formatTimestamp(payload.generated_at)}`
+        `显示最近 ${asArray(payload.analyses).length} 次 · 最新 ${formatTimestamp(latest?.generated_at)}`
       );
     } catch (error) {
       if (!silent || error?.status === 503) {
@@ -5963,8 +6432,10 @@
       const payload = await readManualJson(MANUAL_PORTFOLIO_OUTLOOK_ENDPOINT);
       if (payload?.contract !== "manual_portfolio_outlook.v1") throw new Error("条件式前瞻契约不匹配");
       state.manualPortfolioOutlook = payload;
-      renderManualPortfolioOutlook(payload);
       byId("manual-portfolio-outlook-status").textContent = `已生成 ${formatTimestamp(payload.generated_at)}`;
+      if (state.manualPortfolioAnalysisInstrumentId) {
+        fetchManualPortfolioAnalysisHistory(state.manualPortfolioAnalysisInstrumentId, { silent: true });
+      }
     } catch (error) {
       if (!silent) byId("manual-portfolio-outlook-status").textContent = text(error?.message, "前瞻暂不可用");
     }
@@ -6023,6 +6494,27 @@
     } catch (error) {
       byId("manual-portfolio-outlook-status").textContent = text(error?.message, "前瞻排队失败");
       renderManualPortfolio();
+    }
+  }
+
+  async function fetchManualPortfolioAnalysisHistory(instrumentId, { silent = false } = {}) {
+    try {
+      const endpoint = `${MANUAL_PORTFOLIO_ANALYSIS_HISTORY_ENDPOINT}?instrument_id=${encodeURIComponent(instrumentId)}&limit=365`;
+      const payload = await readManualJson(endpoint);
+      if (payload?.contract !== "manual_portfolio_analysis_history.v1") {
+        throw new Error("个股分析档案契约不匹配");
+      }
+      if (state.manualPortfolioAnalysisInstrumentId !== instrumentId) return;
+      state.manualPortfolioAnalysisHistory = payload;
+      byId("manual-portfolio-analysis-identity").textContent = `${payload.display_name || "名称未提供"} · ${payload.instrument_id}`;
+      renderManualPortfolioAnalysisArchive();
+    } catch (error) {
+      if (!silent) {
+        const target = state.manualPortfolioAnalysisTab === "review"
+          ? byId("manual-portfolio-analysis-review")
+          : byId("manual-portfolio-analysis-outlook");
+        target.replaceChildren(createElement("p", "empty-state", text(error?.message, "个股分析档案暂不可用")));
+      }
     }
   }
 
@@ -6111,6 +6603,71 @@
     byId("manual-portfolio-open-button").focus();
   }
 
+  function openManualPortfolioAnalysis(instrumentId) {
+    state.manualPortfolioAnalysisInstrumentId = instrumentId;
+    state.manualPortfolioAnalysisHistory = null;
+    state.manualPortfolioAnalysisTab = "outlook";
+    state.manualPortfolioAnalysisPage = { outlook: 0, review: 0 };
+    const entry = asArray(state.manualPortfolio?.items).find((item) => item.instrument_id === instrumentId);
+    byId("manual-portfolio-analysis-identity").textContent = `${entry?.display_name || "名称未提供"} · ${instrumentId}`;
+    byId("manual-portfolio-analysis-outlook").replaceChildren(createElement("p", "empty-state", "正在读取次日分析档案…"));
+    const dialog = byId("manual-portfolio-analysis-dialog");
+    if (!dialog.open) dialog.showModal();
+    renderManualPortfolioAnalysisArchive();
+    fetchManualPortfolioAnalysisHistory(instrumentId);
+  }
+
+  function closeManualPortfolioAnalysis() {
+    const instrumentId = state.manualPortfolioAnalysisInstrumentId;
+    const dialog = byId("manual-portfolio-analysis-dialog");
+    if (dialog.open) dialog.close();
+    state.manualPortfolioAnalysisInstrumentId = null;
+    const returnButton = document.querySelector(
+      `[data-manual-portfolio-action="analysis"][data-instrument-id="${instrumentId}"]`,
+    );
+    if (returnButton) returnButton.focus();
+  }
+
+  function selectManualPortfolioAnalysisTab(tab) {
+    if (!new Set(["outlook", "review"]).has(tab)) return;
+    state.manualPortfolioAnalysisTab = tab;
+    renderManualPortfolioAnalysisArchive();
+  }
+
+  function moveManualPortfolioAnalysisPage(delta) {
+    const tab = state.manualPortfolioAnalysisTab;
+    state.manualPortfolioAnalysisPage[tab] = Math.max(
+      0,
+      (state.manualPortfolioAnalysisPage[tab] || 0) + delta,
+    );
+    renderManualPortfolioAnalysisArchive();
+  }
+
+  function selectManualPortfolioAnalysisDate(dateValue) {
+    const tab = state.manualPortfolioAnalysisTab;
+    const history = state.manualPortfolioAnalysisHistory;
+    const pages = asArray(tab === "outlook" ? history?.outlook_pages : history?.review_pages);
+    const index = pages.findIndex((page) => (
+      tab === "outlook"
+        ? page.source_trading_date === dateValue
+        : page.reviewed_outlook_date === dateValue
+    ));
+    if (index < 0) return;
+    state.manualPortfolioAnalysisPage[tab] = index;
+    renderManualPortfolioAnalysisArchive();
+  }
+
+  function selectManualPortfolioLiveTab(tab) {
+    const analysisActive = tab === "analysis";
+    byId("manual-portfolio-live-panel-analysis").hidden = !analysisActive;
+    byId("manual-portfolio-live-panel-alerts").hidden = analysisActive;
+    document.querySelectorAll("[data-manual-portfolio-live-tab]").forEach((button) => {
+      const active = button.dataset.manualPortfolioLiveTab === tab;
+      button.classList.toggle("is-active", active);
+      button.setAttribute("aria-selected", String(active));
+    });
+  }
+
   function bindUserActions() {
     byId("refresh-button").addEventListener("click", () => fetchSnapshot({ force: true }));
       byId("collection-recovery-button").addEventListener("click", requestDailyRecovery);
@@ -6131,7 +6688,9 @@
       const button = event.target.closest("[data-manual-portfolio-action]");
       if (!button) return;
       const instrumentId = button.dataset.instrumentId;
-      if (button.dataset.manualPortfolioAction === "delete") {
+      if (button.dataset.manualPortfolioAction === "analysis") {
+        openManualPortfolioAnalysis(instrumentId);
+      } else if (button.dataset.manualPortfolioAction === "delete") {
         if (!window.confirm(`确认从手动持仓观察中删除 ${instrumentId}？`)) return;
         mutateManualPortfolio({ action: "delete", instrument_id: instrumentId });
       } else {
@@ -6150,6 +6709,23 @@
       if (event.target !== manualPortfolioDialog) return;
       closeManualPortfolioDialog();
     });
+    document.querySelectorAll("[data-manual-portfolio-live-tab]").forEach((button) => {
+      button.addEventListener("click", () => selectManualPortfolioLiveTab(button.dataset.manualPortfolioLiveTab));
+    });
+    document.querySelectorAll("[data-manual-portfolio-analysis-tab]").forEach((button) => {
+      button.addEventListener("click", () => selectManualPortfolioAnalysisTab(button.dataset.manualPortfolioAnalysisTab));
+    });
+    byId("manual-portfolio-analysis-past").addEventListener("click", () => moveManualPortfolioAnalysisPage(1));
+    byId("manual-portfolio-analysis-future").addEventListener("click", () => moveManualPortfolioAnalysisPage(-1));
+    byId("manual-portfolio-analysis-date-select").addEventListener("change", (event) => {
+      selectManualPortfolioAnalysisDate(event.target.value);
+    });
+    byId("manual-portfolio-analysis-close-button").addEventListener("click", closeManualPortfolioAnalysis);
+    const manualPortfolioAnalysisDialog = byId("manual-portfolio-analysis-dialog");
+    manualPortfolioAnalysisDialog.addEventListener("click", (event) => {
+      if (event.target !== manualPortfolioAnalysisDialog) return;
+      closeManualPortfolioAnalysis();
+    });
     byId("limit-up-pool-open-button").addEventListener("click", openLimitUpPoolDialog);
     byId("limit-up-pool-close-button").addEventListener("click", closeLimitUpPoolDialog);
     const limitUpDialog = byId("limit-up-pool-dialog");
@@ -6163,10 +6739,10 @@
         if (button.disabled) return;
         const scope = button.closest("[data-sector-flow-chart-card]")?.dataset.flowScope;
         if (!scope) return;
-        state.sectorFlowMode[scope] = button.dataset.flowMode === "delta_5m"
-          ? "delta_5m"
+        state.sectorFlowMode[scope] = button.dataset.flowMode === "five_day"
+          ? "five_day"
           : "cumulative";
-        if (state.lastSnapshot) renderSectorFlowTrajectory(state.lastSnapshot, scope);
+        if (state.lastSnapshot) scheduleSectorFlowRender(scope);
       });
     });
     document.querySelectorAll("[data-sector-flow-picker-options]").forEach((options) => {

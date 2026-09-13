@@ -1335,7 +1335,7 @@ def _sector_flow_series(
     *,
     series_as_of: datetime | None = None,
 ) -> dict[str, Any]:
-    latest_ranked = ranked_snapshots[-1]
+    latest_ranked = ranked_snapshots[-1] if ranked_snapshots else {}
     latest_match = _sector_flow_match(latest_ranked, definition)
     base = {
         "sector_key": definition["key"],
@@ -1695,7 +1695,8 @@ def analyze_sector_flow_snapshots(
         (dict(snapshot) for snapshot in snapshots),
         key=lambda snapshot: str(snapshot.get("minute_bucket", "")),
     )
-    if not ordered:
+    supplements = supplemental_points or {}
+    if not ordered and not supplements:
         return {
             "contract": SECTOR_FLOW_CONTRACT,
             "schema_version": SECTOR_FLOW_SCHEMA_VERSION,
@@ -1710,14 +1711,36 @@ def analyze_sector_flow_snapshots(
             "flags": ["no_rotation_samples"],
             "reason": "no_rotation_samples",
         }
-    cutoff = (
-        _as_shanghai(as_of).replace(second=0, microsecond=0)
-        if as_of is not None
-        else _as_shanghai(str(ordered[-1]["minute_bucket"])).replace(
+    if as_of is not None:
+        cutoff = _as_shanghai(as_of).replace(second=0, microsecond=0)
+    elif ordered:
+        cutoff = _as_shanghai(str(ordered[-1]["minute_bucket"])).replace(
             second=0,
             microsecond=0,
         )
-    )
+    else:
+        provider_times = [
+            provider
+            for points in supplements.values()
+            for point in points
+            if (provider := _provider_datetime(point.get("provider_as_of"))) is not None
+        ]
+        if not provider_times:
+            return {
+                "contract": SECTOR_FLOW_CONTRACT,
+                "schema_version": SECTOR_FLOW_SCHEMA_VERSION,
+                "direction": direction,
+                "status": "unavailable",
+                "trade_date": None,
+                "as_of": None,
+                "market_phase": "unknown",
+                "trajectory_scope": "trading_session_to_as_of",
+                "marginal_window_minutes": 5,
+                "sectors": [],
+                "flags": ["no_rotation_samples"],
+                "reason": "no_rotation_samples",
+            }
+        cutoff = max(provider_times).replace(second=0, microsecond=0)
     latest_date = cutoff.date()
     ordered = [
         snapshot
@@ -1727,7 +1750,7 @@ def analyze_sector_flow_snapshots(
             and _as_shanghai(str(snapshot["minute_bucket"])) <= cutoff
         )
     ]
-    if not ordered:
+    if not ordered and not supplements:
         return {
             "contract": SECTOR_FLOW_CONTRACT,
             "schema_version": SECTOR_FLOW_SCHEMA_VERSION,
@@ -1743,7 +1766,6 @@ def analyze_sector_flow_snapshots(
             "reason": "no_rotation_samples",
         }
     ranked_snapshots = [_rank_snapshot(snapshot) for snapshot in ordered]
-    supplements = supplemental_points or {}
     sectors = [
         _sector_flow_series(
             ordered,
@@ -1829,7 +1851,11 @@ def analyze_sector_flow_snapshots(
         flags.append("partial_sector_coverage")
     if any("intraday_history_backfilled" in item.get("flags", ()) for item in sectors):
         flags.append("intraday_history_backfilled")
-    latest = ordered[-1]
+    market_phase = (
+        str(ordered[-1].get("market_phase") or "unknown")
+        if ordered
+        else "trading"
+    )
     return {
         "contract": SECTOR_FLOW_CONTRACT,
         "schema_version": SECTOR_FLOW_SCHEMA_VERSION,
@@ -1837,7 +1863,7 @@ def analyze_sector_flow_snapshots(
         "status": status,
         "trade_date": latest_date.isoformat(),
         "as_of": cutoff.isoformat(timespec="seconds"),
-        "market_phase": str(latest.get("market_phase") or "unknown"),
+        "market_phase": market_phase,
         "trajectory_scope": "trading_session_to_as_of",
         "marginal_window_minutes": 5,
         "sectors": sectors,

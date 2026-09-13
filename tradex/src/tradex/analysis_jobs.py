@@ -474,6 +474,50 @@ class AnalysisJobStore:
             "payload": json.loads(row["payload_json"]),
         }
 
+    def list_artifacts(
+        self,
+        capability: str,
+        *,
+        scope_prefix: str,
+        limit: int = 100,
+        source_trading_date: str | None = None,
+        portfolio_revision: str | None = None,
+        order_by_generated_at: bool = False,
+    ) -> list[dict[str, Any]]:
+        normalized_capability = _capability(capability)
+        normalized_prefix = str(scope_prefix).strip()
+        normalized_limit = max(1, min(int(limit), 366))
+        conditions = ["capability = ?", "scope_key LIKE ?"]
+        parameters: list[Any] = [normalized_capability, f"{normalized_prefix}%"]
+        for field, value in (("source_trading_date", source_trading_date),
+                             ("portfolio_revision", portfolio_revision)):
+            if value is not None:
+                conditions.append(f"json_extract(payload_json, '$.{field}') = ?")
+                parameters.append(value)
+        ordering = ("julianday(generated_at) DESC, scope_key DESC" if order_by_generated_at
+                    else "scope_key DESC, generated_at DESC")
+        query = "SELECT * FROM analysis_artifacts WHERE " + " AND ".join(conditions)
+        query += " ORDER BY " + ordering + " LIMIT ?"
+        parameters.append(normalized_limit)
+        with self._lock:
+            self._ensure_open()
+            rows = self._connection.execute(
+                query, parameters,
+            ).fetchall()
+        return [
+            {
+                "contract": ARTIFACT_CONTRACT,
+                "schema_version": ARTIFACT_SCHEMA_VERSION,
+                "capability": row["capability"],
+                "scope_key": row["scope_key"],
+                "source_revision": row["source_revision"],
+                "payload_digest": row["payload_digest"],
+                "generated_at": row["generated_at"],
+                "payload": json.loads(row["payload_json"]),
+            }
+            for row in rows
+        ]
+
     def set_runtime_state(
         self,
         state: str,
@@ -668,11 +712,15 @@ class AnalysisJobReader:
             except sqlite3.DatabaseError as exc:
                 raise AnalysisStateUnavailable("后台分析状态暂不可读") from exc
 
-    def _fetchall(self, query: str):
+    def _fetchall(
+        self,
+        query: str,
+        params: list[Any] | tuple[Any, ...] = (),
+    ):
         with self._lock:
             self._ensure_open()
             try:
-                return self._connection.execute(query).fetchall()
+                return self._connection.execute(query, params).fetchall()
             except sqlite3.DatabaseError as exc:
                 raise AnalysisStateUnavailable("后台分析状态暂不可读") from exc
 
@@ -726,6 +774,48 @@ class AnalysisJobReader:
             "generated_at": row["generated_at"],
             "payload": json.loads(row["payload_json"]),
         }
+
+    def list_artifacts(
+        self,
+        capability: str,
+        *,
+        scope_prefix: str,
+        limit: int = 100,
+        source_trading_date: str | None = None,
+        portfolio_revision: str | None = None,
+        order_by_generated_at: bool = False,
+    ) -> list[dict[str, Any]]:
+        normalized_capability = _capability(capability)
+        normalized_prefix = str(scope_prefix).strip()
+        normalized_limit = max(1, min(int(limit), 366))
+        conditions = ["capability = ?", "scope_key LIKE ?"]
+        parameters: list[Any] = [normalized_capability, f"{normalized_prefix}%"]
+        for field, value in (("source_trading_date", source_trading_date),
+                             ("portfolio_revision", portfolio_revision)):
+            if value is not None:
+                conditions.append(f"json_extract(payload_json, '$.{field}') = ?")
+                parameters.append(value)
+        ordering = ("julianday(generated_at) DESC, scope_key DESC" if order_by_generated_at
+                    else "scope_key DESC, generated_at DESC")
+        query = "SELECT * FROM analysis_artifacts WHERE " + " AND ".join(conditions)
+        query += " ORDER BY " + ordering + " LIMIT ?"
+        parameters.append(normalized_limit)
+        rows = self._fetchall(
+            query, parameters,
+        )
+        return [
+            {
+                "contract": ARTIFACT_CONTRACT,
+                "schema_version": ARTIFACT_SCHEMA_VERSION,
+                "capability": row["capability"],
+                "scope_key": row["scope_key"],
+                "source_revision": row["source_revision"],
+                "payload_digest": row["payload_digest"],
+                "generated_at": row["generated_at"],
+                "payload": json.loads(row["payload_json"]),
+            }
+            for row in rows
+        ]
 
     def runtime_status(self) -> dict[str, Any]:
         rows = self._fetchall("SELECT key, value FROM analysis_runtime_meta")

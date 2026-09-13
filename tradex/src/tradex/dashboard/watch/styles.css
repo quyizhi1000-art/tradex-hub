@@ -4291,7 +4291,7 @@ body.is-fetching #refresh-button::after {
 
 .manual-portfolio-form {
   display: grid;
-  grid-template-columns: 180px 220px minmax(320px, 1fr) auto;
+  grid-template-columns: 250px 220px minmax(320px, 1fr) auto;
   align-items: end;
   gap: 12px;
   margin-top: 16px;
@@ -4406,8 +4406,133 @@ body.is-fetching #refresh-button::after {
 }
 
 .manual-portfolio-actions {
-  grid-template-columns: auto auto auto;
+  grid-template-columns: auto auto auto auto;
   align-items: center;
+}
+
+.manual-portfolio-live-tabs {
+  margin-top: 16px;
+}
+
+.manual-portfolio-tablist,
+.manual-portfolio-date-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.manual-portfolio-tablist {
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.manual-portfolio-tablist .is-active {
+  border-color: var(--cyan);
+  color: var(--cyan);
+  background: rgba(85, 200, 210, 0.1);
+}
+
+.manual-portfolio-live-panel {
+  min-height: 160px;
+}
+
+.manual-portfolio-analysis-dialog {
+  width: min(1120px, calc(100vw - 120px));
+  z-index: 2;
+}
+
+.manual-portfolio-date-nav {
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 4px 0 14px;
+}
+
+.manual-portfolio-date-nav strong {
+  min-width: 210px;
+  color: var(--text);
+  text-align: center;
+}
+
+.manual-portfolio-date-jump {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.manual-portfolio-date-jump select {
+  min-width: 160px;
+  min-height: 34px;
+  padding: 0 30px 0 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  color: var(--text);
+  background: var(--bg-elevated);
+}
+
+.manual-portfolio-analysis-page {
+  display: grid;
+  gap: 10px;
+}
+
+.manual-portfolio-analysis-page[hidden] {
+  display: none;
+}
+
+.manual-portfolio-archive-time {
+  margin: 0;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.manual-portfolio-intraday-table {
+  overflow-x: auto;
+}
+
+.manual-portfolio-intraday-log {
+  width: 100%;
+  min-width: 760px;
+  border-collapse: collapse;
+}
+
+.manual-portfolio-intraday-log th,
+.manual-portfolio-intraday-log td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: top;
+}
+
+.manual-portfolio-intraday-log th {
+  color: var(--muted);
+  background: #0b1a21;
+  font-size: 10px;
+}
+
+.manual-portfolio-intraday-time {
+  width: 170px;
+  color: var(--text-soft);
+  font-family: Consolas, monospace;
+}
+
+.manual-portfolio-intraday-entry summary {
+  cursor: pointer;
+  color: var(--cyan);
+}
+
+.manual-portfolio-intraday-item {
+  margin-top: 9px;
+  padding: 10px;
+  border-left: 2px solid var(--line-strong);
+  background: rgba(8, 20, 27, 0.76);
+}
+
+.manual-portfolio-intraday-item p,
+.manual-portfolio-intraday-item small {
+  display: block;
+  margin: 6px 0 0;
+  color: var(--text-soft);
 }
 
 .manual-portfolio-actions .portfolio-enabled {

@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from copy import deepcopy
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 import hashlib
 import json
 from pathlib import Path
@@ -19,6 +19,7 @@ from tradex.market_watch.web_projection import (
     SourceSnapshotRevisionMismatch,
     TrajectoryRevisionMismatch,
     build_market_watch_summary,
+    build_five_day_sector_flow_trajectory,
     build_sector_flow_detail,
 )
 from tradex.market_watch.web_payload_service import (
@@ -35,6 +36,7 @@ from tradex.market_watch.integrity import (
 )
 from tradex.market_watch.read_facade import (
     AcceptedSnapshotReadError,
+    HistoricalMarketWatchSnapshot,
     MarketWatchReadFacade,
 )
 from tradex.market_watch.contracts import SectorFlowLeaderSnapshotV1
@@ -278,6 +280,9 @@ class _HistoryReader:
         self.metadata_calls = 0
         self.payload_calls = 0
 
+    def list_dates(self, limit: int = 20) -> list[dict]:
+        return [{"trade_date": self.snapshot.as_of.date().isoformat()}][:limit]
+
     def get_collection_records(self, trade_date) -> list[dict]:
         self.metadata_calls += 1
         return [{
@@ -506,6 +511,60 @@ def test_detail_returns_original_points_for_complete_canonical_selection() -> No
     for returned, integrity in zip(detail.sectors, detail.sector_integrity, strict=True):
         assert integrity.point_count == len(returned.points)
         assert integrity.points_revision == stable_sha256(returned.points)
+
+
+def test_five_day_projection_keeps_each_daily_minute_curve_separate() -> None:
+    base = _snapshot()
+    retained = []
+    for offset in (6, 5, 2, 1, 0):
+        shifted = base.model_copy(deep=True)
+        payload = shifted.model_dump(mode="python")
+
+        def move_dates(value):
+            if isinstance(value, datetime):
+                return value - timedelta(days=offset)
+            if isinstance(value, date):
+                return value - timedelta(days=offset)
+            if isinstance(value, dict):
+                return {key: move_dates(item) for key, item in value.items()}
+            if isinstance(value, tuple):
+                return tuple(move_dates(item) for item in value)
+            if isinstance(value, list):
+                return [move_dates(item) for item in value]
+            return value
+
+        payload = move_dates(payload)
+        payload["snapshot_id"] = f"mw-five-day-{offset}"
+        snapshot = MarketWatchSnapshotV1.model_validate(payload)
+        source_payload = snapshot.model_dump(mode="json")
+        retained.append(
+            HistoricalMarketWatchSnapshot(
+                trade_date=snapshot.market_state.trading_date,
+                minute_bucket=snapshot.as_of.replace(second=0, microsecond=0),
+                snapshot_id=snapshot.snapshot_id,
+                source_snapshot_revision=stable_sha256(source_payload),
+                snapshot=snapshot,
+                source_payload=source_payload,
+            )
+        )
+
+    history = build_five_day_sector_flow_trajectory(
+        retained,
+        direction="defense",
+        sector_keys=("electric_power",),
+    )
+
+    assert history.contract == "sector_flow_five_day_trajectory.v1"
+    assert history.available_trade_days == 5
+    assert history.trade_dates == tuple(item.trade_date for item in retained)
+    assert history.point_count == 15
+    assert history.status == "partial"
+    assert [len(day.sectors[0].points) for day in history.days] == [3] * 5
+    assert all(
+        point.provider_as_of.date() == day.trade_date
+        for day in history.days
+        for point in day.sectors[0].points
+    )
 
 
 def test_projection_fails_closed_on_revision_or_selection_mismatch() -> None:
@@ -1112,6 +1171,105 @@ def test_web_api_maps_summary_detail_etag_and_304_headers() -> None:
     assert detail.status_code == 200
     assert detail_headers["X-Source-Snapshot-Revision"] == source_revision
     assert detail_headers["X-Trajectory-Revision"] == trajectory_revision
+
+
+def test_web_api_serves_etagged_five_day_minutes_from_retained_history() -> None:
+    snapshot = _snapshot()
+    source_revision = stable_sha256(snapshot)
+    api = MarketWatchWebApi(
+        MarketWatchWebPayloadService(
+            MarketWatchReadFacade(
+                collection_reader=_CollectionReader(
+                    _collector_envelope(snapshot, source_revision)
+                ),
+                history_reader=_HistoryReader(snapshot, source_revision),
+                clock=lambda: snapshot.as_of + timedelta(minutes=1),
+            )
+        )
+    )
+
+    first = api.get_five_day_trajectory(
+        direction="defense",
+        sector_keys=("electric_power",),
+    )
+    payload = json.loads(first.body)
+    headers = dict(first.headers)
+    unchanged = api.get_five_day_trajectory(
+        direction="defense",
+        sector_keys=("electric_power",),
+        if_none_match=headers["ETag"],
+    )
+
+    assert first.status_code == 200
+    assert payload["contract"] == "sector_flow_five_day_trajectory.v1"
+    assert payload["available_trade_days"] == 1
+    assert payload["trade_dates"] == [snapshot.as_of.date().isoformat()]
+    assert payload["point_count"] == 3
+    assert headers["X-Trajectory-Revision"] == payload["history_revision"]
+    assert unchanged.status_code == 304
+    assert unchanged.body == b""
+
+
+def test_web_api_uses_materialized_daily_projection_without_full_snapshot_decode(
+    tmp_path,
+    monkeypatch,
+) -> None:
+    base = _snapshot()
+    payload = base.model_dump(mode="python")
+    payload["market_state"] = {
+        **payload["market_state"],
+        "phase": "closed",
+        "is_open": False,
+    }
+    for field in ("sector_flow_trajectory", "offense_sector_flow_trajectory"):
+        payload[field] = {**payload[field], "market_phase": "closed"}
+    snapshot = MarketWatchSnapshotV1.model_validate(payload)
+    db_path = tmp_path / "projection-fast-path.sqlite3"
+    with MarketWatchHistoryStore(db_path, clock=lambda: snapshot.as_of) as owner:
+        persisted = owner.record(snapshot)
+
+    with MarketWatchHistoryStore(db_path, read_only=True) as history:
+        def fail_full_snapshot_decode(**_pointer):
+            raise AssertionError("five-day fast path decoded the full snapshot")
+
+        monkeypatch.setattr(history, "get_snapshot_by_pointer", fail_full_snapshot_decode)
+        api = MarketWatchWebApi(
+            MarketWatchWebPayloadService(
+                MarketWatchReadFacade(
+                    collection_reader=_CollectionReader(
+                        _collector_envelope(snapshot, persisted["payload_digest"])
+                    ),
+                    history_reader=history,
+                    clock=lambda: snapshot.as_of + timedelta(minutes=1),
+                )
+            )
+        )
+        response = api.get_five_day_trajectory(
+            direction="defense",
+            sector_keys=("electric_power",),
+        )
+
+    body = json.loads(response.body)
+    fallback = MarketWatchWebApi(
+        MarketWatchWebPayloadService(
+            MarketWatchReadFacade(
+                collection_reader=_CollectionReader(
+                    _collector_envelope(snapshot, persisted["payload_digest"])
+                ),
+                history_reader=_HistoryReader(snapshot, persisted["payload_digest"]),
+                clock=lambda: snapshot.as_of + timedelta(minutes=1),
+            )
+        )
+    ).get_five_day_trajectory(
+        direction="defense",
+        sector_keys=("electric_power",),
+    )
+    assert response.status_code == 200
+    assert body == json.loads(fallback.body)
+    assert body["contract"] == "sector_flow_five_day_trajectory.v1"
+    assert body["available_trade_days"] == 1
+    assert body["days"][0]["source_snapshot_revision"] == persisted["payload_digest"]
+    assert body["days"][0]["sectors"][0]["sector_key"] == "electric_power"
 
 
 def test_web_summary_integrity_and_detail_accept_64_sector_slots() -> None:

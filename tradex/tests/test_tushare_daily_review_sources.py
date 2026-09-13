@@ -388,6 +388,7 @@ def test_registry_inserts_daily_review_routes_without_removing_fallbacks(
             "etf_data",
             "etf_quotes",
             "industry_quotes",
+            "limit_event_status",
             "stock_fund_flow_day",
             "dragon_tiger_market_day",
         }
@@ -404,4 +405,6 @@ def test_registry_inserts_daily_review_routes_without_removing_fallbacks(
         ("dragon_tiger_market_day", "akshare_exact_day", 100),
         ("industry_quotes", "tushare", 1),
         ("industry_quotes", "em_push2", 100),
+        ("limit_event_status", "akshare_eastmoney", 1),
+        ("limit_event_status", "ths", 100),
     ]

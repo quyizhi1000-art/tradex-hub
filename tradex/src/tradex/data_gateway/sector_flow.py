@@ -560,6 +560,32 @@ def prepare_sector_intraday_fund_flow_backfill(
         for target in targets
         if not covered(curves, str(target.get("sector_key") or "").strip())
     )
+    unavailable_minutes = tuple(
+        sorted(
+            minute
+            for minute in required
+            if minute.time() in {datetime_time(9, 30), datetime_time(13, 0)}
+        )
+    )
+    if missing and unavailable_minutes:
+        missing_keys = tuple(
+            str(target.get("sector_key") or "").strip() for target in missing
+        )
+        missing_key_set = set(missing_keys)
+        return {
+            "complete": False,
+            "known_targets": len(targets),
+            "ready_targets": len(targets) - len(missing_keys),
+            "ready_target_keys": tuple(
+                str(target.get("sector_key") or "").strip()
+                for target in targets
+                if str(target.get("sector_key") or "").strip()
+                not in missing_key_set
+            ),
+            "refreshed_targets": 0,
+            "missing_targets": missing_keys,
+            "unavailable_minutes": unavailable_minutes,
+        }
     total = len(missing)
     for completed, target in enumerate(missing, start=1):
         fetch_sector_intraday_fund_flow_backfill(
@@ -688,6 +714,10 @@ def finalize_sector_intraday_fund_flow_backfill(
                 load_missing=True,
                 refresh_existing=True,
                 force_refresh=True,
+                # Closing finalization shares the queue with derived evidence;
+                # allow a bounded wait for those already-reserved requests.
+                max_queue_wait=6.0,
+                request_timeout=4,
             )
             refreshed_count += 1
         if progress is not None:
@@ -738,7 +768,7 @@ def _expected_intraday_minutes(cutoff: datetime) -> set[datetime]:
         while cursor <= morning_end:
             expected.add(cursor)
             cursor += timedelta(minutes=1)
-    afternoon_start = local.replace(hour=13, minute=0)
+    afternoon_start = local.replace(hour=13, minute=1)
     if local >= afternoon_start:
         cursor = afternoon_start
         afternoon_end = min(local, local.replace(hour=15, minute=0))
@@ -771,6 +801,10 @@ def _intraday_repair_window_open(observed: datetime) -> bool:
     if not session.is_trading_day:
         return False
     if session.phase is TradingSessionPhase.MIDDAY_BREAK:
+        return True
+    if session.phase is TradingSessionPhase.CLOSED and local.hour >= 15:
+        # The same-day provider can still supply real minute history after close.
+        # There is no current-minute collection competing for the queue then.
         return True
     if session.phase in {
         TradingSessionPhase.OPENING_OBSERVATION,

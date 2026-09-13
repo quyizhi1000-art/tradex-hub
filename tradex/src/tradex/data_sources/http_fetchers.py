@@ -878,7 +878,7 @@ def fetch_board_leaders(
                 f"{host}/api/qt/clist/get",
                 params=params,
                 timeout=15,
-                max_queue_wait=0.0,
+                max_queue_wait=2.0,
             )
             response.raise_for_status()
             data = response.json().get("data") or {}

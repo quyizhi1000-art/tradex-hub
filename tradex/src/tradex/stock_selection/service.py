@@ -234,16 +234,18 @@ class DailyStockSelectionService:
         *,
         current: datetime,
         automatic: bool = False,
+        trade_date: date | None = None,
         phase: Callable[[str], None] | None = None,
     ) -> dict[str, Any]:
+        target = trade_date or current.date()
         update_phase = phase or (lambda _value: None)
         with self._execution_lock:
-            existing = self.store.get_current(current.date())
-            if existing is not None and self._strategy_results_complete(current.date()):
+            existing = self.store.get_current(target)
+            if existing is not None and self._strategy_results_complete(target):
                 return self._result("existing", existing)
-            self._validate_due(current, automatic=automatic)
+            self._validate_target(current, target, automatic=automatic)
             update_phase("acquiring")
-            snapshot = self._load(current.date())
+            snapshot = self._load(target)
             update_phase("selecting")
             selection = select_daily_stocks(
                 snapshot,
@@ -277,13 +279,28 @@ class DailyStockSelectionService:
         *,
         now: datetime | None = None,
         automatic: bool = False,
+        trade_date: date | None = None,
     ) -> dict[str, Any]:
         """Synchronously generate a result for internal and test callers."""
 
         return self._generate_once(
             current=self._now(now),
             automatic=automatic,
+            trade_date=trade_date,
         )
+
+    def _validate_target(self, current: datetime, target: date, *, automatic: bool) -> None:
+        if target > current.date():
+            raise SelectionTooEarlyError("Cannot generate a future trading date.")
+        if target == current.date():
+            self._validate_due(current, automatic=automatic)
+        else:
+            # Validate the historical session without backdating generated_at.
+            threshold = AUTOMATIC_SELECTION_START if automatic else MANUAL_SELECTION_START
+            self._validate_due(
+                datetime.combine(target, threshold, tzinfo=SHANGHAI),
+                automatic=automatic,
+            )
 
     def _completed_generation(
         self,
@@ -353,11 +370,13 @@ class DailyStockSelectionService:
         *,
         current: datetime,
         automatic: bool,
+        trade_date: date | None = None,
     ) -> None:
         try:
             result = self._generate_once(
                 current=current,
                 automatic=automatic,
+                trade_date=trade_date,
                 phase=lambda value: self._set_generation_phase(job_id, value),
             )
         except DailyStockSelectionError as exc:
@@ -397,35 +416,36 @@ class DailyStockSelectionService:
         *,
         now: datetime | None = None,
         automatic: bool = False,
+        trade_date: date | None = None,
     ) -> dict[str, Any]:
         """Start or reuse the sole background generation for the current date."""
 
         current = self._now(now)
+        target = trade_date or current.date()
         trigger = "automatic" if automatic else "manual"
         with self._lock:
-            existing = self.store.get_current(current.date())
-            if existing is not None and self._strategy_results_complete(current.date()):
-                return self._completed_generation(
+            existing = self.store.get_current(target)
+            if existing is not None and self._strategy_results_complete(target):
+                completed = self._completed_generation(
                     current=current,
                     trigger=trigger,
                     result=self._result("existing", existing),
                 )
-            if (
-                self._generation.get("state") == "running"
-                and self._generation.get("trade_date") == current.date().isoformat()
-            ):
+                completed["trade_date"] = target.isoformat()
+                return completed
+            if self._generation.get("state") == "running":
                 return copy.deepcopy(self._generation)
-            self._validate_due(current, automatic=automatic)
+            self._validate_target(current, target, automatic=automatic)
             self._generation_sequence += 1
             job_id = (
-                f"daily-stock-selection:{current.date().isoformat()}:"
+                f"daily-stock-selection:{target.isoformat()}:"
                 f"{self._generation_sequence}"
             )
             self._generation = {
                 "contract": GENERATION_CONTRACT,
                 "schema_version": GENERATION_SCHEMA_VERSION,
                 "job_id": job_id,
-                "trade_date": current.date().isoformat(),
+                "trade_date": target.isoformat(),
                 "trigger": trigger,
                 "state": "running",
                 "phase": "queued",
@@ -442,6 +462,7 @@ class DailyStockSelectionService:
                     "job_id": job_id,
                     "current": current,
                     "automatic": automatic,
+                    "trade_date": target,
                 },
                 name=f"daily-stock-selection-job-{self._generation_sequence}",
                 daemon=False,
@@ -587,22 +608,24 @@ class DailyStockSelectionService:
     def maybe_generate_automatic(self, *, now: datetime | None = None) -> dict[str, Any]:
         current = self._now(now)
         session = a_share_session(current)
+        if session.calendar_status is CalendarDayStatus.UNVERIFIED:
+            return {"action": "not_due"}
+        target = current.date()
         if (
             session.calendar_status is not CalendarDayStatus.VERIFIED_TRADING_DAY
             or current.time().replace(tzinfo=None) < AUTOMATIC_SELECTION_START
         ):
-            return {"action": "not_due"}
+            target = _previous_trading_date(current.date())
+            if target is None:
+                return {"action": "not_due"}
         with self._lock:
-            existing = self.store.get_current(current.date())
-            if existing is not None and self._strategy_results_complete(current.date()):
+            existing = self.store.get_current(target)
+            if existing is not None and self._strategy_results_complete(target):
                 return self._result("existing", existing)
-            if (
-                self._generation.get("state") == "running"
-                and self._generation.get("trade_date") == current.date().isoformat()
-            ):
+            if self._generation.get("state") == "running":
                 return copy.deepcopy(self._generation)
-            if self._auto_date != current.date():
-                self._auto_date = current.date()
+            if self._auto_date != target:
+                self._auto_date = target
                 self._auto_attempts = 0
                 self._auto_last_attempt = None
             if self._auto_attempts >= AUTOMATIC_MAX_ATTEMPTS:
@@ -615,7 +638,7 @@ class DailyStockSelectionService:
                 return {"action": "retry_cooldown"}
             self._auto_attempts += 1
             self._auto_last_attempt = current
-        return self.start_generation(now=current, automatic=True)
+        return self.start_generation(now=current, automatic=True, trade_date=target)
 
 
 __all__ = [

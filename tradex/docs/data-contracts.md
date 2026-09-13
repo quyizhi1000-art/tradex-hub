@@ -503,11 +503,47 @@ writer 入队；建库建表、任务执行和 artifact 写入只归 Analysis Wo
 - 当日题材、涨停原因和资金跟随板块保留在各自的日级证据契约中，不能回写为公司长期
   主营。
 
+## 聪明板块库（`smart_sector_decision.v1`）
+
+“聪明板块库”是精确交易日市场归属能力的正式名称和共享领域入口。Python 消费者统一从
+`tradex.smart_sector_library` 引用 `SmartSectorLibrary`，不得复制涨停池内部关键词规则、
+另建股票静态标签表，或直接把人工结论写回长期主营目录。现有涨停池是第一个消费者，
+后续复盘、选股和观察功能可复用同一接口。
+
+`smart_sector_policy.v1` 固定以下业务边界：可复用证据规则是主决策路径；交易日归属必须
+存在当日市场上下文，并以正式主营关系、主营收入构成和官方证据为业务底座；选择市场可识别
+且证据支持的最具体节点；存在不足时明确 abstain，不猜测；研发、验证、样机等阶段可以形成
+低权重的新业务候选，但不能冒充订单、交付、收入或已运营资产；人工复核只对精确交易日生效；任何结果都
+不得反写 `primary_business_name` 或长期目录。传统主营用于说明业务底色，但不机械压过
+已经商业化、能够解释当日资金选择的新业务。人工反馈用于校准通用规则；标记为
+`rule_supported` 的历史复核记录必须重新经过当前规则求值，不能直接复制成人工标签。
+只有无法安全泛化的 `human_review_override` 才保留为日期限定例外。
+
+`smart_sector_decision.v1` 返回 `library_name=聪明板块库`、`effective_on`、板块键与名称、
+`basis`、`rule_id`、`quality` 和降级标志。`basis` 只有四种：
+`manual_market_review`、`event_business_crosscheck`、`evidence_candidate_ranking`、
+`unresolved`。原
+`tradex.market_watch.market_theme_attribution` 路径仅保留兼容导入，新功能不得依赖它。
+
+需要比较多个业务解释的消费者应构造 `smart_sector_candidate.v1`，明确关系类型、商业化
+阶段、业务重要性、证据质量、当日市场共振、分类粒度和证据引用。候选来自当日涨停原因、
+正式主营关系、分产品收入占比和官方证据的交叉求值，不要求当日原因机械等于稳定主营目录。
+候选排序不固定沿产业链向上或向下：真实经营产出、收入、订单、交付和项目优先于试验；
+收入占比区分主导、有效和萌芽业务；同一涨停池中至少两个股票独立命中才形成共振加权；
+经正式披露核验的共振候选获得额外可信度，同等证据下选择更具体的市场节点。参股投资、
+生产方式、统计行业、规划和传闻不能成为胜出
+候选；最高证据分相同但类别冲突时必须 abstain。由此，已有收入和市场共振的新储能业务
+可以在当日压过未被交易的传统汽车业务，而“芯片投资”不能压过真实家居或建筑业务。
+
 涨停池的“主显示归属”属于日级市场证据，不等于上面的长期 `directory_category_name`。
-它优先采用对当前交易日生效的人工复核；否则只有当涨停题材与正式披露的产品、服务、
-合同或应用关系同时命中同一受控规则时，才可自动采用当期市场主题。只有题材、概念成员
-关系或媒体猜测而没有直接业务证据时，必须退回长期目录。日级归因携带交易日和依据类型，
-不能跨日沿用，也不能改写 `primary_business_name`。
+它优先使用聪明板块库的可复用证据规则；标记为 `rule_supported` 的既有复核记录只提供
+证据材料，仍由当前规则重新计算。只有明确标记为 `human_review_override` 的少数例外才按
+精确交易日优先。当日题材用于限定候选空间和共振，但稳定主营候选不必与题材词面相同：
+当热点副业缺少商业化或收入占比极低时，真实主导业务仍可胜出；当正式披露证明新业务产品、
+验证、订单、交付、收入、项目或运营关系时，按阶段和重要性参加排序。只有题材、概念成员
+关系或媒体猜测而没有直接业务证据时，日级主显示保持待核验，同时保留长期目录字段供消费者
+说明业务底色。日级归因不能跨日沿用，也不能改写
+`primary_business_name`。
 
 同一催化同时存在宽泛主题和明确产品时，主显示优先选择市场正在交易的直接产品，例如
 算力网络行情中的数据中心交换机显示为“交换机”；直接产品不足以形成市场共识时再使用
@@ -539,7 +575,9 @@ writer 入队；建库建表、任务执行和 artifact 写入只归 Analysis Wo
 写入所有者；一次刷新先完整构建 5,000+ 股票关系，再在单一事务内原子替换。Dashboard、
 MCP、风险、复盘、涨停池和选股只使用只读 Reader；普通页面 GET 永不触发 Provider 或
 联网检索。Analysis Worker 在目录缺失或数据日落后时后台刷新，失败保留上一个完整版本，
-不会发布半成品。
+不会发布半成品。Provider 暂时不可用时，`refresh-official-evidence` 只把版本库中已审阅的
+正式证据覆盖到当前已验收目录；目标外股票档案保持逐对象不变，再通过同一 Service 和 Store
+原子发布，不用残缺 Provider 响应重建全市场目录。
 
 网页检索用于高价值冲突和重点股票的官方证据核验，并把结果作为受控 evidence seed
 进入版本库；搜索结果摘要本身不作为证据。自动全市场层使用 Tushare 网关提供的证券
@@ -582,3 +620,42 @@ FC-BGA 和电子装联；在找到直接官方材料前，`ABF` 保持 `abf_unve
    Snapshot，并把该功能的刷新缓存从 Dashboard 移至唯一 Feature Service。
 
 每个契约单独演进，不建立包含所有金融字段的万能模型。
+
+
+## Desktop web audit corrections (2026-09-07)
+
+- `manual_portfolio_intraday_analysis_history.v1` filters persisted artifacts by
+  source trading date and current portfolio revision before applying the limit.
+  The default window is the latest 365 analyses, returned oldest to newest by
+  artifact generation time; the UI identifies the result as a recent window.
+  Date-scoped archive callers retain their existing scope ordering.
+- Collector queues one analysis for its final same-day portfolio snapshot as well
+  as intraday snapshots. Exact latest-analysis revision checks remain mandatory.
+- The market-watch rotation classifier shares direction membership with the
+  canonical trajectory catalogs and preserves explicit tags and event/hedge
+  qualifiers. It does not infer an attack regime merely from rising indices.
+- Closing pool and resonance materialization waits for a verified same-day 15:00
+  accepted pointer, then reconciles both results to that source revision. A later
+  accepted closing revision reopens derivation. Failed pointer reads defer work.
+- The same-day trajectory repair worker may finish after close using real provider
+  minutes, its existing bounded queue waits and explicit partial/unavailable
+  semantics. Completion concerns the requested cutoff, not every closing curve.
+- Advance/decline quality projected from the quote universe excludes only the
+  unrelated `turnover_partial` warning. Timestamp, units, row exclusions, unknown
+  flags and unexplained degradation remain constraints. Historical quality and
+  acceptance thresholds are not rewritten.
+- Default resonance board acquisition is serial within the existing shared
+  provider queue, with at most two seconds of queue waiting per transport attempt;
+  independent injected fetchers retain configurable concurrency. Stock minute
+  acquisition deduplicates every candidate and splits at the gateway limit of 40.
+  Exact partial responses preserve available curves; absent curves and failed
+  chunks stay unavailable. A-share board results exclude B-share candidates with
+  an explicit quality flag. Missing or nonmatching evidence never becomes a
+  fabricated leader.
+
+- Closing daily recovery finalizes every persisted sector target through 15:00,
+  including when the aggregate minute ledger is already complete. It republishes
+  the canonical close and collection pointer only after curve finalization passes.
+  Finalization permits up to six seconds of shared-queue waiting and four seconds
+  per transport request; the intraday manual repair budget remains unchanged.
+  A failed recovery remains failed even if all aggregate minute slots exist.

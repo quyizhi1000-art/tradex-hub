@@ -17,6 +17,8 @@ from .read_facade import MarketWatchReadFacade, MarketWatchReadView
 from .web_projection import (
     SectorSelectionError,
     TrajectoryRevisionMismatch,
+    build_five_day_sector_flow_from_projections,
+    build_five_day_sector_flow_trajectory,
     build_market_watch_summary,
     build_sector_flow_detail,
     overlay_sector_resonance,
@@ -224,6 +226,10 @@ class MarketWatchWebPayloadService:
             tuple[str, str, str, tuple[str, ...]],
             SerializedWebPayload,
         ] = OrderedDict()
+        self._five_day_details: OrderedDict[
+            tuple[str, tuple[str, ...], str],
+            SerializedWebPayload,
+        ] = OrderedDict()
 
     def get_collection_status(
         self,
@@ -364,6 +370,75 @@ class MarketWatchWebPayloadService:
                 cached,
                 if_none_match=if_none_match,
                 cache_hit=cache_hit,
+            )
+
+    def get_five_day_trajectory(
+        self,
+        *,
+        direction: Literal["defense", "offense"],
+        sector_keys: tuple[str, ...],
+        if_none_match: str | None = None,
+    ) -> SerializedWebPayload:
+        normalized_sector_keys = tuple(sorted(set(sector_keys)))
+        if not sector_keys or len(normalized_sector_keys) != len(sector_keys):
+            raise ValueError("sector_keys must be non-empty and unique")
+        projections = self._facade.read_recent_daily_sector_flow_projections(
+            direction=direction,
+            sector_keys=normalized_sector_keys,
+            limit=5,
+        )
+        snapshots = (
+            self._facade.read_recent_daily_snapshots(limit=5)
+            if projections is None
+            else ()
+        )
+        revision_items = projections if projections is not None else snapshots
+        source_chain_revision = stable_sha256(
+            tuple(
+                {
+                    "trade_date": item.trade_date.isoformat(),
+                    "source_snapshot_revision": item.source_snapshot_revision,
+                }
+                for item in revision_items
+            )
+        )
+        cache_key = (direction, normalized_sector_keys, source_chain_revision)
+        with self._lock:
+            cached = self._five_day_details.get(cache_key)
+            if cached is not None:
+                self._five_day_details.move_to_end(cache_key)
+                return _response(
+                    cached,
+                    if_none_match=if_none_match,
+                    cache_hit=True,
+                )
+        history = (
+            build_five_day_sector_flow_from_projections(
+                projections,
+                direction=direction,
+                sector_keys=normalized_sector_keys,
+            )
+            if projections is not None
+            else build_five_day_sector_flow_trajectory(
+                snapshots,
+                direction=direction,
+                sector_keys=normalized_sector_keys,
+            )
+        )
+        with self._lock:
+            cached = _serialized(
+                history,
+                source_snapshot_revision=None,
+                trajectory_revision=history.history_revision,
+            )
+            self._five_day_details[cache_key] = cached
+            self._five_day_details.move_to_end(cache_key)
+            while len(self._five_day_details) > self._detail_cache_size:
+                self._five_day_details.popitem(last=False)
+            return _response(
+                cached,
+                if_none_match=if_none_match,
+                cache_hit=False,
             )
 
     @staticmethod

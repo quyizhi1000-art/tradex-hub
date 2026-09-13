@@ -116,6 +116,29 @@ class MarketWatchWebApi:
             return self._error(error)
         return self._success(payload)
 
+    def get_five_day_trajectory(
+        self,
+        *,
+        direction: str | None,
+        sector_keys: tuple[str, ...],
+        if_none_match: str | None = None,
+    ) -> MarketWatchHttpResponse:
+        if direction not in {"defense", "offense"}:
+            return self._invalid("direction")
+        if (
+            not sector_keys
+            or len(sector_keys) > 64
+            or len(sector_keys) != len(set(sector_keys))
+            or any(_SECTOR_KEY_RE.fullmatch(item) is None for item in sector_keys)
+        ):
+            return self._invalid("sector_keys")
+        payload = self._payload_service.get_five_day_trajectory(
+            direction=direction,
+            sector_keys=sector_keys,
+            if_none_match=if_none_match,
+        )
+        return self._success(payload)
+
     @staticmethod
     def _success(payload: SerializedWebPayload) -> MarketWatchHttpResponse:
         headers = [

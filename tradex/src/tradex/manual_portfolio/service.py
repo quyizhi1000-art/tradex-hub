@@ -45,13 +45,25 @@ class ManualPortfolioService:
         self._taxonomy_reader_factory = taxonomy_reader_factory
 
     def _identity(self, symbol: str, display_name: str | None) -> tuple[str, str | None, str, str]:
-        instrument_id = canonical_instrument_id(symbol)
-        inferred = canonical_instrument_id(instrument_id[:6])
-        if inferred != instrument_id:
-            raise ValueError("证券代码与交易所后缀不一致")
-        profile = None
+        query = str(symbol or "").strip()
         with self._taxonomy_reader_factory() as reader:
-            profile = reader.get(instrument_id)
+            try:
+                instrument_id = canonical_instrument_id(query)
+            except ValueError as code_error:
+                finder = getattr(reader, "find_by_name", None)
+                matches = tuple(finder(query)) if callable(finder) else ()
+                if not matches:
+                    raise ValueError("未在证券目录中找到该股票名称，请输入完整名称或股票代码") from code_error
+                if len(matches) > 1:
+                    choices = "、".join(item.instrument_id for item in matches[:5])
+                    raise ValueError(f"股票名称对应多个代码，请改用代码：{choices}")
+                profile = matches[0]
+                instrument_id = profile.instrument_id
+            else:
+                inferred = canonical_instrument_id(instrument_id[:6])
+                if inferred != instrument_id:
+                    raise ValueError("证券代码与交易所后缀不一致")
+                profile = reader.get(instrument_id)
         if profile is None:
             return instrument_id, display_name, "format_valid_unverified", "not_available"
         name = display_name or profile.name

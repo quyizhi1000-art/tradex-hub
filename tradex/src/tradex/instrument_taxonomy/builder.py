@@ -518,4 +518,117 @@ def build_stock_relationship_catalog(
     return status, tuple(profiles)
 
 
-__all__ = ["build_stock_relationship_catalog", "load_official_evidence"]
+def apply_official_evidence_to_catalog(
+    status: StockRelationshipCatalogStatusV1,
+    profiles: Iterable[StockRelationshipProfileV1],
+    *,
+    generated_at: datetime,
+    official_evidence_path: str | Path | None = None,
+) -> tuple[StockRelationshipCatalogStatusV1, tuple[StockRelationshipProfileV1, ...]]:
+    """Overlay reviewed official evidence without reconstructing provider rows.
+
+    This path preserves the accepted provider snapshot byte-for-byte for stocks
+    without reviewed evidence changes.  It is intentionally narrower than a
+    provider refresh and remains safe when the provider is temporarily
+    unavailable.
+    """
+
+    canonical_status = StockRelationshipCatalogStatusV1.model_validate(status)
+    if generated_at.tzinfo is None or generated_at.utcoffset() is None:
+        raise ValueError("generated_at must include a timezone")
+    official_by_id = load_official_evidence(official_evidence_path)
+    refreshed: list[StockRelationshipProfileV1] = []
+    for raw_profile in profiles:
+        profile = StockRelationshipProfileV1.model_validate(raw_profile)
+        official = official_by_id.get(profile.instrument_id)
+        if official is None:
+            refreshed.append(profile)
+            continue
+        business_key, business_name, business_tags = _business_identity(
+            profile.business_summary,
+            profile.business_segments,
+            official,
+        )
+        business_domain = business_domain_by_business_key(business_key)
+        directory_key, directory_name = _directory_category(
+            business_key,
+            business_name,
+            official,
+            (
+                profile.business_summary or "",
+                business_name or "",
+                *(segment.name for segment in profile.business_segments),
+                *business_tags,
+            ),
+        )
+        official_refs = tuple(official.get("evidence", ()))
+        retained_evidence = tuple(
+            item
+            for item in profile.evidence
+            if item.source_kind
+            not in {"official_filing", "official_company", "web_secondary"}
+        )
+        flags = [
+            item
+            for item in profile.flags
+            if item
+            not in {
+                "business_cross_source_unconfirmed",
+                "primary_business_unresolved",
+            }
+        ]
+        if business_name is None:
+            flags.append("primary_business_unresolved")
+        if official_refs and "official_web_evidence_applied" not in flags:
+            flags.append("official_web_evidence_applied")
+        refreshed.append(StockRelationshipProfileV1.model_validate({
+            **profile.model_dump(mode="json"),
+            "business_domain_key": business_domain.key if business_domain else None,
+            "business_domain_name": business_domain.name if business_domain else None,
+            "directory_category_key": directory_key,
+            "directory_category_name": directory_name,
+            "primary_business_key": business_key,
+            "primary_business_name": business_name,
+            "business_tags": business_tags,
+            "verification_status": "verified" if official_refs and business_name else profile.verification_status,
+            "evidence": (*official_refs, *retained_evidence),
+            "flags": tuple(dict.fromkeys(flags)),
+        }))
+
+    refreshed.sort(key=lambda item: item.instrument_id)
+    if len(refreshed) != canonical_status.profile_total:
+        raise ValueError("accepted catalog profile count changed during evidence overlay")
+    serialised = [item.model_dump(mode="json") for item in refreshed]
+    revision = _sha256({
+        "as_of": canonical_status.as_of.isoformat(),
+        "profiles": serialised,
+    })
+    counts = defaultdict(int)
+    for item in refreshed:
+        counts[item.verification_status] += 1
+    updated_status = StockRelationshipCatalogStatusV1(
+        catalog_revision=revision,
+        as_of=canonical_status.as_of,
+        generated_at=generated_at,
+        profile_total=len(refreshed),
+        verified_total=counts["verified"],
+        corroborated_total=counts["corroborated"],
+        provider_only_total=(
+            counts["provider_only"] + counts["disputed"] + counts["stale"]
+        ),
+        unresolved_total=counts["unresolved"],
+        source_providers=canonical_status.source_providers,
+        source_request_ids=canonical_status.source_request_ids,
+        flags=tuple(dict.fromkeys((
+            *canonical_status.flags,
+            "official_evidence_refresh_from_accepted_catalog",
+        ))),
+    )
+    return updated_status, tuple(refreshed)
+
+
+__all__ = [
+    "apply_official_evidence_to_catalog",
+    "build_stock_relationship_catalog",
+    "load_official_evidence",
+]

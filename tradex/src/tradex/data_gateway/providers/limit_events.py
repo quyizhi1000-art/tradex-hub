@@ -91,6 +91,43 @@ def _optional_time(value: Any) -> time | None:
         raise ValueError(f"invalid first sealed time: {value!r}") from exc
 
 
+def _eastmoney_time(value: Any) -> time | None:
+    text = _optional_text(value)
+    if text is None:
+        return None
+    digits = re.sub(r"\D", "", text)
+    if len(digits) == 6:
+        try:
+            return time(int(digits[:2]), int(digits[2:4]), int(digits[4:]))
+        except ValueError as exc:
+            raise ValueError(f"invalid Eastmoney limit-up time: {value!r}") from exc
+    return _optional_time(text)
+
+
+def _eastmoney_board_label(value: Any) -> str | None:
+    text = _optional_text(value)
+    if text is None:
+        return None
+    match = re.fullmatch(r"(?P<days>\d+)\s*/\s*(?P<boards>\d+)", text)
+    if match is None:
+        raise ValueError(f"invalid Eastmoney limit-up statistic: {value!r}")
+    days = int(match.group("days"))
+    boards = int(match.group("boards"))
+    if days < 1 or boards < 1 or boards > days:
+        raise ValueError(f"invalid Eastmoney limit-up statistic: {value!r}")
+    return f"{days}天{boards}板"
+
+
+def _derived_trade_status(requested_date: date, fetched_at: datetime) -> dict[str, str]:
+    if requested_date < fetched_at.date() or (
+        requested_date == fetched_at.date() and fetched_at.time() >= time(15, 0)
+    ):
+        return {"id": "closed", "name": "已收盘"}
+    if requested_date > fetched_at.date() or fetched_at.time() < time(9, 15):
+        return {"id": "pre_open", "name": "盘前"}
+    return {"id": "trading", "name": "交易中"}
+
+
 def _normalise_date(value: Any, label: str) -> date:
     text = _required_text(value, label).replace("-", "")
     if re.fullmatch(r"\d{8}", text) is None:
@@ -334,6 +371,94 @@ def map_limit_event_frame(
     }
 
 
+def map_eastmoney_limit_up_status_frame(
+    frame: Any,
+    *,
+    route_provider: str,
+    requested_date: date,
+    fetched_at: datetime,
+) -> dict[str, Any]:
+    """Map Eastmoney's complete non-ST pool, including Beijing Exchange stocks."""
+
+    if frame is None or not hasattr(frame, "to_dict"):
+        raise RuntimeError("Eastmoney limit-up provider returned an unsupported payload")
+    records = frame.to_dict(orient="records")
+    if not records:
+        raise RuntimeError("Eastmoney limit-up provider did not declare a valid empty pool")
+
+    events: list[LimitUpStatusV1] = []
+    seen: set[str] = set()
+    for index, row in enumerate(records):
+        code = _record_code(row)
+        if code in seen:
+            raise RuntimeError(f"Eastmoney limit-up pool duplicated instrument {code}")
+        seen.add(code)
+        name = "".join(
+            _required_text(field(row, "名称", "name"), "limit-event name").split()
+        )
+        normalized_name = "".join(name.upper().split())
+        if "ST" in normalized_name or "退" in normalized_name:
+            raise RuntimeError("Eastmoney non-ST limit-up pool included ST or delisting stock")
+        price = _optional_number(field(row, "最新价", "price"), "limit-event price")
+        change_pct = _optional_number(
+            field(row, "涨跌幅", "change_pct"),
+            "limit-event change_pct",
+        )
+        first_sealed_at = _eastmoney_time(
+            field(row, "首次封板时间", "first_sealed_at")
+        )
+        last_sealed_at = _eastmoney_time(
+            field(row, "最后封板时间", "last_sealed_at")
+        )
+        board_label = _eastmoney_board_label(
+            field(row, "涨停统计", "board_label")
+        )
+        open_count = _optional_integer(
+            field(row, "炸板次数", "open_count"),
+            "limit-event open_count",
+        )
+        if price is None or change_pct is None or first_sealed_at is None:
+            raise RuntimeError(
+                f"Eastmoney limit-up pool row {index} omitted required status fields"
+            )
+        events.append(LimitUpStatusV1(
+            instrument_id=canonical_instrument_id(code),
+            name=name,
+            price_cny=price,
+            change_pct=change_pct,
+            limit_up_type=(
+                "一字板"
+                if first_sealed_at == time(9, 25)
+                and last_sealed_at == first_sealed_at
+                and open_count == 0
+                else None
+            ),
+            board_label=board_label,
+            board_count=_board_count(board_label),
+            first_sealed_at=first_sealed_at,
+            resealed=(open_count > 0 if open_count is not None else None),
+            reason=None,
+        ))
+
+    unknown_board_count = sum(item.board_count is None for item in events)
+    pool_total = len(events)
+    return {
+        "provider": route_provider,
+        "provider_as_of": None,
+        "trading_date": requested_date,
+        "trade_status": _trade_status(
+            _derived_trade_status(requested_date, fetched_at)
+        ),
+        "events": tuple(events),
+        "pool_total": pool_total,
+        "reason_coverage": 1.0,
+        "board_count_coverage": (pool_total - unknown_board_count) / pool_total,
+        "unknown_board_count": unknown_board_count,
+        "valid_empty": False,
+        "provider_page_count": None,
+    }
+
+
 def map_daily_limit_up_membership(
     raw: Any,
     *,
@@ -384,4 +509,8 @@ def map_daily_limit_up_membership(
     }
 
 
-__all__ = ["map_daily_limit_up_membership", "map_limit_event_frame"]
+__all__ = [
+    "map_daily_limit_up_membership",
+    "map_eastmoney_limit_up_status_frame",
+    "map_limit_event_frame",
+]

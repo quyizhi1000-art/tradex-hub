@@ -24,6 +24,8 @@
   GET /api/stock-selection/results → 读取独立策略结果与评估
   GET /api/manual-portfolio → 读取手动维护的持仓观察列表
   GET /api/manual-portfolio/market → 读取 Collector 物化的持仓行情与提醒
+  GET /api/manual-portfolio/analysis-history → 按个股读取分日次日前瞻与每日回顾
+  GET /api/manual-portfolio/intraday-analysis/history → 读取当日盘中分析时间序列
   POST /api/manual-portfolio → 显式新增、更新或删除手动代码
   POST /api/manual-portfolio/outlook → 排队生成条件式持仓前瞻
   GET /api/market      → 兼容的指数实时行情 JSON
@@ -1035,15 +1037,15 @@ def generate_manual_portfolio_outlook() -> dict:
         enabled_count = sum(item.enabled for item in entries)
         if enabled_count == 0:
             raise ValueError("当前没有已启用的证券代码")
-        if snapshot is None or snapshot.portfolio_revision != current_revision:
+        readiness = portfolio_outlook_readiness(
+            portfolio_revision=current_revision,
+            enabled_count=enabled_count,
+            snapshot=snapshot,
+            now=now,
+            automatic_generation_requested=True,
+        )
+        if readiness.state != "ready":
             request = store.request_outlook(current_revision, requested_at=now)
-            readiness = portfolio_outlook_readiness(
-                portfolio_revision=current_revision,
-                enabled_count=enabled_count,
-                snapshot=snapshot,
-                now=now,
-                automatic_generation_requested=True,
-            )
             return {
                 "contract": "manual_portfolio_outlook_generation.v1",
                 "schema_version": 1,
@@ -1174,6 +1176,144 @@ def get_manual_portfolio_intraday_analysis() -> dict:
     return payload
 
 
+def get_manual_portfolio_analysis_history(
+    instrument_id: str,
+    *,
+    limit: int = 90,
+) -> dict:
+    """Read date-scoped outlook and retrospective pages for one current entry."""
+
+    from tradex.analysis_jobs import MANUAL_PORTFOLIO_OUTLOOK
+    from tradex.data_gateway.securities import canonical_instrument_id
+    from tradex.manual_portfolio.store import ManualPortfolioReader
+
+    normalized = canonical_instrument_id(instrument_id)
+    with ManualPortfolioReader() as reader:
+        entries = {item.instrument_id: item for item in reader.list_entries()}
+    entry = entries.get(normalized)
+    if entry is None:
+        raise LookupError("证券代码不在当前持仓观察中")
+    analysis_reader = _get_analysis_job_reader()
+    artifacts = [
+        *analysis_reader.list_artifacts(
+            MANUAL_PORTFOLIO_OUTLOOK,
+            scope_prefix="date:",
+            limit=limit,
+        ),
+        *analysis_reader.list_artifacts(
+            MANUAL_PORTFOLIO_OUTLOOK,
+            scope_prefix="portfolio:",
+            limit=limit,
+        ),
+    ]
+    outlook_pages = []
+    review_pages = []
+    outlook_dates = set()
+    review_dates = set()
+    for artifact in artifacts:
+        payload = artifact.get("payload") or {}
+        if payload.get("contract") != "manual_portfolio_outlook.v1":
+            continue
+        item = next(
+            (
+                candidate
+                for candidate in payload.get("items") or []
+                if candidate.get("instrument_id") == normalized
+            ),
+            None,
+        )
+        source_date = payload.get("source_trading_date")
+        if item is not None and source_date and source_date not in outlook_dates:
+            outlook_dates.add(source_date)
+            outlook_pages.append(
+                {
+                    "source_trading_date": payload.get("source_trading_date"),
+                    "generated_at": payload.get("generated_at"),
+                    "market_context": payload.get("market_context"),
+                    "analysis": item,
+                    "artifact_revision": artifact["payload_digest"],
+                }
+            )
+        daily_review = payload.get("daily_review") or {}
+        review_item = next(
+            (
+                candidate
+                for candidate in daily_review.get("items") or []
+                if candidate.get("instrument_id") == normalized
+            ),
+            None,
+        )
+        reviewed_date = daily_review.get("reviewed_outlook_date")
+        if review_item is not None and reviewed_date and reviewed_date not in review_dates:
+            review_dates.add(reviewed_date)
+            review_pages.append(
+                {
+                    "reviewed_outlook_date": daily_review.get("reviewed_outlook_date"),
+                    "realized_trading_date": daily_review.get("realized_trading_date"),
+                    "generated_at": daily_review.get("generated_at"),
+                    "self_summary": daily_review.get("self_summary"),
+                    "review": review_item,
+                    "artifact_revision": artifact["payload_digest"],
+                }
+            )
+    outlook_pages.sort(key=lambda page: page["source_trading_date"], reverse=True)
+    review_pages.sort(key=lambda page: page["reviewed_outlook_date"], reverse=True)
+    return {
+        "contract": "manual_portfolio_analysis_history.v1",
+        "schema_version": 1,
+        "instrument_id": normalized,
+        "display_name": entry.display_name,
+        "outlook_pages": outlook_pages[:limit],
+        "review_pages": review_pages[:limit],
+    }
+
+
+def get_manual_portfolio_intraday_analysis_history(*, limit: int = 365) -> dict:
+    """Return persisted current-session analyses oldest-to-newest for append-only UI."""
+
+    from tradex.analysis_jobs import MANUAL_PORTFOLIO_INTRADAY_ANALYSIS
+    from tradex.manual_portfolio.store import ManualPortfolioReader, portfolio_revision
+
+    with ManualPortfolioReader() as reader:
+        entries = reader.list_entries()
+        snapshot = reader.latest_snapshot()
+    current_revision = portfolio_revision(entries)
+    names = {item.instrument_id: item.display_name for item in entries}
+    current_date = snapshot.trading_date.isoformat() if snapshot and snapshot.trading_date else None
+    artifacts = _get_analysis_job_reader().list_artifacts(
+        MANUAL_PORTFOLIO_INTRADAY_ANALYSIS,
+        scope_prefix="snapshot:",
+        limit=limit,
+        source_trading_date=current_date,
+        portfolio_revision=current_revision,
+        order_by_generated_at=True,
+    )
+    analyses = []
+    for artifact in reversed(artifacts):
+        payload = artifact.get("payload") or {}
+        if (
+            payload.get("contract") != "manual_portfolio_intraday_analysis.v1"
+            or payload.get("portfolio_revision") != current_revision
+            or (current_date and payload.get("source_trading_date") != current_date)
+        ):
+            continue
+        view = dict(payload)
+        view["items"] = [
+            {**item, "display_name": names.get(item.get("instrument_id"))}
+            for item in payload.get("items") or []
+        ]
+        view["artifact_revision"] = artifact["payload_digest"]
+        analyses.append(view)
+    if not analyses:
+        raise LookupError("盘中分析将在交易时段取得首份行情后生成")
+    return {
+        "contract": "manual_portfolio_intraday_analysis_history.v1",
+        "schema_version": 1,
+        "source_trading_date": current_date,
+        "analyses": analyses,
+    }
+
+
 class DashboardWriteRejected(ValueError):
     def __init__(self, status: int, message: str) -> None:
         super().__init__(message)
@@ -1246,6 +1386,17 @@ class DashboardHandler(BaseHTTPRequestHandler):
                 )[0],
                 trajectory_revision=query.get("trajectory_revision", [None])[0],
             )
+        elif request.path == "/api/market-watch/five-day-trajectory":
+            query = parse_qs(request.query)
+            sector_keys = tuple(
+                item.strip()
+                for value in query.get("sector_keys", [])
+                for item in value.split(",")
+            )
+            self._handle_market_watch_five_day_trajectory_api(
+                direction=query.get("direction", [None])[0],
+                sector_keys=sector_keys,
+            )
         elif request.path == "/api/limit-up-pool":
             query = parse_qs(request.query)
             self._handle_limit_up_pool_api(
@@ -1271,8 +1422,19 @@ class DashboardHandler(BaseHTTPRequestHandler):
             self._handle_manual_portfolio_outlook_api()
         elif request.path == "/api/manual-portfolio/outlook/generation":
             self._handle_manual_portfolio_outlook_generation_api()
+        elif request.path == "/api/manual-portfolio/analysis-history":
+            query = parse_qs(request.query)
+            self._handle_manual_portfolio_analysis_history_api(
+                instrument_id=query.get("instrument_id", [None])[0],
+                limit=query.get("limit", [None])[0],
+            )
         elif request.path == "/api/manual-portfolio/intraday-analysis":
             self._handle_manual_portfolio_intraday_analysis_api()
+        elif request.path == "/api/manual-portfolio/intraday-analysis/history":
+            query = parse_qs(request.query)
+            self._handle_manual_portfolio_intraday_analysis_history_api(
+                limit=query.get("limit", [None])[0],
+            )
         elif request.path == "/api/market-watch":
             self._handle_market_watch_legacy_api()
         elif request.path == "/api/market-watch/history":
@@ -1422,6 +1584,30 @@ class DashboardHandler(BaseHTTPRequestHandler):
             logger.exception("manual portfolio outlook status read failed")
             self._send_json(502, {"error": "条件式前瞻任务状态暂不可读"})
 
+    def _handle_manual_portfolio_analysis_history_api(
+        self,
+        *,
+        instrument_id: str | None,
+        limit: str | None,
+    ):
+        try:
+            if not instrument_id:
+                raise ValueError("instrument_id 不能为空")
+            self._send_json(
+                200,
+                get_manual_portfolio_analysis_history(
+                    instrument_id,
+                    limit=_review_history_limit(limit),
+                ),
+            )
+        except ValueError as exc:
+            self._send_json(400, {"error": str(exc)})
+        except LookupError as exc:
+            self._send_json(503, {"error": str(exc)})
+        except Exception:
+            logger.exception("manual portfolio analysis history read failed")
+            self._send_json(502, {"error": "个股分析档案暂不可读"})
+
     def _handle_manual_portfolio_intraday_analysis_api(self):
         try:
             self._send_json(200, get_manual_portfolio_intraday_analysis())
@@ -1430,6 +1616,26 @@ class DashboardHandler(BaseHTTPRequestHandler):
         except Exception:
             logger.exception("manual portfolio intraday analysis read failed")
             self._send_json(502, {"error": "盘中分析暂不可读"})
+
+    def _handle_manual_portfolio_intraday_analysis_history_api(
+        self,
+        *,
+        limit: str | None,
+    ):
+        try:
+            self._send_json(
+                200,
+                get_manual_portfolio_intraday_analysis_history(
+                    limit=_review_history_limit(limit, default=365),
+                ),
+            )
+        except ValueError as exc:
+            self._send_json(400, {"error": str(exc)})
+        except LookupError as exc:
+            self._send_json(503, {"error": str(exc)})
+        except Exception:
+            logger.exception("manual portfolio intraday analysis history read failed")
+            self._send_json(502, {"error": "盘中分析时间序列暂不可读"})
 
     def _read_local_json_command(self) -> dict | None:
         try:
@@ -1570,6 +1776,30 @@ class DashboardHandler(BaseHTTPRequestHandler):
                 },
             )
 
+    def _handle_market_watch_five_day_trajectory_api(
+        self,
+        *,
+        direction: str | None,
+        sector_keys: tuple[str, ...],
+    ):
+        try:
+            response = _get_market_watch_web_api().get_five_day_trajectory(
+                direction=direction,
+                sector_keys=sector_keys,
+                if_none_match=self.headers.get("If-None-Match"),
+            )
+            self._send_market_watch_response(response)
+        except Exception:
+            logger.exception("market watch five-day trajectory read failed")
+            self._send_json(
+                502,
+                {
+                    "contract": "market_watch_read_failed.v1",
+                    "schema_version": 1,
+                    "error": "近五日资金轨迹暂不可用",
+                },
+            )
+
     def _handle_market_watch_legacy_api(self):
         """Fail visibly instead of serving the retired refresh-owning contract."""
 
@@ -1583,6 +1813,9 @@ class DashboardHandler(BaseHTTPRequestHandler):
                     "collection_status": "/api/market-watch/collection-status",
                     "summary": "/api/market-watch/summary",
                     "trajectory": "/api/market-watch/trajectory",
+                    "five_day_trajectory": (
+                        "/api/market-watch/five-day-trajectory"
+                    ),
                 },
             },
         )

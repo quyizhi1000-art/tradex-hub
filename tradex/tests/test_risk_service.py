@@ -2013,6 +2013,37 @@ def test_rotation_flow_reads_the_effective_provider_trade_date(monkeypatch):
     assert result["sector_flow_trajectory"]["market_phase"] == "closed"
 
 
+def test_rotation_as_of_accepts_exact_flow_backfill_before_first_base_snapshot(
+    monkeypatch,
+):
+    target = datetime(2026, 9, 2, 9, 35, tzinfo=ZoneInfo("Asia/Shanghai"))
+    monkeypatch.setattr(
+        risk_service,
+        "read_sector_intraday_fund_flow_backfill",
+        lambda **_kwargs: {
+            "electric_power": (
+                {
+                    "provider_as_of": target.isoformat(),
+                    "cumulative_cny": 100_000_000.0,
+                    "source_family": "eastmoney",
+                    "taxonomy": "industry",
+                },
+            )
+        },
+    )
+
+    result = risk_service.get_rotation_radar_as_of(target)
+    electric_power = next(
+        item
+        for item in result["sector_flow_trajectory"]["sectors"]
+        if item["sector_key"] == "electric_power"
+    )
+
+    assert electric_power["latest"]["provider_as_of"] == target
+    assert electric_power["latest"]["change_pct"] is None
+    assert electric_power["latest"]["breadth_ratio"] is None
+
+
 def test_closed_rotation_read_never_cold_loads_exact_backfill(monkeypatch):
     calls = []
 

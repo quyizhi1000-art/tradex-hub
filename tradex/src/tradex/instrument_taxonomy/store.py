@@ -227,6 +227,41 @@ class InstrumentTaxonomyReader:
                         result[profile.instrument_id] = profile
         return result
 
+    def all_profiles(self) -> tuple[StockRelationshipProfileV1, ...]:
+        if self._connection is None:
+            return ()
+        with self._lock:
+            rows = self._connection.execute(
+                "SELECT payload_json, payload_digest FROM instrument_taxonomy_profiles "
+                "ORDER BY instrument_id"
+            ).fetchall()
+        return tuple(
+            profile for row in rows if (profile := self._profile(row)) is not None
+        )
+
+    def find_by_name(self, name: str) -> tuple[StockRelationshipProfileV1, ...]:
+        """Return exact normalized-name matches without guessing a security."""
+
+        if self._connection is None:
+            return ()
+        value = "".join(str(name or "").split())
+        if not value:
+            return ()
+        with self._lock:
+            rows = self._connection.execute(
+                """
+                SELECT payload_json, payload_digest
+                FROM instrument_taxonomy_profiles
+                WHERE REPLACE(REPLACE(REPLACE(REPLACE(name, ' ', ''),
+                    CHAR(9), ''), CHAR(10), ''), CHAR(13), '') = ?
+                ORDER BY instrument_id
+                """,
+                (value,),
+            ).fetchall()
+        return tuple(
+            profile for row in rows if (profile := self._profile(row)) is not None
+        )
+
     def members_by_sw_l3(self, code_or_name: str) -> tuple[StockRelationshipProfileV1, ...]:
         if self._connection is None:
             return ()

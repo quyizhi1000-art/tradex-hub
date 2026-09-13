@@ -1,11 +1,13 @@
 from __future__ import annotations
 
+import json
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
 import pytest
 
 from tradex.instrument_taxonomy.builder import (
+    apply_official_evidence_to_catalog,
     build_stock_relationship_catalog,
     load_official_evidence,
 )
@@ -53,6 +55,11 @@ def test_second_market_review_round_keeps_verified_business_identity_separate() 
             "002757.SZ": "行业智能体",
             "300911.SZ": "亿田算力中心",
             "603950.SH": "燃气轮机发电机组",
+            "002632.SZ": "石墨烯导热膜",
+            "603958.SH": "3C消费电子",
+            "001278.SZ": "智能激光除草机研发试验",
+            "600589.SH": "算力租赁",
+            "603270.SH": "向心式油冷",
             "603236.SH": "机器人大小脑域控制器",
             "603090.SH": "数据中心散热",
             "603559.SH": "IDC运维及增值服务",
@@ -94,8 +101,13 @@ def test_second_market_review_round_keeps_verified_business_identity_separate() 
         "603068.SH": ("无线通信芯片", True),
         "002757.SZ": ("数字基础设施", True),
         "300911.SZ": ("厨房电器", True),
-        "603950.SH": ("发动机零部件", True),
-        "603236.SH": ("无线通信模组", True),
+            "603950.SH": ("发动机零部件", True),
+            "002632.SZ": ("反光材料", True),
+            "603958.SH": ("箱包、鞋类", True),
+            "001278.SZ": ("汽车零部件", True),
+            "600589.SH": ("互联网收入", True),
+            "603270.SH": ("汽车零部件", True),
+            "603236.SH": ("无线通信模组", True),
         "603090.SH": ("换热器与热管理", True),
         "603559.SH": ("通信技术服务", True),
         "001330.SZ": ("影视与院线", True),
@@ -248,6 +260,56 @@ def test_store_atomically_round_trips_and_queries_relationship_basis(tmp_path):
         assert [item.instrument_id for item in reader.members_by_primary_business("存储")] == [
             "001309.SZ"
         ]
+
+
+def test_official_evidence_overlay_preserves_unrelated_accepted_profiles(tmp_path):
+    empty_evidence = tmp_path / "empty-evidence.json"
+    empty_evidence.write_text(json.dumps({
+        "contract": "instrument_taxonomy_official_evidence.v1",
+        "schema_version": 1,
+        "profiles": [],
+    }), encoding="utf-8")
+    source = _source()
+    initial_status, initial_profiles = build_stock_relationship_catalog(
+        source,
+        generated_at=datetime(2026, 8, 28, 1, 0, tzinfo=SHANGHAI),
+        official_evidence_path=empty_evidence,
+    )
+    evidence = tmp_path / "evidence.json"
+    evidence.write_text(json.dumps({
+        "contract": "instrument_taxonomy_official_evidence.v1",
+        "schema_version": 1,
+        "profiles": [{
+            "instrument_id": "600000.SH",
+            "primary_business_key": "banking",
+            "primary_business_name": "银行",
+            "business_tags": ["银行", "公司金融"],
+            "evidence": [{
+                "evidence_id": "official-bank-profile",
+                "source_kind": "official_company",
+                "publisher": "样例银行",
+                "title": "公司业务介绍",
+                "retrieved_at": "2026-09-03T09:00:00+08:00",
+                "assertions": ["主营归属:银行"],
+            }],
+        }],
+    }, ensure_ascii=False), encoding="utf-8")
+
+    updated_status, updated_profiles = apply_official_evidence_to_catalog(
+        initial_status,
+        initial_profiles,
+        generated_at=datetime(2026, 9, 3, 9, 5, tzinfo=SHANGHAI),
+        official_evidence_path=evidence,
+    )
+    initial_by_id = {item.instrument_id: item for item in initial_profiles}
+    updated_by_id = {item.instrument_id: item for item in updated_profiles}
+
+    assert updated_by_id["001309.SZ"] == initial_by_id["001309.SZ"]
+    assert updated_by_id["600000.SH"].primary_business_name == "银行"
+    assert updated_by_id["600000.SH"].verification_status == "verified"
+    assert updated_status.profile_total == initial_status.profile_total
+    assert updated_status.catalog_revision != initial_status.catalog_revision
+    assert "official_evidence_refresh_from_accepted_catalog" in updated_status.flags
 
 
 def test_refresh_preserves_prior_catalog_when_latest_business_period_is_missing(tmp_path):

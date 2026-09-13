@@ -250,6 +250,16 @@ def test_market_watch_routes_preserve_revision_and_exact_sector_selection():
     )
     detail_handler.do_GET()
 
+    history_handler = _bare_handler()
+    history_handler.path = (
+        "/api/market-watch/five-day-trajectory?direction=offense"
+        "&sector_keys=semiconductor,software"
+    )
+    history_handler._handle_market_watch_five_day_trajectory_api = (
+        lambda **kwargs: calls.append(("five-day-trajectory", kwargs))
+    )
+    history_handler.do_GET()
+
     assert calls == [
         ("status", {}),
         ("summary", {"source_snapshot_revision": revision}),
@@ -260,6 +270,13 @@ def test_market_watch_routes_preserve_revision_and_exact_sector_selection():
                 "sector_keys": ("electric_power", "bank", "coal"),
                 "source_snapshot_revision": revision,
                 "trajectory_revision": trajectory_revision,
+            },
+        ),
+        (
+            "five-day-trajectory",
+            {
+                "direction": "offense",
+                "sector_keys": ("semiconductor", "software"),
             },
         ),
     ]
@@ -312,6 +329,10 @@ def test_market_watch_http_handlers_forward_etag_without_provider_refresh(
         or response,
         get_summary=lambda **kwargs: calls.append(("summary", kwargs)) or response,
         get_detail=lambda **kwargs: calls.append(("detail", kwargs)) or response,
+        get_five_day_trajectory=lambda **kwargs: calls.append(
+            ("five-day", kwargs)
+        )
+        or response,
     )
     monkeypatch.setattr(dashboard_app, "_get_market_watch_web_api", lambda: api)
     monkeypatch.setattr(
@@ -330,6 +351,10 @@ def test_market_watch_http_handlers_forward_etag_without_provider_refresh(
         sector_keys=("bank",),
         source_snapshot_revision=revision,
         trajectory_revision="b" * 64,
+    )
+    handler._handle_market_watch_five_day_trajectory_api(
+        direction="defense",
+        sector_keys=("bank",),
     )
 
     assert calls == [
@@ -350,6 +375,15 @@ def test_market_watch_http_handlers_forward_etag_without_provider_refresh(
                 "sector_keys": ("bank",),
                 "source_snapshot_revision": revision,
                 "trajectory_revision": "b" * 64,
+                "if_none_match": '"cached"',
+            },
+        ),
+        ("send", response),
+        (
+            "five-day",
+            {
+                "direction": "defense",
+                "sector_keys": ("bank",),
                 "if_none_match": '"cached"',
             },
         ),

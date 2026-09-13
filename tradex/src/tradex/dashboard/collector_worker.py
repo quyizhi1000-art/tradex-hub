@@ -122,6 +122,13 @@ def _provider_verified_final_breadth(
     up = sum(item.change_pct > 0 for item in universe.quotes)
     down = sum(item.change_pct < 0 for item in universe.quotes)
     flat = len(universe.quotes) - up - down
+    from tradex.data_gateway.quality import assess_universe_breadth
+
+    quality, flags = assess_universe_breadth(
+        quality=universe.metadata.quality.value,
+        quality_flags=universe.metadata.quality_flags,
+        excluded_row_count=universe.excluded_row_count,
+    )
     breadth = {
         "up_count": up,
         "down_count": down,
@@ -129,10 +136,12 @@ def _provider_verified_final_breadth(
         "unclassified_count": universe.excluded_row_count,
         "total_count": universe.provider_row_count,
         "provider_as_of": provider_as_of.isoformat(),
-        "quality": universe.metadata.quality.value,
-        "quality_flags": list(universe.metadata.quality_flags),
+        "quality": quality.value,
+        "quality_flags": list(flags),
     }
-    return breadth, metadata_to_component_status(universe.metadata)
+    status = metadata_to_component_status(universe.metadata)
+    status.update(quality=quality.value, quality_flags=list(flags), partial=quality.value == "degraded")
+    return breadth, status
 
 
 def _capture_final_close(slot, observed: datetime) -> MarketWatchSnapshotV1:
@@ -164,6 +173,8 @@ def _capture_final_close(slot, observed: datetime) -> MarketWatchSnapshotV1:
     )
     exact_rotation = get_rotation_radar_as_of(minute)
     risk_data = dict(risk_data)
+    if exact_rotation.get("offense"):
+        risk_data["offense"] = exact_rotation["offense"]
     for field in (
         "sector_flow_trajectory",
         "offense_sector_flow_trajectory",
@@ -342,11 +353,18 @@ def build_collector(
             for minute in ledger.list_recovery_gap_minutes(trade_date)
             if OPENING_AUCTION_RESULT_TIME < minute.time().replace(tzinfo=None) < FINAL_CLOSE_TIME
         )
-        if not gap_minutes:
+        close_minute = datetime.combine(trade_date, FINAL_CLOSE_TIME, SHANGHAI)
+        if observed.astimezone(SHANGHAI).date() == trade_date and observed >= close_minute:
+            # Accepted aggregate minutes do not prove that every sector curve
+            # reaches close. Finalize the tails even when the ledger has no gaps.
+            required_through = close_minute
+        elif gap_minutes:
+            required_through = max(gap_minutes)
+        else:
             return {"action": "skipped", "reason": "no_intraday_curve_gaps"}
         finalization = finalize_sector_intraday_fund_flow_backfill(
             trading_date=trade_date,
-            required_through=max(gap_minutes),
+            required_through=required_through,
             now=observed,
             progress=lambda _completed, _total, _sector_key: heartbeat(),
         )
@@ -748,36 +766,107 @@ def _refresh_manual_portfolio_market() -> dict:
         MANUAL_PORTFOLIO_INTRADAY_ANALYSIS,
         MANUAL_PORTFOLIO_OUTLOOK,
         AnalysisJobCommandWriter,
+        AnalysisJobReader,
+        AnalysisStateUnavailable,
     )
-    from tradex.market_calendar import a_share_session
+    from tradex.market_calendar import TradingSessionPhase, a_share_session
     from tradex.manual_portfolio.market import refresh_manual_portfolio_market
+    from tradex.manual_portfolio.readiness import (
+        portfolio_outlook_readiness,
+        portfolio_snapshot_has_final_close,
+    )
     from tradex.manual_portfolio.store import ManualPortfolioStore
 
     with ManualPortfolioStore() as store:
         snapshot = refresh_manual_portfolio_market(store, now=_now())
         request = store.outlook_request(snapshot.portfolio_revision)
         generation = None
-        if request is not None and request["state"] == "waiting_for_market":
+        session = a_share_session(snapshot.generated_at)
+        waiting_request = request is not None and request["state"] == "waiting_for_market"
+        waiting_ready = bool(
+            waiting_request
+            and portfolio_outlook_readiness(
+                portfolio_revision=snapshot.portfolio_revision,
+                enabled_count=snapshot.item_count,
+                snapshot=snapshot,
+                now=snapshot.generated_at,
+                automatic_generation_requested=True,
+            ).state == "ready"
+        )
+        automatic_scope = (
+            f"date:{snapshot.trading_date}:portfolio:{snapshot.portfolio_revision}"
+            if snapshot.trading_date is not None
+            else None
+        )
+        automatic_due = bool(
+            automatic_scope
+            and snapshot.item_count
+            and session.is_trading_day
+            and session.phase is TradingSessionPhase.CLOSED
+            and portfolio_snapshot_has_final_close(snapshot)
+        )
+        daily_state = "checking" if automatic_due else "not_applicable"
+        if automatic_due:
+            try:
+                with AnalysisJobReader() as reader:
+                    archived = reader.get_artifact(
+                        MANUAL_PORTFOLIO_OUTLOOK,
+                        scope_key=f"date:{snapshot.trading_date}",
+                    )
+                    existing_job = reader.latest_job(
+                        MANUAL_PORTFOLIO_OUTLOOK,
+                        scope_key=automatic_scope,
+                    )
+                if archived is not None:
+                    daily_state = "available"
+                elif existing_job is not None and existing_job.get("state") in {
+                    "queued", "running", "succeeded"
+                }:
+                    daily_state = "scheduled"
+                automatic_due = archived is None and (
+                    existing_job is None
+                    or existing_job.get("state") not in {"queued", "running", "succeeded"}
+                )
+            except AnalysisStateUnavailable:
+                automatic_due = False
+                daily_state = "unavailable"
+        if waiting_ready or automatic_due:
             dispatched_at = _now()
+            scope_key = (
+                f"portfolio:{snapshot.portfolio_revision}"
+                if waiting_ready
+                else automatic_scope
+            )
             with AnalysisJobCommandWriter() as writer:
                 job = writer.enqueue(
                     MANUAL_PORTFOLIO_OUTLOOK,
                     trade_date=snapshot.trading_date or dispatched_at.date(),
-                    trigger="manual-after-market-refresh",
-                    scope_key=f"portfolio:{snapshot.portfolio_revision}",
+                    trigger=(
+                        "manual-after-market-refresh"
+                        if waiting_ready
+                        else "automatic-after-close"
+                    ),
+                    scope_key=scope_key,
                     requested_at=dispatched_at,
                 )
-            store.mark_outlook_request_dispatched(
-                snapshot.portfolio_revision,
-                job_id=job["job_id"],
-                dispatched_at=dispatched_at,
-            )
+            if waiting_ready:
+                store.mark_outlook_request_dispatched(
+                    snapshot.portfolio_revision,
+                    job_id=job["job_id"],
+                    dispatched_at=dispatched_at,
+                )
             generation = {
                 "job_id": job["job_id"],
                 "state": job["state"],
             }
+            if session.phase is TradingSessionPhase.CLOSED:
+                daily_state = "scheduled"
         intraday_generation = None
-        if a_share_session(snapshot.generated_at).is_open:
+        if session.is_open or (
+            session.is_trading_day and session.phase is TradingSessionPhase.CLOSED
+            and snapshot.trading_date == session.trading_date
+            and snapshot.generated_at.astimezone(SHANGHAI).hour >= 15
+        ):
             with AnalysisJobCommandWriter() as writer:
                 intraday_job = writer.enqueue(
                     MANUAL_PORTFOLIO_INTRADAY_ANALYSIS,
@@ -796,6 +885,7 @@ def _refresh_manual_portfolio_market() -> dict:
         "item_count": snapshot.item_count,
         "alert_count": len(snapshot.alerts),
         "outlook_generation": generation,
+        "daily_outlook_state": daily_state,
         "intraday_analysis_generation": intraday_generation,
     }
 
@@ -818,6 +908,25 @@ def _backfill_review_announcements() -> int:
     return 0
 
 
+def _final_close_pointer_revision(pointer: dict | None, trade_date: date) -> str | None:
+    if not pointer or pointer.get("trade_date") != trade_date.isoformat():
+        return None
+    minute = _provider_time(pointer.get("minute_bucket"))
+    if minute is None or minute.date() != trade_date or minute.time().replace(tzinfo=None) != FINAL_CLOSE_TIME:
+        return None
+    return pointer.get("source_snapshot_revision")
+
+
+def _latest_final_close_revision(trade_date: date) -> str | None:
+    try:
+        with MarketWatchCollectionStore(read_only=True) as ledger:
+            envelope = ledger.read_envelope(as_of=_now()).model_dump(mode="json")
+    except Exception:
+        logger.exception("verified closing pointer temporarily unavailable")
+        return None
+    return _final_close_pointer_revision(envelope.get("latest_accepted_real"), trade_date)
+
+
 def _run_post_close_resonance_loop(
     stop_event: threading.Event,
     *,
@@ -828,13 +937,14 @@ def _run_post_close_resonance_loop(
 
     from tradex.market_calendar import TradingSessionPhase, a_share_session
 
-    completed_dates = set()
+    completed_close_revisions = {}
     completed_resonance_buckets = set()
     completed_limit_up_buckets = set()
     completed_midday_limit_up_dates = set()
     completed_sentiment_dates = set()
     completed_announcement_buckets = set()
     completed_portfolio_buckets = set()
+    completed_portfolio_close_dates = set()
     while not stop_event.is_set():
         observed = clock()
         session = a_share_session(observed)
@@ -854,11 +964,14 @@ def _run_post_close_resonance_loop(
             and local_time >= time(9, 35)
             and intraday_bucket not in completed_resonance_buckets
         )
-        post_close_due = (
+        after_close = (
             session.is_trading_day
             and session.phase is TradingSessionPhase.CLOSED
             and local_time >= time(15, 0)
-            and observed.date() not in completed_dates
+        )
+        close_revision = _latest_final_close_revision(observed.date()) if after_close else None
+        post_close_due = bool(close_revision) and (
+            completed_close_revisions.get(observed.date()) != close_revision
         )
         sentiment_due = (
             session.is_trading_day
@@ -878,7 +991,10 @@ def _run_post_close_resonance_loop(
         post_close_portfolio_due = (
             session.is_trading_day
             and session.phase is TradingSessionPhase.CLOSED
-            and _manual_portfolio_outlook_request_waiting()
+            and (
+                observed.date() not in completed_portfolio_close_dates
+                or _manual_portfolio_outlook_request_waiting()
+            )
         )
         portfolio_due = (
             session.is_open
@@ -914,6 +1030,11 @@ def _run_post_close_resonance_loop(
             try:
                 portfolio_result = _refresh_manual_portfolio_market()
                 completed_portfolio_buckets.add(intraday_bucket)
+                if (
+                    session.phase is TradingSessionPhase.CLOSED
+                    and portfolio_result.get("daily_outlook_state") != "unavailable"
+                ):
+                    completed_portfolio_close_dates.add(observed.date())
                 logger.info(
                     "manual portfolio market ready revision=%s items=%s alerts=%s",
                     portfolio_result.get("snapshot_revision"),
@@ -927,7 +1048,7 @@ def _run_post_close_resonance_loop(
             resonance_result = {}
             limit_up_result = {}
             try:
-                resonance_result = _generate_latest_resonance(reuse_existing=True)
+                resonance_result = _generate_latest_resonance(reuse_existing=False)
             except Exception:
                 logger.exception("post-close sector resonance backfill failed")
                 succeeded = False
@@ -939,7 +1060,12 @@ def _run_post_close_resonance_loop(
                 logger.exception("limit-up catalog pool backfill failed")
                 succeeded = False
             if succeeded:
-                completed_dates.add(observed.date())
+                # Close work only for the exact source both producers consumed.
+                if (
+                    resonance_result.get("source_snapshot_revision") == close_revision
+                    and limit_up_result.get("source_snapshot_revision") == close_revision
+                ):
+                    completed_close_revisions[observed.date()] = close_revision
                 logger.info(
                     "derived market-watch evidence ready resonance=%s entries=%s "
                     "limit_up_pool=%s total=%s phase=%s",
