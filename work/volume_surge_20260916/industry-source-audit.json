@@ -1,0 +1,56 @@
+{
+  "observed_at": "2026-09-16T18:00:06.885940+08:00",
+  "local_catalog_revision": "3c95c807068d42c76d1237272ed8d716f11a1710afffa7038fb460816118ce57",
+  "local_profile_count": 5563,
+  "local_missing_count": 1219,
+  "missing_found_in_current_source": 1215,
+  "remaining_missing": [
+    "301686.SZ",
+    "920268.BJ",
+    "920269.BJ",
+    "920289.BJ"
+  ],
+  "hongyuan_sw": [
+    {
+      "l1_code": "801740.SI",
+      "l1_name": "国防军工",
+      "l2_code": "801745.SI",
+      "l2_name": "军工电子Ⅱ",
+      "l3_code": "857451.SI",
+      "l3_name": "军工电子Ⅲ",
+      "ts_code": "603267.SH",
+      "name": "鸿远电子",
+      "in_date": "20210730",
+      "out_date": null,
+      "is_new": "Y"
+    }
+  ],
+  "hongyuan_ths": [
+    {
+      "ts_code": "881276.TI",
+      "con_code": "603267.SH",
+      "con_name": "鸿远电子",
+      "in_date": null,
+      "out_date": null,
+      "is_new": "Y"
+    }
+  ],
+  "dates": [
+    {
+      "date": "2026-09-15",
+      "all_strategies_unclassified": 98,
+      "all_strategies_recoverable": 98,
+      "volume_surge_unclassified": 80,
+      "volume_surge_recoverable": 80
+    },
+    {
+      "date": "2026-09-16",
+      "all_strategies_unclassified": 102,
+      "all_strategies_recoverable": 102,
+      "volume_surge_unclassified": 78,
+      "volume_surge_recoverable": 78
+    }
+  ],
+  "runtime_modified": false,
+  "conclusion": "Current SW source contains missing mappings; persisted catalog is incomplete. Original missing-page transport cause not proven. Same-date auto-refresh does not retry on low industry coverage."
+}

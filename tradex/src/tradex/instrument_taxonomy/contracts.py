@@ -56,7 +56,7 @@ class EvidenceRefV1(TaxonomyModel):
 
 
 class IndustryPathV1(TaxonomyModel):
-    taxonomy: Literal["capco", "sw", "provider"]
+    taxonomy: Literal["capco", "sw", "ths", "provider"]
     taxonomy_version: str = Field(min_length=1)
     level1_code: str | None = None
     level1_name: str | None = None
@@ -113,6 +113,7 @@ class StockRelationshipProfileV1(TaxonomyModel):
     as_of: date
     regulatory_industry: IndustryPathV1 | None = None
     statistical_industry: IndustryPathV1 | None = None
+    market_industry: IndustryPathV1 | None = None
     provider_industry: str | None = None
     business_domain_key: str | None = Field(
         default=None,

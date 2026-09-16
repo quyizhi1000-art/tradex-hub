@@ -99,6 +99,8 @@ def _get_watch_asset(name: str) -> tuple[bytes, str]:
     content_types = {
         "styles.css": "text/css; charset=utf-8",
         "app.js": "text/javascript; charset=utf-8",
+        "sector-catalog.js": "text/javascript; charset=utf-8",
+        "sector-catalog.css": "text/css; charset=utf-8",
     }
     if name not in content_types:
         raise FileNotFoundError(name)
@@ -1360,7 +1362,9 @@ class DashboardHandler(BaseHTTPRequestHandler):
 
     def do_GET(self):  # noqa: N802 - stdlib 接口命名
         request = urlsplit(self.path)
-        if request.path == "/api/market-watch/collection-status":
+        if request.path in {"/api/market-watch/sector-catalog", "/api/market-watch/sector-catalog/trajectory"}:
+            self._handle_sector_catalog_api(request.path.endswith("/trajectory"), parse_qs(request.query))
+        elif request.path == "/api/market-watch/collection-status":
             self._handle_market_watch_collection_status_api()
         elif request.path == "/api/market-watch/intraday-trajectory-repair":
             self._handle_market_watch_intraday_trajectory_repair_read_api()
@@ -1490,7 +1494,7 @@ class DashboardHandler(BaseHTTPRequestHandler):
             self._handle_api()
         elif request.path in ("/", "/index.html"):
             self._handle_html()
-        elif request.path in ("/watch/styles.css", "/watch/app.js"):
+        elif request.path in ("/watch/styles.css", "/watch/app.js", "/watch/sector-catalog.js", "/watch/sector-catalog.css"):
             self._handle_watch_asset(request.path.rsplit("/", 1)[-1])
         else:
             self.send_error(404)
@@ -1523,6 +1527,33 @@ class DashboardHandler(BaseHTTPRequestHandler):
             self._handle_manual_portfolio_command_api(command)
         elif request.path == "/api/manual-portfolio/outlook":
             self._handle_manual_portfolio_outlook_command_api(command)
+
+    def _handle_sector_catalog_api(self, detail: bool, query: dict):
+        from tradex.market_watch.sector_catalog import SectorCatalogStore
+
+        try:
+            with SectorCatalogStore() as reader:
+                if detail:
+                    result = reader.detail(
+                        query.get("catalog_revision", [""])[0],
+                        tuple(k for value in query.get("sector_keys", []) for k in value.split(",")),
+                    )
+                else:
+                    catalog = reader.latest()
+                    if catalog is None:
+                        self._send_json(503, {"error": "全量板块目录尚未生成"})
+                        return
+                    result = catalog.model_dump(mode="json")
+            self._send_json(200, result)
+        except ValueError as exc:
+            self._send_json(400, {"error": str(exc)})
+        except LookupError as exc:
+            self._send_json(503, {"error": str(exc)})
+        except RuntimeError as exc:
+            self._send_json(409, {"error": str(exc)})
+        except Exception:
+            logger.exception("sector catalog read failed")
+            self._send_json(503, {"error": "板块目录读取失败，等待下一份完整目录"})
 
     def _handle_html(self):
         try:

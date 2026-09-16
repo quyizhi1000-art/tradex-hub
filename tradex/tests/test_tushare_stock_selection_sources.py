@@ -50,6 +50,15 @@ def test_mapper_requires_previous_close_for_limit_up_detection():
         _candlestick_bar(row, trade_date=TRADE_DATE)
 
 
+@pytest.mark.parametrize("raw,expected", [(1000, 100000.0), (None, None), (0, None), (-1, None), (float("nan"), None)])
+def test_mapper_normalizes_share_volume_without_inventing_missing_values(raw, expected):
+    row = _bar("600000.SH", COMPACT_DATE, 10.0)
+    row["vol"] = raw
+    bar = _candlestick_bar(row, trade_date=TRADE_DATE)
+    assert bar.volume_shares == expected
+    assert bar.amount_cny == 250000000.0
+
+
 def test_tushare_daily_stock_factor_fetcher_uses_full_market_point_in_time_tables(
     monkeypatch,
 ):

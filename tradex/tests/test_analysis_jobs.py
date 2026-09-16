@@ -244,6 +244,11 @@ def test_worker_materializes_strategy_archive_from_the_single_selection_owner(tm
             "schema_version": 1,
             "strategies": [{"strategy_id": "balanced-multifactor-a-share"}],
         },
+        "industry_display": {
+            "contract": "selection_industry_display.v1",
+            "catalog_revision": "a" * 64,
+            "as_of": "2026-09-16",
+        },
         "results": [],
         "outcomes": [],
         "recent_outcomes": [],
@@ -275,6 +280,9 @@ def test_worker_materializes_strategy_archive_from_the_single_selection_owner(tm
         )
 
         assert runtime.materialize_selection_views(force=True) == 2
+        assert runtime.materialize_selection_views() == 0
+        strategy_archive["industry_display"]["catalog_revision"] = "b" * 64
+        assert runtime.materialize_selection_views() == 2
         artifact = store.get_artifact(
             DAILY_STOCK_SELECTION,
             scope_key=f"date:{trade_date}",

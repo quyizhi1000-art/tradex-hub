@@ -1,0 +1,19 @@
+{
+  "trade_date": "2026-09-16",
+  "result_id": "stock-selection-strategy-result:9e6060f0f5458ae731687cc9",
+  "source_snapshot_revision": "2624e65c205b0e9173b44c25af0c4392b6d920a224ef20c2b5cb91fab86903ba",
+  "archive_quality": "degraded",
+  "snapshot_metadata": {
+    "contract": "daily_stock_factor_snapshot.v1",
+    "schema_version": 1,
+    "provider": "tushare",
+    "provider_request_id": null,
+    "provider_as_of": "2026-09-16T18:00:00+08:00",
+    "fetched_at": "2026-09-16T18:19:42.130285+08:00",
+    "quality": "accepted",
+    "quality_flags": []
+  },
+  "reproduced_candidate_count": 166,
+  "archive_and_recomputed_candidates_equal": true,
+  "unavailable_existing_limit_tendency_candidates": 0
+}

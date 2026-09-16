@@ -450,7 +450,7 @@ def test_sector_flow_trajectory_uses_a_same_session_five_minute_baseline():
     assert electric_power.latest.change_delta_5m_pct == 1.0
     assert electric_power.observation_tier.value == "confirmed_strengthening"
     assert electric_power.observation_rank == 1
-    assert len(canonical.sectors) == 39
+    assert len(canonical.sectors) == 40
 
 
 def test_defense_sector_flow_trajectory_adds_industry_and_concept_children():
@@ -461,14 +461,18 @@ def test_defense_sector_flow_trajectory_adds_industry_and_concept_children():
             "industry", "BK_ENV", "环保", minute,
             change=1.0 + offset * 0.1, breadth=0.62, flow=2.0 + offset,
         )
+        diversified_finance = _board(
+            "industry", "FINANCE", "多元金融", minute,
+            change=0.5 + offset * 0.1, breadth=0.6, flow=1.0 + offset,
+        )
         energy_conservation = _board(
             "concept", "BK_GREEN", "节能环保", minute,
             change=1.5 + offset * 0.2, breadth=0.68, flow=3.0 + offset,
         )
-        for item in (environmental, energy_conservation):
+        for item in (environmental, energy_conservation, diversified_finance):
             item["source"] = "push2delay"
         snapshots.append(normalize_rotation_snapshot(
-            [*_background("industry", minute, "I"), environmental],
+            [*_background("industry", minute, "I"), environmental, diversified_finance],
             [*_background("concept", minute, "C"), energy_conservation],
             minute_bucket=minute,
         ))
@@ -487,7 +491,7 @@ def test_defense_sector_flow_trajectory_adds_industry_and_concept_children():
     )
 
     assert canonical.direction == "defense"
-    assert len(anchors) == 20
+    assert len(anchors) == 21
     assert len(concepts) == 19
     assert {
         "prepared_food",
@@ -507,6 +511,16 @@ def test_defense_sector_flow_trajectory_adds_industry_and_concept_children():
     assert energy_conservation.parent_name == "环保"
     assert energy_conservation.latest is not None
     assert energy_conservation.latest.delta_5m_cny == 500_000_000
+    finance = next(item for item in anchors if item.sector_key == "diversified_finance")
+    assert finance.name == "多元金融"
+    assert finance.taxonomy == "industry"
+    assert finance.category_key == "weight_support"
+    assert len(finance.points) == 6
+    assert finance.latest.delta_5m_cny == 500_000_000
+    assert "diversified_finance" not in {
+        item["sector_key"]
+        for item in analyze_sector_flow_snapshots(snapshots, direction="offense")["sectors"]
+    }
 
 
 def test_expanded_sector_flow_pool_requests_exact_backfill_for_resolved_boards():
@@ -519,7 +533,12 @@ def test_expanded_sector_flow_pool_requests_exact_backfill_for_resolved_boards()
     )
     electric_power["source"] = "push2delay"
     coal["source"] = "push2delay"
-    industry = [*_background("industry", minute, "I"), electric_power, coal]
+    diversified_finance = _board(
+        "industry", "BK_FINANCE", "多元金融Ⅱ", minute,
+        change=1.5, breadth=0.6, flow=1.0,
+    )
+    diversified_finance["source"] = "push2delay"
+    industry = [*_background("industry", minute, "I"), electric_power, coal, diversified_finance]
     concept = _background("concept", minute, "C")
 
     trajectory = analyze_sector_flow_snapshots([
@@ -537,6 +556,7 @@ def test_expanded_sector_flow_pool_requests_exact_backfill_for_resolved_boards()
 
     assert coal_series["latest"]["change_pct"] == 2.0
     assert "coal" in {item["sector_key"] for item in targets}
+    assert "diversified_finance" in {item["sector_key"] for item in targets}
 
 
 def test_sector_flow_trajectory_exposes_only_an_explicit_bk_leader_identity():

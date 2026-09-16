@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>盘面刹车器 · Tradex</title>
     <link rel="stylesheet" href="/watch/styles.css">
+    <link rel="stylesheet" href="/watch/sector-catalog.css">
   </head>
   <body>
     <div class="app-shell">
@@ -81,7 +82,7 @@
         </div>
         <div class="collection-recovery-strip__metrics" aria-label="收盘数据完整性指标">
           <span>已接收 <strong id="collection-recovery-accepted">--</strong></span>
-          <span>待追补 <strong id="collection-recovery-gaps">--</strong></span>
+          <span>缺口 <strong id="collection-recovery-gaps">--</strong></span>
           <span>本轮进度 <strong id="collection-recovery-progress">--</strong></span>
           <span>失败 <strong id="collection-recovery-failures">--</strong></span>
           <span>最近检查 <strong id="collection-recovery-checked-at">--</strong></span>
@@ -469,6 +470,50 @@
           </article>
         </section>
 
+        <section class="panel sector-catalog-panel" aria-labelledby="sector-catalog-heading">
+          <div class="panel-heading">
+            <div><span class="section-kicker">FULL SECTOR DIRECTORY</span>
+              <h2 id="sector-catalog-heading">全量板块与热点轨迹 <small>含待分类方向</small></h2></div>
+            <button type="button" class="button button-secondary" id="sector-catalog-refresh">刷新目录</button>
+          </div>
+          <p id="sector-catalog-status" role="status">等待已采集板块目录</p>
+          <div id="sector-catalog-counts" class="sector-catalog-counts"></div>
+          <p class="definition-note">目录涵盖采集源中已发现的行业与概念；全市场完整性尚未核实。热点由两份不同时间的有效行情确认，退榜后保留当日记录。缺失分钟如实标识，连线遵循资金轨迹图规则，不用旧值补画。</p>
+          <div class="sector-catalog-controls">
+            <label>查找板块 <input id="sector-catalog-search" type="search" placeholder="名称、曾用名或板块代码" autocomplete="off"></label>
+            <label>目录范围 <select id="sector-catalog-filter">
+              <option value="hot">当日热点（含退榜）</option><option value="all">全部板块</option>
+              <option value="unclassified">未纳入两张图</option><option value="missing">分钟历史缺失</option>
+              <option value="absent">最新快照缺失</option><option value="unsupported">补采能力待核实</option>
+              <option value="selected">已勾选</option>
+            </select></label>
+            <button type="button" class="button button-secondary" id="sector-catalog-default">跟踪当前热点</button>
+            <button type="button" class="button button-secondary" id="sector-catalog-clear">清空勾选</button>
+          </div>
+          <div class="sector-catalog-layout">
+            <div>
+              <div class="sector-catalog-table-wrap"><table class="sector-catalog-table">
+                <thead><tr><th>跟踪</th><th>板块 / 归类</th><th id="sector-catalog-change-heading" aria-sort="none"><button type="button" id="sector-catalog-change-sort" title="按涨幅切换降序或升序">涨幅 ↕</button></th><th>覆盖 / 入选原因</th></tr></thead>
+                <tbody id="sector-catalog-rows"></tbody>
+              </table></div>
+              <div class="sector-catalog-pager"><button type="button" id="sector-catalog-prev">上一页</button>
+                <span id="sector-catalog-page"></span><button type="button" id="sector-catalog-next">下一页</button></div>
+            </div>
+            <div class="sector-catalog-chart-area">
+              <div class="sector-catalog-pager"><strong>真实累计主力净流入（估算）</strong>
+                <button type="button" id="sector-catalog-chart-prev">上一组</button><span id="sector-catalog-chart-page"></span>
+                <button type="button" id="sector-catalog-chart-next">下一组</button></div>
+              <p id="sector-catalog-chart-status" role="status">勾选板块查看轨迹；每组最多 12 条，全部选择均可翻组查看。</p>
+              <div class="sector-flow-chart-shell" id="sector-catalog-chart-shell">
+                <svg id="sector-catalog-chart" viewBox="0 0 980 360" role="img" aria-label="全量目录所选板块真实分钟资金轨迹"></svg>
+                <p class="sector-flow-empty" id="sector-catalog-empty" hidden></p>
+                <div class="sector-flow-tooltip" id="sector-catalog-tooltip" role="status" aria-live="polite" hidden></div>
+              </div>
+              <div id="sector-catalog-legend" class="sector-flow-legend"></div>
+            </div>
+          </div>
+        </section>
+
         <section class="facts-grid" aria-label="市场广度与成交额事实">
           <article class="panel breadth-panel">
             <div class="panel-heading">
@@ -634,6 +679,11 @@
             </div>
 
             <div class="stock-selection-tabs" id="stock-selection-tabs" role="tablist" aria-label="选股策略"></div>
+            <div class="stock-selection-industry-filter" id="stock-selection-industry-filter" hidden>
+              <div class="stock-selection-industry-tags" id="stock-selection-industry-tags" role="group" aria-label="按行业板块筛选股票"></div>
+              <p id="stock-selection-industry-summary" role="status" aria-live="polite"></p>
+            </div>
+            <p class="stock-selection-schedule"><span id="stock-selection-industry-basis">行业板块：同花顺。</span><br>显示排序：行业板块（拼音顺序，未分类置后） → 命中次数（从多到少）。同值保留原顺序；没有命中次数的策略，板块内保留原策略排名。</p>
 
             <section id="stock-selection-panel-daily" role="tabpanel" data-stock-selection-result-contract="balanced_stock_selection_result.v1">
               <div class="stock-selection-schedule" id="stock-selection-schedule" role="status" aria-live="polite">上海时间 18:00 后可手动生成；当日缺失时 18:30 自动生成。</div>
@@ -647,7 +697,7 @@
                 </div>
                 <div class="stock-selection-table-scroll" tabindex="0" aria-label="每日量化候选股票表">
                   <table class="stock-selection-table">
-                    <thead><tr><th scope="col">排名</th><th scope="col">股票</th><th scope="col">行业</th><th scope="col">综合分</th><th scope="col">因子覆盖</th><th scope="col">收盘价</th><th scope="col">成交额</th><th scope="col">总市值</th><th scope="col">主要依据 / 风险</th></tr></thead>
+                    <thead><tr><th scope="col">策略排名</th><th scope="col">股票</th><th scope="col">行业板块</th><th scope="col">综合分</th><th scope="col">因子覆盖</th><th scope="col">收盘价</th><th scope="col">成交额</th><th scope="col">总市值</th><th scope="col">主要依据 / 风险</th></tr></thead>
                     <tbody id="stock-selection-table-body"><tr><td colspan="9" class="stock-selection-table-empty">尚无候选数据。</td></tr></tbody>
                   </table>
                 </div>
@@ -681,7 +731,7 @@
                 </div>
                 <div class="stock-selection-table-scroll" tabindex="0" aria-label="次日涨停机会候选股票表">
                   <table class="stock-selection-table stock-limit-up-tendency-table">
-                    <thead><tr><th scope="col">排名</th><th scope="col">股票 / 阶段</th><th scope="col">行业</th><th scope="col">机会分</th><th scope="col">当日 / 5 日</th><th scope="col">换手 / 量比</th><th scope="col">成交额放大</th><th scope="col">流通市值</th><th scope="col">机会结构 / 个股证据 / 风险</th></tr></thead>
+                    <thead><tr><th scope="col">策略排名</th><th scope="col">股票 / 阶段</th><th scope="col">行业板块</th><th scope="col">机会分</th><th scope="col">当日 / 5 日</th><th scope="col">换手 / 量比</th><th scope="col">成交额放大</th><th scope="col">流通市值</th><th scope="col">机会结构 / 个股证据 / 风险</th></tr></thead>
                     <tbody id="stock-limit-up-tendency-table-body"><tr><td colspan="9" class="stock-selection-table-empty">尚无倾向候选数据。</td></tr></tbody>
                   </table>
                 </div>
@@ -696,6 +746,27 @@
                     <ul id="stock-limit-up-tendency-limitations"><li>分数不是收益承诺。</li></ul>
                     <dl class="stock-selection-exclusions" id="stock-limit-up-tendency-exclusions"></dl>
                   </article>
+                </div>
+              </div>
+            </section>
+
+            <section id="stock-selection-panel-volume-surge" role="tabpanel" data-stock-selection-result-contract="stock_volume_surge_screen.v1" hidden>
+              <div class="stock-pattern-rule" aria-label="7 日向上放量筛选规则">
+                <strong>7 日向上放量 · v2</strong>
+                <span>主板非 ST</span><span>近 7 个交易日</span><span>至少 1 日上涨</span><span>当日成交量 ≥ 前 5 日均量 2 倍</span><span>同一 7 日窗口无收盘涨停</span><span>后续收盘不低于本轮起点最低价</span><span>跌破后重新命中可重启</span>
+              </div>
+              <div class="stock-pattern-empty" id="stock-volume-surge-empty">该交易日尚无“7 日向上放量”策略档案；新生成的选股档案将包含此策略。</div>
+              <div id="stock-volume-surge-content" hidden>
+                <p id="stock-volume-surge-summary" role="status"></p>
+                <div class="stock-selection-table-scroll stock-pattern-table-scroll" tabindex="0" aria-label="7 日向上放量股票表">
+                  <table class="stock-selection-table stock-pattern-table">
+                    <thead><tr><th scope="col">股票</th><th scope="col">行业板块</th><th scope="col">收盘价</th><th scope="col">本轮命中次数</th><th scope="col">本轮底线与放量证据</th></tr></thead>
+                    <tbody id="stock-volume-surge-table-body"></tbody>
+                  </table>
+                </div>
+                <div class="stock-selection-detail-grid">
+                  <article class="panel"><div class="panel-heading"><h3>判定方法</h3><span class="panel-state">规则 v1</span></div><ul id="stock-volume-surge-methodology"></ul></article>
+                  <article class="panel"><div class="panel-heading"><h3>证据边界与排除</h3><span class="panel-state">完整窗口</span></div><ul id="stock-volume-surge-limitations"></ul><dl class="stock-selection-exclusions" id="stock-volume-surge-exclusions"></dl></article>
                 </div>
               </div>
             </section>
@@ -715,7 +786,7 @@
                 </div>
                 <div class="stock-selection-table-scroll stock-pattern-table-scroll" tabindex="0" aria-label="长上影疑似试盘形态股票表">
                   <table class="stock-selection-table stock-pattern-table">
-                    <thead><tr><th scope="col">股票</th><th scope="col">行业</th><th scope="col">命中次数</th><th scope="col">最近命中</th><th scope="col">收盘价</th><th scope="col">逐次证据</th></tr></thead>
+                    <thead><tr><th scope="col">股票</th><th scope="col">行业板块</th><th scope="col">命中次数</th><th scope="col">最近命中</th><th scope="col">收盘价</th><th scope="col">逐次证据</th></tr></thead>
                     <tbody id="stock-pattern-table-body"><tr><td colspan="6" class="stock-selection-table-empty">尚无筛选数据。</td></tr></tbody>
                   </table>
                 </div>
@@ -932,5 +1003,6 @@
     </div>
 
     <script src="/watch/app.js" defer></script>
+    <script src="/watch/sector-catalog.js" defer></script>
   </body>
 </html>

@@ -1,0 +1,49 @@
+{
+  "metadata": {
+    "contract": "daily_limit_up_membership.v1",
+    "schema_version": 1,
+    "provider": "tushare",
+    "provider_request_id": null,
+    "provider_as_of": null,
+    "fetched_at": "2026-09-16T18:18:41.043698+08:00",
+    "quality": "degraded",
+    "quality_flags": [
+      "provider_timestamp_missing"
+    ]
+  },
+  "trading_date": "2026-09-15",
+  "instrument_ids": [
+    "000993.SZ",
+    "001216.SZ",
+    "001223.SZ",
+    "002213.SZ",
+    "002232.SZ",
+    "002362.SZ",
+    "002487.SZ",
+    "002491.SZ",
+    "002522.SZ",
+    "002531.SZ",
+    "002584.SZ",
+    "002585.SZ",
+    "002631.SZ",
+    "002846.SZ",
+    "002882.SZ",
+    "002912.SZ",
+    "003026.SZ",
+    "600110.SH",
+    "600163.SH",
+    "601218.SH",
+    "601579.SH",
+    "603082.SH",
+    "603090.SH",
+    "603186.SH",
+    "603200.SH",
+    "603248.SH",
+    "603266.SH",
+    "603353.SH",
+    "605058.SH",
+    "605162.SH",
+    "605507.SH",
+    "688004.SH"
+  ]
+}

@@ -36,7 +36,7 @@ def test_restart_recovers_friday_with_actual_generation_time(tmp_path, now):
         assert service.generation_status()["state"] == "succeeded"
         selected = store.get_current(FRIDAY)
         assert selected.generated_at == now
-        assert len(store.list_strategy_results(FRIDAY)) == 3
+        assert len(store.list_strategy_results(FRIDAY)) == 4
         service.maybe_generate_automatic()
         assert calls == [FRIDAY]
 

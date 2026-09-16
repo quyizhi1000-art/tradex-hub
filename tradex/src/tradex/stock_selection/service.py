@@ -22,6 +22,7 @@ from tradex.market_calendar import (
 
 from .contracts import DailyStockSelectionOutcomeV1, DailyStockSelectionV1
 from .engine import DEFAULT_SELECTION_CONFIG, select_daily_stocks
+from .industry_display import load_selection_industry_display
 from .strategies import (
     REGISTERED_STOCK_SELECTION_STRATEGIES,
     build_strategy_results,
@@ -247,6 +248,31 @@ class DailyStockSelectionService:
             update_phase("acquiring")
             snapshot = self._load(target)
             update_phase("selecting")
+            missing_strategies = tuple(
+                strategy for strategy in REGISTERED_STOCK_SELECTION_STRATEGIES
+                if self.store.get_strategy_result(
+                    target, strategy.strategy_id,
+                    strategy_version=strategy.strategy_version,
+                ) is None
+            )
+            if existing is not None and all(
+                not strategy.requires_legacy_selection for strategy in missing_strategies
+            ):
+                # Independent snapshot strategies do not rebuild or replace the
+                # immutable legacy candidate pool. Record their actual evidence
+                # revision, acquisition metadata and backfill generation time.
+                context = existing.model_copy(update={
+                    "generated_at": current,
+                    "source_quality": snapshot.metadata.quality.value,
+                    "source_provider_as_of": snapshot.metadata.provider_as_of,
+                })
+                results = build_strategy_results(
+                    snapshot, context, strategies=missing_strategies,
+                )
+                update_phase("archiving")
+                for result in results:
+                    self.store.record_strategy_result(result)
+                return self._result("existing", existing)
             selection = select_daily_stocks(
                 snapshot,
                 config=DEFAULT_SELECTION_CONFIG,
@@ -551,6 +577,16 @@ class DailyStockSelectionService:
             dates[0]["trade_date"] if dates else None
         )
         results = self.store.list_strategy_results(target) if target else []
+        instrument_ids = {
+            candidate.instrument_id for result in results
+            for candidate in result.payload.candidates
+        }
+        legacy = self.store.get(target) if target else None
+        if legacy is not None:
+            instrument_ids.update(candidate.instrument_id for candidate in legacy.candidates)
+            for screen in (*legacy.pattern_screens, *legacy.limit_up_tendency_screens):
+                instrument_ids.update(candidate.instrument_id for candidate in screen.candidates)
+        industry_display = load_selection_industry_display(instrument_ids)
         outcomes = [
             outcome
             for result in results
@@ -562,6 +598,7 @@ class DailyStockSelectionService:
             "trade_date": target,
             "dates": dates,
             "catalog": strategy_catalog().model_dump(mode="json"),
+            "industry_display": industry_display.model_dump(mode="json"),
             "results": [item.model_dump(mode="json") for item in results],
             "outcomes": [item.model_dump(mode="json") for item in outcomes],
             "recent_outcomes": [

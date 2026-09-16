@@ -144,6 +144,7 @@ def _candlestick_bar(
     close = _number(row.get("close"))
     previous_close = _number(row.get("pre_close"))
     amount = _number(row.get("amount"))
+    volume = _number(row.get("vol"))
     values = (open_price, high, low, close, previous_close, amount)
     if any(value is None for value in values):
         raise RuntimeError(
@@ -168,6 +169,8 @@ def _candlestick_bar(
         close=close,
         previous_close=previous_close,
         amount_cny=amount * 1_000.0,
+        # Daily A-share volume is reported in lots of 100 shares.
+        volume_shares=volume * 100.0 if volume is not None and volume > 0 else None,
     )
 
 

@@ -1,0 +1,106 @@
+{
+  "cutoff": "2026-09-16",
+  "strategy": "upward-volume-surge-main-board.v1",
+  "daily": [
+    {
+      "day": "2026-09-09",
+      "candidates": 469,
+      "observed_sessions": 5,
+      "subsequent_limit_stocks": 29,
+      "rate_pct": 6.18,
+      "first_hit_lags": {
+        "1": 9,
+        "2": 3,
+        "3": 5,
+        "4": 2,
+        "5": 10
+      },
+      "conditional_mean_lag": 3.0344827586206895,
+      "conditional_median_lag": 3
+    },
+    {
+      "day": "2026-09-10",
+      "candidates": 413,
+      "observed_sessions": 4,
+      "subsequent_limit_stocks": 26,
+      "rate_pct": 6.3,
+      "first_hit_lags": {
+        "1": 7,
+        "2": 6,
+        "3": 4,
+        "4": 9,
+        "5": null
+      },
+      "conditional_mean_lag": 2.576923076923077,
+      "conditional_median_lag": 2.5
+    },
+    {
+      "day": "2026-09-11",
+      "candidates": 388,
+      "observed_sessions": 3,
+      "subsequent_limit_stocks": 18,
+      "rate_pct": 4.64,
+      "first_hit_lags": {
+        "1": 6,
+        "2": 4,
+        "3": 8,
+        "4": null,
+        "5": null
+      },
+      "conditional_mean_lag": 2.111111111111111,
+      "conditional_median_lag": 2.0
+    },
+    {
+      "day": "2026-09-14",
+      "candidates": 386,
+      "observed_sessions": 2,
+      "subsequent_limit_stocks": 14,
+      "rate_pct": 3.63,
+      "first_hit_lags": {
+        "1": 4,
+        "2": 10,
+        "3": null,
+        "4": null,
+        "5": null
+      },
+      "conditional_mean_lag": 1.7142857142857142,
+      "conditional_median_lag": 2.0
+    },
+    {
+      "day": "2026-09-15",
+      "candidates": 341,
+      "observed_sessions": 1,
+      "subsequent_limit_stocks": 11,
+      "rate_pct": 3.23,
+      "first_hit_lags": {
+        "1": 11,
+        "2": null,
+        "3": null,
+        "4": null,
+        "5": null
+      },
+      "conditional_mean_lag": 1,
+      "conditional_median_lag": 1
+    },
+    {
+      "day": "2026-09-16",
+      "candidates": 336,
+      "observed_sessions": 0,
+      "subsequent_limit_stocks": 0,
+      "rate_pct": null,
+      "first_hit_lags": {
+        "1": null,
+        "2": null,
+        "3": null,
+        "4": null,
+        "5": null
+      },
+      "conditional_mean_lag": null,
+      "conditional_median_lag": null
+    }
+  ],
+  "unique_count": 698,
+  "unique_successes": 46,
+  "price_membership_conflicts": [],
+  "missing_pattern_bar_pairs": []
+}

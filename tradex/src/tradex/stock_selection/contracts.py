@@ -370,6 +370,78 @@ class BalancedStockSelectionResultV1(SelectionModel):
         return self
 
 
+class VolumeSurgeEvidenceV1(SelectionModel):
+    trade_date: date
+    close: float = Field(gt=0, allow_inf_nan=False)
+    previous_close: float = Field(gt=0, allow_inf_nan=False)
+    change_pct: float = Field(gt=0, allow_inf_nan=False)
+    volume_shares: float = Field(gt=0, allow_inf_nan=False)
+    prior_5d_average_volume_shares: float = Field(gt=0, allow_inf_nan=False)
+    volume_multiple: float = Field(ge=2, allow_inf_nan=False)
+    low: float | None = Field(default=None, gt=0, allow_inf_nan=False)
+
+
+class VolumeSurgeCandidateV1(SelectionModel):
+    instrument_id: str = Field(pattern=r"^\d{6}\.(?:SH|SZ)$")
+    name: str
+    industry: str | None = None
+    market: Literal["主板"] = "主板"
+    reference_close: float = Field(gt=0, allow_inf_nan=False)
+    evidence: tuple[VolumeSurgeEvidenceV1, ...] = Field(min_length=1, max_length=7)
+    anchor_trade_date: date | None = None
+    anchor_low: float | None = Field(default=None, gt=0, allow_inf_nan=False)
+    minimum_subsequent_close: float | None = Field(default=None, gt=0, allow_inf_nan=False)
+    reset_count: int = Field(default=0, ge=0, le=6)
+
+    @model_validator(mode="after")
+    def validate_dates(self) -> "VolumeSurgeCandidateV1":
+        dates = [item.trade_date for item in self.evidence]
+        if dates != sorted(set(dates)):
+            raise ValueError("volume evidence dates must be unique and sorted")
+        if self.anchor_trade_date is not None:
+            if self.anchor_trade_date != dates[0] or self.anchor_low != self.evidence[0].low:
+                raise ValueError("volume anchor must match the first surviving event")
+            if self.anchor_low is None or self.reference_close < self.anchor_low:
+                raise ValueError("volume candidate must remain above its anchor low")
+            if self.minimum_subsequent_close is not None and self.minimum_subsequent_close < self.anchor_low:
+                raise ValueError("volume candidate contains a broken price floor")
+        return self
+
+
+class VolumeSurgeScreenV1(SelectionModel):
+    contract: Literal["stock_volume_surge_screen.v1"] = "stock_volume_surge_screen.v1"
+    schema_version: Literal[1] = 1
+    screen_version: Literal["upward-volume-surge-main-board.v1", "upward-volume-surge-main-board.v2"] = "upward-volume-surge-main-board.v1"
+    title: str = "7 日向上放量"
+    lookback_sessions: Literal[7] = 7
+    baseline_sessions: Literal[5] = 5
+    minimum_volume_multiple: Literal[2.0] = 2.0
+    limit_up_basis: Literal["closing_price"] = "closing_price"
+    quality: Literal["accepted", "degraded", "unavailable"]
+    universe_count: int = Field(ge=0)
+    board_eligible_count: int = Field(ge=0)
+    evaluated_count: int = Field(ge=0)
+    matched_count: int = Field(ge=0)
+    excluded_counts: dict[str, int]
+    candidates: tuple[VolumeSurgeCandidateV1, ...] = ()
+    methodology: tuple[str, ...]
+    limitations: tuple[str, ...]
+
+    @model_validator(mode="after")
+    def validate_counts(self) -> "VolumeSurgeScreenV1":
+        if not 0 <= self.matched_count <= self.evaluated_count <= self.board_eligible_count <= self.universe_count:
+            raise ValueError("volume screen counts are inconsistent")
+        ids = [item.instrument_id for item in self.candidates]
+        if self.matched_count != len(ids) or len(ids) != len(set(ids)):
+            raise ValueError("volume screen candidates must be unique and match count")
+        if self.screen_version.endswith(".v2") and any(
+            item.anchor_trade_date is None or item.anchor_low is None
+            or any(event.low is None for event in item.evidence) for item in self.candidates
+        ):
+            raise ValueError("volume screen v2 requires price-floor evidence")
+        return self
+
+
 class StockSelectionStrategyDefinitionV1(SelectionModel):
     contract: Literal["stock_selection_strategy_definition.v1"] = (
         "stock_selection_strategy_definition.v1"
@@ -382,6 +454,7 @@ class StockSelectionStrategyDefinitionV1(SelectionModel):
         "balanced_stock_selection_result.v1",
         "stock_pattern_screen.v1",
         "stock_limit_up_tendency_screen.v1",
+        "stock_volume_surge_screen.v1",
     ]
     evaluation_policy: Literal[
         "next_session_open_to_close_excess_return",
@@ -426,6 +499,7 @@ class StockSelectionStrategyResultV1(SelectionModel):
         "balanced_stock_selection_result.v1",
         "stock_pattern_screen.v1",
         "stock_limit_up_tendency_screen.v1",
+        "stock_volume_surge_screen.v1",
     ]
     trade_date: date
     generated_at: datetime
@@ -438,6 +512,7 @@ class StockSelectionStrategyResultV1(SelectionModel):
         BalancedStockSelectionResultV1
         | StockPatternScreenV1
         | LimitUpTendencyScreenV1
+        | VolumeSurgeScreenV1
     )
 
     @field_validator("generated_at", "source_provider_as_of")

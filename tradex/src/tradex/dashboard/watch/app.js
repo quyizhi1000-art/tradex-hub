@@ -61,7 +61,7 @@
   const DEFAULT_SECTOR_FLOW_SELECTIONS = {
     defense: [
       "electric_power", "agriculture", "precious_metals", "oil_gas",
-      "ports", "baijiu", "retail", "bank",
+      "ports", "baijiu", "retail", "bank", "diversified_finance",
     ],
     offense: [
       "semiconductor", "software_development", "communication_equipment",
@@ -183,6 +183,8 @@
     stockSelectionHasLoaded: false,
     stockSelectionHistory: null,
     stockSelectionStrategyId: null,
+    stockSelectionIndustry: null,
+    stockSelectionIndustryScope: null,
     stockSelectionSchedule: {
       manual_after: "18:00",
       automatic_if_missing_after: "18:30",
@@ -790,6 +792,7 @@
   }
 
   function sectorFlowElement(scope, name) {
+    if (scope === "catalog") return byId(`sector-catalog-${name}`);
     const normalized = scope === "offense" ? "offense" : "defense";
     return byId(`sector-flow-${normalized}-${name}`);
   }
@@ -1388,7 +1391,7 @@
     svg.replaceChildren();
     hideSectorFlowTooltip(scope);
 
-    const mode = state.sectorFlowMode[scope];
+    const mode = scope === "catalog" ? "cumulative" : state.sectorFlowMode[scope];
     const preparedSeries = arguments.length > 2 ? arguments[2] : null;
     const series = preparedSeries || sectorFlowSeries(payload, mode);
     if (!series.length) {
@@ -1693,6 +1696,30 @@
     setSectorFlowSeriesLock(svg, text(svg.dataset.lockedSectorFlow, "") || null);
     renderSectorFlowLegend(series, scope);
   }
+
+  // The directory supplies revision-validated data and selection. Path, axis,
+  // endpoint, tooltip and focus behavior stay in the existing chart renderer.
+  const catalogFlowColors = new Map();
+  window.TradexSectorFlowChart = Object.freeze({
+    renderCatalog(payload) {
+      const entries = asArray(payload.sectors).map(item => ({
+        item, segments: sectorFlowSegments(item, "cumulative"),
+      })).filter(entry => entry.segments.length);
+      const keys = new Set(entries.map(entry => entry.item.sector_key));
+      for (const key of catalogFlowColors.keys()) if (!keys.has(key)) catalogFlowColors.delete(key);
+      const used = new Set(catalogFlowColors.values());
+      const series = entries.map(entry => {
+        const key = entry.item.sector_key;
+        if (!catalogFlowColors.has(key)) {
+          let slot = 0;
+          while (used.has(slot)) slot++;
+          catalogFlowColors.set(key, slot); used.add(slot);
+        }
+        return { ...entry, color: sectorFlowPaletteColor(catalogFlowColors.get(key)) };
+      });
+      renderSectorFlowChart(payload, "catalog", series);
+    },
+  });
 
   function renderSectorFlowLeaders(item, latest) {
     const snapshot = item.leader_snapshot && typeof item.leader_snapshot === "object"
@@ -3065,6 +3092,10 @@
       small_float_market_cap: "流通市值不足 20 亿元",
       missing_activity_metrics: "缺少换手率或量比",
       non_positive_session: "信号日未上涨",
+      missing_volume_window: "12 日成交量证据不完整",
+      limit_up_in_7_sessions: "近 7 日出现收盘涨停",
+      no_upward_volume_surge: "近 7 日未出现上涨且放量 ≥ 2 倍",
+      close_below_anchor_low: "收盘跌破本轮起点最低价，尚未重新有效命中",
       weak_close: "收盘位置低于日内振幅 55%",
     };
     const target = byId(targetId);
@@ -3082,10 +3113,93 @@
     });
   }
 
+  function stockSelectionNameLink(candidate) {
+    const label = createElement("strong", "", text(candidate.name));
+    const match = /^(\d{6})\.(SH|SZ|BJ)$/.exec(String(candidate.instrument_id || ""));
+    if (!match) return label;
+    const link = createElement("a", "stock-selection-quote-link");
+    link.href = `https://stockpage.10jqka.com.cn/${match[1]}/`;
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    link.title = "查看同花顺行情（新标签页）";
+    link.setAttribute("aria-label", `${text(candidate.name)} ${match[1]}，查看同花顺行情（新标签页）`);
+    link.append(label);
+    return link;
+  }
+
+  function stockSelectionIndustryName(candidate) {
+    return typeof candidate.industry_block_name === "string" && candidate.industry_block_name.trim()
+      ? candidate.industry_block_name.trim() : "未分类";
+  }
+
+  function stockSelectionIndustryPayload(payload, display) {
+    const mapping = display.contract === "selection_industry_display.v1"
+      && display.schema_version === 1 && display.basis === "current_ths_industry"
+      ? objectValue(display.names_by_instrument) : {};
+    return {
+      ...payload,
+      candidates: asArray(payload.candidates).map((candidate) => ({
+        ...candidate, industry_block_name: mapping[candidate.instrument_id] || null,
+      })),
+    };
+  }
+
+  function stockSelectionDisplayCandidates(candidates, hitCount = null) {
+    const industryOrder = new Intl.Collator("zh-CN", { numeric: true });
+    return asArray(candidates).map(objectValue).filter((item) => Object.keys(item).length)
+      .sort((left, right) => {
+        const leftIndustry = stockSelectionIndustryName(left);
+        const rightIndustry = stockSelectionIndustryName(right);
+        const industry = Number(leftIndustry === "未分类") - Number(rightIndustry === "未分类")
+          || industryOrder.compare(leftIndustry, rightIndustry);
+        if (industry || !hitCount) return industry;
+        return (finiteNumber(hitCount(right)) ?? -1) - (finiteNumber(hitCount(left)) ?? -1);
+      });
+  }
+
+  function stockSelectionVisibleCandidates(candidates, hitCount = null) {
+    return stockSelectionDisplayCandidates(candidates, hitCount).filter((candidate) => (
+      state.stockSelectionIndustry === null
+      || stockSelectionIndustryName(candidate) === state.stockSelectionIndustry
+    ));
+  }
+
+  function renderStockSelectionIndustryFilters(candidates, scope) {
+    const records = stockSelectionDisplayCandidates(candidates);
+    const counts = new Map();
+    records.forEach((candidate) => {
+      const industry = stockSelectionIndustryName(candidate);
+      counts.set(industry, (counts.get(industry) || 0) + 1);
+    });
+    if (state.stockSelectionIndustryScope !== scope || !counts.has(state.stockSelectionIndustry)) {
+      state.stockSelectionIndustry = null;
+    }
+    state.stockSelectionIndustryScope = scope;
+    byId("stock-selection-industry-filter").hidden = records.length === 0;
+    const tags = byId("stock-selection-industry-tags");
+    tags.replaceChildren();
+    [[null, records.length], ...counts].forEach(([industry, count]) => {
+      const button = createElement("button", "stock-selection-industry-tag",
+        `${industry === null ? "全部" : industry} ${formatCount(count)}`);
+      button.type = "button";
+      button.setAttribute("aria-pressed", String(state.stockSelectionIndustry === industry));
+      button.addEventListener("click", () => {
+        state.stockSelectionIndustry = industry;
+        renderStockSelectionStrategy(state.stockSelectionHistory, state.stockSelectionStrategyId);
+        tags.querySelector('button[aria-pressed="true"]')?.focus();
+      });
+      tags.append(button);
+    });
+    const selected = state.stockSelectionIndustry;
+    const visibleCount = selected === null ? records.length : counts.get(selected);
+    byId("stock-selection-industry-summary").textContent =
+      `${selected === null ? "全部行业" : selected} · 显示 ${formatCount(visibleCount)} / ${formatCount(records.length)} 只`;
+  }
+
   function renderStockPatternCandidates(candidates) {
     const target = byId("stock-pattern-table-body");
     target.replaceChildren();
-    const records = asArray(candidates).map(objectValue).filter((item) => Object.keys(item).length);
+    const records = stockSelectionVisibleCandidates(candidates, (item) => item.occurrence_count);
     if (!records.length) {
       const row = createElement("tr");
       const cell = createElement("td", "stock-selection-table-empty", "该交易日没有股票命中完整规则。");
@@ -3099,12 +3213,12 @@
       const nameCell = createElement("td");
       const name = createElement("div", "stock-selection-name");
       name.append(
-        createElement("strong", "", text(candidate.name)),
+        stockSelectionNameLink(candidate),
         createElement("small", "", text(candidate.instrument_id)),
       );
       nameCell.append(name);
       row.append(nameCell);
-      row.append(createElement("td", "", text(candidate.industry, "未分类")));
+      row.append(createElement("td", "", stockSelectionIndustryName(candidate)));
       row.append(createElement("td", "stock-selection-score", formatCount(candidate.occurrence_count)));
       row.append(createElement("td", "", text(candidate.latest_occurrence_date, "--")));
       row.append(createElement("td", "", formatLevel(candidate.reference_close)));
@@ -3161,7 +3275,7 @@
   function renderLimitUpTendencyCandidates(candidates) {
     const target = byId("stock-limit-up-tendency-table-body");
     target.replaceChildren();
-    const records = asArray(candidates).map(objectValue).filter((item) => Object.keys(item).length);
+    const records = stockSelectionVisibleCandidates(candidates);
     if (!records.length) {
       const row = createElement("tr");
       const cell = createElement("td", "stock-selection-table-empty", "该交易日没有股票进入倾向前 20。 ");
@@ -3176,7 +3290,7 @@
       const nameCell = createElement("td");
       const name = createElement("div", "stock-selection-name");
       name.append(
-        createElement("strong", "", text(candidate.name)),
+        stockSelectionNameLink(candidate),
         createElement(
           "small",
           "",
@@ -3185,7 +3299,7 @@
       );
       nameCell.append(name);
       row.append(nameCell);
-      row.append(createElement("td", "", text(candidate.industry, "未分类")));
+      row.append(createElement("td", "", stockSelectionIndustryName(candidate)));
       const score = finiteNumber(candidate.score);
       row.append(createElement("td", "stock-selection-score", score === null ? "--" : score.toFixed(1)));
       row.append(createElement(
@@ -3291,7 +3405,7 @@
   function renderStockSelectionCandidates(candidates) {
     const target = byId("stock-selection-table-body");
     target.replaceChildren();
-    const records = asArray(candidates).map(objectValue).filter((item) => Object.keys(item).length);
+    const records = stockSelectionVisibleCandidates(candidates);
     if (!records.length) {
       const row = createElement("tr");
       const cell = createElement("td", "stock-selection-table-empty", "该交易日没有可展示候选。");
@@ -3306,12 +3420,12 @@
       const nameCell = createElement("td");
       const name = createElement("div", "stock-selection-name");
       name.append(
-        createElement("strong", "", text(candidate.name)),
+        stockSelectionNameLink(candidate),
         createElement("small", "", text(candidate.instrument_id)),
       );
       nameCell.append(name);
       row.append(nameCell);
-      row.append(createElement("td", "", text(candidate.industry, "未分类")));
+      row.append(createElement("td", "", stockSelectionIndustryName(candidate)));
       const score = finiteNumber(candidate.score);
       row.append(createElement("td", "stock-selection-score", score === null ? "--" : score.toFixed(1)));
       const coverage = finiteNumber(candidate.factor_coverage);
@@ -3453,23 +3567,105 @@
     return {};
   }
 
+  function renderVolumeSurgeScreen(payload) {
+    const valid = payload.contract === "stock_volume_surge_screen.v1" && payload.schema_version === 1;
+    byId("stock-volume-surge-empty").hidden = valid;
+    byId("stock-volume-surge-content").hidden = !valid;
+    const body = byId("stock-volume-surge-table-body");
+    body.replaceChildren();
+    if (!valid) return;
+    const eligible = Number(payload.board_eligible_count);
+    const evaluated = Number(payload.evaluated_count);
+    const quality = { accepted: "完备", degraded: "降级", unavailable: "不可用" };
+    byId("stock-volume-surge-summary").textContent =
+      `主板非 ST ${formatCount(eligible)} 只 · 完整证据 ${formatCount(evaluated)} 只`
+      + ` · 覆盖 ${eligible ? (evaluated / eligible * 100).toFixed(1) : "0.0"}%`
+      + ` · 命中 ${formatCount(payload.matched_count)} 只 · ${quality[payload.quality] || "未知"}`
+      + (payload.screen_version === "upward-volume-surge-main-board.v2" ? " · 已检查收盘底线" : " · 旧版规则，未检查收盘底线");
+    const candidates = stockSelectionVisibleCandidates(payload.candidates, (item) => asArray(item.evidence).length);
+    if (!candidates.length) {
+      const row = createElement("tr");
+      const cell = createElement("td", "stock-selection-table-empty",
+        payload.quality === "unavailable" ? "证据不足，无法完成筛选。" : "完整证据范围内，没有股票命中规则。");
+      cell.colSpan = 5;
+      row.append(cell);
+      body.append(row);
+    }
+    candidates.map(objectValue).forEach((candidate) => {
+      const row = createElement("tr");
+      const evidence = asArray(candidate.evidence).map(objectValue);
+      const nameCell = createElement("td");
+      nameCell.append(
+        stockSelectionNameLink(candidate),
+        createElement("span", "", ` · ${text(candidate.instrument_id)}`),
+      );
+      row.append(
+        nameCell,
+        createElement("td", "", stockSelectionIndustryName(candidate)),
+        createElement("td", "", formatLevel(candidate.reference_close)),
+        createElement("td", "", formatCount(evidence.length)),
+      );
+      const cell = createElement("td");
+      const list = createElement("div", "stock-pattern-evidence");
+      if (candidate.anchor_trade_date && finiteNumber(candidate.anchor_low) !== null) {
+        list.append(createElement("strong", "",
+          `本轮起点 ${candidate.anchor_trade_date} · 收盘底线 ${formatLevel(candidate.anchor_low)}`
+          + (finiteNumber(candidate.minimum_subsequent_close) === null
+            ? " · 当日新命中，暂无后续交易日"
+            : ` · 后续最低收盘 ${formatLevel(candidate.minimum_subsequent_close)}`)
+          + (Number(candidate.reset_count) > 0 ? ` · 已重启 ${candidate.reset_count} 次` : ""),
+        ));
+      }
+      evidence.forEach((event) => list.append(createElement("span", "",
+        `${text(event.trade_date)} · 涨幅 ${Number(event.change_pct).toFixed(2)}%`
+        + ` · 放量 ${Number(event.volume_multiple).toFixed(2)} 倍`
+        + ` · 成交量 ${formatCount(event.volume_shares)} 股`
+        + ` / 前 5 日均量 ${formatCount(event.prior_5d_average_volume_shares)} 股`,
+      )));
+      cell.append(list);
+      row.append(cell);
+      body.append(row);
+    });
+    const methodology = asArray(payload.methodology).map((line) => (
+      typeof line === "string" && line.startsWith("展示全部命中股票，按")
+        ? "展示全部命中股票；行业优先，同一行业按命中次数降序，同值保留档案原顺序。" : line
+    ));
+    replaceTextList("stock-volume-surge-methodology", methodology, "暂无方法说明。");
+    replaceTextList("stock-volume-surge-limitations", payload.limitations, "暂无证据说明。");
+    renderStockSelectionExclusions(payload.excluded_counts, "stock-volume-surge-exclusions");
+  }
+
+  function stockSelectionStrategyResult(archive, definition) {
+    const results = asArray(archive.results).map(objectValue)
+      .filter((item) => item.strategy_id === definition.strategy_id);
+    return objectValue(results.find((item) => item.strategy_version === definition.strategy_version)
+      || results.sort((a, b) => Number(String(b.strategy_version).slice(1)) - Number(String(a.strategy_version).slice(1)))[0]);
+  }
+
   function renderStockSelectionStrategy(archive, strategyId) {
     const definition = stockSelectionDefinitions(archive)
       .find((item) => item.strategy_id === strategyId);
     if (!definition) return;
-    const result = objectValue(
-      asArray(archive.results)
-        .map(objectValue)
-        .find((item) => item.strategy_id === strategyId),
-    );
-    const payload = Object.keys(objectValue(result.payload)).length
+    const result = stockSelectionStrategyResult(archive, definition);
+    const archivedPayload = Object.keys(objectValue(result.payload)).length
       ? objectValue(result.payload)
       : legacyStockSelectionPayload(archive, definition);
+    const industryDisplay = objectValue(archive.industry_display);
+    const payload = Object.keys(archivedPayload).length
+      ? stockSelectionIndustryPayload(archivedPayload, industryDisplay) : archivedPayload;
+    byId("stock-selection-industry-basis").textContent = industryDisplay.as_of
+      ? `行业板块：同花顺 · 目录日期 ${industryDisplay.as_of}。历史候选按该目录归组；缺少板块归属时列为未分类。`
+      : "行业板块目录暂不可用，缺少归属的股票列为未分类。";
+    renderStockSelectionIndustryFilters(payload.candidates, `${archive.trade_date}:${strategyId}`);
     const outcome = objectValue(
       asArray(archive.outcomes)
         .map(objectValue)
         .find((item) => item.result_id === result.result_id),
     );
+    if (definition.result_contract === "stock_volume_surge_screen.v1") {
+      renderVolumeSurgeScreen(payload);
+      return;
+    }
     if (definition.result_contract === "balanced_stock_selection_result.v1") {
       if (!Object.keys(payload).length) {
         byId("stock-selection-content").hidden = true;
@@ -3581,6 +3777,7 @@
     state.stockSelectionFetchInFlight = true;
     if (!silent) {
       byId("stock-selection-status").textContent = "正在读取策略结果…";
+      byId("stock-selection-industry-filter").hidden = true;
       byId("stock-selection-launch-status").textContent = "正在读取策略结果…";
       document.querySelectorAll("[data-stock-selection-result-contract]").forEach((panel) => {
         panel.hidden = true;
@@ -3606,6 +3803,7 @@
       renderStockSelectionHistory(history);
     } catch (error) {
       if (requestId !== state.stockSelectionRequestId) return;
+      byId("stock-selection-industry-filter").hidden = true;
       document.querySelectorAll("[data-stock-selection-result-contract]").forEach((panel) => {
         panel.hidden = true;
       });
@@ -4590,6 +4788,9 @@
       || recovery.schema_version !== 1
       || !Number.isInteger(recovery.remaining_gaps)
       || recovery.remaining_gaps < 0
+      || !Number.isInteger(recovery.unavailable_gaps ?? 0)
+      || (recovery.unavailable_gaps ?? 0) < 0
+      || (recovery.unavailable_gaps ?? 0) > recovery.remaining_gaps
       || recovery.expected_minute_buckets - recovery.accepted_after !== recovery.remaining_gaps
       || !Number.isInteger(recovery.latest_attempt_progress_completed || 0)
       || !Number.isInteger(recovery.latest_attempt_progress_total || 0)
@@ -4634,6 +4835,14 @@
         : recovery.latest_failure_error_message,
       "",
     );
+    if (errorCode === "HistoricalTrajectoryNotPublished") {
+      const parts = ["历史数据缺口"];
+      if (!runErrorCode && recovery.latest_failure_minute_bucket) {
+        parts.push(formatTimestamp(recovery.latest_failure_minute_bucket));
+      }
+      parts.push("数据源未发布该分钟的精确板块资金流，重试无法补齐；保留缺口，不影响其他分钟追补");
+      return parts.join(" · ");
+    }
     const knownMessages = {
       HistoricalMarketWatchUnavailable: "目标分钟没有已保存的真实盘面，当前历史接口也不能回放该分钟",
       CollectorRestarted: "采集进程在本次分钟处理完成前重启",
@@ -4665,12 +4874,14 @@
     const isToday = text(completeness.trade_date, "") === clock.date;
     const afterClose = isToday && clock.minuteOfDay > 15 * 60;
     const active = recovery && new Set(["pending", "running"]).has(recovery.status);
+    const unavailableOnly = recovery?.status === "needs_attention"
+      && gaps > 0 && recovery.unavailable_gaps === gaps;
     const statusLabels = {
       pending: "手动检查已排队",
       running: "正在检查并追补",
       complete: "收盘数据完整",
       retrying: "追补受阻 · 等待重试",
-      needs_attention: "仍有缺口 · 建议手动重试",
+      needs_attention: "仍有缺口 · 请查看原因",
       failed: "检查失败 · 可手动重试",
     };
     let status = recovery ? text(recovery.status, "") : "";
@@ -4687,7 +4898,7 @@
     byId("collection-recovery-accepted").textContent = expected ? `${accepted} / ${expected}` : "--";
     byId("collection-recovery-gaps").textContent = expected ? String(gaps) : "--";
     byId("collection-recovery-progress").textContent = recovery
-      ? `${Math.min(attempted, initialGaps)} / ${initialGaps}${workTotal ? ` · 批内 ${workDone} / ${workTotal}` : ""}`
+      ? `${Math.min(attempted, initialGaps)} / ${initialGaps}${active && workTotal ? ` · 批内 ${workDone} / ${workTotal}` : ""}`
       : "--";
     byId("collection-recovery-failures").textContent = recovery
       ? String(failedAttempts)
@@ -4697,7 +4908,7 @@
       : "--";
     byId("collection-recovery-status").textContent = state.recoveryRequestError
       ? "排队失败 · 请重试"
-      : label;
+      : unavailableOnly ? `追补已结束 · ${gaps} 分钟无历史源` : label;
     const detail = byId("collection-recovery-detail");
     if (recovery) {
       const trigger = recovery.trigger === "manual" ? "手动" : "自动";
@@ -4727,6 +4938,8 @@
         detail.textContent = `${trigger}检查进行中：已启动 ${attempted} / ${initialGaps} 个缺口${currentMinute ? `，当前 ${currentMinute}` : ""}${stage ? `；${stage}${workTotal ? ` ${workDone}/${workTotal}` : ""}` : ""}${workMessage ? `，${workMessage}` : ""}。`;
       } else if (gaps === 0) {
         detail.textContent = `${trigger}检查已完成；${expected} 个交易分钟均有可用真实快照。`;
+      } else if (unavailableOnly) {
+        detail.textContent = `可恢复分钟已处理完毕；保留 ${gaps} 个无精确历史来源的缺口，不再重复追补。真实完整度 ${accepted}/${expected}，未标记为完整。`;
       } else {
         detail.textContent = `${trigger}检查已处理 ${attempted} / ${initialGaps} 个缺口，补齐 ${repairedThisRun} 个、失败 ${failedAttempts} 个；仍有 ${gaps} 个分钟等待精确历史数据，不会用当前值伪造历史。`;
       }
@@ -4740,20 +4953,22 @@
       || collectionRecoveryErrorMessage(recovery);
     errorDetail.textContent = recoveryError;
     errorDetail.hidden = !recoveryError;
-    shell.classList.remove("is-complete", "is-retrying", "is-attention", "is-failed");
+    shell.classList.remove("is-complete", "is-retrying", "is-attention", "is-failed", "is-unavailable");
     if (status === "complete") shell.classList.add("is-complete");
     if (status === "pending" || status === "running" || status === "retrying") shell.classList.add("is-retrying");
-    if (status === "needs_attention") shell.classList.add("is-attention");
+    if (status === "needs_attention") shell.classList.add(unavailableOnly ? "is-unavailable" : "is-attention");
     if (status === "failed") shell.classList.add("is-failed");
     const button = byId("collection-recovery-button");
-    button.disabled = state.recoveryRequestInFlight || active || !expected || !afterClose;
+    button.disabled = state.recoveryRequestInFlight || active || unavailableOnly || !expected || !afterClose;
     button.textContent = state.recoveryRequestInFlight
       ? "正在排队…"
       : active
         ? "已排队"
-        : recovery
-          ? "重新检查并追补"
-          : "检查并追补";
+        : unavailableOnly
+          ? "无可追补分钟"
+          : recovery
+            ? "重新检查并追补"
+            : "检查并追补";
   }
 
   function renderIntradayTrajectoryRepair() {

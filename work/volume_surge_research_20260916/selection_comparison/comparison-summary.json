@@ -1,0 +1,56 @@
+{
+  "cutoff": "2026-09-16",
+  "name_assumptions": {
+    "鸿源电子": "鸿远电子 603267",
+    "百大精工": "百达精工 603331"
+  },
+  "user": {
+    "n": 12,
+    "medians": {
+      "change_pct": 2.1056741280583102,
+      "volume_multiple": 0.9034227462459129,
+      "last_event_age": 4.5,
+      "anchor_margin_pct": 4.999356720130377,
+      "close_position": 0.6424953445065176,
+      "turnover_pct": 3.5491,
+      "float_cap_100m": 58.35256923,
+      "five_day_return_pct": 0.6472092900918047,
+      "breakout_distance_pct": -3.3181751170887175
+    },
+    "new_event_today": 2,
+    "volume_below_5d_average": 8,
+    "near_anchor_within_5pct": 6,
+    "close_above_prior14_high": 1,
+    "signal_age_at_least4": 8,
+    "close_below_anchor_close": 7,
+    "already_has_subsequent_days": 10
+  },
+  "assistant": {
+    "n": 10,
+    "medians": {
+      "change_pct": 4.5792846062833075,
+      "volume_multiple": 2.704826649503036,
+      "last_event_age": 0.0,
+      "anchor_margin_pct": 9.283328310227034,
+      "close_position": 0.8698770491803282,
+      "turnover_pct": 6.57375,
+      "float_cap_100m": 51.099309700000006,
+      "five_day_return_pct": 4.835263082916219,
+      "breakout_distance_pct": 0.18248107685844284
+    },
+    "new_event_today": 7,
+    "volume_below_5d_average": 1,
+    "near_anchor_within_5pct": 1,
+    "close_above_prior14_high": 6,
+    "signal_age_at_least4": 0,
+    "close_below_anchor_close": 0,
+    "already_has_subsequent_days": 4
+  },
+  "overlap": [],
+  "anchor_signal_expiring_tomorrow_if_no_new_event": [
+    "百达精工",
+    "赛伍技术",
+    "深南电路"
+  ],
+  "assistant_frozen_file_sha256": "87d2e4565250222047b8649c16635cd11bb20997bfc10970a7852729e41e6b26"
+}

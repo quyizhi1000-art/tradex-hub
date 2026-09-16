@@ -1,0 +1,23 @@
+.sector-catalog-panel { margin: 24px 0; padding: 24px; }
+.sector-catalog-panel h2 small { font-size: 13px; font-weight: 400; opacity: .7; }
+.sector-catalog-counts, .sector-catalog-controls, .sector-catalog-pager { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.sector-catalog-counts { margin: 12px 0; }
+.sector-catalog-counts span { padding: 6px 10px; background: rgba(120,140,160,.1); border-radius: 6px; font-size: 13px; }
+.sector-catalog-controls { margin: 18px 0; }
+.sector-catalog-controls label { display: flex; gap: 8px; align-items: center; font-size: 13px; }
+.sector-catalog-controls input, .sector-catalog-controls select { border: 1px solid #9ca9b780; border-radius: 6px; padding: 8px; background: transparent; color: inherit; }
+.sector-catalog-controls input { width: 240px; }
+.sector-catalog-layout { display: grid; grid-template-columns: minmax(390px, 1fr) minmax(480px, 1.3fr); gap: 24px; }
+.sector-catalog-table-wrap { max-height: 470px; overflow: auto; }
+.sector-catalog-table { width: 100%; border-collapse: collapse; font-size: 12px; text-align: left; }
+.sector-catalog-table td, .sector-catalog-table th { padding: 9px 6px; border-bottom: 1px solid #9ca9b733; }
+.sector-catalog-table small { display: block; margin-top: 4px; opacity: .7; max-width: 240px; }
+.sector-catalog-table .is-hot { background: #c4942a0e; }
+.sector-catalog-table input { cursor: pointer; }
+#sector-catalog-change-sort { border: 0; padding: 4px 0; background: transparent; color: inherit; font: inherit; font-weight: 700; white-space: nowrap; cursor: pointer; }
+#sector-catalog-change-sort:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+.sector-catalog-pager { margin: 12px 0; font-size: 12px; }
+.sector-catalog-pager button { background: transparent; color: inherit; border: 1px solid #9ca9b780; border-radius: 4px; padding: 4px 8px; cursor: pointer; }
+.sector-catalog-pager button:disabled { opacity: .4; cursor: default; }
+#sector-catalog-chart { display: block; width: 100%; min-height: 300px; }
+#sector-catalog-chart-status, #sector-catalog-status { font-size: 13px; opacity: .85; }

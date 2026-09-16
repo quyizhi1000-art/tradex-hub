@@ -191,6 +191,8 @@ def test_desktop_page_exposes_versioned_daily_stock_selection_archive():
     assert 'data-stock-selection-result-contract="balanced_stock_selection_result.v1"' in HTML
     assert 'data-stock-selection-result-contract="stock_limit_up_tendency_screen.v1"' in HTML
     assert 'data-stock-selection-result-contract="stock_pattern_screen.v1"' in HTML
+    assert 'data-stock-selection-result-contract="stock_volume_surge_screen.v1"' in HTML
+    assert 'renderVolumeSurgeScreen(payload)' in JS
     assert 'id="stock-limit-up-tendency-table-body"' in HTML
     assert 'id="stock-pattern-table-body"' in HTML
     assert "同一 10 日窗口无收盘涨停" in HTML

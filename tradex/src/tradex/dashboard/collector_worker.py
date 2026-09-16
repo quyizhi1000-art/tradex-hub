@@ -927,6 +927,12 @@ def _latest_final_close_revision(trade_date: date) -> str | None:
     return _final_close_pointer_revision(envelope.get("latest_accepted_real"), trade_date)
 
 
+def _refresh_sector_catalog(*, schedule_backfill=True):
+    from .sector_catalog_collector import refresh_sector_catalog
+
+    return refresh_sector_catalog(schedule_backfill=schedule_backfill)
+
+
 def _run_post_close_resonance_loop(
     stop_event: threading.Event,
     *,
@@ -947,6 +953,10 @@ def _run_post_close_resonance_loop(
     completed_portfolio_close_dates = set()
     while not stop_event.is_set():
         observed = clock()
+        try:
+            _refresh_sector_catalog()
+        except Exception:
+            logger.exception("sector catalog materialization failed; prior revision retained")
         session = a_share_session(observed)
         intraday_bucket = observed.replace(second=0, microsecond=0)
         local_time = observed.time().replace(tzinfo=None)
@@ -1189,6 +1199,8 @@ def main(argv: list[str] | None = None) -> int:
         help="record a managed stop after the worker process exits",
     )
     parser.add_argument("--once", action="store_true", help="run one owned collection step")
+    parser.add_argument("--materialize-sector-catalog", action="store_true",
+                        help="materialize full observed directory from stored real snapshots")
     parser.add_argument(
         "--backfill-resonance",
         action="store_true",
@@ -1222,6 +1234,10 @@ def main(argv: list[str] | None = None) -> int:
     stop_event = threading.Event()
     _install_signal_handlers(stop_event)
     try:
+        if args.materialize_sector_catalog:
+            with exclusive_worker_lock():
+                print(json.dumps(_refresh_sector_catalog(schedule_backfill=False), ensure_ascii=False))
+            return 0
         if args.backfill_resonance:
             return _backfill_resonance()
         if args.backfill_limit_up_pool:

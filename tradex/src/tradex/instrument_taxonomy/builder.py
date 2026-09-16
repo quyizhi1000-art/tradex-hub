@@ -518,6 +518,40 @@ def build_stock_relationship_catalog(
     return status, tuple(profiles)
 
 
+def apply_market_industries_to_catalog(status, profiles, source, *, generated_at):
+    """Attach the current market block without replacing statistical/business evidence."""
+    from tradex.data_gateway.instrument_taxonomy import MARKET_INDUSTRY_CHECKED, validate_market_industries
+
+    validate_market_industries(source, status.as_of)
+    if {item.instrument_id for item in profiles} != {row["ts_code"] for row in source["stocks"]}:
+        raise RuntimeError("market industry universe differs from the accepted catalog")
+    by_id = {row["instrument_id"]: row for row in source["memberships"]}
+    updated = []
+    for profile in profiles:
+        row = by_id.get(profile.instrument_id)
+        if row is None and profile.market_industry is not None:
+            raise RuntimeError("market industry coverage regressed; preserving prior catalog")
+        path = IndustryPathV1(
+            taxonomy="ths", taxonomy_version="ths-market-industry-current",
+            level1_code=row["code"], level1_name=row["name"], source="tushare:ths_member",
+        ) if row else None
+        updated.append(profile.model_copy(update={"market_industry": path}))
+    revision = _sha256({"as_of": status.as_of.isoformat(),
+                        "profiles": [item.model_dump(mode="json") for item in updated]})
+    flags = [flag for flag in status.flags if not flag.startswith((
+        "market_industry_source_missing:", "market_industry_source_conflict:",
+    ))]
+    updated_status = status.model_copy(update={
+        "catalog_revision": revision, "generated_at": generated_at,
+        "source_providers": tuple(dict.fromkeys((*status.source_providers, *source.get("source_providers", ())))),
+        "source_request_ids": tuple(dict.fromkeys((*status.source_request_ids, *source.get("source_request_ids", ())))),
+        "flags": tuple(dict.fromkeys((*flags, MARKET_INDUSTRY_CHECKED,
+                    *(f"market_industry_source_missing:{key}" for key in source["missing_instruments"]),
+                    *(f"market_industry_source_conflict:{key}" for key in source.get("conflicting_instruments", ()))))),
+    })
+    return updated_status, tuple(updated)
+
+
 def apply_official_evidence_to_catalog(
     status: StockRelationshipCatalogStatusV1,
     profiles: Iterable[StockRelationshipProfileV1],

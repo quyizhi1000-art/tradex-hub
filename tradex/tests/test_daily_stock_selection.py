@@ -629,12 +629,12 @@ def test_service_generates_once_and_reads_immutable_archive(tmp_path):
     assert calls == [day]
     assert history["contract"] == "daily_stock_selection_archive.v1"
     assert history["selection"]["selection_id"] == first["selection"]["selection_id"]
-    assert len(first["strategy_results"]) == 3
-    assert len(second["strategy_results"]) == 3
+    assert len(first["strategy_results"]) == 4
+    assert len(second["strategy_results"]) == 4
     assert history["strategy_archive"]["contract"] == (
         "stock_selection_strategy_archive.v1"
     )
-    assert len(history["strategy_archive"]["results"]) == 3
+    assert len(history["strategy_archive"]["results"]) == 4
     assert len(
         {item["source_snapshot_revision"] for item in first["strategy_results"]}
     ) == 1

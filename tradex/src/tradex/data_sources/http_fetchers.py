@@ -14,6 +14,7 @@ import logging
 import os
 import re
 import time
+import threading
 import urllib.request
 from datetime import date, datetime
 from zoneinfo import ZoneInfo
@@ -30,6 +31,9 @@ from astock_signals.smart_router import RequestValidationError, SourceBusyError
 logger = logging.getLogger("tradex.http")
 _SHANGHAI_TZ = ZoneInfo("Asia/Shanghai")
 _EASTMONEY_BOARD_CODE = re.compile(r"^BK\d+$")
+_SECTOR_FLOW_TRANSPORT_LOCK = threading.Lock()
+_SECTOR_FLOW_PREFERRED_TRANSPORT: tuple[str, float] | None = None
+_SECTOR_FLOW_TRANSPORT_TTL = 300.0
 
 # 全局直连 opener（绕过系统代理，避免代理失败）
 _NO_PROXY_OPENER = urllib.request.build_opener(
@@ -276,6 +280,7 @@ def fetch_sector_intraday_fund_flow_eastmoney(
     contains provider timestamps plus cumulative main-net amounts in yuan.
     """
 
+    global _SECTOR_FLOW_PREFERRED_TRANSPORT
     code = str(provider_sector_code).strip().upper()
     if not _EASTMONEY_BOARD_CODE.fullmatch(code):
         raise RequestValidationError("provider_sector_code must match BK plus digits")
@@ -305,10 +310,15 @@ def fetch_sector_intraday_fund_flow_eastmoney(
     rows: list[dict[str, object]] = []
     response = None
     provider_transport = None
-    for transport, host in (
+    transports = (
         ("push2", "https://push2.eastmoney.com"),
         ("push2delay", "https://push2delay.eastmoney.com"),
-    ):
+    )
+    with _SECTOR_FLOW_TRANSPORT_LOCK:
+        preferred = _SECTOR_FLOW_PREFERRED_TRANSPORT
+    if preferred and time.monotonic() < preferred[1]:
+        transports = tuple(sorted(transports, key=lambda item: item[0] != preferred[0]))
+    for transport, host in transports:
         try:
             candidate = em_get(
                 f"{host}/api/qt/stock/fflow/kline/get",
@@ -361,6 +371,12 @@ def fetch_sector_intraday_fund_flow_eastmoney(
         rows = candidate_rows
         response = candidate
         provider_transport = transport
+        # Remember only a transport returning rows for the requested date.
+        # Both hosts share the same IP limiter and canonical mapping. A failed
+        # preferred transport still falls back immediately; no data is cached.
+        with _SECTOR_FLOW_TRANSPORT_LOCK:
+            if preferred is None or transport != preferred[0] or time.monotonic() >= preferred[1]:
+                _SECTOR_FLOW_PREFERRED_TRANSPORT = (transport, time.monotonic() + _SECTOR_FLOW_TRANSPORT_TTL)
         break
     if not rows:
         raise RuntimeError(

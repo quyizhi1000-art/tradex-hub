@@ -1,0 +1,72 @@
+[
+  {
+    "trade_date": "2026-09-09",
+    "result_id": "stock-selection-strategy-result:53824b5745917509b7b8ad5d",
+    "count": 469,
+    "quality": "degraded",
+    "snapshot_quality": "degraded",
+    "flags": [
+      "relationship_catalog_future_as_of"
+    ],
+    "artifact_revision": "4731f26d810ed3445bc2823b043767595d3f239913e17a777ed5ecf7187e66d4",
+    "reproduced_candidates_and_evidence": true
+  },
+  {
+    "trade_date": "2026-09-10",
+    "result_id": "stock-selection-strategy-result:874efaa7dce91dfc4dde2ccd",
+    "count": 413,
+    "quality": "degraded",
+    "snapshot_quality": "degraded",
+    "flags": [
+      "relationship_catalog_future_as_of"
+    ],
+    "artifact_revision": "f370118b99f4663f1eb504a27d89ba6c353441409ed48731e5c8bfb87d7b6909",
+    "reproduced_candidates_and_evidence": true
+  },
+  {
+    "trade_date": "2026-09-11",
+    "result_id": "stock-selection-strategy-result:ffb86a9a6428c7f00593e256",
+    "count": 388,
+    "quality": "degraded",
+    "snapshot_quality": "degraded",
+    "flags": [
+      "relationship_catalog_future_as_of"
+    ],
+    "artifact_revision": "3e83813da2623c3a9bd2e50d435be72c61345f7b3826151ce821a80a6cbefa52",
+    "reproduced_candidates_and_evidence": true
+  },
+  {
+    "trade_date": "2026-09-14",
+    "result_id": "stock-selection-strategy-result:a8ec9def1d92c9fe771ee546",
+    "count": 386,
+    "quality": "degraded",
+    "snapshot_quality": "degraded",
+    "flags": [
+      "relationship_catalog_future_as_of"
+    ],
+    "artifact_revision": "25c4f328e0cfab28585fd792d5449a38fa325361952fc877bf4eb84ac937a296",
+    "reproduced_candidates_and_evidence": true
+  },
+  {
+    "trade_date": "2026-09-15",
+    "result_id": "stock-selection-strategy-result:e53b85425a5a9da32eaab511",
+    "count": 341,
+    "quality": "degraded",
+    "snapshot_quality": "degraded",
+    "flags": [
+      "relationship_catalog_future_as_of"
+    ],
+    "artifact_revision": "bf1fa0bd1adf296dab65936968fef9fffab5a481ce7c2333611f8efee88f8aa7",
+    "reproduced_candidates_and_evidence": true
+  },
+  {
+    "trade_date": "2026-09-16",
+    "result_id": "stock-selection-strategy-result:594d62da8c115c7f115dca14",
+    "count": 336,
+    "quality": "degraded",
+    "snapshot_quality": "accepted",
+    "flags": [],
+    "artifact_revision": "f4e9ba7727bfb009ace2bda85b081b9d90503bbba01c8bf2dc3026e0d03fd044",
+    "reproduced_candidates_and_evidence": true
+  }
+]

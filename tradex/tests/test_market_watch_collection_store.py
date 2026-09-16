@@ -269,6 +269,50 @@ def test_post_close_recovery_is_idempotent_audited_and_manual_retryable(
     assert manual["recovery"].run_id != finished.run_id
 
 
+@pytest.mark.parametrize("mixed_gap", [False, True])
+def test_unpublished_gaps_remain_visible_without_requeueing(tmp_path, monkeypatch, mixed_gap):
+    from tradex.market_watch import collection_store
+    from tradex.market_watch.reconstruction import HistoricalTrajectoryNotPublished
+
+    closed_at = datetime(2026, 8, 24, 16, 0, tzinfo=SHANGHAI)
+    minutes = [closed_at.replace(hour=9, minute=30)]
+    if mixed_gap:
+        minutes.append(minutes[0] + timedelta(minutes=1))
+    monkeypatch.setattr(collection_store, "expected_session_minutes", lambda _day: tuple(minutes))
+    path = tmp_path / "unpublished.sqlite3"
+    with MarketWatchCollectionStore(path, clock=lambda: closed_at) as store:
+        store.request_daily_recovery(closed_at.date(), trigger=DailyRecoveryTrigger.MANUAL, requested_at=closed_at)
+        run = store.claim_daily_recovery(started_at=closed_at)
+        for index, minute in enumerate(minutes):
+            attempt_id, slot = store.claim_due(closed_at, trade_date=closed_at.date())
+            assert slot.minute_bucket == minute
+            store.record_daily_recovery_attempt_started(run.run_id, slot, started_at=closed_at)
+            failed = store.mark_failed(
+                attempt_id,
+                error=TimeoutError("retryable source failure") if index else HistoricalTrajectoryNotPublished("09:30"),
+                completed_at=closed_at,
+                next_retry_at=None,
+            )
+            store.record_daily_recovery_attempt_finished(run.run_id, failed, completed_at=closed_at)
+        finished = store.finish_daily_recovery(run.run_id, completed_at=closed_at, reconciled_slots=0, attempted_slots=len(minutes))
+        assert finished.remaining_gaps == len(minutes)
+        assert finished.unavailable_gaps == 1
+        assert finished.accepted_after == 0
+        assert finished.manual_action_required is mixed_gap
+        with MarketWatchCollectionStore(path, read_only=True) as reader:
+            assert reader.read_latest_daily_recovery(closed_at.date(), as_of=closed_at) == finished
+        request = store.request_daily_recovery(closed_at.date(), trigger=DailyRecoveryTrigger.MANUAL, requested_at=closed_at)
+        assert request["action"] == ("queued" if mixed_gap else "existing")
+        if not mixed_gap:
+            assert request["recovery"].run_id == run.run_id
+        assert store.requeue_daily_recovery_gaps(closed_at.date(), requested_at=closed_at) == int(mixed_gap)
+        claimed = store.claim_due(closed_at, trade_date=closed_at.date())
+        if mixed_gap:
+            assert claimed[1].minute_bucket == minutes[1]
+        else:
+            assert claimed is None
+
+
 def test_running_post_close_recovery_projects_live_attempt_progress_and_error(
     tmp_path: Path,
 ) -> None:

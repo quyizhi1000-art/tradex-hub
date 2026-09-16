@@ -478,7 +478,7 @@ class DailyStockSelectionStore:
             self._ensure_open()
             rows = self._connection.execute(
                 """
-                SELECT results.trade_date, COUNT(*) AS strategy_count,
+                SELECT results.trade_date, COUNT(DISTINCT results.strategy_id) AS strategy_count,
                        MAX(results.generated_at) AS generated_at,
                        GROUP_CONCAT(results.result_id, ',') AS result_ids,
                        GROUP_CONCAT(outcomes.outcome_id, ',') AS outcome_ids

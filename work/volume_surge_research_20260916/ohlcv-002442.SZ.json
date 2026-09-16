@@ -1,0 +1,31 @@
+{
+  "metadata": {
+    "contract": "ohlcv_bar.v1",
+    "schema_version": 1,
+    "provider": "tushare",
+    "provider_request_id": null,
+    "provider_as_of": "2026-09-16T15:00:00+08:00",
+    "fetched_at": "2026-09-16T18:24:46.655427+08:00",
+    "quality": "accepted",
+    "quality_flags": []
+  },
+  "instrument_id": "002442.SZ",
+  "period": "daily",
+  "adjustment": "none",
+  "currency": "CNY",
+  "bars": [
+    {
+      "trading_date": "2026-09-16",
+      "open": 5.68,
+      "close": 5.68,
+      "high": 5.68,
+      "low": 5.68,
+      "volume_shares": 22320244.0,
+      "amount_cny": 126778985.92,
+      "amplitude_pct": 0.0,
+      "change_pct": 10.077519379844952,
+      "change": 0.5199999999999996,
+      "turnover_pct": null
+    }
+  ]
+}

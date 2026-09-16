@@ -1,0 +1,86 @@
+"""Freeze the discretionary ten-stock research priority before September 17."""
+import csv,json,hashlib
+from datetime import datetime
+from pathlib import Path
+from zoneinfo import ZoneInfo
+
+OUT=Path(__file__).parent
+rows=json.loads((OUT/'all166-evidence.json').read_text(encoding='utf-8'))
+by_id={r['instrument_id']:r for r in rows}
+minutes={r['instrument_id']:r for r in json.loads((OUT/'minute-evidence.json').read_text(encoding='utf-8'))}
+verification=json.loads((OUT/'verification.json').read_text(encoding='utf-8'))
+order=['001288.SZ','002935.SZ','002623.SZ','001211.SZ','603558.SH','603507.SH','002745.SZ','600360.SH','002973.SZ','603010.SH']
+reasons={
+'001288.SZ':('当天新放量3.35倍、上涨8.50%；收盘只差此前14日高点0.74%，流通市值46.5亿元，短线活跃度与突破位置兼具。','收盘较日内高点回落1.38%，最后一小时回落1.38%；盘中接近涨停仍未封住，次日需要确认承接。'),
+'002935.SZ':('当天放量2.64倍、上涨6.79%，收盘略突破此前14日高点；最后一小时继续上涨1.31%。同一统计行业61只中96.7%收涨，属于行业整体较强背景下的个股走强。','换手率1.97%，活跃度弱于部分候选；分时均价不完整，不将其描述为全天沿均价线上行。'),
+'002623.SZ':('放量3.41倍，上涨3.58%，换手7.48%，流通市值32.3亿元；收盘站上此前14日高点附近。10点仍跌1.2%左右，随后转强，尾盘保持正向。','收盘仅高于此前14日高点0.18%，突破幅度很小，次日可能重新跌回区间。'),
+'001211.SZ':('当天放量2.84倍、上涨8.51%，换手7.54%，流通市值22.6亿元；午后保持强势，最后半段未明显回吐。','距此前14日高点仍低3.47%，上方仍有压力；当日大涨后，次日分歧可能加大。'),
+'603558.SH':('放量2.77倍、上涨4.32%，收盘超过此前14日高点3.16%；最后一小时上涨1.01%，收盘高于当日累计均价2.42%，下午转强有完整均价证据。','成交额1.07亿元、换手2.45%，活跃度偏温和；价格结构较好不等于具备强烈涨停推动力。'),
+'603507.SH':('9/15、9/16连续两次符合放量，底线保持在9/15的21.60元；9/16量倍3.22、换手7.35%，收盘位于当日振幅上方约9%，最后一小时继续上涨0.73%。','收盘仍低于此前14日高点3.05%；统计行业上涨广度约51.9%，同行配合弱于多数入选标的。'),
+'002745.SZ':('9/14放量锚仍有效；9/16仅用此前5日均量1.26倍的成交量上涨4.38%，收盘突破此前14日高点2.82%。完整分时中约97.9%的分钟收盘在均价线上，午后最低涨幅仍约3.9%。','近5日已涨9.56%，流通市值130.8亿元，次日继续拉升需要更强的增量交易。'),
+'600360.SH':('9/11锚仍有效，9/15再次出现放量信号；9/16成交10.87亿元、换手10.43%，最后一小时上涨2.59%，收盘高于累计均价2.08%，晚段转强明显。','近5日已涨11.92%，换手偏高；单日尾盘走强可能次日兑现，不把它当成必然启动信号。'),
+'002973.SZ':('9/11放量后底线持续有效；9/16量倍仅0.96却上涨6.31%，收盘距日内高点仅0.45%，超过此前14日高点0.91%，呈现较小成交量下的价格突破。','当天没有新放量，必须继续观察突破能否维持；锚底11.30元距现价较远，不能把策略底线直接当作短线止损价。'),
+'603010.SH':('当天放量2.43倍、上涨4.77%，成交2.14亿元、换手3.06%；距此前14日高点仅1.21%，完整分时约92.1%的分钟收盘位于均价线上。','最后一小时回落1.13%，收盘仅高于均价0.40%，尾段力度弱于前列候选，因此排在第10。'),
+}
+frozen=[]
+for rank,code in enumerate(order,1):
+    r=by_id[code];m=minutes[code]
+    assert m['state']=='verified' and m['point_count']==241
+    assert abs(m['minute_daily_volume_ratio']-1)<.001
+    assert r['anchor_date']<='2026-09-16' and r['last_event']<='2026-09-16'
+    frozen.append({'priority':rank,**r,'minute_evidence':m,'selection_reason':reasons[code][0],'weakness':reasons[code][1]})
+now=datetime.now(ZoneInfo('Asia/Shanghai'))
+assert now.date().isoformat()=='2026-09-16'
+assert len(set(order))==10
+payload={'created_at':now.isoformat(),'evidence_cutoff':'2026-09-16 close','target_trade_date':'2026-09-17',
+ 'outcome_definition':'next-session closing limit-up, excluding signal day',
+ 'selection_basis':'discretionary research priority, not calibrated probability',
+ 'source_result_id':verification['result_id'],'source_snapshot_revision':verification['source_snapshot_revision'],
+ 'source_universe_count':166,'reviewed_minute_candidates':30,'selected':frozen}
+(OUT/'frozen-top10.json').write_text(json.dumps(payload,ensure_ascii=False,indent=2),encoding='utf-8')
+csvrows=[]
+for r in frozen:
+    csvrows.append({'优先级':r['priority'],'代码':r['instrument_id'],'名称':r['name'],'9月16收盘':r['close'],
+        '当日涨幅%':round(r['change_pct'],2),'当日成交量除以前5日均量':round(r['volume_multiple'],2),
+        '换手率%':r['turnover_pct'],'成交额亿元':round(r['amount_100m'],2),'流通市值亿元':round(r['float_cap_100m'],2),
+        '当前轮锚日期':r['anchor_date'],'当前轮收盘失效底线':r['anchor_low'],
+        '9月16最高价':r['day_high'],'前14交易日最高价':r['prior14_high'],
+        '选择原因':r['selection_reason'],'弱点':r['weakness']})
+with (OUT/'9月17日十只观察候选.csv').open('w',encoding='utf-8-sig',newline='') as f:
+    w=csv.DictWriter(f,fieldnames=list(csvrows[0]));w.writeheader();w.writerows(csvrows)
+
+md=['# 9月17日：7日向上放量v2十只优先观察候选','',
+f'冻结时间：{now.isoformat()}。仅使用截至2026-09-16收盘的市场证据。目标事件：9/17收盘涨停。','',
+'## 新规则核对','',
+'v2以窗口内本轮首次上涨放量日的最低价为底线。此后收盘跌破则该轮失效，再次放量可重启；未跌破时再次放量不抬高底线。盘中跌破但收盘守住仍有效，等于底线也允许。只保留窗口内截至档案日仍有效的最后一轮。', '',
+'9/16正式存档：v1为336只，v2为166只。v2在23:05生成，档案与原始快照的完整候选、信号证据重算一致。读的是v2记录，没有以旧版或仅当前代码替代新版存档。','',
+'这项修改主要限制信号失效，不直接产生“明天涨停”的概率。旧版46只成功案例也不能直接当作新版命中率。','',
+'## 如何挑选','',
+'先核对166只的价格、量倍、换手、市值、信号新旧、突破位置和同一统计行业上涨广度，再核验描述性优先级前30只的分钟曲线，最后人工确定10只及顺序。', '',
+'初筛分数是未经训练、回测或概率校准的研究整理工具：收盘位置15、突破位置15、信号新旧10、当日价格动量10、量能10、行业广度10、换手10、流通市值10、流动性5、5日涨幅控制5。精确公式在prepare.py，所有166只的原值和分项在all166-evidence.json。没有用先前46只成功样本拟合这些权重。最终次序是人工判断，不是自动评分前十。', '',
+'把华微电子替换进前十、将兴欣新材移出：前者尾段转强且突破附近的证据更完整；后者流通盘小但仍距前14日高点约5.32%，且最后一小时略回落。本研究选择优先观察前者，不宣称这一取舍已经验证。','',
+'## 十只名单','',
+'| 序号 | 股票 | 收盘 | 涨幅 | 量倍 | 换手率 | 当前轮锚日期 / 底线 | 9/16最高价 |',
+'|---|---|---:|---:|---:|---:|---|---:|']
+for r in frozen:
+    md.append(f"| {r['priority']} | {r['name']} {r['instrument_id']} | {r['close']:.2f} | {r['change_pct']:.2f}% | {r['volume_multiple']:.2f} | {r['turnover_pct']:.2f}% | {r['anchor_date']} / {r['anchor_low']:.2f} | {r['day_high']:.2f} |")
+md += ['', '量倍=9/16成交量÷此前5个交易日平均成交量（不含当日），不是行情终端的实时量比。当前轮底线是策略收盘失效条件，不是推荐买入价、止损价或收益目标。', '']
+for r in frozen:
+    md += [f"### {r['priority']}. {r['name']}（{r['instrument_id']}）",'',r['selection_reason'],'',f"弱点：{r['weakness']}",'']
+md += ['## 次日如何看待这个排序','',
+'盘前这10只固定保留供复盘，不因9/17结果改名单。开盘后若价格能够保持或重新站回当日均价上方、突破9/16高点且回落有承接，属于进一步确认；若高开低走、放量却持续回落，则原有优先级需要降低。这里是条件化观察，不是预设买卖指令。没有设定必须高开或10点以前必须涨停的硬条件。', '',
+'国风新材未进前十：连续放量但收盘距日内最高回落4.27%，最后一小时回落1.60%，尾段较弱。烽火电子未进前十：收盘距最高回落5.36%，收盘在均价下方，且完整分时仅约7.5%的分钟收盘在均价线上。兴欣新材作为名单外候选，没有抹去它的小流通市值和放量优势。', '',
+'## 数据质量与边界','',
+'- 证据来源：正式选股API v2档案、此前保存的2026-09-16 Tushare标准化因子快照、当日分钟网关。快照源时间为18:00，质量accepted；策略总体degraded是因为主板合格范围仍有55只窗口不完整，未把它们强行计入候选。选中10只的策略窗口完整。',
+'- 30只分钟价格均为9/16的241点，收盘/全日高低与日线一致；选中10只分钟成交量合计与日线误差小于0.1%。成交额缺失导致部分均价不完整，没有补值；只有健盛、木林森、华微和万盛四只的全日均价完整，全文关于全天均价的判断只用于这四只。',
+'- 原有“次日涨停机会20强”9/16档案没有候选，因此本报告不伪称获得该模型验证。',
+'- 没有系统核验9/16晚间所有公告、9/17竞价或盘中信息；未赋予公告催化、主力意图、封单或资金流标签。行业上涨广度只是快照内同一统计行业的价格表现，不等于个股资金净流入。',
+'- 这10只属于相对优先观察顺序，不具备已验证的绝对涨停概率，更不表示十只都会涨停。没有模拟成交、成本、收益或对外交易。',
+'- [Tushare每日指标说明](https://tushare.pro/document/2?doc_id=32)解释换手率和流通市值原始口径；本报告使用网关归一化后的百分比、人民币及亿元单位。',
+'- 未修改生产代码或档案；只新增研究脚本、证据和报告。','',
+f"来源结果ID：`{verification['result_id']}`",f"来源快照修订：`{verification['source_snapshot_revision']}`",'']
+(OUT/'9月17日十只候选分析.md').write_text('\n'.join(md),encoding='utf-8')
+manifest={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in OUT.iterdir() if p.is_file() and p.name!='sha256.json'}
+(OUT/'sha256.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2),encoding='utf-8')
+print(json.dumps({'count':len(frozen),'names':[r['name'] for r in frozen],'created_at':now.isoformat(),
+ 'full_day_vwap_count':sum(r['minute_evidence']['vwap_available']==241 for r in frozen)},ensure_ascii=False))

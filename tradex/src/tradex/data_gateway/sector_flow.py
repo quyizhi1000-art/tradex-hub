@@ -173,15 +173,20 @@ class SectorFundFlowBackfillCache:
     def get_all_cached(
         self,
         trading_date: date,
+        *,
+        sector_keys: Iterable[str] | None = None,
     ) -> dict[str, SectorFundFlowIntradayV1]:
+        keys = None if sector_keys is None else frozenset(sector_keys)
         with self._condition:
             cached = {
                 key[1]: series
                 for key, series in self._entries.items()
-                if key[0] == trading_date
+                if key[0] == trading_date and (keys is None or key[1] in keys)
             }
         store = self._get_store()
-        persisted = {} if store is None else store.get_all_best(trading_date)
+        persisted = {} if store is None else store.get_all_best(
+            trading_date, sector_keys=keys,
+        )
         result = dict(persisted)
         for sector_key, series in cached.items():
             existing = result.get(sector_key)
@@ -262,6 +267,7 @@ class SectorFundFlowBackfillCache:
         refresh_existing: bool = False,
         force_refresh: bool = False,
         refreshed_at: datetime | None = None,
+        register_target: bool = True,
     ) -> SectorFundFlowIntradayV1:
         effective_refresh_at = refreshed_at or datetime.now(_SHANGHAI)
         if effective_refresh_at.tzinfo is None:
@@ -310,7 +316,8 @@ class SectorFundFlowBackfillCache:
         store = self._get_store()
         if store is not None:
             store.record(loaded)
-            store.record_target(loaded, key[2])
+            if register_target:
+                store.record_target(loaded, key[2])
             persisted = store.get_best(key[0], key[1])
             if persisted is not None:
                 loaded = persisted
@@ -420,6 +427,7 @@ def fetch_sector_intraday_fund_flow_backfill(
     force_refresh: bool = False,
     max_queue_wait: float | None = None,
     request_timeout: int = 10,
+    register_target: bool = True,
 ) -> dict[str, tuple[dict[str, Any], ...]]:
     """Return cached exact curves; only the minute sampler may fill misses.
 
@@ -474,6 +482,7 @@ def fetch_sector_intraday_fund_flow_backfill(
                     refresh_existing=series is not None and refresh_existing,
                     force_refresh=force_refresh,
                     refreshed_at=now,
+                    register_target=register_target,
                 )
         except Exception:
             continue
@@ -487,8 +496,9 @@ def read_sector_intraday_fund_flow_backfill(
     *,
     trading_date: date | str,
     cache: SectorFundFlowBackfillCache | None = None,
+    sector_keys: Iterable[str] | None = None,
 ) -> dict[str, tuple[dict[str, Any], ...]]:
-    """Read every validated same-day curve without starting provider work."""
+    """Read selected validated same-day curves without starting provider work."""
 
     requested_date = (
         trading_date
@@ -498,7 +508,9 @@ def read_sector_intraday_fund_flow_backfill(
     owner = cache or _SECTOR_FLOW_BACKFILL_CACHE
     return {
         sector_key: _backfill_points(series)
-        for sector_key, series in owner.get_all_cached(requested_date).items()
+        for sector_key, series in owner.get_all_cached(
+            requested_date, sector_keys=sector_keys,
+        ).items()
     }
 
 
@@ -1045,6 +1057,26 @@ def schedule_requested_sector_intraday_fund_flow_repair(
     return _SECTOR_FLOW_INTRADAY_REPAIR_WORKER.request(local.date())
 
 
+def refresh_optional_sector_intraday_fund_flow(
+    target: Mapping[str, Any], *, observed_at: datetime,
+) -> dict[str, tuple[dict[str, Any], ...]] | None:
+    """One optional curve in an idle window, without expanding legacy close gates.
+
+    Uses the existing success-only cache, per-key single-flight and provider
+    limiter. Optional directory targets are not registered as required targets.
+    """
+    if observed_at.tzinfo is None or observed_at.utcoffset() is None:
+        raise ValueError("optional curve refresh requires timezone")
+    if not _intraday_repair_window_open(observed_at):
+        return None
+    return fetch_sector_intraday_fund_flow_backfill(
+        (target,), trading_date=observed_at.astimezone(_SHANGHAI).date(),
+        now=observed_at, load_missing=True, refresh_existing=True,
+        max_queue_wait=2.0, request_timeout=4,
+        register_target=False,
+    )
+
+
 def schedule_sector_intraday_fund_flow_backfill(
     targets: Iterable[Mapping[str, Any]],
     *,
@@ -1095,4 +1127,5 @@ __all__ = [
     "request_sector_intraday_fund_flow_repair",
     "schedule_requested_sector_intraday_fund_flow_repair",
     "schedule_sector_intraday_fund_flow_backfill",
+    "refresh_optional_sector_intraday_fund_flow",
 ]

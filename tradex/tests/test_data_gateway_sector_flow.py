@@ -29,6 +29,11 @@ from tradex.data_sources.http_fetchers import (
 
 
 SHANGHAI = ZoneInfo("Asia/Shanghai")
+
+
+@pytest.fixture(autouse=True)
+def _isolated_sector_flow_transport(monkeypatch):
+    monkeypatch.setattr("tradex.data_sources.http_fetchers._SECTOR_FLOW_PREFERRED_TRANSPORT", None)
 TRADE_DATE = date(2026, 8, 24)
 NOW = datetime(2026, 8, 24, 10, 40, tzinfo=SHANGHAI)
 TARGET = {
@@ -37,6 +42,22 @@ TARGET = {
     "taxonomy": "industry",
     "provider_sector_code": "BK0428",
 }
+
+
+def test_optional_directory_repair_is_bounded_and_never_registers_close_targets(monkeypatch):
+    calls = []
+    monkeypatch.setattr(sector_flow_module, "_intraday_repair_window_open", lambda moment: moment.second >= 22)
+    monkeypatch.setattr(sector_flow_module, "fetch_sector_intraday_fund_flow_backfill",
+                        lambda targets, **kw: calls.append((targets, kw)) or {})
+    monkeypatch.setattr(sector_flow_module._SECTOR_FLOW_BACKFILL_CACHE, "remember_targets",
+                        lambda *a, **kw: pytest.fail("optional curve cannot expand closing targets"))
+    assert sector_flow_module.refresh_optional_sector_intraday_fund_flow(TARGET, observed_at=NOW) is None
+    assert not calls
+    assert sector_flow_module.refresh_optional_sector_intraday_fund_flow(TARGET, observed_at=NOW.replace(second=30)) == {}
+    assert calls[0][0] == (TARGET,)
+    assert calls[0][1]["max_queue_wait"] == 2.0
+    assert calls[0][1]["request_timeout"] == 4
+    assert calls[0][1]["register_target"] is False
 
 
 def _frame(trading_date: date = TRADE_DATE) -> pd.DataFrame:
@@ -68,6 +89,18 @@ class _Router:
             raise RuntimeError("fixture upstream unavailable")
         frame = _frame(kwargs["trade_date"])
         return validator(frame, "eastmoney"), "eastmoney"
+
+
+def test_optional_success_persists_curve_without_registering_required_target():
+    with SectorFundFlowStore(":memory:") as store:
+        cache = SectorFundFlowBackfillCache(store=store)
+        result = fetch_sector_intraday_fund_flow_backfill(
+            (TARGET,), trading_date=TRADE_DATE, now=NOW, cache=cache,
+            router=_Router(), load_missing=True, register_target=False,
+        )
+        assert result[TARGET["sector_key"]]
+        assert store.get_best(TRADE_DATE, TARGET["sector_key"]) is not None
+        assert store.get_targets(TRADE_DATE) == ()
 
 
 class _Response:
@@ -179,6 +212,28 @@ def test_eastmoney_fetcher_uses_delay_mirror_after_main_transport_failure(
         "https://push2delay.eastmoney.com/api/qt/stock/fflow/kline/get",
     ]
     assert frame.attrs["provider_transport"] == "push2delay"
+    calls.clear()
+    fetch_sector_intraday_fund_flow_eastmoney(provider_sector_code="BK0428", trade_date=TRADE_DATE)
+    assert calls == ["https://push2delay.eastmoney.com/api/qt/stock/fflow/kline/get"]
+
+
+def test_preferred_mirror_failure_falls_back_and_expiry_rechecks_primary(monkeypatch):
+    import tradex.data_sources.http_fetchers as fetchers
+    calls = []
+    monkeypatch.setattr(fetchers.time, "monotonic", lambda: 100.0)
+    monkeypatch.setattr(fetchers, "_SECTOR_FLOW_PREFERRED_TRANSPORT", ("push2delay", 101.0))
+    def get(url, **kw):
+        calls.append(url)
+        if "push2delay" in url:
+            raise RuntimeError("mirror unavailable")
+        return _Response(["2026-08-24 09:31,100000000,0,0,0,0,0"])
+    monkeypatch.setattr("tradex.data_sources.em_client.em_get", get)
+    fetch_sector_intraday_fund_flow_eastmoney(provider_sector_code="BK0428", trade_date=TRADE_DATE)
+    assert "push2delay" in calls[0] and "push2.eastmoney" in calls[1]
+    calls.clear()
+    monkeypatch.setattr(fetchers, "_SECTOR_FLOW_PREFERRED_TRANSPORT", ("push2delay", 99.0))
+    fetch_sector_intraday_fund_flow_eastmoney(provider_sector_code="BK0428", trade_date=TRADE_DATE)
+    assert len(calls) == 1 and "push2.eastmoney" in calls[0]
 
 
 def test_eastmoney_fetcher_rejects_empty_main_before_using_delay_mirror(monkeypatch):
@@ -511,6 +566,36 @@ def test_read_all_backfill_restores_curves_without_current_target_resolution(tmp
     )
     assert restored["electric_power"][0]["name"] == "电力"
     assert restored["electric_power"][0]["taxonomy"] == "industry"
+
+
+def test_selected_backfill_filters_disk_and_memory_before_decoding(tmp_path, monkeypatch):
+    with SectorFundFlowStore(tmp_path / "selected.sqlite3") as store:
+        cache = SectorFundFlowBackfillCache(store=store)
+        loaded = fetch_sector_intraday_fund_flow_backfill(
+            (TARGET, {**TARGET, "sector_key": "optional_board"}),
+            trading_date=TRADE_DATE, now=NOW, router=_Router(),
+            cache=cache, load_missing=True,
+        )
+        assert set(loaded) == {"electric_power", "optional_board"}
+        decoded = []
+        original = store._decode
+
+        def decode(row):
+            decoded.append(row["sector_key"])
+            assert row["sector_key"] != "optional_board"
+            return original(row)
+
+        monkeypatch.setattr(store, "_decode", decode)
+        selected = read_sector_intraday_fund_flow_backfill(
+            trading_date=TRADE_DATE, cache=cache,
+            sector_keys=(key for key in ("electric_power", "missing_board")),
+        )
+        assert selected == {"electric_power": loaded["electric_power"]}
+        assert decoded == ["electric_power"]
+        assert read_sector_intraday_fund_flow_backfill(
+            trading_date=TRADE_DATE, cache=cache, sector_keys=(),
+        ) == {}
+        assert decoded == ["electric_power"]
 
 
 def test_persistent_backfill_store_never_replaces_a_longer_curve_with_shorter_data(

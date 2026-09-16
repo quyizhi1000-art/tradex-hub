@@ -53,6 +53,7 @@ from .rotation_radar import (
     analyze_sector_flow_snapshots,
     normalize_rotation_snapshot,
     sector_flow_backfill_targets,
+    sector_flow_observation_keys,
 )
 from .rotation_store import RotationRadarStore
 
@@ -2510,10 +2511,12 @@ def _attach_rotation_radar(
         )
         supplemental_points = read_sector_intraday_fund_flow_backfill(
             trading_date=effective_trade_date,
+            sector_keys=sector_flow_observation_keys(),
         )
     else:
         supplemental_points = read_sector_intraday_fund_flow_backfill(
             trading_date=effective_trade_date,
+            sector_keys=sector_flow_observation_keys(),
         )
     if record and complete_live_minute:
         current = store.record_snapshot(
@@ -2612,6 +2615,7 @@ def get_rotation_radar_as_of(target: datetime) -> dict[str, Any]:
     local = target.astimezone(ZoneInfo("Asia/Shanghai")).replace(second=0, microsecond=0)
     supplemental_points = read_sector_intraday_fund_flow_backfill(
         trading_date=local.date(),
+        sector_keys=sector_flow_observation_keys(),
     )
     current = _get_rotation_store().get_as_of(
         local.date(),

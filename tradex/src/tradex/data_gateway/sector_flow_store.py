@@ -523,17 +523,26 @@ class SectorFundFlowStore:
     def get_all_best(
         self,
         trading_date: date,
+        *,
+        sector_keys: Iterable[str] | None = None,
     ) -> dict[str, SectorFundFlowIntradayV1]:
+        keys = None if sector_keys is None else tuple(dict.fromkeys(sector_keys))
+        if keys == ():
+            return {}
+        key_filter = "" if keys is None else (
+            " AND sector_key IN (" + ",".join("?" for _ in keys) + ")"
+        )
         with self._lock:
             self._ensure_open()
             rows = self._connection.execute(
                 """
                 SELECT * FROM sector_flow_curves
                 WHERE trade_date = ?
+                """ + key_filter + """
                 ORDER BY sector_key ASC, point_count DESC,
                     last_provider_as_of DESC, fetched_at DESC, provider ASC
                 """,
-                (trading_date.isoformat(),),
+                (trading_date.isoformat(), *(keys or ())),
             ).fetchall()
         result: dict[str, SectorFundFlowIntradayV1] = {}
         for row in rows:

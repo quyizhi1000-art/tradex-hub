@@ -17,6 +17,7 @@ SHANGHAI = ZoneInfo("Asia/Shanghai")
 
 @pytest.fixture(autouse=True)
 def _disable_review_announcement_network(monkeypatch):
+    monkeypatch.setattr(collector_worker, "_refresh_sector_catalog", lambda **kwargs: {"action": "existing"})
     monkeypatch.setattr(collector_worker, "_latest_final_close_revision", lambda day: "f" * 64)
     monkeypatch.setattr(
         "tradex.data_gateway.sector_flow.schedule_requested_sector_intraday_fund_flow_repair",

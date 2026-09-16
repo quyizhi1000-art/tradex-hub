@@ -20,7 +20,7 @@ SECTOR_FLOW_CONTRACT = "sector_flow_trajectory.v1"
 SECTOR_FLOW_SCHEMA_VERSION = 1
 SECTOR_FLOW_MAX_POINTS = 256
 SECTOR_FLOW_MAX_SERIES = 64
-DEFENSE_SECTOR_FLOW_SERIES = 39
+DEFENSE_SECTOR_FLOW_SERIES = 40
 
 
 SECTOR_FLOW_CATEGORY_LABELS = {
@@ -74,6 +74,13 @@ _OPTIONAL_SECTOR_FLOW_DEFINITIONS: tuple[dict[str, Any], ...] = (
         "category_key": "weight_support",
         "board_codes": ("BK0474",),
         "industry_aliases": ("保险", "保险Ⅱ"),
+    },
+    {
+        "key": "diversified_finance",
+        "name": "多元金融",
+        "category_key": "weight_support",
+        "board_codes": (),
+        "industry_aliases": ("多元金融", "多元金融Ⅱ"),
     },
     {
         "key": "gas",
@@ -1142,6 +1149,16 @@ def _sector_flow_definitions_for(direction: str) -> tuple[dict[str, Any], ...]:
     raise ValueError("sector flow direction must be defense or offense")
 
 
+def sector_flow_observation_keys() -> tuple[str, ...]:
+    """Stable chart keys, including boards absent from the latest quotes."""
+
+    return tuple(dict.fromkeys(
+        str(definition["key"])
+        for direction in ("defense", "offense")
+        for definition in _sector_flow_definitions_for(direction)
+    ))
+
+
 def _sector_flow_source_family(value: Any) -> str:
     source = str(value or "unknown").strip().lower()
     if any(token in source for token in ("eastmoney", "push2", "em_")):
@@ -1157,6 +1174,13 @@ def _sector_flow_match(
     ranked: Mapping[str, Mapping[str, Any]],
     definition: Mapping[str, Any],
 ) -> dict[str, Any] | None:
+    # Catalog identities are exact and source-scoped. Keep legacy alias matching
+    # unchanged, and avoid an O(boards squared) scan for the full directory.
+    if definition.get("catalog_identity"):
+        item = ranked.get(str(definition["catalog_identity"]))
+        if item and _sector_flow_source_family(item.get("source")) == definition["source_family"]:
+            return dict(item)
+        return None
     for taxonomy, alias_field in (
         ("industry", "industry_aliases"),
         ("concept", "concept_aliases"),

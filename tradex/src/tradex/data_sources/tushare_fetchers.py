@@ -1073,6 +1073,145 @@ def fetch_stock_selection_financial_period(
     }
 
 
+def _taxonomy_sw_memberships(
+    stocks: list[dict[str, Any]], target: date,
+) -> tuple[list[dict[str, Any]], list[tuple[str, str | None]], list[str]]:
+    """Partition by L1, then reconcile every listed stock before publishing."""
+    categories, ids = _paged_records(
+        "index_classify", {"level": "L1", "src": "SW2021"},
+        ("index_code", "industry_name", "level"),
+        context="申万一级行业目录", page_size=1000, max_pages=2,
+    )
+    codes = [str(row.get("index_code") or "").strip() for row in categories]
+    if (len(codes) != 31 or len(set(codes)) != 31
+            or any(not code for code in codes)):
+        raise RuntimeError("TuShare SW2021 一级行业目录不完整")
+    universe = {str(row["ts_code"]) for row in stocks}
+    by_id: dict[str, dict[str, Any]] = {}
+
+    def merge(rows: list[dict[str, Any]]) -> None:
+        for row in rows:
+            instrument_id = str(row.get("ts_code") or "")
+            if instrument_id not in universe:
+                continue
+            if any(not str(row.get(key) or "").strip() for key in (
+                "l1_code", "l1_name", "l2_code", "l2_name", "l3_code", "l3_name",
+            )):
+                raise RuntimeError(f"TuShare 申万行业路径不完整: {instrument_id}")
+            dates = {}
+            for key in ("in_date", "out_date"):
+                value = str(row.get(key) or "").strip().replace("-", "")
+                dates[key] = datetime.strptime(value, "%Y%m%d").date() if value else None
+            if (row.get("is_new") == "N"
+                    or (dates["in_date"] and dates["in_date"] > target)
+                    or (dates["out_date"] and dates["out_date"] <= target)):
+                continue
+            current = by_id.get(instrument_id)
+            # Some upstream rows retain is_new=Y after a reclassification.
+            # Pick the most recent effective entry, never the last page's row.
+            entry = dates["in_date"] or date.min
+            previous = str((current or {}).get("in_date") or "").replace("-", "")
+            previous_date = datetime.strptime(previous, "%Y%m%d").date() if previous else date.min
+            if current and entry == previous_date and any(
+                row.get(key) != current.get(key)
+                for key in ("l1_code", "l1_name", "l2_code", "l2_name", "l3_code", "l3_name")
+            ):
+                raise RuntimeError(f"TuShare 申万行业归属冲突: {instrument_id}")
+            if current is None or entry > previous_date:
+                by_id[instrument_id] = row
+
+    with ThreadPoolExecutor(max_workers=3, thread_name_prefix="tushare-taxonomy-sw") as executor:
+        jobs = {code: executor.submit(
+            _paged_records, "index_member_all", {"l1_code": code, "is_new": "Y"},
+            _SW_MEMBER_ALL_FIELDS, context=f"申万行业成分:{code}",
+            page_size=2000, max_pages=4,
+        ) for code in codes}
+        for code, job in jobs.items():
+            rows, request_ids = job.result()
+            if any(row.get("l1_code") != code for row in rows):
+                raise RuntimeError(f"TuShare 申万行业分组不匹配: {code}")
+            merge(rows)
+            ids.extend((f"{code}:{label}", value) for label, value in request_ids)
+    missing = sorted(universe - by_id.keys())
+    # Avoid an accidental per-stock full-market crawl after a broken table.
+    if len(missing) > 64:
+        raise RuntimeError(f"TuShare 申万行业覆盖不足，缺失 {len(missing)} 只")
+    for instrument_id in missing:
+        rows, request_ids = _paged_records(
+            "index_member_all", {"ts_code": instrument_id, "is_new": "Y"},
+            _SW_MEMBER_ALL_FIELDS, context=f"申万缺失核对:{instrument_id}",
+            allow_empty=True, page_size=2000, max_pages=2,
+        )
+        if any(row.get("ts_code") != instrument_id for row in rows):
+            raise RuntimeError(f"TuShare 申万个股查询不匹配: {instrument_id}")
+        merge(rows)
+        ids.extend((f"{instrument_id}:{label}", value) for label, value in request_ids)
+    return [by_id[key] for key in sorted(by_id)], ids, sorted(universe - by_id.keys())
+
+
+def _taxonomy_market_industries(stocks: list[dict[str, Any]], target: date) -> dict[str, Any]:
+    catalog, ids = _paged_records(
+        "ths_index", {"exchange": "A", "type": "I"}, ("ts_code", "name", "type"),
+        context="同花顺行业目录", page_size=5000, max_pages=2,
+    )
+    # THS's standard market blocks are the 881 series. The same I endpoint
+    # also includes 884 subdivisions and 700 international classifications.
+    blocks = {row["ts_code"]: str(row.get("name") or "").strip() for row in catalog
+              if row.get("type") == "I" and re.fullmatch(r"881\d{3}\.TI", str(row.get("ts_code")))}
+    if not blocks or any(not name for name in blocks.values()):
+        raise RuntimeError("TuShare 同花顺行业板块目录不可用")
+    universe = {str(row["ts_code"]) for row in stocks}
+    by_id: dict[str, dict[str, Any]] = {}
+    conflicts: set[str] = set()
+
+    def merge(rows, expected=None):
+        for row in rows:
+            block = row.get("ts_code")
+            key = row.get("con_code")
+            if expected and block != expected:
+                raise RuntimeError("TuShare 同花顺行业分组不匹配")
+            if key not in universe or block not in blocks or row.get("is_new") == "N":
+                continue
+            if key in conflicts:
+                continue
+            if key in by_id and by_id[key]["code"] != block:
+                conflicts.add(key)
+                del by_id[key]
+                continue
+            by_id[key] = {"instrument_id": key, "code": block, "name": blocks[block]}
+
+    fields = ("ts_code", "con_code", "is_new")
+    with ThreadPoolExecutor(max_workers=3, thread_name_prefix="tushare-taxonomy-ths") as executor:
+        jobs = {block: executor.submit(
+            _paged_records, "ths_member", {"ts_code": block}, fields,
+            context=f"同花顺行业成分:{block}", page_size=3000, max_pages=3,
+        ) for block in blocks}
+        for block, job in jobs.items():
+            rows, request_ids = job.result()
+            merge(rows, block)
+            ids.extend((f"{block}:{label}", value) for label, value in request_ids)
+    missing = sorted(universe - by_id.keys())
+    if len(missing) > 64:
+        raise RuntimeError(f"TuShare 同花顺行业覆盖不足，缺失 {len(missing)} 只")
+    for key in missing:
+        rows, request_ids = _paged_records(
+            "ths_member", {"con_code": key}, fields, context=f"同花顺行业缺失核对:{key}",
+            allow_empty=True, page_size=3000, max_pages=3,
+        )
+        if any(row.get("con_code") != key for row in rows):
+            raise RuntimeError("TuShare 同花顺个股查询不匹配")
+        conflicts.discard(key)
+        merge(rows)
+        ids.extend((f"{key}:{label}", value) for label, value in request_ids)
+    return {"contract": "instrument_industry_blocks_source.v1", "schema_version": 1,
+            "as_of": target.isoformat(), "taxonomy": "ths", "stocks": stocks,
+            "memberships": [by_id[key] for key in sorted(by_id)],
+            "missing_instruments": sorted(universe - by_id.keys()),
+            "conflicting_instruments": sorted(conflicts),
+            "source_providers": ["tushare"],
+            "source_request_ids": [value for _, value in ids if value]}
+
+
 def fetch_instrument_taxonomy_source(
     as_of: str = "",
     code: str = "",
@@ -1081,7 +1220,9 @@ def fetch_instrument_taxonomy_source(
 ) -> dict[str, Any]:
     """Fetch one low-frequency full-market relationship source bundle."""
 
-    del kwargs
+    section = kwargs.pop("section", "all")
+    if section not in ("all", "industry_blocks"):
+        raise ValueError("unknown instrument taxonomy section")
     if code or symbol:
         raise SourceCapabilityError("instrument_taxonomy is a whole-market route")
     if as_of:
@@ -1098,6 +1239,8 @@ def fetch_instrument_taxonomy_source(
         page_size=6000,
         max_pages=2,
     )
+    if section == "industry_blocks":
+        return _taxonomy_market_industries(stocks, target)
 
     with ThreadPoolExecutor(
         max_workers=3,
@@ -1129,15 +1272,8 @@ def fetch_instrument_taxonomy_source(
             (f"stock_company:{exchange}:{label}", value) for label, value in ids
         )
 
-    sw_memberships, sw_ids = _paged_records(
-        "index_member_all",
-        {"is_new": "Y"},
-        _SW_MEMBER_ALL_FIELDS,
-        context="证券关系库申万行业成分",
-        allow_empty=True,
-        page_size=2000,
-        max_pages=4,
-    )
+    sw_memberships, sw_ids, sw_missing = _taxonomy_sw_memberships(stocks, target)
+    market_industries = _taxonomy_market_industries(stocks, target)
 
     periods = _taxonomy_reporting_periods(target)
     segment_rows: list[dict[str, Any]] = []
@@ -1192,6 +1328,8 @@ def fetch_instrument_taxonomy_source(
         "stocks": stocks,
         "companies": companies,
         "sw_memberships": sw_memberships,
+        "industry_missing_instruments": sw_missing,
+        "market_industries": market_industries,
         "business_segments": segment_rows,
         "reporting_periods": list(periods),
         "flags": segment_flags,

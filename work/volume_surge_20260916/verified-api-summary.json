@@ -1,0 +1,44 @@
+{
+  "results": [
+    {
+      "quality": "degraded",
+      "matched_count": 336,
+      "evaluated_count": 2996,
+      "board_eligible_count": 3051,
+      "excluded_counts": {
+        "incomplete_candlestick_window": 55,
+        "limit_up_in_7_sessions": 244,
+        "no_upward_volume_surge": 2416,
+        "not_main_board": 2369,
+        "special_treatment": 144
+      },
+      "trade_date": "2026-09-16",
+      "result_id": "stock-selection-strategy-result:594d62da8c115c7f115dca14",
+      "generated_at": "2026-09-16T17:14:18.059888+08:00",
+      "source_provider_as_of": "2026-09-16T18:00:00+08:00",
+      "source_snapshot_revision": "f4431a5a8cdb4be6cafa4635211e48661c7b307546a6fcf4f9fb8f98a04061cc",
+      "artifact_revision": "2892cf5407e74078182aea3c8f3851cd42665f20e737b5e13b3c753d4fdcbf80"
+    },
+    {
+      "quality": "degraded",
+      "matched_count": 341,
+      "evaluated_count": 2992,
+      "board_eligible_count": 3051,
+      "excluded_counts": {
+        "incomplete_candlestick_window": 59,
+        "limit_up_in_7_sessions": 239,
+        "no_upward_volume_surge": 2412,
+        "not_main_board": 2367,
+        "special_treatment": 144
+      },
+      "trade_date": "2026-09-15",
+      "result_id": "stock-selection-strategy-result:e53b85425a5a9da32eaab511",
+      "generated_at": "2026-09-16T17:16:15.424379+08:00",
+      "source_provider_as_of": "2026-09-15T18:00:00+08:00",
+      "source_snapshot_revision": "7acf3c739878d64e12a659551486b63b10ab6a9bd0a5b0ecac2fdc1dd26ac9bf",
+      "artifact_revision": "636b9a14461f3510e3d5ef552b145f7a1d7f6500a33443a594f3fdc71b7f37e9"
+    }
+  ],
+  "provider": "Tushare daily data via canonical gateway",
+  "timestamp_note": "The existing calendar source labels provider_as_of at 18:00; this is a fixed service label, not a verified provider publication timestamp. Actual generation times are preserved separately."
+}

@@ -1,0 +1,58 @@
+{
+  "sample_size": 46,
+  "minute_sample_size": 17,
+  "bullish_event_body": 44,
+  "event_close_top20pct": 11,
+  "event_close_top_half": 35,
+  "event_upper_shadow_below20pct": 11,
+  "event_multiple_median": 2.429707171833405,
+  "event_multiple_2to3": 32,
+  "event_multiple_3to5": 13,
+  "event_multiple_ge5": 1,
+  "prior_close_above_ma5": 26,
+  "prior_close_above_ma10": 26,
+  "prior_close_above_event_close": 21,
+  "prior_day_up": 19,
+  "prior_day_volume_multiple_median": 1.0408685070467079,
+  "prior_day_volume_ge2": 12,
+  "prior_5d_return_median": 1.2972420837589427,
+  "between_observable": 38,
+  "has_contraction": 33,
+  "has_negative_day": 34,
+  "has_low_volume_negative_day": 32,
+  "holds_event_low": 26,
+  "holds_event_body_mid": 15,
+  "pullback_median_pct": -2.5787012987013025,
+  "limit_volume_multiple_median": 1.857572791751612,
+  "limit_volume_ge2": 20,
+  "limit_breakout_10d": 37,
+  "open_gap_median_pct": 0.0,
+  "open_gap_distribution": {
+    "高开>=7%": 4,
+    "高开0.1%-3%": 13,
+    "低开": 19,
+    "平开±0.1%": 8,
+    "高开3%-7%": 2
+  },
+  "first_seal_buckets": {
+    "10:00前": 20,
+    "10:00-11:30": 19,
+    "午后": 7
+  },
+  "zero_open_count": 23,
+  "limit_types": {
+    "一字板": 2,
+    "换手板": 42,
+    "T字板": 2
+  },
+  "minute_preseal_dip_gt1pct": 6,
+  "minute_preseal_dip_median": -0.5000000000000004,
+  "minute_first30_volume_median": 0.4895594040456871,
+  "minute_vwap_complete_preseal_count": 12,
+  "minute_vwap_median_for_complete_preseal": 0.8877679697351828,
+  "price_adjustment_gaps": [],
+  "minute_daily_volume_ratio_range": [
+    0.9999963802460268,
+    1.0000033450042123
+  ]
+}

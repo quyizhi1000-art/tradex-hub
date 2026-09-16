@@ -647,12 +647,17 @@ class AnalysisRuntime:
     def materialize_selection_views(self, *, force: bool = False) -> int:
         dates = self.selection_store.list_dates(limit=365)
         strategy_dates = self.selection_store.list_strategy_dates(limit=365)
-        strategy_catalog = self.selection_service.strategy_history(limit=1)["catalog"]
+        strategy_history = self.selection_service.strategy_history(limit=1)
+        strategy_catalog = strategy_history["catalog"]
+        industry_display = strategy_history.get("industry_display") or {}
         catalog_revision = _revision(
             {
                 "legacy_dates": dates,
                 "strategy_dates": strategy_dates,
                 "strategy_catalog": strategy_catalog,
+                "industry_display_contract": industry_display.get("contract"),
+                "industry_catalog_revision": industry_display.get("catalog_revision"),
+                "industry_catalog_as_of": industry_display.get("as_of"),
             }
         )
         published = 0
@@ -788,10 +793,12 @@ class AnalysisRuntime:
         if not self._enable_taxonomy_auto_refresh:
             return
         from tradex.instrument_taxonomy.store import InstrumentTaxonomyReader
+        from tradex.data_gateway.instrument_taxonomy import INDUSTRY_COVERAGE_CHECKED, MARKET_INDUSTRY_CHECKED
 
         with InstrumentTaxonomyReader() as reader:
             status = reader.status()
-        if status is not None and status.as_of >= observed.date():
+        if (status is not None and status.as_of >= observed.date()
+                and {INDUSTRY_COVERAGE_CHECKED, MARKET_INDUSTRY_CHECKED} <= set(status.flags)):
             return
         with self._taxonomy_refresh_lock:
             if (

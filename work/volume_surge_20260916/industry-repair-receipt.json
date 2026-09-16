@@ -1,0 +1,116 @@
+{
+  "before": {
+    "contract": "stock_relationship_catalog_status.v1",
+    "schema_version": 1,
+    "catalog_revision": "3c95c807068d42c76d1237272ed8d716f11a1710afffa7038fb460816118ce57",
+    "as_of": "2026-09-16",
+    "generated_at": "2026-09-16T00:00:00.206324+08:00",
+    "profile_total": 5563,
+    "verified_total": 73,
+    "corroborated_total": 1392,
+    "provider_only_total": 3924,
+    "unresolved_total": 174,
+    "source_providers": [
+      "tushare"
+    ],
+    "source_request_ids": [],
+    "flags": []
+  },
+  "after": {
+    "contract": "stock_relationship_catalog_status.v1",
+    "schema_version": 1,
+    "catalog_revision": "f953fb9bf2edc3be087d222bf3a6f9bc527fd4861047b84ebcfcc18ee0041724",
+    "as_of": "2026-09-16",
+    "generated_at": "2026-09-16T18:08:13.357310+08:00",
+    "profile_total": 5566,
+    "verified_total": 73,
+    "corroborated_total": 1501,
+    "provider_only_total": 3984,
+    "unresolved_total": 8,
+    "source_providers": [
+      "tushare"
+    ],
+    "source_request_ids": [],
+    "flags": [
+      "industry_coverage_checked:v1",
+      "industry_source_missing:301686.SZ",
+      "industry_source_missing:301716.SZ",
+      "industry_source_missing:920268.BJ",
+      "industry_source_missing:920269.BJ",
+      "industry_source_missing:920289.BJ",
+      "industry_source_missing:920298.BJ"
+    ]
+  },
+  "before_missing": 1219,
+  "missing": [
+    {
+      "instrument_id": "301686.SZ",
+      "name": "中塑股份"
+    },
+    {
+      "instrument_id": "301716.SZ",
+      "name": "鸿富诚"
+    },
+    {
+      "instrument_id": "920268.BJ",
+      "name": "百迈科"
+    },
+    {
+      "instrument_id": "920269.BJ",
+      "name": "杰锋动力"
+    },
+    {
+      "instrument_id": "920289.BJ",
+      "name": "华汇智能"
+    },
+    {
+      "instrument_id": "920298.BJ",
+      "name": "N腾信"
+    }
+  ],
+  "examples": {
+    "603267.SH": {
+      "taxonomy": "sw",
+      "taxonomy_version": "sw-2021-current",
+      "level1_code": "801740.SI",
+      "level1_name": "国防军工",
+      "level2_code": "801745.SI",
+      "level2_name": "军工电子Ⅱ",
+      "level3_code": "857451.SI",
+      "level3_name": "军工电子Ⅲ",
+      "effective_from": "2021-07-30",
+      "effective_to": null,
+      "source": "tushare:index_member_all"
+    },
+    "002378.SZ": {
+      "taxonomy": "sw",
+      "taxonomy_version": "sw-2021-current",
+      "level1_code": "801050.SI",
+      "level1_name": "有色金属",
+      "level2_code": "801054.SI",
+      "level2_name": "小金属",
+      "level3_code": "850542.SI",
+      "level3_name": "钨",
+      "effective_from": "2010-03-12",
+      "effective_to": null,
+      "source": "tushare:index_member_all"
+    },
+    "001280.SZ": {
+      "taxonomy": "sw",
+      "taxonomy_version": "sw-2021-current",
+      "level1_code": "801050.SI",
+      "level1_name": "有色金属",
+      "level2_code": "801054.SI",
+      "level2_name": "小金属",
+      "level3_code": "850541.SI",
+      "level3_name": "稀土",
+      "effective_from": "2025-11-14",
+      "effective_to": null,
+      "source": "tushare:index_member_all"
+    }
+  },
+  "published_views": 17,
+  "selection_archives_unchanged": true,
+  "selection_archive_digest": "2eb16cc7564bd82ae9ea7e6de2382cf5d96134a9d21e291bd5d1161b0dd6cfa4",
+  "backup": "G:\\money\\work\\volume_surge_20260916\\taxonomy-before-repair-20260916-180812.sqlite3"
+}

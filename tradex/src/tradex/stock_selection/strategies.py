@@ -21,7 +21,9 @@ from .contracts import (
     StockSelectionStrategyDefinitionV1,
     StockSelectionStrategyOutcomeV1,
     StockSelectionStrategyResultV1,
+    VolumeSurgeScreenV1,
 )
+from .volume_surge import screen_volume_surge
 
 
 ROUND_TRIP_COST_PCT = 0.15
@@ -31,6 +33,7 @@ StrategyPayload: TypeAlias = (
     BalancedStockSelectionResultV1
     | StockPatternScreenV1
     | LimitUpTendencyScreenV1
+    | VolumeSurgeScreenV1
 )
 
 
@@ -66,6 +69,7 @@ class RegisteredStockSelectionStrategy:
         [DailyStockFactorSnapshotV1, DailyStockSelectionV1],
         StrategyPayload,
     ]
+    requires_legacy_selection: bool = True
 
     def definition(self) -> StockSelectionStrategyDefinitionV1:
         return StockSelectionStrategyDefinitionV1(
@@ -138,6 +142,16 @@ REGISTERED_STOCK_SELECTION_STRATEGIES = (
         evaluation_policy="not_defined",
         display_order=30,
         execute=_pattern_payload,
+    ),
+    RegisteredStockSelectionStrategy(
+        strategy_id="upward-volume-surge-main-board",
+        strategy_version="v2",
+        title="7 日向上放量",
+        result_contract="stock_volume_surge_screen.v1",
+        evaluation_policy="not_defined",
+        display_order=40,
+        execute=lambda snapshot, _selection: screen_volume_surge(snapshot),
+        requires_legacy_selection=False,
     ),
 )
 

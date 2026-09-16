@@ -1,0 +1,69 @@
+const test = require("node:test");
+const assert = require("node:assert/strict");
+const fs = require("node:fs");
+const path = require("node:path");
+const vm = require("node:vm");
+
+const source = fs.readFileSync(path.join(__dirname, "../src/tradex/dashboard/watch/app.js"), "utf8");
+function render(recovery, gaps = 1) {
+  const elements = new Map();
+  const classes = new Set();
+  const byId = id => {
+    if (!elements.has(id)) elements.set(id, {});
+    return elements.get(id);
+  };
+  const context = {
+    byId, state: {},
+    text: (value, fallback) => typeof value === "string" && value ? value : fallback,
+    formatTimestamp: value => value.slice(11, 19),
+    shanghaiClock: () => ({ date: "2026-09-16", minuteOfDay: 1000 }),
+    document: { querySelector: () => ({ classList: {
+      add: value => classes.add(value), remove: (...values) => values.forEach(value => classes.delete(value)),
+    } }) },
+  };
+  const start = source.indexOf("  function collectionRecoveryErrorMessage(");
+  const end = source.indexOf("  function renderIntradayTrajectoryRepair(", start);
+  vm.runInNewContext(source.slice(start, end) + "\nrenderCollectionRecoveryStatus", context)({
+    collection_completeness: { expected_minute_buckets: 239, accepted_real: 239 - gaps, trade_date: "2026-09-16" },
+    daily_recovery: {
+      status: "needs_attention", unavailable_gaps: 1, remaining_gaps: gaps,
+      accepted_before: 238, attempted_slots: 1, failed_attempts: 1,
+      latest_attempt_progress_total: 6, completed_at: "2026-09-16T16:24:11+08:00",
+      latest_failure_error_code: "HistoricalTrajectoryNotPublished",
+      latest_failure_minute_bucket: "2026-09-16T09:30:00+08:00",
+      ...recovery,
+    },
+  });
+  return { byId, classes };
+}
+
+test("unpublished-only completion keeps the gap visible and disables retries", () => {
+  const { byId, classes } = render({});
+  assert.equal(byId("collection-recovery-accepted").textContent, "238 / 239");
+  assert.equal(byId("collection-recovery-gaps").textContent, "1");
+  assert.equal(byId("collection-recovery-status").textContent, "追补已结束 · 1 分钟无历史源");
+  assert.equal(byId("collection-recovery-button").disabled, true);
+  assert.equal(byId("collection-recovery-button").textContent, "无可追补分钟");
+  assert.doesNotMatch(byId("collection-recovery-progress").textContent, /批内/);
+  assert.match(byId("collection-recovery-detail").textContent, /未标记为完整/);
+  assert.deepEqual([...classes], ["is-unavailable"]);
+});
+
+test("mixed gaps and legacy responses retain manual recovery", () => {
+  for (const [recovery, gaps] of [[{}, 2], [{ unavailable_gaps: undefined }, 1]]) {
+    const { byId, classes } = render(recovery, gaps);
+    assert.equal(byId("collection-recovery-button").disabled, false);
+    assert.equal(byId("collection-recovery-button").textContent, "重新检查并追补");
+    assert(classes.has("is-attention"));
+  }
+});
+
+test("batch failure and running recovery retain their distinct states", () => {
+  const failed = render({ status: "failed", last_error_code: "RuntimeError", last_error_message: "batch error" });
+  assert.equal(failed.byId("collection-recovery-button").disabled, false);
+  assert.match(failed.byId("collection-recovery-error").textContent, /批次失败/);
+  const running = render({ status: "running" });
+  assert.equal(running.byId("collection-recovery-button").disabled, true);
+  assert.match(running.byId("collection-recovery-progress").textContent, /批内/);
+  assert(running.classes.has("is-retrying"));
+});

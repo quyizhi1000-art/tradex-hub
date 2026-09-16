@@ -48,6 +48,8 @@ class DailyStockCandlestickBarV1(ContractModel):
     close: float = Field(gt=0)
     previous_close: float = Field(gt=0)
     amount_cny: float = Field(gt=0)
+    # Optional for immutable archives written before volume screening existed.
+    volume_shares: float | None = Field(default=None, gt=0, allow_inf_nan=False)
 
     @field_validator("open", "high", "low", "close", "previous_close", "amount_cny")
     @classmethod

@@ -1,0 +1,52 @@
+[
+  {
+    "date": "2026-09-15",
+    "revision": "6a61d4183f637b15953126fc9c54e0ea5aa6c2f2545e22b2bbf9d96e3cc1ec39",
+    "basis": "current_ths_industry",
+    "all_strategies_missing": 4,
+    "volume_count": 341,
+    "volume_missing": [
+      {
+        "id": "003028.SZ",
+        "name": "振邦智能"
+      },
+      {
+        "id": "600590.SH",
+        "name": "泰豪科技"
+      },
+      {
+        "id": "002086.SZ",
+        "name": "东方海洋"
+      }
+    ],
+    "examples": {
+      "600104.SH": "汽车整车",
+      "603267.SH": "军工电子",
+      "002378.SZ": "小金属",
+      "001280.SZ": "小金属"
+    }
+  },
+  {
+    "date": "2026-09-16",
+    "revision": "6a61d4183f637b15953126fc9c54e0ea5aa6c2f2545e22b2bbf9d96e3cc1ec39",
+    "basis": "current_ths_industry",
+    "all_strategies_missing": 3,
+    "volume_count": 336,
+    "volume_missing": [
+      {
+        "id": "003028.SZ",
+        "name": "振邦智能"
+      },
+      {
+        "id": "600590.SH",
+        "name": "泰豪科技"
+      }
+    ],
+    "examples": {
+      "600104.SH": "汽车整车",
+      "603267.SH": "军工电子",
+      "002378.SZ": "小金属",
+      "001280.SZ": "小金属"
+    }
+  }
+]

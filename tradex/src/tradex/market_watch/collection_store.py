@@ -488,6 +488,24 @@ class MarketWatchCollectionStore:
                     ),
                 ).fetchone()
                 existing = active
+                if existing is None:
+                    latest = self._connection.execute(
+                        """
+                        SELECT * FROM market_watch_daily_recovery_runs
+                        WHERE config_version = ? AND trade_date = ?
+                        ORDER BY id DESC LIMIT 1
+                        """,
+                        (self.config_version, trade_date.isoformat()),
+                    ).fetchone()
+                    if latest is not None:
+                        completeness = self._read_completeness_locked(trade_date, observed)
+                        recovery = self._recovery(latest, completeness)
+                        if (
+                            recovery.status is not DailyRecoveryStatus.FAILED
+                            and recovery.remaining_gaps > 0
+                            and recovery.remaining_gaps == recovery.unavailable_gaps
+                        ):
+                            return {"action": "existing", "recovery": recovery}
                 if existing is None and trigger is DailyRecoveryTrigger.AUTOMATIC:
                     latest_automatic = self._connection.execute(
                         """
@@ -636,7 +654,7 @@ class MarketWatchCollectionStore:
         *,
         requested_at: datetime,
     ) -> int:
-        """Make every non-accepted post-close slot due for one bounded sweep."""
+        """Requeue gaps except terminal unpublished minutes; preserve their evidence."""
 
         self._ensure_writable()
         observed = _aware_shanghai(requested_at, name="requested_at")
@@ -650,6 +668,8 @@ class MarketWatchCollectionStore:
                     SELECT id FROM market_watch_collection_slots
                     WHERE config_version = ? AND trade_date = ?
                         AND status NOT IN (?, ?, ?, ?)
+                        AND NOT (status = 'unresolved'
+                            AND COALESCE(last_error_code, '') = 'HistoricalTrajectoryNotPublished')
                     """,
                     (
                         self.config_version,
@@ -670,6 +690,8 @@ class MarketWatchCollectionStore:
                         next_retry_at = ?, ledger_revision = ?, updated_at = ?
                     WHERE config_version = ? AND trade_date = ?
                         AND status NOT IN (?, ?, ?, ?)
+                        AND NOT (status = 'unresolved'
+                            AND COALESCE(last_error_code, '') = 'HistoricalTrajectoryNotPublished')
                     """,
                     (
                         CollectionSlotStatus.EXPECTED.value,
@@ -1846,8 +1868,8 @@ class MarketWatchCollectionStore:
             raise RuntimeError("collection slot disappeared")
         return self._slot(row)
 
-    @staticmethod
     def _recovery(
+        self,
         row: sqlite3.Row,
         completeness: CollectionCompletenessV1,
     ) -> DailyCollectionRecoveryV1:
@@ -1859,6 +1881,15 @@ class MarketWatchCollectionStore:
         stored_status = DailyRecoveryStatus(row["status"])
         accepted_after = completeness.accepted_real
         remaining = completeness.expected_minute_buckets - accepted_after
+        unavailable = int(self._connection.execute(
+            """
+            SELECT COUNT(*) FROM market_watch_collection_slots
+            WHERE config_version = ? AND trade_date = ?
+                AND status = 'unresolved'
+                AND last_error_code = 'HistoricalTrajectoryNotPublished'
+            """,
+            (self.config_version, completeness.trade_date.isoformat()),
+        ).fetchone()[0])
         status = stored_status
         if stored_status not in {
             DailyRecoveryStatus.PENDING,
@@ -1895,10 +1926,10 @@ class MarketWatchCollectionStore:
             attempted_slots=int(row["attempted_slots"]),
             failed_attempts=int(optional("failed_attempts", 0) or 0),
             remaining_gaps=remaining,
-            manual_action_required=status in {
-                DailyRecoveryStatus.NEEDS_ATTENTION,
-                DailyRecoveryStatus.FAILED,
-            },
+            unavailable_gaps=unavailable,
+            manual_action_required=(status is DailyRecoveryStatus.FAILED or (
+                status is DailyRecoveryStatus.NEEDS_ATTENTION and remaining > unavailable
+            )),
             latest_attempt_minute_bucket=(
                 datetime.fromisoformat(optional("latest_attempt_minute_bucket"))
                 if optional("latest_attempt_minute_bucket")

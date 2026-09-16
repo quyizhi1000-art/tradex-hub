@@ -251,6 +251,7 @@ class DailyCollectionRecoveryV1(CollectionContractModel):
     attempted_slots: int = Field(ge=0)
     failed_attempts: int = Field(ge=0)
     remaining_gaps: int = Field(ge=0)
+    unavailable_gaps: int = Field(default=0, ge=0)
     manual_action_required: bool
     latest_attempt_minute_bucket: datetime | None = None
     latest_attempt_at: datetime | None = None
@@ -291,6 +292,8 @@ class DailyCollectionRecoveryV1(CollectionContractModel):
             raise ValueError("accepted_after cannot exceed expected minutes")
         if self.remaining_gaps != self.expected_minute_buckets - self.accepted_after:
             raise ValueError("remaining_gaps does not match accepted_after")
+        if self.unavailable_gaps > self.remaining_gaps:
+            raise ValueError("unavailable_gaps cannot exceed remaining_gaps")
         if self.failed_attempts > self.attempted_slots:
             raise ValueError("failed_attempts cannot exceed attempted_slots")
         if self.latest_attempt_minute_bucket is not None:
@@ -352,10 +355,10 @@ class DailyCollectionRecoveryV1(CollectionContractModel):
                 raise ValueError("running recovery requires only started_at")
         elif self.started_at is None or self.completed_at is None:
             raise ValueError("finished recovery requires execution timestamps")
-        expected_manual = self.status in {
-            DailyRecoveryStatus.NEEDS_ATTENTION,
-            DailyRecoveryStatus.FAILED,
-        }
+        expected_manual = self.status is DailyRecoveryStatus.FAILED or (
+            self.status is DailyRecoveryStatus.NEEDS_ATTENTION
+            and self.remaining_gaps > self.unavailable_gaps
+        )
         if self.manual_action_required != expected_manual:
             raise ValueError("manual_action_required does not match recovery status")
         if self.status is DailyRecoveryStatus.COMPLETE and self.remaining_gaps:

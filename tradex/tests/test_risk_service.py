@@ -1972,8 +1972,8 @@ def test_rotation_sampler_loads_backfill_while_reads_reuse_it(monkeypatch):
         if item["sector_key"] == "electric_power"
     )
     assert reads == [
-        {"trading_date": "2026-08-19"},
-        {"trading_date": "2026-08-19"},
+        {"trading_date": "2026-08-19", "sector_keys": risk_service.sector_flow_observation_keys()},
+        {"trading_date": "2026-08-19", "sector_keys": risk_service.sector_flow_observation_keys()},
     ]
     assert scheduled[0][0][0]["provider_sector_code"] == "BK0428"
     assert scheduled[0][1]["trading_date"] == "2026-08-19"
@@ -2075,7 +2075,7 @@ def test_closed_rotation_read_never_cold_loads_exact_backfill(monkeypatch):
         record=False,
     )
 
-    assert calls == [{"trading_date": "2026-08-24"}]
+    assert calls == [{"trading_date": "2026-08-24", "sector_keys": risk_service.sector_flow_observation_keys()}]
 
 def test_auction_completion_starts_opening_observation_refresh() -> None:
     shanghai = ZoneInfo("Asia/Shanghai")
