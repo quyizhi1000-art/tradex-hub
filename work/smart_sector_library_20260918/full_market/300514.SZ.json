@@ -1,0 +1,74 @@
+{
+  "instrument_id": "300514.SZ",
+  "name": "友讯达",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "300514.SZ",
+    "name": "友讯达",
+    "memberships": [
+      "电力设备",
+      "电网设备",
+      "电工仪器仪表",
+      "广东板块",
+      "专精特新",
+      "创业板综",
+      "通信技术",
+      "电网概念",
+      "微盘股",
+      "传感器",
+      "边缘计算",
+      "华为概念",
+      "国产芯片",
+      "5G概念",
+      "充电桩",
+      "智能家居",
+      "智能电网",
+      "物联网",
+      "深圳特区"
+    ],
+    "business_sections": [
+      {
+        "title": "公用事业，公用事业",
+        "kind": "主营业务",
+        "text": "公司成立于2002年，致力于智慧物联技术的应用与创新，专注于为各行业提供综合物联网解决方案。公司的业务主要围绕物联网基础架构，依托先进的技术手段，提供高效、智能的解决方案，服务于多个关键领域。\n公用事业：公司产品广泛应用于电力、燃气、水务等公用事业领域，提供智能化的监控与管理解决方案，以提升资源管理效率、确保运营安全。\n智慧城市建设：公司在智慧交通、智慧灯杆等领域也有广泛应用，为城市建设提供智能化支持，助力城市运营的现代化、数字化。"
+      },
+      {
+        "title": "技术创新优势",
+        "kind": "核心竞争力",
+        "text": "公司长期专注于物联网通信综合解决方案，以持续的研发投入和技术创新作为企业发展的核心动力，形成了多项自主知识产权技术。"
+      },
+      {
+        "title": "研发优势",
+        "kind": "核心竞争力",
+        "text": "公司秉持“生产一代、开发一代、预研一代”的产品研发策略，持续投入技术创新。"
+      },
+      {
+        "title": "品牌商誉优势",
+        "kind": "核心竞争力",
+        "text": "公司凭借卓越的产品质量和行业影响力，在国内外无线信息采集领域树立了良好品牌形象。"
+      },
+      {
+        "title": "产品质量优势",
+        "kind": "核心竞争力",
+        "text": "公司始终坚持“质量第一、安全可靠”的发展理念，建立覆盖研发、生产、供应链、服务全流程的一体化质量管理体系，先后通过ISO9001质量管理体系、ISO14001环境管理体系、ISO45001职业健康安全管理体系、智能制造管理体系、社会责任管理体系和国家强制性3C认证等，并荣获国家级绿色工厂、绿色供应链、绿色设计产品等多项权威认证，以高标准、严要求保障产品性能稳定可靠，全面满足国内外市场及电力等关键行业的准入与应用要求。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ300514",
+    "fetched_at": "2026-09-18T23:10:41.570856+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "配网"
+}

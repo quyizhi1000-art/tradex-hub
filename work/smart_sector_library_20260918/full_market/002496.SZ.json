@@ -1,0 +1,63 @@
+{
+  "instrument_id": "002496.SZ",
+  "name": "辉丰股份",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "002496.SZ",
+    "name": "辉丰股份",
+    "memberships": [
+      "基础化工",
+      "农化制品",
+      "农药",
+      "江苏板块",
+      "近期摘帽",
+      "2026中报预增",
+      "破发股",
+      "低价股",
+      "农药兽药",
+      "医废处理",
+      "氢能源",
+      "电商概念",
+      "参股银行"
+    ],
+    "business_sections": [
+      {
+        "title": "主营业务",
+        "kind": "主营业务",
+        "text": "公司的主要业务为生物农业、石化仓储供应链等。"
+      },
+      {
+        "title": "创新竞争力优势",
+        "kind": "核心竞争力",
+        "text": "公司专注“能百旺”系列产品的研究开发，建立了较为完善的小分子功能肥研发体系。"
+      },
+      {
+        "title": "品牌及渠道优势",
+        "kind": "核心竞争力",
+        "text": "“能百旺”品牌在抗重茬、土壤修复细分领域已形成较高的市场认知度，被誉为“两增两好抗重茬专家”。"
+      },
+      {
+        "title": "区位与稀缺资源优势",
+        "kind": "核心竞争力",
+        "text": "公司在沿海地区拥有的危化品仓储资质及储罐资产属于稀缺资源。随着国家对化工园区及安全环保要求的提升，该部分资产具有极高的重置成本和不可复制性，为公司研究布局的氨氢能源新能源赛道奠定了物理基础。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ002496",
+    "fetched_at": "2026-09-18T22:49:37.046889+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "油品、化学、仓储及贸易"
+}

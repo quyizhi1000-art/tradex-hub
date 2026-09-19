@@ -1,0 +1,509 @@
+{
+  "checked_at": "2026-09-19T00:46:00.556615+08:00",
+  "batch_path": "work\\smart_sector_library_20260918\\scheduled\\review-scheduled-20260919-003400.json",
+  "batch_sha256": "155bf71922095fbb3f69e52ee1cf6e307e0841dd4ad01974dfe489b057b8fa30",
+  "frozen_universe_total": 5567,
+  "index_start": 95,
+  "index_end_inclusive": 114,
+  "reviewed_added": 20,
+  "verified_added": 11,
+  "pending_reviews_added": 9,
+  "reviewed_before": 96,
+  "reviewed_after": 116,
+  "prior_entries_unchanged": true,
+  "prior_envelope_unchanged": true,
+  "evidence_sha256_before": "7298c5141d0851cc706d4772838c25dc7ec251cb88a16853c7778b2ce6c1eff4",
+  "evidence_sha256_after": "d1ab5ae5bd9dad3b5ae508633933c0a223aa0c6552934275e4a96d94e37a7e6a",
+  "source_manifest": [
+    {
+      "instrument_id": "000510.SZ",
+      "company_path": "work\\smart_sector_library_20260918\\full_market\\000510.SZ.json",
+      "company_file_sha256": "5bf9a8d82e18439bdfa2c071a1a6eeca865d0fbf90b1fc59b93d52f10afde6a4",
+      "ths_path": "work\\smart_sector_library_20260918\\ths_sequential\\000510.SZ.json",
+      "ths_file_sha256": "864a947d95cf086a99a86a22dd22fc6ab1ffd316eec5062e922fcc98d669e599"
+    },
+    {
+      "instrument_id": "000513.SZ",
+      "company_path": "work\\smart_sector_library_20260918\\full_market\\000513.SZ.json",
+      "company_file_sha256": "00c5556b8e4466e8c205f8202bce677396fd174b2b25be183977fc6986f0b23e",
+      "ths_path": "work\\smart_sector_library_20260918\\ths_sequential\\000513.SZ.json",
+      "ths_file_sha256": "8a31a418736c6c2fde200b27a95fb5b2e58521c397fb7c363b5e938ef6db4fd6"
+    },
+    {
+      "instrument_id": "000514.SZ",
+      "company_path": "work\\smart_sector_library_20260918\\full_market\\000514.SZ.json",
+      "company_file_sha256": "237928ec8943372841d737b1f373b340f3b148c12fd11fc48126840186c8b14a",
+      "ths_path": "work\\smart_sector_library_20260918\\ths_sequential\\000514.SZ.json",
+      "ths_file_sha256": "60c0bc5afa756724fc2f33c4a835d83288bfa8533af6d48226269edd6d3278e2"
+    },
+    {
+      "instrument_id": "000516.SZ",
+      "company_path": "work\\smart_sector_library_20260918\\full_market\\000516.SZ.json",
+      "company_file_sha256": "e41511328f5c490695c69406218127f3c3b38146a520d9fb9f426b6fa1de76c5",
+      "ths_path": "work\\smart_sector_library_20260918\\ths_sequential\\000516.SZ.json",
+      "ths_file_sha256": "c464fdbef47d5e9663a344014ac047d0c6bda3b0938cd8bfc37f3a9871e367d4"
+    },
+    {
+      "instrument_id": "000517.SZ",
+      "company_path": "work\\smart_sector_library_20260918\\full_market\\000517.SZ.json",
+      "company_file_sha256": "5cd55ec7a54ca147c2d14584f9328185879b9e86145198596085f09ba2049331",
+      "ths_path": "work\\smart_sector_library_20260918\\ths_sequential\\000517.SZ.json",
+      "ths_file_sha256": "09ee11ac6277f07f0e288f854b7baffdf0e4e17fcf052b9e5b153179c9d74213"
+    },
+    {
+      "instrument_id": "000518.SZ",
+      "company_path": "work\\smart_sector_library_20260918\\full_market\\000518.SZ.json",
+      "company_file_sha256": "9aaca8cff00ea251e678b1dd9150948d1998b7359075f75fc77ddcf7a665777b",
+      "ths_path": "work\\smart_sector_library_20260918\\ths_sequential\\000518.SZ.search.json",
+      "ths_file_sha256": "927174cb97233fda1c86ea327f171d7c16424d09ace07b457ebef1f57d86bc58"
+    },
+    {
+      "instrument_id": "000519.SZ",
+      "company_path": "work\\smart_sector_library_20260918\\full_market\\000519.SZ.json",
+      "company_file_sha256": "084cd818b6b05d3991d08ae41a0a9f7efa04d9c157595e736276b698486a1fb0",
+      "ths_path": "work\\smart_sector_library_20260918\\ths_sequential\\000519.SZ.json",
+      "ths_file_sha256": "c1bce6231ba67fdea5c91f12c38a5f1c88698aab713708b663198cb65c231abc"
+    },
+    {
+      "instrument_id": "000520.SZ",
+      "company_path": "work\\smart_sector_library_20260918\\full_market\\000520.SZ.json",
+      "company_file_sha256": "6153dc680954cd0b03952bfb466130a17212737afada215abccb5da1c72c6e81",
+      "ths_path": "work\\smart_sector_library_20260918\\ths_sequential\\000520.SZ.json",
+      "ths_file_sha256": "335cfd6886c9497f9adcf84ef9662c70e9c237173adb6ca12a820fbeb8e65cb3"
+    },
+    {
+      "instrument_id": "000521.SZ",
+      "company_path": "work\\smart_sector_library_20260918\\full_market\\000521.SZ.json",
+      "company_file_sha256": "3d2b0a4b2f7fa82c4b464cad71ebe1c698fcffc6c2dbe1b45f8f2286dd216073",
+      "ths_path": "work\\smart_sector_library_20260918\\ths_sequential\\000521.SZ.search.json",
+      "ths_file_sha256": "181a36b9dc71735130da72663640f3ed52342f40ffac84ab18ef48aea1474c05"
+    },
+    {
+      "instrument_id": "000523.SZ",
+      "company_path": "work\\smart_sector_library_20260918\\full_market\\000523.SZ.json",
+      "company_file_sha256": "19452fc40584fe1debb48c89f05787c11bf9cdd17acca8176c8bfc4607eca17e",
+      "ths_path": "work\\smart_sector_library_20260918\\ths_sequential\\000523.SZ.json",
+      "ths_file_sha256": "d2026961966389911f0044b71ea30ec6209851166ba2cbbac36599280071239d"
+    },
+    {
+      "instrument_id": "000524.SZ",
+      "company_path": "work\\smart_sector_library_20260918\\full_market\\000524.SZ.json",
+      "company_file_sha256": "712ef1cf907352f80a1a195f9d028a6a34c74ea9dae1d2b4f26733ab84a890bd",
+      "ths_path": "work\\smart_sector_library_20260918\\ths_sequential\\000524.SZ.json",
+      "ths_file_sha256": "672aad8efa3b28893208cc49ae6a9f383af471f05368ad22c0d2b3769a505fce"
+    },
+    {
+      "instrument_id": "000525.SZ",
+      "company_path": "work\\smart_sector_library_20260918\\full_market\\000525.SZ.json",
+      "company_file_sha256": "dff154bd33b5e37a66082d46cdea5f834826847df85a0acc3983b79423131281",
+      "ths_path": "work\\smart_sector_library_20260918\\ths_sequential\\000525.SZ.search.json",
+      "ths_file_sha256": "efa9106cc4f0fd928fdeb76e9a81caf2906a404679ac6d5804152fbab7832cc2"
+    },
+    {
+      "instrument_id": "000526.SZ",
+      "company_path": "work\\smart_sector_library_20260918\\full_market\\000526.SZ.json",
+      "company_file_sha256": "7d9e90cb0ab5ad8c8789f28e9c3c9a82589412463ba4b3be9c634e756b12c63b",
+      "ths_path": "work\\smart_sector_library_20260918\\ths_sequential\\000526.SZ.json",
+      "ths_file_sha256": "a5ab334296e151969cf4e1b91a25d6c3050138366c0872eee67208a7f1c87807"
+    },
+    {
+      "instrument_id": "000528.SZ",
+      "company_path": "work\\smart_sector_library_20260918\\full_market\\000528.SZ.json",
+      "company_file_sha256": "005aaecef94dee349cffcae84232b12b96b6304164ef6010e00a4aae047b7725",
+      "ths_path": "work\\smart_sector_library_20260918\\ths_sequential\\000528.SZ.json",
+      "ths_file_sha256": "2619e9a5f90e116fadae41e13fbc3e129d1e95afb8fcbfcdc0b19cde876426a9"
+    },
+    {
+      "instrument_id": "000529.SZ",
+      "company_path": "work\\smart_sector_library_20260918\\full_market\\000529.SZ.json",
+      "company_file_sha256": "200caae6b11d80b0c6a327ab61b596de531f54ce40133c00df7d87e578014eab",
+      "ths_path": "work\\smart_sector_library_20260918\\ths_sequential\\000529.SZ.search.json",
+      "ths_file_sha256": "cefb0b9550587cc252d4ead801bea642ec1ea5c2f70a39ffe730878c5d3236a3"
+    },
+    {
+      "instrument_id": "000530.SZ",
+      "company_path": "work\\smart_sector_library_20260918\\full_market\\000530.SZ.json",
+      "company_file_sha256": "c5ff969642cf83a7d1024fe7b04d5b74134a83a3a3543368a71ce9a2ae297096",
+      "ths_path": "work\\smart_sector_library_20260918\\ths_sequential\\000530.SZ.json",
+      "ths_file_sha256": "1ca65210a53efd5ffcdd1cc6c96e64897b1763f5ecd3f18c39b91952620b14f9"
+    },
+    {
+      "instrument_id": "000531.SZ",
+      "company_path": "work\\smart_sector_library_20260918\\full_market\\000531.SZ.json",
+      "company_file_sha256": "8dbe71b7d41bdc45a4e39d7e97813c4d928d5ca1475ff2f7587e6a23b9768b2d",
+      "ths_path": "work\\smart_sector_library_20260918\\ths_sequential\\000531.SZ.json",
+      "ths_file_sha256": "8116788fc2138f494c95f2b9900a689685c0d467a370e8b69f0be906333ff5fa"
+    },
+    {
+      "instrument_id": "000532.SZ",
+      "company_path": "work\\smart_sector_library_20260918\\full_market\\000532.SZ.json",
+      "company_file_sha256": "1d23d84c3c5d4257bd668645ebec56029b404410445ce270a38ccdd08eb6e7f9",
+      "ths_path": "work\\smart_sector_library_20260918\\ths_sequential\\000532.SZ.json",
+      "ths_file_sha256": "af046af005939e697416243f489fd4e1020d28b1bf8b3d8aa86125010593c4f1"
+    },
+    {
+      "instrument_id": "000533.SZ",
+      "company_path": "work\\smart_sector_library_20260918\\full_market\\000533.SZ.json",
+      "company_file_sha256": "d4fa100f367bfd4460c0bf92451d2a4759f66d46598d3807161c43ef22f23756",
+      "ths_path": "work\\smart_sector_library_20260918\\ths_sequential\\000533.SZ.json",
+      "ths_file_sha256": "a97a8157fb125ffa59c8f646685ac8159b891cb68dd4ee835627bdc07661c58b"
+    },
+    {
+      "instrument_id": "000534.SZ",
+      "company_path": "work\\smart_sector_library_20260918\\full_market\\000534.SZ.json",
+      "company_file_sha256": "6724e0f86d029276c8cda68bd02a00c949688b03eea8a9e3b2030eceb466a6ad",
+      "ths_path": "work\\smart_sector_library_20260918\\ths_sequential\\000534.SZ.json",
+      "ths_file_sha256": "ac8c64c53c53fe32c9851db60ac7ddd64f723d7b78f3a2b996c68ddaf5dc5fda"
+    }
+  ],
+  "follow_up": [
+    {
+      "instrument_id": "000510.SZ",
+      "gap": "矿业解析与当前推进复产建设的表述存在关键阶段差异，不能把规划产能当投产。须复核最新复产、采选冶投产及增资后权益公告，再补小金属相对氯碱的持续市場认知；合作框架和旧石墨烯技术成果不能单独确定主线。本轮未打开原公告，纳入后续复核。"
+    },
+    {
+      "instrument_id": "000519.SZ",
+      "gap": "军工装备与超硬材料均真实经营，但材料不足以区分近期市场围绕军工还是培育钻石/工业金刚石形成持续主线。需补题材认知和业务事件，不按首项或名称选择。未产业化半导体衬底不升级为芯片主归属，航空航天下游用途不等于主线已切换。"
+    },
+    {
+      "instrument_id": "000521.SZ",
+      "gap": "家电与医疗低温均实际经营，但可读THS主要为冷链、疫苗存储、热泵净水，缺少排序家电消费与医疗冷链主题的近期持续市场认知。不能按旧冰箱主营直接归家电，也不能凭疫苗存储标签判定转换；后续补市场认知及低温设备经营事件。"
+    },
+    {
+      "instrument_id": "000523.SZ",
+      "gap": "食品与园区均落地，材料不足以唯一判定消费食品线或园区运营线。鹰金钱收购仅见拟购，须复核后续交割终止调整公告，不能算作已经营资产。工厂自用工业互联网、园区科技租户不等于自身科技业务；本轮未读原公告，收购进度纳入后续复核。"
+    },
+    {
+      "instrument_id": "000529.SZ",
+      "gap": "猪鸡养殖、冷链仓储贸易及预制菜均有材料，尚缺哪条形成持续市场主线的证据，不按标签位置任取猪肉养鸡。旧背景含教育发行，与当前范围不一致，如拟保留出版归属须复核资产处置并表公告；集团注入预期不当上市公司已经营。"
+    },
+    {
+      "instrument_id": "000531.SZ",
+      "gap": "储能已有真实投运集成生产，不能因传统发电规模大排除其主线；但证据未区分电力运营与储能增量的持续市场认知。27座与28座可能为不同时点，不机械当冲突或合并产能。氢能参股合作不当受控成熟制造，如拟转归氢能须复核权益和交付原公告。"
+    },
+    {
+      "instrument_id": "000532.SZ",
+      "gap": "投资管理是实际服务，但电容器污水园区亦受控经营，缺确定创投相对实体业务唯一主线的近期认知。华冠科技锂电设备未在当前条目对应，如拟归锂电须核查其当前持股并表或处置，不能与华冠电容器混同。参股优必选芯片企业不等于自身经营机器人芯片制造。"
+    },
+    {
+      "instrument_id": "000533.SZ",
+      "gap": "AIDC供电有实际客户和累计供货，不能仅按传统业务压回电网设备；但缺当前通用电网与数据中心供电哪条主导的持续市场认知，须补近期经营和题材证据。现有资料未把这些变压器证明为HVDC，不发布高压直流供电；储能样机挂网不等于规模量产。"
+    },
+    {
+      "instrument_id": "000534.SZ",
+      "gap": "航发高温合金已交付批产，不能因传统医药否定真实链位；微生态药也有实际产品研发。双源分别支持航发医药，缺近期持续市场认知确定唯一主线，不按首项选航发。临床引进药不计已上市，后续按两线经营事件补市场认知比较。"
+    }
+  ],
+  "api": {
+    "total": 5568,
+    "reviewed_total": 116,
+    "verified_total": 73,
+    "pending_total": 5495,
+    "revision": "6b7612315187db08525518eb341582aa8faba7497e99bbf9a6b55a437be7a8ca",
+    "as_of": "2026-09-19",
+    "quality": "degraded"
+  },
+  "api_extra_vs_frozen": [
+    {
+      "id": "001246.SZ",
+      "name": "力勤资源"
+    }
+  ],
+  "api_missing_vs_frozen": [],
+  "api_items": [
+    {
+      "instrument_id": "000510.SZ",
+      "name": "新金路",
+      "status": "unresolved",
+      "primary_sector_key": null,
+      "primary_sector_name": null,
+      "reviewed_on": "2026-09-19",
+      "business_review_basis": null,
+      "rationale": "矿业解析与当前推进复产建设的表述存在关键阶段差异，不能把规划产能当投产。须复核最新复产、采选冶投产及增资后权益公告，再补小金属相对氯碱的持续市場认知；合作框架和旧石墨烯技术成果不能单独确定主线。本轮未打开原公告，纳入后续复核。",
+      "flags": [
+        "market_business_evidence_incomplete"
+      ]
+    },
+    {
+      "instrument_id": "000513.SZ",
+      "name": "丽珠集团",
+      "status": "verified",
+      "primary_sector_key": "pharmaceutical_manufacturing",
+      "primary_sector_name": "医药制造",
+      "reviewed_on": "2026-09-19",
+      "business_review_basis": "crosschecked_sources",
+      "rationale": "多个药品主题有具体产品和制药经营支撑，可收敛于医药制造，不按疾病标签排序。临床管线不当已销售产品，预计获批年份不当实际批准；AI为自身经营赋能，不发布AI主归属，诊断中药保留业务背景。",
+      "flags": [
+        "secondary_sources_crosschecked"
+      ]
+    },
+    {
+      "instrument_id": "000514.SZ",
+      "name": "渝开发",
+      "status": "verified",
+      "primary_sector_key": "real_estate",
+      "primary_sector_name": "房地产",
+      "reviewed_on": "2026-09-19",
+      "business_review_basis": "crosschecked_sources",
+      "rationale": "不同主题共同指向有实际项目支撑的地产开发运营，不按首项取物业管理；区域与国企属性不作产业主线。",
+      "flags": [
+        "secondary_sources_crosschecked"
+      ]
+    },
+    {
+      "instrument_id": "000516.SZ",
+      "name": "国际医学",
+      "status": "verified",
+      "primary_sector_key": "medical_services",
+      "primary_sector_name": "医疗服务",
+      "reviewed_on": "2026-09-19",
+      "business_review_basis": "crosschecked_sources",
+      "rationale": "双源支持医院诊疗服务主线。AI及机器人用于医院经营，不等于销售AI系统或制造机器人；当前机构按公司资料列示两院，不沿用旧商洛医院和商业零售背景，细胞研究不等于药品生产。",
+      "flags": [
+        "secondary_sources_crosschecked"
+      ]
+    },
+    {
+      "instrument_id": "000517.SZ",
+      "name": "荣安地产",
+      "status": "verified",
+      "primary_sector_key": "real_estate",
+      "primary_sector_name": "房地产",
+      "reviewed_on": "2026-09-19",
+      "business_review_basis": "crosschecked_sources",
+      "rationale": "真实开发项目与地产主题吻合；建筑节能是项目采用技术，不能改归节能设备制造，长三角仅为区域背景。",
+      "flags": [
+        "secondary_sources_crosschecked"
+      ]
+    },
+    {
+      "instrument_id": "000518.SZ",
+      "name": "四环生物",
+      "status": "verified",
+      "primary_sector_key": "pharmaceutical_manufacturing",
+      "primary_sector_name": "医药制造",
+      "reviewed_on": "2026-09-19",
+      "business_review_basis": "crosschecked_sources",
+      "rationale": "药品主题有具体产品支撑，与独立公司资料的生产销售交叉一致，发布医药制造而非按肝炎干细胞标签取主线。器械经营范围不等于器械制造，苗木保留背景；未打开原公告，不声明官方核验。",
+      "flags": [
+        "secondary_sources_crosschecked"
+      ]
+    },
+    {
+      "instrument_id": "000519.SZ",
+      "name": "中兵红箭",
+      "status": "unresolved",
+      "primary_sector_key": null,
+      "primary_sector_name": null,
+      "reviewed_on": "2026-09-19",
+      "business_review_basis": null,
+      "rationale": "军工装备与超硬材料均真实经营，但材料不足以区分近期市场围绕军工还是培育钻石/工业金刚石形成持续主线。需补题材认知和业务事件，不按首项或名称选择。未产业化半导体衬底不升级为芯片主归属，航空航天下游用途不等于主线已切换。",
+      "flags": [
+        "market_business_evidence_incomplete"
+      ]
+    },
+    {
+      "instrument_id": "000520.SZ",
+      "name": "凤凰航运",
+      "status": "verified",
+      "primary_sector_key": "shipping",
+      "primary_sector_name": "航运",
+      "reviewed_on": "2026-09-19",
+      "business_review_basis": "crosschecked_sources",
+      "rationale": "运输服务被航运主题直接识别并有实际网络支撑；运资源不等于开矿，港航服务不冒充拥有码头资产。已有港口物流不替代本股以船舶运输为链位的航运主线。",
+      "flags": [
+        "secondary_sources_crosschecked"
+      ]
+    },
+    {
+      "instrument_id": "000521.SZ",
+      "name": "长虹美菱",
+      "status": "unresolved",
+      "primary_sector_key": null,
+      "primary_sector_name": null,
+      "reviewed_on": "2026-09-19",
+      "business_review_basis": null,
+      "rationale": "家电与医疗低温均实际经营，但可读THS主要为冷链、疫苗存储、热泵净水，缺少排序家电消费与医疗冷链主题的近期持续市场认知。不能按旧冰箱主营直接归家电，也不能凭疫苗存储标签判定转换；后续补市场认知及低温设备经营事件。",
+      "flags": [
+        "market_business_evidence_incomplete"
+      ]
+    },
+    {
+      "instrument_id": "000523.SZ",
+      "name": "红棉股份",
+      "status": "unresolved",
+      "primary_sector_key": null,
+      "primary_sector_name": null,
+      "reviewed_on": "2026-09-19",
+      "business_review_basis": null,
+      "rationale": "食品与园区均落地，材料不足以唯一判定消费食品线或园区运营线。鹰金钱收购仅见拟购，须复核后续交割终止调整公告，不能算作已经营资产。工厂自用工业互联网、园区科技租户不等于自身科技业务；本轮未读原公告，收购进度纳入后续复核。",
+      "flags": [
+        "market_business_evidence_incomplete"
+      ]
+    },
+    {
+      "instrument_id": "000524.SZ",
+      "name": "岭南控股",
+      "status": "verified",
+      "primary_sector_key": "hotel_tourism",
+      "primary_sector_name": "酒店旅游",
+      "reviewed_on": "2026-09-19",
+      "business_review_basis": "crosschecked_sources",
+      "rationale": "旅行酒店同属文旅消费链，双源具体业务吻合。AI服务旅游运营、低空合作面向文旅，不足以改为独立AI或航空制造主线；酒店物业管理保留链位。",
+      "flags": [
+        "secondary_sources_crosschecked"
+      ]
+    },
+    {
+      "instrument_id": "000525.SZ",
+      "name": "红太阳",
+      "status": "verified",
+      "primary_sector_key": "pesticides",
+      "primary_sector_name": "农药",
+      "reviewed_on": "2026-09-19",
+      "business_review_basis": "crosschecked_sources",
+      "rationale": "具体植保药剂中间体与农药经营吻合，不按首项取草甘膦。停产装置不当生产证据，维生素上游原料不等于制剂经营，摘帽国企属性不作产业主线。",
+      "flags": [
+        "secondary_sources_crosschecked"
+      ]
+    },
+    {
+      "instrument_id": "000526.SZ",
+      "name": "学大教育",
+      "status": "verified",
+      "primary_sector_key": "education",
+      "primary_sector_name": "教育",
+      "reviewed_on": "2026-09-19",
+      "business_review_basis": "crosschecked_sources",
+      "rationale": "教育主题有实际办学培训模式支撑。AI为教学融合、低空为人才培养，不升级为独立算力或飞行器制造主线，医教融合保留业务背景。",
+      "flags": [
+        "secondary_sources_crosschecked"
+      ]
+    },
+    {
+      "instrument_id": "000528.SZ",
+      "name": "柳工",
+      "status": "verified",
+      "primary_sector_key": "construction_machinery",
+      "primary_sector_name": "工程机械",
+      "reviewed_on": "2026-09-19",
+      "business_review_basis": "crosschecked_sources",
+      "rationale": "传统土方装备与已应用的智能机械构成连续经营链，支持工程机械，不把模型部署当AI服务主业。核电风电水利预应力产品保留背景，不凭下游应用数量改主线。",
+      "flags": [
+        "secondary_sources_crosschecked"
+      ]
+    },
+    {
+      "instrument_id": "000529.SZ",
+      "name": "广弘控股",
+      "status": "unresolved",
+      "primary_sector_key": null,
+      "primary_sector_name": null,
+      "reviewed_on": "2026-09-19",
+      "business_review_basis": null,
+      "rationale": "猪鸡养殖、冷链仓储贸易及预制菜均有材料，尚缺哪条形成持续市场主线的证据，不按标签位置任取猪肉养鸡。旧背景含教育发行，与当前范围不一致，如拟保留出版归属须复核资产处置并表公告；集团注入预期不当上市公司已经营。",
+      "flags": [
+        "market_business_evidence_incomplete"
+      ]
+    },
+    {
+      "instrument_id": "000530.SZ",
+      "name": "冰山冷热",
+      "status": "verified",
+      "primary_sector_key": "cold_chain_logistics",
+      "primary_sector_name": "冷链物流",
+      "reviewed_on": "2026-09-19",
+      "business_review_basis": "crosschecked_sources",
+      "rationale": "多条冷链题材有具体设备项目，与公司经营吻合，链位是设备工程供应商，不冒充运输商。数据中心液冷储备拓展不当已交付AI算力，冰雪场馆、热泵及储能温控保留其他应用背景。",
+      "flags": [
+        "secondary_sources_crosschecked"
+      ]
+    },
+    {
+      "instrument_id": "000531.SZ",
+      "name": "穗恒运A",
+      "status": "unresolved",
+      "primary_sector_key": null,
+      "primary_sector_name": null,
+      "reviewed_on": "2026-09-19",
+      "business_review_basis": null,
+      "rationale": "储能已有真实投运集成生产，不能因传统发电规模大排除其主线；但证据未区分电力运营与储能增量的持续市场认知。27座与28座可能为不同时点，不机械当冲突或合并产能。氢能参股合作不当受控成熟制造，如拟转归氢能须复核权益和交付原公告。",
+      "flags": [
+        "market_business_evidence_incomplete"
+      ]
+    },
+    {
+      "instrument_id": "000532.SZ",
+      "name": "华金资本",
+      "status": "unresolved",
+      "primary_sector_key": null,
+      "primary_sector_name": null,
+      "reviewed_on": "2026-09-19",
+      "business_review_basis": null,
+      "rationale": "投资管理是实际服务，但电容器污水园区亦受控经营，缺确定创投相对实体业务唯一主线的近期认知。华冠科技锂电设备未在当前条目对应，如拟归锂电须核查其当前持股并表或处置，不能与华冠电容器混同。参股优必选芯片企业不等于自身经营机器人芯片制造。",
+      "flags": [
+        "market_business_evidence_incomplete"
+      ]
+    },
+    {
+      "instrument_id": "000533.SZ",
+      "name": "顺钠股份",
+      "status": "unresolved",
+      "primary_sector_key": null,
+      "primary_sector_name": null,
+      "reviewed_on": "2026-09-19",
+      "business_review_basis": null,
+      "rationale": "AIDC供电有实际客户和累计供货，不能仅按传统业务压回电网设备；但缺当前通用电网与数据中心供电哪条主导的持续市场认知，须补近期经营和题材证据。现有资料未把这些变压器证明为HVDC，不发布高压直流供电；储能样机挂网不等于规模量产。",
+      "flags": [
+        "market_business_evidence_incomplete"
+      ]
+    },
+    {
+      "instrument_id": "000534.SZ",
+      "name": "万泽股份",
+      "status": "unresolved",
+      "primary_sector_key": null,
+      "primary_sector_name": null,
+      "reviewed_on": "2026-09-19",
+      "business_review_basis": null,
+      "rationale": "航发高温合金已交付批产，不能因传统医药否定真实链位；微生态药也有实际产品研发。双源分别支持航发医药，缺近期持续市场认知确定唯一主线，不按首项选航发。临床引进药不计已上市，后续按两线经营事件补市场认知比较。",
+      "flags": [
+        "market_business_evidence_incomplete"
+      ]
+    }
+  ],
+  "api_checks": {
+    "all_reviewed_today": true,
+    "all_judgments_match": true,
+    "totals_consistent": true
+  },
+  "ths": {
+    "contract": "ths_sequential_collection.v1",
+    "total": 5567,
+    "processed": 3225,
+    "read": 3222,
+    "unavailable": 3,
+    "status": "running",
+    "last": "600439.SH",
+    "updated_at": "2026-09-18T16:46:01.906Z"
+  },
+  "business": {
+    "contract": "smart_sector_audit.v1",
+    "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+    "started_at": "2026-09-18T23:29:09.043275+08:00",
+    "total": 5567,
+    "processed": 5567,
+    "collected": 5567,
+    "failed": 0,
+    "status": "acquisition_complete_review_pending",
+    "updated_at": "2026-09-19T00:34:53.673985+08:00"
+  },
+  "next_start": {
+    "index": 115,
+    "id": "000536.SZ",
+    "name": "华映科技"
+  },
+  "no_new_collectors": true,
+  "no_extra_ths_requests": true,
+  "official_disclosures_opened": 0
+}

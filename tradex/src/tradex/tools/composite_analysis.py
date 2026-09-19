@@ -296,7 +296,7 @@ def register(mcp: FastMCP):
             f"{symbol}.SH"
             if symbol.startswith("6")
             else f"{symbol}.BJ"
-            if symbol.startswith(("4", "8"))
+            if symbol.startswith(("4", "8", "9"))
             else f"{symbol}.SZ"
         )
         with InstrumentTaxonomyReader() as reader:
@@ -374,7 +374,12 @@ def register(mcp: FastMCP):
             )
 
         # Step 3: 计算行业统计
+        from tradex.smart_sector_library.catalog import SmartSectorCatalog
+        with SmartSectorCatalog() as sectors:
+            membership = sectors.get(instrument_id)
         stats = {
+            "market_sector": membership.primary_sector_name,
+            "market_sector_status": membership.status,
             "industry": industry,
             "peer_basis": peer_basis,
             "relationship_catalog_revision": (

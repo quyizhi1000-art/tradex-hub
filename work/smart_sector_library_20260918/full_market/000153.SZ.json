@@ -1,0 +1,50 @@
+{
+  "instrument_id": "000153.SZ",
+  "name": "丰原药业",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "000153.SZ",
+    "name": "丰原药业",
+    "memberships": [
+      "医药生物",
+      "化学制药",
+      "化学制剂",
+      "安徽板块",
+      "肝素概念",
+      "流感",
+      "中药概念",
+      "参股银行"
+    ],
+    "business_sections": [
+      {
+        "title": "医药制造、商业流通",
+        "kind": "主营业务",
+        "text": "公司主要业务包括医药制造和商业流通。其中医药制造涉及生物药、化学药及中药的研发、生产和销售，主要产品涵盖解热镇痛、妇儿、神经系统、心血管、泌尿系统、营养类、抗生素、原料药等系列产品；商业流通涉及医药配送和药房零售，现已形成高效、全优、多品种的医药供应服务体系。公司注重新药研发，拥有多个国家一、二类新药品种及多项自主知识产权产品，属国家高新技术企业、全国百姓放心药品牌、中国创新力医药企业。"
+      },
+      {
+        "title": "强大的自主研发和创新能力",
+        "kind": "核心竞争力",
+        "text": "公司荣获国家级企业技术中心，依托技术中心的研发平台，积极实施在研产品的申报与审批。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ000153",
+    "fetched_at": "2026-09-18T22:35:20.990513+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [
+    "医疗医药"
+  ],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "药品批发"
+}

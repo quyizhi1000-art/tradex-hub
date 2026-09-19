@@ -1,0 +1,79 @@
+{
+  "instrument_id": "300660.SZ",
+  "name": "江苏雷利",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "300660.SZ",
+    "name": "江苏雷利",
+    "memberships": [
+      "电力设备",
+      "电机Ⅱ",
+      "电机Ⅲ",
+      "江苏板块",
+      "小盘股",
+      "创业板综",
+      "深股通",
+      "融资融券",
+      "深成500",
+      "人形机器人",
+      "机器人执行器",
+      "液冷服务器",
+      "机器人概念",
+      "汽车热管理",
+      "边缘计算",
+      "新能源车",
+      "医疗器械概念",
+      "大数据",
+      "物联网"
+    ],
+    "business_sections": [
+      {
+        "title": "家用电器电机及组件、新能源汽车电机及零部件、医疗及运动健康电机及组件、工业控制电机及组件",
+        "kind": "主营业务",
+        "text": "公司主要从事家用电器电机及组件、新能源汽车电机及零部件、医疗及运动健康电机及组件、工业控制电机及组件的研发、生产与销售。公司产品包括空调电机及组件、洗衣机电机及组件、冰箱电机及组件、洗碗机循环泵、跑步机电机、医疗仪器用丝杆电机、音圈电机、新能源汽车用激光雷达电机、电动空调压缩机电机组件及铝压铸件、汽车精密冲压件及配套零部件、高效工业水泵等。公司是微特电机产品及智能化组件制造行业的领先企业。"
+      },
+      {
+        "title": "技术研发优势",
+        "kind": "核心竞争力",
+        "text": "公司深耕微特电机领域二十余年，以“电机驱动系统解决方案专家”为战略定位，建立了覆盖基础研究、应用开发、量产制造的技术创新体系。"
+      },
+      {
+        "title": "客户资源优势",
+        "kind": "核心竞争力",
+        "text": "微特电机行业客户认证周期较长，合作关系相对稳定。"
+      },
+      {
+        "title": "成本控制优势",
+        "kind": "核心竞争力",
+        "text": "公司建立了系统化的成本管理体系和成本预算体系，通过严格的预算管理系统，从上至下控制各个部门和产品项目的成本费用。"
+      },
+      {
+        "title": "管理优势",
+        "kind": "核心竞争力",
+        "text": "团队结构情况：公司管理团队及核心骨干平均年龄层为35-50岁，并且多数管理层在公司工作年限较长，15-20年公司工龄的中高层占半数以上。"
+      },
+      {
+        "title": "区位优势",
+        "kind": "核心竞争力",
+        "text": "公司总部位于江苏省常州市，是我国微特电机产业聚集地区之一，拥有大量微特电机制造企业及其上下游企业，目前已形成较为完整的产品链，具备较强的产业基础和产品配套能力，在全国微特电机行业中占有重要地位。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ300660",
+    "fetched_at": "2026-09-18T23:13:42.757748+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "MA-电机及组件"
+}

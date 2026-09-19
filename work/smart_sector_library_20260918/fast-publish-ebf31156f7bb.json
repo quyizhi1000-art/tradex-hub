@@ -1,0 +1,577 @@
+[
+  {
+    "id": "301330.SZ",
+    "key": "brain_computer_interface",
+    "sector": "脑机接口",
+    "source_sector_name": "脑机接口",
+    "source_sector_provider": "同花顺",
+    "stage": "pilot",
+    "chain": [
+      "多模态脑电研发",
+      "脑机场景验证"
+    ],
+    "company_fact": "多模态BioCV智能空间服务；脑机接口纳入长期战略，开展安全生产健康管理及办公人机交互技术研发场景验证。",
+    "ths_fact": "熵云脑机整合脑电、虹膜视网膜与临床等数据开展多模态研究。",
+    "fact": "多模态BioCV智能空间服务；脑机接口纳入长期战略，开展安全生产健康管理及办公人机交互技术研发场景验证。",
+    "reason": "脑机有实际研发与场景验证，取pilot，不把长期战略视作医疗器械收入。"
+  },
+  {
+    "id": "301331.SZ",
+    "key": "chinese_medicine",
+    "sector": "中医药",
+    "source_sector_name": "中医药",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "中成药",
+      "妇儿及呼吸用药"
+    ],
+    "company_fact": "主营中成药化学药健康私护；洁尔阴品牌及多项中成药形成现实产品销售。",
+    "ths_fact": "有中医药成员；旧创新药解析援引2024年乾坤宁II期。",
+    "fact": "主营中成药化学药健康私护；洁尔阴品牌及多项中成药形成现实产品销售。",
+    "reason": "原2025年报乾坤宁II期实施中有需评估事项，后续路径待综合评估；成熟中医药身份更明确，不能照搬旧创新药进度。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "official-301331-2025-rd",
+        "source_kind": "official_filing",
+        "publisher": "恩威医药",
+        "title": "2025年年度报告",
+        "source_url": "https://disc.static.szse.cn/disc/disk03/finalpage/2026-04-27/bd59ceac-89a3-4fc6-9c92-c328053a1c9d.PDF",
+        "published_at": "2026-04-27",
+        "assertions": [
+          "乾坤宁II期工作发现需评估事项，后续综合评估并待明确路径；不能直接当作持续推进的临床进度。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "301332.SZ",
+    "key": "home_appliances",
+    "sector": "家用电器",
+    "source_sector_name": "家用电器",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "环境家电",
+      "水健康及个护"
+    ],
+    "company_fact": "德尔玛飞利浦品牌家居环境水健康个护家电研发产销。",
+    "ths_fact": "自主研发设计生产销售创新家电，环境水健康个护卫浴。",
+    "fact": "德尔玛飞利浦品牌家居环境水健康个护家电研发产销。",
+    "reason": "完整自主家电业务及品牌身份明确，旧扫地机器人产品不改主归属。"
+  },
+  {
+    "id": "301333.SZ",
+    "key": "cro",
+    "sector": "CRO",
+    "source_sector_name": "CRO概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "临床试验外包"
+    ],
+    "company_fact": "临床运营药理咨询现场管理数据统计和生物样本检测，完整CRO链条。",
+    "ths_fact": "专业临床CRO，临床研发全流程一体化服务。",
+    "fact": "临床运营药理咨询现场管理数据统计和生物样本检测，完整CRO链条。",
+    "reason": "药物研发服务商身份明确，创新药服务不等于自有药品。"
+  },
+  {
+    "id": "301335.SZ",
+    "key": "pet_economy",
+    "sector": "宠物经济",
+    "source_sector_name": "宠物经济",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "宠物用品",
+      "宠物食品"
+    ],
+    "company_fact": "宠物用品设计生产销售，覆盖窝垫猫架玩具服饰和食品。",
+    "ths_fact": "主营宠物用品设计生产销售，涵盖电子用品和食品。",
+    "fact": "宠物用品设计生产销售，覆盖窝垫猫架玩具服饰和食品。",
+    "reason": "业务客户产品均围绕宠物经济，跨境只是渠道。"
+  },
+  {
+    "id": "301525.SZ",
+    "key": "data_centers",
+    "sector": "数据中心(AIDC)",
+    "source_sector_name": "数据中心(AIDC)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "数据中心精密温控",
+      "变频驱动"
+    ],
+    "stage": "product",
+    "fact": "自有变频节能控制平台，原H1明确数据中心精密空调及机房制冷控制器。",
+    "company_fact": "自有变频节能控制平台，原H1明确数据中心精密空调及机房制冷控制器。",
+    "ths_fact": "已有数据中心热管理产品但占比较低，是否液冷取决于客户场景。",
+    "reason": "具体自营机房驱动产品成立，2023人形一体化研发不能直接当当前人形交付。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "301525-2026-08-29-official",
+        "source_kind": "official_filing",
+        "publisher": "儒竞科技",
+        "title": "2026年半年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12573257&stockid=301525",
+        "published_at": "2026-08-29",
+        "assertions": [
+          "完整HTML经营段明确数据中心精密空调、机房制冷控制驱动产品应用，人形仅行业政策段及旧研发，未取交付实绩。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "301526.SZ",
+    "key": "pcb",
+    "sector": "PCB",
+    "source_sector_name": "PCB概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "电子级玻纤",
+      "超细纱及织物"
+    ],
+    "stage": "product",
+    "fact": "自有玻纤材料覆盖电子电器及风电等市场。",
+    "company_fact": "自有玻纤材料覆盖电子电器及风电等市场。",
+    "ths_fact": "已开发低气泡细纱和3.7微米超细纱织物，服务高端PCB材料。",
+    "reason": "真实高端电子材料支持增量主线，不等同成品PCB制造，未取专项收入按product。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301528.SZ",
+    "key": "nuclear_power",
+    "sector": "核电",
+    "source_sector_name": "核电",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "核电无损检测",
+      "压力容器管道"
+    ],
+    "stage": "delivery",
+    "fact": "自有超声工业无损检测仪器及自动化系统。",
+    "company_fact": "自有超声工业无损检测仪器及自动化系统。",
+    "ths_fact": "明确产品服务核电压力容器管道安全运行。",
+    "reason": "具体核电检测业务而非纯技术可用，卫星支撑管检测不直接代表全部商业航天。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301529.SZ",
+    "key": "new_energy_vehicles",
+    "sector": "新能源汽车",
+    "source_sector_name": "新能源汽车",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "新能源三电嵌件",
+      "功率模块结构件"
+    ],
+    "stage": "revenue",
+    "fact": "自有内饰功能件及IGBT/SIC侧框汇流排等三电嵌件。",
+    "company_fact": "自有内饰功能件及IGBT/SIC侧框汇流排等三电嵌件。",
+    "ths_fact": "2026年8月明确新能源电驱及电控模块产品。",
+    "reason": "实际新能源零件平台，不因IGBT封装结构件而当晶圆企业。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301531.SZ",
+    "key": "magnetic_materials",
+    "sector": "磁性材料",
+    "source_sector_name": "磁性材料",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "软磁铁氧体磁粉",
+      "磁心"
+    ],
+    "stage": "revenue",
+    "fact": "自有铁氧体磁粉磁心及电源产业链。",
+    "company_fact": "自有铁氧体磁粉磁心及电源产业链。",
+    "ths_fact": "次新与新能源解析明确铁氧体磁粉磁心生产收入。",
+    "reason": "自主软磁经营充分，MLCC钛酸钡仍研发未当已产业化新品。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301533.SZ",
+    "key": "agricultural_machinery",
+    "sector": "农机",
+    "source_sector_name": "农机",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "丘陵山地农机",
+      "耕作收获装备"
+    ],
+    "stage": "revenue",
+    "fact": "自有耕整种植田管搬运收获农机及动力机械。",
+    "company_fact": "自有耕整种植田管搬运收获农机及动力机械。",
+    "ths_fact": "农机完整生产销售明确。",
+    "reason": "实际山地农机定位清楚，扫雪机属于辅线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301535.SZ",
+    "key": "new_energy_vehicles",
+    "sector": "新能源汽车",
+    "source_sector_name": "新能源汽车",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "汽车连接紧固件",
+      "电池包与座椅锁"
+    ],
+    "stage": "revenue",
+    "fact": "自有定制汽车系统连接件覆盖新能源电池包等。",
+    "company_fact": "自有定制汽车系统连接件覆盖新能源电池包等。",
+    "ths_fact": "已成为多家新能源车一级二级供应商。",
+    "reason": "明确新能源配套经营，非动力电池本体。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301536.SZ",
+    "key": "ai_glasses",
+    "sector": "AI眼镜",
+    "source_sector_name": "AI眼镜",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "AI眼镜SoC",
+      "端侧视觉计算"
+    ],
+    "stage": "delivery",
+    "fact": "自有端边AI视觉芯片，智能物联含穿戴应用。",
+    "company_fact": "自有端边AI视觉芯片，智能物联含穿戴应用。",
+    "ths_fact": "2025年9月明确适用于AI眼镜芯片已向终端出货。",
+    "reason": "具体端侧AI眼镜芯片及交付支持，安防仍经营基本盘，不把全部SoC销量计入眼镜。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301538.SZ",
+    "key": "liquid_cooled_servers",
+    "sector": "液冷服务器",
+    "source_sector_name": "液冷服务器",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "液冷系统材料",
+      "液冷管保护与显色"
+    ],
+    "stage": "product",
+    "fact": "自有改性保护材料，原H1开发服务器液冷显色及系统材料，9月IR确认相关业务但收入微小。",
+    "company_fact": "自有改性保护材料，原H1开发服务器液冷显色及系统材料，9月IR确认相关业务但收入微小。",
+    "ths_fact": "原液冷解析是拟购富的旺旺；原8月公告已终止，不能据旧并购判断控制。",
+    "reason": "以原报告自研材料确定已有液冷候选而非标的并表，约1%为储能等相关合计不全作服务器收入。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "301538-2026-08-18-official",
+        "source_kind": "official_filing",
+        "publisher": "骏鼎达",
+        "title": "终止对外投资公告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12498787&stockid=301538",
+        "published_at": "2026-08-18",
+        "assertions": [
+          "各方核心条款未达共识，一致终止富的旺旺51%股权交易。"
+        ]
+      },
+      {
+        "evidence_id": "301538-2026-08-25-official",
+        "source_kind": "official_filing",
+        "publisher": "骏鼎达",
+        "title": "2026年半年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12526059&stockid=301538",
+        "published_at": "2026-08-25",
+        "assertions": [
+          "自主研发创新段明确已开展服务器液冷管显色材料和服务器液冷系统材料等多款新品开发。"
+        ]
+      },
+      {
+        "evidence_id": "301538-2026-09-11-official",
+        "source_kind": "official_filing",
+        "publisher": "骏鼎达",
+        "title": "投资者关系活动记录表",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12598356&stockid=301538",
+        "published_at": "2026-09-11",
+        "assertions": [
+          "原HTML问题20确认自有储能液冷管、服务器液冷材料相关项目，相关收入合计约1%，不作服务器专项拆分。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "301539.SZ",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "人形躯体及关节结构件"
+    ],
+    "stage": "revenue",
+    "fact": "自有精密锻造轻量化制造平台及汽车轮毂业务。",
+    "company_fact": "自有精密锻造轻量化制造平台及汽车轮毂业务。",
+    "ths_fact": "2026年8月人形结构件小批订单发货，机器人业务收入16.40万元。",
+    "reason": "明确人形具体部件订单交付及微额经营，阶段revenue不代表规模盈利。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301548.SZ",
+    "key": "nuclear_power",
+    "sector": "核电",
+    "source_sector_name": "核电",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "核电滑动轴承",
+      "转子支撑"
+    ],
+    "stage": "orders",
+    "fact": "自有高可靠动压油膜滑动轴承及润滑系统。",
+    "company_fact": "自有高可靠动压油膜滑动轴承及润滑系统。",
+    "ths_fact": "2025年10月核电轴承在手订单创新高。",
+    "reason": "专用核电轴承订单直接支持，PEEK为特定材料而非全部公司产品。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301550.SZ",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "谐波减速器",
+      "减速器专用轴承"
+    ],
+    "stage": "product",
+    "fact": "自有机器人零件项目，原H1谐波及专用轴承已投产，执行器仍研发储备。",
+    "company_fact": "自有机器人零件项目，原H1谐波及专用轴承已投产，执行器仍研发储备。",
+    "ths_fact": "人形解析明确机器人零件面向工业协作及人形多个场景。",
+    "reason": "旧筹备已由原H1投产更新；按适配产品记录不认定人形客户批供或特斯拉传闻，需专项交付再升级。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "301550-2026-08-26-official",
+        "source_kind": "official_filing",
+        "publisher": "斯菱智驱",
+        "title": "2026年半年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12538064&stockid=301550",
+        "published_at": "2026-08-26",
+        "assertions": [
+          "完整原HTML主要业务明确谐波减速器及专用轴承投产，执行器完成研发储备；没有据此确认人形专项交付。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "301551.SZ",
+    "key": "culture_media",
+    "sector": "文化传媒",
+    "source_sector_name": "文化传媒概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "IPTV内容运营",
+      "河北视听平台"
+    ],
+    "stage": "revenue",
+    "fact": "经授权经营河北IPTV集成播控商业业务。",
+    "company_fact": "经授权经营河北IPTV集成播控商业业务。",
+    "ths_fact": "传媒业务背景及微短剧内容产品明确。",
+    "reason": "真实视听平台主线，内部AI制作工具不自动成为对外AI收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301552.SZ",
+    "key": "new_energy_vehicles",
+    "sector": "新能源汽车",
+    "source_sector_name": "新能源汽车",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "汽车玻璃装配组件",
+      "智能风挡配套"
+    ],
+    "stage": "revenue",
+    "fact": "自有风挡侧窗角窗功能及装饰组件。",
+    "company_fact": "自有风挡侧窗角窗功能及装饰组件。",
+    "ths_fact": "已配套多家新能源车型并有明确销售收入。",
+    "reason": "新能源供应业务已实绩，低空系统仍研发未确认产品交付。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301555.SZ",
+    "key": "wind_power",
+    "sector": "风电",
+    "source_sector_name": "风电",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "风电叶片环氧树脂"
+    ],
+    "stage": "revenue",
+    "fact": "自有特种配方环氧树脂用于风电叶片等。",
+    "company_fact": "自有特种配方环氧树脂用于风电叶片等。",
+    "ths_fact": "明确风电叶片树脂实际销售。",
+    "reason": "专用风电材料定位充分，低空树脂仍研发和通用机器人用途不足取代。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301556.SZ",
+    "key": "ai_agents",
+    "sector": "AI智能体",
+    "source_sector_name": "AI智能体",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "农业问稷智能体",
+      "农事决策"
+    ],
+    "stage": "product",
+    "fact": "自有智慧农业软硬件平台与农业数据服务。",
+    "company_fact": "自有智慧农业软硬件平台与农业数据服务。",
+    "ths_fact": "2025年3月已上线问稷智能体并接入DeepSeek。",
+    "reason": "具体农业AI产品服务能力成立，非只有内部办公调用；未确认专项收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301557.SZ",
+    "key": "wind_power",
+    "sector": "风电",
+    "source_sector_name": "风电",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "机舱罩导流罩",
+      "轻量夹芯材料"
+    ],
+    "stage": "revenue",
+    "fact": "自有复材及夹芯材料用于风电与轨交。",
+    "company_fact": "自有复材及夹芯材料用于风电与轨交。",
+    "ths_fact": "风电机组罩体及夹芯产品实际收入明确。",
+    "reason": "专用风电部件实际经营，材料潜在低空应用不等于已交付。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301558.SZ",
+    "key": "ai_agents",
+    "sector": "AI智能体",
+    "source_sector_name": "AI智能体",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "跨境合规检测",
+      "睿观AI助手"
+    ],
+    "stage": "product",
+    "fact": "跨境电商外，自有对外合规AI工具和小睿助手多模态产品。",
+    "company_fact": "跨境电商外，自有对外合规AI工具和小睿助手多模态产品。",
+    "ths_fact": "2025年2月正式发布对话式跨境侵权违规检测AI助手。",
+    "reason": "独立面向卖家的具体AI产品与现行业务交叉，非仅内部选品工具；未把跨境贸易收入全当AI。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301559.SZ",
+    "key": "smart_logistics",
+    "sector": "智能物流",
+    "source_sector_name": "智能物流",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "智能罐箱",
+      "全生命周期监控"
+    ],
+    "stage": "revenue",
+    "fact": "自有罐式集装箱及配套物联网信息服务。",
+    "company_fact": "自有罐式集装箱及配套物联网信息服务。",
+    "ths_fact": "罐程信息平台结合传感智能终端监控运输状态。",
+    "reason": "实际物流装备及智能服务一体经营，可控聚变为参股探索待独立产品订单。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301560.SZ",
+    "key": "liquid_cooled_servers",
+    "sector": "液冷服务器",
+    "source_sector_name": "液冷服务器",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "数据中心液冷精密零部件"
+    ],
+    "stage": "delivery",
+    "fact": "自有热管理精密铝合金零件技术和生产。",
+    "company_fact": "自有热管理精密铝合金零件技术和生产。",
+    "ths_fact": "已向Boyd北美欧洲供应数据中心液冷产品。",
+    "reason": "明确客户供应支持液冷增量方向，不推全部汽车热管理收入至数据中心。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301563.SZ",
+    "key": "memory_chips",
+    "sector": "存储芯片",
+    "source_sector_name": "存储芯片",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "存储芯片分销",
+      "元器件供应链"
+    ],
+    "stage": "revenue",
+    "fact": "自有元器件销售平台覆盖模拟数字半导体和被动件。",
+    "company_fact": "自有元器件销售平台覆盖模拟数字半导体和被动件。",
+    "ths_fact": "明确存储芯片已有销售，2024收入占比不足5%。",
+    "reason": "真实存储流通业务支持已有题材，边界是分销不是自主晶圆；微额规模不当主营大头。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301565.SZ",
+    "key": "solid_state_batteries",
+    "sector": "固态电池",
+    "source_sector_name": "固态电池",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "固态软包BOPA膜",
+      "铝塑膜上游"
+    ],
+    "stage": "product",
+    "fact": "自有BOPA/BOPP/BOPLA等功能膜材料。",
+    "company_fact": "自有BOPA/BOPP/BOPLA等功能膜材料。",
+    "ths_fact": "2025年5月固态专用BOPA已突破处市场前期推广。",
+    "reason": "具体固态配套产品比仅泛电池用途明确，未将推广阶段当固态量产收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301566.SZ",
+    "key": "mlcc",
+    "sector": "MLCC",
+    "source_sector_name": "MLCC概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "射频微波瓷介电容"
+    ],
+    "stage": "revenue",
+    "fact": "自有高可靠微波MLCC/SLCC并供应多行业客户。",
+    "company_fact": "自有高可靠微波MLCC/SLCC并供应多行业客户。",
+    "ths_fact": "高Q低ESR等微波MLCC产品明确。",
+    "reason": "本体被动器件经营充分，半导体客户不等同芯片制造。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301567.SZ",
+    "key": "consumer_electronics",
+    "sector": "消费电子",
+    "source_sector_name": "消费电子概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "精密光学结构件",
+      "智能穿戴配套"
+    ],
+    "stage": "revenue",
+    "fact": "自有手机穿戴安居等精密结构件制造。",
+    "company_fact": "自有手机穿戴安居等精密结构件制造。",
+    "ths_fact": "明确手机及穿戴摄像模组等结构件。",
+    "reason": "真实消费电子产品平台，智能或VR眼镜镜筒尚不足独立AI用途，出现明确AI客户产品再复核。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301568.SZ",
+    "key": "machine_vision",
+    "sector": "机器视觉",
+    "source_sector_name": "机器视觉",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "3D SPI/AOI",
+      "电子制造视觉检测"
+    ],
+    "stage": "revenue",
+    "fact": "自有机器视觉检测设备研发制造服务。",
+    "company_fact": "自有机器视觉检测设备研发制造服务。",
+    "ths_fact": "机器视觉业务明确，商业航天为设备下游制程检测。",
+    "reason": "自有视觉检测经营最充分，光刻技术为1.94%参股平台成果非控股自营。",
+    "basis": "crosschecked_sources"
+  }
+]

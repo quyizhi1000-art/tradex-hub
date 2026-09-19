@@ -1,0 +1,77 @@
+[
+  {
+    "id": "603458.SH",
+    "key": "urban_construction",
+    "sector": "新型城镇化",
+    "source_sector_name": "新型城镇化",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "基础设施工程咨询承包"
+    ],
+    "fact": "勘察设计监理检测咨询及公路建筑市政工程承包。",
+    "company_fact": "勘察设计监理检测咨询及公路建筑市政工程承包。",
+    "ths_fact": "公路市政建筑水运环保全过程服务。",
+    "reason": "工程主业支持，翰凯斯参股无人驾驶与自营区分。"
+  },
+  {
+    "id": "603459.SH",
+    "key": "pcb",
+    "sector": "PCB",
+    "source_sector_name": "PCB概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "HDI及IC载板"
+    ],
+    "fact": "HDI任意互连及IC载板可批量生产，完整PCB体系。",
+    "company_fact": "HDI任意互连及IC载板可批量生产，完整PCB体系。",
+    "ths_fact": "PCB涵盖消费车用通信等。",
+    "reason": "高速光模块板属于PCB产品，不等同CPO器件制造。"
+  },
+  {
+    "id": "603466.SH",
+    "key": "ai_agents",
+    "sector": "AI智能体",
+    "source_sector_name": "AI智能体",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "沉浸式空间设计智能体"
+    ],
+    "fact": "城市策展融合AI体验经济，内容开发场景营造及数字交互。",
+    "company_fact": "城市策展融合AI体验经济，内容开发场景营造及数字交互。",
+    "ths_fact": "语言AI正式发布，覆盖设计建模数字内容创作并搭载Agent。",
+    "reason": "有明确已发布应用产品；具身研究院和展示场景不等同人形整机制造。"
+  },
+  {
+    "id": "603468.SH",
+    "key": "two_wheelers",
+    "sector": "两轮车",
+    "source_sector_name": "两轮车",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "自行车与电助力车"
+    ],
+    "fact": "整车和核心零件制造，服务国际品牌及国内共享运营商。",
+    "company_fact": "整车和核心零件制造，服务国际品牌及国内共享运营商。",
+    "ths_fact": "自行车电助力车共享单车产销。",
+    "reason": "自行车制造，不混淆富士达射频连接器同名公司。"
+  },
+  {
+    "id": "603477.SH",
+    "key": "pig_farming",
+    "sector": "猪肉",
+    "source_sector_name": "猪肉",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "生猪养殖及配套饲料"
+    ],
+    "fact": "种猪饲料商品肥猪完整产业链。",
+    "company_fact": "种猪饲料商品肥猪完整产业链。",
+    "ths_fact": "生猪养殖与饲料生产销售。",
+    "reason": "养殖周期市场身份，内部AI养殖管理不当对外软件业务。"
+  }
+]

@@ -1,0 +1,95 @@
+[
+  {
+    "id": "301330.SZ",
+    "key": "brain_computer_interface",
+    "sector": "脑机接口",
+    "source_sector_name": "脑机接口",
+    "source_sector_provider": "同花顺",
+    "stage": "pilot",
+    "chain": [
+      "多模态脑电研发",
+      "脑机场景验证"
+    ],
+    "company_fact": "多模态BioCV智能空间服务；脑机接口纳入长期战略，开展安全生产健康管理及办公人机交互技术研发场景验证。",
+    "ths_fact": "熵云脑机整合脑电、虹膜视网膜与临床等数据开展多模态研究。",
+    "fact": "多模态BioCV智能空间服务；脑机接口纳入长期战略，开展安全生产健康管理及办公人机交互技术研发场景验证。",
+    "reason": "脑机有实际研发与场景验证，取pilot，不把长期战略视作医疗器械收入。"
+  },
+  {
+    "id": "301331.SZ",
+    "key": "chinese_medicine",
+    "sector": "中医药",
+    "source_sector_name": "中医药",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "中成药",
+      "妇儿及呼吸用药"
+    ],
+    "company_fact": "主营中成药化学药健康私护；洁尔阴品牌及多项中成药形成现实产品销售。",
+    "ths_fact": "有中医药成员；旧创新药解析援引2024年乾坤宁II期。",
+    "fact": "主营中成药化学药健康私护；洁尔阴品牌及多项中成药形成现实产品销售。",
+    "reason": "原2025年报乾坤宁II期实施中有需评估事项，后续路径待综合评估；成熟中医药身份更明确，不能照搬旧创新药进度。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "official-301331-2025-rd",
+        "source_kind": "official_filing",
+        "publisher": "恩威医药",
+        "title": "2025年年度报告",
+        "source_url": "https://disc.static.szse.cn/disc/disk03/finalpage/2026-04-27/bd59ceac-89a3-4fc6-9c92-c328053a1c9d.PDF",
+        "published_at": "2026-04-27",
+        "assertions": [
+          "乾坤宁II期工作发现需评估事项，后续综合评估并待明确路径；不能直接当作持续推进的临床进度。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "301332.SZ",
+    "key": "home_appliances",
+    "sector": "家用电器",
+    "source_sector_name": "家用电器",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "环境家电",
+      "水健康及个护"
+    ],
+    "company_fact": "德尔玛飞利浦品牌家居环境水健康个护家电研发产销。",
+    "ths_fact": "自主研发设计生产销售创新家电，环境水健康个护卫浴。",
+    "fact": "德尔玛飞利浦品牌家居环境水健康个护家电研发产销。",
+    "reason": "完整自主家电业务及品牌身份明确，旧扫地机器人产品不改主归属。"
+  },
+  {
+    "id": "301333.SZ",
+    "key": "cro",
+    "sector": "CRO",
+    "source_sector_name": "CRO概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "临床试验外包"
+    ],
+    "company_fact": "临床运营药理咨询现场管理数据统计和生物样本检测，完整CRO链条。",
+    "ths_fact": "专业临床CRO，临床研发全流程一体化服务。",
+    "fact": "临床运营药理咨询现场管理数据统计和生物样本检测，完整CRO链条。",
+    "reason": "药物研发服务商身份明确，创新药服务不等于自有药品。"
+  },
+  {
+    "id": "301335.SZ",
+    "key": "pet_economy",
+    "sector": "宠物经济",
+    "source_sector_name": "宠物经济",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "宠物用品",
+      "宠物食品"
+    ],
+    "company_fact": "宠物用品设计生产销售，覆盖窝垫猫架玩具服饰和食品。",
+    "ths_fact": "主营宠物用品设计生产销售，涵盖电子用品和食品。",
+    "fact": "宠物用品设计生产销售，覆盖窝垫猫架玩具服饰和食品。",
+    "reason": "业务客户产品均围绕宠物经济，跨境只是渠道。"
+  }
+]

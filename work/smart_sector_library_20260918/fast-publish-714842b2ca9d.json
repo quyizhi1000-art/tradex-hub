@@ -1,0 +1,77 @@
+[
+  {
+    "id": "600598.SH",
+    "key": "agricultural_planting",
+    "sector": "农业种植",
+    "source_sector_name": "农业种植",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "粮食作物种植与耕地发包"
+    ],
+    "fact": "主营耕地发包与谷物豆类油料种植销售及农业服务。",
+    "company_fact": "主营耕地发包与谷物豆类油料种植销售及农业服务。",
+    "ths_fact": "粮食解析明确土地承包与农产品经营，玉米大豆水稻等。",
+    "reason": "以粮食农业产业经营为主身份，明确土地发包而非把承包户产量全算公司自产。"
+  },
+  {
+    "id": "600600.SH",
+    "key": "beer",
+    "sector": "啤酒",
+    "source_sector_name": "啤酒概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "啤酒生产与销售"
+    ],
+    "fact": "主营啤酒制造销售及相关业务。",
+    "company_fact": "主营啤酒制造销售及相关业务。",
+    "ths_fact": "核心产品啤酒。",
+    "reason": "品牌和实际产品经营一致，超级品牌为辅助标签。"
+  },
+  {
+    "id": "600601.SH",
+    "key": "pcb",
+    "sector": "PCB",
+    "source_sector_name": "PCB概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "高多层HDI与定制PCB"
+    ],
+    "fact": "主营PCB研产销，应用交换机光模块AI服务器等。",
+    "company_fact": "主营PCB研产销，应用交换机光模块AI服务器等。",
+    "ths_fact": "高多层HDI软硬结合及定制PCB为主要产品。",
+    "reason": "高端PCB为真实制造身份；10G至800G光模块用PCB不能直接等同CPO封装业务。"
+  },
+  {
+    "id": "600602.SH",
+    "key": "data_centers",
+    "sector": "数据中心(AIDC)",
+    "source_sector_name": "数据中心(AIDC)",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "数据中心基础设施及算力服务"
+    ],
+    "fact": "云计算业务含IDC基础设施租赁运维IaaS算力等。",
+    "company_fact": "云计算业务含IDC基础设施租赁运维IaaS算力等。",
+    "ths_fact": "宝山松江数据中心及算力节点有运营，部分二期为建设状态。",
+    "reason": "自有IDC运营资源与云算力业务结合形成AIDC身份，不将集成平台中标直接算租赁收入。"
+  },
+  {
+    "id": "600603.SH",
+    "key": "unified_market",
+    "sector": "统一大市场",
+    "source_sector_name": "统一大市场",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "疆煤外运与铁路物流"
+    ],
+    "fact": "核心能源物流围绕出疆铁路通道与基地构建，地产转尾盘去化。",
+    "company_fact": "核心能源物流围绕出疆铁路通道与基地构建，地产转尾盘去化。",
+    "ths_fact": "物流园区投资经营配套及铁路物流。",
+    "reason": "跨区域能源物流与全国流通概念直接相符，旧冷链基地不优先于当前疆煤外运主线。"
+  }
+]

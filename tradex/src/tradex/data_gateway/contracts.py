@@ -447,9 +447,12 @@ class AShareUniverseQuoteV1(ContractModel):
 
     instrument_id: str = Field(pattern=r"^\d{6}\.(?:SH|SZ|BJ)$")
     name: str = Field(min_length=1)
+    observed_at: datetime | None = None
     last: float = Field(gt=0)
     change_pct: float
     amount_cny: float = Field(ge=0)
+    volume_shares: float | None = Field(default=None, ge=0, allow_inf_nan=False)
+    volume_ratio: float | None = Field(default=None, ge=0, allow_inf_nan=False)
     open: float | None = Field(default=None, ge=0)
     high: float | None = Field(default=None, ge=0)
     low: float | None = Field(default=None, ge=0)

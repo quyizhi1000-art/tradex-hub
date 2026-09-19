@@ -1,0 +1,502 @@
+[
+  {
+    "id": "600211.SH",
+    "key": "innovative_drugs",
+    "sector": "创新药",
+    "source_sector_name": "创新药",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "基因工程心衰药",
+      "创新生物药"
+    ],
+    "stage": "revenue",
+    "fact": "原H1明确自主一类生物新药新活素，半年销售13.28亿元。",
+    "company_fact": "原H1明确自主一类生物新药新活素，半年销售13.28亿元。",
+    "ths_fact": "创新药解析为晨泰13.04%参股佐利替尼获批，已与原公告自营新活素区分。",
+    "reason": "核心自有创新产品经营支持，非将参股药品收入归母；基因编辑临床另列阶段。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "600211-2026-08-14-official",
+        "source_kind": "official_filing",
+        "publisher": "西藏药业",
+        "title": "公司原始披露",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12491903&stockid=600211",
+        "published_at": "2026-08-14",
+        "assertions": [
+          "原H1确认自主一类生物新药新活素，销售385万支收入132796万元，与参股晨泰佐利替尼区分。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "600212.SH",
+    "key": "low_altitude_economy",
+    "sector": "低空经济",
+    "source_sector_name": "低空经济",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "重载无人直升机",
+      "自主飞控"
+    ],
+    "stage": "product",
+    "fact": "原H1明确控股中创航空自主ZC系列重载无人直升机及飞控。",
+    "company_fact": "原H1明确控股中创航空自主ZC系列重载无人直升机及飞控。",
+    "ths_fact": "无人机解析明确工业重载无人机研发生产销售。",
+    "reason": "已控股实际产品支持低空主线，保留储充基本盘，不以宽泛政策替代实物。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "600212-2026-08-26-official",
+        "source_kind": "official_filing",
+        "publisher": "绿能慧充",
+        "title": "公司原始披露",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12532433&stockid=600212",
+        "published_at": "2026-08-26",
+        "assertions": [
+          "原H1主营明确控股子公司中创航空，ZC700/500系列重载无人直升机及自主飞控产品已具备。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "600215.SH",
+    "key": "robotics",
+    "sector": "机器人",
+    "source_sector_name": "机器人概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "工业机器人自动化",
+      "制造产线集成"
+    ],
+    "stage": "revenue",
+    "fact": "自有汽车仓储装配等工业自动化集成解决方案。",
+    "company_fact": "自有汽车仓储装配等工业自动化集成解决方案。",
+    "ths_fact": "明确聚焦机器人自动化智能制造，交大仿生仍研发调试。",
+    "reason": "成熟工业机器人自动化业务支持机器人，不将仿生研发说成人形已量产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600216.SH",
+    "key": "innovative_drugs",
+    "sector": "创新药",
+    "source_sector_name": "创新药",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "ADC创新药",
+      "生物药临床管线"
+    ],
+    "stage": "pilot",
+    "fact": "原H1明确子公司新码ADC自主平台和核心管线临床推进。",
+    "company_fact": "原H1明确子公司新码ADC自主平台和核心管线临床推进。",
+    "ths_fact": "非天然氨基酸ADC及长效蛋白平台已开发。",
+    "reason": "自有临床研发突破支持既有创新药主线；维生素经营另留，不把临床管线写获批销售。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "600216-2026-08-26-official",
+        "source_kind": "official_filing",
+        "publisher": "浙江医药",
+        "title": "公司原始披露",
+        "source_url": "https://static.cninfo.com.cn/finalpage/2026-08-26/1225505191.PDF",
+        "published_at": "2026-08-26",
+        "assertions": [
+          "原PDF第20页明确新码子公司ADC平台及核心创新管线临床推进，未将其视为获批销售。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "600217.SH",
+    "key": "solid_waste_treatment",
+    "sector": "固废处理",
+    "source_sector_name": "固废处理",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "废电拆解",
+      "工业固废回收"
+    ],
+    "stage": "revenue",
+    "fact": "11家废电拆解及园区固废服务实际运营。",
+    "company_fact": "11家废电拆解及园区固废服务实际运营。",
+    "ths_fact": "固废解析明确废弃电器电子拆解和资源回收。",
+    "reason": "经营资产和处理品类一致，汽车拆解不能由循环概念自动推定。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600218.SH",
+    "key": "fuel_cells",
+    "sector": "燃料电池",
+    "source_sector_name": "燃料电池",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "燃料电池膜电极",
+      "氢能零部件"
+    ],
+    "stage": "pilot",
+    "fact": "原H1确认元隽为合并子公司；传统柴油动力持续经营。",
+    "company_fact": "原H1确认元隽为合并子公司；传统柴油动力持续经营。",
+    "ths_fact": "2026年2月控股元隽膜与膜电极正在测试验证和试产试销。",
+    "reason": "原IR明确具体产品验证，选择燃料电池增量主线；不将子公司全部小额营收当成熟氢电销售。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "600218-2026-08-27-official",
+        "source_kind": "official_filing",
+        "publisher": "全柴动力",
+        "title": "公司原始披露",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12545660&stockid=600218",
+        "published_at": "2026-08-27",
+        "assertions": [
+          "原H1将元隽氢能列合并子公司，未将其11.06万元全部营收自动归成熟燃料电池销售。"
+        ]
+      },
+      {
+        "evidence_id": "600218-2025-10-14-official",
+        "source_kind": "official_filing",
+        "publisher": "全柴动力",
+        "title": "公司原始披露",
+        "source_url": "https://file.finance.sina.com.cn/211.154.219.97:9494/MRGG/CNSESH_STOCK/2025/2025-10/2025-10-14/11507099.PDF",
+        "published_at": "2025-10-14",
+        "assertions": [
+          "原IR第3页确认控股元隽已有燃料电池及零件，部分测试验证示范阶段，暂无数据中心发动机产品。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "600219.SH",
+    "key": "nonferrous_aluminum",
+    "sector": "有色铝",
+    "source_sector_name": "有色铝",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "铝冶炼",
+      "高端铝加工"
+    ],
+    "stage": "revenue",
+    "fact": "自有氧化铝电解铝铸造板带箔完整产业链。",
+    "company_fact": "自有氧化铝电解铝铸造板带箔完整产业链。",
+    "ths_fact": "有色铝解析具体生产链及高端客户。",
+    "reason": "经营链条完整，航空汽车为铝加工用途而非整机业务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600221.SH",
+    "key": "aviation_transport",
+    "sector": "航空运输",
+    "source_sector_name": "航空运输",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "航空客运",
+      "腹舱货邮运输"
+    ],
+    "stage": "revenue",
+    "fact": "主营国际国内航空客货邮运输及相关服务。",
+    "company_fact": "主营国际国内航空客货邮运输及相关服务。",
+    "ths_fact": "海南题材解析明确海南本地航司及航空运输业务。",
+    "reason": "实际航司运营支持航空运输，飞机租赁投资不取代主营运营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600222.SH",
+    "key": "cro",
+    "sector": "CRO",
+    "source_sector_name": "CRO概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "药物研发外包",
+      "临床技术服务"
+    ],
+    "stage": "revenue",
+    "fact": "经营中药饮片制剂及北京新领先药物研发CRO。",
+    "company_fact": "经营中药饮片制剂及北京新领先药物研发CRO。",
+    "ths_fact": "新领先为控股，开展创新药研发及临床技术服务。",
+    "reason": "自营研发服务辨识明确，不把客户创新药授权当公司药品收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600223.SH",
+    "key": "synthetic_biology",
+    "sector": "合成生物",
+    "source_sector_name": "合成生物",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "透明质酸",
+      "重组胶原及功能原料"
+    ],
+    "stage": "revenue",
+    "fact": "自有透明质酸420吨产能与品牌护肤医药原料链。",
+    "company_fact": "自有透明质酸420吨产能与品牌护肤医药原料链。",
+    "ths_fact": "2026年明确合成生物开发透明质酸王浆酸胶原并推出终端。",
+    "reason": "既有技术与原料终端实际经营支持，护肤品不误作注射医美制剂。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600226.SH",
+    "key": "pcb",
+    "sector": "PCB",
+    "source_sector_name": "PCB概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "电子铜箔",
+      "电路基材"
+    ],
+    "stage": "revenue",
+    "fact": "主营已涵盖电解铜箔生产及兽药饲料热电。",
+    "company_fact": "主营已涵盖电解铜箔生产及兽药饲料热电。",
+    "ths_fact": "电子铜箔用于PCB，普通薄铜箔已规模供给，PET仍送样。",
+    "reason": "真实电子铜箔与现有PCB链对应；不得用电解铜箔量产替代PET复合铜箔。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600227.SH",
+    "key": "coal_chemicals",
+    "sector": "煤化工",
+    "source_sector_name": "煤化工概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "尿素",
+      "煤制甲醇"
+    ],
+    "stage": "revenue",
+    "fact": "桐梓化工经营尿素甲醇并有煤炭医院。",
+    "company_fact": "桐梓化工经营尿素甲醇并有煤炭医院。",
+    "ths_fact": "煤化工解析对应煤制甲醇尿素项目。",
+    "reason": "实际煤化工链条完整，选产业主题不依多主业放弃归属。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600228.SH",
+    "key": "ai_agents",
+    "sector": "AI智能体",
+    "source_sector_name": "AI智能体",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "智能导购",
+      "电商AI应用"
+    ],
+    "stage": "product",
+    "fact": "自有在线导购平台技术，具自主软件知识产权与导购数据能力。",
+    "company_fact": "自有在线导购平台技术，具自主软件知识产权与导购数据能力。",
+    "ths_fact": "如意AI导购智能体已在多系统APP上线，经营贡献小。",
+    "reason": "面向用户实际产品成立，不是内部接入模型；海外交易额不误写AI营收。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600229.SH",
+    "key": "ip_economy",
+    "sector": "IP经济(谷子经济)",
+    "source_sector_name": "IP经济(谷子经济)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "二次元出版",
+      "IP衍生周边"
+    ],
+    "stage": "revenue",
+    "fact": "自有出版发行版权文创零售与数字文化业务。",
+    "company_fact": "自有出版发行版权文创零售与数字文化业务。",
+    "ths_fact": "二次元图书黑胶卡牌周边及店铺专区已经营。",
+    "reason": "真实IP内容衍生和渠道与既有主题相合，不因出版传统比重忽略衍生业务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600230.SH",
+    "key": "tdi",
+    "sector": "TDI",
+    "source_sector_name": "TDI",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "甲苯二异氰酸酯",
+      "聚氨酯原料"
+    ],
+    "stage": "revenue",
+    "fact": "自营TDI烧碱聚碳酸酯等化工产品。",
+    "company_fact": "自营TDI烧碱聚碳酸酯等化工产品。",
+    "ths_fact": "TDI解析明确15万吨生产能力。",
+    "reason": "具体TDI产线和产品支持，非自行发明化学分类。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600231.SH",
+    "key": "special_steel",
+    "sector": "特钢",
+    "source_sector_name": "特钢概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "优特圆钢",
+      "钢材"
+    ],
+    "stage": "revenue",
+    "fact": "经营优特圆钢及普钢生产销售。",
+    "company_fact": "经营优特圆钢及普钢生产销售。",
+    "ths_fact": "特钢解析明确优特钢系列经营。",
+    "reason": "实际钢种对应特钢，未把全部普钢销售划为特钢。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600232.SH",
+    "key": "lithium_batteries",
+    "sector": "锂电池",
+    "source_sector_name": "锂电池概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "正极材料",
+      "三元及锰酸锂"
+    ],
+    "stage": "revenue",
+    "fact": "自有纺机纺织注塑及锂电正极业务。",
+    "company_fact": "自有纺机纺织注塑及锂电正极业务。",
+    "ths_fact": "锂电解析明确三元锰酸锂正极生产经营。",
+    "reason": "既有真实新材料链支撑，工业大麻仅范围不拿来替代。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600233.SH",
+    "key": "express_delivery",
+    "sector": "快递",
+    "source_sector_name": "快递",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "国内国际快递",
+      "航空物流"
+    ],
+    "stage": "revenue",
+    "fact": "自有快递网络及国际航空物流经营。",
+    "company_fact": "自有快递网络及国际航空物流经营。",
+    "ths_fact": "快递解析明确圆通品牌及网络运营。",
+    "reason": "直接快递服务主线，航空属于运力协同。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600234.SH",
+    "key": "computing_power_leasing",
+    "sector": "算力租赁",
+    "source_sector_name": "算力租赁",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "服务器租赁",
+      "算力服务"
+    ],
+    "stage": "revenue",
+    "fact": "原H1帕晏51.22%已2月并表，服务器租赁收入3492.12万元。",
+    "company_fact": "原H1帕晏51.22%已2月并表，服务器租赁收入3492.12万元。",
+    "ths_fact": "控股公司已向客户提供租赁且有稳定收入。",
+    "reason": "新增已合并实际业务支持主线，不按旧工程主营冻结归属。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "600234-2026-08-25-official",
+        "source_kind": "official_filing",
+        "publisher": "科新发展",
+        "title": "公司原始披露",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12528442&stockid=600234",
+        "published_at": "2026-08-25",
+        "assertions": [
+          "原H1确认帕晏51.22%已2026年2月并表，服务器租赁3492.12万元并与8家客户订租赁服务合同。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "600235.SH",
+    "key": "tobacco",
+    "sector": "烟草",
+    "source_sector_name": "烟草",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "烟草配套特种纸"
+    ],
+    "stage": "revenue",
+    "fact": "自有烟草用纸描图涂布等特种纸。",
+    "company_fact": "自有烟草用纸描图涂布等特种纸。",
+    "ths_fact": "烟草解析明确卷烟配套用纸生产。",
+    "reason": "经营用途支持已有烟草，产业链是纸材而非自产卷烟。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600236.SH",
+    "key": "green_power",
+    "sector": "绿色电力",
+    "source_sector_name": "绿色电力",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "水电",
+      "风光发电"
+    ],
+    "stage": "revenue",
+    "fact": "自有水电风光及火电运营。",
+    "company_fact": "自有水电风光及火电运营。",
+    "ths_fact": "绿色电力解析明确清洁能源装机89.04%。",
+    "reason": "已投运水风光经营支持，不把火电部分改称绿色。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600237.SH",
+    "key": "passive_components",
+    "sector": "被动元件",
+    "source_sector_name": "被动元件",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "薄膜电容",
+      "电工薄膜"
+    ],
+    "stage": "revenue",
+    "fact": "自有薄膜电容器及功能薄膜生产销售。",
+    "company_fact": "自有薄膜电容器及功能薄膜生产销售。",
+    "ths_fact": "元器件解析对应电容产品；核聚变只是第二中标候选。",
+    "reason": "成熟电容业务对应既有行业，第二候选不能认定中标交付核聚变。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600238.SH",
+    "key": "wine_industry",
+    "sector": "酿酒",
+    "source_sector_name": "酿酒概念",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "养生酒",
+      "白酒"
+    ],
+    "stage": "revenue",
+    "fact": "生产鹿龟酒海王酒及原产地白酒、饮料。",
+    "company_fact": "生产鹿龟酒海王酒及原产地白酒、饮料。",
+    "ths_fact": "白酒与保健品解析分别列白酒品牌及养生酒。",
+    "reason": "以已有酿酒概念覆盖实际酒类经营，不将养生酒假定全是白酒。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600239.SH",
+    "key": "property_management",
+    "sector": "物业管理",
+    "source_sector_name": "物业管理",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "商业物业",
+      "酒店资产运营"
+    ],
+    "stage": "revenue",
+    "fact": "实际经营物业商业运营和酒店。",
+    "company_fact": "实际经营物业商业运营和酒店。",
+    "ths_fact": "物业概念明确公司物业服务主营。",
+    "reason": "与现行业务一致，不沿旧地产开发标签锁定。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600241.SH",
+    "key": "lithium_batteries",
+    "sector": "锂电池",
+    "source_sector_name": "锂电池概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "圆柱锂离子电池",
+      "镍氢电池"
+    ],
+    "stage": "revenue",
+    "fact": "自营圆柱锂离子及镍氢电池。",
+    "company_fact": "自营圆柱锂离子及镍氢电池。",
+    "ths_fact": "九夷锂能实际电池制造经营。",
+    "reason": "量产电池支持锂电池，未凭储备技术称固态量产。",
+    "basis": "crosschecked_sources"
+  }
+]

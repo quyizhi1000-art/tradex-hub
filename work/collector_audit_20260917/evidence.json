@@ -1,0 +1,2815 @@
+{
+  "observed_at": "2026-09-17T11:38:25.162204+08:00",
+  "sources": [
+    "GET http://127.0.0.1:8765/api/market-watch/collection-status",
+    "revision-bound summary",
+    "C:\\Users\\Admin\\.tradex\\market_watch.sqlite3 (mode=ro)"
+  ],
+  "collection_status": {
+    "as_of": "2026-09-17T11:38:25.162204+08:00",
+    "collection_completeness": {
+      "accepted_real": 121,
+      "as_of": "2026-09-17T11:38:25.162204+08:00",
+      "contract": "market_watch_collection_completeness.v1",
+      "expected_minute_buckets": 239,
+      "gap_heartbeat": 0,
+      "ledger_digest": "458131c23d8f6d93f6866e42a361dbc10a6bc8bf43b335ab1afce4f4a8774b1d",
+      "ledger_revision": 24644,
+      "pending": 118,
+      "repaired": 33,
+      "retrying": 0,
+      "schema_version": 1,
+      "trade_date": "2026-09-17",
+      "unresolved": 0
+    },
+    "collection_cursor": {
+      "accepted_at": "2026-09-17T11:29:20+08:00",
+      "attempt_count": 1,
+      "contract": "market_watch_collection_slot.v1",
+      "first_attempt_at": "2026-09-17T11:29:00+08:00",
+      "gap_heartbeat": false,
+      "last_attempt_at": "2026-09-17T11:29:00+08:00",
+      "last_error_code": null,
+      "last_error_message": null,
+      "ledger_revision": 24644,
+      "minute_bucket": "2026-09-17T11:29:00+08:00",
+      "next_retry_at": null,
+      "schema_version": 1,
+      "source_snapshot_id": "mw-00000121-a2d655de251f40ce9b5b87496f8c9712",
+      "source_snapshot_revision": "f1f510ca64e1ef638ab1a6da8d3c2ac21868dfc77e5f7253879b57eb9f2c80e5",
+      "status": "repaired",
+      "trade_date": "2026-09-17",
+      "updated_at": "2026-09-17T11:29:20+08:00"
+    },
+    "collector_heartbeat_at": "2026-09-17T11:38:24+08:00",
+    "collector_state": "running",
+    "contract": "market_watch_collector_envelope.v1",
+    "daily_recovery": null,
+    "latest_accepted_real": {
+      "accepted_at": "2026-09-17T11:29:20+08:00",
+      "minute_bucket": "2026-09-17T11:29:00+08:00",
+      "repaired": true,
+      "snapshot_id": "mw-00000121-a2d655de251f40ce9b5b87496f8c9712",
+      "source_snapshot_revision": "f1f510ca64e1ef638ab1a6da8d3c2ac21868dfc77e5f7253879b57eb9f2c80e5",
+      "trade_date": "2026-09-17"
+    },
+    "latest_published_status": {
+      "accepted_at": "2026-09-17T11:29:20+08:00",
+      "attempt_count": 1,
+      "contract": "market_watch_collection_slot.v1",
+      "first_attempt_at": "2026-09-17T11:29:00+08:00",
+      "gap_heartbeat": false,
+      "last_attempt_at": "2026-09-17T11:29:00+08:00",
+      "last_error_code": null,
+      "last_error_message": null,
+      "ledger_revision": 24644,
+      "minute_bucket": "2026-09-17T11:29:00+08:00",
+      "next_retry_at": null,
+      "schema_version": 1,
+      "source_snapshot_id": "mw-00000121-a2d655de251f40ce9b5b87496f8c9712",
+      "source_snapshot_revision": "f1f510ca64e1ef638ab1a6da8d3c2ac21868dfc77e5f7253879b57eb9f2c80e5",
+      "status": "repaired",
+      "trade_date": "2026-09-17",
+      "updated_at": "2026-09-17T11:29:20+08:00"
+    },
+    "schema_version": 1
+  },
+  "summary_freshness": {
+    "components": [
+      {
+        "component": "indices",
+        "fetched_at": "2026-09-17T11:29:20+08:00",
+        "flags": [],
+        "provider_as_of": "2026-09-17T11:29:21+08:00",
+        "quality": "accepted",
+        "status": "fresh"
+      },
+      {
+        "component": "breadth",
+        "fetched_at": "2026-09-17T11:29:01+08:00",
+        "flags": [
+          "participation_unclassified"
+        ],
+        "provider_as_of": "2026-09-17T11:29:01+08:00",
+        "quality": "degraded",
+        "status": "degraded"
+      },
+      {
+        "component": "turnover",
+        "fetched_at": "2026-09-17T11:29:00+08:00",
+        "flags": [],
+        "provider_as_of": "2026-09-17T11:29:00+08:00",
+        "quality": "accepted",
+        "status": "fresh"
+      },
+      {
+        "component": "rotation",
+        "fetched_at": "2026-09-17T11:29:10+08:00",
+        "flags": [
+          "partial_component_coverage",
+          "intraday_data_delayed"
+        ],
+        "provider_as_of": "2026-09-17T11:26:00+08:00",
+        "quality": "degraded",
+        "status": "stale"
+      }
+    ],
+    "flags": [
+      "partial_component_coverage",
+      "intraday_data_delayed"
+    ],
+    "status": "stale"
+  },
+  "slots": [
+    {
+      "minute_bucket": "2026-09-17T09:25:00+08:00",
+      "status": "repaired",
+      "attempt_count": 2,
+      "first_attempt_at": "2026-09-17T09:25:00+08:00",
+      "accepted_at": "2026-09-17T09:25:31+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:30:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T09:30:00+08:00",
+      "accepted_at": "2026-09-17T09:30:20+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:31:00+08:00",
+      "status": "repaired",
+      "attempt_count": 2,
+      "first_attempt_at": "2026-09-17T09:31:00+08:00",
+      "accepted_at": "2026-09-17T09:31:29+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:32:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T09:32:00+08:00",
+      "accepted_at": "2026-09-17T09:32:24+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:33:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T09:33:00+08:00",
+      "accepted_at": "2026-09-17T09:33:15+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:34:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T09:34:00+08:00",
+      "accepted_at": "2026-09-17T09:34:17+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:35:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T09:35:00+08:00",
+      "accepted_at": "2026-09-17T09:35:23+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:36:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T09:36:00+08:00",
+      "accepted_at": "2026-09-17T09:36:17+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:37:00+08:00",
+      "status": "repaired",
+      "attempt_count": 2,
+      "first_attempt_at": "2026-09-17T09:37:00+08:00",
+      "accepted_at": "2026-09-17T09:37:28+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:38:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T09:38:00+08:00",
+      "accepted_at": "2026-09-17T09:38:18+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:39:00+08:00",
+      "status": "repaired",
+      "attempt_count": 2,
+      "first_attempt_at": "2026-09-17T09:39:00+08:00",
+      "accepted_at": "2026-09-17T09:39:33+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:40:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T09:40:00+08:00",
+      "accepted_at": "2026-09-17T09:40:16+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:41:00+08:00",
+      "status": "repaired",
+      "attempt_count": 2,
+      "first_attempt_at": "2026-09-17T09:41:00+08:00",
+      "accepted_at": "2026-09-17T09:41:29+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:42:00+08:00",
+      "status": "repaired",
+      "attempt_count": 2,
+      "first_attempt_at": "2026-09-17T09:42:00+08:00",
+      "accepted_at": "2026-09-17T09:42:33+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:43:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T09:43:00+08:00",
+      "accepted_at": "2026-09-17T09:43:17+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:44:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T09:44:00+08:00",
+      "accepted_at": "2026-09-17T09:44:17+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:45:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T09:45:00+08:00",
+      "accepted_at": "2026-09-17T09:45:17+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:46:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T09:46:00+08:00",
+      "accepted_at": "2026-09-17T09:46:21+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:47:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T09:47:00+08:00",
+      "accepted_at": "2026-09-17T09:47:19+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:48:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T09:48:00+08:00",
+      "accepted_at": "2026-09-17T09:48:17+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:49:00+08:00",
+      "status": "repaired",
+      "attempt_count": 2,
+      "first_attempt_at": "2026-09-17T09:49:00+08:00",
+      "accepted_at": "2026-09-17T09:49:36+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:50:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T09:50:00+08:00",
+      "accepted_at": "2026-09-17T09:50:19+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:51:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T09:51:00+08:00",
+      "accepted_at": "2026-09-17T09:51:17+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:52:00+08:00",
+      "status": "repaired",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T09:52:00+08:00",
+      "accepted_at": "2026-09-17T09:52:19+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:53:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T09:53:00+08:00",
+      "accepted_at": "2026-09-17T09:53:21+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:54:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T09:54:00+08:00",
+      "accepted_at": "2026-09-17T09:54:19+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:55:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T09:55:00+08:00",
+      "accepted_at": "2026-09-17T09:55:16+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:56:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T09:56:00+08:00",
+      "accepted_at": "2026-09-17T09:56:19+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:57:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T09:57:00+08:00",
+      "accepted_at": "2026-09-17T09:57:19+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:58:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T09:58:00+08:00",
+      "accepted_at": "2026-09-17T09:58:18+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:59:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T09:59:00+08:00",
+      "accepted_at": "2026-09-17T09:59:21+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:00:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T10:00:00+08:00",
+      "accepted_at": "2026-09-17T10:00:20+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:01:00+08:00",
+      "status": "repaired",
+      "attempt_count": 2,
+      "first_attempt_at": "2026-09-17T10:01:00+08:00",
+      "accepted_at": "2026-09-17T10:01:35+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:02:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T10:02:00+08:00",
+      "accepted_at": "2026-09-17T10:02:19+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:03:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T10:03:00+08:00",
+      "accepted_at": "2026-09-17T10:03:26+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:04:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T10:04:00+08:00",
+      "accepted_at": "2026-09-17T10:04:23+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:05:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T10:05:00+08:00",
+      "accepted_at": "2026-09-17T10:05:24+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:06:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T10:06:00+08:00",
+      "accepted_at": "2026-09-17T10:06:18+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:07:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T10:07:00+08:00",
+      "accepted_at": "2026-09-17T10:07:22+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:08:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T10:08:00+08:00",
+      "accepted_at": "2026-09-17T10:08:23+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:09:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T10:09:00+08:00",
+      "accepted_at": "2026-09-17T10:09:26+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:10:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T10:10:00+08:00",
+      "accepted_at": "2026-09-17T10:10:18+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:11:00+08:00",
+      "status": "repaired",
+      "attempt_count": 2,
+      "first_attempt_at": "2026-09-17T10:11:00+08:00",
+      "accepted_at": "2026-09-17T10:11:30+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:12:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T10:12:00+08:00",
+      "accepted_at": "2026-09-17T10:12:24+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:13:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T10:13:00+08:00",
+      "accepted_at": "2026-09-17T10:13:17+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:14:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T10:14:00+08:00",
+      "accepted_at": "2026-09-17T10:14:21+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:15:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T10:15:00+08:00",
+      "accepted_at": "2026-09-17T10:15:21+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:16:00+08:00",
+      "status": "repaired",
+      "attempt_count": 2,
+      "first_attempt_at": "2026-09-17T10:16:00+08:00",
+      "accepted_at": "2026-09-17T10:16:29+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:17:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T10:17:00+08:00",
+      "accepted_at": "2026-09-17T10:17:19+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:18:00+08:00",
+      "status": "repaired",
+      "attempt_count": 2,
+      "first_attempt_at": "2026-09-17T10:18:00+08:00",
+      "accepted_at": "2026-09-17T10:18:31+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:19:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T10:19:00+08:00",
+      "accepted_at": "2026-09-17T10:19:21+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:20:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T10:20:00+08:00",
+      "accepted_at": "2026-09-17T10:20:22+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:21:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T10:21:00+08:00",
+      "accepted_at": "2026-09-17T10:21:16+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:22:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T10:22:00+08:00",
+      "accepted_at": "2026-09-17T10:22:19+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:23:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T10:23:00+08:00",
+      "accepted_at": "2026-09-17T10:23:22+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:24:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T10:24:00+08:00",
+      "accepted_at": "2026-09-17T10:24:24+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:25:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T10:25:00+08:00",
+      "accepted_at": "2026-09-17T10:25:25+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:26:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T10:26:00+08:00",
+      "accepted_at": "2026-09-17T10:26:20+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:27:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T10:27:00+08:00",
+      "accepted_at": "2026-09-17T10:27:21+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:28:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T10:28:00+08:00",
+      "accepted_at": "2026-09-17T10:28:24+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:29:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T10:29:00+08:00",
+      "accepted_at": "2026-09-17T10:29:25+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:30:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T10:30:00+08:00",
+      "accepted_at": "2026-09-17T10:30:19+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:31:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T10:31:00+08:00",
+      "accepted_at": "2026-09-17T10:31:28+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:32:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T10:32:00+08:00",
+      "accepted_at": "2026-09-17T10:32:20+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:33:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T10:33:00+08:00",
+      "accepted_at": "2026-09-17T10:33:20+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:34:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T10:34:00+08:00",
+      "accepted_at": "2026-09-17T10:34:20+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:35:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T10:35:00+08:00",
+      "accepted_at": "2026-09-17T10:35:19+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:36:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T10:36:00+08:00",
+      "accepted_at": "2026-09-17T10:36:19+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:37:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T10:37:00+08:00",
+      "accepted_at": "2026-09-17T10:37:19+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:38:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T10:38:00+08:00",
+      "accepted_at": "2026-09-17T10:38:23+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:39:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T10:39:00+08:00",
+      "accepted_at": "2026-09-17T10:39:20+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:40:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T10:40:00+08:00",
+      "accepted_at": "2026-09-17T10:40:25+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:41:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T10:41:00+08:00",
+      "accepted_at": "2026-09-17T10:41:19+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:42:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T10:42:00+08:00",
+      "accepted_at": "2026-09-17T10:42:20+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:43:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T10:43:00+08:00",
+      "accepted_at": "2026-09-17T10:43:19+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:44:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T10:44:00+08:00",
+      "accepted_at": "2026-09-17T10:44:20+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:45:00+08:00",
+      "status": "repaired",
+      "attempt_count": 2,
+      "first_attempt_at": "2026-09-17T10:45:00+08:00",
+      "accepted_at": "2026-09-17T10:45:30+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:46:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T10:46:00+08:00",
+      "accepted_at": "2026-09-17T10:46:17+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:47:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T10:47:00+08:00",
+      "accepted_at": "2026-09-17T10:47:22+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:48:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T10:48:00+08:00",
+      "accepted_at": "2026-09-17T10:48:18+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:49:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T10:49:00+08:00",
+      "accepted_at": "2026-09-17T10:49:20+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:50:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T10:50:00+08:00",
+      "accepted_at": "2026-09-17T10:50:19+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:51:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T10:51:00+08:00",
+      "accepted_at": "2026-09-17T10:51:20+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:52:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T10:52:00+08:00",
+      "accepted_at": "2026-09-17T10:52:17+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:53:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T10:53:00+08:00",
+      "accepted_at": "2026-09-17T10:53:25+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:54:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T10:54:00+08:00",
+      "accepted_at": "2026-09-17T10:54:19+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:55:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T10:55:00+08:00",
+      "accepted_at": "2026-09-17T10:55:19+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:56:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T10:56:00+08:00",
+      "accepted_at": "2026-09-17T10:56:21+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:57:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T10:57:00+08:00",
+      "accepted_at": "2026-09-17T10:57:19+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:58:00+08:00",
+      "status": "repaired",
+      "attempt_count": 2,
+      "first_attempt_at": "2026-09-17T10:58:00+08:00",
+      "accepted_at": "2026-09-17T10:58:33+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:59:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T10:59:00+08:00",
+      "accepted_at": "2026-09-17T10:59:20+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:00:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T11:00:00+08:00",
+      "accepted_at": "2026-09-17T11:00:20+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:01:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T11:01:00+08:00",
+      "accepted_at": "2026-09-17T11:01:19+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:02:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T11:02:00+08:00",
+      "accepted_at": "2026-09-17T11:02:19+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:03:00+08:00",
+      "status": "repaired",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T11:03:00+08:00",
+      "accepted_at": "2026-09-17T11:03:19+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:04:00+08:00",
+      "status": "repaired",
+      "attempt_count": 2,
+      "first_attempt_at": "2026-09-17T11:04:00+08:00",
+      "accepted_at": "2026-09-17T11:04:33+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:05:00+08:00",
+      "status": "repaired",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T11:05:00+08:00",
+      "accepted_at": "2026-09-17T11:05:21+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:06:00+08:00",
+      "status": "repaired",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T11:06:00+08:00",
+      "accepted_at": "2026-09-17T11:06:24+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:07:00+08:00",
+      "status": "repaired",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T11:07:00+08:00",
+      "accepted_at": "2026-09-17T11:07:18+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:08:00+08:00",
+      "status": "repaired",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T11:08:00+08:00",
+      "accepted_at": "2026-09-17T11:08:20+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:09:00+08:00",
+      "status": "repaired",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T11:09:00+08:00",
+      "accepted_at": "2026-09-17T11:09:20+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:10:00+08:00",
+      "status": "repaired",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T11:10:00+08:00",
+      "accepted_at": "2026-09-17T11:10:25+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:11:00+08:00",
+      "status": "repaired",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T11:11:00+08:00",
+      "accepted_at": "2026-09-17T11:11:27+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:12:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T11:12:00+08:00",
+      "accepted_at": "2026-09-17T11:12:18+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:13:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T11:13:00+08:00",
+      "accepted_at": "2026-09-17T11:13:20+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:14:00+08:00",
+      "status": "repaired",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T11:14:00+08:00",
+      "accepted_at": "2026-09-17T11:14:24+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:15:00+08:00",
+      "status": "repaired",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T11:15:00+08:00",
+      "accepted_at": "2026-09-17T11:15:19+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:16:00+08:00",
+      "status": "repaired",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T11:16:00+08:00",
+      "accepted_at": "2026-09-17T11:16:20+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:17:00+08:00",
+      "status": "repaired",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T11:17:00+08:00",
+      "accepted_at": "2026-09-17T11:17:20+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:18:00+08:00",
+      "status": "repaired",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T11:18:00+08:00",
+      "accepted_at": "2026-09-17T11:18:20+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:19:00+08:00",
+      "status": "repaired",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T11:19:00+08:00",
+      "accepted_at": "2026-09-17T11:19:20+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:20:00+08:00",
+      "status": "repaired",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T11:20:00+08:00",
+      "accepted_at": "2026-09-17T11:20:21+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:21:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T11:21:00+08:00",
+      "accepted_at": "2026-09-17T11:21:20+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:22:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T11:22:01+08:00",
+      "accepted_at": "2026-09-17T11:22:21+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:23:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T11:23:00+08:00",
+      "accepted_at": "2026-09-17T11:23:20+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:24:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T11:24:00+08:00",
+      "accepted_at": "2026-09-17T11:24:20+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:25:00+08:00",
+      "status": "repaired",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T11:25:00+08:00",
+      "accepted_at": "2026-09-17T11:25:20+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:26:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T11:26:00+08:00",
+      "accepted_at": "2026-09-17T11:26:23+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:27:00+08:00",
+      "status": "accepted_real",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T11:27:00+08:00",
+      "accepted_at": "2026-09-17T11:27:20+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:28:00+08:00",
+      "status": "repaired",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T11:28:00+08:00",
+      "accepted_at": "2026-09-17T11:28:19+08:00"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:29:00+08:00",
+      "status": "repaired",
+      "attempt_count": 1,
+      "first_attempt_at": "2026-09-17T11:29:00+08:00",
+      "accepted_at": "2026-09-17T11:29:20+08:00"
+    }
+  ],
+  "attempts": [
+    {
+      "minute_bucket": "2026-09-17T09:25:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "retrying",
+      "started_at": "2026-09-17T09:25:00+08:00",
+      "completed_at": "2026-09-17T09:25:01+08:00",
+      "error_code": "RuntimeError",
+      "error_message": "All sources for 'market_overview' failed: biying: 沪深实时成交额暂缺; tencent_http: 沪深实时成交额暂缺; akshare: 沪深实时成交额暂缺"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:25:00+08:00",
+      "attempt_number": 2,
+      "repair": 1,
+      "outcome": "reconciled_persisted",
+      "started_at": "2026-09-17T09:25:11+08:00",
+      "completed_at": "2026-09-17T09:25:31+08:00",
+      "error_code": "ValueError",
+      "error_message": "stale or unavailable snapshot cannot be accepted as real"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:30:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T09:30:00+08:00",
+      "completed_at": "2026-09-17T09:30:20+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T09:31:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "retrying",
+      "started_at": "2026-09-17T09:31:00+08:00",
+      "completed_at": "2026-09-17T09:31:01+08:00",
+      "error_code": "RuntimeError",
+      "error_message": "All sources for 'market_overview' failed: biying: 沪深成交额更新时间不一致; tencent_http: 沪深成交额更新时间不一致; akshare: 沪深成交额更新时间暂缺"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:31:00+08:00",
+      "attempt_number": 2,
+      "repair": 1,
+      "outcome": "repaired",
+      "started_at": "2026-09-17T09:31:11+08:00",
+      "completed_at": "2026-09-17T09:31:29+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T09:32:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T09:32:00+08:00",
+      "completed_at": "2026-09-17T09:32:24+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T09:33:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T09:33:00+08:00",
+      "completed_at": "2026-09-17T09:33:15+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T09:34:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T09:34:00+08:00",
+      "completed_at": "2026-09-17T09:34:17+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T09:35:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T09:35:00+08:00",
+      "completed_at": "2026-09-17T09:35:23+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T09:36:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T09:36:00+08:00",
+      "completed_at": "2026-09-17T09:36:17+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T09:37:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "retrying",
+      "started_at": "2026-09-17T09:37:00+08:00",
+      "completed_at": "2026-09-17T09:37:01+08:00",
+      "error_code": "RuntimeError",
+      "error_message": "All sources for 'market_overview' failed: biying: 沪深成交额更新时间不一致; tencent_http: 沪深成交额更新时间不一致; akshare: 沪深成交额更新时间暂缺"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:37:00+08:00",
+      "attempt_number": 2,
+      "repair": 1,
+      "outcome": "repaired",
+      "started_at": "2026-09-17T09:37:11+08:00",
+      "completed_at": "2026-09-17T09:37:28+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T09:38:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T09:38:00+08:00",
+      "completed_at": "2026-09-17T09:38:18+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T09:39:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "retrying",
+      "started_at": "2026-09-17T09:39:00+08:00",
+      "completed_at": "2026-09-17T09:39:02+08:00",
+      "error_code": "RuntimeError",
+      "error_message": "All sources for 'market_overview' failed: biying: 沪深成交额更新时间不一致; tencent_http: 沪深成交额更新时间不一致; akshare: 沪深成交额更新时间暂缺"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:39:00+08:00",
+      "attempt_number": 2,
+      "repair": 1,
+      "outcome": "repaired",
+      "started_at": "2026-09-17T09:39:12+08:00",
+      "completed_at": "2026-09-17T09:39:33+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T09:40:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T09:40:00+08:00",
+      "completed_at": "2026-09-17T09:40:16+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T09:41:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "retrying",
+      "started_at": "2026-09-17T09:41:00+08:00",
+      "completed_at": "2026-09-17T09:41:01+08:00",
+      "error_code": "RuntimeError",
+      "error_message": "All sources for 'market_overview' failed: biying: 沪深成交额更新时间不一致; tencent_http: 沪深成交额更新时间不一致; akshare: 沪深成交额更新时间暂缺"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:41:00+08:00",
+      "attempt_number": 2,
+      "repair": 1,
+      "outcome": "repaired",
+      "started_at": "2026-09-17T09:41:11+08:00",
+      "completed_at": "2026-09-17T09:41:29+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T09:42:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "retrying",
+      "started_at": "2026-09-17T09:42:00+08:00",
+      "completed_at": "2026-09-17T09:42:01+08:00",
+      "error_code": "RuntimeError",
+      "error_message": "All sources for 'market_overview' failed: biying: 沪深成交额更新时间不一致; tencent_http: 沪深成交额更新时间不一致; akshare: 沪深成交额更新时间暂缺"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:42:00+08:00",
+      "attempt_number": 2,
+      "repair": 1,
+      "outcome": "repaired",
+      "started_at": "2026-09-17T09:42:11+08:00",
+      "completed_at": "2026-09-17T09:42:33+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T09:43:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T09:43:00+08:00",
+      "completed_at": "2026-09-17T09:43:17+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T09:44:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T09:44:00+08:00",
+      "completed_at": "2026-09-17T09:44:17+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T09:45:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T09:45:00+08:00",
+      "completed_at": "2026-09-17T09:45:17+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T09:46:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T09:46:00+08:00",
+      "completed_at": "2026-09-17T09:46:21+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T09:47:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T09:47:00+08:00",
+      "completed_at": "2026-09-17T09:47:19+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T09:48:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T09:48:00+08:00",
+      "completed_at": "2026-09-17T09:48:17+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T09:49:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "retrying",
+      "started_at": "2026-09-17T09:49:00+08:00",
+      "completed_at": "2026-09-17T09:49:01+08:00",
+      "error_code": "RuntimeError",
+      "error_message": "All sources for 'market_overview' failed: biying: 沪深成交额更新时间不一致; tencent_http: 沪深成交额更新时间不一致; akshare: 沪深成交额更新时间暂缺"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:49:00+08:00",
+      "attempt_number": 2,
+      "repair": 1,
+      "outcome": "repaired",
+      "started_at": "2026-09-17T09:49:11+08:00",
+      "completed_at": "2026-09-17T09:49:36+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T09:50:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T09:50:00+08:00",
+      "completed_at": "2026-09-17T09:50:19+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T09:51:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T09:51:00+08:00",
+      "completed_at": "2026-09-17T09:51:17+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T09:52:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "reconciled_persisted",
+      "started_at": "2026-09-17T09:52:00+08:00",
+      "completed_at": "2026-09-17T09:52:19+08:00",
+      "error_code": "ValueError",
+      "error_message": "stale or unavailable snapshot cannot be accepted as real"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:53:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T09:53:00+08:00",
+      "completed_at": "2026-09-17T09:53:21+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T09:54:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T09:54:00+08:00",
+      "completed_at": "2026-09-17T09:54:19+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T09:55:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T09:55:00+08:00",
+      "completed_at": "2026-09-17T09:55:16+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T09:56:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T09:56:00+08:00",
+      "completed_at": "2026-09-17T09:56:19+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T09:57:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T09:57:00+08:00",
+      "completed_at": "2026-09-17T09:57:19+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T09:58:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T09:58:00+08:00",
+      "completed_at": "2026-09-17T09:58:18+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T09:59:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T09:59:00+08:00",
+      "completed_at": "2026-09-17T09:59:21+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T10:00:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T10:00:00+08:00",
+      "completed_at": "2026-09-17T10:00:20+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T10:01:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "retrying",
+      "started_at": "2026-09-17T10:01:00+08:00",
+      "completed_at": "2026-09-17T10:01:01+08:00",
+      "error_code": "RuntimeError",
+      "error_message": "All sources for 'market_overview' failed: biying: 沪深成交额更新时间不一致; tencent_http: 沪深成交额更新时间不一致; akshare: 沪深成交额更新时间暂缺"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:01:00+08:00",
+      "attempt_number": 2,
+      "repair": 1,
+      "outcome": "repaired",
+      "started_at": "2026-09-17T10:01:11+08:00",
+      "completed_at": "2026-09-17T10:01:35+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T10:02:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T10:02:00+08:00",
+      "completed_at": "2026-09-17T10:02:19+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T10:03:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T10:03:00+08:00",
+      "completed_at": "2026-09-17T10:03:26+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T10:04:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T10:04:00+08:00",
+      "completed_at": "2026-09-17T10:04:23+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T10:05:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T10:05:00+08:00",
+      "completed_at": "2026-09-17T10:05:24+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T10:06:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T10:06:00+08:00",
+      "completed_at": "2026-09-17T10:06:18+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T10:07:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T10:07:00+08:00",
+      "completed_at": "2026-09-17T10:07:22+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T10:08:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T10:08:00+08:00",
+      "completed_at": "2026-09-17T10:08:23+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T10:09:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T10:09:00+08:00",
+      "completed_at": "2026-09-17T10:09:26+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T10:10:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T10:10:00+08:00",
+      "completed_at": "2026-09-17T10:10:18+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T10:11:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "retrying",
+      "started_at": "2026-09-17T10:11:00+08:00",
+      "completed_at": "2026-09-17T10:11:01+08:00",
+      "error_code": "RuntimeError",
+      "error_message": "All sources for 'market_overview' failed: biying: 沪深成交额更新时间不一致; tencent_http: 沪深成交额更新时间不一致; akshare: 沪深成交额更新时间暂缺"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:11:00+08:00",
+      "attempt_number": 2,
+      "repair": 1,
+      "outcome": "repaired",
+      "started_at": "2026-09-17T10:11:11+08:00",
+      "completed_at": "2026-09-17T10:11:30+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T10:12:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T10:12:00+08:00",
+      "completed_at": "2026-09-17T10:12:24+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T10:13:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T10:13:00+08:00",
+      "completed_at": "2026-09-17T10:13:17+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T10:14:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T10:14:00+08:00",
+      "completed_at": "2026-09-17T10:14:21+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T10:15:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T10:15:00+08:00",
+      "completed_at": "2026-09-17T10:15:21+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T10:16:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "retrying",
+      "started_at": "2026-09-17T10:16:00+08:00",
+      "completed_at": "2026-09-17T10:16:02+08:00",
+      "error_code": "RuntimeError",
+      "error_message": "All sources for 'market_overview' failed: biying: 沪深成交额更新时间不一致; tencent_http: 沪深成交额更新时间不一致; akshare: 沪深成交额更新时间暂缺"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:16:00+08:00",
+      "attempt_number": 2,
+      "repair": 1,
+      "outcome": "repaired",
+      "started_at": "2026-09-17T10:16:12+08:00",
+      "completed_at": "2026-09-17T10:16:29+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T10:17:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T10:17:00+08:00",
+      "completed_at": "2026-09-17T10:17:19+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T10:18:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "retrying",
+      "started_at": "2026-09-17T10:18:00+08:00",
+      "completed_at": "2026-09-17T10:18:02+08:00",
+      "error_code": "RuntimeError",
+      "error_message": "All sources for 'market_overview' failed: biying: 沪深成交额更新时间不一致; tencent_http: 沪深成交额更新时间不一致; akshare: 沪深成交额更新时间暂缺"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:18:00+08:00",
+      "attempt_number": 2,
+      "repair": 1,
+      "outcome": "repaired",
+      "started_at": "2026-09-17T10:18:12+08:00",
+      "completed_at": "2026-09-17T10:18:31+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T10:19:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T10:19:00+08:00",
+      "completed_at": "2026-09-17T10:19:21+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T10:20:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T10:20:00+08:00",
+      "completed_at": "2026-09-17T10:20:22+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T10:21:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T10:21:00+08:00",
+      "completed_at": "2026-09-17T10:21:16+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T10:22:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T10:22:00+08:00",
+      "completed_at": "2026-09-17T10:22:19+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T10:23:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T10:23:00+08:00",
+      "completed_at": "2026-09-17T10:23:22+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T10:24:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T10:24:00+08:00",
+      "completed_at": "2026-09-17T10:24:24+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T10:25:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T10:25:00+08:00",
+      "completed_at": "2026-09-17T10:25:25+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T10:26:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T10:26:00+08:00",
+      "completed_at": "2026-09-17T10:26:20+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T10:27:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T10:27:00+08:00",
+      "completed_at": "2026-09-17T10:27:21+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T10:28:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T10:28:00+08:00",
+      "completed_at": "2026-09-17T10:28:24+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T10:29:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T10:29:00+08:00",
+      "completed_at": "2026-09-17T10:29:25+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T10:30:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T10:30:00+08:00",
+      "completed_at": "2026-09-17T10:30:19+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T10:31:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T10:31:00+08:00",
+      "completed_at": "2026-09-17T10:31:28+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T10:32:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T10:32:00+08:00",
+      "completed_at": "2026-09-17T10:32:20+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T10:33:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T10:33:00+08:00",
+      "completed_at": "2026-09-17T10:33:20+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T10:34:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T10:34:00+08:00",
+      "completed_at": "2026-09-17T10:34:20+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T10:35:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T10:35:00+08:00",
+      "completed_at": "2026-09-17T10:35:19+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T10:36:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T10:36:00+08:00",
+      "completed_at": "2026-09-17T10:36:19+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T10:37:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T10:37:00+08:00",
+      "completed_at": "2026-09-17T10:37:19+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T10:38:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T10:38:00+08:00",
+      "completed_at": "2026-09-17T10:38:23+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T10:39:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T10:39:00+08:00",
+      "completed_at": "2026-09-17T10:39:20+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T10:40:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T10:40:00+08:00",
+      "completed_at": "2026-09-17T10:40:25+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T10:41:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T10:41:00+08:00",
+      "completed_at": "2026-09-17T10:41:19+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T10:42:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T10:42:00+08:00",
+      "completed_at": "2026-09-17T10:42:20+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T10:43:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T10:43:00+08:00",
+      "completed_at": "2026-09-17T10:43:19+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T10:44:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T10:44:00+08:00",
+      "completed_at": "2026-09-17T10:44:20+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T10:45:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "retrying",
+      "started_at": "2026-09-17T10:45:00+08:00",
+      "completed_at": "2026-09-17T10:45:01+08:00",
+      "error_code": "RuntimeError",
+      "error_message": "All sources for 'market_overview' failed: biying: 沪深成交额更新时间不一致; tencent_http: 沪深成交额更新时间不一致; akshare: 沪深成交额更新时间暂缺"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:45:00+08:00",
+      "attempt_number": 2,
+      "repair": 1,
+      "outcome": "repaired",
+      "started_at": "2026-09-17T10:45:11+08:00",
+      "completed_at": "2026-09-17T10:45:30+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T10:46:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T10:46:00+08:00",
+      "completed_at": "2026-09-17T10:46:17+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T10:47:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T10:47:00+08:00",
+      "completed_at": "2026-09-17T10:47:22+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T10:48:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T10:48:00+08:00",
+      "completed_at": "2026-09-17T10:48:18+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T10:49:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T10:49:00+08:00",
+      "completed_at": "2026-09-17T10:49:20+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T10:50:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T10:50:00+08:00",
+      "completed_at": "2026-09-17T10:50:19+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T10:51:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T10:51:00+08:00",
+      "completed_at": "2026-09-17T10:51:20+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T10:52:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T10:52:00+08:00",
+      "completed_at": "2026-09-17T10:52:17+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T10:53:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T10:53:00+08:00",
+      "completed_at": "2026-09-17T10:53:25+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T10:54:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T10:54:00+08:00",
+      "completed_at": "2026-09-17T10:54:19+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T10:55:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T10:55:00+08:00",
+      "completed_at": "2026-09-17T10:55:19+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T10:56:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T10:56:00+08:00",
+      "completed_at": "2026-09-17T10:56:21+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T10:57:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T10:57:00+08:00",
+      "completed_at": "2026-09-17T10:57:19+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T10:58:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "retrying",
+      "started_at": "2026-09-17T10:58:00+08:00",
+      "completed_at": "2026-09-17T10:58:02+08:00",
+      "error_code": "RuntimeError",
+      "error_message": "All sources for 'market_overview' failed: biying: 沪深成交额更新时间不一致; tencent_http: 沪深成交额更新时间不一致; akshare: 沪深成交额更新时间暂缺"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:58:00+08:00",
+      "attempt_number": 2,
+      "repair": 1,
+      "outcome": "repaired",
+      "started_at": "2026-09-17T10:58:12+08:00",
+      "completed_at": "2026-09-17T10:58:33+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T10:59:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T10:59:00+08:00",
+      "completed_at": "2026-09-17T10:59:20+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T11:00:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T11:00:00+08:00",
+      "completed_at": "2026-09-17T11:00:20+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T11:01:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T11:01:00+08:00",
+      "completed_at": "2026-09-17T11:01:19+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T11:02:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T11:02:00+08:00",
+      "completed_at": "2026-09-17T11:02:19+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T11:03:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "reconciled_persisted",
+      "started_at": "2026-09-17T11:03:00+08:00",
+      "completed_at": "2026-09-17T11:03:19+08:00",
+      "error_code": "ValueError",
+      "error_message": "stale or unavailable snapshot cannot be accepted as real"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:04:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "retrying",
+      "started_at": "2026-09-17T11:04:00+08:00",
+      "completed_at": "2026-09-17T11:04:01+08:00",
+      "error_code": "RuntimeError",
+      "error_message": "All sources for 'market_overview' failed: biying: 沪深成交额更新时间不一致; tencent_http: 沪深成交额更新时间不一致; akshare: 沪深成交额更新时间暂缺"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:04:00+08:00",
+      "attempt_number": 2,
+      "repair": 1,
+      "outcome": "reconciled_persisted",
+      "started_at": "2026-09-17T11:04:11+08:00",
+      "completed_at": "2026-09-17T11:04:33+08:00",
+      "error_code": "ValueError",
+      "error_message": "stale or unavailable snapshot cannot be accepted as real"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:05:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "reconciled_persisted",
+      "started_at": "2026-09-17T11:05:00+08:00",
+      "completed_at": "2026-09-17T11:05:21+08:00",
+      "error_code": "ValueError",
+      "error_message": "stale or unavailable snapshot cannot be accepted as real"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:06:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "reconciled_persisted",
+      "started_at": "2026-09-17T11:06:00+08:00",
+      "completed_at": "2026-09-17T11:06:24+08:00",
+      "error_code": "ValueError",
+      "error_message": "stale or unavailable snapshot cannot be accepted as real"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:07:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "reconciled_persisted",
+      "started_at": "2026-09-17T11:07:00+08:00",
+      "completed_at": "2026-09-17T11:07:18+08:00",
+      "error_code": "ValueError",
+      "error_message": "stale or unavailable snapshot cannot be accepted as real"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:08:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "reconciled_persisted",
+      "started_at": "2026-09-17T11:08:00+08:00",
+      "completed_at": "2026-09-17T11:08:20+08:00",
+      "error_code": "ValueError",
+      "error_message": "stale or unavailable snapshot cannot be accepted as real"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:09:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "reconciled_persisted",
+      "started_at": "2026-09-17T11:09:00+08:00",
+      "completed_at": "2026-09-17T11:09:20+08:00",
+      "error_code": "ValueError",
+      "error_message": "stale or unavailable snapshot cannot be accepted as real"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:10:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "reconciled_persisted",
+      "started_at": "2026-09-17T11:10:00+08:00",
+      "completed_at": "2026-09-17T11:10:25+08:00",
+      "error_code": "ValueError",
+      "error_message": "stale or unavailable snapshot cannot be accepted as real"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:11:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "reconciled_persisted",
+      "started_at": "2026-09-17T11:11:00+08:00",
+      "completed_at": "2026-09-17T11:11:27+08:00",
+      "error_code": "ValueError",
+      "error_message": "stale or unavailable snapshot cannot be accepted as real"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:12:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T11:12:00+08:00",
+      "completed_at": "2026-09-17T11:12:18+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T11:13:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T11:13:00+08:00",
+      "completed_at": "2026-09-17T11:13:20+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T11:14:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "reconciled_persisted",
+      "started_at": "2026-09-17T11:14:00+08:00",
+      "completed_at": "2026-09-17T11:14:24+08:00",
+      "error_code": "ValueError",
+      "error_message": "stale or unavailable snapshot cannot be accepted as real"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:15:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "reconciled_persisted",
+      "started_at": "2026-09-17T11:15:00+08:00",
+      "completed_at": "2026-09-17T11:15:19+08:00",
+      "error_code": "ValueError",
+      "error_message": "stale or unavailable snapshot cannot be accepted as real"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:16:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "reconciled_persisted",
+      "started_at": "2026-09-17T11:16:00+08:00",
+      "completed_at": "2026-09-17T11:16:20+08:00",
+      "error_code": "ValueError",
+      "error_message": "stale or unavailable snapshot cannot be accepted as real"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:17:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "reconciled_persisted",
+      "started_at": "2026-09-17T11:17:00+08:00",
+      "completed_at": "2026-09-17T11:17:20+08:00",
+      "error_code": "ValueError",
+      "error_message": "stale or unavailable snapshot cannot be accepted as real"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:18:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "reconciled_persisted",
+      "started_at": "2026-09-17T11:18:00+08:00",
+      "completed_at": "2026-09-17T11:18:20+08:00",
+      "error_code": "ValueError",
+      "error_message": "stale or unavailable snapshot cannot be accepted as real"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:19:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "reconciled_persisted",
+      "started_at": "2026-09-17T11:19:00+08:00",
+      "completed_at": "2026-09-17T11:19:20+08:00",
+      "error_code": "ValueError",
+      "error_message": "stale or unavailable snapshot cannot be accepted as real"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:20:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "reconciled_persisted",
+      "started_at": "2026-09-17T11:20:00+08:00",
+      "completed_at": "2026-09-17T11:20:21+08:00",
+      "error_code": "ValueError",
+      "error_message": "stale or unavailable snapshot cannot be accepted as real"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:21:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T11:21:00+08:00",
+      "completed_at": "2026-09-17T11:21:20+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T11:22:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T11:22:01+08:00",
+      "completed_at": "2026-09-17T11:22:21+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T11:23:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T11:23:00+08:00",
+      "completed_at": "2026-09-17T11:23:20+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T11:24:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T11:24:00+08:00",
+      "completed_at": "2026-09-17T11:24:20+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T11:25:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "reconciled_persisted",
+      "started_at": "2026-09-17T11:25:00+08:00",
+      "completed_at": "2026-09-17T11:25:20+08:00",
+      "error_code": "ValueError",
+      "error_message": "stale or unavailable snapshot cannot be accepted as real"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:26:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T11:26:00+08:00",
+      "completed_at": "2026-09-17T11:26:23+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T11:27:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "accepted_real",
+      "started_at": "2026-09-17T11:27:00+08:00",
+      "completed_at": "2026-09-17T11:27:20+08:00",
+      "error_code": null,
+      "error_message": null
+    },
+    {
+      "minute_bucket": "2026-09-17T11:28:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "reconciled_persisted",
+      "started_at": "2026-09-17T11:28:00+08:00",
+      "completed_at": "2026-09-17T11:28:19+08:00",
+      "error_code": "ValueError",
+      "error_message": "stale or unavailable snapshot cannot be accepted as real"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:29:00+08:00",
+      "attempt_number": 1,
+      "repair": 0,
+      "outcome": "reconciled_persisted",
+      "started_at": "2026-09-17T11:29:00+08:00",
+      "completed_at": "2026-09-17T11:29:20+08:00",
+      "error_code": "ValueError",
+      "error_message": "stale or unavailable snapshot cannot be accepted as real"
+    }
+  ],
+  "history_quality": [
+    {
+      "minute_bucket": "2026-09-17T09:25:00+08:00",
+      "freshness_status": "stale"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:30:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:31:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:32:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:33:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:34:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:35:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:36:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:37:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:38:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:39:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:40:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:41:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:42:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:43:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:44:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:45:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:46:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:47:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:48:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:49:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:50:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:51:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:52:00+08:00",
+      "freshness_status": "stale"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:53:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:54:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:55:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:56:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:57:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:58:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T09:59:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:00:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:01:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:02:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:03:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:04:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:05:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:06:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:07:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:08:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:09:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:10:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:11:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:12:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:13:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:14:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:15:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:16:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:17:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:18:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:19:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:20:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:21:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:22:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:23:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:24:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:25:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:26:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:27:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:28:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:29:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:30:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:31:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:32:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:33:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:34:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:35:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:36:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:37:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:38:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:39:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:40:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:41:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:42:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:43:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:44:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:45:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:46:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:47:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:48:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:49:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:50:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:51:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:52:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:53:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:54:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:55:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:56:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:57:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:58:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T10:59:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:00:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:01:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:02:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:03:00+08:00",
+      "freshness_status": "stale"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:04:00+08:00",
+      "freshness_status": "stale"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:05:00+08:00",
+      "freshness_status": "stale"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:06:00+08:00",
+      "freshness_status": "stale"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:07:00+08:00",
+      "freshness_status": "stale"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:08:00+08:00",
+      "freshness_status": "stale"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:09:00+08:00",
+      "freshness_status": "stale"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:10:00+08:00",
+      "freshness_status": "stale"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:11:00+08:00",
+      "freshness_status": "stale"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:12:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:13:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:14:00+08:00",
+      "freshness_status": "stale"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:15:00+08:00",
+      "freshness_status": "stale"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:16:00+08:00",
+      "freshness_status": "stale"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:17:00+08:00",
+      "freshness_status": "stale"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:18:00+08:00",
+      "freshness_status": "stale"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:19:00+08:00",
+      "freshness_status": "stale"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:20:00+08:00",
+      "freshness_status": "stale"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:21:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:22:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:23:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:24:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:25:00+08:00",
+      "freshness_status": "stale"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:26:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:27:00+08:00",
+      "freshness_status": "degraded"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:28:00+08:00",
+      "freshness_status": "stale"
+    },
+    {
+      "minute_bucket": "2026-09-17T11:29:00+08:00",
+      "freshness_status": "stale"
+    }
+  ],
+  "limitations": [
+    "No browser visibility timeline was recorded.",
+    "Lunch break: no active-session focus-switch experiment performed.",
+    "No code changes, restarts or data repair performed."
+  ]
+}

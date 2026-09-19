@@ -314,30 +314,35 @@ def test_agriculture_replay_uses_chain_leadership_without_rewriting_weak_breadth
             {
                 "代码": "600371",
                 "名称": "万向德农",
+                "smart_sector_membership": {"status": "verified", "primary_sector_key": "agriculture", "primary_sector_name": "农业"},
                 "涨停原因": "转基因+粮食概念+玉米种业",
                 "连板": "2天2板",
             },
             {
                 "代码": "000505",
                 "名称": "京粮控股",
+                "smart_sector_membership": {"status": "verified", "primary_sector_key": "agriculture", "primary_sector_name": "农业"},
                 "涨停原因": "粮食概念+油脂加工+国企改革",
                 "连板": "3天3板",
             },
             {
                 "代码": "600127",
                 "名称": "金健米业",
+                "smart_sector_membership": {"status": "verified", "primary_sector_key": "agriculture", "primary_sector_name": "农业"},
                 "涨停原因": "粮食安全+粮油加工+湖南国资",
                 "连板": "3天3板",
             },
             {
                 "代码": "001338",
                 "名称": "永顺泰",
+                "smart_sector_membership": {"status": "verified", "primary_sector_key": "agriculture", "primary_sector_name": "农业"},
                 "涨停原因": "粮食概念+麦芽+啤酒+国企",
                 "连板": "首板",
             },
             {
                 "代码": "603395",
                 "名称": "红四方",
+                "smart_sector_membership": {"status": "verified", "primary_sector_key": "agriculture", "primary_sector_name": "农业"},
                 "涨停原因": "新疆煤化工项目+复合肥+央企",
                 "连板": "3天3板",
             },
@@ -372,7 +377,7 @@ def test_agriculture_replay_uses_chain_leadership_without_rewriting_weak_breadth
     )
     assert red_four["raw_reason"] == "新疆煤化工项目+复合肥+央企"
     assert any(
-        item["matched_tag"] == "复合肥" and item["chain_node"] == "农业投入品"
+        item["matched_tag"] == "农业" and item["source"] == "smart_sector_library"
         for item in red_four["attributions"]
     )
 

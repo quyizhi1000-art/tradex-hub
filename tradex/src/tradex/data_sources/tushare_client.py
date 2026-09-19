@@ -185,6 +185,7 @@ def primary_capabilities() -> frozenset[str]:
             "etf_quotes,stock_fund_flow,dragon_tiger_market_day,"
             "minute_data,stock_selection_calendar,stock_selection_daily,"
             "stock_selection_daily_basic,stock_selection_master,"
+            "stock_selection_technicals,"
             "stock_selection_financial_period,instrument_taxonomy,"
             "limit_up_daily_membership,limit_sentiment_daily"
         ),

@@ -1,0 +1,76 @@
+{
+  "instrument_id": "300018.SZ",
+  "name": "中元股份",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "300018.SZ",
+    "name": "中元股份",
+    "memberships": [
+      "电力设备",
+      "电网设备",
+      "电网自动化设备",
+      "湖北板块",
+      "股权分散",
+      "专精特新",
+      "创业板综",
+      "深股通",
+      "参股新三板",
+      "融资融券",
+      "电池技术",
+      "电网概念",
+      "机器人概念",
+      "机器视觉",
+      "特高压",
+      "体外诊断概念",
+      "互联网医疗",
+      "区块链",
+      "智能电网",
+      "核能核电",
+      "锂电池概念"
+    ],
+    "business_sections": [
+      {
+        "title": "电力故障录波装置、时间同步装置、变电配网自动化设备及综合自动化系统、智能电网测试仪器仪表",
+        "kind": "主营业务",
+        "text": "公司主要从事电力系统智能化记录分析、时间同步、配网自动化设备及综合自动化系统相关产品的研发、制造、销售和服务。主营产品有电力故障录波装置、时间同步装置、变电配网自动化设备及综合自动化系统、智能电网测试仪器仪表等。公司智能电网产品广泛应用于电网建设、电源建设、配网建设、用户工程建设及其技术改造等。公司电力故障录波装置、时间同步装置处于细分行业领先地位。"
+      },
+      {
+        "title": "品牌效应",
+        "kind": "核心竞争力",
+        "text": "公司为国家级专精特新“小巨人”企业，深耕智能电网领域二十余年，是电力故障录波、时间同步细分行业的标杆企业。公司深度参与电力细分领域多项国家、行业标准制定，持续引领行业技术发展方向。"
+      },
+      {
+        "title": "公司参与的国家、行业、企业标准制定情况",
+        "kind": "核心竞争力",
+        "text": "报告期内，公司积极参与电力领域国家、行业、企业、团体各项标准的起草工作，引领行业发展。截至报告期末，公司参与的国家、行业、企业、团体标准已发布、实施42项。"
+      },
+      {
+        "title": "公司专利情况",
+        "kind": "核心竞争力",
+        "text": "报告期内，公司及子公司共申请发明专利11项、实用新型6项，获得实用新型专利7项、外观设计专利1项。截至报告期末，公司及子公司拥有发明专利84项、实用新型专利50项、外观设计专利3项。"
+      },
+      {
+        "title": "公司软件著作权情况",
+        "kind": "核心竞争力",
+        "text": "报告期内，公司及子公司新登记软件著作权14件。截至报告期末，公司及子公司拥有软件著作权310件。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ300018",
+    "fetched_at": "2026-09-18T23:00:44.924327+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "电力故障录波分析装置"
+}

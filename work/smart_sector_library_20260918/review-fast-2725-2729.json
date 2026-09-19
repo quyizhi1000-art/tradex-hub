@@ -1,0 +1,80 @@
+[
+  {
+    "id": "301348.SZ",
+    "key": "advanced_packaging",
+    "sector": "先进封装",
+    "source_sector_name": "先进封装",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "芯片封测",
+      "SIP及超薄封装"
+    ],
+    "company_fact": "半导体封测，具备SIP倒装技术及DFN等量产平台。",
+    "ths_fact": "无框架封装大批量产，超薄封装核心技术产品稳定批产。",
+    "fact": "半导体封测，具备SIP倒装技术及DFN等量产平台。",
+    "reason": "本体先进封装技术量产支撑身份，存储参股5.55%不当成控制业务。"
+  },
+  {
+    "id": "301349.SZ",
+    "key": "lithium_batteries",
+    "sector": "锂电池",
+    "source_sector_name": "锂电池概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "负极包覆材料"
+    ],
+    "company_fact": "包覆材料用于动力储能消费锂离子负极，改善石墨及硅基负极性能。",
+    "ths_fact": "主营负极包覆材料研产销，客户为锂电负极龙头。",
+    "fact": "包覆材料用于动力储能消费锂离子负极，改善石墨及硅基负极性能。",
+    "reason": "实际负极材料供应身份稳定，光纤碳纤维尚验证，固态可用说明不等于专门供货。"
+  },
+  {
+    "id": "301353.SZ",
+    "key": "general_equipment",
+    "sector": "通用设备",
+    "source_sector_name": "通用设备",
+    "source_sector_provider": "东方财富",
+    "stage": "revenue",
+    "chain": [
+      "电动工具"
+    ],
+    "company_fact": "电热喷涂吹吸钉枪冲磨等电动工具研发设计生产销售。",
+    "ths_fact": "减速器仅自己电动工具零部件，自研自制。",
+    "fact": "电热喷涂吹吸钉枪冲磨等电动工具研发设计生产销售。",
+    "reason": "实际是电动工具厂，内部减速器用途未证独立机器人供应；采用已有行业通用设备。"
+  },
+  {
+    "id": "301355.SZ",
+    "key": "packaging_printing",
+    "sector": "包装印刷",
+    "source_sector_name": "包装印刷",
+    "source_sector_provider": "东方财富",
+    "stage": "revenue",
+    "chain": [
+      "环保纸袋",
+      "食品纸包装"
+    ],
+    "company_fact": "环保纸袋食品纸包装，无纺袋及标签材料。",
+    "ths_fact": "概念名单为食品安全地域等；经营以包装为核心。",
+    "fact": "环保纸袋食品纸包装，无纺袋及标签材料。",
+    "reason": "包装材料及印制产品身份明确，食品安全为属性而非主业。"
+  },
+  {
+    "id": "301356.SZ",
+    "key": "home_furnishings",
+    "sector": "家居用品",
+    "source_sector_name": "家居用品",
+    "source_sector_provider": "东方财富",
+    "stage": "revenue",
+    "chain": [
+      "PVC复合地板",
+      "RPET复合地板"
+    ],
+    "company_fact": "PVC及RPET复合地板研发产销，室内地面装饰。",
+    "ths_fact": "3D打印用于PVC及PET地板立体效果。",
+    "fact": "PVC及RPET复合地板研发产销，室内地面装饰。",
+    "reason": "地板家居产品身份明确，打印是产品表面工艺而非3D设备业务。"
+  }
+]

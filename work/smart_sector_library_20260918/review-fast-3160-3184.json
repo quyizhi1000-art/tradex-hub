@@ -1,0 +1,542 @@
+[
+  {
+    "id": "600348.SH",
+    "key": "sodium_ion_battery",
+    "sector": "钠离子电池",
+    "source_sector_name": "钠离子电池",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "钠离子电芯与模组",
+      "煤矿应急储能"
+    ],
+    "stage": "delivery",
+    "fact": "全资钠电主体产品已批量供应储能及矿山客户。",
+    "ths_fact": "钠离子电池解析确认自产产品，碳纤维解析为新线投产。",
+    "company_fact": "主营列煤炭加新能源新材料；原年报确认全资华钠芯能、批量供应及矿山应急电源商业应用。",
+    "reason": "钠电已有外部客户应用和供货，支撑已有市场主线；不因煤炭占比大改回煤炭，碳纤维投产尚不等于同等销售兑现。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "600348-review-official-0",
+        "source_kind": "official_filing",
+        "publisher": "华阳股份",
+        "title": "2025年年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=600348&id=12200931",
+        "published_at": null,
+        "assertions": [
+          "全资华钠芯能钠电产品批量供应储能与矿山客户，应急电源已应用；碳纤维2025年11月新线投产不等同已实现同等销售。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "600350.SH",
+    "key": "highways",
+    "sector": "高速公路",
+    "source_sector_name": "高速公路",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "收费路桥运营",
+      "受托公路管理"
+    ],
+    "stage": "revenue",
+    "fact": "公司已运营收费路桥并提供受托管理服务。",
+    "ths_fact": "智慧城市解析为停车场运营；绿电解析主要为自发自用光储充项目。",
+    "company_fact": "主营确认路桥通行费及受托管理经营，工程建设依托公路全周期服务。",
+    "reason": "已有高速公路对应持续市场身份及直接业务；停车和自用能源是配套，参股金融不取代运营主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600351.SH",
+    "key": "innovative_drugs",
+    "sector": "创新药",
+    "source_sector_name": "创新药",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "创新生物药",
+      "中药新药临床研发"
+    ],
+    "stage": "pilot",
+    "fact": "SY-005等自主创新药已进入临床阶段。",
+    "ths_fact": "创新药解析列SY-005及中药新药临床管线。",
+    "company_fact": "主营为医药生产及研发；原年报确认SY-005二期及新增适应症获批临床，中药新药按计划推进。",
+    "reason": "选择已有创新药承接真实临床资产；临床阶段记试验，不混同已销售儿科药收入，也不将旧口服胰岛素合作等同成功上市。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "600351-review-official-0",
+        "source_kind": "official_filing",
+        "publisher": "亚宝药业",
+        "title": "2025年年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=600351&id=12183390",
+        "published_at": null,
+        "assertions": [
+          "SY-005处二期临床并新增适应症临床许可，中药创新药持续推进；不把临床许可当上市批件。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "600352.SH",
+    "key": "dyes",
+    "sector": "染料",
+    "source_sector_name": "染料",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "纺织染料与助剂",
+      "有机中间体"
+    ],
+    "stage": "revenue",
+    "fact": "实际经营染料、助剂及相关中间体。",
+    "ths_fact": "染料解析直接对应两大化工业务；AI为化工联合实验室合作。",
+    "company_fact": "主营确认纺织用化学品及间苯二胺、间苯二酚等中间体。",
+    "reason": "已有染料有实际产业链与产品支撑；内部制造数字化及合作实验室不足以形成AI对外经营主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600353.SH",
+    "key": "nuclear_fusion",
+    "sector": "可控核聚变",
+    "source_sector_name": "可控核聚变",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "大功率电子管",
+      "聚变装置核心器件"
+    ],
+    "stage": "delivery",
+    "fact": "大功率电子管已有可控核聚变装置配套应用。",
+    "ths_fact": "核聚变解析明确已应用；核电解析确认兆瓦级电子管通过专家测试。",
+    "company_fact": "主营明确电真空器件并拓展聚变能源核心部件，产品包括大功率射频电子管。",
+    "reason": "已有核聚变由具体器件配套支持，链条限定装置部件；不声称聚变发电收入，人形控制器送样及新封装产品另行跟踪。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600354.SH",
+    "key": "corn",
+    "sector": "玉米",
+    "source_sector_name": "玉米",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "玉米杂交种",
+      "种子育繁推"
+    ],
+    "stage": "revenue",
+    "fact": "实际生产销售玉米杂交种。",
+    "ths_fact": "玉米解析列先玉和敦玉等实际销售品种；转基因解析仅列子公司经营范围。",
+    "company_fact": "主营为种子研发生产加工销售，自有品种与代繁制种结合。",
+    "reason": "已有玉米对应真实品种和经营；仅转基因经营范围不足以认定转基因品种已获审定或销售，相关新证据出现后复核。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600356.SH",
+    "key": "tobacco",
+    "sector": "烟草",
+    "source_sector_name": "烟草",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "卷烟配套特种纸",
+      "烟草工业用纸"
+    ],
+    "stage": "revenue",
+    "fact": "已向烟草客户生产销售配套用纸。",
+    "ths_fact": "烟草解析明确卷烟用纸及中烟客户；环保包装解析为较早拟建项目。",
+    "company_fact": "主营特种纸，包括烟草工业用纸及其他应用纸品。",
+    "reason": "已有烟草主题具备具体客户与持续材料经营，链条限定纸品，不称烟草种植或卷烟生产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600358.SH",
+    "key": "cross_border_ecommerce",
+    "sector": "跨境电商",
+    "source_sector_name": "跨境电商",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "保税进口商品",
+      "跨境新零售运营"
+    ],
+    "stage": "revenue",
+    "fact": "已通过全资海际购经营进口品牌供应链及跨境电商。",
+    "ths_fact": "跨境电商解析列海际购完整采购进口仓储零售链。",
+    "company_fact": "主营确认2024年现金收购海际购100%已完成并正式布局跨境购。",
+    "reason": "新业务已有完成交易及实际运营支持；不靠公司名称判旅游，也不将润田筹划收购写成饮料业务已并表。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600359.SH",
+    "key": "agricultural_planting",
+    "sector": "农业种植",
+    "source_sector_name": "农业种植",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "种子繁育与加工",
+      "棉种及粮食种子"
+    ],
+    "stage": "revenue",
+    "fact": "实际开展种子繁育、加工及销售。",
+    "ths_fact": "农业种植解析确认塔河种业的棉花、水稻、小麦等种子业务。",
+    "company_fact": "主营详述原种培育、扩繁基地及预约制种，兼有甘草、肉牛和食品业务。",
+    "reason": "已有农业种植最完整承接已确认制种经营；不把陈旧乳业或土地面积材料当当前主归属依据。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600360.SH",
+    "key": "igbt",
+    "sector": "IGBT",
+    "source_sector_name": "IGBT",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "功率半导体器件",
+      "IGBT芯片与模块"
+    ],
+    "stage": "revenue",
+    "fact": "已形成IGBT等功率器件研产销体系。",
+    "ths_fact": "IGBT为已有成员，芯片解析具体说明IGBT薄片及Trench工艺和营销产品。",
+    "company_fact": "主营确认IDM生产线及IGBT、MOS等系列产品经营。",
+    "reason": "具体IGBT产品及自有制造支撑已有主线；第三代半导体部分为开发示范阶段，不把所有规划用途都称量产市场。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600361.SH",
+    "key": "aluminum",
+    "sector": "铝",
+    "source_sector_name": "铝",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "铝合金材料",
+      "消费电子与汽车型材"
+    ],
+    "stage": "revenue",
+    "fact": "已规模经营多类铝合金材料与型材。",
+    "ths_fact": "有色铝与消费电子解析确认实际产品供应；机器人为联合研发中心，液冷为布局。",
+    "company_fact": "主营具备铝合金研发至机加工全流程，覆盖3C、汽车和电力材料。",
+    "reason": "已有铝覆盖稳定的材料供应链身份；新液冷业务尚无独立产品交付证据，机器人联合研究不直接改归属。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600362.SH",
+    "key": "metal_copper",
+    "sector": "金属铜",
+    "source_sector_name": "金属铜",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "铜采选冶炼",
+      "铜材深加工"
+    ],
+    "stage": "revenue",
+    "fact": "已形成铜资源采选、冶炼及深加工完整经营链。",
+    "ths_fact": "金属铜解析列采选冶炼及铜材经营，PCB为下游铜箔应用。",
+    "company_fact": "主营确认铜金及相关金属经营，铜链条涵盖勘探至加工。",
+    "reason": "选择有完整资源与产品体系支撑的金属铜身份；黄金和铜箔应用并存，不机械依单一收入占比或下游用途改成PCB。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600363.SH",
+    "key": "superconductors",
+    "sector": "超导",
+    "source_sector_name": "超导概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "高温超导磁体",
+      "重要联营企业设备应用"
+    ],
+    "stage": "delivery",
+    "fact": "持股40%的重要联营企业已开展高温超导装备业务并有样机交付。",
+    "ths_fact": "超导解析确认磁体技术和多应用产品；光伏解析确认晶硅炉样机交付并开始批产。",
+    "company_fact": "主营及核心段将高温超导列重点产业；原股东会材料确认40%参股、重大产业方向及已获下游订单。",
+    "reason": "超导是公司明确重点发展的产业和有实质经营的重要投资关联，较零散新应用更能解释市场身份；未并表，阶段描述联营业务交付，不能当上市公司超导营业收入。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "600363-review-official-0",
+        "source_kind": "official_filing",
+        "publisher": "联创光电",
+        "title": "2025年年度股东会会议材料",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=600363&id=12314122",
+        "published_at": null,
+        "assertions": [
+          "公司持联创超导40%，电子集团持41.026%，联创超导为参股及重要产业关联；超导列重点未来主业，下游订单已取得。"
+        ]
+      },
+      {
+        "evidence_id": "600363-review-official-1",
+        "source_kind": "official_filing",
+        "publisher": "联创光电",
+        "title": "2025年年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=600363&id=12289945",
+        "published_at": null,
+        "assertions": [
+          "核心产业布局重点突出激光和高温超导，超导产品覆盖感应加热、晶硅炉及聚变工程装备；不将联营业务列为上市公司并表收入。"
+        ]
+      }
+    ],
+    "relation": "investment",
+    "investment_reviewed": true
+  },
+  {
+    "id": "600365.SH",
+    "key": "e_commerce",
+    "sector": "电商",
+    "source_sector_name": "电商概念",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "消费品网络零售",
+      "酒类电商运营"
+    ],
+    "stage": "revenue",
+    "fact": "全资九润源开展消费品电商零售与网络营销。",
+    "ths_fact": "白酒解析对应九润源销售产品；老字号与地域解析对应原有葡萄酒。",
+    "company_fact": "主营分别确认葡萄酒经营和全资九润源电商平台。",
+    "reason": "已有电商承接实际零售经营与酒类品牌销售，避免将销售白酒说成自产白酒；葡萄酒制造保留在经营背景。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600366.SH",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "钕铁硼磁材",
+      "机器人磁组件"
+    ],
+    "stage": "revenue",
+    "fact": "已对国内人形机器人客户量产供货，收入贡献仍小。",
+    "ths_fact": "人形解析明确截至2024三季度某客户量产供货、对收入盈利影响甚微。",
+    "company_fact": "主营稀土永磁材料及应用方案，明确产品用于人形机器人等领域。",
+    "reason": "已有真实人形客户供货构成新主线，不因金额小排除；链条限定磁材组件，不称机器人整机，后续核查客户放量。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600367.SH",
+    "key": "solid_state_batteries",
+    "sector": "固态电池",
+    "source_sector_name": "固态电池",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "锰系电池材料",
+      "固态电池性能验证"
+    ],
+    "stage": "pilot",
+    "fact": "下游固态电池客户采购锰系材料用于性能验证。",
+    "ths_fact": "固态解析明确采购用途为测试，四氧化三锰虽中试完成但暂无产出。",
+    "company_fact": "主营确认电解二氧化锰、高纯硫酸锰等电池材料实际生产。",
+    "reason": "已有固态主题由具体客户验证承接，记试验而非量产收入；通用锰盐产能不能全部算固态业务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600368.SH",
+    "key": "highways",
+    "sector": "高速公路",
+    "source_sector_name": "高速公路",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "收费高速运营",
+      "沿线综合服务"
+    ],
+    "stage": "revenue",
+    "fact": "已经营坛百路、岑罗路并取得通行费收入。",
+    "ths_fact": "物业和区域解析涉及高速运营配套；AI路眼为收费站自身应用。",
+    "company_fact": "主营确认收费公路经营权和通行费，兼有农产品物流及资产经营。",
+    "reason": "高速公路直接承接确定经营与市场身份；物流和内部AI并不自动取代路桥运营，保留新业务复核空间。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600369.SH",
+    "key": "securities",
+    "sector": "券商",
+    "source_sector_name": "券商概念",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "证券经纪与投行",
+      "资产管理"
+    ],
+    "stage": "revenue",
+    "fact": "实际开展证券经纪、投行、自营和资产管理。",
+    "ths_fact": "期货解析同时完整列证券经纪、投行、自营和资管。",
+    "company_fact": "主营逐项确认证券及期货经纪、投行、投资与资管等持牌业务。",
+    "reason": "已有券商覆盖实际综合证券服务；不机械采用唯一同花顺期货概念作为更窄主归属。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600370.SH",
+    "key": "pta",
+    "sector": "PTA",
+    "source_sector_name": "PTA",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "精对苯二甲酸",
+      "聚酯原料与瓶片"
+    ],
+    "stage": "revenue",
+    "fact": "已生产销售PTA及瓶级聚酯切片。",
+    "ths_fact": "PTA解析确认海伦石化等全资主体经营及下游长期使用。",
+    "company_fact": "主营分别列瓶级聚酯切片和PTA生产销售。",
+    "reason": "已有PTA有产品与产业链事实支撑；ST风险标签不是行业，链条保留瓶片配套而不自造聚酯类别。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600371.SH",
+    "key": "transgenic",
+    "sector": "转基因",
+    "source_sector_name": "转基因",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "转基因玉米品种",
+      "种子繁育"
+    ],
+    "stage": "product",
+    "fact": "已有多个转基因玉米品种通过国家审定并安排制种。",
+    "ths_fact": "转基因解析列审定品种与销售推进，未提供分项销售额。",
+    "company_fact": "主营为玉米杂交种；原年报确认4个转基因品种审定及相应区域制种安排。",
+    "reason": "具体已审定产品支持已有转基因主线，记产品而不推定规模收入；同花顺贸易战段误述供港生猪，与公司资料不符，排除。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "600371-review-official-0",
+        "source_kind": "official_filing",
+        "publisher": "万向德农",
+        "title": "2025年年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=600371&id=12096292",
+        "published_at": null,
+        "assertions": [
+          "2025年度4个转基因品种通过国家审定，并安排张掖区域转基因品种制种；无分项规模收入断言。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "600372.SH",
+    "key": "defense_informatization",
+    "sector": "军工信息化",
+    "source_sector_name": "军工信息化",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "航空电子系统",
+      "飞控导航与机电配套"
+    ],
+    "stage": "revenue",
+    "fact": "持续提供航空电子、飞控及相关机电系统。",
+    "ths_fact": "军工信息化解析具体列航电、自动控制、导航及雷达火控产品。",
+    "company_fact": "主营确认飞行器机载电子、飞控和机电系统研产销服务。",
+    "reason": "已有军工信息化贯通实际系统级能力；低空eVTOL仍联合研制，商业航天泛列航天用途不足以单独替换主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600373.SH",
+    "key": "ai_video",
+    "sector": "AI视频",
+    "source_sector_name": "AI视频",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "AI辅助内容制作",
+      "短剧与营销视频"
+    ],
+    "stage": "delivery",
+    "fact": "已在内容与营销制作中使用AI视频生成，并有旗下短剧上线。",
+    "ths_fact": "AI视频解析确认红星传媒部署文生视频等模型制作短剧。",
+    "company_fact": "主营含数字内容及营销；原2025半年报确认朗知传媒AI视频生成应用，年报确认《剑气龙光》等上线。",
+    "reason": "选择已有AI视频承接实际内容制作，不将整部短剧称为全AI生成；阶段为应用交付，出版游戏收入不算AI视频分项收入。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "600373-review-official-0",
+        "source_kind": "official_filing",
+        "publisher": "中文传媒",
+        "title": "2025年半年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=600373&id=11388807",
+        "published_at": null,
+        "assertions": [
+          "旗下朗知传媒实际使用AI视频生成及智能文案技术开展营销内容制作。"
+        ]
+      },
+      {
+        "evidence_id": "600373-review-official-1",
+        "source_kind": "official_filing",
+        "publisher": "中文传媒",
+        "title": "2025年年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=600373&id=12112954",
+        "published_at": null,
+        "assertions": [
+          "旗下红星传媒已有6部微短剧上线，《剑气龙光》在红果和抖音等平台播出；并不证明全片由AI生成。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "600375.SH",
+    "key": "new_energy_vehicles",
+    "sector": "新能源汽车",
+    "source_sector_name": "新能源汽车",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "电动重卡",
+      "甲醇电动商用车"
+    ],
+    "stage": "revenue",
+    "fact": "已开展新能源重卡及相关整车经营，推进甲醇电动和纯电动路线。",
+    "ths_fact": "新能源汽车解析确认技术路线，换电解析列相关重卡产品。",
+    "company_fact": "主营为重卡整车及零部件；原年报确认新能源转型并自2025年末停产境内传统燃油整车。",
+    "reason": "已有新能源汽车对应真实整车转型，非仅下游零件用途；氢燃料是并行产品，不把甲醇电动统称氢燃料电池。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "600375-review-official-0",
+        "source_kind": "official_filing",
+        "publisher": "汉马科技",
+        "title": "2025年年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=600375&id=12022384",
+        "published_at": null,
+        "assertions": [
+          "自2025年12月31日起停产境内传统燃油整车，业务重心转向新能源及清洁能源，聚焦甲醇电动和纯电动产品。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "600376.SH",
+    "key": "elderly_care",
+    "sector": "养老",
+    "source_sector_name": "养老概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "机构养老",
+      "城市养老服务"
+    ],
+    "stage": "revenue",
+    "fact": "首开寸草已有9家养老院投入运营。",
+    "ths_fact": "养老解析确认运营机构及在院服务，非仅养老地产规划。",
+    "company_fact": "主营其他业务确认9家养老院运营及平均出租率，另有养老社区定位。",
+    "reason": "已有养老主题由真实机构服务承接；不因房地产收入最大否定转型业务，也不将全部地产项目称养老收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600377.SH",
+    "key": "highways",
+    "sector": "高速公路",
+    "source_sector_name": "高速公路",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "收费路桥投资运营",
+      "公路配套服务"
+    ],
+    "stage": "revenue",
+    "fact": "已运营收费路桥并取得通行费收入。",
+    "ths_fact": "已存同花顺仅有国企、高股息、参股银行等标签，无相关业务概念说明可作为道路经营证据。",
+    "company_fact": "东方财富主营确认路桥及通行费；原2025年报确认已通车收费项目与通行费95.55亿元。",
+    "reason": "已有高速公路由行业成员及公司原报告支持；海上风电虽有收入但保存成员无对应风电标签，不自建主类。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "600377-review-official-0",
+        "source_kind": "official_filing",
+        "publisher": "宁沪高速",
+        "title": "2025年年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=600377&id=12034601",
+        "published_at": null,
+        "assertions": [
+          "12个控制且已通车收费路桥项目运营，全年通行费约95.55亿元；道路经营事实来自原报告而非同花顺风格标签。"
+        ]
+      }
+    ]
+  }
+]

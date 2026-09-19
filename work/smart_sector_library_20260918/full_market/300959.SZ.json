@@ -1,0 +1,65 @@
+{
+  "instrument_id": "300959.SZ",
+  "name": "线上线下",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "300959.SZ",
+    "name": "线上线下",
+    "memberships": [
+      "通信",
+      "通信服务",
+      "通信应用增值服务",
+      "江苏板块",
+      "创业板综",
+      "深股通",
+      "融资融券",
+      "QFII重仓",
+      "小红书概念",
+      "抖音概念(字节概念)"
+    ],
+    "business_sections": [
+      {
+        "title": "移动信息服务",
+        "kind": "主营业务",
+        "text": "公司是行业领先的移动信息服务提供商，依托于体系化的服务流程、自主研发的技术平台，通过对电信运营商通信资源的整合，为互联网、金融、快递物流等各行业企业客户提供安全、有效、及时的全品类移动信息服务，实现其移动业务场景构建、产品运营支撑、消费者关系管理及支持，具体包括国内短信、国际短信、视频短信、5G消息、语音短信、一键登录等主流应用形式。"
+      },
+      {
+        "title": "数字营销业务",
+        "kind": "主营业务",
+        "text": "公司数字营销业务主要布局于短视频和信息流领域，公司与字节跳动旗下媒体平台（抖音、今日头条、西瓜视频等）、小红书建立了稳定合作。公司根据广告主的营销需求，提供营销资源整合、营销方案策划、营销数据分析、营销投放实施等多方位的服务。公司基于对数字媒体平台及行业的敏锐洞察，帮助广告主实现更高效、更优质的投放转化。"
+      },
+      {
+        "title": "优质的通信资源",
+        "kind": "核心竞争力",
+        "text": "公司和中国移动、中国联通和中国电信三大电信运营商保持长期稳定的合作关系，为公司的业务发展提供充足的第一手通信资源，并同时与三大运营商多个省市级公司形成持续业务合作，为移动信息服务提供了优质的资源基础。"
+      },
+      {
+        "title": "头部媒体资源",
+        "kind": "核心竞争力",
+        "text": "公司与字节跳动旗下媒体平台、小红书等头部媒体建立了深度合作关系，是字节旗下抖音平台巨量引擎综合代理商、巨量千川服务商、巨量本地推综合代理商，及小红书蒲公英服务商。掌握头部媒体资源有助于为客户实现高效的营销成果。"
+      },
+      {
+        "title": "优质的客户资源",
+        "kind": "核心竞争力",
+        "text": "公司与多家头部互联网公司形成长期业务合作，并同时覆盖了金融、快递物流等各行业。公司的优质客户资源和行业经验积累，是业务稳定发展的坚实基础。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ300959",
+    "fetched_at": "2026-09-18T23:19:50.313614+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "移动信息服务"
+}

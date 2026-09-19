@@ -1,0 +1,109 @@
+[
+  {
+    "id": "600498.SH",
+    "key": "optical_fiber",
+    "sector": "光纤",
+    "source_sector_name": "光纤概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "光纤光缆",
+      "光通信系统"
+    ],
+    "company_fact": "光通信业务含传输接入空芯光纤及海洋通信，并有算力服务器业务。",
+    "ths_fact": "主营光纤通信，通信设备光纤线缆等，运营商集采光缆中标。",
+    "fact": "光通信业务含传输接入空芯光纤及海洋通信，并有算力服务器业务。",
+    "reason": "光通信光纤系统的完整身份明确，旧400G可插拔相干模块说明不等同CPO封装。"
+  },
+  {
+    "id": "600499.SH",
+    "key": "salt_lake_lithium",
+    "sector": "盐湖提锂",
+    "source_sector_name": "盐湖提锂",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "蓝科锂业重要联营投资"
+    ],
+    "company_fact": "建材机械海外建材及负极材料并行，蓝科锂业为重要盐湖锂盐投资。",
+    "ths_fact": "间接持蓝科43.58%，盐湖碳酸锂生产销售。",
+    "fact": "建材机械海外建材及负极材料并行，蓝科锂业为重要盐湖锂盐投资。",
+    "reason": "原H1确认43.58%经济权益与48.58%表决权，盐湖投资为核心市场身份；revenue指被投锂盐业务已有收入，不是上市公司合并锂盐营收。",
+    "relation": "investment",
+    "investment_reviewed": true,
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "official-600499-2026h1",
+        "source_kind": "official_filing",
+        "publisher": "科达制造",
+        "title": "2026年半年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12526242&stockid=600499",
+        "published_at": "2026-08-25",
+        "assertions": [
+          "蓝科重要联营权益法核算，43.58%间接股份、48.58%表决权；H1被投营业收入254271.89万元。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "600500.SH",
+    "key": "optical_fiber",
+    "sector": "光纤",
+    "source_sector_name": "光纤概念",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "光缆增强对位芳纶"
+    ],
+    "company_fact": "化工材料原料与中间体研发生产销售。",
+    "ths_fact": "对位芳纶高模产品已稳定供全球TOP5光纤光缆客户。",
+    "fact": "化工材料原料与中间体研发生产销售。",
+    "reason": "原H1芳纶产业链覆盖光缆且稳定供货，归增强材料环节，不是生产光纤预制棒。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "official-600500-2026h1",
+        "source_kind": "official_filing",
+        "publisher": "中化国际",
+        "title": "2026年半年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12483285&stockid=600500",
+        "published_at": "2026-08-08",
+        "assertions": [
+          "自有对位芳纶8000吨产能满负荷，覆盖光缆通信安全防护橡胶增强，TOP10客户稳定供应。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "600501.SH",
+    "key": "controlled_nuclear_fusion",
+    "sector": "可控核聚变",
+    "source_sector_name": "可控核聚变",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "核级波纹管",
+      "杜瓦冷屏装备"
+    ],
+    "company_fact": "核非标成套设备，完成BEST等重大配套研制任务。",
+    "ths_fact": "核聚变波纹管膨胀节杜瓦冷屏参与ITER及BEST。",
+    "fact": "核非标成套设备，完成BEST等重大配套研制任务。",
+    "reason": "核聚变有具体产品及完成任务证据，不把一般核裂变能力冒作聚变订单。"
+  },
+  {
+    "id": "600502.SH",
+    "key": "water_conservancy",
+    "sector": "水利",
+    "source_sector_name": "水利",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "水利水电工程施工"
+    ],
+    "company_fact": "基础设施投建运，所属水利企业有特级施工资质及工程业绩。",
+    "ths_fact": "水利水电传统优势业务与丰富实施经验。",
+    "fact": "基础设施投建运，所属水利企业有特级施工资质及工程业绩。",
+    "reason": "水利施工市场身份实际支撑；西藏子公司存在不直接证明雅下项目承接。"
+  }
+]

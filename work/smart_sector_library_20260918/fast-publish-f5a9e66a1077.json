@@ -1,0 +1,490 @@
+[
+  {
+    "id": "688480.SH",
+    "key": "wastewater_treatment",
+    "sector": "污水处理",
+    "source_sector_name": "污水处理",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "矿冶重金属废水治理"
+    ],
+    "fact": "采选冶全流程矿冶污染治理和资源回收。",
+    "company_fact": "采选冶全流程矿冶污染治理和资源回收。",
+    "ths_fact": "污酸重金属废水含砷危废治理运营。",
+    "reason": "工业废水治理实际业务；新钼铼加工不直接当已完成收入。"
+  },
+  {
+    "id": "688484.SH",
+    "key": "ai_glasses",
+    "sector": "AI眼镜",
+    "source_sector_name": "AI眼镜",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "眼镜电池管理芯片"
+    ],
+    "fact": "平台模拟嵌入式芯片，消费电子及端侧AI布局。",
+    "company_fact": "平台模拟嵌入式芯片，消费电子及端侧AI布局。",
+    "ths_fact": "为夸克AI眼镜供电芯片和双电池均衡限流方案。",
+    "reason": "具体终端产品供应有证据；液冷驱动客户验证不称量产。"
+  },
+  {
+    "id": "688485.SH",
+    "key": "optical_fiber",
+    "sector": "光纤",
+    "source_sector_name": "光纤概念",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "分布式光纤声纹监测"
+    ],
+    "fact": "声纹数字状态监测形成智慧运维结构安全业务。",
+    "company_fact": "声纹数字状态监测形成智慧运维结构安全业务。",
+    "ths_fact": "已突破分布式传感研发并完成自主采集卡，后续FPGA ARM集成拟布局。",
+    "reason": "具体光纤传感产品技术链位，不称光通信器件；半导体拟布局不当批量封装。"
+  },
+  {
+    "id": "688486.SH",
+    "key": "chips",
+    "sector": "芯片",
+    "source_sector_name": "芯片概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "高速混合信号与互连芯片"
+    ],
+    "fact": "高速混合信号研发销售，SerDes等平台智能视频互连产品。",
+    "company_fact": "高速混合信号研发销售，SerDes等平台智能视频互连产品。",
+    "ths_fact": "高清视频处理桥接高速信号传输芯片。",
+    "reason": "高速芯片直接身份，英伟达参考设计合作不代表所有客户收入。"
+  },
+  {
+    "id": "688488.SH",
+    "key": "innovative_drugs",
+    "sector": "创新药",
+    "source_sector_name": "创新药",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "抗HIV创新药"
+    ],
+    "fact": "抗HIV创新药商业化及艾诺米替海外获批。",
+    "company_fact": "抗HIV创新药商业化及艾诺米替海外获批。",
+    "ths_fact": "两款创新药已上市，继续HIV多靶点开发。",
+    "reason": "已商业化创新药身份，内部DeepSeek不当AI医药对外产品。"
+  },
+  {
+    "id": "603990.SH",
+    "key": "ai_applications",
+    "sector": "AI应用",
+    "source_sector_name": "AI应用",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "麻醉重症临床AI"
+    ],
+    "stage": "delivery",
+    "fact": "DoCare临床系统及数字手术室急救平台。",
+    "company_fact": "DoCare临床系统及数字手术室急救平台。",
+    "ths_fact": "麻醉AI助手重症医生助手等产品落地并支持部署。",
+    "reason": "医疗信息技术与临床AI对外产品互证，人形合作框架不等于整机订单。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603991.SH",
+    "key": "advanced_packaging",
+    "sector": "先进封装",
+    "source_sector_name": "先进封装",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "封装引线框架与后道设备"
+    ],
+    "stage": "revenue",
+    "fact": "子公司AAMI生产引线框架、苏州桔云生产封装专用设备。",
+    "company_fact": "子公司AAMI生产引线框架、苏州桔云生产封装专用设备。",
+    "ths_fact": "桔云已并表并提供清洗烘箱腐蚀等先进封装设备。",
+    "reason": "现有封装材料设备共同支撑主题，旧线缆核电描述不用于当前归属。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603992.SH",
+    "key": "smart_home",
+    "sector": "智能家居",
+    "source_sector_name": "智能家居",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "智能厨卫及健康硬件"
+    ],
+    "stage": "revenue",
+    "fact": "智能淋浴马桶厨卫及健康软硬件。",
+    "company_fact": "智能淋浴马桶厨卫及健康软硬件。",
+    "ths_fact": "智能温控触摸感应等已成熟应用于卫浴配件。",
+    "reason": "智能产品已有经营基础，人形机器人仍早期合作探索。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603993.SH",
+    "key": "metal_copper",
+    "sector": "金属铜",
+    "source_sector_name": "金属铜",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "全球铜及伴生金属矿业"
+    ],
+    "stage": "revenue",
+    "fact": "从事铜钴钼等开采冶炼与全球金属贸易。",
+    "company_fact": "从事铜钴钼等开采冶炼与全球金属贸易。",
+    "ths_fact": "拥有铜等采选冶炼一体化产业链。",
+    "reason": "铜矿业与资源组合支撑主归属，不按公司名称固定钼或用旧黄金权益判断当前。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603995.SH",
+    "key": "special_steel",
+    "sector": "特钢",
+    "source_sector_name": "特钢概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "冷轧不锈钢板带"
+    ],
+    "stage": "revenue",
+    "fact": "研发生产精密及宽幅冷轧不锈钢。",
+    "company_fact": "研发生产精密及宽幅冷轧不锈钢。",
+    "ths_fact": "明确冷轧不锈钢板带两类产品。",
+    "reason": "特钢加工身份稳定，钛材投产作为拓展。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603997.SH",
+    "key": "new_energy_vehicles",
+    "sector": "新能源汽车",
+    "source_sector_name": "新能源汽车",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "新能源座椅总成"
+    ],
+    "stage": "orders",
+    "fact": "乘商用车座椅头枕扶手中控等。",
+    "company_fact": "乘商用车座椅头枕扶手中控等。",
+    "ths_fact": "2026年获得新能源主机厂二排座椅总成定点。",
+    "reason": "汽车内饰向新能源整车配套延伸已有定点；合资机器人先服务自身产线不能自动替代。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603998.SH",
+    "key": "innovative_drugs",
+    "sector": "创新药",
+    "source_sector_name": "创新药",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "中药创新药"
+    ],
+    "stage": "revenue",
+    "fact": "产品含养血祛风止痛玄七健骨小儿荆杏等。",
+    "company_fact": "产品含养血祛风止痛玄七健骨小儿荆杏等。",
+    "ths_fact": "小儿荆杏已上市销售，养血祛风止痛获批，另有创新临床管线。",
+    "reason": "已有创新中药商业化与研发持续性，不局限于中药行业营收标签。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603999.SH",
+    "key": "culture_media",
+    "sector": "文化传媒",
+    "source_sector_name": "文化传媒概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "期刊图书与融合阅读"
+    ],
+    "stage": "revenue",
+    "fact": "读者期刊图书教材及融媒体阅读版权服务。",
+    "company_fact": "读者期刊图书教材及融媒体阅读版权服务。",
+    "ths_fact": "主营读者及图书出版发行。",
+    "reason": "内容出版为持续商业基础，文创衍生为内容变现延伸。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "605001.SH",
+    "key": "high_speed_rail",
+    "sector": "高铁",
+    "source_sector_name": "高铁",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "列车模块化内装及结构件"
+    ],
+    "stage": "revenue",
+    "fact": "为高铁城轨提供模块化配件与检修。",
+    "company_fact": "为高铁城轨提供模块化配件与检修。",
+    "ths_fact": "参与CR450设计制造，轨道交通为实际长期业务。",
+    "reason": "列车配套主线有产品与客户积累，样车验证不误作全部CR450量产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "605003.SH",
+    "key": "home_textiles",
+    "sector": "家纺",
+    "source_sector_name": "家纺",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "家居装饰面料"
+    ],
+    "stage": "revenue",
+    "fact": "研发生产销售沙发户外等装饰面料。",
+    "company_fact": "研发生产销售沙发户外等装饰面料。",
+    "ths_fact": "主营中高档装饰面料及制品。",
+    "reason": "家居面料产品清晰，抗菌标签未提供替代产业主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "605005.SH",
+    "key": "automotive_electronics",
+    "sector": "汽车电子",
+    "source_sector_name": "汽车电子",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "汽车连接器与控制系统部件"
+    ],
+    "stage": "revenue",
+    "fact": "深耕汽车电子连接器工艺及配套。",
+    "company_fact": "深耕汽车电子连接器工艺及配套。",
+    "ths_fact": "变速箱管理转向连接器及新能源智能驾驶系统产品。",
+    "reason": "汽车电子共同产品基础明确，自用3D打印模具不是设备对外主业。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "605006.SH",
+    "key": "glass_fiber",
+    "sector": "玻璃纤维",
+    "source_sector_name": "玻璃纤维",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "玻纤纱与制品"
+    ],
+    "stage": "revenue",
+    "fact": "生产玻璃纤维及制品。",
+    "company_fact": "生产玻璃纤维及制品。",
+    "ths_fact": "池窑玻纤纱及制品明确，风电纱已有销售调价。",
+    "reason": "玻纤本体经营涵盖风电等应用，非电站发电主体。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "605007.SH",
+    "key": "paper_for_plastic",
+    "sector": "以纸代塑",
+    "source_sector_name": "以纸代塑概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "食品纸包装材料"
+    ],
+    "stage": "revenue",
+    "fact": "生产杯碗餐盒纸及特种纸。",
+    "company_fact": "生产杯碗餐盒纸及特种纸。",
+    "ths_fact": "食品包装纸供容器厂家用于食品饮料终端。",
+    "reason": "实际纸制食品容器材料直接对应以纸代塑，不依赖泛环保标签。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "605008.SH",
+    "key": "biodegradable_plastics",
+    "sector": "可降解塑料",
+    "source_sector_name": "可降解塑料",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "PBAT柔性聚合产线"
+    ],
+    "stage": "product",
+    "fact": "TPES主业，已建PBAT一期12万吨可柔性生产PBT。",
+    "company_fact": "TPES主业，已建PBAT一期12万吨可柔性生产PBT。",
+    "ths_fact": "PBAT PBS PBT柔性项目首期设施已具投产条件。",
+    "reason": "可降解主题有专用材料与设施支撑；柔性PBT不等于全部产出可降解，也未推满产收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "605009.SH",
+    "key": "infant_child_products",
+    "sector": "婴童",
+    "source_sector_name": "婴童概念",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "婴儿纸尿裤与卫生护理"
+    ],
+    "stage": "revenue",
+    "fact": "生产婴儿成人纸尿裤经期裤卫生巾等。",
+    "company_fact": "生产婴儿成人纸尿裤经期裤卫生巾等。",
+    "ths_fact": "婴儿用品自有品牌及母婴品牌长期合作。",
+    "reason": "真实母婴护理产品支撑，宠物垫为相邻拓展。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "605011.SH",
+    "key": "heating_services",
+    "sector": "热力服务",
+    "source_sector_name": "热力服务",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "园区热电联产"
+    ],
+    "stage": "revenue",
+    "fact": "供热发电及热网建设。",
+    "company_fact": "供热发电及热网建设。",
+    "ths_fact": "园区热电联产集中供热，蒸汽供工业用户。",
+    "reason": "工业供热业务确定，少量光伏绿证不把全部煤热电计为绿色电力。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "605016.SH",
+    "key": "sugar_substitutes",
+    "sector": "代糖",
+    "source_sector_name": "代糖概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "阿洛酮糖与健康甜味剂"
+    ],
+    "stage": "revenue",
+    "fact": "功能食品配料包含健康甜味剂系列。",
+    "company_fact": "功能食品配料包含健康甜味剂系列。",
+    "ths_fact": "生产阿洛酮糖健康甜味剂。",
+    "reason": "具体低热甜味产品直接支撑代糖主题。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "605018.SH",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "行星滚柱丝杠与紧固件"
+    ],
+    "stage": "product",
+    "fact": "精密金属件向人形外壳及执行器安装应用研发。",
+    "company_fact": "精密金属件向人形外壳及执行器安装应用研发。",
+    "ths_fact": "2024末已产出人形行星滚柱丝杠样品并迭代研发。",
+    "reason": "关键传动产品已有样品，按产品阶段，不能把汽车冲铝件收入写成人形收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "605020.SH",
+    "key": "fluorochemicals",
+    "sector": "氟化工",
+    "source_sector_name": "氟化工概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "制冷剂与含氟高分子"
+    ],
+    "stage": "revenue",
+    "fact": "拥有资源氢氟酸制冷剂及含氟材料完整链条。",
+    "company_fact": "拥有资源氢氟酸制冷剂及含氟材料完整链条。",
+    "ths_fact": "FEP等含氟材料已对知名客户批量供货。",
+    "reason": "完整氟化工业务支撑，浸没液冷新产品保留具体环节。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "605028.SH",
+    "key": "green_power",
+    "sector": "绿色电力",
+    "source_sector_name": "绿色电力",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "垃圾焚烧热电联产"
+    ],
+    "stage": "revenue",
+    "fact": "生活垃圾与燃煤热电联产，蒸汽及电力销售。",
+    "company_fact": "生活垃圾与燃煤热电联产，蒸汽及电力销售。",
+    "ths_fact": "确认生活垃圾燃煤共同热电联产。",
+    "reason": "垃圾能源化实际运营支持现有绿色电力主题，明确同时用煤而非纯绿电。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "605033.SH",
+    "key": "pesticides",
+    "sector": "农药",
+    "source_sector_name": "农药",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "农药制剂与原药"
+    ],
+    "stage": "revenue",
+    "fact": "生产杀虫杀菌及生长调节剂，原药起步。",
+    "company_fact": "生产杀虫杀菌及生长调节剂，原药起步。",
+    "ths_fact": "农药制剂研发生产销售及农业推广服务。",
+    "reason": "具体农药产品经营明确，不将农技服务等同自有种植。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "605050.SH",
+    "key": "new_energy_vehicles",
+    "sector": "新能源汽车",
+    "source_sector_name": "新能源汽车",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "汽车金属板材供应链"
+    ],
+    "stage": "revenue",
+    "fact": "向汽车家电提供板材加工仓储配送。",
+    "company_fact": "向汽车家电提供板材加工仓储配送。",
+    "ths_fact": "十三基地布局服务新能源主机厂及一级配套。",
+    "reason": "新能源材料加工供应链已运营，压铸厂房建设和机器人合资不当整机收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "605055.SH",
+    "key": "dyeing_printing",
+    "sector": "印染",
+    "source_sector_name": "印染",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "纺织染整加工"
+    ],
+    "stage": "revenue",
+    "fact": "专业纺织品印染加工。",
+    "company_fact": "专业纺织品印染加工。",
+    "ths_fact": "提供专业一体化个性化印染服务；另有智同参股。",
+    "reason": "印染对外服务明确；原半年报智同列非交易权益投资，当前未见其成为公司核心经营或显著市场主线的充分证据，保留投资主题跟踪。",
+    "basis": "crosschecked_sources",
+    "extra_evidence": [
+      {
+        "evidence_id": "605055-2026h1-investment",
+        "source_kind": "official_filing",
+        "publisher": "迎丰股份",
+        "title": "2026年半年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12536630&stockid=605055",
+        "published_at": "2026-08-26",
+        "assertions": [
+          "北京智同精密传动期末列入其他权益工具投资2534.79万元，为非交易性权益投资。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "605056.SH",
+    "key": "low_altitude_economy",
+    "sector": "低空经济",
+    "source_sector_name": "低空经济",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "无人机巡检培训及飞行服务"
+    ],
+    "stage": "revenue",
+    "fact": "MRO运维巡检与具身智能方案。",
+    "company_fact": "MRO运维巡检与具身智能方案。",
+    "ths_fact": "无人机产品销售培训飞行服务已形成营业收入。",
+    "reason": "低空运营服务具真实商业基础，外购无人机结合自研平台，不称整机自制。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "605058.SH",
+    "key": "pcb",
+    "sector": "PCB",
+    "source_sector_name": "PCB概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "多层HDI电路板"
+    ],
+    "stage": "revenue",
+    "fact": "研发生产单双面多层HDI线路板。",
+    "company_fact": "研发生产单双面多层HDI线路板。",
+    "ths_fact": "PCB用于汽车家电电源，数据中心电源板已批量。",
+    "reason": "跨终端PCB供应基础清晰，800G仍打样审核不把CPO写成量产主线。",
+    "basis": "crosschecked_sources"
+  }
+]

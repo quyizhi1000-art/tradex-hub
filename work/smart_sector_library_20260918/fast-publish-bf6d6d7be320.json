@@ -1,0 +1,78 @@
+[
+  {
+    "id": "301298.SZ",
+    "key": "automotive_parts",
+    "sector": "汽车零部件",
+    "source_sector_name": "汽车零部件",
+    "source_sector_provider": "东方财富",
+    "stage": "revenue",
+    "chain": [
+      "发动机减振器零件"
+    ],
+    "company_fact": "汽车零件研发生产销售，发动机减振器为核心产品。",
+    "ths_fact": "汽车制造题材解释汽车零部件，减速器仅部分混动齿轮齿前加工。",
+    "fact": "汽车零件研发生产销售，发动机减振器为核心产品。",
+    "reason": "已有汽车零部件行业最准确，不把局部齿加工当人形减速器制造。"
+  },
+  {
+    "id": "301299.SZ",
+    "key": "data_elements",
+    "sector": "数据要素",
+    "source_sector_name": "数据要素",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "大宗商品数据服务"
+    ],
+    "company_fact": "资讯报告及大宗商品数智解决方案，涵盖价格供需指数等数据订阅。",
+    "ths_fact": "采集处理分析交易数据，向客户提供信息和数据产品。",
+    "fact": "资讯报告及大宗商品数智解决方案，涵盖价格供需指数等数据订阅。",
+    "reason": "直接数据产品商业化主线突出，客服智能体是服务功能，暂不以内部AI替代数据主归属。"
+  },
+  {
+    "id": "301300.SZ",
+    "key": "organosilicon",
+    "sector": "有机硅",
+    "source_sector_name": "有机硅概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "硅橡胶补强二氧化硅"
+    ],
+    "company_fact": "沉淀法二氧化硅研发生产销售，为多行业填充补强材料。",
+    "ths_fact": "主要用于硅橡胶补强，属于有机硅材料上游原料。",
+    "fact": "沉淀法二氧化硅研发生产销售，为多行业填充补强材料。",
+    "reason": "已有有机硅题材对应补强剂，化学物本身是无机二氧化硅，不称有机硅单体或硅料制造。"
+  },
+  {
+    "id": "301301.SZ",
+    "key": "synthetic_biology",
+    "sector": "合成生物",
+    "source_sector_name": "合成生物",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "合成生物发酵制造"
+    ],
+    "company_fact": "合成生物产品产业化，红没药醇已规模生产商业化，多类产品工艺开发。",
+    "ths_fact": "合成生物解析引用新增产品正式生产收入的考核条件。",
+    "fact": "合成生物产品产业化，红没药醇已规模生产商业化，多类产品工艺开发。",
+    "reason": "主归属有自有生物制造业务支撑；阶段依据公司业务商业化材料，不能把激励考核条件本身当作达成证明。"
+  },
+  {
+    "id": "301302.SZ",
+    "key": "ai_agents",
+    "sector": "AI智能体",
+    "source_sector_name": "AI智能体",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "军事智能决策引擎",
+      "多智能体仿真"
+    ],
+    "company_fact": "军事智能自研大模型仿真数字战场及智能体工具，提供决策训练方案。",
+    "ths_fact": "XSimAi多智能体深度强化学习决策引擎，支持构建训练评估部署。",
+    "fact": "军事智能自研大模型仿真数字战场及智能体工具，提供决策训练方案。",
+    "reason": "已形成自有智能体引擎与主营军事智能一致，product不推算独立智能体收入。"
+  }
+]

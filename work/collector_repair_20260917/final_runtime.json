@@ -1,0 +1,103 @@
+{
+  "collector": {
+    "name": "collector",
+    "process_pid": 66604,
+    "process_start_utc": "2026-09-17T04:08:25.6267928Z",
+    "started_at": "2026-09-17T12:08:33.8810339+08:00",
+    "stdout_log": "G:\\money\\.tradex-run\\collector.out.log",
+    "stderr_log": "G:\\money\\.tradex-run\\collector.err.log"
+  },
+  "status": {
+    "as_of": "2026-09-17T12:09:40.026296+08:00",
+    "collection_completeness": {
+      "accepted_real": 100,
+      "as_of": "2026-09-17T12:09:40.026296+08:00",
+      "contract": "market_watch_collection_completeness.v1",
+      "expected_minute_buckets": 239,
+      "gap_heartbeat": 21,
+      "ledger_digest": "78e5f6979af19df3a18c420c8e396ba0789569d6e173baac55ed5f546c94abdb",
+      "ledger_revision": 24815,
+      "pending": 118,
+      "repaired": 12,
+      "retrying": 0,
+      "schema_version": 1,
+      "trade_date": "2026-09-17",
+      "unresolved": 21
+    },
+    "collection_cursor": {
+      "accepted_at": null,
+      "attempt_count": 1,
+      "contract": "market_watch_collection_slot.v1",
+      "first_attempt_at": "2026-09-17T11:29:00+08:00",
+      "gap_heartbeat": true,
+      "last_attempt_at": "2026-09-17T11:29:00+08:00",
+      "last_error_code": "SnapshotQualityRejected",
+      "last_error_message": "Persisted stale snapshot was incorrectly accepted",
+      "ledger_revision": 24665,
+      "minute_bucket": "2026-09-17T11:29:00+08:00",
+      "next_retry_at": null,
+      "schema_version": 1,
+      "source_snapshot_id": null,
+      "source_snapshot_revision": null,
+      "status": "unresolved",
+      "trade_date": "2026-09-17",
+      "updated_at": "2026-09-17T12:02:38+08:00"
+    },
+    "collector_heartbeat_at": "2026-09-17T12:09:39+08:00",
+    "collector_state": "running",
+    "contract": "market_watch_collector_envelope.v1",
+    "daily_recovery": null,
+    "latest_accepted_real": {
+      "accepted_at": "2026-09-17T12:02:44+08:00",
+      "minute_bucket": "2026-09-17T11:27:00+08:00",
+      "repaired": false,
+      "snapshot_id": "mw-00000119-6c99dbb6c5474192a4a549868a534dc9",
+      "source_snapshot_revision": "16b25c769cf2c44bf860556c46b28dd21b82b40094c332ed7ca668f1e4fd2e1d",
+      "trade_date": "2026-09-17"
+    },
+    "latest_published_status": {
+      "accepted_at": null,
+      "attempt_count": 1,
+      "contract": "market_watch_collection_slot.v1",
+      "first_attempt_at": "2026-09-17T11:29:00+08:00",
+      "gap_heartbeat": true,
+      "last_attempt_at": "2026-09-17T11:29:00+08:00",
+      "last_error_code": "SnapshotQualityRejected",
+      "last_error_message": "Persisted stale snapshot was incorrectly accepted",
+      "ledger_revision": 24665,
+      "minute_bucket": "2026-09-17T11:29:00+08:00",
+      "next_retry_at": null,
+      "schema_version": 1,
+      "source_snapshot_id": null,
+      "source_snapshot_revision": null,
+      "status": "unresolved",
+      "trade_date": "2026-09-17",
+      "updated_at": "2026-09-17T12:02:38+08:00"
+    },
+    "schema_version": 1
+  },
+  "repair": {
+    "contract": "market_watch_intraday_trajectory_repair_response.v1",
+    "schema_version": 1,
+    "trade_date": "2026-09-17",
+    "repair": {
+      "contract": "sector_intraday_fund_flow_repair.v1",
+      "schema_version": 1,
+      "trade_date": "2026-09-17",
+      "status": "partial",
+      "required_through": "2026-09-17T11:29:00+08:00",
+      "requested_at": "2026-09-17T11:36:51+08:00",
+      "started_at": "2026-09-17T11:37:11+08:00",
+      "completed_at": "2026-09-17T12:08:33+08:00",
+      "target_count": 88,
+      "attempted_targets": 0,
+      "improved_targets": 0,
+      "failed_targets": 0,
+      "remaining_targets": 0,
+      "last_sector_key": null,
+      "last_error": "已发布至 11:27；目标 11:29；88 条轨迹尚未完整交付，等待有效快照后自动发布",
+      "updated_at": "2026-09-17T12:08:33+08:00"
+    }
+  },
+  "served_js_sha256": "5b8ff805bd986e97cf1e9a30cfbff18eed88e542ff8da371c79ce429a9e209e4"
+}

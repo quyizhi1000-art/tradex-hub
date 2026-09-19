@@ -1,0 +1,93 @@
+--- 
+
++++ 
+
+@@ -4713,5 +4713,6 @@
+
+ 
+ /* Desktop appearance preferences. Classic retains the original palette. */
+-:root[data-theme="paper"], :root[data-theme="mist"], :root[data-theme="sage"] {
++:root[data-theme="paper"], :root[data-theme="mist"], :root[data-theme="sage"],
++:root[data-theme="porcelain"], :root[data-theme="sand"] {
+   color-scheme: light;
+   --bg: #f1eee6;
+@@ -4896,2 +4897,78 @@
+
+ .stock-selection-followup-table td:first-child small { display: block; }
+ .selection-entry-evidence { margin-bottom: 8px; font-size: 12px; }
++
++/* Type families are installed locally on the desktop; no network font request. */
++:root {
++  --font-noto: "Noto Sans SC", "Noto Sans CJK SC", "Source Han Sans SC", "Microsoft YaHei UI", sans-serif;
++  --font-deng: "DengXian", "等线", "PingFang SC", "Microsoft YaHei UI", sans-serif;
++  --font-yahei: "Microsoft YaHei UI", "Microsoft YaHei", "PingFang SC", sans-serif;
++}
++:root[data-font="noto"], [data-appearance-font="noto"] .appearance-font-sample { font-family: var(--font-noto); }
++:root[data-font="deng"], [data-appearance-font="deng"] .appearance-font-sample { font-family: var(--font-deng); }
++:root[data-font="yahei"], [data-appearance-font="yahei"] .appearance-font-sample { font-family: var(--font-yahei); }
++:root[data-font] :is(button, input, select, textarea, svg text) { font-family: inherit; }
++
++:root[data-theme="porcelain"] {
++  --bg: #f3f4f6; --bg-elevated: #fafbfc; --panel: #ffffff;
++  --panel-soft: #f7f8fa; --panel-strong: #edf0f5;
++  --line: #e1e4eb; --line-strong: #bdc5d4;
++  --text: #242a35; --text-soft: #535e70; --muted: #667184;
++  --cyan: #345bd6; --cyan-soft: rgba(52, 91, 214, .075);
++  --radius: 14px; --shadow: 0 3px 12px rgba(31, 44, 74, .035);
++}
++:root[data-theme="sand"] {
++  --bg: #f2efea; --bg-elevated: #f7f4ef; --panel: #fcfaf7;
++  --panel-soft: #f4f0e9; --panel-strong: #eae4dc;
++  --line: #ded7cf; --line-strong: #b5a99d;
++  --text: #332e2b; --text-soft: #60574f; --muted: #776b61;
++  --cyan: #9a503a; --cyan-soft: rgba(154, 80, 58, .07);
++  --radius: 8px; --shadow: none;
++}
++:root[data-theme="ink"] {
++  color-scheme: dark;
++  --bg: #191b23; --bg-elevated: #1d2029; --panel: #222530;
++  --panel-soft: #272b37; --panel-strong: #303545;
++  --line: #363b4b; --line-strong: #565e75;
++  --text: #e3e4ec; --text-soft: #bac0d1; --muted: #959eb4;
++  --cyan: #b2a8f2; --cyan-soft: rgba(178, 168, 242, .09);
++  --positive: #83c6a3; --positive-soft: rgba(131, 198, 163, .10);
++  --negative: #ed9ba3; --negative-soft: rgba(237, 155, 163, .10);
++  --market-up: #ee969e; --market-up-soft: rgba(238, 150, 158, .10);
++  --market-down: #7bc4a2; --market-down-soft: rgba(123, 196, 162, .10);
++  --warning: #d8b47e; --warning-soft: rgba(216, 180, 126, .10);
++  --neutral: #959eb4; --radius: 12px; --shadow: 0 4px 16px rgba(0, 0, 0, .08);
++}
++
++/* New palettes also tune hierarchy, surfaces and spacing, not just the canvas. */
++:root:is([data-theme="porcelain"], [data-theme="sand"], [data-theme="ink"]) body { font-size: 13px; line-height: 1.6; }
++:root:is([data-theme="porcelain"], [data-theme="sand"], [data-theme="ink"]) .topbar { padding: 7px 0 17px; margin-bottom: 18px; border-bottom: 1px solid var(--line); }
++:root:is([data-theme="porcelain"], [data-theme="sand"], [data-theme="ink"]) .brand-line h1 { font-size: 20px; font-weight: 600; letter-spacing: .015em; }
++:root:is([data-theme="porcelain"], [data-theme="sand"], [data-theme="ink"]) .brand-mark { width: 40px; height: 40px; border-radius: 12px; box-shadow: none; font-weight: 600; }
++:root:is([data-theme="porcelain"], [data-theme="sand"], [data-theme="ink"]) :is(.section-heading h2, .panel-heading h2) { font-size: 16px; font-weight: 600; line-height: 1.5; letter-spacing: .01em; }
++:root:is([data-theme="porcelain"], [data-theme="sand"], [data-theme="ink"]) .regime-row h2 { font-size: 25px; font-weight: 600; letter-spacing: -.02em; }
++:root:is([data-theme="porcelain"], [data-theme="sand"], [data-theme="ink"]) :is(.section-kicker, .eyebrow) { font-size: 11px; font-weight: 500; letter-spacing: .06em; }
++:root:is([data-theme="porcelain"], [data-theme="sand"], [data-theme="ink"]) :is(.section-heading > p, .collection-recovery-strip__summary p, .sector-flow-observation-item__basis, .definition-note, .freshness-line, .evidence-strength, .sector-flow-observation-item__title span) { font-size: 12px; line-height: 1.65; }
++:root:is([data-theme="porcelain"], [data-theme="sand"], [data-theme="ink"]) :is(.button, .flow-mode-button) { min-height: 35px; border-radius: 8px; font-weight: 500; }
++:root:is([data-theme="porcelain"], [data-theme="sand"], [data-theme="ink"]) :is(.button-secondary[aria-pressed="true"], .flow-mode-button.is-active, .stock-selection-tabs button[aria-selected="true"], .manual-portfolio-tablist .is-active) { border-color: var(--cyan); color: var(--cyan); background: var(--cyan-soft); }
++:root:is([data-theme="porcelain"], [data-theme="sand"], [data-theme="ink"]) :is(.sector-flow-visual, .sector-flow-observation) { border-color: var(--line); border-radius: var(--radius); background: var(--panel); }
++:root:is([data-theme="porcelain"], [data-theme="sand"], [data-theme="ink"]) :is(.metric-list > div, .daily-review-meta > div, .manual-portfolio-launcher__metrics > div, .stock-selection-metrics article, .replay-metric, .daily-review-story, .daily-review-theme, .daily-review-opportunity, .scenario-card) { background: var(--panel-soft); border-color: var(--line); box-shadow: none; }
++:root:is([data-theme="porcelain"], [data-theme="sand"], [data-theme="ink"]) :is(.daily-review-editorial, .daily-review-watch, .daily-review-report-lead, .pulse-summary, .interpretation-summary, .daily-review-watch-item__action) { background: var(--cyan-soft); border-color: var(--line); }
++:root:is([data-theme="porcelain"], [data-theme="sand"], [data-theme="ink"]) .index-dock { border-color: var(--line); box-shadow: var(--shadow); }
++:root:is([data-theme="porcelain"], [data-theme="sand"], [data-theme="ink"]) .sector-flow-surge-badge { box-shadow: none; }
++:root:is([data-theme="porcelain"], [data-theme="sand"], [data-theme="ink"]) .sector-flow-legend-item i { outline: 1px solid #687184; outline-offset: 1px; }
++
++.appearance-panel { width: 680px; inset-inline-start: min(max(20px, calc((100vw - 1660px) / 2 + 385px)), calc(100vw - 700px)); padding: 24px; box-shadow: 0 18px 60px rgba(0, 0, 0, .18); }
++.appearance-heading h2 { font-weight: 600; letter-spacing: -.02em; }
++.appearance-choice { gap: 7px; padding: 12px; }
++.appearance-choice strong { font-weight: 600; }
++.appearance-choice small { font-size: 11px; line-height: 1.6; }
++.appearance-fieldset legend { font-size: 12px; font-weight: 500; }
++.appearance-recommended { padding: 2px 5px; border-radius: 4px; background: var(--cyan-soft); color: var(--cyan); font-size: 10px; font-weight: 500; }
++.appearance-previous { margin-top: 14px; }
++.appearance-previous > summary { width: fit-content; margin-bottom: 10px; font-size: 12px; color: var(--text-soft); cursor: pointer; }
++.appearance-swatch--editorial { height: 116px; grid-template-rows: auto 1fr 22px; padding: 12px; gap: 7px; }
++.appearance-swatch--editorial b { grid-column: 1 / -1; color: var(--sample-accent); font-family: "Segoe UI", sans-serif; font-size: 9px; font-weight: 600; letter-spacing: .09em; }
++.appearance-swatch--editorial em { grid-column: 1 / -1; align-self: center; color: var(--sample-text); font-style: normal; font-size: 18px; font-weight: 500; letter-spacing: -.03em; }
++.appearance-fonts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
++.appearance-font-sample { display: block; margin: 4px 0 8px; font-size: 19px; font-weight: 400; }
++.appearance-font-sample em { display: block; margin-top: 4px; font-size: 15px; font-style: normal; color: var(--text-soft); letter-spacing: .03em; }

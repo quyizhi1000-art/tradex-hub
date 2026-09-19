@@ -8,6 +8,7 @@ from datetime import date
 from pydantic import Field, field_validator, model_validator
 
 from .contracts import ContractMetadata, ContractModel
+from .stock_technicals_contracts import StockTechnicalWindowV1
 
 
 class StockFactorCoverageV1(ContractModel):
@@ -176,6 +177,7 @@ class DailyStockFactorSnapshotV1(ContractModel):
     factors: tuple[DailyStockFactorV1, ...]
     candlestick_window_trade_dates: tuple[date, ...] = ()
     candlestick_histories: tuple[DailyStockCandlestickHistoryV1, ...] = ()
+    technicals: StockTechnicalWindowV1 | None = None
 
     @model_validator(mode="after")
     def validate_snapshot(self) -> "DailyStockFactorSnapshotV1":
@@ -196,6 +198,10 @@ class DailyStockFactorSnapshotV1(ContractModel):
         if len(self.factors) != self.coverage.universe_count:
             raise ValueError("stock factor coverage must match the factor row count")
         window_dates = list(self.candlestick_window_trade_dates)
+        if self.technicals is not None and tuple(
+            day.trade_date for day in self.technicals.days
+        ) != self.candlestick_window_trade_dates[-6:]:
+            raise ValueError("technical dates must match the last six trading sessions")
         histories = list(self.candlestick_histories)
         if window_dates:
             if (

@@ -272,6 +272,7 @@ def test_reconstructor_bulk_load_skips_minutes_not_published_by_curve_contracts(
 
 def test_reconstructor_retries_only_stock_batches_still_missing(
     monkeypatch,
+    tmp_path,
 ) -> None:
     target = datetime(2026, 8, 31, 13, 30, tzinfo=SHANGHAI)
     codes = tuple(f"{number:06d}.SZ" for number in range(1, 42))
@@ -347,14 +348,73 @@ def test_reconstructor_retries_only_stock_batches_still_missing(
         rotation_loader=lambda _target: {},
         clock=lambda: target.replace(hour=16),
         batch_concurrency=1,
+        source_cache=RecoverySourceMatrixStore(tmp_path / "resume.sqlite3"),
     )
 
     with pytest.raises(RuntimeError, match="transient batch failure"):
         owner._ensure_loaded(target, lambda *_args: None)
+    monkeypatch.setattr(reconstruction, "fetch_a_share_universe_snapshot", lambda **kwargs: pytest.fail("resume must retain the verified universe"))
+    owner = SameDayPostCloseReconstructor(
+        history=_History(), target_minutes=lambda _date: (target,),
+        rotation_loader=lambda _target: {}, clock=lambda: target.replace(hour=16),
+        batch_concurrency=1,
+        source_cache=RecoverySourceMatrixStore(tmp_path / "resume.sqlite3"),
+    )
     owner._ensure_loaded(target, lambda *_args: None)
 
     assert batch_sizes == [40, 1, 1]
     assert len(owner._stock_prices[target.time()]) == 41
+
+
+@pytest.mark.parametrize("message", ["provider deadline expired", "request capacity is busy", "shared rate budget is full", "HTTP 429"])
+def test_source_batch_transient_failure_has_bounded_local_retry(monkeypatch, message):
+    target = datetime(2026, 9, 18, 16, tzinfo=SHANGHAI)
+    calls, delays = [], []
+    def fetch(*args, **kwargs):
+        calls.append(1)
+        if len(calls) < 3:
+            raise RuntimeError(message)
+        return {"000001.SZ": "exact"}
+    monkeypatch.setattr(reconstruction, "fetch_intraday_minute_series_batch_partial", fetch)
+    owner = SameDayPostCloseReconstructor(history=_History(), target_minutes=lambda day: (), rotation_loader=lambda minute: {}, clock=lambda: target, sleep=delays.append)
+    assert owner._load_batch_with_backoff(("000001.SZ",), target) == {"000001.SZ": "exact"}
+    assert delays == [20.0, 40.0]
+    calls.clear()
+    monkeypatch.setattr(reconstruction, "fetch_intraday_minute_series_batch_partial", lambda *args, **kwargs: (_ for _ in ()).throw(RuntimeError(message)))
+    with pytest.raises(RuntimeError, match=message):
+        owner._load_batch_with_backoff(("000001.SZ",), target)
+    assert delays == [20.0, 40.0, 20.0, 40.0]
+
+
+def test_parallel_source_failure_keeps_running_successes_without_starting_more(monkeypatch):
+    from threading import Event
+    target = datetime(2026, 9, 18, 16, tzinfo=SHANGHAI)
+    started, saved = [], []
+    second_started = Event()
+    drain_second = Event()
+    original_wait = reconstruction.wait
+
+    def wait_for_result(pending, **kwargs):
+        completed, waiting = original_wait(pending, **kwargs)
+        if any(future.exception() is not None for future in completed):
+            drain_second.set()
+        return completed, waiting
+
+    def load(batch, *args):
+        started.append(batch[0])
+        if batch == ("first",):
+            assert second_started.wait(2)
+            raise RuntimeError("fixture failure")
+        second_started.set()
+        assert drain_second.wait(2)
+        return {batch[0]: "exact"}, 0
+    owner = SameDayPostCloseReconstructor(history=_History(), target_minutes=lambda day: (), rotation_loader=lambda minute: {}, clock=lambda: target, batch_concurrency=2)
+    monkeypatch.setattr(owner, "_load_stock_batch", load)
+    monkeypatch.setattr(reconstruction, "wait", wait_for_result)
+    with pytest.raises(RuntimeError, match="fixture failure"):
+        owner._load_source_batches((("first",), ("second",), ("third",)), target, target.date(), (time(10,12),), lambda batch, result, omitted: saved.extend(result))
+    assert set(started) == {"first", "second"}
+    assert saved == ["second"]
 
 
 class _History:
@@ -366,11 +426,18 @@ class _History:
             {
                 "minute_bucket": "2026-08-26T14:53:00+08:00",
                 "record_kind": "accepted_real",
+                "snapshot_id": "previous-minute",
+                "payload_digest": "a" * 64,
             }
         ]
 
-    def get_timeline(self, trade_date):
-        return [
+    def get_snapshot_by_pointer(self, **kwargs):
+        assert kwargs == {
+            "trade_date": date(2026, 8, 26),
+            "minute_bucket": "2026-08-26T14:53:00+08:00",
+            "snapshot_id": "previous-minute", "payload_digest": "a" * 64,
+        }
+        return (
             {
                 "minute_bucket": "2026-08-26T14:53:00+08:00",
                 "payload": {
@@ -382,7 +449,57 @@ class _History:
                     }
                 },
             }
-        ]
+        )
+
+
+@pytest.mark.parametrize("invalid", ["missing_pointer", "wrong_date", "wrong_minute", "unavailable"])
+def test_previous_turnover_reads_exact_pointer_and_rejects_invalid_baseline(invalid):
+    class History(_History):
+        def get_timeline(self, *args):
+            pytest.fail("must not decompress a whole day")
+        def get_snapshot_by_pointer(self, **kwargs):
+            row = super().get_snapshot_by_pointer(**kwargs)
+            if invalid == "missing_pointer":
+                return None
+            turnover = row["payload"]["turnover"]
+            if invalid == "wrong_date":
+                turnover["today_date"] = "2026-08-25"
+            elif invalid == "wrong_minute":
+                turnover["as_of"] = "14:52"
+            else:
+                turnover["available"] = False
+            return row
+    target = datetime(2026, 8, 27, 14, 53, tzinfo=SHANGHAI)
+    owner = SameDayPostCloseReconstructor(history=History(), target_minutes=lambda day: (), rotation_loader=lambda minute: {}, clock=lambda: target)
+    with pytest.raises(RuntimeError, match="no accepted"):
+        owner._previous_turnover(target)
+
+
+@pytest.mark.parametrize("batch_result", ["empty", "short", "complete"])
+def test_recovery_falls_back_for_absent_or_incomplete_exact_minutes(monkeypatch, batch_result):
+    target = datetime(2026, 9, 18, 10, 24, tzinfo=SHANGHAI)
+    exact = SimpleNamespace(trading_date=target.date(), points=(SimpleNamespace(minute=target.time(), price=10.0),))
+    short = SimpleNamespace(trading_date=target.date(), points=(SimpleNamespace(minute=time(9, 30), price=10.0),))
+    calls = []
+
+    def batch(_batch, **kwargs):
+        assert kwargs["allow_empty"] is True
+        return {} if batch_result == "empty" else {"000001.SZ": short if batch_result == "short" else exact}
+
+    def single(code, **kwargs):
+        calls.append(code)
+        assert kwargs["expected_trading_date"] == target.date()
+        assert kwargs["required_minutes"] == (target.time(),)
+        assert kwargs["use_cache"] is False
+        return exact
+
+    monkeypatch.setattr(reconstruction, "fetch_intraday_minute_series_batch_partial", batch)
+    monkeypatch.setattr(reconstruction, "fetch_intraday_minute_series", single)
+    owner = SameDayPostCloseReconstructor(history=_History(), target_minutes=lambda day: (target,), rotation_loader=lambda minute: {}, clock=lambda: target.replace(hour=16))
+    loaded, count = owner._load_stock_batch(("000001.SZ",), target.replace(hour=16), target.date(), (target.time(),))
+    assert loaded == {"000001.SZ": exact}
+    assert calls == ([] if batch_result == "complete" else ["000001.SZ"])
+    assert count == (0 if batch_result == "complete" else 1)
 
 
 @pytest.mark.parametrize("target_time", [time(9, 35), time(14, 53)])

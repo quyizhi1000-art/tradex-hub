@@ -1,0 +1,40 @@
+{
+  "verified_at": "2026-09-18T17:13:36.119517+08:00",
+  "unchanged_slots": 239,
+  "accepted_minutes": 238,
+  "expected_minutes": 239,
+  "residual_gap": [
+    {
+      "minute_bucket": "2026-09-18T13:00:00+08:00",
+      "status": "unresolved",
+      "source_snapshot_id": null,
+      "source_snapshot_revision": null,
+      "last_error_code": "HistoricalTrajectoryNotPublished",
+      "next_retry_at": null
+    }
+  ],
+  "collector_heartbeat_age_seconds": 1.119517,
+  "collector_state": "running",
+  "next_retry_at_present": true,
+  "run_id": 93,
+  "served_app_sha256": "ebd0274f371f2bef4ff12609c5a244d2ce7b2e78e7c86cbd9ce2a3a15c7650c5",
+  "collector": {
+    "name": "collector",
+    "process_pid": 55724,
+    "process_start_utc": "2026-09-18T09:12:57.5405232Z",
+    "started_at": "2026-09-18T17:13:02.4074280+08:00",
+    "stdout_log": "G:\\money\\.tradex-run\\collector.out.log",
+    "stderr_log": "G:\\money\\.tradex-run\\collector.err.log"
+  },
+  "dashboard": {
+    "name": "dashboard",
+    "port": 8765,
+    "process_pid": 58088,
+    "process_start_utc": "2026-09-18T09:13:04.5133046Z",
+    "launcher_pid": 69684,
+    "launcher_start_utc": "2026-09-18T09:13:04.4277376Z",
+    "started_at": "2026-09-18T17:13:07.0990844+08:00",
+    "stdout_log": "G:\\money\\.tradex-run\\dashboard.out.log",
+    "stderr_log": "G:\\money\\.tradex-run\\dashboard.err.log"
+  }
+}

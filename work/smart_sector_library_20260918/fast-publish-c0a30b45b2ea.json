@@ -1,0 +1,882 @@
+[
+  {
+    "id": "300953.SZ",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "执行器丝杠灵巧手精密件"
+    ],
+    "stage": "pilot",
+    "fact": "精密模具结构件并形成机器人执行器滚柱丝杠灵巧手零件。",
+    "company_fact": "精密模具结构件并形成机器人执行器滚柱丝杠灵巧手零件。",
+    "ths_fact": "2025年报机器人相关产品已获多个头部本体客户验证。",
+    "reason": "客户验证支持真实人形链，未证批量订单故pilot。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300955.SZ",
+    "key": "cosmetics",
+    "sector": "化妆品",
+    "source_sector_name": "化妆品概念",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "日化OEM ODM"
+    ],
+    "stage": "revenue",
+    "fact": "日化产品OEM ODM及塑料包装研发生产。",
+    "company_fact": "日化产品OEM ODM及塑料包装研发生产。",
+    "ths_fact": "长期为强生婴儿郁美净等提供产品生产服务。",
+    "reason": "日化制造业务直接，三胎为客户应用背景。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300956.SZ",
+    "key": "ai_pc",
+    "sector": "AI PC",
+    "source_sector_name": "AI PC",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "笔电金属结构件"
+    ],
+    "stage": "delivery",
+    "fact": "笔电结构模组精密模具，主要客户联宝仁宝纬创。",
+    "company_fact": "笔电结构模组精密模具，主要客户联宝仁宝纬创。",
+    "ths_fact": "联想YOGA AI元启版金属件已获订单生产出货。",
+    "reason": "AI电脑有直接供货，机器人仅送样固态仍研发。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300957.SZ",
+    "key": "medical_aesthetics",
+    "sector": "医美",
+    "source_sector_name": "医美概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "医美级护肤及器械护理"
+    ],
+    "stage": "revenue",
+    "fact": "薇诺娜瑷科缦等专业皮肤护理、器械和彩妆。",
+    "company_fact": "薇诺娜瑷科缦等专业皮肤护理、器械和彩妆。",
+    "ths_fact": "AOXMED院内械妆及居家护肤2024销售5992万元。",
+    "reason": "医美级护理品牌有收入，非注射医美或已上市创新药。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300958.SZ",
+    "key": "soil_remediation",
+    "sector": "土壤修复",
+    "source_sector_name": "土壤修复",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "污染土壤地下水修复"
+    ],
+    "stage": "revenue",
+    "fact": "环境修复设计实施风险管控及土水矿山治理。",
+    "company_fact": "环境修复设计实施风险管控及土水矿山治理。",
+    "ths_fact": "土壤地下水全链咨询设计治理运营。",
+    "reason": "直接环境修复经营吻合。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300959.SZ",
+    "key": "bytedance",
+    "sector": "抖音概念(字节概念)",
+    "source_sector_name": "抖音概念(字节概念)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "移动信息服务及数字营销"
+    ],
+    "stage": "revenue",
+    "fact": "短信5G消息等移动信息服务，并与字节平台稳定数字营销合作。",
+    "company_fact": "短信5G消息等移动信息服务，并与字节平台稳定数字营销合作。",
+    "ths_fact": "为字节跳动提供移动信息服务。",
+    "reason": "真实客户服务和营销合作支撑市场主题，不只泛标签。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300960.SZ",
+    "key": "rail_transit",
+    "sector": "轨道交通",
+    "source_sector_name": "轨道交通",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "列车电源电控电机"
+    ],
+    "stage": "revenue",
+    "fact": "轨交电气设备研发制造销售维保。",
+    "company_fact": "轨交电气设备研发制造销售维保。",
+    "ths_fact": "电源智能控制电机风机覆盖列车电气链。",
+    "reason": "完整轨交产品生态直接确认。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300961.SZ",
+    "key": "wastewater_treatment",
+    "sector": "污水处理",
+    "source_sector_name": "污水处理",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "工业污水治理及智慧水务"
+    ],
+    "stage": "revenue",
+    "fact": "工业污水供水污泥及智慧水务全流程。",
+    "company_fact": "工业污水供水污泥及智慧水务全流程。",
+    "ths_fact": "工业污水为核心，提供研发设计投资建设运营。",
+    "reason": "工程运营及水处理技术直接对应。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300962.SZ",
+    "key": "food_safety",
+    "sector": "食品安全",
+    "source_sector_name": "食品安全",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "食品辐照灭菌服务"
+    ],
+    "stage": "revenue",
+    "fact": "辐照消毒检测及电子加速器制造。",
+    "company_fact": "辐照消毒检测及电子加速器制造。",
+    "ths_fact": "食品药品医疗包装辐照灭菌为实际服务。",
+    "reason": "食品灭菌是明确经营环节，核污染检测增项和芯片工艺研究不泛化量产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300963.SZ",
+    "key": "nuclear_power",
+    "sector": "核电",
+    "source_sector_name": "核电",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "核电耐蚀阀门焊材"
+    ],
+    "stage": "delivery",
+    "fact": "耐高温腐蚀合金及制品研发生产销售，主要民用。",
+    "company_fact": "耐高温腐蚀合金及制品研发生产销售，主要民用。",
+    "ths_fact": "阀门焊材为中核中广核国核设施配套。",
+    "reason": "实际核电材料配套证据明确，不把高温合金一概当航空军品。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300964.SZ",
+    "key": "pcb",
+    "sector": "PCB",
+    "source_sector_name": "PCB概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "高频高速多层印制板"
+    ],
+    "stage": "revenue",
+    "fact": "高品质高密度PCB研发生产销售。",
+    "company_fact": "高品质高密度PCB研发生产销售。",
+    "ths_fact": "多层刚挠高频高速HDI等，光模块板为小批供货。",
+    "reason": "直接PCB产品广泛，CPO只是部分下游不能当光模块制造。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300965.SZ",
+    "key": "military",
+    "sector": "军工",
+    "source_sector_name": "军工",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "机载显示导航及专用电子"
+    ],
+    "stage": "revenue",
+    "fact": "图像显示可视化导航任务规划模块用于机舰车载专业领域。",
+    "company_fact": "图像显示可视化导航任务规划模块用于机舰车载专业领域。",
+    "ths_fact": "参与军用直升机配套科研生产，具备全部军工生产资质。",
+    "reason": "军用航电既有科研制造与产品对应。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300966.SZ",
+    "key": "synthetic_biology",
+    "sector": "合成生物",
+    "source_sector_name": "合成生物",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "甾体原料生物发酵转化"
+    ],
+    "stage": "revenue",
+    "fact": "甾体起始物料中间体原料药研产销。",
+    "company_fact": "甾体起始物料中间体原料药研产销。",
+    "ths_fact": "BA由植物甾醇发酵，生物发酵转化及合成生物技术平台。",
+    "reason": "实际甾体发酵路线支撑，不声称下游熊去氧胆酸自身已量产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300967.SZ",
+    "key": "chicken_farming",
+    "sector": "养鸡",
+    "source_sector_name": "养鸡",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "蛋种鸡繁育及雏鸡"
+    ],
+    "stage": "revenue",
+    "fact": "祖代父母代蛋种鸡繁育雏鸡育成鸡销售。",
+    "company_fact": "祖代父母代蛋种鸡繁育雏鸡育成鸡销售。",
+    "ths_fact": "主营蛋种鸡与雏鸡蛋副产品。",
+    "reason": "养鸡是准确候选，不能用肉鸡标签抹掉蛋种鸡差异。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300968.SZ",
+    "key": "ai_glasses",
+    "sector": "AI眼镜",
+    "source_sector_name": "AI眼镜",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "智能眼镜精密结构件"
+    ],
+    "stage": "delivery",
+    "fact": "智能终端结构件涉及穿戴手机及卫星终端等。",
+    "company_fact": "智能终端结构件涉及穿戴手机及卫星终端等。",
+    "ths_fact": "向国际知名品牌提供智能眼镜精密件。",
+    "reason": "直接眼镜供货支撑，低轨通信另有交付背景。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300969.SZ",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "谐波磁场电机定制"
+    ],
+    "stage": "product",
+    "fact": "汽车微电机电动模块及清洗热管理产品。",
+    "company_fact": "汽车微电机电动模块及清洗热管理产品。",
+    "ths_fact": "已以谐波磁场电机为人形客户提供定制方案。",
+    "reason": "直接电机技术方案形成进入人形链的依据，未证订单量产按产品。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300970.SZ",
+    "key": "edible_fungi",
+    "sector": "食用菌",
+    "source_sector_name": "食用菌",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "工厂化食用菌"
+    ],
+    "stage": "revenue",
+    "fact": "食用菌研发工厂化种植销售。",
+    "company_fact": "食用菌研发工厂化种植销售。",
+    "ths_fact": "农业种植说明同股食用菌制造销售；合成生物为合资研发。",
+    "reason": "明确食用菌实业，新研究不替代经营定位。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300971.SZ",
+    "key": "machine_tools",
+    "sector": "工业母机",
+    "source_sector_name": "工业母机",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "板带成形精密装备"
+    ],
+    "stage": "revenue",
+    "fact": "板带成形设备关键零件及特装配套研产销。",
+    "company_fact": "板带成形设备关键零件及特装配套研产销。",
+    "ths_fact": "高端板带设备服务冶金并替代国外同类产品。",
+    "reason": "直接精密成形装备主线，发射配套应用保留次要。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300972.SZ",
+    "key": "snacks",
+    "sector": "零食",
+    "source_sector_name": "零食",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "好想来量贩零食连锁"
+    ],
+    "stage": "revenue",
+    "fact": "量贩零食好想来老婆大人，全国18314门店。",
+    "company_fact": "量贩零食好想来老婆大人，全国18314门店。",
+    "ths_fact": "经营乳制品零食且为哪吒糖果卡牌官方线下销售方。",
+    "reason": "当前零售商品与连锁转型一致，THS旧农业菌菇不覆盖现经营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300973.SZ",
+    "key": "bakery_food",
+    "sector": "烘焙食品",
+    "source_sector_name": "烘焙食品",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "冷冻烘焙及原料"
+    ],
+    "stage": "revenue",
+    "fact": "麻薯挞皮甜甜圈蛋糕及奶油酱料等。",
+    "company_fact": "麻薯挞皮甜甜圈蛋糕及奶油酱料等。",
+    "ths_fact": "奶油产品及冷冻烘焙需零下18度储运，自建冷链配销。",
+    "reason": "冷链服务自身食品，归烘焙而非物流运营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300975.SZ",
+    "key": "memory_chips",
+    "sector": "存储芯片",
+    "source_sector_name": "存储芯片",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "存储及电子元件分销"
+    ],
+    "stage": "revenue",
+    "fact": "电子元件代理含存储IC与被动器件。",
+    "company_fact": "电子元件代理含存储IC与被动器件。",
+    "ths_fact": "代理存储模拟功率电源芯片，品牌含兆易创新等。",
+    "reason": "存储芯片分销实业成立，飞行汽车为参股不当自造飞机。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300976.SZ",
+    "key": "consumer_electronics",
+    "sector": "消费电子",
+    "source_sector_name": "消费电子概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "功能结构件及自动化装备"
+    ],
+    "stage": "revenue",
+    "fact": "消费电子定制功能结构件及配套设备研产销。",
+    "company_fact": "消费电子定制功能结构件及配套设备研产销。",
+    "ths_fact": "折叠光学膜研发推进；CPO热管理描述来自收购标的东莞运宏。",
+    "reason": "原2026半年报仍推进运宏交割，仅已付2100万元，不将标的液冷订单当已控股实业；按既有消费电子。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "official-300976-h1-2026",
+        "source_kind": "official_filing",
+        "publisher": "达瑞电子",
+        "title": "2026年半年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12500270&stockid=300976",
+        "published_at": "2026-08-18",
+        "assertions": [
+          "正推进东莞运宏股权收购交割各项工作，截至披露已向原股东支付2100万元；未以标的订单确认上市公司已控股收入。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "300977.SZ",
+    "key": "building_inspection",
+    "sector": "房屋检测",
+    "source_sector_name": "房屋检测",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "建筑质量安全评估"
+    ],
+    "stage": "revenue",
+    "fact": "第三方工程风险评估和项目管理。",
+    "company_fact": "第三方工程风险评估和项目管理。",
+    "ths_fact": "连续4年参与住建部质量安全评价，房屋评估有服务经验；检测鉴定协同仍孵化。",
+    "reason": "现有房屋安全评估支持该主题，区分新检测鉴定资质业务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300978.SZ",
+    "key": "smart_cockpit",
+    "sector": "智能座舱",
+    "source_sector_name": "智能座舱",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "车载座舱控制系统"
+    ],
+    "stage": "revenue",
+    "fact": "汽车前后装配套制造及品牌运营。",
+    "company_fact": "汽车前后装配套制造及品牌运营。",
+    "ths_fact": "主要产品包括车载智能座舱控制和承载防护装载系统。",
+    "reason": "明确智能机电座舱产品研发制造销售。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300979.SZ",
+    "key": "sporting_goods",
+    "sector": "体育用品",
+    "source_sector_name": "体育用品",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "国际品牌运动鞋制造"
+    ],
+    "stage": "revenue",
+    "fact": "运动鞋设计制造销售，客户Nike Adidas等。",
+    "company_fact": "运动鞋设计制造销售，客户Nike Adidas等。",
+    "ths_fact": "为国际运动品牌提供鞋履开发设计制造。",
+    "reason": "直接体育鞋履产品最贴合。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300377.SZ",
+    "key": "ai_applications",
+    "sector": "AI应用",
+    "chain": [
+      "金融资管AI场景方案",
+      "智能业务操作与报告"
+    ],
+    "stage": "delivery",
+    "fact": "同花顺AI应用解析确认累计落地20余家AI项目、覆盖30余细分场景；东方财富主营明确AI金融垂直一体化方案及AI原生运营平台，强调适配成熟大模型而不自研供应基座模型",
+    "ths_fact": "同花顺AI应用解析确认累计落地20余家AI项目、覆盖30余细分场景",
+    "company_fact": "东方财富主营明确AI金融垂直一体化方案及AI原生运营平台，强调适配成熟大模型而不自研供应基座模型",
+    "reason": "真实金融AI项目可支撑新增主线，选择AI应用；按delivery，传统资管软件和人力服务收入不直接算AI收入，项目验收及独立收入披露再复核。",
+    "source_sector_name": "AI应用",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300378.SZ",
+    "key": "ai_agents",
+    "sector": "AI智能体",
+    "chain": [
+      "企业研发与经营智能体",
+      "雅典娜数智底座"
+    ],
+    "stage": "product",
+    "fact": "同花顺AI智能体解析确认Indepth AI多智能体与文生图纸、文档解析等企业方案；东方财富主营列明雅典娜底座及文生设计、配方生成、智合报、高管等具名智能体产品",
+    "ths_fact": "同花顺AI智能体解析确认Indepth AI多智能体与文生图纸、文档解析等企业方案",
+    "company_fact": "东方财富主营列明雅典娜底座及文生设计、配方生成、智合报、高管等具名智能体产品",
+    "reason": "已有专门的企业智能体产品体系，选择AI智能体体现ERP向数智应用延伸；按product，未用早年商务云付费数据证明当期生成式智能体收入，具体部署和收入待复核。",
+    "source_sector_name": "AI智能体",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300380.SZ",
+    "key": "ai_applications",
+    "sector": "AI应用",
+    "chain": [
+      "银行信贷风控AI助手",
+      "千寻Agent金融方案"
+    ],
+    "stage": "product",
+    "fact": "同花顺AI应用解析确认千寻金融垂类模型已备案，用于信贷尽调、风控和营销；东方财富确认银行信贷风险软件基础；原2025年报确认与华为发布金融AI方案及千寻Agent矩阵",
+    "ths_fact": "同花顺AI应用解析确认千寻金融垂类模型已备案，用于信贷尽调、风控和营销",
+    "company_fact": "东方财富确认银行信贷风险软件基础；原2025年报确认与华为发布金融AI方案及千寻Agent矩阵",
+    "reason": "原文支持具名金融AI产品而非只有生态合作意向，因此选AI应用；按product，不将金融软件总收入视为千寻收入，特定客户交付和收入触发升级。",
+    "source_sector_name": "AI应用",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "300380-original-business",
+        "source_kind": "official_filing",
+        "publisher": "安硕信息",
+        "title": "2025年年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=300380&id=12260327",
+        "published_at": "2026-04-29",
+        "assertions": [
+          "2025年与华为联合发布金融AI创新联合方案",
+          "数智金融信贷全场景方案包含千寻Agent矩阵"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "300381.SZ",
+    "key": "synthetic_biology",
+    "sector": "合成生物",
+    "chain": [
+      "生物酶制剂",
+      "生物合成品及植物提取"
+    ],
+    "stage": "revenue",
+    "fact": "同花顺合成生物解析确认5-ALA达到产业化水平，饲用酶制剂已有长期生产销售；东方财富主营明确生物酶制剂、生物合成品及植物提取物研发生产销售，覆盖营养清洁食品等应用",
+    "ths_fact": "同花顺合成生物解析确认5-ALA达到产业化水平，饲用酶制剂已有长期生产销售",
+    "company_fact": "东方财富主营明确生物酶制剂、生物合成品及植物提取物研发生产销售，覆盖营养清洁食品等应用",
+    "reason": "合成生物有实际酶制剂及生物合成经营支撑，较旧原料药标签更准确；R-PET酶完成小中试仍在转化，不将其视为量产收入，新增产品订单和产业化进展复核。",
+    "source_sector_name": "合成生物",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300382.SZ",
+    "key": "lithium_batteries",
+    "sector": "锂电池",
+    "chain": [
+      "新能源电池壳",
+      "电池壳高速成形设备"
+    ],
+    "stage": "revenue",
+    "fact": "同花顺锂电池和新能源汽车解析确认电池壳业务及客户产能配套，常州和盛向宁德时代供应方壳；东方财富主营确认将制罐精密成形能力用于新能源电池壳，并有独立检测设备及既有制罐设备经营",
+    "ths_fact": "同花顺锂电池和新能源汽车解析确认电池壳业务及客户产能配套，常州和盛向宁德时代供应方壳",
+    "company_fact": "东方财富主营确认将制罐精密成形能力用于新能源电池壳，并有独立检测设备及既有制罐设备经营",
+    "reason": "选择有实际产品经营和客户配套的锂电池链；人形机器人柔轮仍研发且解析明确未商业生产，后续样件验证和订单再复核，不能凭设子公司认定量产。",
+    "source_sector_name": "锂电池概念",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300383.SZ",
+    "key": "data_centers",
+    "sector": "数据中心(AIDC)",
+    "chain": [
+      "数据中心运营与增值服务",
+      "云计算基础设施"
+    ],
+    "stage": "revenue",
+    "fact": "同花顺AIDC及云计算解析确认IDC运营、增值服务和云业务，算力服务已另有合同布局；东方财富主营确认已投产机柜超过8.6万个及亚马逊云科技中国北京区域运营",
+    "ths_fact": "同花顺AIDC及云计算解析确认IDC运营、增值服务和云业务，算力服务已另有合同布局",
+    "company_fact": "东方财富主营确认已投产机柜超过8.6万个及亚马逊云科技中国北京区域运营",
+    "reason": "选择可覆盖已投产基础设施和新增智算承载的AIDC，未将规划23万机柜或境外拓展计划当作投产；算力租赁实际合同及经营结构变化继续复核。",
+    "source_sector_name": "数据中心(AIDC)",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300384.SZ",
+    "key": "ai_agents",
+    "sector": "AI智能体",
+    "chain": [
+      "化纤工业智能体",
+      "工业数据与AI生产优化"
+    ],
+    "stage": "revenue",
+    "fact": "同花顺AI智能体解析确认化纤智能体V1.0，AI应用解析列示2025上半年收入4740.77万元；东方财富列有工业智能体方案业务；原2025年报确认多个实际产线部署及工业AI收入8396.54万元",
+    "ths_fact": "同花顺AI智能体解析确认化纤智能体V1.0，AI应用解析列示2025上半年收入4740.77万元",
+    "company_fact": "东方财富列有工业智能体方案业务；原2025年报确认多个实际产线部署及工业AI收入8396.54万元",
+    "reason": "智能体已从技术探索形成真实部署和收入，选择AI智能体而非机械按锦纶工程收入排序；V2.0升级与跨化工扩张仍按未来计划，后续发布交付单独复核。",
+    "source_sector_name": "AI智能体",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "300384-original-business",
+        "source_kind": "official_filing",
+        "publisher": "三联虹普",
+        "title": "2025年年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=300384&id=12231113",
+        "published_at": "2026-04-28",
+        "assertions": [
+          "工业AI集成应用解决方案2025年收入8396.54万元",
+          "化纤工业智能体V1.0及配套垂类工业模型已在多条实际生产线部署"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "300385.SZ",
+    "key": "exhaust_gas_treatment",
+    "sector": "废气处理",
+    "chain": [
+      "烟气净化系统",
+      "脱硫脱硝与灰渣处理装备"
+    ],
+    "stage": "revenue",
+    "fact": "同花顺废气处理和脱硫脱硝解析确认烟气净化灰渣一体化设备与工程服务；东方财富主营确认垃圾焚烧和钢铁冶金烟气净化设备设计销售安装，同时运营危废处置",
+    "ths_fact": "同花顺废气处理和脱硫脱硝解析确认烟气净化灰渣一体化设备与工程服务",
+    "company_fact": "东方财富主营确认垃圾焚烧和钢铁冶金烟气净化设备设计销售安装，同时运营危废处置",
+    "reason": "烟气治理是设备技术特色与持续客户场景最明确的已有板块，危废处置保留经营背景；不以旧拟收购或银行参股作为主归属，重大业务调整再复核。",
+    "source_sector_name": "废气处理",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300386.SZ",
+    "key": "automotive_chips",
+    "sector": "汽车芯片",
+    "chain": [
+      "车载终端安全芯片",
+      "ETC物联网安全芯片"
+    ],
+    "stage": "revenue",
+    "fact": "同花顺汽车芯片解析确认控股宏思电子的车载安全芯片及车规认证，芯片解析限定安全类芯片；东方财富芯片主营确认宏思电子2025年继续向ETC-OBU市场大批量供货，并经营车规级物联网安全芯片",
+    "ths_fact": "同花顺汽车芯片解析确认控股宏思电子的车载安全芯片及车规认证，芯片解析限定安全类芯片",
+    "company_fact": "东方财富芯片主营确认宏思电子2025年继续向ETC-OBU市场大批量供货，并经营车规级物联网安全芯片",
+    "reason": "选择已有实际供货支撑的汽车芯片增量方向，传统USB Key与支付终端保留背景；不把公众号智能客服当AI主营，也不把抗量子首次供货直接扩展成量子计算业务。",
+    "source_sector_name": "汽车芯片",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300387.SZ",
+    "key": "ecological_agriculture",
+    "sector": "生态农业",
+    "chain": [
+      "数字农服与水肥药一体化",
+      "生物肥料及土壤改良"
+    ],
+    "stage": "revenue",
+    "fact": "同花顺生态农业及数字乡村解析确认生物农业、数字农服、土壤检测和智能配肥应用；东方财富主营确认农化助剂与融合水肥药一体化、数字技术的农业综合方案经营",
+    "ths_fact": "同花顺生态农业及数字乡村解析确认生物农业、数字农服、土壤检测和智能配肥应用",
+    "company_fact": "东方财富主营确认农化助剂与融合水肥药一体化、数字技术的农业综合方案经营",
+    "reason": "生态农业能够覆盖实际农业技术服务及农化经营转型；采摘机器人中包含参股Tevel，不将参股技术归为自有机器人量产，相关控股经营和独立产品变化再复核。",
+    "source_sector_name": "生态农业",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300388.SZ",
+    "key": "wastewater_treatment",
+    "sector": "污水处理",
+    "chain": [
+      "市政污水厂与管网运营",
+      "工业废水零排放"
+    ],
+    "stage": "revenue",
+    "fact": "同花顺污水处理解析列明城市水环境、工业废水零排放和村镇治理；东方财富主营确认污水厂投资建设运营及控股麦王的工业废水全流程方案和已完成工程",
+    "ths_fact": "同花顺污水处理解析列明城市水环境、工业废水零排放和村镇治理",
+    "company_fact": "东方财富主营确认污水厂投资建设运营及控股麦王的工业废水全流程方案和已完成工程",
+    "reason": "两源均覆盖实际水治理经营，污水处理比融资模式PPP或地域国企标签更明确；项目投运及重大业务变化再复核。",
+    "source_sector_name": "污水处理",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300389.SZ",
+    "key": "led",
+    "sector": "LED",
+    "chain": [
+      "LED显示大屏",
+      "专业视听与虚拟拍摄显示"
+    ],
+    "stage": "revenue",
+    "fact": "同花顺足球、华为及虚拟现实解析确认显示屏供货，虚拟摄影棚方案已在多个国家应用；东方财富主营确认广告、舞台、ProAV、智慧屏等全系列LED显示产品和全球服务网络",
+    "ths_fact": "同花顺足球、华为及虚拟现实解析确认显示屏供货，虚拟摄影棚方案已在多个国家应用",
+    "company_fact": "东方财富主营确认广告、舞台、ProAV、智慧屏等全系列LED显示产品和全球服务网络",
+    "reason": "LED覆盖广泛客户及虚拟拍摄真实产品，采用东方财富已有板块；MicroLED解析仍工艺验证小试，储能虽已有海外交付但暂为业务扩展，持续产品与市场结构变化再复核。",
+    "source_sector_name": "LED",
+    "source_sector_provider": "东方财富",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300390.SZ",
+    "key": "solid_state_batteries",
+    "sector": "固态电池",
+    "chain": [
+      "硫化物固态电解质原料",
+      "固态电池配套锂材料"
+    ],
+    "stage": "pilot",
+    "fact": "同花顺固态电池解析确认硫化锂材料已送样头部固态电解质客户，正在推动放量；东方财富研发优势确认与固态电池领先企业合作，样本已送样测试并布局配套材料体系",
+    "ths_fact": "同花顺固态电池解析确认硫化锂材料已送样头部固态电解质客户，正在推动放量",
+    "company_fact": "东方财富研发优势确认与固态电池领先企业合作，样本已送样测试并布局配套材料体系",
+    "reason": "固态配套材料已达到实际客户测试，选择该增量主线并按pilot；氢氧化锂碳酸锂既有收入不等于硫化锂量产收入，客户定点与正式供货触发升级。",
+    "source_sector_name": "固态电池",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300393.SZ",
+    "key": "topcon_cells",
+    "sector": "TOPCON电池",
+    "chain": [
+      "N型TOPCon电池与组件",
+      "光伏辅材"
+    ],
+    "stage": "revenue",
+    "fact": "同花顺TOPCON电池解析明确N型TOPCon电池组件及背板胶膜经营；东方财富主营确认高效电池组件、光伏辅材及应用业务，业务模式稳定",
+    "ths_fact": "同花顺TOPCON电池解析明确N型TOPCon电池组件及背板胶膜经营",
+    "company_fact": "东方财富主营确认高效电池组件、光伏辅材及应用业务，业务模式稳定",
+    "reason": "TOPCON有具体成熟产品和经营支撑，BC及钙钛矿仍研发储备；AI办公接入和虚拟电厂注册不能直接代替既有产业主线，新增商业化成果再复核。",
+    "source_sector_name": "TOPCON电池",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300394.SZ",
+    "key": "cpo",
+    "sector": "共封装光学(CPO)",
+    "chain": [
+      "光引擎封装及光纤阵列",
+      "高速光互连配套器件"
+    ],
+    "stage": "product",
+    "fact": "同花顺CPO解析对应高速光引擎、FAU等器件产品，并记录GTC的CPO供应链合作伙伴身份；东方财富主营确认无源有源器件及高速光引擎封装、高密度光互连解决方案和自主器件研发量产能力",
+    "ths_fact": "同花顺CPO解析对应高速光引擎、FAU等器件产品，并记录GTC的CPO供应链合作伙伴身份",
+    "company_fact": "东方财富主营确认无源有源器件及高速光引擎封装、高密度光互连解决方案和自主器件研发量产能力",
+    "reason": "市场CPO识别与公司光互连配套产品相互印证，选现有CPO板块；为防将传统光器件营收等同CPO特定收入，当前CPO归属保守记录product，具名CPO订单交付与收入披露再升级，不声称生产整台交换机。",
+    "source_sector_name": "共封装光学(CPO)",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300395.SZ",
+    "key": "pcb",
+    "sector": "PCB",
+    "chain": [
+      "高频高速覆铜板用石英电子布",
+      "电子级石英纤维"
+    ],
+    "stage": "revenue",
+    "fact": "同花顺PCB解析确认石英电子布为高频高速覆铜板材料，具备石英砂至电子布产业链；东方财富确认石英玻璃纤维及电子电路配套；原2025年报确认石英电子布销售收入9837.37万元",
+    "ths_fact": "同花顺PCB解析确认石英电子布为高频高速覆铜板材料，具备石英砂至电子布产业链",
+    "company_fact": "东方财富确认石英玻璃纤维及电子电路配套；原2025年报确认石英电子布销售收入9837.37万元",
+    "reason": "PCB材料增量已经形成真实收入，选择现有PCB板块并限定上游电子布；原文同时说明超薄产品仍客户端小批量测试和终端认证，收入阶段不意味着所有规格已大批量认证，后续客户认证与订单复核。",
+    "source_sector_name": "PCB概念",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "300395-original-business",
+        "source_kind": "official_filing",
+        "publisher": "菲利华",
+        "title": "2025年年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=300395&id=12163532",
+        "published_at": null,
+        "assertions": [
+          "2025年石英电子布销售收入9837.37万元",
+          "超薄石英电子布仍处客户端小批量测试及终端认证阶段"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "300396.SZ",
+    "key": "in_vitro_diagnostics",
+    "sector": "体外诊断",
+    "chain": [
+      "检验仪器与配套试剂",
+      "尿液生化免疫检测"
+    ],
+    "stage": "revenue",
+    "fact": "同花顺体外诊断解析确认尿液、生化、血细胞与化学发光检测仪器试剂经营；东方财富主营完整列示尿液、生化、免疫、妇科、血细胞、凝血及整体实验室产品",
+    "ths_fact": "同花顺体外诊断解析确认尿液、生化、血细胞与化学发光检测仪器试剂经营",
+    "company_fact": "东方财富主营完整列示尿液、生化、免疫、妇科、血细胞、凝血及整体实验室产品",
+    "reason": "体外诊断覆盖已确认仪器试剂和持续经营；AI多模态目前是检验辅助诊断功能，猴痘产品来自参股公司，不混写为本体新增药械收入，独立AI产品或持股经营变化再复核。",
+    "source_sector_name": "体外诊断",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300397.SZ",
+    "key": "low_altitude_economy",
+    "sector": "低空经济",
+    "chain": [
+      "反无人机侦察指挥",
+      "低空近程防御装备"
+    ],
+    "stage": "revenue",
+    "fact": "同花顺低空经济解析确认自主研发生产反无人机指挥系统，军工解析确认低空近防处置能力；东方财富主营确认猎影低空近防、低空雷达和作战指挥装备，以及天融低空装备方向",
+    "ths_fact": "同花顺低空经济解析确认自主研发生产反无人机指挥系统，军工解析确认低空近防处置能力",
+    "company_fact": "东方财富主营确认猎影低空近防、低空雷达和作战指挥装备，以及天融低空装备方向",
+    "reason": "选有真实产品的低空安全防御主线，限定军用反制及侦察而非民航运输；算力中心目前所读仍规划达产，不能当已运营租赁，低空民用部署和新业务交付变化再复核。",
+    "source_sector_name": "低空经济",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300398.SZ",
+    "key": "photoresist",
+    "sector": "光刻胶",
+    "chain": [
+      "面板光刻胶",
+      "半导体光刻及配套化学品"
+    ],
+    "stage": "revenue",
+    "fact": "同花顺光刻胶解析确认面板正负性胶稳定营收、i-line及BARC材料少量销售；东方财富主营确认半导体显示特种材料，研发优势确认自主光刻制程化学品和半导体客户长期供货关系",
+    "ths_fact": "同花顺光刻胶解析确认面板正负性胶稳定营收、i-line及BARC材料少量销售",
+    "company_fact": "东方财富主营确认半导体显示特种材料，研发优势确认自主光刻制程化学品和半导体客户长期供货关系",
+    "reason": "选择有已实现销售支持的光刻胶现有主线；不将BARC称为独立KrF曝光主胶，也不把TGV玻璃基板布局写成大批量营收，先进产品客户导入与规模变化再复核。",
+    "source_sector_name": "光刻胶",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300399.SZ",
+    "key": "ai_applications",
+    "sector": "AI应用",
+    "chain": [
+      "保险智能助手",
+      "保险客服智能交互"
+    ],
+    "stage": "product",
+    "fact": "同花顺AI应用解析确认AI技术已用于保险客服，统一消息平台有智能语音和在线问答能力；东方财富创新主营确认布局保险智能助手和AI智算，2025年关键技术突破且营收利润贡献有限",
+    "ths_fact": "同花顺AI应用解析确认AI技术已用于保险客服，统一消息平台有智能语音和在线问答能力",
+    "company_fact": "东方财富创新主营确认布局保险智能助手和AI智算，2025年关键技术突破且营收利润贡献有限",
+    "reason": "现有保险业务中已有可确认AI应用产品，选AI应用并按product；不将整体保险经纪收入或算力布局视为AI收入，助手部署与独立合同确认后复核阶段。",
+    "source_sector_name": "AI应用",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300400.SZ",
+    "key": "pcb",
+    "sector": "PCB",
+    "chain": [
+      "PCBA焊接设备",
+      "AOI与SPI检测设备"
+    ],
+    "stage": "revenue",
+    "fact": "同花顺PCB解析确认SMT制程焊接检测整线，AOI和SPI检测设备已销售；东方财富主营明确电子装联设备覆盖PCBA焊接检测，提供热工检测自动化整套系统",
+    "ths_fact": "同花顺PCB解析确认SMT制程焊接检测整线，AOI和SPI检测设备已销售",
+    "company_fact": "东方财富主营明确电子装联设备覆盖PCBA焊接检测，提供热工检测自动化整套系统",
+    "reason": "PCB产业配套是现有产品和客户应用一致的主线，链条限定设备而非生产PCB板；AI算法是设备升级，半导体封装扩展的规模变化再复核。",
+    "source_sector_name": "PCB概念",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300401.SZ",
+    "key": "vitamins",
+    "sector": "维生素",
+    "chain": [
+      "维生素D3与胆固醇",
+      "维生素A及羟基D3"
+    ],
+    "stage": "revenue",
+    "fact": "同花顺维生素解析确认羊毛脂胆固醇、D3、25-羟基D3及维生素A经营；东方财富维生素主营列明上述系列，同时列示药品制造背景",
+    "ths_fact": "同花顺维生素解析确认羊毛脂胆固醇、D3、25-羟基D3及维生素A经营",
+    "company_fact": "东方财富维生素主营列明上述系列，同时列示药品制造背景",
+    "reason": "维生素具有明确持续产品及完整上游链条，不将合成生物研发中心或干眼仪临床推广替代已确认产业主线；新产品形成独立客户和规模化交付后复核。",
+    "source_sector_name": "维生素",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300402.SZ",
+    "key": "high_end_equipment",
+    "sector": "高端装备",
+    "chain": [
+      "特种材料压力容器",
+      "耐腐蚀高温高压非标装备"
+    ],
+    "stage": "revenue",
+    "fact": "同花顺高端装备解析确认换热器、塔器、反应器和管件，服务化工能源海工；东方财富主营确认钛镍锆等特材非标压力容器研发制造与安装服务",
+    "ths_fact": "同花顺高端装备解析确认换热器、塔器、反应器和管件，服务化工能源海工",
+    "company_fact": "东方财富主营确认钛镍锆等特材非标压力容器研发制造与安装服务",
+    "reason": "高端装备覆盖真实定制制造和多行业客户；不因使用钛铜等原料就归为金属采冶，航空发动机与硅料装置订单属于设备用途，独立新业务发生再复核。",
+    "source_sector_name": "高端装备",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300403.SZ",
+    "key": "home_appliances",
+    "sector": "家用电器",
+    "chain": [
+      "洗衣机洗碗机排水泵",
+      "家电水系统零部件"
+    ],
+    "stage": "revenue",
+    "fact": "同花顺家用电器解析确认节能排水泵进水阀及水疗马桶，较新机器人解析明确同川为参股；东方财富主营及客户优势确认家电排水泵持续制造，向全球主要家电企业交付",
+    "ths_fact": "同花顺家用电器解析确认节能排水泵进水阀及水疗马桶，较新机器人解析明确同川为参股",
+    "company_fact": "东方财富主营及客户优势确认家电排水泵持续制造，向全球主要家电企业交付",
+    "reason": "选择本体具有完整经营和客户支撑的家用电器链；不沿用旧控股同川标签把参股机器人等同本体业务，新能源电子泵保留扩展背景，控制权或自有机器人产品实际变化再复核。",
+    "source_sector_name": "家用电器",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300404.SZ",
+    "key": "cro",
+    "sector": "CRO",
+    "chain": [
+      "临床前与临床研究服务",
+      "药物CDMO及研发咨询"
+    ],
+    "stage": "revenue",
+    "fact": "同花顺CRO解析确认全流程临床前临床研究及CDMO，创新药解析另列自研管线；东方财富主营与核心竞争力确认专业一站式CRO服务，兼有自主研发和技术转化",
+    "ths_fact": "同花顺CRO解析确认全流程临床前临床研究及CDMO，创新药解析另列自研管线",
+    "company_fact": "东方财富主营与核心竞争力确认专业一站式CRO服务，兼有自主研发和技术转化",
+    "reason": "当前选择与服务平台和实际经营一致的CRO；自研卿芷、CRA等临床许可与准备不能写成已上市收入，后续自有管线完成临床或技术转让时复核，不否定其潜在创新药价值。",
+    "source_sector_name": "CRO概念",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  }
+]

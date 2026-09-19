@@ -1,0 +1,67 @@
+{
+  "watch_slot": "2026-09-18T11:47:27.284704+08:00",
+  "matched": 72,
+  "source_counts": {
+    "tushare": 3034,
+    "tencent_http": 9
+  },
+  "history_matches_forced_scan": true,
+  "served_js_matches": true,
+  "original_archives_unchanged": 11,
+  "collector": {
+    "name": "collector",
+    "process_pid": 70940,
+    "process_start_utc": "2026-09-18T03:47:33.6587884Z",
+    "started_at": "2026-09-18T11:47:38.5807282+08:00",
+    "stdout_log": "G:\\money\\.tradex-run\\collector.out.log",
+    "stderr_log": "G:\\money\\.tradex-run\\collector.err.log"
+  },
+  "dashboard": {
+    "name": "dashboard",
+    "port": 8765,
+    "process_pid": 50320,
+    "process_start_utc": "2026-09-18T03:48:02.0472699Z",
+    "launcher_pid": 25584,
+    "launcher_start_utc": "2026-09-18T03:48:01.9723149Z",
+    "started_at": "2026-09-18T11:48:04.5879604+08:00",
+    "stdout_log": "G:\\money\\.tradex-run\\dashboard.out.log",
+    "stderr_log": "G:\\money\\.tradex-run\\dashboard.err.log"
+  },
+  "changed_files": [
+    {
+      "file": "tradex\\docs\\data-contracts.md",
+      "added": 13,
+      "removed": 2
+    },
+    {
+      "file": "tradex\\src\\tradex\\dashboard\\watch\\app.js",
+      "added": 32,
+      "removed": 9
+    },
+    {
+      "file": "tradex\\src\\tradex\\data_gateway\\intraday_scan_quotes.py",
+      "added": 57,
+      "removed": 10
+    },
+    {
+      "file": "tradex\\src\\tradex\\data_sources\\registry.py",
+      "added": 4,
+      "removed": 0
+    },
+    {
+      "file": "tradex\\src\\tradex\\stock_selection\\intraday_macd_j.py",
+      "added": 30,
+      "removed": 14
+    },
+    {
+      "file": "tradex\\tests\\intraday_macd_j.test.cjs",
+      "added": 38,
+      "removed": 0
+    },
+    {
+      "file": "tradex\\tests\\test_intraday_macd_j.py",
+      "added": 30,
+      "removed": 4
+    }
+  ]
+}

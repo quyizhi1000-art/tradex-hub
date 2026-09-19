@@ -1,0 +1,104 @@
+[
+  {
+    "id": "600577.SH",
+    "key": "superconductors",
+    "sector": "超导",
+    "source_sector_name": "超导概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "参股高温超导带材"
+    ],
+    "fact": "本体经营电磁线特种导体及精密模具。",
+    "company_fact": "本体经营电磁线特种导体及精密模具。",
+    "ths_fact": "投资上海超导，产品用于超导电缆磁体及聚变等。",
+    "reason": "原H1确认上海超导仍是联营企业，IPO原稿确认精达为第一大股东且无控制权；重要超导投资形成市场身份，阶段及带材收入属于被投企业不并表。",
+    "relation": "investment",
+    "investment_reviewed": true,
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "600577-super-h1",
+        "source_kind": "official_filing",
+        "publisher": "精达股份",
+        "title": "2026半年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12525395&stockid=600577",
+        "published_at": "2026-08-25",
+        "assertions": [
+          "上海超导列联营企业，账面投资307791674.05元，权益法核算。"
+        ]
+      },
+      {
+        "evidence_id": "600577-super-ipo",
+        "source_kind": "official_filing",
+        "publisher": "上海超导",
+        "title": "招股说明书申报稿",
+        "source_url": "https://static.sse.com.cn/stock/disclosure/announcement/c/202511/002081_20251115_VZTZ.pdf",
+        "published_at": "2025-11-15",
+        "assertions": [
+          "第59页精达18.15%第一大股东但无控股；第105至106页第二代高温超导带材销售收入与聚变电力项目用途。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "600578.SH",
+    "key": "thermal_power",
+    "sector": "火力发电",
+    "source_sector_name": "火力发电",
+    "source_sector_provider": "东方财富",
+    "stage": "revenue",
+    "chain": [
+      "燃煤发电与供热"
+    ],
+    "fact": "核心经营电力热力，业绩主要来自火力发电供热。",
+    "company_fact": "核心经营电力热力，业绩主要来自火力发电供热。",
+    "ths_fact": "超超临界概念对应所属燃煤机组，新能源为其他布局。",
+    "reason": "火电供热为明确现行业务，不把股权煤矿或光伏配套替代电力身份。"
+  },
+  {
+    "id": "600579.SH",
+    "key": "carbon_fiber",
+    "sector": "碳纤维",
+    "source_sector_name": "碳纤维",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "碳纤维生产用碳化炉"
+    ],
+    "fact": "化工装备包含大型干燥设备工业炉及余热等关键设备。",
+    "company_fact": "化工装备包含大型干燥设备工业炉及余热等关键设备。",
+    "ths_fact": "2026互动天华院碳纤维碳化炉已在国内化工企业运行。",
+    "reason": "实际工业炉业务与碳化炉投运交叉，归碳纤维装备环节，不是碳丝生产；旧克劳斯玛菲业务不作为当前范围证据。"
+  },
+  {
+    "id": "600580.SH",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "机器人关节模组灵巧手及驱动"
+    ],
+    "fact": "电机变频及动力系统主营，仿生机器人领域取得实质进展。",
+    "company_fact": "电机变频及动力系统主营，仿生机器人领域取得实质进展。",
+    "ths_fact": "2025IR已形成人形核心组件组合，提供关节模组灵巧手及外骨骼并开展头部合作。",
+    "reason": "电驱技术进入明确人形组件产品，符合市场身份；仅产品阶段，不将合作写成大批量收入。"
+  },
+  {
+    "id": "600581.SH",
+    "key": "plate_steel",
+    "sector": "板材",
+    "source_sector_name": "板材",
+    "source_sector_provider": "东方财富",
+    "stage": "revenue",
+    "chain": [
+      "钢铁冶炼轧制板材"
+    ],
+    "fact": "持续经营钢铁冶炼轧制加工销售完整链条。",
+    "company_fact": "持续经营钢铁冶炼轧制加工销售完整链条。",
+    "ths_fact": "新疆振兴及特钢解析明确热轧冷轧中厚板建筑工业用钢产品。",
+    "reason": "归实际板材行业而非ST或地域，优特钢品类不意味着全业务变为特钢。"
+  }
+]

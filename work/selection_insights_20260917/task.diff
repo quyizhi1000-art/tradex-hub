@@ -1,0 +1,472 @@
+--- before/tradex\src\tradex\analysis_worker.py
++++ tradex\src\tradex\analysis_worker.py
+@@ -645,6 +645,7 @@
+         return published
+ 
+     def materialize_selection_views(self, *, force: bool = False) -> int:
++        membership_revision = self.selection_service.refresh_limit_up_memberships()
+         dates = self.selection_store.list_dates(limit=365)
+         strategy_dates = self.selection_store.list_strategy_dates(limit=365)
+         strategy_history = self.selection_service.strategy_history(limit=1)
+@@ -653,6 +654,8 @@
+         catalog_revision = _revision(
+             {
+                 "legacy_dates": dates,
++                "insights_contract": "stock_selection_insights.v1",
++                "limit_up_membership_revision": membership_revision,
+                 "strategy_dates": strategy_dates,
+                 "strategy_catalog": strategy_catalog,
+                 "industry_display_contract": industry_display.get("contract"),
+--- before/tradex\src\tradex\dashboard\watch\app.js
++++ tradex\src\tradex\dashboard\watch\app.js
+@@ -185,6 +185,9 @@
+     stockSelectionStrategyId: null,
+     stockSelectionIndustry: null,
+     stockSelectionIndustryScope: null,
++    stockSelectionChangeFilter: "all",
++    stockSelectionInsightScope: null,
++    stockSelectionComparison: null,
+     stockSelectionSchedule: {
+       manual_after: "18:00",
+       automatic_if_missing_after: "18:30",
+@@ -3169,7 +3172,9 @@
+     return stockSelectionDisplayCandidates(candidates, hitCount).filter((candidate) => (
+       state.stockSelectionIndustry === null
+       || stockSelectionIndustryName(candidate) === state.stockSelectionIndustry
+-    ));
++    ) && (!state.stockSelectionChangeFilter || state.stockSelectionChangeFilter === "all"
++      || objectValue(objectValue(objectValue(state.stockSelectionComparison).rows)[candidate.instrument_id]).status
++        === state.stockSelectionChangeFilter));
+   }
+ 
+   function renderStockSelectionIndustryFilters(candidates, scope) {
+@@ -3708,7 +3713,170 @@
+       || results.sort((a, b) => Number(String(b.strategy_version).slice(1)) - Number(String(a.strategy_version).slice(1)))[0]);
+   }
+ 
++  function stockSelectionEvidenceValue(value) {
++    const labels = {
++      rank: "策略排名", score: "综合分", factor_coverage: "因子覆盖", contributions: "因子贡献",
++      reasons: "入选依据", risks: "风险", occurrence_count: "命中次数", latest_occurrence_date: "最近命中",
++      evidence: "逐次证据", anchor_trade_date: "本轮首次命中", anchor_low: "本轮底线", reset_count: "重置次数",
++      signal_trade_date: "金叉日期", signal_group: "信号分组", zero_axis_zone: "零轴位置",
++      j_turn_date: "J 拐头日期", gap_sessions: "间隔交易日", j_trough: "J 谷值", j_turn_value: "J 拐头值",
++      low_j_tags: "低位标签", opportunity_stage: "机会阶段", recent_limit_up_count: "近期涨停次数",
++      consecutive_limit_up_count: "连续涨停次数", entry_feasibility_factor: "入场可行性系数",
++      reference_close: "入档收盘价", trade_date: "日期", open: "开盘", high: "最高", low: "最低", close: "收盘",
++      minimum_subsequent_close: "后续最低收盘", amount_cny: "成交额(元)", total_market_cap_cny: "总市值(元)",
++      daily_return_pct: "当日涨幅%", five_day_return_pct: "5日涨幅%", close_position_ratio: "收盘位置",
++      turnover_rate_pct: "换手率%", volume_ratio: "量比", amount_expansion_ratio: "成交额扩张倍数",
++      float_market_cap_cny: "流通市值(元)", closed_at_limit_up: "收盘涨停", opened_at_limit_up: "开盘涨停",
++      breakout_distance_pct: "突破距离%", industry_positive_ratio: "行业上涨占比", industry_peer_count: "行业样本数",
++      upper_shadow_pct_of_close: "上影/收盘%", upper_shadow_body_multiple: "上影/实体倍数",
++      upper_shadow_range_ratio: "上影振幅占比", previous_close: "前收盘", change_pct: "涨幅%",
++      volume_shares: "成交量(股)", prior_5d_average_volume_shares: "前5日均量(股)", volume_multiple: "放量倍数",
++      factor: "因子", label: "指标", raw_value: "原值", z_score: "标准分", weighted_contribution: "加权贡献",
++      normalized_score: "标准分", weighted_points: "加权分", dif: "DIF", dea: "DEA", k: "K", d: "D", j: "J",
++    };
++    if (typeof value === "number") return Number.isInteger(value) ? String(value) : String(Number(value.toFixed(4)));
++    if (value === null || value === undefined) return "无";
++    if (Array.isArray(value)) return value.length ? value.map(stockSelectionEvidenceValue).join("；") : "无";
++    if (typeof value === "object") return Object.entries(value).map(([key, item]) =>
++      `${labels[key] || key} ${stockSelectionEvidenceValue(item)}`).join(" · ");
++    return ({same_day: "当日共振", prior_3_sessions: "此前3日拐头", above_zero: "零轴上方",
++      below_zero: "零轴下方", crossing_zero: "跨零轴", pre_limit_up: "涨停前机会",
++      limit_up_continuation: "涨停延续"})[value] || String(value);
++  }
++
++  function stockSelectionInsight(archive, strategyId) {
++    const insights = objectValue(archive.insights);
++    if (insights.contract !== "stock_selection_insights.v1" || insights.schema_version !== 1
++      || insights.trade_date !== archive.trade_date) return {};
++    return objectValue(objectValue(insights.strategies)[strategyId]);
++  }
++
+   function renderStockSelectionStrategy(archive, strategyId) {
++    const scope = `${archive.trade_date}:${strategyId}`;
++    if (state.stockSelectionInsightScope !== scope) state.stockSelectionChangeFilter = "all";
++    state.stockSelectionInsightScope = scope;
++    const insight = stockSelectionInsight(archive, strategyId);
++    const comparison = objectValue(insight.comparison);
++    if (comparison.status !== "available") state.stockSelectionChangeFilter = "all";
++    state.stockSelectionComparison = comparison;
++    renderStockSelectionStrategyContent(archive, strategyId);
++    const toolbar = byId("stock-selection-insights-toolbar");
++    toolbar.hidden = false;
++    const tags = byId("stock-selection-change-tags");
++    tags.replaceChildren();
++    const counts = objectValue(comparison.counts);
++    const total = Object.values(counts).reduce((sum, value) => sum + Number(value || 0), 0);
++    [["all", "全部", total], ["changed", "有变化", counts.changed || 0], ["new", "新增", counts.new || 0]]
++      .forEach(([filter, label, count]) => {
++        const button = createElement("button", `stock-selection-industry-tag selection-change-tag--${filter}`, `${label} ${count}`);
++        button.type = "button";
++        button.setAttribute("aria-pressed", String(state.stockSelectionChangeFilter === filter));
++        button.disabled = filter !== "all" && comparison.status !== "available";
++        button.addEventListener("click", () => {
++          state.stockSelectionChangeFilter = filter;
++          renderStockSelectionStrategy(archive, strategyId);
++          tags.querySelector('button[aria-pressed="true"]')?.focus();
++        });
++        tags.append(button);
++      });
++    const visible = stockSelectionVisibleCandidates(
++      Object.entries(objectValue(comparison.rows)).map(([instrument_id]) => ({
++        instrument_id, industry_block_name: objectValue(objectValue(archive.industry_display).names_by_instrument)[instrument_id],
++      })),
++    ).length;
++    byId("stock-selection-comparison-summary").textContent = comparison.status === "available"
++      ? `对比 ${comparison.previous_trade_date} · 橙色：策略字段变化 · 蓝色：较前一交易日新增 · 当前变化/行业筛选 ${visible} / ${total} 只`
++        + (comparison.quality === "degraded" ? " · 存档数据降级，对比可能不完整" : "")
++      : `无法对比：${comparison.previous_trade_date || "前一交易日"} 或当日同版本有效存档缺失，未将全部股票视为新增。`;
++    byId("stock-selection-followup-open").disabled = !insight.followup;
++    const definition = stockSelectionDefinitions(archive).find((item) => item.strategy_id === strategyId);
++    const panel = definition && stockSelectionPanelForContract(definition.result_contract);
++    panel?.querySelectorAll(".stock-selection-quote-link").forEach((link) => {
++      const code = /\/(\d{6})\/$/.exec(link.href)?.[1];
++      const item = Object.entries(objectValue(comparison.rows)).find(([id]) => id.slice(0, 6) === code)?.[1];
++      if (!item || !["new", "changed"].includes(item.status)) return;
++      const row = link.closest("tr");
++      row?.classList.add(`selection-row--${item.status}`);
++      const cell = link.closest("td");
++      if (!cell) return;
++      cell.append(createElement("small", `selection-change-badge selection-change-tag--${item.status}`,
++        item.status === "new" ? "新增" : "有变化"));
++      if (item.status === "changed") {
++        const details = createElement("details", "selection-change-details");
++        details.append(createElement("summary", "", `查看 ${item.changes.length} 项变化`));
++        item.changes.forEach((change) => {
++          details.append(createElement("div", "",
++            `${stockSelectionEvidenceValue({[change.field]: change.before})} → ${stockSelectionEvidenceValue(change.after)}`));
++        });
++        cell.append(details);
++      }
++    });
++    if (byId("stock-selection-followup-dialog").open) renderStockSelectionFollowup();
++  }
++
++  function renderStockSelectionFollowup() {
++    const archive = objectValue(state.stockSelectionHistory);
++    const strategyId = state.stockSelectionStrategyId;
++    const definition = stockSelectionDefinitions(archive).find((item) => item.strategy_id === strategyId);
++    const insight = stockSelectionInsight(archive, strategyId);
++    const followup = objectValue(insight.followup);
++    const window = asArray(objectValue(archive.insights).window_dates);
++    byId("stock-selection-followup-title").textContent = `${definition?.title || "选股策略"} · 入档涨停回溯`;
++    byId("stock-selection-followup-summary").textContent =
++      `${window[0] || "--"} 至 ${archive.trade_date || "--"} · 含所选日共 5 个交易日 · 入档当天至所选日收盘涨停 · ${asArray(followup.rows).length} 只股票`;
++    const warnings = [];
++    if (asArray(followup.missing_archive_dates).length) warnings.push(`缺少同版本存档：${followup.missing_archive_dates.join("、")}`);
++    if (asArray(followup.degraded_archive_dates).length) warnings.push(`存档数据降级：${followup.degraded_archive_dates.join("、")}`);
++    if (asArray(followup.missing_limit_up_dates).length) warnings.push(`涨停名单缺失：${followup.missing_limit_up_dates.join("、")}`);
++    byId("stock-selection-followup-quality").textContent = (followup.quality === "complete"
++      ? "窗口数据齐全。" : `统计不完整，已展示有证据的记录。${warnings.join("；")}。`)
++      + ` 策略版本 ${insight.strategy_version || "--"}；每个入档日单独保留，同一涨停日只计一次。入档通常在收盘后，入档日涨停仅作同日事实展示。行业归属沿用当前同花顺目录。`;
++    const body = byId("stock-selection-followup-body");
++    body.replaceChildren();
++    const mapping = objectValue(objectValue(archive.industry_display).names_by_instrument);
++    asArray(followup.rows).forEach((item) => {
++      const row = createElement("tr");
++      const nameCell = createElement("td");
++      nameCell.append(stockSelectionNameLink(item), createElement("small", "", item.instrument_id));
++      row.append(nameCell, createElement("td", "", mapping[item.instrument_id] || "未分类"),
++        createElement("td", "stock-selection-score", String(item.archive_records.length)));
++      const entries = createElement("td");
++      const entryList = createElement("div", "stock-pattern-evidence");
++      item.archive_records.forEach((record) => {
++        const data = objectValue(record.candidate);
++        const details = createElement("details", "selection-entry-evidence");
++        const score = data.score === undefined ? "" : ` · 综合分 ${formatLevel(data.score)}`;
++        const count = data.occurrence_count ?? asArray(data.evidence).length;
++        details.append(createElement("summary", "", `${record.trade_date} · 入档收盘 ${formatLevel(data.reference_close)}${score}`
++          + (count ? ` · 证据 ${count} 条` : "") + " · 展开策略数据"));
++        Object.entries(data).filter(([key]) => !["instrument_id", "name", "industry", "market", "primary_business_name", "reference_close"].includes(key))
++          .forEach(([key, value]) => details.append(createElement("div", "", stockSelectionEvidenceValue({[key]: value}))));
++        entryList.append(details);
++      });
++      entries.append(entryList);
++      row.append(entries, createElement("td", "stock-selection-score", String(item.limit_up_records.length)));
++      const limits = createElement("td");
++      const limitList = createElement("div", "stock-pattern-evidence");
++      item.limit_up_records.forEach((record) => {
++        const line = createElement("span", "", `${record.trade_date} · 收盘涨停 · 对应入档：${record.archive_dates.join("、")}`);
++        line.title = `来源 ${text(objectValue(record.source).provider)} · 日级收盘涨停名单`;
++        limitList.append(line);
++      });
++      limits.append(limitList);
++      row.append(limits);
++      body.append(row);
++    });
++    if (!asArray(followup.rows).length) {
++      const row = createElement("tr");
++      const empty = createElement("td", "stock-selection-table-empty", followup.quality === "complete"
++        ? "该窗口内没有入档后（含当日）收盘涨停的股票。" : "暂无可核实的涨停记录，数据缺失不等于没有涨停。");
++      empty.colSpan = 6;
++      row.append(empty);
++      body.append(row);
++    }
++  }
++
++  function renderStockSelectionStrategyContent(archive, strategyId) {
+     const definition = stockSelectionDefinitions(archive)
+       .find((item) => item.strategy_id === strategyId);
+     if (!definition) return;
+@@ -3853,6 +4021,8 @@
+     state.stockSelectionFetchInFlight = true;
+     if (!silent) {
+       byId("stock-selection-status").textContent = "正在读取策略结果…";
++      byId("stock-selection-insights-toolbar").hidden = true;
++      if (byId("stock-selection-followup-dialog").open) byId("stock-selection-followup-dialog").close();
+       byId("stock-selection-industry-filter").hidden = true;
+       byId("stock-selection-launch-status").textContent = "正在读取策略结果…";
+       document.querySelectorAll("[data-stock-selection-result-contract]").forEach((panel) => {
+@@ -3887,6 +4057,8 @@
+         button.disabled = true;
+       });
+       byId("stock-selection-status").textContent = `策略结果暂不可用：${text(error.message, "等待重试")}`;
++      byId("stock-selection-insights-toolbar").hidden = true;
++      if (byId("stock-selection-followup-dialog").open) byId("stock-selection-followup-dialog").close();
+       byId("stock-selection-launch-status").textContent = "策略结果暂不可用";
+     } finally {
+       if (requestId === state.stockSelectionRequestId) {
+@@ -7126,6 +7298,16 @@
+     });
+     byId("stock-selection-open-button").addEventListener("click", openStockSelectionDialog);
+     byId("stock-selection-close-button").addEventListener("click", closeStockSelectionDialog);
++    byId("stock-selection-followup-open").addEventListener("click", () => {
++      renderStockSelectionFollowup();
++      byId("stock-selection-followup-dialog").showModal();
++    });
++    byId("stock-selection-followup-close").addEventListener("click", () => {
++      byId("stock-selection-followup-dialog").close();
++    });
++    byId("stock-selection-followup-dialog").addEventListener("close", () => {
++      byId("stock-selection-followup-open").focus();
++    });
+     const dialog = byId("stock-selection-dialog");
+     dialog.addEventListener("click", (event) => {
+       if (event.target !== dialog) return;
+--- before/tradex\src\tradex\dashboard\watch\index.html
++++ tradex\src\tradex\dashboard\watch\index.html
+@@ -684,6 +684,11 @@
+ 
+             <div class="stock-selection-schedule" id="stock-selection-schedule" role="status" aria-live="polite">18:00 后可手动生成今日结果；18:30 自动补齐，仍有缺失时可手动重试。</div>
+             <div class="stock-selection-tabs" id="stock-selection-tabs" role="tablist" aria-label="选股策略"></div>
++            <div class="stock-selection-insights-toolbar" id="stock-selection-insights-toolbar" hidden>
++              <div class="stock-selection-industry-tags" id="stock-selection-change-tags" role="group" aria-label="按选股变化筛选"></div>
++              <button class="button" id="stock-selection-followup-open" type="button">近 5 日入档涨停回溯</button>
++              <p id="stock-selection-comparison-summary" role="status" aria-live="polite"></p>
++            </div>
+             <div class="stock-selection-industry-filter" id="stock-selection-industry-filter" hidden>
+               <div class="stock-selection-industry-tags" id="stock-selection-industry-tags" role="group" aria-label="按行业板块筛选股票"></div>
+               <p id="stock-selection-industry-summary" role="status" aria-live="polite"></p>
+@@ -1034,6 +1039,22 @@
+       </footer>
+     </div>
+ 
++    <dialog class="stock-selection-dialog stock-selection-followup-dialog" id="stock-selection-followup-dialog" aria-labelledby="stock-selection-followup-title">
++      <div class="stock-selection-dialog__shell">
++        <header class="stock-selection-dialog__header">
++          <div><h2 id="stock-selection-followup-title">近 5 日入档涨停回溯</h2><p id="stock-selection-followup-summary"></p></div>
++          <button class="stock-selection-dialog__close" id="stock-selection-followup-close" type="button" aria-label="返回选股策略">×</button>
++        </header>
++        <p class="stock-selection-schedule" id="stock-selection-followup-quality" role="status"></p>
++        <div class="stock-selection-table-scroll" tabindex="0" aria-label="逐次入档与涨停证据">
++          <table class="stock-selection-table stock-selection-followup-table">
++            <thead><tr><th scope="col">股票</th><th scope="col">行业板块</th><th scope="col">入档次数</th><th scope="col">逐次入档证据</th><th scope="col">涨停次数</th><th scope="col">逐次收盘涨停证据</th></tr></thead>
++            <tbody id="stock-selection-followup-body"></tbody>
++          </table>
++        </div>
++      </div>
++    </dialog>
++
+     <script src="/watch/app.js" defer></script>
+     <script src="/watch/sector-catalog.js" defer></script>
+   </body>
+--- before/tradex\src\tradex\dashboard\watch\styles.css
++++ tradex\src\tradex\dashboard\watch\styles.css
+@@ -4685,3 +4685,25 @@
+   max-height: 320px;
+   overflow: auto;
+ }
++.stock-selection-insights-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin: 14px 0; }
++.stock-selection-insights-toolbar[hidden] { display: none; }
++.stock-selection-insights-toolbar > button { padding: 8px 14px; border: 1px solid var(--cyan); border-radius: 7px; background: var(--cyan-soft); color: var(--text); cursor: pointer; }
++.stock-selection-insights-toolbar > button:disabled { opacity: .5; cursor: default; }
++.stock-selection-insights-toolbar > button:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
++.stock-selection-insights-toolbar p { flex-basis: 100%; color: var(--muted); margin: 0; font-size: 12px; }
++.selection-change-tag--changed { color: #ffbd69; }
++.selection-change-tag--new { color: #83beff; }
++.stock-selection-table tr.selection-row--changed > td { background: rgba(231, 152, 52, .10); }
++.stock-selection-table tr.selection-row--new > td { background: rgba(64, 147, 243, .12); }
++.selection-row--changed > td:first-child { box-shadow: inset 3px 0 #e79834; }
++.selection-row--new > td:first-child { box-shadow: inset 3px 0 #4093f3; }
++.selection-change-badge { display: block; margin-top: 5px; font-weight: 700; }
++.selection-change-details { font-size: 11px; max-width: 420px; white-space: normal; overflow-wrap: anywhere; }
++.selection-change-details summary, .selection-entry-evidence summary { cursor: pointer; }
++.selection-change-details div, .selection-entry-evidence div { margin-top: 6px; line-height: 1.6; }
++.stock-selection-followup-table { min-width: 1100px; }
++.stock-selection-followup-table td { vertical-align: top; }
++.stock-selection-followup-table td:nth-child(4) { min-width: 390px; max-width: 600px; white-space: normal; }
++.stock-selection-followup-table td:nth-child(6) { min-width: 350px; }
++.stock-selection-followup-table td:first-child small { display: block; }
++.selection-entry-evidence { margin-bottom: 8px; font-size: 12px; }
+--- before/tradex\src\tradex\stock_selection\service.py
++++ tradex\src\tradex\stock_selection\service.py
+@@ -24,6 +24,7 @@
+ from .contracts import DailyStockSelectionOutcomeV1, DailyStockSelectionV1
+ from .engine import DEFAULT_SELECTION_CONFIG, select_daily_stocks
+ from .industry_display import load_selection_industry_display
++from .insights import build_insights, trading_window
+ from .strategies import (
+     REGISTERED_STOCK_SELECTION_STRATEGIES,
+     build_strategy_results,
+@@ -128,9 +129,12 @@
+         *,
+         factor_loader: Callable[[date], DailyStockFactorSnapshotV1] | None = None,
+         technical_loader: Callable | None = None,
++        membership_loader: Callable | None = None,
+         clock: Callable[[], datetime] | None = None,
+     ) -> None:
+         self.store = store
++        self._membership_loader = membership_loader
++        self._membership_attempts: dict[date, datetime] = {}
+         self._factor_loader = factor_loader or _load_factor_snapshot_with_relationships
+         self._technical_loader = technical_loader or (fetch_stock_technical_window if factor_loader is None else None)
+         self._clock = clock or (lambda: datetime.now(SHANGHAI))
+@@ -567,6 +571,36 @@
+                 if (outcome := self.store.get_strategy_outcome(item.result_id)) is not None
+             ],
+         }
++
++    def refresh_limit_up_memberships(self, *, max_requests: int = 5) -> str:
++        """Worker-owned bounded backfill; reads never contact a market provider."""
++        from tradex.data_gateway.limit_events import fetch_daily_limit_up_membership
++
++        now = self._now()
++        needed = set()
++        for entry in self.store.list_strategy_dates(limit=365):
++            needed.update(trading_window(date.fromisoformat(entry["trade_date"])))
++        requests = 0
++        for day in sorted(needed, reverse=True):
++            if day > now.date() or (day == now.date() and now.time().replace(tzinfo=None) < MANUAL_SELECTION_START):
++                continue
++            if self.store.get_limit_up_membership(day) is not None:
++                continue
++            attempted = self._membership_attempts.get(day)
++            if attempted and (now - attempted).total_seconds() < 600:
++                continue
++            if requests >= max_requests:
++                break
++            self._membership_attempts[day] = now
++            requests += 1
++            try:
++                membership = (self._membership_loader or fetch_daily_limit_up_membership)(day.isoformat(), now=now)
++                if membership.trading_date != day:
++                    raise ValueError("limit-up membership returned wrong trade date")
++                self.store.record_limit_up_membership(membership)
++            except Exception:
++                logger.warning("selection closing limit-up evidence unavailable: %s", day, exc_info=True)
++        return self.store.limit_up_membership_revision()
+ 
+     def strategy_history(
+         self,
+@@ -609,7 +643,12 @@
+             instrument_ids.update(candidate.instrument_id for candidate in legacy.candidates)
+             for screen in (*legacy.pattern_screens, *legacy.limit_up_tendency_screens):
+                 instrument_ids.update(candidate.instrument_id for candidate in screen.candidates)
+-        industry_display = load_selection_industry_display(instrument_ids)
++        insights = build_insights(self.store, date.fromisoformat(target), REGISTERED_STOCK_SELECTION_STRATEGIES) if target else None
++        followup_ids = {
++            row["instrument_id"] for strategy in (insights or {}).get("strategies", {}).values()
++            for row in strategy["followup"]["rows"]
++        }
++        industry_display = load_selection_industry_display(instrument_ids | followup_ids)
+         outcomes = [
+             outcome
+             for result in results
+@@ -622,6 +661,7 @@
+             "dates": dates,
+             "catalog": strategy_catalog().model_dump(mode="json"),
+             "industry_display": industry_display.model_dump(mode="json"),
++            "insights": insights,
+             "results": [item.model_dump(mode="json") for item in results],
+             "outcomes": [item.model_dump(mode="json") for item in outcomes],
+             "recent_outcomes": [
+--- before/tradex\src\tradex\stock_selection\store.py
++++ tradex\src\tradex\stock_selection\store.py
+@@ -11,6 +11,8 @@
+ from datetime import date
+ from pathlib import Path
+ from typing import Any
++
++from tradex.data_gateway.contracts import DailyLimitUpMembershipV1
+ 
+ from .contracts import (
+     DailyStockSelectionOutcomeV1,
+@@ -99,6 +101,11 @@
+                 CREATE TABLE IF NOT EXISTS daily_stock_selection_meta (
+                     key TEXT PRIMARY KEY,
+                     value TEXT NOT NULL
++                );
++                CREATE TABLE IF NOT EXISTS stock_selection_limit_up_memberships (
++                    trade_date TEXT PRIMARY KEY,
++                    payload_digest TEXT NOT NULL,
++                    payload_json TEXT NOT NULL
+                 );
+                 CREATE TABLE IF NOT EXISTS daily_stock_selections (
+                     id INTEGER PRIMARY KEY AUTOINCREMENT,
+@@ -185,6 +192,43 @@
+         if self._closed:
+             raise RuntimeError("daily stock selection store is closed")
+ 
++    def get_limit_up_membership(self, trade_date: date) -> DailyLimitUpMembershipV1 | None:
++        with self._lock:
++            self._ensure_open()
++            row = self._connection.execute(
++                "SELECT payload_json, payload_digest FROM stock_selection_limit_up_memberships WHERE trade_date = ?",
++                (_date(trade_date),),
++            ).fetchone()
++        if row is None:
++            return None
++        payload = json.loads(row["payload_json"])
++        if _digest(payload) != row["payload_digest"]:
++            raise RuntimeError("selection limit-up membership digest mismatch")
++        result = DailyLimitUpMembershipV1.model_validate(payload)
++        if result.trading_date != trade_date:
++            raise RuntimeError("selection limit-up membership date mismatch")
++        return result
++
++    def record_limit_up_membership(self, membership: DailyLimitUpMembershipV1) -> None:
++        canonical = DailyLimitUpMembershipV1.model_validate(membership)
++        if canonical.metadata.quality.value == "rejected":
++            raise ValueError("rejected membership cannot be archived")
++        payload = canonical.model_dump(mode="json")
++        with self._lock, self._connection:
++            self._ensure_open()
++            self._connection.execute(
++                "INSERT OR IGNORE INTO stock_selection_limit_up_memberships VALUES (?, ?, ?)",
++                (_date(canonical.trading_date), _digest(payload), _json(payload)),
++            )
++
++    def limit_up_membership_revision(self) -> str:
++        with self._lock:
++            self._ensure_open()
++            rows = self._connection.execute(
++                "SELECT trade_date, payload_digest FROM stock_selection_limit_up_memberships ORDER BY trade_date",
++            ).fetchall()
++        return _digest([list(row) for row in rows])
++
+     @staticmethod
+     def _selection(row: sqlite3.Row | None) -> DailyStockSelectionV1 | None:
+         return (
+--- before/tradex\tests\test_analysis_jobs.py
++++ tradex\tests\test_analysis_jobs.py
+@@ -275,6 +275,7 @@
+             ],
+         )
+         runtime.selection_service = SimpleNamespace(
++            refresh_limit_up_memberships=lambda: "membership-revision",
+             strategy_history=lambda **_kwargs: strategy_archive,
+             history=lambda **_kwargs: history,
+         )

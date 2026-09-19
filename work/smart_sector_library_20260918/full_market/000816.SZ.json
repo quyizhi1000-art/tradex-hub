@@ -1,0 +1,69 @@
+{
+  "instrument_id": "000816.SZ",
+  "name": "智慧农业",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "000816.SZ",
+    "name": "智慧农业",
+    "memberships": [
+      "汽车",
+      "汽车零部件",
+      "底盘与发动机系统",
+      "江苏板块",
+      "破增发价股",
+      "低价股",
+      "深股通",
+      "融资融券",
+      "股权激励",
+      "机构重仓",
+      "发电机概念",
+      "乡村振兴",
+      "小金属概念",
+      "长江三角"
+    ],
+    "business_sections": [
+      {
+        "title": "动力及终端设备",
+        "kind": "主营业务",
+        "text": "公司从事动力及终端设备的研发、制造与销售，产品覆盖传统动力设备及零部件，包括各类发动机、发电机、水泵及铸件等产品；户外动力设备包括高压清洗机、扫雪机、背负式电池包、便携式移动电源等；应用场景涉及多领域。"
+      },
+      {
+        "title": "有色金属矿采选",
+        "kind": "主营业务",
+        "text": "有色金属矿采选业务盈利能力的关键因素为当期金属价格、矿石品位、采选回收率等，另安全环保政策的趋严也从成本端构成影响。"
+      },
+      {
+        "title": "产业布局互补",
+        "kind": "核心竞争力",
+        "text": "公司在资源端与制造业的协同布局，形成产业链互补性与风险对冲能力。上游矿产资源开发、下游高端制造的纵向一体化的布局，可对冲金属价格周期波动与制造业成本波动之间的部分风险，有利于公司经营的稳定性与可持续性。"
+      },
+      {
+        "title": "多元品牌助力",
+        "kind": "核心竞争力",
+        "text": "公司品牌矩阵由自有品牌和许可品牌构成。自有品牌“JD”、“江动”入选2023—2025年度江苏省重点培育和发展的国际知名品牌，商标已在全球53个国家和地区注册成功，在东南亚、非洲等市场拥有较高的品牌知名度，有稳定的客户与用户。许可品牌B＆S、Husqvarna（美国和加拿大使用权）助力公司开拓北美市场。"
+      },
+      {
+        "title": "矿权资源储备",
+        "kind": "核心竞争力",
+        "text": "资源储备是公司构建矿业长期竞争力的核心要素。公司在西藏地区拥有3个有色金属采矿权、7个探矿权，资源品种以锌、铜为主，辅以其他金属，形成自身竞争壁垒。矿权储备可提升公司的抗风险能力，更是公司未来矿业产能扩张、产业链延伸的根基。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ000816",
+    "fetched_at": "2026-09-18T22:35:56.774913+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "电网设备"
+}

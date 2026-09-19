@@ -1,0 +1,73 @@
+{
+  "instrument_id": "000707.SZ",
+  "name": "双环科技",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "000707.SZ",
+    "name": "双环科技",
+    "memberships": [
+      "基础化工",
+      "化学原料",
+      "纯碱",
+      "湖北板块",
+      "2026中报首亏",
+      "破增发价股",
+      "融资融券",
+      "电池技术",
+      "钠离子电池",
+      "央国企改革",
+      "化工原料"
+    ],
+    "business_sections": [
+      {
+        "title": "纯碱、氯化铵及其他化工产品",
+        "kind": "主营业务",
+        "text": "公司主要生产与销售纯碱、氯化铵及其他化工产品。纯碱化学名为碳酸钠，国际贸易中又名苏打或碱灰，在国民经济中广泛用于玻璃、无机盐、冶金、医药、石油、制革、纺织印染、食品、造纸等行业，其中平板玻璃、光伏玻璃、日用玻璃对纯碱的合计需求最大。氯化铵是氮肥的一种，在工业领域也可用于电池、电镀等领域。从制备方法区分，纯碱分为天然碱和化学合成法制碱。人类使用天然碱或者植物灰烬中的碱的历史悠久。化学合成法制碱已经有多年的工业化历史，经过不断发展完善，行业成熟。"
+      },
+      {
+        "title": "资源优势",
+        "kind": "核心竞争力",
+        "text": "公司拥有的盐厂水采矿区，储量规模大，原盐品位高，为纯碱生产提供了优质充足的资源保障。"
+      },
+      {
+        "title": "品牌优势",
+        "kind": "核心竞争力",
+        "text": "公司产品“红双环”牌纯碱为“湖北名牌产品”，在国际国内享有良好声誉和稳定客户群体，2024年双环科技被授予“高新技术企业”称号（备案号：GR202442000594）。"
+      },
+      {
+        "title": "市场优势",
+        "kind": "核心竞争力",
+        "text": "纯碱和氯化铵产品价格不高，不适合长途运输，具有一定的销售半径，双环公司具有明显的区域优势。双环公司地处九省通衢区域，公司配有铁路专用线，原材料采购及产品销售均具有物流成本优势。"
+      },
+      {
+        "title": "技术优势",
+        "kind": "核心竞争力",
+        "text": "公司具备深厚的行业经验与技术积淀，作为一家历史悠久的化工企业，在联碱法生产、工艺控制、设备管理等方面积累了丰富的经验和技术。这保证了生产装置的稳定运行、较高的开工率和稳定的产品质量，是赢得客户长期信赖的基础。"
+      },
+      {
+        "title": "产业链优势",
+        "kind": "核心竞争力",
+        "text": "公司主要产品为基础化工原料，具备向精细化学品、高附加值产品或产业链下游延伸的能力。这是跳出同质化竞争、提升盈利水平的关键。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ000707",
+    "fetched_at": "2026-09-18T22:35:45.815347+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [
+    "化工"
+  ],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "联碱及其他化工"
+}

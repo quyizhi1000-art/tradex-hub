@@ -785,7 +785,8 @@ def test_fetch_realtime_quotes_tencent_batches_markets_and_preserves_order(monke
     ]
     assert result["代码"].tolist() == ["600000", "000001", "920001"]
     assert result.columns.tolist() == [
-        "代码", "名称", "最新价", "涨跌幅", "成交额", "流通市值"
+        "代码", "名称", "最新价", "涨跌幅", "成交额", "流通市值",
+        "今开", "昨收", "最高", "最低", "更新时间"
     ]
     assert result.loc[0, "名称"] == "浦发银行"
     assert result.loc[1, "涨跌幅"] == -0.5

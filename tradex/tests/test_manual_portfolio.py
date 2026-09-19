@@ -642,8 +642,9 @@ def test_outlook_uses_local_relationship_catalog_and_drops_provider_sector_copy(
     assert item.display_name == "平安银行"
     assert item.relationship_context is not None
     assert item.relationship_context.classification_owner == "tradex.instrument_taxonomy"
-    assert "本地关系库" in item.sector_interpretation
-    assert "金融 > 银行 > 股份制银行" in item.sector_interpretation
+    assert "聪明板块库" in item.sector_interpretation
+    assert "市场主归属 待核验" in item.sector_interpretation
+    assert "金融 > 银行 > 股份制银行" not in item.sector_interpretation
     assert "供应商热点板块甲" not in outlook.model_dump_json()
 
 

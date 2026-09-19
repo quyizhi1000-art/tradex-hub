@@ -1,0 +1,52 @@
+{
+  "instrument_id": "002574.SZ",
+  "name": "明牌珠宝",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "002574.SZ",
+    "name": "明牌珠宝",
+    "memberships": [
+      "纺织服饰",
+      "饰品",
+      "钟表珠宝",
+      "浙江板块",
+      "破发股",
+      "破净股",
+      "融资融券",
+      "租售同权",
+      "电商概念",
+      "光伏概念",
+      "黄金概念",
+      "参股银行"
+    ],
+    "business_sections": [
+      {
+        "title": "中高档贵金属和宝石首饰产品",
+        "kind": "主营业务",
+        "text": "公司主要从事黄金、铂金等中高档贵金属和宝石首饰产品的设计、研发、生产、销售及服务，核心业务是对“明牌珠宝”“明牌传家金”“明牌小金喜”品牌的连锁经营管理。"
+      },
+      {
+        "title": "竞争力的品牌、优良的产品品质、广泛的营销网络及高效的管理体系",
+        "kind": "核心竞争力",
+        "text": "公司拥有富有竞争力的品牌、优良的产品品质、广泛的营销网络及高效的管理体系，这些构成了公司持续发展的核心竞争力。随着互联网尤其是移动互联网的快速发展，公司正积极加快利用互联网进行业务创新与融合，以形成新时代的竞争优势。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ002574",
+    "fetched_at": "2026-09-18T22:51:09.288177+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "珠宝首饰"
+}

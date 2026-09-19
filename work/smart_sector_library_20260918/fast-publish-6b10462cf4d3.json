@@ -1,0 +1,82 @@
+[
+  {
+    "id": "300786.SZ",
+    "key": "chips",
+    "sector": "芯片",
+    "source_sector_name": "芯片概念",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "半导体臭氧设备",
+      "晶圆清洗与沉积配套"
+    ],
+    "fact": "臭氧设备进入半导体制造工艺，部分订单终端运行。",
+    "ths_fact": "同花顺芯片解析明确专用臭氧及配套系列，部分产品取得订单用于终端；其余仍验证。",
+    "company_fact": "主营确认臭氧设备及系统研发制造安装调试维护，半导体为该技术的专门应用。",
+    "reason": "已有芯片概念对应制程配套设备身份，非芯片设计制造；光刻机条目实际臭氧清洗除胶不冒认曝光整机。"
+  },
+  {
+    "id": "300787.SZ",
+    "key": "consumer_electronics",
+    "sector": "消费电子",
+    "source_sector_name": "消费电子概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "信号线束适配器",
+      "消费电子电源"
+    ],
+    "fact": "消费电子连接和电源产品为核心经营体系。",
+    "ths_fact": "同花顺消费电子标签对应现有电子产品，数据中心PDU条目明确小批销售规模较小。",
+    "company_fact": "主营详列USB/HDMI等线束、转换器拓展坞、电源适配器，另有家庭储能。",
+    "reason": "已有消费电子覆盖实际产品身份，PDU小量业务和储能延伸保留标签，不据PDU称数据中心运营。"
+  },
+  {
+    "id": "300788.SZ",
+    "key": "ip_economy",
+    "sector": "IP经济(谷子经济)",
+    "source_sector_name": "IP经济(谷子经济)",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "授权IP衍生品",
+      "图书及文创零售"
+    ],
+    "fact": "出版内容与授权IP衍生品共同形成IP运营业务。",
+    "ths_fact": "同花顺IP经济解析明确小黄人功夫熊猫衍生品合作和芙莉莲授权。",
+    "company_fact": "主营城市文化空间业务已签热门IP、外采自研谷子毛绒商品，线上线下直销合作销售。",
+    "reason": "已有IP经济体现从内容到衍生品运营实际延伸，内部AI视频图书营销应用不等同通用视频模型售卖。"
+  },
+  {
+    "id": "300789.SZ",
+    "key": "machine_vision",
+    "sector": "机器视觉",
+    "source_sector_name": "机器视觉",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "交通智能检测",
+      "机器视觉装备"
+    ],
+    "fact": "以视觉检测装备服务轨交应急和智能制造。",
+    "ths_fact": "同花顺机器视觉解析明确检测装备大数据管控及机器人产品服务。",
+    "company_fact": "主营确认机器视觉机器人控制嵌入式及故障健康管理技术，提供相应装备系统。",
+    "reason": "已有机器视觉直接体现核心技术和产品，工业应急机器人并不等于人形机器人，其他矿产概念不替代设备经营。"
+  },
+  {
+    "id": "300790.SZ",
+    "key": "ai_glasses",
+    "sector": "AI眼镜",
+    "source_sector_name": "AI眼镜",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "玻璃非球面镜片",
+      "眼镜摄像头光学件"
+    ],
+    "fact": "为AI眼镜提供摄像头光学镜片。",
+    "ths_fact": "同花顺AI眼镜回复明确提供玻璃非球面镜片；人形仅少量应用且仍开发客户。",
+    "company_fact": "主营确认光学镜头研发生产销售及AI眼镜等新消费应用，安防和车载仍为重要业务。",
+    "reason": "采用已有AI眼镜反映新消费光学主线，角色是镜片配套并非眼镜整机，交付不代表已形成重大营收。"
+  }
+]

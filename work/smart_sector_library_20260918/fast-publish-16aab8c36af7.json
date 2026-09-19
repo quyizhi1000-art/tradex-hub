@@ -1,0 +1,104 @@
+[
+  {
+    "id": "603348.SH",
+    "key": "integrated_die_casting",
+    "sector": "一体化压铸",
+    "source_sector_name": "一体化压铸",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "汽车一体化车身铸件"
+    ],
+    "fact": "汽车铝合金精密铸件用于一体化车身电池盒及底盘，具高低压重力铸造。",
+    "company_fact": "汽车铝合金精密铸件用于一体化车身电池盒及底盘，具高低压重力铸造。",
+    "ths_fact": "一体化车身长期开发量产，客户赛力斯蔚来等。",
+    "reason": "一体化铸件为明确产品身份，不把电动车项目定点写成新业务营收。"
+  },
+  {
+    "id": "603350.SH",
+    "key": "two_wheelers",
+    "sector": "两轮车",
+    "source_sector_name": "两轮车",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "两轮电驱电机控制器"
+    ],
+    "fact": "电驱系统核心轮毂中置电机，主要服务电动自行车等两轮出行。",
+    "company_fact": "电驱系统核心轮毂中置电机，主要服务电动自行车等两轮出行。",
+    "ths_fact": "主营电动两轮电驱研发生产销售。",
+    "reason": "两轮电驱完整产品体系主身份明确，清洁割草等机器人驱动为延伸不等于人形。"
+  },
+  {
+    "id": "603351.SH",
+    "key": "api_pharmaceuticals",
+    "sector": "原料药",
+    "source_sector_name": "原料药",
+    "source_sector_provider": "东方财富",
+    "stage": "revenue",
+    "chain": [
+      "药用辅料与原料药"
+    ],
+    "fact": "经营药用辅料及合成润滑基础油，为药物制剂提供辅料。",
+    "company_fact": "经营药用辅料及合成润滑基础油，为药物制剂提供辅料。",
+    "ths_fact": "创新药解析实为聚多卡醇原料药CDE激活可销售，支持上游原料供应。",
+    "reason": "选已有原料药行业并明确辅料链位；CDE关联审评A不等于公司拥有一类创新药。",
+    "extra_evidence": [
+      {
+        "evidence_id": "603351-ths-company",
+        "source_kind": "web_secondary",
+        "publisher": "同花顺",
+        "title": "威尔药业公司资料",
+        "source_url": "https://basic.10jqka.com.cn/603351/company.html",
+        "published_at": null,
+        "assertions": [
+          "主营药用辅料及合成润滑基础油产品研发生产销售。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "603352.SH",
+    "key": "new_energy_vehicles",
+    "sector": "新能源汽车",
+    "source_sector_name": "新能源汽车",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "新能源车冲焊件及模具"
+    ],
+    "fact": "经营汽车冲焊件及模具开发生产，上游配套自动化方案。",
+    "company_fact": "经营汽车冲焊件及模具开发生产，上游配套自动化方案。",
+    "ths_fact": "2025新能源车型冲焊件收入占比79.04%。",
+    "reason": "实际车型收入支撑新能源车供应链身份，内部焊接机器人工作站不作为人形业务。"
+  },
+  {
+    "id": "603353.SH",
+    "key": "chips",
+    "sector": "芯片",
+    "source_sector_name": "芯片概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "高速接口IP及芯片定制"
+    ],
+    "fact": "传统成品油零售仓储批发经营，并布局超快充。",
+    "company_fact": "传统成品油零售仓储批发经营，并布局超快充。",
+    "ths_fact": "旧收购预案拟控股奎芯，主营高速接口IP及Chiplet相关技术。",
+    "reason": "原H1补核已经控制并表奎芯，取得35.1105%并非旧意向34%，购买后有收入；选芯片设计/IP，不把存储接口说成DRAM晶圆制造。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "603353-2026h1-kuixin",
+        "source_kind": "official_filing",
+        "publisher": "和顺石油",
+        "title": "2026年半年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12571071&stockid=603353",
+        "published_at": "2026-08-29",
+        "assertions": [
+          "非同控合并表：奎芯取得35.1105%，购买日2026-05-31控制权转移，购买日至期末收入9344487.88元；新增IP使用授权及芯片定制收入业务。"
+        ]
+      }
+    ]
+  }
+]

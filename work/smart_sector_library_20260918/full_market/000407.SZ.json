@@ -1,0 +1,53 @@
+{
+  "instrument_id": "000407.SZ",
+  "name": "胜利股份",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "000407.SZ",
+    "name": "胜利股份",
+    "memberships": [
+      "公用事业",
+      "燃气Ⅱ",
+      "燃气Ⅲ",
+      "山东板块",
+      "机构重仓",
+      "油气资源",
+      "并购重组概念",
+      "天然气"
+    ],
+    "business_sections": [
+      {
+        "title": "清洁能源天然气业务",
+        "kind": "主营业务",
+        "text": "报告期，公司在全国从事清洁能源天然气业务推广和应用，为工业、商业、居民等领域提供天然气应用服务，并在天然气创新领域提供解决方案。"
+      },
+      {
+        "title": "天然气产业",
+        "kind": "核心竞争力",
+        "text": "（一）作为国家重点提倡的清洁能源，该产业具有较好的发展机遇和市场空间；\n（二）与中石油、中石化、中海油等拥有稳定的战略合作关系；\n（三）拥有多层次的气源供应体系；\n（四）拥有较高层次的专业化人才队伍和燃气管理能力；\n（五）搭建起覆盖天然气运输管线、城市特许经营管网、LNG储气调峰设施等天然气架构体系，具有较好的协同效应；\n（六）拥有良好的资本支持体系；\n（七）装备材料制造业务与公司天然气产业间具有业务互补和合作客户共享优势；\n（八）以用户为本，为用户提供多元化增值服务，增加客户粘性，为公司未来延伸业务提供持续扩大的发展空间；（九）公司持续致力于创新业务，以前瞻性思维部署和发展清洁能源综合应用；\n（十）具有行业专业化背景和规模实力的公司控股股东中油燃气投资集团，为公司核心竞争力和品牌地位的提升，以及公司快速发展提供更广阔的新空间。"
+      },
+      {
+        "title": "装备材料制造产业",
+        "kind": "核心竞争力",
+        "text": "是国内最具实力的聚乙烯（PE）管道供应商之一，为中国塑料加工工业协会塑料管道专业委员会副理事长单位和全国塑料制品标准化技术委员会核心成员单位。作为聚乙烯管道行业著名品牌，多年来担当本公司、港华燃气、华润燃气、中国燃气、香港水务等大型公用事业公司的主要供应商。高品质的产品、知名品牌为该产业的核心竞争优势。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ000407",
+    "fetched_at": "2026-09-18T22:35:23.175199+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "油气"
+}

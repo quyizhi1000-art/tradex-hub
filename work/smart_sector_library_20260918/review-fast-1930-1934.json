@@ -1,0 +1,104 @@
+[
+  {
+    "id": "300476.SZ",
+    "key": "pcb",
+    "sector": "PCB",
+    "source_sector_name": "PCB概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "高阶HDI",
+      "AI算力用多层PCB"
+    ],
+    "fact": "主营全系列刚性柔性高密度线路板，应用AI数据中心汽车及通信。",
+    "ths_fact": "PCB解析确认深耕印制电路，英伟达服务器PCB供货，其他应用均为线路板。",
+    "company_fact": "主营全系列刚性柔性高密度线路板，应用AI数据中心汽车及通信。",
+    "reason": "已有PCB是AI硬件链中准确市场定位，CPO服务器机器人是板的用途，不能写成制造光模块或人形整机。"
+  },
+  {
+    "id": "300477.SZ",
+    "key": "lithium_iron_phosphate",
+    "sector": "磷酸铁锂",
+    "source_sector_name": "磷酸铁锂",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "磷酸铁前驱体"
+    ],
+    "fact": "控股湖南雅城研发制造销售磷酸铁和钴系前驱体，配电设备并行经营。",
+    "ths_fact": "磷酸铁锂条目明确雅城生产前驱体，最新锂电条目同样确认。",
+    "company_fact": "控股湖南雅城研发制造销售磷酸铁和钴系前驱体，配电设备并行经营。",
+    "reason": "已有磷酸铁锂链归属由具体材料支撑，链位是前驱体而非电芯；不把参股资源产量或全部配电营收计入材料。"
+  },
+  {
+    "id": "300478.SZ",
+    "key": "modified_plastics",
+    "sector": "改性塑料",
+    "source_sector_name": "改性塑料",
+    "source_sector_provider": "东方财富",
+    "stage": "revenue",
+    "chain": [
+      "线缆高分子材料"
+    ],
+    "fact": "主营线缆高分子材料；8月25日原半年报确认无锡新聚服务器业务仍建设未生产销售。",
+    "ths_fact": "另补同股公司资料明确PVC聚乙烯阻燃线缆材料产销；概念表仅核电研发及控股权转让。",
+    "company_fact": "主营线缆高分子材料；8月25日原半年报确认无锡新聚服务器业务仍建设未生产销售。",
+    "reason": "已有改性塑料由实际产品决定，控股权转让不等于资产注入；服务器在建保留后续实质投产复核，不当当前产品或收入。",
+    "extra_evidence": [
+      {
+        "evidence_id": "ths-company-300478",
+        "source_kind": "web_secondary",
+        "publisher": "同花顺",
+        "title": "杭州高新公司资料",
+        "source_url": "https://basic.10jqka.com.cn/300478/company.html",
+        "published_at": null,
+        "assertions": [
+          "主营线缆用高分子材料研发生产销售，包括PVC、聚乙烯及阻燃电缆料。"
+        ]
+      },
+      {
+        "evidence_id": "filing-300478-20260825",
+        "source_kind": "official_filing",
+        "publisher": "杭州高新",
+        "title": "2026年半年度报告",
+        "source_url": "https://file.finance.sina.com.cn/211.154.219.97:9494/MRGG/CNSESZ_STOCK/2026/2026-8/2026-08-25/12522760.PDF",
+        "published_at": "2026-08-25",
+        "assertions": [
+          "截至报告披露新聚服务器业务处于前期建设，未实质生产销售。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "300479.SZ",
+    "key": "ai_applications",
+    "sector": "AI应用",
+    "source_sector_name": "AI应用",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "行业AI平台",
+      "智慧能源城市"
+    ],
+    "fact": "主营AI+智慧城市及医疗身份认证，已有行业服务和定制AI解决方案。",
+    "ths_fact": "AI应用列智慧城市产品，祝融智能客服多渠道平台已应用。",
+    "company_fact": "主营AI+智慧城市及医疗身份认证，已有行业服务和定制AI解决方案。",
+    "reason": "真实垂直AI应用与业务交叉，记产品服务交付而不虚构独立AI收入；客户模型适配不等于拥有所有底层模型。"
+  },
+  {
+    "id": "300480.SZ",
+    "key": "advanced_packaging",
+    "sector": "先进封装",
+    "source_sector_name": "先进封装",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "封测划磨抛设备",
+      "精密主轴耗材"
+    ],
+    "fact": "主营半导体封测装备研发生产销售，已布局划片研磨抛光及核心部件耗材。",
+    "ths_fact": "先进封装列向厂商提供Chiplet切割设备耗材；CPO为设备适用场景及正式订单。",
+    "company_fact": "主营半导体封测装备研发生产销售，已布局划片研磨抛光及核心部件耗材。",
+    "reason": "已有先进封装准确承接后道设备主题，链位为设备供应商而非封测代工或存储芯片生产。"
+  }
+]

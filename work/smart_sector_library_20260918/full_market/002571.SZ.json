@@ -1,0 +1,72 @@
+{
+  "instrument_id": "002571.SZ",
+  "name": "德力股份",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "002571.SZ",
+    "name": "德力股份",
+    "memberships": [
+      "轻工制造",
+      "家居用品",
+      "其他家居用品",
+      "安徽板块",
+      "QFII重仓",
+      "拼多多概念",
+      "影视概念",
+      "医疗器械概念",
+      "光伏概念",
+      "参股银行",
+      "网络游戏",
+      "创投"
+    ],
+    "business_sections": [
+      {
+        "title": "日用玻璃制品研发、生产与销售",
+        "kind": "主营业务",
+        "text": "公司主营日用玻璃制品研发、生产与销售，同步推进国内产业升级及海外产能布局，形成国内多基地+巴基斯坦海外基地协同发展格局。2025年公司承压前行、攻坚破难，面对窑炉能源煤改气、阶段性产能结构调整引发的减产停炉、报告期上半年度库存高企、出口退税政策调整、原料价格波动等多重压力，全体员工迎难而上，守住经营基本盘。"
+      },
+      {
+        "title": "全球化布局先发优势",
+        "kind": "核心竞争力",
+        "text": "公司在国内日用玻璃行业首个布局海外产能的企业，巴基斯坦子公司实现稳定盈利。埃及生产基地项目在报告内正式启动，形成“国内+海外”双循环产能支撑，在贸易保护主义抬头及地缘政治冲突造成海运费用波动明显的当下，海外生产基地应对关税与贸易壁垒优势愈加显著。"
+      },
+      {
+        "title": "全产业链与规模优势",
+        "kind": "核心竞争力",
+        "text": "公司靠近玻璃主要原料石英砂资源基地，覆盖原料、研发、制造、深加工、销售全链条；日用玻璃板块收入稳定15亿级，规模与成本韧性在行业内处于领先地位。"
+      },
+      {
+        "title": "技术与装备自研优势",
+        "kind": "核心竞争力",
+        "text": "未来的行业竞争对于装备的自主研发能力将会提出更高的要求。拥有省级技术中心、工程研究中心、博士后工作站；自主研发激光爆口机、加料装置等核心装备，自动化与降本能力突出，构建技术壁垒。"
+      },
+      {
+        "title": "品牌与资质优势",
+        "kind": "核心竞争力",
+        "text": "拥有“青苹果”“艾格莱雅”“德力”三大核心品牌，为中国驰名商标；行业唯一“中国玻璃器皿金鼎企业”，连续多年位居行业首强。"
+      },
+      {
+        "title": "全渠道覆盖优势",
+        "kind": "核心竞争力",
+        "text": "内贸覆盖全场景渠道，外贸进入全球主流商超与专业市场，客户结构多元，抗风险能力强。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ002571",
+    "fetched_at": "2026-09-18T22:51:05.166876+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "酒具水具"
+}

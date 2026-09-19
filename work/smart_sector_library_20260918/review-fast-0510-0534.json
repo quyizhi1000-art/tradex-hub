@@ -1,0 +1,428 @@
+[
+  {
+    "id": "001373.SZ",
+    "key": "oled",
+    "sector": "OLED",
+    "source_sector_name": "OLED",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "显示用偏光片和光学膜"
+    ],
+    "stage": "revenue",
+    "fact": "生产偏光片、光学膜片及功能胶材，偏光片是LCD和OLED核心材料。",
+    "company_fact": "生产偏光片、光学膜片及功能胶材，偏光片是LCD和OLED核心材料。",
+    "ths_fact": "OLED解析明确新型显示薄膜器件研发生产销售与偏光片用途。",
+    "reason": "显示材料直接支持OLED既有题材，链条注明材料而非面板整机。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "001376.SZ",
+    "key": "heating_services",
+    "sector": "热力服务",
+    "source_sector_name": "热力服务",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "工业园区集中供热"
+    ],
+    "stage": "revenue",
+    "fact": "通过热电联产和锅炉向园区企业供应蒸汽，联产电力外售。",
+    "company_fact": "通过热电联产和锅炉向园区企业供应蒸汽，联产电力外售。",
+    "ths_fact": "碳中和解析明确工业园区集中供热经营及多省布局。",
+    "reason": "热力服务是直接经营归属，节能技术布局不等于碳交易主营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "001378.SZ",
+    "key": "film_materials",
+    "sector": "膜材料",
+    "source_sector_name": "膜材料",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "BOPP功能薄膜与母料"
+    ],
+    "stage": "revenue",
+    "fact": "主营功能薄膜及母料，形成料膜一体产品路线。",
+    "company_fact": "主营功能薄膜及母料，形成料膜一体产品路线。",
+    "ths_fact": "消费电子与锂电解析分别落到电子转移膜和绝缘膜，后者收入不足1%。",
+    "reason": "既有膜材料覆盖真实产品；小额锂电收入及石墨烯转移用途保留次级。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "001379.SZ",
+    "key": "nuclear_power",
+    "sector": "核电",
+    "source_sector_name": "核电",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "核电用特种紧固件"
+    ],
+    "stage": "product",
+    "fact": "紧固件业务具备核电耐高温高强螺栓成果转化，取得中核中广核合格供应商认证。",
+    "company_fact": "紧固件业务具备核电耐高温高强螺栓成果转化，取得中核中广核合格供应商认证。",
+    "ths_fact": "核电解析列示核电厂安全设备连接承压等特种紧固件用途。",
+    "reason": "核电特种紧固件的产品与认证双源具体，阶段只确认产品；商业航天仅概括性应用。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "001380.SZ",
+    "key": "new_energy_vehicles",
+    "sector": "新能源汽车",
+    "source_sector_name": "新能源汽车",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "悬架制动弹性元件"
+    ],
+    "stage": "revenue",
+    "fact": "高端弹性元件主要用于汽车悬架制动，兼拓工业机器人等。",
+    "company_fact": "高端弹性元件主要用于汽车悬架制动，兼拓工业机器人等。",
+    "ths_fact": "按客户车型估算新能源应用超过50%，比亚迪多个车型及问界有弹簧配套。",
+    "reason": "新能源车配套有明确产品客户，不能以人形送样推定机器人批量业务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "001382.SZ",
+    "key": "uhv",
+    "sector": "特高压",
+    "source_sector_name": "特高压",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "特高压架空导线"
+    ],
+    "stage": "delivery",
+    "fact": "主营电力电缆、电气装备线缆和架空导线。",
+    "company_fact": "主营电力电缆、电气装备线缆和架空导线。",
+    "ths_fact": "特高压解析说明大截面及铝合金导线已用于多个重点输电工程。",
+    "reason": "既有特高压工程配套形成直接主题，机器人与储能电缆仍研发。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "001386.SZ",
+    "key": "tiles_flooring",
+    "sector": "瓷砖地板",
+    "source_sector_name": "瓷砖地板",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "建筑陶瓷"
+    ],
+    "stage": "revenue",
+    "fact": "马可波罗及唯美品牌生产有釉无釉建筑陶瓷，用于装修与家居。",
+    "company_fact": "马可波罗及唯美品牌生产有釉无釉建筑陶瓷，用于装修与家居。",
+    "ths_fact": "次新解析确认建筑陶瓷研发生产销售，AI快搭为设计服务工具。",
+    "reason": "既有瓷砖地板与实际品牌产品一致，内部设计工具不改变经营定位。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "001387.SZ",
+    "key": "home_appliances",
+    "sector": "家用电器",
+    "source_sector_name": "家用电器",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "大容量冰箱与展示柜"
+    ],
+    "stage": "revenue",
+    "fact": "主营400L以上冰箱和商用展示柜，服务国内外品牌。",
+    "company_fact": "主营400L以上冰箱和商用展示柜，服务国内外品牌。",
+    "ths_fact": "家用电器解析明确冰箱展示柜，智能家居解析为整机融入智能功能。",
+    "reason": "冰箱ODM产品构成明确，新增电子控制板待公司资料补强后再评主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "001388.SZ",
+    "key": "multimodal_ai",
+    "sector": "多模态AI",
+    "source_sector_name": "多模态AI",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "电网智能巡视与识别"
+    ],
+    "stage": "revenue",
+    "fact": "主营工业AIoT智慧运维，电网输变配场景构建云边端智能巡检。",
+    "company_fact": "主营工业AIoT智慧运维，电网输变配场景构建云边端智能巡检。",
+    "ths_fact": "多模态AI解析明确音视图文点云模型已用于多家电力公司巡视系统且形成收入。",
+    "reason": "行业AI已批量商业化，较泛电网设备更能体现产品主线；算力租赁描述是采购使用方不选。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "001389.SZ",
+    "key": "pcb",
+    "sector": "PCB",
+    "source_sector_name": "PCB概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "AI服务器高多层板"
+    ],
+    "stage": "revenue",
+    "fact": "生产高多层PCB，服务器约占八成，覆盖AI服务器和交换机。",
+    "company_fact": "生产高多层PCB，服务器约占八成，覆盖AI服务器和交换机。",
+    "ths_fact": "PCB解析确认主营，人工智能解析明确AI运算服务器板与HDI加速卡。",
+    "reason": "AI基础设施中的高多层PCB形成清晰市场链，CPO不等于PCB厂生产光模块。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "001390.SZ",
+    "key": "textile_manufacturing",
+    "sector": "纺织制造",
+    "source_sector_name": "纺织制造",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "鹅鸭绒保暖填充材料"
+    ],
+    "stage": "revenue",
+    "fact": "研发生产鹅绒鸭绒，用于服装寝具和户外保暖填充。",
+    "company_fact": "研发生产鹅绒鸭绒，用于服装寝具和户外保暖填充。",
+    "ths_fact": "次新解析明确高规格羽绒研发生产销售。",
+    "reason": "羽绒加工对应纺织制造，参股农商行不构成银行主业。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "001391.SZ",
+    "key": "cross_border_logistics",
+    "sector": "跨境物流",
+    "source_sector_name": "跨境物流",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "航空货运及综合物流"
+    ],
+    "stage": "revenue",
+    "fact": "经营航空货运货站及综合物流，发展跨境电商运输和货代。",
+    "company_fact": "经营航空货运货站及综合物流，发展跨境电商运输和货代。",
+    "ths_fact": "跨境电商解析明确华南直达货机航线与境内外全程物流增值服务。",
+    "reason": "跨境航空运输是商品交易背后的物流环节，采用已有跨境物流归属。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "001393.SZ",
+    "key": "new_energy_vehicles",
+    "sector": "新能源汽车",
+    "source_sector_name": "新能源汽车",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "电池电连接与同步分解器"
+    ],
+    "stage": "revenue",
+    "fact": "硬柔连接、CCS及同步分解器覆盖新能源车，核心竞争力列明车企与电池客户。",
+    "company_fact": "硬柔连接、CCS及同步分解器覆盖新能源车，核心竞争力列明车企与电池客户。",
+    "ths_fact": "新能源汽车解析明确硬柔连接销售及同步分解器份额，具备多家车企批量客户。",
+    "reason": "新能源车连接有规模和客户交叉，AIDC需求混合储能客户尚不能单独拆分。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "001395.SZ",
+    "key": "high_end_equipment",
+    "sector": "高端装备",
+    "source_sector_name": "高端装备",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "人造板连续平压生产线"
+    ],
+    "stage": "revenue",
+    "fact": "供应人造板生产线配套设备钢带及技术服务，延伸复合材料板装备。",
+    "company_fact": "供应人造板生产线配套设备钢带及技术服务，延伸复合材料板装备。",
+    "ths_fact": "高端装备解析确认人造板生产线国产替代和海外销售。",
+    "reason": "成套生产装备对应既有高端装备；碳纤维系制板设备应用而非原丝生产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "001396.SZ",
+    "key": "underground_pipelines",
+    "sector": "地下管网",
+    "source_sector_name": "地下管网",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "排水管道检测修复养护"
+    ],
+    "stage": "revenue",
+    "fact": "提供排水管网检测、非开挖修复和常态养护，数智底座内部赋能。",
+    "company_fact": "提供排水管网检测、非开挖修复和常态养护，数智底座内部赋能。",
+    "ths_fact": "地下管网解析逐项列明检测修复养护，AI判读仍研发未商业化。",
+    "reason": "实际工程服务与地下管网板块紧密对应，研发AI不升主归属。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "001399.SZ",
+    "key": "display_panels",
+    "sector": "面板",
+    "source_sector_name": "面板",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "半导体显示面板"
+    ],
+    "stage": "revenue",
+    "fact": "四条G8.6产线量产多类显示面板，OLED小批出货，MiniLED终端量产。",
+    "company_fact": "四条G8.6产线量产多类显示面板，OLED小批出货，MiniLED终端量产。",
+    "ths_fact": "消费电子和OLED解析明确核心显示器件研产销及实际面板出货。",
+    "reason": "多技术路线显示面板体现统一经营主线，先进封装尚项目合作投资阶段。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "001400.SZ",
+    "key": "specialized_equipment",
+    "sector": "专用设备",
+    "source_sector_name": "专用设备",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "铝挤压模具与配套设备"
+    ],
+    "stage": "revenue",
+    "fact": "生产铝挤压模具配套设备和精密零件，航空航天模具收入637.51万元。",
+    "company_fact": "生产铝挤压模具配套设备和精密零件，航空航天模具收入637.51万元。",
+    "ths_fact": "新能源车解析指向铝挤压模具，风电高铁有零件客户，液冷3D打印仅样品。",
+    "reason": "成型专用设备与模具覆盖稳定业务，液冷样品和小额航天配套不替代全公司主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "001696.SZ",
+    "key": "low_altitude_economy",
+    "sector": "低空经济",
+    "source_sector_name": "低空经济",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "通航与无人机航空活塞动力"
+    ],
+    "stage": "delivery",
+    "fact": "中小动力业务包括航空活塞动力及通用摩托动力产品。",
+    "company_fact": "中小动力业务包括航空活塞动力及通用摩托动力产品。",
+    "ths_fact": "宗申航发供应通航和无人机动力，航空发动机已在彩虹翼龙腾盾多款机型使用。",
+    "reason": "低空飞行器动力有独立产品交付支撑，不能因传统通机体量而忽略航空主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "001872.SZ",
+    "key": "ports",
+    "sector": "港口",
+    "source_sector_name": "港口",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "码头装卸与港口物流"
+    ],
+    "stage": "revenue",
+    "fact": "布局全球港口投资运营，提供集装箱散杂货装卸及仓储报关。",
+    "company_fact": "布局全球港口投资运营，提供集装箱散杂货装卸及仓储报关。",
+    "ths_fact": "航运港口解析明确码头及港口配套开发经营管理。",
+    "reason": "港口运营与实际资产直接对应，智慧技术主要赋能港口。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "001896.SZ",
+    "key": "green_power",
+    "sector": "绿色电力",
+    "source_sector_name": "绿色电力",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "风光发电与综合能源"
+    ],
+    "stage": "revenue",
+    "fact": "火电基础上已有736.71MW在运新能源，含风电光伏和生物质。",
+    "company_fact": "火电基础上已有736.71MW在运新能源，含风电光伏和生物质。",
+    "ths_fact": "绿色电力解析明确风力光伏及火力发电供热经营。",
+    "reason": "风光机组真实在运支持能源转型主题；抽蓄在建不冒充已运营容量。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "001914.SZ",
+    "key": "property_management",
+    "sector": "物业管理",
+    "source_sector_name": "物业管理",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "住宅机构与城市空间服务"
+    ],
+    "stage": "revenue",
+    "fact": "物业服务覆盖166城多类业态，同时经营商业资产运营。",
+    "company_fact": "物业服务覆盖166城多类业态，同时经营商业资产运营。",
+    "ths_fact": "物业管理解析披露2024核心物业业务收入增长及新项目拓展。",
+    "reason": "多业态物业服务是直接市场归属，智慧化及充电是配套能力。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "001965.SZ",
+    "key": "highways",
+    "sector": "高速公路",
+    "source_sector_name": "高速公路",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "收费公路投资运营"
+    ],
+    "stage": "revenue",
+    "fact": "经营公路资产并提供交通科技、智能交通及路域能源服务。",
+    "company_fact": "经营公路资产并提供交通科技、智能交通及路域能源服务。",
+    "ths_fact": "京津冀解析明确经营收费公路及交通科技，PPP解释对应建设运维收入。",
+    "reason": "公路路产运营有明确业务基础，数据产品尚在探索不变更主归属。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "001979.SZ",
+    "key": "real_estate_development",
+    "sector": "房地产开发",
+    "source_sector_name": "房地产开发",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "住宅开发与城市资产运营"
+    ],
+    "stage": "revenue",
+    "fact": "从事住宅开发代建、持有资产运营及物业服务。",
+    "company_fact": "从事住宅开发代建、持有资产运营及物业服务。",
+    "ths_fact": "同股经营页说明2025开发项目结转及资产运营，稳住开发基本盘并盘活资产。",
+    "reason": "开发与运营有双源经营事实，低空园区场景不足替代地产主线。",
+    "basis": "crosschecked_sources",
+    "extra_evidence": [
+      {
+        "evidence_id": "ths-operate-001979",
+        "source_kind": "web_secondary",
+        "publisher": "同花顺",
+        "title": "招商蛇口经营分析保存摘录",
+        "source_url": "https://basic.10jqka.com.cn/001979/operate.html",
+        "published_at": null,
+        "assertions": [
+          "同股经营页说明2025开发项目结转及资产运营，稳住开发基本盘并盘活资产。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "002001.SZ",
+    "key": "vitamins",
+    "sector": "维生素",
+    "source_sector_name": "维生素",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "维生素与营养添加剂"
+    ],
+    "stage": "revenue",
+    "fact": "营养品含维生素E A C D3及氨基酸，兼营香料高分子与原料药。",
+    "company_fact": "营养品含维生素E A C D3及氨基酸，兼营香料高分子与原料药。",
+    "ths_fact": "维生素解析列示系列维生素和营养品生产销售。",
+    "reason": "维生素产品集群与既有板块一致；航天为材料订单场景，合成生物为技术平台。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002003.SZ",
+    "key": "garment_accessories",
+    "sector": "辅料",
+    "source_sector_name": "辅料",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "服饰钮扣拉链"
+    ],
+    "stage": "revenue",
+    "fact": "生产中高档服饰箱包用钮扣拉链织带绳带标牌等辅料。",
+    "company_fact": "生产中高档服饰箱包用钮扣拉链织带绳带标牌等辅料。",
+    "ths_fact": "同花顺经营页确认中高档服饰箱包辅料研发制造销售，2025年拉链销量5.52亿米、纽扣100.02亿粒。",
+    "reason": "服饰辅料种类与实际销售双源印证，股息及出海指数不替代业务板块。",
+    "basis": "crosschecked_sources",
+    "extra_evidence": [
+      {
+        "evidence_id": "ths-operate-002003",
+        "source_kind": "web_secondary",
+        "publisher": "同花顺",
+        "title": "伟星股份经营分析",
+        "source_url": "https://basic.10jqka.com.cn/002003/operate.html",
+        "published_at": null,
+        "assertions": [
+          "同花顺经营页确认中高档服饰箱包辅料研发制造销售，2025年拉链销量5.52亿米、纽扣100.02亿粒。"
+        ]
+      }
+    ]
+  }
+]

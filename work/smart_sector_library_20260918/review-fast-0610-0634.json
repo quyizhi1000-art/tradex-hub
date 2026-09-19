@@ -1,0 +1,424 @@
+[
+  {
+    "id": "002083.SZ",
+    "key": "electrolyte",
+    "sector": "电解液",
+    "source_sector_name": "电解液",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "锂电池电解液添加剂"
+    ],
+    "stage": "revenue",
+    "fact": "公司生产CEC和VC电池级添加剂，核心竞争力明确已投入生产并与多家电解液头部企业建立业务关系。",
+    "company_fact": "公司生产CEC和VC电池级添加剂，核心竞争力明确已投入生产并与多家电解液头部企业建立业务关系。",
+    "ths_fact": "电解液解析明确VC和FEC等添加剂投资、研发生产销售。",
+    "reason": "已形成添加剂生产及客户经营，选电解液体现新能源材料主线；家纺为重要基础业务，链条限定添加剂而非整液。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002084.SZ",
+    "key": "bathroom_products",
+    "sector": "卫浴制品",
+    "source_sector_name": "卫浴制品",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "装配式整装厨卫",
+      "卫生洁具"
+    ],
+    "stage": "revenue",
+    "fact": "公司研发制造高档卫生洁具、陶瓷、浴缸及整体厨卫部品，形成内装工业化布局。",
+    "company_fact": "公司研发制造高档卫生洁具、陶瓷、浴缸及整体厨卫部品，形成内装工业化布局。",
+    "ths_fact": "智能家居解析确认爱迪生暖通控制；空气热泵解析为联营设备和控股阀组应用。",
+    "reason": "整装厨卫与现有卫浴行业直接一致，热泵含联营环节且仅部分阀组应用，暂不足替代完整卫浴经营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002085.SZ",
+    "key": "low_altitude_economy",
+    "sector": "低空经济",
+    "source_sector_name": "低空经济",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "钻石通用飞机",
+      "整机研发制造"
+    ],
+    "stage": "revenue",
+    "fact": "旗下钻石飞机具有整机研发设计、授权、整机制造销售及售后业务，拥有EASA批准的设计组织。",
+    "company_fact": "旗下钻石飞机具有整机研发设计、授权、整机制造销售及售后业务，拥有EASA批准的设计组织。",
+    "ths_fact": "低空经济解析明确eDA40纯电飞机成功首飞，eVTOL仍开发。",
+    "reason": "成熟通航飞机构成低空经济直接业务，选低空经济覆盖实际整机；不将eVTOL研发等同取证或商业化收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002086.SZ",
+    "key": "in_vitro_diagnostics",
+    "sector": "体外诊断",
+    "source_sector_name": "体外诊断",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "质谱检测试剂",
+      "诊断产品"
+    ],
+    "stage": "product",
+    "fact": "质谱生物氨基酸肉碱试剂取得III类证，维生素D及其他五项产品取得II类证。",
+    "company_fact": "质谱生物氨基酸肉碱试剂取得III类证，维生素D及其他五项产品取得II类证。",
+    "ths_fact": "体外诊断解析确认Avioq诊断试剂和质谱检测业务，历史收入只作业务沿革。",
+    "reason": "现有质谱试剂具体注册产品与诊断业务交叉支持，选体外诊断；海洋养殖加工并行，旧Avioq收入不得当当前质谱收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002088.SZ",
+    "key": "refractory_materials",
+    "sector": "耐火材料",
+    "source_sector_name": "耐火材料",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "陶瓷纤维",
+      "工业耐火保温"
+    ],
+    "stage": "revenue",
+    "fact": "公司生产销售陶瓷纤维、可溶纤维、氧化铝纤维及莫来石砖，并提供应用施工。",
+    "company_fact": "公司生产销售陶瓷纤维、可溶纤维、氧化铝纤维及莫来石砖，并提供应用施工。",
+    "ths_fact": "建筑节能解析明确防火保温材料应用，经营正文对应陶瓷纤维耐火产品。",
+    "reason": "成熟工业耐火保温产品与行业一致，选耐火材料；锂电纤维纸应用不等于电芯经营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002090.SZ",
+    "key": "smart_grid",
+    "sector": "智能电网",
+    "source_sector_name": "智能电网",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "电力保护控制",
+      "输变配电自动化"
+    ],
+    "stage": "revenue",
+    "fact": "智慧能源业务包括智能发电、输变电及配电，依托电力保护控制技术服务新型电力系统。",
+    "company_fact": "智慧能源业务包括智能发电、输变电及配电，依托电力保护控制技术服务新型电力系统。",
+    "ths_fact": "智能电网解析列智能输变配电产品；虚拟电厂解析为源荷储聚合控制核心技术。",
+    "reason": "选已有智能电网体现长期产品及新型电力系统主线；虚拟电厂技术储备不自动认定独立运营收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002091.SZ",
+    "key": "electrolyte",
+    "sector": "电解液",
+    "source_sector_name": "电解液",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "锂电池电解液及添加剂"
+    ],
+    "stage": "revenue",
+    "fact": "公司通过瑞泰新材开展电子化学品的研发生产销售，与消费品供应链业务并行。",
+    "company_fact": "公司通过瑞泰新材开展电子化学品的研发生产销售，与消费品供应链业务并行。",
+    "ths_fact": "原正文2025-11-10回复明确控股瑞泰主营电解液及添加剂用于动力消费储能电池，电解液条目亦有产品。",
+    "reason": "现有控股新能源化学品经营与具体电解液产品相互印证，选电解液；不因贸易收入占比锁定贸易，不沿用旧产能当最新规模。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002092.SZ",
+    "key": "chlor_alkali",
+    "sector": "氯碱",
+    "source_sector_name": "氯碱",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "PVC",
+      "烧碱一体化"
+    ],
+    "stage": "revenue",
+    "fact": "公司主要产品资料覆盖PVC、烧碱、粘胶及甲醇，PVC与烧碱为核心基础化工产品。",
+    "company_fact": "公司主要产品资料覆盖PVC、烧碱、粘胶及甲醇，PVC与烧碱为核心基础化工产品。",
+    "ths_fact": "PVC及烧碱解析明确氯碱一体化产业链与实际销售。",
+    "reason": "PVC和烧碱共同指向氯碱行业，保留粘胶甲醇并行背景；不用旧产能数据推断当前产销规模。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002093.SZ",
+    "key": "iot",
+    "sector": "物联网",
+    "source_sector_name": "物联网",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "物联网集成",
+      "咨询设计及平台"
+    ],
+    "stage": "revenue",
+    "fact": "公司提供终端、云存储、网络安全、咨询设计及平台运营物联网解决方案，全资举办福州理工。",
+    "company_fact": "公司提供终端、云存储、网络安全、咨询设计及平台运营物联网解决方案，全资举办福州理工。",
+    "ths_fact": "物联网解析完整列技术设计园区服务；AI智能体解析为养老场景构建及教育探索。",
+    "reason": "真实跨行业物联网产品服务构成直接主线，选物联网；AI养老尚需具体交付第二源后复核，教育并行不致放弃判断。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002094.SZ",
+    "key": "cosmetics",
+    "sector": "化妆品",
+    "source_sector_name": "化妆品概念",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "化妆品营销",
+      "美妆渠道"
+    ],
+    "stage": "revenue",
+    "fact": "公司将化妆品业务与新材料蜡烛香薰并列为核心业务。",
+    "company_fact": "公司将化妆品业务与新材料蜡烛香薰并列为核心业务。",
+    "ths_fact": "网红经济及跨境电商解析明确众妆优选宣传销售产品和小程序业务。",
+    "reason": "选有实际业务与渠道支持的化妆品市场标签；AMC及金融参股不代表已开展主业化资产处置。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002095.SZ",
+    "key": "ai_applications",
+    "sector": "AI应用",
+    "source_sector_name": "AI应用",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "大宗商品智能体",
+      "采购决策"
+    ],
+    "stage": "product",
+    "fact": "公司核心竞争力明确为大型企业提供数字化商城与采购智能体，生意社运营商品价格数据产品。",
+    "company_fact": "公司核心竞争力明确为大型企业提供数字化商城与采购智能体，生意社运营商品价格数据产品。",
+    "ths_fact": "2025-05-19回复明确用生意社价格数据及DeepSeek开发PriceSeek大宗商品智能体。",
+    "reason": "已形成具体商品智能体及底层自有数据，选AI应用而非泛互联网标签；不将已开发写为明确AI收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002096.SZ",
+    "key": "civil_explosives",
+    "sector": "民爆",
+    "source_sector_name": "民爆概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "炸药雷管",
+      "矿山爆破一体化"
+    ],
+    "stage": "revenue",
+    "fact": "公司形成民爆科研生产销售、爆破服务及矿山运营完整链条，覆盖多省与海外。",
+    "company_fact": "公司形成民爆科研生产销售、爆破服务及矿山运营完整链条，覆盖多省与海外。",
+    "ths_fact": "民爆解析列炸药雷管及一体化爆破服务；雅下解析为设分公司持续跟踪。",
+    "reason": "实际全产业链民爆经营与市场标签一致；雅下跟踪不是已获特定订单，选民爆。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002097.SZ",
+    "key": "low_altitude_economy",
+    "sector": "低空经济",
+    "source_sector_name": "低空经济",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "航空租赁销售维修",
+      "通航服务"
+    ],
+    "stage": "revenue",
+    "fact": "全资Avmax从事飞机租赁销售、零件及维修，工程机械业务并行。",
+    "company_fact": "全资Avmax从事飞机租赁销售、零件及维修，工程机械业务并行。",
+    "ths_fact": "低空解析明确控股Avmax航空服务、控股山河通航飞行及参股星航研发制造。",
+    "reason": "直接航空服务与通航业务交叉支持低空主线，选低空经济；参股星航整机能力不冒充上市公司自有制造，雅下特定项目第二源待补。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002098.SZ",
+    "key": "cross_border_ecommerce",
+    "sector": "跨境电商",
+    "source_sector_name": "跨境电商",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "海外B2C",
+      "价之链运营"
+    ],
+    "stage": "revenue",
+    "fact": "控股价之链依托亚马逊TEMU经营3C家居汽车周边B2C业务，同时经营拉链。",
+    "company_fact": "控股价之链依托亚马逊TEMU经营3C家居汽车周边B2C业务，同时经营拉链。",
+    "ths_fact": "2024年业绩预告解析确认跨境电商优化产品平台库存并扭亏。",
+    "reason": "控股成熟跨境运营及经营成果直接支撑题材，选跨境电商；拉链为并行制造基础。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002099.SZ",
+    "key": "active_pharmaceutical_ingredients",
+    "sector": "原料药",
+    "source_sector_name": "原料药",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "特色原料药",
+      "医药中间体"
+    ],
+    "stage": "revenue",
+    "fact": "公司具培南和克林系列原料药中间体制剂完整制造平台，核心竞争力明确产能及欧美等市场注册供应。",
+    "company_fact": "公司具培南和克林系列原料药中间体制剂完整制造平台，核心竞争力明确产能及欧美等市场注册供应。",
+    "ths_fact": "创新药解析实为特色原料药、仿制药和CDMO合作；减肥药配套为备货待订单。",
+    "reason": "具体证据支持特色原料药而非自有创新药，选现有原料药；染料并行，GLP1订单落地及品种披露后复核。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002100.SZ",
+    "key": "pig_farming",
+    "sector": "猪肉",
+    "source_sector_name": "猪肉",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "生猪养殖",
+      "屠宰肉制品"
+    ],
+    "stage": "revenue",
+    "fact": "公司形成饲料、疫苗、种猪繁育、生猪养殖屠宰及肉制品全链条。",
+    "company_fact": "公司形成饲料、疫苗、种猪繁育、生猪养殖屠宰及肉制品全链条。",
+    "ths_fact": "猪肉解析明确种猪生猪养殖和屠宰肉品经营。",
+    "reason": "完整生猪链条对应猪周期市场主题，选猪肉；疫苗饲料为并行配套业务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002101.SZ",
+    "key": "integrated_die_casting",
+    "sector": "一体化压铸",
+    "source_sector_name": "一体化压铸",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "汽车车身结构件",
+      "大型铝镁压铸"
+    ],
+    "stage": "revenue",
+    "fact": "公司核心竞争力明确16000T单元量产应用，前舱后地板电池托盘用于多款新能源汽车。",
+    "company_fact": "公司核心竞争力明确16000T单元量产应用，前舱后地板电池托盘用于多款新能源汽车。",
+    "ths_fact": "2024-12-05解析确认多台6800至16000T单元及一体化结构件量产。",
+    "reason": "全流程工艺与具体量产车型双源支持一体化压铸；机器人结构件服务保留拓展但不凭单源换主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002102.SZ",
+    "key": "vitamins",
+    "sector": "维生素",
+    "source_sector_name": "维生素",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "维生素E",
+      "医药中间体"
+    ],
+    "stage": "revenue",
+    "fact": "全资能特2025年维生素E业务经营良好、利润6.45亿元，医药中间体并行。",
+    "company_fact": "全资能特2025年维生素E业务经营良好、利润6.45亿元，医药中间体并行。",
+    "ths_fact": "维生素解析明确维生素E研发生产销售业务。",
+    "reason": "两源具体维生素E经营对应直接周期主线；未将旧参股投资或黄金采矿文字替代当前经营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002103.SZ",
+    "key": "goods_economy",
+    "sector": "谷子经济",
+    "source_sector_name": "谷子经济",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "IP文创",
+      "卡牌毛绒周边"
+    ],
+    "stage": "revenue",
+    "fact": "公司经营文具文创潮玩，形成卡牌食玩毛绒等产品及完整设计生产销售体系。",
+    "company_fact": "公司经营文具文创潮玩，形成卡牌食玩毛绒等产品及完整设计生产销售体系。",
+    "ths_fact": "IP经济解析列IP创意产品化及勋章立牌挂件贴纸等二次元周边。",
+    "reason": "真实IP周边产品和销售运营支持谷子经济，选既有EM同名板块；跨境家居是并行业务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002104.SZ",
+    "key": "digital_currency",
+    "sector": "数字货币",
+    "source_sector_name": "数字货币",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "数字钱包",
+      "数字人民币终端"
+    ],
+    "stage": "product",
+    "fact": "公司主营发行受理、身份认证和支付方案，覆盖数字钱包发行与数字化收款。",
+    "company_fact": "公司主营发行受理、身份认证和支付方案，覆盖数字钱包发行与数字化收款。",
+    "ths_fact": "2026-04-27公告解析明确数币发行受理终端及硬件钱包完整产品体系。",
+    "reason": "公司钱包支付业务与数币专用产品交叉成立，选数字货币；不是币价投机或持币，不单独断言数字人民币收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002105.SZ",
+    "key": "two_wheelers",
+    "sector": "两轮车",
+    "source_sector_name": "两轮车",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "自行车零配件"
+    ],
+    "stage": "revenue",
+    "fact": "公司以订单组织车把立管坐垫管避震前叉碟刹生产销售，兼营运动康复器材。",
+    "company_fact": "公司以订单组织车把立管坐垫管避震前叉碟刹生产销售，兼营运动康复器材。",
+    "ths_fact": "两轮车解析明确自行车配件及面向品牌商代工。",
+    "reason": "真实自行车零部件经营直接对应两轮车，康复是并行业务；不沿用全球最大等未复核排名。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002106.SZ",
+    "key": "electronic_paper",
+    "sector": "电子纸",
+    "source_sector_name": "电子纸",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "电子纸驱动背板",
+      "反射彩膜"
+    ],
+    "stage": "product",
+    "fact": "公司主营包括电子纸驱动背板和反射彩膜，并提供完整电子纸技术产品方案。",
+    "company_fact": "公司主营包括电子纸驱动背板和反射彩膜，并提供完整电子纸技术产品方案。",
+    "ths_fact": "电子纸解析列具体器件；玻璃基板解析指MED电子纸整线设计产能。",
+    "reason": "既有电子纸器件与新显示方向吻合；选择电子纸，MED设计产能不写投产收入，玻璃基板亦不等于半导体封装基板。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002107.SZ",
+    "key": "chinese_medicine",
+    "sector": "中医药",
+    "source_sector_name": "中医药",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "心脑血管中成药",
+      "独家医保品种"
+    ],
+    "stage": "revenue",
+    "fact": "公司以心可舒片、骨疏康、荷丹和脑血疏四大独家医保中成药生产营销为核心。",
+    "company_fact": "公司以心可舒片、骨疏康、荷丹和脑血疏四大独家医保中成药生产营销为核心。",
+    "ths_fact": "中医药解析明确纯天然植物类心脑血管中成药及具体产品。",
+    "reason": "成熟中成药经营与题材一致，减肥及阿尔茨海默用途标签不替代中药主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002108.SZ",
+    "key": "lithium_battery_separators",
+    "sector": "锂电隔膜",
+    "source_sector_name": "锂电隔膜",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "湿法隔膜",
+      "锂离子电池材料"
+    ],
+    "stage": "revenue",
+    "fact": "公司主营PE管道、BOPA膜及锂离子电池隔膜产品。",
+    "company_fact": "公司主营PE管道、BOPA膜及锂离子电池隔膜产品。",
+    "ths_fact": "锂电隔膜解析明确控股子公司湿法隔膜生产线已正式投产。",
+    "reason": "具体隔膜生产经营支撑电池材料题材，选锂电隔膜；不把旧产能作当期规模或固态合作作已商业化。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002109.SZ",
+    "key": "coal_chemicals",
+    "sector": "煤化工",
+    "source_sector_name": "煤化工概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "合成氨甲醇",
+      "煤基化学品"
+    ],
+    "stage": "revenue",
+    "fact": "兴化化工生产销售合成氨甲醇甲胺DMF乙醇，榆神能化经营乙醇及相关化工品。",
+    "company_fact": "兴化化工生产销售合成氨甲醇甲胺DMF乙醇，榆神能化经营乙醇及相关化工品。",
+    "ths_fact": "煤化工解析明确全资兴化化工以煤为原料经营合成氨甲醇甲胺DMF。",
+    "reason": "煤基原料和具体化学品两源一致，选煤化工；不将煤化工等同煤矿采掘。",
+    "basis": "crosschecked_sources"
+  }
+]

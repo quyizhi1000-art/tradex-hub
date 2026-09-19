@@ -1,0 +1,94 @@
+[
+  {
+    "id": "300497.SZ",
+    "key": "synthetic_biology",
+    "sector": "合成生物",
+    "source_sector_name": "合成生物",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "微生物蛋白",
+      "发酵生物制造"
+    ],
+    "fact": "核心确认丝状真菌蛋白千吨级产业化及自主菌株，原料药和电解液添加剂并行业务。",
+    "ths_fact": "合成生物条目为自研微生物蛋白发酵产品。",
+    "company_fact": "核心确认丝状真菌蛋白千吨级产业化及自主菌株，原料药和电解液添加剂并行业务。",
+    "reason": "已有生物制造主题具具体技术与产业化产品，产能不等于销量，不把原料药或VC收入划到蛋白，也不把39%联营创新药算自营。"
+  },
+  {
+    "id": "300498.SZ",
+    "key": "pig_farming",
+    "sector": "猪肉",
+    "source_sector_name": "猪肉",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "生猪育种养殖",
+      "肉食品产业链"
+    ],
+    "fact": "主营猪鸡养殖销售及屠宰食品饲料兽药配套，双主业全国布局。",
+    "ths_fact": "猪肉条目明确肉猪与肉鸡养殖销售。",
+    "company_fact": "主营猪鸡养殖销售及屠宰食品饲料兽药配套，双主业全国布局。",
+    "reason": "已有猪肉以生猪产业链和市场识别为主，鸡业务保留标签，AI兽医是养殖赋能不改变主归属。"
+  },
+  {
+    "id": "300499.SZ",
+    "key": "liquid_cooled_servers",
+    "sector": "液冷服务器",
+    "source_sector_name": "液冷服务器",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "服务器液冷系统",
+      "CDU及工业热管理"
+    ],
+    "fact": "主营电力及算力设备液冷全周期服务，核心列数据中心客户和马来西亚液冷项目。",
+    "ths_fact": "服务器液冷有冷板浸没集装箱方案，AIDC条目小批供货。",
+    "company_fact": "主营电力及算力设备液冷全周期服务，核心列数据中心客户和马来西亚液冷项目。",
+    "reason": "算力设备实际液冷产品客户及项目支持主线，非自产服务器或算力运营；电力工业冷却另保留用途。"
+  },
+  {
+    "id": "300500.SZ",
+    "key": "computing_power",
+    "sector": "东数西算(算力)",
+    "source_sector_name": "东数西算(算力)",
+    "source_sector_provider": "同花顺",
+    "stage": "orders",
+    "chain": [
+      "智算集群建设",
+      "设备采购集成运维"
+    ],
+    "fact": "原工程设计集成基础上，2026年3月原公告确认已签智算建设运维合同并追加补充协议。",
+    "ths_fact": "算力条目为河南空港智算中心联合体中标。",
+    "company_fact": "原工程设计集成基础上，2026年3月原公告确认已签智算建设运维合同并追加补充协议。",
+    "reason": "已有算力主线得到真实合同支持，链位限定联合体工程集成与运维，不将联合体总价全计公司收入或称已自营算力投运。",
+    "extra_evidence": [
+      {
+        "evidence_id": "filing-300500-20260323",
+        "source_kind": "official_filing",
+        "publisher": "启迪设计",
+        "title": "重大合同补充协议公告",
+        "source_url": "https://static.cninfo.com.cn/finalpage/2026-03-23/1225025272.PDF",
+        "published_at": "2026-03-23",
+        "assertions": [
+          "公司及联合体已签河南空港智算集群建设维护运营合同，3月补充协议调整建设及付款安排；未据此认定全部收入。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "300501.SZ",
+    "key": "lithium_batteries",
+    "sector": "锂电池",
+    "source_sector_name": "锂电池概念",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "电池铝塑封装膜"
+    ],
+    "fact": "新能源材料铝塑膜已规模生产批量供货，医药包装及消费材料并行。",
+    "ths_fact": "锂电条目为铝塑膜验证，固态解析实际只称软包锂电封装小单出货。",
+    "company_fact": "新能源材料铝塑膜已规模生产批量供货，医药包装及消费材料并行。",
+    "reason": "已有锂电池以电池封装材料实际供货支撑，固态条目没有具体固态客户用途，不把一般软包材料供货称固态电池量产。"
+  }
+]

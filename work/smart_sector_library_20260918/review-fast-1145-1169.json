@@ -1,0 +1,428 @@
+[
+  {
+    "id": "002656.SZ",
+    "key": "smart_grid",
+    "sector": "智能电网",
+    "source_sector_name": "智能电网",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "电缆附件与电工材料"
+    ],
+    "stage": "revenue",
+    "fact": "新能源电力系统集成提供电缆附件和材料解决方案，另有服装。",
+    "company_fact": "新能源电力系统集成提供电缆附件和材料解决方案，另有服装。",
+    "ths_fact": "智能电网解析电缆附件电工材料用于光伏风电和电网。",
+    "reason": "新增电力实业产品有双源经营证据，不沿用单一服装旧身份。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002657.SZ",
+    "key": "ai_applications",
+    "sector": "AI应用",
+    "source_sector_name": "AI应用",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "金融电商垂类模型服务"
+    ],
+    "stage": "delivery",
+    "fact": "AI垂类落地与金融科技银行全流程服务及数据中心业务。",
+    "company_fact": "AI垂类落地与金融科技银行全流程服务及数据中心业务。",
+    "ths_fact": "AI应用明确金融客服报告审核及电商数字人等场景已落地。",
+    "reason": "特定模型与客户场景支持主题，拟设算力子公司不等于租赁收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002658.SZ",
+    "key": "carbon_trading",
+    "sector": "碳交易",
+    "source_sector_name": "碳交易",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "碳计量监测及管理平台"
+    ],
+    "stage": "delivery",
+    "fact": "提供火电钢铁水泥等碳监测计量及CCER监测方案。",
+    "company_fact": "提供火电钢铁水泥等碳监测计量及CCER监测方案。",
+    "ths_fact": "碳交易解析在线监测系统及碳账户平台成功用于工业客户。",
+    "reason": "真实碳数据基础设施支持主题，不冒充碳交易所。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002659.SZ",
+    "key": "k12_education",
+    "sector": "K12教育",
+    "source_sector_name": "K12教育",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "学校运营与素质课程"
+    ],
+    "stage": "revenue",
+    "fact": "以K12学校运营为基础，扩展素质职业及AI教育。",
+    "company_fact": "以K12学校运营为基础，扩展素质职业及AI教育。",
+    "ths_fact": "K12教育解析系统营地及体育艺术科学课程；智能体尚试用。",
+    "reason": "学校课程已有经营，试用AI平台不当商业化主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002660.SZ",
+    "key": "consumer_electronics",
+    "sector": "消费电子",
+    "source_sector_name": "消费电子概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "电源适配器与充电器"
+    ],
+    "stage": "revenue",
+    "fact": "生产消费电子适配器智能充电器工控电源并经营LED驱动。",
+    "company_fact": "生产消费电子适配器智能充电器工控电源并经营LED驱动。",
+    "ths_fact": "消费电子解析适配器PD充电等，第三代半导体是器件应用。",
+    "reason": "电源产品已生产销售，不把使用GaN说成制造GaN芯片。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002661.SZ",
+    "key": "prepared_food",
+    "sector": "预制菜",
+    "source_sector_name": "预制菜",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "方便面及常温菜肴包"
+    ],
+    "stage": "revenue",
+    "fact": "食品业务研发生产米面方便食品，另有生猪养殖。",
+    "company_fact": "食品业务研发生产米面方便食品，另有生猪养殖。",
+    "ths_fact": "预制菜明确五谷道场常温菜肴包及陈克明料包面已线上销售。",
+    "reason": "食品产品已有具体渠道兑现，保留猪肉为并行标签。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002662.SZ",
+    "key": "automotive_parts",
+    "sector": "汽车零部件",
+    "source_sector_name": "汽车零部件",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "乘用车内外饰系统"
+    ],
+    "stage": "revenue",
+    "fact": "研发制造中高档乘用车内外饰。",
+    "company_fact": "研发制造中高档乘用车内外饰。",
+    "ths_fact": "特斯拉解析外饰件采购合同，比亚迪解释乘用车内外饰服务。",
+    "reason": "直接饰件供货一致，燃料电池间接参股不替代实业。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002663.SZ",
+    "key": "landscape_development",
+    "sector": "园林开发",
+    "source_sector_name": "园林开发",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "生态景观与城市绿化"
+    ],
+    "stage": "revenue",
+    "fact": "景观设计施工绿化养护及城市环境服务。",
+    "company_fact": "景观设计施工绿化养护及城市环境服务。",
+    "ths_fact": "园林开发解析规划工程苗木生态运营。",
+    "reason": "园林城市服务有经营闭环，广告等旧题材不替代。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002664.SZ",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "机器人关节电机"
+    ],
+    "stage": "product",
+    "fact": "主要产品已列人形机器人关节电机及多领域电机铁芯。",
+    "company_fact": "主要产品已列人形机器人关节电机及多领域电机铁芯。",
+    "ths_fact": "人形解析拟设90%控股电机公司并明确关节电机核心件方向。",
+    "reason": "现有公司产品列项交叉支持产品阶段，设立计划本身不当订单交付。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002666.SZ",
+    "key": "automotive_thermal",
+    "sector": "汽车热管理",
+    "source_sector_name": "汽车热管理",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "冷却液等汽车化学品"
+    ],
+    "stage": "revenue",
+    "fact": "汽车精细化学品生产服务，延伸风电储能冷却。",
+    "company_fact": "汽车精细化学品生产服务，延伸风电储能冷却。",
+    "ths_fact": "汽车热管理解析冷却液供货大众特斯拉奔驰等车厂。",
+    "reason": "主机厂供液已有经营，链明确化学品而非热管理总成。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002667.SZ",
+    "key": "lithium_mining",
+    "sector": "锂矿",
+    "source_sector_name": "锂矿",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "锂云母选矿与碳酸锂"
+    ],
+    "stage": "revenue",
+    "fact": "锂盐加工2022投产、锂云母选矿120万吨产能，另收购多金属矿。",
+    "company_fact": "锂盐加工2022投产、锂云母选矿120万吨产能，另收购多金属矿。",
+    "ths_fact": "锂矿解析控股企业分选锂云母精粉及客户合同。",
+    "reason": "资源加工至锂盐已有产业链，明确选矿环节不虚称自有锂矿开采。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002668.SZ",
+    "key": "home_appliances",
+    "sector": "家用电器",
+    "source_sector_name": "家用电器",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "冰箱冷柜与洗衣机"
+    ],
+    "stage": "revenue",
+    "fact": "合肥家电与奥马冰箱两主体生产冰箱冷柜洗衣机。",
+    "company_fact": "合肥家电与奥马冰箱两主体生产冰箱冷柜洗衣机。",
+    "ths_fact": "家用电器解析对应产品研发生产销售。",
+    "reason": "实物白电经营一致，AI为升级方向。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002669.SZ",
+    "key": "wind_power",
+    "sector": "风电",
+    "source_sector_name": "风电",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "风电叶片结构胶"
+    ],
+    "stage": "revenue",
+    "fact": "中高端胶粘剂与复合材料生产，服务风电叶片。",
+    "company_fact": "中高端胶粘剂与复合材料生产，服务风电叶片。",
+    "ths_fact": "风电解析结构胶市占及维斯塔斯歌美飒合作。",
+    "reason": "明确材料产品客户支撑，电子封装适用性不提升为芯片。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002670.SZ",
+    "key": "securities",
+    "sector": "券商",
+    "source_sector_name": "券商概念",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "证券经纪投行自营"
+    ],
+    "stage": "revenue",
+    "fact": "证券经纪投行信用资管期货等全链服务。",
+    "company_fact": "证券经纪投行信用资管期货等全链服务。",
+    "ths_fact": "参股券商解析实际100%持有国盛证券，期货为控股经营。",
+    "reason": "按实质券商经营，不把旧标签参股误读为财务投资。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002671.SZ",
+    "key": "underground_pipelines",
+    "sector": "地下管网",
+    "source_sector_name": "地下管网",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "PCCP输水管与金属管件"
+    ],
+    "stage": "revenue",
+    "fact": "生产销售PCCP与合金管件，新增电站阀门。",
+    "company_fact": "生产销售PCCP与合金管件，新增电站阀门。",
+    "ths_fact": "地下管网明确混凝土输水管及DN4000产品。",
+    "reason": "水输送管材实业一致，核电金属管件为次标签。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002672.SZ",
+    "key": "hazardous_waste_treatment",
+    "sector": "危废处理",
+    "source_sector_name": "危废处理",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "工业危废资源化处置"
+    ],
+    "stage": "revenue",
+    "fact": "危废无害化与资源回收经营多年，资质种类处理能力领先。",
+    "company_fact": "危废无害化与资源回收经营多年，资质种类处理能力领先。",
+    "ths_fact": "危废解释已有经营资质及项目布局。",
+    "reason": "直接处置回收与公司经营一致，黄金是回收物不称金矿开采。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002673.SZ",
+    "key": "securities",
+    "sector": "券商",
+    "source_sector_name": "券商概念",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "证券经纪投行资产管理"
+    ],
+    "stage": "revenue",
+    "fact": "经纪自营投行资管信用固收等五大业务协同。",
+    "company_fact": "经纪自营投行资管信用固收等五大业务协同。",
+    "ths_fact": "同花顺公司页明确证券经纪、投行、自营、资管、信用、固定收益、融资及研究业务。",
+    "reason": "证券综合金融服务直接经营，期货子业务不替代主体。",
+    "basis": "crosschecked_sources",
+    "extra_evidence": [
+      {
+        "evidence_id": "ths-company-002673",
+        "source_kind": "web_secondary",
+        "publisher": "同花顺",
+        "title": "002673.SZ公司资料",
+        "source_url": "https://basic.10jqka.com.cn/002673/company.html",
+        "published_at": null,
+        "assertions": [
+          "同花顺公司页明确证券经纪、投行、自营、资管、信用、固定收益、融资及研究业务。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "002674.SZ",
+    "key": "huawei_automotive",
+    "sector": "华为汽车",
+    "source_sector_name": "华为汽车",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "汽车内饰牛皮革"
+    ],
+    "stage": "delivery",
+    "fact": "天然牛皮革制造，控股宏兴汽车皮革向多车厂车型供货。",
+    "company_fact": "天然牛皮革制造，控股宏兴汽车皮革向多车厂车型供货。",
+    "ths_fact": "同花顺公司页明确天然牛皮革研发生产销售，产品包括鞋包带、汽车内饰、家具、特殊功能性皮革；概念页明确问界M5供应商。",
+    "reason": "将主题定位内饰皮革供应，不冒充整车或智能驾驶。",
+    "basis": "crosschecked_sources",
+    "extra_evidence": [
+      {
+        "evidence_id": "ths-company-002674",
+        "source_kind": "web_secondary",
+        "publisher": "同花顺",
+        "title": "002674.SZ公司资料",
+        "source_url": "https://basic.10jqka.com.cn/002674/company.html",
+        "published_at": null,
+        "assertions": [
+          "同花顺公司页明确天然牛皮革研发生产销售，产品包括鞋包带、汽车内饰、家具、特殊功能性皮革；概念页明确问界M5供应商。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "002675.SZ",
+    "key": "innovative_drugs",
+    "sector": "创新药",
+    "source_sector_name": "创新药",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "诊断治疗创新核药"
+    ],
+    "stage": "product",
+    "fact": "布局诊断到治疗核药全产业链及CRDMO。",
+    "company_fact": "布局诊断到治疗核药全产业链及CRDMO。",
+    "ths_fact": "创新药解析蓝纳成研发生产新靶点诊断及治疗核药。",
+    "reason": "核药创新业务主体明确，未将研发生产表述直接升级为上市收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002676.SZ",
+    "key": "appliance_components",
+    "sector": "家电零部件",
+    "source_sector_name": "家电零部件Ⅱ",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "空调塑料风叶"
+    ],
+    "stage": "revenue",
+    "fact": "塑料改性模具到低噪风叶完整链条，另有汽车部件。",
+    "company_fact": "塑料改性模具到低噪风叶完整链条，另有汽车部件。",
+    "ths_fact": "家用电器解析三类空调风叶研发生产销售，储能风叶收入小。",
+    "reason": "成熟空调配套定位清楚，储能应用不取代。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002677.SZ",
+    "key": "kitchen_appliances",
+    "sector": "厨房电器",
+    "source_sector_name": "厨房电器",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "集成灶及智慧厨电"
+    ],
+    "stage": "revenue",
+    "fact": "集成灶蒸烤洗净等厨电及家居产品制造销售。",
+    "company_fact": "集成灶蒸烤洗净等厨电及家居产品制造销售。",
+    "ths_fact": "家用电器解释集成灶与整套厨房产品，智能驾驶仅少数参股。",
+    "reason": "厨电直接经营双源一致，投资不当智能驾驶制造。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002678.SZ",
+    "key": "music_industry",
+    "sector": "音乐产业",
+    "source_sector_name": "音乐产业",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "钢琴制造与音乐服务"
+    ],
+    "stage": "revenue",
+    "fact": "深耕钢琴主业并扩展文旅演艺灯光。",
+    "company_fact": "深耕钢琴主业并扩展文旅演艺灯光。",
+    "ths_fact": "音乐产业解析钢琴研发制造销售服务及产品系列。",
+    "reason": "已有钢琴品牌和制造明确，景区拓展为次标签。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002679.SZ",
+    "key": "carbon_trading",
+    "sector": "碳交易",
+    "source_sector_name": "碳交易",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "林业碳汇开发"
+    ],
+    "stage": "revenue",
+    "fact": "森林经营基础上金森碳汇与上海金森布局碳市场。",
+    "company_fact": "森林经营基础上金森碳汇与上海金森布局碳市场。",
+    "ths_fact": "碳交易解析碳汇开发计量服务收入尚小，碳中和说明自有林地已有收益。",
+    "reason": "森林资产与已有碳汇服务共同支撑，不因木材收入更大排除主题。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002681.SZ",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "机器人整机代工"
+    ],
+    "stage": "delivery",
+    "fact": "为北京头部春晚机器人企业代工整机已小规模出货，兼有棋类和陪伴机器人。",
+    "company_fact": "为北京头部春晚机器人企业代工整机已小规模出货，兼有棋类和陪伴机器人。",
+    "ths_fact": "人形解析与国内头部企业合作已批量制造，关节模组仍开发。",
+    "reason": "整机出货证据充分，尚开发关节不可写成全部量产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002682.SZ",
+    "key": "logistics",
+    "sector": "物流",
+    "source_sector_name": "物流",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "沥青供应链港口园区"
+    ],
+    "stage": "revenue",
+    "fact": "现代物流涵盖沥青供应链码头园区，另有专汽与客运。",
+    "company_fact": "现代物流涵盖沥青供应链码头园区，另有专汽与客运。",
+    "ths_fact": "统一大市场与物流电商平台解析实际沥青贸易仓储多式联运。",
+    "reason": "供应链物流形成经营主轴，应急机器人虽已售仍为配套拓展。",
+    "basis": "crosschecked_sources"
+  }
+]

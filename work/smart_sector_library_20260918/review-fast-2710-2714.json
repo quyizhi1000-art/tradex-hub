@@ -1,0 +1,107 @@
+[
+  {
+    "id": "301325.SZ",
+    "key": "solid_state_batteries",
+    "sector": "固态电池",
+    "source_sector_name": "固态电池",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "固态电池干湿法涂布设备"
+    ],
+    "company_fact": "涂布设备业务覆盖锂电泛半导体，下游电池厂及设备商。",
+    "ths_fact": "固态干湿双线产品已出货多款，调试验证获认可。",
+    "fact": "涂布设备业务覆盖锂电泛半导体，下游电池厂及设备商。",
+    "reason": "自有设备已交付，固态主线明确，非电池整机制造。"
+  },
+  {
+    "id": "301326.SZ",
+    "key": "liquid_cooled_servers",
+    "sector": "液冷服务器",
+    "source_sector_name": "液冷服务器",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "服务器CDU",
+      "分水器及液冷部件"
+    ],
+    "company_fact": "精密结构功能件与VC部件原有业务；新液冷由H1自设捷邦数能产品补核。",
+    "ths_fact": "服务器液冷业务推进，未披露具体项目。",
+    "fact": "精密结构功能件与VC部件原有业务；新液冷由H1自设捷邦数能产品补核。",
+    "reason": "H1明确自有CDU和Manifold产品，取product；恒钜收购仍推进，不能将标的客户及消费电子VC收入冒作服务器已量产。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "official-301326-2026h1-liquid",
+        "source_kind": "official_filing",
+        "publisher": "捷邦科技",
+        "title": "2026年半年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12558127&stockid=301326",
+        "published_at": "2026-08-28",
+        "assertions": [
+          "自设捷邦数能有CDU和Manifold服务器液冷产品；恒钜55%收购仍推进，消费电子VC放量不等于服务器液冷收入。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "301327.SZ",
+    "key": "energy_storage",
+    "sector": "储能",
+    "source_sector_name": "储能",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "便携储能",
+      "家庭储能"
+    ],
+    "company_fact": "便携家庭储能和光伏研发品牌销售服务。",
+    "ths_fact": "长期聚焦锂电池储能，自有电源管理与产销体系。",
+    "fact": "便携家庭储能和光伏研发品牌销售服务。",
+    "reason": "已有储能主营市场定位稳定；固态与亿纬为合作研发商业化探索，不替代成熟储能。"
+  },
+  {
+    "id": "301328.SZ",
+    "key": "humanoid_robots",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "机器人信号电源连接器"
+    ],
+    "company_fact": "高端工控汽车新能源连接器研发制造销售，工控自动化实际业务。",
+    "ths_fact": "旧解析合并工业和人形机器人表述成熟量产能力及部分出货。",
+    "fact": "高端工控汽车新能源连接器研发制造销售，工控自动化实际业务。",
+    "reason": "7月1日原公告明确人形暂未批量生产，不能套用工业机器人量产；保留已被市场关注的人形连接器主线，阶段product且收入不确定。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "official-301328-20260701-clarification",
+        "source_kind": "official_filing",
+        "publisher": "维峰电子",
+        "title": "股票交易异常波动公告",
+        "source_url": "https://static.cninfo.com.cn/finalpage/2026-07-01/1225403278.PDF",
+        "published_at": "2026-07-01",
+        "assertions": [
+          "市场关注机器人题材，公司明确人形相关产品未形成批量生产、收入不确定；维讯光电尚未经营。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "301329.SZ",
+    "key": "commercial_space",
+    "sector": "商业航天",
+    "source_sector_name": "商业航天",
+    "source_sector_provider": "同花顺",
+    "stage": "pilot",
+    "chain": [
+      "低轨卫星地面接收连接器"
+    ],
+    "company_fact": "连接器研发生产销售，传统覆盖电脑消费电子汽车医疗。",
+    "ths_fact": "低轨卫星地面接收装置连接器处于试产。",
+    "fact": "连接器研发生产销售，传统覆盖电脑消费电子汽车医疗。",
+    "reason": "既有商业航天题材具具体试产产品，链位为地面终端，非星载部件或规模收入。"
+  }
+]

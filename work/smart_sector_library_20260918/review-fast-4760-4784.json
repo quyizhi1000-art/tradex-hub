@@ -1,0 +1,502 @@
+[
+  {
+    "id": "688179.SH",
+    "key": "other_chemical_products",
+    "sector": "其他化学制品",
+    "chain": [
+      "科研及工业用高端试剂与实验耗材"
+    ],
+    "stage": "revenue",
+    "fact": "科研及工业用高端试剂与实验耗材；光刻胶类试剂用于实验研发；重组蛋白实验室已运行，合成生物为部分产品和合作。",
+    "ths_fact": "光刻胶类试剂用于实验研发；重组蛋白实验室已运行，合成生物为部分产品和合作。",
+    "company_fact": "生产销售高端化学、生命科学、分析色谱和材料科学试剂，通过自有电商平台经营。",
+    "reason": "选择覆盖已确认试剂业务的已有其他化学制品；光刻胶科研试剂不是晶圆厂量产胶，猴痘相关库存不是获批治疗药品。",
+    "source_sector_name": "其他化学制品",
+    "source_sector_provider": "东方财富",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688180.SH",
+    "key": "innovative_drugs",
+    "sector": "创新药",
+    "chain": [
+      "特瑞普利单抗等自主创新药及后续管线"
+    ],
+    "stage": "revenue",
+    "fact": "特瑞普利单抗等自主创新药及后续管线；特瑞普利单抗多适应症获批并进入医保，双抗、ADC等继续临床。",
+    "ths_fact": "特瑞普利单抗多适应症获批并进入医保，双抗、ADC等继续临床。",
+    "company_fact": "具备药物发现、临床、生产及商业化全链能力，产品涵盖单抗等创新药。",
+    "reason": "已上市产品经营和持续创新研发共同支持创新药；未把在研双抗ADC或内部AI工具当已销售新业务。",
+    "source_sector_name": "创新药",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688181.SH",
+    "key": "photoresist",
+    "sector": "光刻胶",
+    "chain": [
+      "半导体KrF光刻胶树脂与关键材料"
+    ],
+    "stage": "delivery",
+    "fact": "半导体KrF光刻胶树脂与关键材料；百吨级KrF树脂双产线已建成投产；2025年第四季度多款树脂实现吨级出货；2026年3月披露拟出售南通詹鼎全部11.5892%股权",
+    "ths_fact": "光刻胶解析确认全系列树脂研发生产能力及头部胶企合作。",
+    "company_fact": "主营液晶材料，亦研发生产半导体光刻胶树脂、PSPI等材料。",
+    "reason": "原年报核实多款树脂吨级出货，支持光刻胶新身份；南通詹鼎已有出售议案，不能沿用旧参股液冷为当前强主线。",
+    "source_sector_name": "光刻胶",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "official_688181_12114209",
+        "source_kind": "official_filing",
+        "publisher": "八亿时空",
+        "title": "2025年年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=688181&id=12114209",
+        "published_at": null,
+        "assertions": [
+          "百吨级KrF树脂双产线已建成投产",
+          "2025年第四季度多款树脂实现吨级出货",
+          "2026年3月披露拟出售南通詹鼎全部11.5892%股权"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "688182.SH",
+    "key": "commercial_space",
+    "sector": "商业航天",
+    "chain": [
+      "航天及卫星通信陶瓷滤波器、双工器与微波器件"
+    ],
+    "stage": "revenue",
+    "fact": "航天及卫星通信陶瓷滤波器、双工器与微波器件；商业航天解析明确天问一号大功率双工器及星网、嫦娥、北斗项目应用。",
+    "ths_fact": "商业航天解析明确天问一号大功率双工器及星网、嫦娥、北斗项目应用。",
+    "company_fact": "实际研产销滤波器、天线、谐振器和射频组件，应用覆盖航空航天与卫星通信。",
+    "reason": "真实航天配套与陶瓷射频经营支持已有商业航天；6G频段能力不等于6G订单，先进封装仍保留其小批量阶段。",
+    "source_sector_name": "商业航天",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688183.SH",
+    "key": "pcb",
+    "sector": "PCB",
+    "chain": [
+      "服务器、通信和汽车用高密度印制电路板"
+    ],
+    "stage": "revenue",
+    "fact": "服务器、通信和汽车用高密度印制电路板；PCB解析为线路板研产销；CPO解析提及800G客户供货能力。",
+    "ths_fact": "PCB解析为线路板研产销；CPO解析提及800G客户供货能力。",
+    "company_fact": "持续研产销中高端PCB，涵盖服务器、通信网络、汽车及工控医疗板。",
+    "reason": "核心工艺与多终端实际供货共同形成PCB身份；光模块相关板件供货不写成完整光模块制造，工业互联网为自建生产平台。",
+    "source_sector_name": "PCB概念",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688184.SH",
+    "key": "lithium_batteries",
+    "sector": "锂电池",
+    "chain": [
+      "单晶中高镍三元正极前驱体"
+    ],
+    "stage": "revenue",
+    "fact": "单晶中高镍三元正极前驱体；锂电池解析为三元正极前驱体，已向邦普供应单晶NCM产品。",
+    "ths_fact": "锂电池解析为三元正极前驱体，已向邦普供应单晶NCM产品。",
+    "company_fact": "研产销新能源电池材料，主要为锂电、钠电正极前驱体。",
+    "reason": "已有实际锂电供应链支持稳定主线；钠电战略协议不等同全部兑现，固态软包小试线不写为量产。",
+    "source_sector_name": "锂电池概念",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688185.SH",
+    "key": "vaccines",
+    "sector": "生物疫苗",
+    "chain": [
+      "脑膜炎等创新疫苗研发生产与商业化"
+    ],
+    "stage": "revenue",
+    "fact": "脑膜炎等创新疫苗研发生产与商业化；生物疫苗解析确认创新疫苗产销及多糖蛋白结合平台。",
+    "ths_fact": "生物疫苗解析确认创新疫苗产销及多糖蛋白结合平台。",
+    "company_fact": "已有上市疫苗及多病种在研管线，开展生产商业化。",
+    "reason": "疫苗产品和研发体系支持生物疫苗；猴痘抗原筛选和流感候选研发不写为已上市销售，CDMO为延伸服务。",
+    "source_sector_name": "生物疫苗",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688186.SH",
+    "key": "nuclear_fusion",
+    "sector": "可控核聚变",
+    "chain": [
+      "聚变堆超导线圈铠甲钢及低活化结构钢"
+    ],
+    "stage": "delivery",
+    "fact": "聚变堆超导线圈铠甲钢及低活化结构钢；核聚变超导线圈铠甲材料已稳定批量供货；6吨级低活化马氏体钢CLAM材料已向客户成功交货",
+    "ths_fact": "可控核聚变解析确认批量供货，核电解析提及线圈盒加工。",
+    "company_fact": "实际高端特钢、风电和汽轮机部件，原年报补足聚变材料交付。",
+    "reason": "原年报明确专用铠甲钢及CLAM交货，选择有真实批供的新主题；阶段按交付，不把风电收入算为聚变收入，人形齿圈仍试制。",
+    "source_sector_name": "可控核聚变",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "official_688186_12129559",
+        "source_kind": "official_filing",
+        "publisher": "广大特材",
+        "title": "2025年年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=688186&id=12129559",
+        "published_at": null,
+        "assertions": [
+          "核聚变超导线圈铠甲材料已稳定批量供货",
+          "6吨级低活化马氏体钢CLAM材料已向客户成功交货"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "688187.SH",
+    "key": "igbt",
+    "sector": "IGBT",
+    "chain": [
+      "功率IGBT芯片、模块及轨交电网应用"
+    ],
+    "stage": "revenue",
+    "fact": "功率IGBT芯片、模块及轨交电网应用；IGBT产品已大批量用于轨交电网，功率模块进入新能源车市场。",
+    "ths_fact": "IGBT产品已大批量用于轨交电网，功率模块进入新能源车市场。",
+    "company_fact": "拥有功率半导体技术及器件、系统、整机产业结构，同时经营轨道交通装备。",
+    "reason": "自主IDM功率器件与大批量应用支持IGBT市场身份，不机械按轨交营收选择；数据中心仅少量双极器件，不泛化为AI电源。",
+    "source_sector_name": "IGBT",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688188.SH",
+    "key": "laser",
+    "sector": "激光",
+    "chain": [
+      "激光切割控制系统和自动化控制配套"
+    ],
+    "stage": "revenue",
+    "fact": "激光切割控制系统和自动化控制配套；激光解析确认向400多家激光设备商提供控制系统。",
+    "ths_fact": "激光解析确认向400多家激光设备商提供控制系统。",
+    "company_fact": "主营激光切割随动、板卡、总线控制系统及配套自动化产品。",
+    "reason": "实际控制系统产业地位支持激光；智能焊接机器人和AI算法是重要延伸，不能由其技术描述直接替代成熟市场身份。",
+    "source_sector_name": "激光",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688189.SH",
+    "key": "influenza",
+    "sector": "流感",
+    "chain": [
+      "帕拉米韦等抗流感及抗感染药品"
+    ],
+    "stage": "revenue",
+    "fact": "帕拉米韦等抗流感及抗感染药品；流感解析确认帕拉米韦氯化钠注射液已为上市创新产品。",
+    "ths_fact": "流感解析确认帕拉米韦氯化钠注射液已为上市创新产品。",
+    "company_fact": "实际经营抗感染、呼吸系统及心脑血管药品，具有制剂和原料药批件。",
+    "reason": "有真实上市药品支撑的流感身份最具体；医药电商和数字化属于渠道及内部管理，不取代药品业务。",
+    "source_sector_name": "流感",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688190.SH",
+    "key": "wireless_charging",
+    "sector": "无线充电",
+    "chain": [
+      "无线充电模块用纳米晶超薄带磁性材料"
+    ],
+    "stage": "revenue",
+    "fact": "无线充电模块用纳米晶超薄带磁性材料；无线充电解析明确纳米晶超薄带在手机模块规模应用，并适配车载模块。",
+    "ths_fact": "无线充电解析明确纳米晶超薄带在手机模块规模应用，并适配车载模块。",
+    "company_fact": "研产销非晶、纳米晶及磁性粉末材料，供能量传输、滤波及新能源等领域。",
+    "reason": "已规模应用的磁性材料支持已有无线充电主题；链条为材料，非无线充电终端制造，其他变压器用途保留在经营事实。",
+    "source_sector_name": "无线充电",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688191.SH",
+    "key": "ai_agents",
+    "sector": "AI智能体",
+    "chain": [
+      "电语工业大模型及电力运维端侧智能体"
+    ],
+    "stage": "product",
+    "fact": "电语工业大模型及电力运维端侧智能体；已形成AI智能体技术平台和工业大模型平台；通过软件硬件算法协同实现智能决策和行业场景落地",
+    "ths_fact": "智能体解析明确自研电语平台、端侧智能体和DeepSeek接入。",
+    "company_fact": "经营电力、水利、轨交等行业AI解决方案，多模态与运维决策是核心能力。",
+    "reason": "年报确认独立智能体技术平台与行业方案，选择真实新产品主题；未单列智能体收入，故product，不将全部电网运维收入移入。",
+    "source_sector_name": "AI智能体",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "official_688191_12154933",
+        "source_kind": "official_filing",
+        "publisher": "智洋创新",
+        "title": "2025年年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=688191&id=12154933",
+        "published_at": null,
+        "assertions": [
+          "已形成AI智能体技术平台和工业大模型平台",
+          "通过软件硬件算法协同实现智能决策和行业场景落地"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "688192.SH",
+    "key": "innovative_drugs",
+    "sector": "创新药",
+    "chain": [
+      "肿瘤及血液疾病自主创新药"
+    ],
+    "stage": "revenue",
+    "fact": "肿瘤及血液疾病自主创新药；创新药解析确认舒沃哲、高瑞哲获批上市并进入医保。",
+    "ths_fact": "创新药解析确认舒沃哲、高瑞哲获批上市并进入医保。",
+    "company_fact": "处于商业化阶段的生物制药企业，开发肿瘤血液疾病首创及突破性药物。",
+    "reason": "已上市产品与创新研发体系直接支撑创新药，不将其他在研管线一并说成已上市。",
+    "source_sector_name": "创新药",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688193.SH",
+    "key": "in_vitro_diagnostics",
+    "sector": "体外诊断",
+    "chain": [
+      "RNA恒温扩增诊断试剂、仪器与检测服务"
+    ],
+    "stage": "revenue",
+    "fact": "RNA恒温扩增诊断试剂、仪器与检测服务；医疗器械解析与RNA试剂仪器一致，辅助生殖为IVF前感染筛查用途。",
+    "ths_fact": "医疗器械解析与RNA试剂仪器一致，辅助生殖为IVF前感染筛查用途。",
+    "company_fact": "基于SAT平台经营RNA分子诊断，覆盖生殖、呼吸、消化及血源病原体。",
+    "reason": "已有体外诊断完整经营最贴切；不把感染筛查写成生殖治疗或把AI探索写成成熟医疗模型。",
+    "source_sector_name": "体外诊断",
+    "source_sector_provider": "东方财富",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688195.SH",
+    "key": "commercial_space",
+    "sector": "商业航天",
+    "chain": [
+      "卫星激光通信精密光学元组件"
+    ],
+    "stage": "delivery",
+    "fact": "卫星激光通信精密光学元组件；空间光通信即卫星激光通信领域已实现离轴反射镜小批量生产；同时经营高速光通信及半导体设备光学器件",
+    "ths_fact": "商业航天解析确认小批量向卫星激光通信客户交付并验证。",
+    "company_fact": "主营精密光学元组件及光纤器件，原年报进一步确认空间光通信产品生产。",
+    "reason": "真实卫星客户交付与年报生产相互印证，选择商业航天新主题；未将拟收购迅特当已并表，亦不称本体运营卫星或太空算力。",
+    "source_sector_name": "商业航天",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "official_688195_12180620",
+        "source_kind": "official_filing",
+        "publisher": "腾景科技",
+        "title": "2025年年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=688195&id=12180620",
+        "published_at": null,
+        "assertions": [
+          "空间光通信即卫星激光通信领域已实现离轴反射镜小批量生产",
+          "同时经营高速光通信及半导体设备光学器件"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "688196.SH",
+    "key": "other_chemical_products",
+    "sector": "其他化学制品",
+    "chain": [
+      "废弃油脂转化生物柴油、甘油及生物基材料"
+    ],
+    "stage": "revenue",
+    "fact": "废弃油脂转化生物柴油、甘油及生物基材料；可降解塑料解析实际描述生物柴油衍生环保增塑剂、甘油和脂肪醇。",
+    "ths_fact": "可降解塑料解析实际描述生物柴油衍生环保增塑剂、甘油和脂肪醇。",
+    "company_fact": "持续生产销售生物柴油、工业甘油、醇酸树脂及天然脂肪醇。",
+    "reason": "该股暂无生物柴油同名板块，选已有其他化学制品覆盖经营；不把可降解增塑剂等同可降解塑料树脂。",
+    "source_sector_name": "其他化学制品",
+    "source_sector_provider": "东方财富",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688197.SH",
+    "key": "innovative_drugs",
+    "sector": "创新药",
+    "chain": [
+      "康特替尼及ALK、RET小分子抗肿瘤药"
+    ],
+    "stage": "delivery",
+    "fact": "康特替尼及ALK、RET小分子抗肿瘤药；康特替尼于2026年6月11日获批；截至半年报披露已启动医院药房供货并开出首批处方；报告期内尚未形成自主研发产品销售收入",
+    "ths_fact": "创新药、抗肿瘤解析确认自主小分子研发，保存说明未体现最新供货。",
+    "company_fact": "主营肿瘤创新小分子开发；原半年报确认首款自研药获批并开始终端供货。",
+    "reason": "已从临床走向实际终端供货，以delivery记录最新进展；报告期尚无自研药销售收入，不能把合作里程碑收入视作自研药营收。",
+    "source_sector_name": "创新药",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "official_688197_12568419",
+        "source_kind": "official_filing",
+        "publisher": "首药控股",
+        "title": "2026年半年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=688197&id=12568419",
+        "published_at": null,
+        "assertions": [
+          "康特替尼于2026年6月11日获批",
+          "截至半年报披露已启动医院药房供货并开出首批处方",
+          "报告期内尚未形成自主研发产品销售收入"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "688198.SH",
+    "key": "medical_aesthetics",
+    "sector": "医美",
+    "chain": [
+      "控股艾佰瑞胶原蛋白注射填充产品"
+    ],
+    "stage": "revenue",
+    "fact": "控股艾佰瑞胶原蛋白注射填充产品；控股艾佰瑞胶原蛋白植入剂I完成获批后的首个半年度销售；胶原蛋白植入剂II于2026年7月获批并开始推向市场",
+    "ths_fact": "医美解析确认胶原蛋白植入剂I获批，区别于传统心脏瓣膜器械。",
+    "company_fact": "本体为动物源植介入医疗器械；原半年报确认胶原产品已首个半年销售。",
+    "reason": "真实控股产品获批并销售支持医美新主线；不把其余临床或注册中的产品一并记收入。",
+    "source_sector_name": "医美概念",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "official_688198_12549266",
+        "source_kind": "official_filing",
+        "publisher": "佰仁医疗",
+        "title": "2026年半年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=688198&id=12549266",
+        "published_at": null,
+        "assertions": [
+          "控股艾佰瑞胶原蛋白植入剂I完成获批后的首个半年度销售",
+          "胶原蛋白植入剂II于2026年7月获批并开始推向市场"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "688199.SH",
+    "key": "photoresist",
+    "sector": "光刻胶",
+    "chain": [
+      "半导体光刻胶、光敏剂及配套光固化材料"
+    ],
+    "stage": "revenue",
+    "fact": "半导体光刻胶、光敏剂及配套光固化材料；光刻胶解析明确2025年光刻胶收入150.21万元、2026年一季度44.23万元。",
+    "ths_fact": "光刻胶解析明确2025年光刻胶收入150.21万元、2026年一季度44.23万元。",
+    "company_fact": "研产销光引发剂、单体、光刻胶与光敏剂等材料。",
+    "reason": "已确认客户验证及销售收入支撑光刻胶，不因规模较小排除新主题；电解液添加剂不能据此称固态电池材料。",
+    "source_sector_name": "光刻胶",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688200.SH",
+    "key": "chip_equipment",
+    "sector": "芯片设备",
+    "chain": [
+      "模拟、混合信号与功率半导体测试系统"
+    ],
+    "stage": "revenue",
+    "fact": "模拟、混合信号与功率半导体测试系统；芯片设备解析确认半导体测试机进入国际封测供应链。",
+    "ths_fact": "芯片设备解析确认半导体测试机进入国际封测供应链。",
+    "company_fact": "主营半导体自动测试系统研产销，覆盖模拟、混合、分立及功率模块测试。",
+    "reason": "设备和客户市场一致，选芯片设备；第三代半导体是测试对象，不声称制造SiC晶圆。",
+    "source_sector_name": "芯片设备",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688201.SH",
+    "key": "cybersecurity",
+    "sector": "网络安全",
+    "chain": [
+      "密码安全、零信任网关及数据保护"
+    ],
+    "stage": "revenue",
+    "fact": "密码安全、零信任网关及数据保护；网络安全解析为密码技术产品体系；量子段为后量子密码算法迁移，智能体多为合作探索。",
+    "ths_fact": "网络安全解析为密码技术产品体系；量子段为后量子密码算法迁移，智能体多为合作探索。",
+    "company_fact": "经营密码整机、网关、数据治理、保密和安全服务，部分高安全场景规模部署。",
+    "reason": "实际安全产品体系支撑网络安全；不把后量子密码算法写成量子计算硬件，AI接入未收入也不改变已确认主线。",
+    "source_sector_name": "网络安全",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688202.SH",
+    "key": "ai_drug_discovery",
+    "sector": "AI制药（医疗）",
+    "chain": [
+      "AI辅助药物发现及临床前研发服务"
+    ],
+    "stage": "delivery",
+    "fact": "AI辅助药物发现及临床前研发服务；基于AI的一站式临床前研发平台已开始为客户服务；与AI药研公司合作并助力多款AI驱动药物进入临床",
+    "ths_fact": "AI应用解析确认结构预测、结合位点和定制数据库技术服务平台。",
+    "company_fact": "经营药物发现、药学及临床前CRO服务，原年报确认AI平台已服务客户。",
+    "reason": "AI已作为对客技术服务落地，选已有AI制药（医疗）；delivery按服务交付，不将全部CRO收入算AI收入，更不称自有药物已上市。",
+    "source_sector_name": "AI制药（医疗）",
+    "source_sector_provider": "东方财富",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "official_688202_12146973",
+        "source_kind": "official_filing",
+        "publisher": "美迪西",
+        "title": "2025年年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=688202&id=12146973",
+        "published_at": null,
+        "assertions": [
+          "基于AI的一站式临床前研发平台已开始为客户服务",
+          "与AI药研公司合作并助力多款AI驱动药物进入临床"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "688203.SH",
+    "key": "biodegradable_plastics",
+    "sector": "可降解塑料",
+    "chain": [
+      "聚乳酸树脂及复合改性材料"
+    ],
+    "stage": "revenue",
+    "fact": "聚乳酸树脂及复合改性材料；可降解塑料解析确认生物基PLA研产销，3D打印为改性材料应用。",
+    "ths_fact": "可降解塑料解析确认生物基PLA研产销，3D打印为改性材料应用。",
+    "company_fact": "掌握丙交酯、PLA聚合及改性工程技术，已规模生产销售。",
+    "reason": "聚乳酸材料直接对应可降解塑料，3D打印只是下游使用，不归打印设备。",
+    "source_sector_name": "可降解塑料",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688205.SH",
+    "key": "cpo",
+    "sector": "共封装光学(CPO)",
+    "chain": [
+      "光收发模块、光放大器及数据中心光互连"
+    ],
+    "stage": "revenue",
+    "fact": "光收发模块、光放大器及数据中心光互连；CPO解析为高速共封装方案研发；其他概念明确实际光收发模块和DCI经营。",
+    "ths_fact": "CPO解析为高速共封装方案研发；其他概念明确实际光收发模块和DCI经营。",
+    "company_fact": "研产销光收发模块、光放大器和传输子系统，覆盖骨干传输和数据通信。",
+    "reason": "成熟光通信产品支撑已有CPO市场身份；revenue指光模块产业链已经营，不声称研发中的共封装方案已产生特定收入。",
+    "source_sector_name": "共封装光学(CPO)",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  }
+]

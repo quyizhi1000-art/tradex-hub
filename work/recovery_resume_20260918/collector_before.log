@@ -1,0 +1,83 @@
+2026-09-18 16:09:51,273 INFO tradex.data_sources register_all_sources: 已注册 106 个数据类型, 146 个数据源
+2026-09-18 16:10:06,152 INFO __main__ manual portfolio market ready revision=946f9ca636096304190d6d77fdf0ca54be7aaf919678bcf9237837178d4685ed items=1 alerts=0
+2026-09-18 16:10:07,356 WARNING tradex.http fetch_board_leaders BK0494 https://push2.eastmoney.com failed: Failed to perform, curl: (56) Connection closed abruptly. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-09-18 16:10:10,090 WARNING tradex.http fetch_board_leaders BK0668 https://push2.eastmoney.com failed: Failed to perform, curl: (56) Connection closed abruptly. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-09-18 16:10:12,402 WARNING tradex.http fetch_board_leaders BK0547 https://push2.eastmoney.com failed: Failed to perform, curl: (56) Connection closed abruptly. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-09-18 16:10:15,091 WARNING tradex.http fetch_board_leaders BK0825 https://push2.eastmoney.com failed: Failed to perform, curl: (56) Connection closed abruptly. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-09-18 16:10:17,961 WARNING tradex.http fetch_board_leaders BK1216 https://push2.eastmoney.com failed: Failed to perform, curl: (56) Connection closed abruptly. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-09-18 16:10:20,276 WARNING tradex.http fetch_board_leaders BK0615 https://push2.eastmoney.com failed: Failed to perform, curl: (56) Connection closed abruptly. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-09-18 16:10:22,676 WARNING tradex.http fetch_board_leaders BK0474 https://push2.eastmoney.com failed: Failed to perform, curl: (56) Connection closed abruptly. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-09-18 16:10:25,095 WARNING tradex.http fetch_board_leaders BK0577 https://push2.eastmoney.com failed: Failed to perform, curl: (56) Connection closed abruptly. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-09-18 16:10:27,655 WARNING tradex.http fetch_board_leaders BK0891 https://push2.eastmoney.com failed: Failed to perform, curl: (56) Connection closed abruptly. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-09-18 16:10:30,917 WARNING tradex.http fetch_board_leaders BK0917 https://push2.eastmoney.com failed: Failed to perform, curl: (56) Connection closed abruptly. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-09-18 16:10:31,621 WARNING astock_signals.smart_router SmartRouter: minute_data via tushare FAILED: TuShare 实时分钟返回空数据
+2026-09-18 16:10:31,906 INFO astock_signals.smart_router SmartRouter: board_leaders via eastmoney skipped for this request: Eastmoney request queue is busy
+2026-09-18 16:10:31,908 INFO astock_signals.smart_router SmartRouter: board_leaders via eastmoney skipped for this request: Eastmoney request queue is busy
+2026-09-18 16:10:31,909 INFO astock_signals.smart_router SmartRouter: board_leaders via eastmoney skipped for this request: Eastmoney request queue is busy
+2026-09-18 16:10:31,912 INFO astock_signals.smart_router SmartRouter: board_leaders via eastmoney skipped for this request: Eastmoney request queue is busy
+2026-09-18 16:10:31,914 INFO astock_signals.smart_router SmartRouter: board_leaders via eastmoney skipped for this request: Eastmoney request queue is busy
+2026-09-18 16:10:31,918 INFO astock_signals.smart_router SmartRouter: board_leaders via eastmoney skipped for this request: Eastmoney request queue is busy
+2026-09-18 16:10:33,130 INFO astock_signals.smart_router SmartRouter: minute_data via tushare skipped for this request: tushare request capacity is busy; use this request's fallback
+2026-09-18 16:10:35,492 INFO astock_signals.smart_router SmartRouter: minute_data_batch_partial via tushare skipped for this request: tushare request capacity is busy; use this request's fallback
+2026-09-18 16:10:35,493 INFO astock_signals.smart_router SmartRouter: minute_data_batch_partial via tushare skipped for this request: tushare request capacity is busy; use this request's fallback
+2026-09-18 16:10:43,846 WARNING astock_signals.smart_router SmartRouter: minute_data via tushare FAILED: TuShare 实时分钟返回空数据
+2026-09-18 16:10:48,728 INFO __main__ derived market-watch evidence ready resonance=4b80b72650833af208c12fad1cdb6562f994e6d388ca56e05940df9e2122e080 entries=16 limit_up_pool=5aabdc7c2c819b4b1b3870fbde572c4fc5ddb4e7757ba7afcdd43fb48a9380f4 total=78 phase=closed
+2026-09-18 16:10:56,834 INFO __main__ review official announcements ready revision=b2a85acb026b958b3aa28fba008b3b5876fa805c282c62b11bef4b9013a45f95 candidates=3 announcements=2 rematerialize=post_market_review:e69d2bfdcc574205824c7a687a8a3771
+2026-09-18 16:11:11,753 WARNING tradex.http fetch_industry_quotes https://push2.eastmoney.com failed: Failed to perform, curl: (56) Connection closed abruptly. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-09-18 16:11:19,305 WARNING tradex.http fetch_industry_quotes https://push2.eastmoney.com failed: Failed to perform, curl: (56) Connection closed abruptly. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-09-18 16:12:09,300 INFO __main__ post-close limit sentiment ready revision=c872cbe8093b8fd4eef5ef795261eb84920ad2915894c3fbebc6ce9cfb9ed0ac limit_up=0 broken=0
+2026-09-18 16:12:44,952 WARNING tradex.http fetch_board_leaders BK0494 https://push2.eastmoney.com failed: Failed to perform, curl: (56) Connection closed abruptly. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-09-18 16:12:47,648 WARNING tradex.http fetch_board_leaders BK0668 https://push2.eastmoney.com failed: Failed to perform, curl: (56) Connection closed abruptly. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-09-18 16:12:50,369 WARNING tradex.http fetch_board_leaders BK0547 https://push2.eastmoney.com failed: Failed to perform, curl: (56) Connection closed abruptly. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-09-18 16:12:52,712 WARNING tradex.http fetch_board_leaders BK0825 https://push2.eastmoney.com failed: Failed to perform, curl: (56) Connection closed abruptly. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-09-18 16:12:55,660 WARNING tradex.http fetch_board_leaders BK1216 https://push2.eastmoney.com failed: Failed to perform, curl: (56) Connection closed abruptly. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-09-18 16:12:58,240 WARNING tradex.http fetch_board_leaders BK0615 https://push2.eastmoney.com failed: Failed to perform, curl: (56) Connection closed abruptly. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-09-18 16:13:00,861 WARNING tradex.http fetch_board_leaders BK0474 https://push2.eastmoney.com failed: Failed to perform, curl: (56) Connection closed abruptly. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-09-18 16:13:03,566 WARNING tradex.http fetch_board_leaders BK0577 https://push2.eastmoney.com failed: Failed to perform, curl: (56) Connection closed abruptly. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-09-18 16:13:06,072 WARNING tradex.http fetch_board_leaders BK0891 https://push2.eastmoney.com failed: Failed to perform, curl: (56) Connection closed abruptly. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-09-18 16:13:08,885 WARNING tradex.http fetch_board_leaders BK0917 https://push2.eastmoney.com failed: Failed to perform, curl: (56) Connection closed abruptly. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-09-18 16:13:11,619 WARNING tradex.http fetch_board_leaders BK1036 https://push2.eastmoney.com failed: Failed to perform, curl: (56) Connection closed abruptly. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-09-18 16:13:12,343 WARNING astock_signals.smart_router SmartRouter: minute_data via tushare FAILED: TuShare 实时分钟返回空数据
+2026-09-18 16:13:12,779 INFO astock_signals.smart_router SmartRouter: board_leaders via eastmoney skipped for this request: Eastmoney request queue is busy
+2026-09-18 16:13:12,780 INFO astock_signals.smart_router SmartRouter: board_leaders via eastmoney skipped for this request: Eastmoney request queue is busy
+2026-09-18 16:13:12,782 INFO astock_signals.smart_router SmartRouter: board_leaders via eastmoney skipped for this request: Eastmoney request queue is busy
+2026-09-18 16:13:12,783 INFO astock_signals.smart_router SmartRouter: board_leaders via eastmoney skipped for this request: Eastmoney request queue is busy
+2026-09-18 16:13:12,785 INFO astock_signals.smart_router SmartRouter: board_leaders via eastmoney skipped for this request: Eastmoney request queue is busy
+2026-09-18 16:13:13,927 INFO astock_signals.smart_router SmartRouter: minute_data_batch_partial via tushare skipped for this request: tushare request capacity is busy; use this request's fallback
+2026-09-18 16:13:13,927 INFO astock_signals.smart_router SmartRouter: minute_data_batch_partial via tushare skipped for this request: tushare request capacity is busy; use this request's fallback
+2026-09-18 16:13:13,928 INFO astock_signals.smart_router SmartRouter: minute_data_batch_partial via tushare skipped for this request: tushare request capacity is busy; use this request's fallback
+2026-09-18 16:13:13,928 INFO astock_signals.smart_router SmartRouter: minute_data_batch_partial via tushare skipped for this request: tushare request capacity is busy; use this request's fallback
+2026-09-18 16:13:13,928 INFO astock_signals.smart_router SmartRouter: minute_data_batch_partial via tushare skipped for this request: tushare request capacity is busy; use this request's fallback
+2026-09-18 16:13:13,931 INFO astock_signals.smart_router SmartRouter: minute_data_batch_partial via tushare skipped for this request: tushare request capacity is busy; use this request's fallback
+2026-09-18 16:13:13,932 INFO astock_signals.smart_router SmartRouter: minute_data_batch_partial via tushare skipped for this request: tushare request capacity is busy; use this request's fallback
+2026-09-18 16:13:22,846 INFO __main__ derived market-watch evidence ready resonance=cf8f870f0eea0a58aa587374d1266c1a899b20154848b1d41a5453b53f788c20 entries=16 limit_up_pool=04c034af112819a856c3066a333419cd72a727e5fc8651705969136136ccf97b total=78 phase=closed
+2026-09-18 16:14:57,190 WARNING astock_signals.smart_router SmartRouter: minute_data_batch_partial via tushare DEADLINE: minute_data_batch_partial:tushare exceeded its total provider deadline
+2026-09-18 16:16:34,268 WARNING astock_signals.smart_router SmartRouter: minute_data via tushare FAILED: TuShare 实时分钟返回空数据
+2026-09-18 16:16:46,511 WARNING astock_signals.smart_router SmartRouter: minute_data via tushare FAILED: TuShare 实时分钟返回空数据
+2026-09-18 16:17:01,739 WARNING astock_signals.smart_router SmartRouter: minute_data via tushare FAILED: TuShare 实时分钟返回空数据
+2026-09-18 16:17:08,844 WARNING astock_signals.smart_router SmartRouter: minute_data via tushare FAILED: TuShare 实时分钟返回空数据
+2026-09-18 16:18:39,521 WARNING astock_signals.smart_router SmartRouter: minute_data via tushare FAILED: intraday provider omitted required exact minutes: 10:05:00, 10:08:00, 10:12:00, 10:16:00, 10:20:00, 10:23:00, 10:24:00, 10:25:00
+2026-09-18 16:19:08,489 WARNING astock_signals.smart_router SmartRouter: minute_data via tushare FAILED: TuShare 实时分钟返回空数据
+2026-09-18 16:19:19,085 WARNING astock_signals.smart_router SmartRouter: minute_data via tushare FAILED: TuShare 实时分钟返回空数据
+2026-09-18 16:19:19,753 WARNING astock_signals.smart_router SmartRouter: minute_data via tushare FAILED: TuShare 实时分钟返回空数据
+2026-09-18 16:19:22,389 WARNING astock_signals.smart_router SmartRouter: minute_data via tushare FAILED: TuShare 实时分钟返回空数据
+2026-09-18 16:19:24,535 WARNING astock_signals.smart_router SmartRouter: minute_data via tushare FAILED: TuShare 实时分钟返回空数据
+2026-09-18 16:19:27,114 WARNING astock_signals.smart_router SmartRouter: minute_data via tushare FAILED: TuShare 实时分钟返回空数据
+2026-09-18 16:19:28,792 WARNING astock_signals.smart_router SmartRouter: minute_data via tushare FAILED: TuShare 实时分钟返回空数据
+2026-09-18 16:19:45,015 WARNING astock_signals.smart_router SmartRouter: minute_data via tushare FAILED: TuShare 实时分钟返回空数据
+2026-09-18 16:19:45,634 WARNING astock_signals.smart_router SmartRouter: minute_data via tushare FAILED: TuShare API 业务错误 code=429
+2026-09-18 16:19:45,673 WARNING astock_signals.smart_router SmartRouter: minute_data_batch_partial via tushare FAILED: TuShare API 业务错误 code=429
+2026-09-18 16:19:47,406 WARNING astock_signals.smart_router SmartRouter: minute_data via tushare FAILED: TuShare API 业务错误 code=429
+2026-09-18 16:19:48,057 WARNING astock_signals.smart_router SmartRouter: minute_data_batch_partial via tushare FAILED: TuShare API 业务错误 code=429
+2026-09-18 16:19:54,208 WARNING astock_signals.smart_router SmartRouter: minute_data via tushare FAILED: TuShare API 业务错误 code=429
+2026-09-18 16:19:55,810 WARNING astock_signals.smart_router SmartRouter: minute_data_batch_partial via tushare FAILED: TuShare API 业务错误 code=429
+2026-09-18 16:19:55,892 WARNING astock_signals.smart_router SmartRouter: minute_data_batch_partial via tushare FAILED: TuShare API 业务错误 code=429
+2026-09-18 16:20:31,759 WARNING astock_signals.smart_router SmartRouter: minute_data via tushare FAILED: TuShare 实时分钟返回空数据
+2026-09-18 16:20:52,370 WARNING astock_signals.smart_router SmartRouter: minute_data via tushare FAILED: intraday provider omitted required exact minutes: 10:05:00, 10:08:00, 10:12:00, 10:16:00, 10:20:00, 10:23:00, 10:24:00, 10:25:00
+2026-09-18 16:21:10,016 WARNING astock_signals.smart_router SmartRouter: minute_data via tushare FAILED: TuShare 实时分钟返回空数据
+2026-09-18 16:21:17,500 WARNING astock_signals.smart_router SmartRouter: minute_data via tushare FAILED: TuShare 实时分钟返回空数据
+2026-09-18 16:21:29,595 WARNING astock_signals.smart_router SmartRouter: minute_data via tushare FAILED: TuShare 实时分钟返回空数据
+2026-09-18 16:21:46,579 WARNING astock_signals.smart_router SmartRouter: minute_data_batch_partial via tushare DEADLINE: minute_data_batch_partial:tushare exceeded its total provider deadline
+2026-09-18 16:21:52,626 WARNING astock_signals.smart_router SmartRouter: minute_data via tushare FAILED: TuShare 实时分钟返回空数据
+2026-09-18 16:22:38,946 WARNING astock_signals.smart_router SmartRouter: minute_data via tushare FAILED: TuShare 实时分钟返回空数据
+2026-09-18 16:22:57,963 WARNING astock_signals.smart_router SmartRouter: minute_data via tushare FAILED: TuShare 实时分钟返回空数据

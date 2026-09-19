@@ -1,0 +1,78 @@
+[
+  {
+    "id": "301281.SZ",
+    "key": "active_pharmaceutical_ingredients",
+    "sector": "原料药",
+    "source_sector_name": "原料药",
+    "source_sector_provider": "东方财富",
+    "stage": "revenue",
+    "chain": [
+      "特色化学原料药",
+      "制剂"
+    ],
+    "company_fact": "化学原料药研发制造及制剂拓展。",
+    "ths_fact": "盐酸氟西汀分散片通过一致性评价并集采续标，数字经济只是内部智能制造。",
+    "fact": "化学原料药研发制造及制剂拓展。",
+    "reason": "已有原料药行业与自有产品一致；仿制药获批不误写创新药，内部数字化不归数字经济。"
+  },
+  {
+    "id": "301282.SZ",
+    "key": "cpo",
+    "sector": "共封装光学(CPO)",
+    "source_sector_name": "共封装光学(CPO)",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "光模块PCB"
+    ],
+    "company_fact": "自有PCB研发生产销售，通信与算力为核心应用领域之一。",
+    "ths_fact": "公司确认产品已用于AI算力及光模块领域。",
+    "fact": "自有PCB研发生产销售，通信与算力为核心应用领域之一。",
+    "reason": "已有CPO概念对应光模块电路板供应链，取实际应用delivery，不把PCB企业称CPO整机。"
+  },
+  {
+    "id": "301283.SZ",
+    "key": "three_child_policy",
+    "sector": "三胎",
+    "source_sector_name": "三胎概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "婴儿纸尿裤热熔胶"
+    ],
+    "company_fact": "卫材热熔胶生产销售，用于卫生巾纸尿裤等吸收性卫生用品。",
+    "ths_fact": "结构胶橡筋胶背胶及特种胶广泛应用婴儿纸尿裤片。",
+    "fact": "卫材热熔胶生产销售，用于卫生巾纸尿裤等吸收性卫生用品。",
+    "reason": "三胎既有题材有婴童卫材上游实际产品，不冒作母婴零售或医疗服务。"
+  },
+  {
+    "id": "301285.SZ",
+    "key": "semiconductors",
+    "sector": "芯片",
+    "source_sector_name": "芯片概念",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "半导体封装散热片"
+    ],
+    "company_fact": "精密连接器及金属机构件制造，持续拓展新应用。",
+    "ths_fact": "7月10日调研解释封装散热片已获客户代码和订单，按订单生产批量供货。",
+    "fact": "精密连接器及金属机构件制造，持续拓展新应用。",
+    "reason": "芯片题材有实际封装散热部件供货，delivery为已证事实；三季度收入增长是预期，机器人研发目标不当量产。"
+  },
+  {
+    "id": "301286.SZ",
+    "key": "semiconductors",
+    "sector": "芯片",
+    "source_sector_name": "芯片概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "半导体高纯气体"
+    ],
+    "company_fact": "高纯氮氩等综合气体生产销售，覆盖半导体电子与传统工业。",
+    "ths_fact": "氮气氩气用于半导体生产，客户包括士兰微。",
+    "fact": "高纯氮氩等综合气体生产销售，覆盖半导体电子与传统工业。",
+    "reason": "自有高纯气体供给芯片产业，既有芯片题材可追溯；不把气体供货称为芯片制造。"
+  }
+]

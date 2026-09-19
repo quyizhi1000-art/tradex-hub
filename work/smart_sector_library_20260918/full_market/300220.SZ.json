@@ -1,0 +1,57 @@
+{
+  "instrument_id": "300220.SZ",
+  "name": "金运激光",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "300220.SZ",
+    "name": "金运激光",
+    "memberships": [
+      "机械设备",
+      "自动化设备",
+      "激光设备",
+      "湖北板块",
+      "高市净率",
+      "专精特新",
+      "创业板综",
+      "机构重仓",
+      "新消费",
+      "谷子经济",
+      "微盘股",
+      "数据确权",
+      "元宇宙概念",
+      "盲盒经济",
+      "区块链",
+      "虚拟现实",
+      "3D打印"
+    ],
+    "business_sections": [
+      {
+        "title": "高端数字激光装备制造业务",
+        "kind": "主营业务",
+        "text": "具体分为金属激光、柔性非金属激光和激光熔覆三部分。报告期内，该业务受国际贸易环境（关税政策等）变动的影响，导致海外市场订单波动并加剧了竞争。"
+      },
+      {
+        "title": "研发优势",
+        "kind": "核心竞争力",
+        "text": "报告期内，公司及其子公司新申请商标5件，作品著作权76件，软件著作权8件，专利8件；新获授权专利9件。\n截至2025年12月31日，公司及其子公司共拥有授权专利的总数为197件，其中发明17件，实用新型64件，外观设计116件；正在申请的专利数量为25件，其中发明6件，实用新型12件，外观设计7件。拥有注册商标396件，其中，国内商标382件，国外商标14件；拥有软件著作权139件；拥有作品著作权154件。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ300220",
+    "fetched_at": "2026-09-18T23:04:44.160351+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "光纤光缆"
+}

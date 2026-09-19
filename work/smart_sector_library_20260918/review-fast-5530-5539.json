@@ -1,0 +1,152 @@
+[
+  {
+    "id": "920855.BJ",
+    "key": "other_special_equipment",
+    "sector": "其他专用设备",
+    "source_sector_name": "其他专用设备",
+    "source_sector_provider": "东方财富",
+    "stage": "revenue",
+    "chain": [
+      "高压清洗机与柱塞泵"
+    ],
+    "fact": "高压清洗机泵及附件研产销，OEM ODM供海外客户。",
+    "company_fact": "高压清洗机泵及附件研产销，OEM ODM供海外客户。",
+    "ths_fact": "概念仅专精特新和汇率受益。",
+    "reason": "采用已有设备行业，避免以外汇因素定义产业。"
+  },
+  {
+    "id": "920856.BJ",
+    "key": "robots",
+    "sector": "机器人",
+    "source_sector_name": "机器人概念",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "遥控破拆灭火机器人"
+    ],
+    "fact": "消防车制造销售及消防救援技术服务。",
+    "company_fact": "消防车制造销售及消防救援技术服务。",
+    "ths_fact": "已有履带式18米破拆灭火机器人产品。",
+    "reason": "特种消防机器人实际产品，非人形机器人。"
+  },
+  {
+    "id": "920857.BJ",
+    "key": "consumer_electronics",
+    "sector": "消费电子",
+    "source_sector_name": "消费电子概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "笔记本线组件与微型扬声器"
+    ],
+    "fact": "电子线组件和电声器件研产销，主要应用笔记本。",
+    "company_fact": "电子线组件和电声器件研产销，主要应用笔记本。",
+    "ths_fact": "线组件扬声器软材料贴合用于消费电子。",
+    "reason": "主体终端链明确，扫地机器人少量收入并非人形。"
+  },
+  {
+    "id": "920866.BJ",
+    "key": "agricultural_planting",
+    "sector": "农业种植",
+    "source_sector_name": "农业种植",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "种子与农药种植投入品"
+    ],
+    "fact": "农药制剂原药研产销，注重配方工艺。",
+    "company_fact": "农药制剂原药研产销，注重配方工艺。",
+    "ths_fact": "农药蔬菜种子及肥料实际经营。",
+    "reason": "种植产业投入品链，数字育种建设不等同数字经济服务收入。"
+  },
+  {
+    "id": "920870.BJ",
+    "key": "industrial_machine_tools",
+    "sector": "工业母机",
+    "source_sector_name": "工业母机",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "数控感应淬火机床"
+    ],
+    "fact": "中高端数控热处理成套设备及部件销售服务。",
+    "company_fact": "中高端数控热处理成套设备及部件销售服务。",
+    "ths_fact": "主营数控感应淬火机床用于多种制造领域。",
+    "reason": "母机热处理设备，使用SiC电源不视为SiC芯片生产。"
+  },
+  {
+    "id": "920871.BJ",
+    "key": "wind_power",
+    "sector": "风电",
+    "source_sector_name": "风电",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "风电树脂软管"
+    ],
+    "fact": "工业软管总成与改性塑料制造。",
+    "company_fact": "工业软管总成与改性塑料制造。",
+    "ths_fact": "风电多层树脂软管批量生产，已入奥特河谷供应链。",
+    "reason": "已供货风电材料链，固态少数投资不混为自有电芯业务。"
+  },
+  {
+    "id": "920873.BJ",
+    "key": "new_urbanization",
+    "sector": "新型城镇化",
+    "source_sector_name": "新型城镇化",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "城乡规划勘察工程咨询"
+    ],
+    "fact": "规划勘察设计检测及全流程工程咨询。",
+    "company_fact": "规划勘察设计检测及全流程工程咨询。",
+    "ths_fact": "市政建筑交通设计检测项目服务。",
+    "reason": "城市工程真实业务，内部AI设计平台不自动主归AI。"
+  },
+  {
+    "id": "920876.BJ",
+    "key": "consumer_electronics",
+    "sector": "消费电子",
+    "source_sector_name": "消费电子概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "智能终端ODM"
+    ],
+    "fact": "平板笔记本NAS及IoT终端整机设计制造交付。",
+    "company_fact": "平板笔记本NAS及IoT终端整机设计制造交付。",
+    "ths_fact": "明确消费电子终端ODM服务。",
+    "reason": "AI PC旧预计批量时间不足当实际量产证据，保留成熟终端产业。"
+  },
+  {
+    "id": "920879.BJ",
+    "key": "water_conservancy",
+    "sector": "水利",
+    "source_sector_name": "水利",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "水利工程安全监测"
+    ],
+    "fact": "精密传感采集终端及安全监测系统服务水利等。",
+    "company_fact": "精密传感采集终端及安全监测系统服务水利等。",
+    "ths_fact": "参与引汉济渭引江济淮等多个水网工程。",
+    "reason": "水利监测有具体项目；雅下前期论证设备不等同主体工程订单。"
+  },
+  {
+    "id": "920885.BJ",
+    "key": "commercial_space",
+    "sector": "商业航天",
+    "source_sector_name": "商业航天",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "航天伺服控制系统"
+    ],
+    "fact": "伺服驱动电机随动总成服务航天军工等。",
+    "company_fact": "伺服驱动电机随动总成服务航天军工等。",
+    "ths_fact": "2025年已承接落实商业航天订单并交付参与发射。",
+    "reason": "实际商业发射应用明确，2026多批生产计划不当已实现。"
+  }
+]

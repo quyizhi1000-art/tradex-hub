@@ -1,0 +1,75 @@
+{
+  "instrument_id": "300605.SZ",
+  "name": "恒锋信息",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "300605.SZ",
+    "name": "恒锋信息",
+    "memberships": [
+      "计算机",
+      "软件开发",
+      "垂直应用软件",
+      "福建板块",
+      "养老金",
+      "创业板综",
+      "QFII重仓",
+      "转债标的",
+      "DeepSeek概念",
+      "微盘股",
+      "新型城镇化",
+      "东数西算",
+      "数字经济",
+      "数据中心",
+      "智慧政务",
+      "乡村振兴",
+      "人工智能",
+      "国产软件",
+      "养老概念",
+      "智慧城市"
+    ],
+    "business_sections": [
+      {
+        "title": "智慧行业解决方案",
+        "kind": "主营业务",
+        "text": "公司通过多年发展，已成为国内具有较强竞争力的智慧城市信息技术和智慧行业解决方案提供商，以智慧引领企业发展，为客户提供智慧城市行业解决方案，业务涉及信息科技和健康养老。公司智慧行业解决方案主要服务于智慧城市、公共安全、民生服务、减灾兴利、信息基础设施细分应用领域。"
+      },
+      {
+        "title": "大数据平台优势",
+        "kind": "核心竞争力",
+        "text": "通用的数据治理能力平台，包括能力支撑底座、数据采集、数仓管理、数据共享开放平台等。"
+      },
+      {
+        "title": "AI智慧视觉平台优势",
+        "kind": "核心竞争力",
+        "text": "采用先进的机器学习和深度学习技术，可对人物/车辆/行为/场景等元素进行自动识别、分类、跟踪和分析。"
+      },
+      {
+        "title": "物联网中台优势",
+        "kind": "核心竞争力",
+        "text": "基于云计算、大数据和 AI 技术的智能化平台，可实现设备间的智能交互和数据共享。"
+      },
+      {
+        "title": "HFRDP数字研发中台优势",
+        "kind": "核心竞争力",
+        "text": "公司主要服务于客户已有信息化资源的高效整合以及新信息化系统的集约建设，满足客户对信息化统一规划、统一管理以及一体化建设的需求。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ300605",
+    "fetched_at": "2026-09-18T23:12:32.925351+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "智慧城市信息技术服务"
+}

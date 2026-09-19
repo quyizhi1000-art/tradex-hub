@@ -337,6 +337,7 @@ def build_collector(
     from tradex.dashboard.risk_service import get_rotation_radar_as_of
     from tradex.market_watch.reconstruction import SameDayPostCloseReconstructor
     from tradex.market_watch.recovery_source_cache import RecoverySourceMatrixStore
+    from tradex.market_watch.trajectory_publication import IntradayTrajectoryPublisher
 
     reconstructor = SameDayPostCloseReconstructor(
         history=history,
@@ -415,6 +416,9 @@ def build_collector(
         persist_snapshot=history.record,
         history_records=retained_history_records,
         prepare_daily_recovery=prepare_daily_recovery,
+        publish_trajectories=IntradayTrajectoryPublisher(
+            history=history, ledger=ledger, rotation_loader=get_rotation_radar_as_of,
+        ),
         clock=clock,
     )
 
@@ -607,6 +611,15 @@ def _generate_latest_limit_up_pool(
     if reuse_existing:
         with InstrumentTaxonomyReader() as taxonomy_reader:
             taxonomy_status = taxonomy_reader.status()
+        relationship_revision = taxonomy_status.catalog_revision if taxonomy_status else None
+        from tradex.smart_sector_library.catalog import SmartSectorCatalog
+        from tradex.market_watch.integrity import stable_sha256
+        from datetime import date
+        pool_date = date.fromisoformat(str(accepted.source_payload["as_of"])[:10])
+        if pool_date >= date(2026, 9, 18):
+            with SmartSectorCatalog(as_of=pool_date) as sectors:
+                relationship_revision = stable_sha256({"business": relationship_revision,
+                                                      "market": sectors.revision})
         with LimitUpPoolStore() as store:
             existing = store.get_by_source_revision(
                 accepted.pointer.source_snapshot_revision
@@ -614,7 +627,7 @@ def _generate_latest_limit_up_pool(
         existing_is_reusable = (
             existing is not None
             and existing.relationship_catalog_revision
-            == (taxonomy_status.catalog_revision if taxonomy_status else None)
+            == relationship_revision
             and all(
                 item.board_count_basis
                 in {"daily_closed_limit_up_history", "unavailable"}
@@ -927,10 +940,10 @@ def _latest_final_close_revision(trade_date: date) -> str | None:
     return _final_close_pointer_revision(envelope.get("latest_accepted_real"), trade_date)
 
 
-def _refresh_sector_catalog(*, schedule_backfill=True):
+def _refresh_sector_catalog(*, schedule_backfill=True, now=None):
     from .sector_catalog_collector import refresh_sector_catalog
 
-    return refresh_sector_catalog(schedule_backfill=schedule_backfill)
+    return refresh_sector_catalog(schedule_backfill=schedule_backfill, now=now)
 
 
 def _run_post_close_resonance_loop(
@@ -951,10 +964,13 @@ def _run_post_close_resonance_loop(
     completed_announcement_buckets = set()
     completed_portfolio_buckets = set()
     completed_portfolio_close_dates = set()
+    completed_macd_j_bucket = None
     while not stop_event.is_set():
         observed = clock()
+        catalog_backlog = False
         try:
-            _refresh_sector_catalog()
+            catalog_result = _refresh_sector_catalog()
+            catalog_backlog = bool(catalog_result.get("history_missing"))
         except Exception:
             logger.exception("sector catalog materialization failed; prior revision retained")
         session = a_share_session(observed)
@@ -1010,6 +1026,21 @@ def _run_post_close_resonance_loop(
             session.is_open
             and intraday_bucket not in completed_portfolio_buckets
         ) or post_close_portfolio_due
+        from tradex.stock_selection.intraday_macd_j import refresh_watch, scan_slot
+        macd_observed = clock()
+        macd_session = a_share_session(macd_observed)
+        macd_time = macd_observed.time().replace(tzinfo=None)
+        macd_bucket = macd_observed.replace(second=0, microsecond=0)
+        macd_j_due = macd_session.is_trading_day and (
+            macd_session.is_open or scan_slot(macd_observed) is not None or time(9, 20) <= macd_time < time(9, 30)
+        ) and completed_macd_j_bucket != macd_bucket
+        if macd_j_due:
+            # Use the existing auxiliary owner; never acquire from a page read.
+            try:
+                refresh_watch(now=macd_observed)
+            except Exception:
+                logger.exception("intraday MACD J page alert refresh failed")
+            completed_macd_j_bucket = macd_bucket
         if limit_up_due:
             try:
                 result = _generate_latest_limit_up_pool(
@@ -1122,7 +1153,26 @@ def _run_post_close_resonance_loop(
             )
         except Exception:
             logger.exception("intraday sector trajectory repair scheduling failed")
-        stop_event.wait(check_interval_seconds)
+        # In market breaks the persisted backlog should drain, not wait thirty
+        # seconds between every small batch. Trading capture keeps its idle windows.
+        idle_backfill = session.is_trading_day and (
+            session.phase is TradingSessionPhase.MIDDAY_BREAK or after_close)
+        stop_event.wait(min(check_interval_seconds, 1.0) if catalog_backlog and idle_backfill else check_interval_seconds)
+
+
+def _run_supervised_auxiliary_loop(stop_event, *, run_loop=None, retry_delay_seconds=5.0):
+    """Restart the existing auxiliary owner if an uncaught cycle error escapes."""
+    run_loop = run_loop or _run_post_close_resonance_loop
+    while not stop_event.is_set():
+        try:
+            run_loop(stop_event)
+            if stop_event.is_set():
+                return
+            logger.error("collector auxiliary loop exited unexpectedly; restarting")
+        except Exception:
+            logger.exception("collector auxiliary loop failed; resuming persisted recovery")
+        if stop_event.wait(retry_delay_seconds):
+            return
 
 
 def _run_collector_cycle(
@@ -1148,9 +1198,12 @@ def _run_collector_cycle(
                 }
             print(json.dumps(result, ensure_ascii=False, sort_keys=True))
             return
+        # Establish the managed heartbeat before large directory projections
+        # compete for CPU/SQLite. Startup reconciliation remains authoritative.
+        collector.start()
         resonance_stop_event = threading.Event()
         resonance_thread = threading.Thread(
-            target=_run_post_close_resonance_loop,
+            target=_run_supervised_auxiliary_loop,
             args=(resonance_stop_event,),
             name="sector-resonance-post-close",
             daemon=True,
@@ -1183,11 +1236,13 @@ def _run_supervised(
     while not stop_event.is_set():
         try:
             run_cycle(stop_event, once=False)
-            return
+            if stop_event.is_set():
+                return
+            logger.error("collector runtime exited unexpectedly; reopening persistence owners")
         except Exception:  # noqa: BLE001 - process boundary must self-heal
             logger.exception("collector runtime failed; reopening persistence owners")
-            if stop_event.wait(retry_delay_seconds):
-                return
+        if stop_event.wait(retry_delay_seconds):
+            return
 
 
 def main(argv: list[str] | None = None) -> int:

@@ -1,0 +1,61 @@
+{
+  "instrument_id": "301025.SZ",
+  "name": "读客文化",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "301025.SZ",
+    "name": "读客文化",
+    "memberships": [
+      "传媒",
+      "出版",
+      "大众出版",
+      "上海板块",
+      "创业板综",
+      "融资融券",
+      "AI语料",
+      "数字阅读",
+      "婴童概念"
+    ],
+    "business_sections": [
+      {
+        "title": "民营图书策划发行企业",
+        "kind": "主营业务",
+        "text": "读客文化股份有限公司是一家专注于“发扬传统文化、培养本土作家、践行国家文化政策”的创新型民营图书策划发行企业。公司谨记持续创新、踏实经营的重要性，继续秉持着“激发个人成长”的使命，认真贯彻国家文化战略，始终坚持把社会效益放在首位、社会效益与经济效益相结合，始终坚持为人民服务、为社会主义服务，努力创作策划出人民喜闻乐见、有品位、正能量、制作精良、思想精深、艺术精湛的作品。"
+      },
+      {
+        "title": "打造“创意生产线”，推进“创意工业化”",
+        "kind": "核心竞争力",
+        "text": "公司长期以领先全行业的品种效率而著称，这主要源于公司专注畅销书研发方法的体系建设。在成立之初，公司就推出“读客方法”，成为国内图书行业首家以完整方法论体系驱动创意生产的出版企业。"
+      },
+      {
+        "title": "深耕精品内容，坚持精细化运营策略",
+        "kind": "核心竞争力",
+        "text": "公司坚持精品化发展策略，始终将内容质量放在首位，严格依照“创意流水线”标准化打造精品内容，致力于实现品种运营效率与产品盈利能力双提升。"
+      },
+      {
+        "title": "持续加强版权储备，发扬传统文化，培养本土作家",
+        "kind": "核心竞争力",
+        "text": "公司从国内原创小说起步，2012年进军国际版权市场，2017年进入国内主流版权市场，一步步打通了版权获取渠道和积累了优质的作者团队，也为市场挖掘出了大量顶级作家。目前合作作家超700位，国内原创作者近200位，近100位作者更是在公司发表了其处女作。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ301025",
+    "fetched_at": "2026-09-18T23:21:12.312994+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [
+    "影视传媒"
+  ],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "纸质图书"
+}

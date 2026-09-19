@@ -1,0 +1,74 @@
+{
+  "instrument_id": "000410.SZ",
+  "name": "沈阳机床",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "000410.SZ",
+    "name": "沈阳机床",
+    "memberships": [
+      "机械设备",
+      "通用设备",
+      "机床工具",
+      "辽宁板块",
+      "2026中报首亏",
+      "破增发价股",
+      "小盘成长",
+      "小盘股",
+      "深股通",
+      "融资融券",
+      "机构重仓",
+      "并购重组概念",
+      "工业母机",
+      "东北振兴",
+      "工业互联网",
+      "人工智能",
+      "央国企改革"
+    ],
+    "business_sections": [
+      {
+        "title": "产品研发、机床制造、销售服务、行业解决方案、机床零部件配套",
+        "kind": "主营业务",
+        "text": "公司主营业务包括产品研发、机床制造、销售服务、行业解决方案、机床零部件配套等，可面向机械制造核心领域提供量大面广的通用型机床，面向行业客户提供个性化的解决方案，面向行业内企业提供铸件和主轴等关键功能部件。"
+      },
+      {
+        "title": "核心技术攻关能力",
+        "kind": "核心竞争力",
+        "text": "坚决扛起央企担当，核心技术攻关取得扎实成效。实施科研项目，多项目高质量通过验收，新获批国家及省市科研项目。全年荣获各级科技奖励多项，行业话语权持续增强。"
+      },
+      {
+        "title": "高端产品研制与服务高端客户能力",
+        "kind": "核心竞争力",
+        "text": "加速高端产品研制，服务高端客户能力显著增强。聚焦国家重点领域，成功研制多款高端产品，新产品贡献率持续提升。产品顺利交付重点客户，服务国家重点领域的能力进一步增强，为关键领域提供高端装备保障。"
+      },
+      {
+        "title": "高端制造工艺技术体系",
+        "kind": "核心竞争力",
+        "text": "重构工艺技术体系，全面夯实高端制造根基。建立“技术中心—工厂”两级工艺技术体系，围绕主营产品，分阶段推进工艺“拉平补齐”与标准升级，完成多项关键工序优化及工艺规范编制，实现多系列产品全覆盖。健全两级工艺纪律检查机制，强化标准刚性执行，产品一致性、可靠性及精度保持性显著提升。"
+      },
+      {
+        "title": "产业链协同与自主可控能力",
+        "kind": "核心竞争力",
+        "text": "强化产业链协同，自主可控水平稳步提升。积极推动上下游协同创新，打造产业链共同体，建立重点领域核心人才库，为产业链安全提供坚实人才支撑。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ000410",
+    "fetched_at": "2026-09-18T22:35:23.607292+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [
+    "工业母机"
+  ],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "机床"
+}

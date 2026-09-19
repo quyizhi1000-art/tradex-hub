@@ -1,0 +1,485 @@
+[
+  {
+    "id": "600864.SH",
+    "key": "securities",
+    "sector": "券商",
+    "chain": [
+      "江海证券：经纪、投行、资管与自营"
+    ],
+    "stage": "revenue",
+    "fact": "EM证券业务段仅列经营范围，未充分展开；年报确认证券业务由全资江海证券开展，2025年营业收入13.64亿元。",
+    "ths_fact": "全资江海证券开展证券业务；期货业务另为参股关系。",
+    "company_fact": "EM证券业务段仅列经营范围，未充分展开；年报确认证券业务由全资江海证券开展，2025年营业收入13.64亿元。",
+    "reason": "券商是已形成完整持牌经营的市场身份，热电业务并存不否定该身份；不把江海证券误记为一般参股。",
+    "source_sector_name": "券商概念",
+    "source_sector_provider": "东方财富",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "600864.SH_12182931",
+        "source_kind": "official_filing",
+        "publisher": "哈投股份",
+        "title": "2025年年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=600864&id=12182931",
+        "published_at": null,
+        "assertions": [
+          "江海证券为全资子公司，开展证券经纪等业务。",
+          "2025年江海证券营业收入13.64亿元。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "600865.SH",
+    "key": "retail",
+    "sector": "零售",
+    "chain": [
+      "百货委托经营与商业物业运营"
+    ],
+    "stage": "revenue",
+    "fact": "杭州百货大楼自2008年委托浙江银泰经营20年，公司获取委托经营利润，同时经营物业租赁。",
+    "ths_fact": "物业管理解释涉及百货商业物业及酒店资产出租。",
+    "company_fact": "杭州百货大楼自2008年委托浙江银泰经营20年，公司获取委托经营利润，同时经营物业租赁。",
+    "reason": "已有零售板块覆盖百货经营及相关商业资产；不能因采取委托经营就抹去零售身份。共享医院的历史合作不足以替代。",
+    "source_sector_name": "零售概念",
+    "source_sector_provider": "东方财富",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600866.SH",
+    "key": "synthetic_biology",
+    "sector": "合成生物",
+    "chain": [
+      "微生物细胞工厂—氨基酸、核苷酸和调味发酵产品"
+    ],
+    "stage": "revenue",
+    "fact": "EM食品、饲料、医药发酵产品均已经营；年报确认细胞工厂构建、筛选优化、中试及工业化流程。",
+    "ths_fact": "合成生物解释列核心技术及发酵基地；玉米等解释对应微生物发酵制造。",
+    "company_fact": "EM食品、饲料、医药发酵产品均已经营；年报确认细胞工厂构建、筛选优化、中试及工业化流程。",
+    "reason": "合成生物对应已经产业化的制造技术和产品，并非仅发展规划；代糖新品的推广不替代现有完整主线。",
+    "source_sector_name": "合成生物",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "600866.SH_12196007",
+        "source_kind": "official_filing",
+        "publisher": "星湖科技",
+        "title": "2025年年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=600866&id=12196007",
+        "published_at": null,
+        "assertions": [
+          "公司专注合成生物学，覆盖研发创新、生产制造及市场营销。",
+          "研发流程贯通细胞工厂构建、高通量优化、中试和工业化。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "600867.SH",
+    "key": "weight_loss_drugs",
+    "sector": "减肥药",
+    "chain": [
+      "GLP-1/GIP双靶点减重创新药临床开发"
+    ],
+    "stage": "pilot",
+    "fact": "EM列胰岛素、利拉鲁肽等已上市降糖产品；原年报另确认THDBH120减重II期已完成入组、处于访视。",
+    "ths_fact": "减肥药解释列GLP-1及双靶点产品管线；创新药解释列临床研发。",
+    "company_fact": "EM列胰岛素、利拉鲁肽等已上市降糖产品；原年报另确认THDBH120减重II期已完成入组、处于访视。",
+    "reason": "减重是已有真实临床项目支撑的市场主题；阶段为临床，不能借降糖药销售声称减重药已获批或兑现收入。以减重获批、授权或临床进展触发复核。",
+    "source_sector_name": "减肥药",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "600867.SH_12114777",
+        "source_kind": "official_filing",
+        "publisher": "通化东宝",
+        "title": "2025年年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=600867&id=12114777",
+        "published_at": null,
+        "assertions": [
+          "THDBH120减重适应症II期于2025年8月完成全部病例入组，目前处于访视阶段。",
+          "已上市利拉鲁肽的销售与在研减重项目区分。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "600868.SH",
+    "key": "spatiotemporal_big_data",
+    "sector": "时空大数据",
+    "chain": [
+      "广州国测：测绘、地理信息采集处理及应用"
+    ],
+    "stage": "revenue",
+    "fact": "EM确认地理测绘业务已产生收入，并列水电及新并表BPO业务。",
+    "ths_fact": "时空大数据和数据要素对应广州国测测绘、地理信息及数据服务。",
+    "company_fact": "EM确认地理测绘业务已产生收入，并列水电及新并表BPO业务。",
+    "reason": "测绘数据服务是持续经营且能对应已有时空大数据板块的新业务身份；飞轮储能参股及矿产历史信息不据此写成并表收入。BPO后续市场身份明确时再复核。",
+    "source_sector_name": "时空大数据",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600869.SH",
+    "key": "high_speed_copper_interconnect",
+    "sector": "铜缆高速连接",
+    "chain": [
+      "智算中心高速铜缆组件"
+    ],
+    "stage": "delivery",
+    "fact": "EM列智能缆网与算力业务；2026半年报确认自主研发高速铜缆组件，服务智算集群高速互联。",
+    "ths_fact": "2025年11月解释确认高速铜缆批量供货，液冷板仍为测试及量产筹备。",
+    "company_fact": "EM列智能缆网与算力业务；2026半年报确认自主研发高速铜缆组件，服务智算集群高速互联。",
+    "reason": "高速互联有实际产品及供货依据，优先于仅在研超导等用途主题；按已供货记录delivery，不声称单独收入规模，液冷量产另行复核。",
+    "source_sector_name": "铜缆高速连接",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "600869.SH_12519012",
+        "source_kind": "official_filing",
+        "publisher": "远东股份",
+        "title": "2026年半年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=600869&id=12519012",
+        "published_at": null,
+        "assertions": [
+          "公司自主研发高速铜缆组件，适配智算集群高带宽低延迟互联需求。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "600871.SH",
+    "key": "oil_service_engineering",
+    "sector": "油服工程",
+    "chain": [
+      "地球物理、钻井、测录井和油气工程服务"
+    ],
+    "stage": "revenue",
+    "fact": "主营完整覆盖地球物理、钻井、测录井、井下作业和工程建设。",
+    "ths_fact": "页岩气、天然气及海工解释对应油气勘探开发工程和钻井装备服务。",
+    "company_fact": "主营完整覆盖地球物理、钻井、测录井、井下作业和工程建设。",
+    "reason": "公司市场身份是实际提供油气工程服务，不是把服务客户资源计作自有油气开采；氢能及CCUS研发作为后续跟踪。",
+    "source_sector_name": "油服工程",
+    "source_sector_provider": "东方财富",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600872.SH",
+    "key": "condiments",
+    "sector": "调味品",
+    "chain": [
+      "厨邦等酱油、鸡精与复合调味产品"
+    ],
+    "stage": "revenue",
+    "fact": "EM确认美味鲜调味食品经营，另有园区和地产业务。",
+    "ths_fact": "调味品解释确认美味鲜及厨邦产品，预制菜涉及复合调味拓展。",
+    "company_fact": "EM确认美味鲜调味食品经营，另有园区和地产业务。",
+    "reason": "品牌调味食品与供应链业务形成稳定市场身份；复合调味延伸纳入链条，不把拟收购或部分预制菜反推全公司新主线。",
+    "source_sector_name": "调味品",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600873.SH",
+    "key": "synthetic_biology",
+    "sector": "合成生物",
+    "chain": [
+      "合成生物发酵—氨基酸和营养产品"
+    ],
+    "stage": "revenue",
+    "fact": "主营明确基于合成生物技术规模化生产氨基酸。",
+    "ths_fact": "合成生物解释明确营养氨基酸及多糖等制造，维生素产品亦实际生产。",
+    "company_fact": "主营明确基于合成生物技术规模化生产氨基酸。",
+    "reason": "技术、产品与经营环节直接交叉支撑合成生物；参股疫苗及个别代糖产品不是更充分的主身份。",
+    "source_sector_name": "合成生物",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600874.SH",
+    "key": "wastewater_treatment",
+    "sector": "污水处理",
+    "chain": [
+      "污水处理运营、再生水与污泥处置"
+    ],
+    "stage": "revenue",
+    "fact": "主营污水和再生水服务，并拓展固废、供热与光储。",
+    "ths_fact": "污水处理解释确认运营项目；机器人为水下清刷等自研作业工具。",
+    "company_fact": "主营污水和再生水服务，并拓展固废、供热与光储。",
+    "reason": "污水治理是完整对外运营业务，储能和机器人主要服务厂区运营，现有材料不足以把工具用途改成主要市场身份。",
+    "source_sector_name": "污水处理",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600875.SH",
+    "key": "nuclear_power",
+    "sector": "核电",
+    "chain": [
+      "核电常规岛与核岛相关装备"
+    ],
+    "stage": "revenue",
+    "fact": "主营能源装备覆盖火、水、核、风、气，核电为已有生产经营产品。",
+    "ths_fact": "核电解释列核电设备市场及供货基础；可控核聚变为重机参与研发的信息。",
+    "company_fact": "主营能源装备覆盖火、水、核、风、气，核电为已有生产经营产品。",
+    "reason": "核电有持续装备业务支撑；聚变材料未核到具体新增交付或收入，保留其后续项目证据为复核触发，不把聚变研发写成收入。",
+    "source_sector_name": "核电",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600876.SH",
+    "key": "photovoltaic_glass",
+    "sector": "光伏玻璃",
+    "chain": [
+      "光伏组件封装用前板、背板玻璃"
+    ],
+    "stage": "revenue",
+    "fact": "主营太阳能电池组件封装玻璃，运营多家生产基地。",
+    "ths_fact": "光伏玻璃解释列实际生产基地及出货，触摸屏电子玻璃信息较旧。",
+    "company_fact": "主营太阳能电池组件封装玻璃，运营多家生产基地。",
+    "reason": "现有产业产品与市场标签一致，主归属取光伏玻璃；不沿用已不能代表当前业务的旧触屏材料。",
+    "source_sector_name": "光伏玻璃",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600877.SH",
+    "key": "satellite_navigation",
+    "sector": "卫星导航",
+    "chain": [
+      "北斗导航、授时及短报文芯片"
+    ],
+    "stage": "revenue",
+    "fact": "主营硅基模拟芯片、器件与模组，实际覆盖卫星通信和导航。",
+    "ths_fact": "北斗多模全频高精度产品用于测绘和终端，短报文SoC进入多款智能手机供应链。",
+    "company_fact": "主营硅基模拟芯片、器件与模组，实际覆盖卫星通信和导航。",
+    "reason": "导航及短报文是具备商业应用的芯片细分身份；6G和星闪材料分别偏预研或联盟，不据此替换已有产品主线。",
+    "source_sector_name": "卫星导航",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600879.SH",
+    "key": "commercial_space",
+    "sector": "商业航天",
+    "chain": [
+      "航天测控、惯性导航、微电子及机电组件"
+    ],
+    "stage": "revenue",
+    "fact": "主营航天电子及无人系统，电子业务覆盖导航、测控、网络、微电子和机电传感。",
+    "ths_fact": "商业航天解释确认产品已有应用，其他解释列航天电子配套。",
+    "company_fact": "主营航天电子及无人系统，电子业务覆盖导航、测控、网络、微电子和机电传感。",
+    "reason": "商业航天有现成航天配套产品支撑，链条是电子组件并非卫星整星或运营；量子、太赫兹研究不当成成熟营收。",
+    "source_sector_name": "商业航天",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600880.SH",
+    "key": "ai_agents",
+    "sector": "AI智能体",
+    "chain": [
+      "生学教育：教、学、评智能体与智慧校园应用"
+    ],
+    "stage": "delivery",
+    "fact": "EM智慧管理业务确认生学教育自研AI教育产品和多类智慧校园方案。",
+    "ths_fact": "2025年9月9日解释确认生学教育数十个专项智能体已在小学至高中场景落地。",
+    "company_fact": "EM智慧管理业务确认生学教育自研AI教育产品和多类智慧校园方案。",
+    "reason": "现有AI教育业务与已落地智能体共同支撑；delivery仅指THS所述场景落地，未证单列智能体收入。每经传媒的参股关系与生学业务分开，不用未签协议扩大合作事实。",
+    "source_sector_name": "AI智能体",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600881.SH",
+    "key": "innovative_drugs",
+    "sector": "创新药",
+    "chain": [
+      "参一胶囊等创新药生产销售及研发"
+    ],
+    "stage": "revenue",
+    "fact": "EM确认医药制造及流通；年报确认参一胶囊为国家一类新药，已开展临床和药店等销售。",
+    "ths_fact": "创新药解释确认国家一类新药参一胶囊已获批生产，其他候选包含研发阶段产品。",
+    "company_fact": "EM确认医药制造及流通；年报确认参一胶囊为国家一类新药，已开展临床和药店等销售。",
+    "reason": "真实上市创新药形成可识别市场题材，不因集团同时经营建材而排除；revenue仅指已售参一胶囊，不外推维卡格雷等在研药已商业化。",
+    "source_sector_name": "创新药",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "600881.SH_12263348",
+        "source_kind": "official_filing",
+        "publisher": "亚泰集团",
+        "title": "2025年年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=600881&id=12263348",
+        "published_at": null,
+        "assertions": [
+          "参一胶囊为公司国家一类新药。",
+          "参一胶囊通过临床渠道销售，并向连锁药房及基层渠道扩展。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "600882.SH",
+    "key": "dairy",
+    "sector": "乳业",
+    "chain": [
+      "奶酪棒、马苏里拉等奶酪及特色乳品"
+    ],
+    "stage": "revenue",
+    "fact": "主营以奶酪为核心的特色乳制品研发生产销售，并经营液态奶及乳品贸易。",
+    "ths_fact": "乳业解释具体列奶酪和液态奶；AI智能体用于营销费用及导购内部提效。",
+    "company_fact": "主营以奶酪为核心的特色乳制品研发生产销售，并经营液态奶及乳品贸易。",
+    "reason": "奶酪产品与消费品牌构成完整市场身份；内部AI工具和数据资产探索未证明已形成独立对外技术经营。",
+    "source_sector_name": "乳业",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600883.SH",
+    "key": "edible_fungi",
+    "sector": "食用菌",
+    "chain": [
+      "松茸、牛肝菌等采购加工及销售"
+    ],
+    "stage": "revenue",
+    "fact": "EM确认全资香格里拉博闻经营松茸及制品、牛肝菌等采购、初加工及销售。",
+    "ths_fact": "THS仅人民币贬值等外围概念，未给出具体食用菌解释，不能将汇率受益作为经营身份。",
+    "company_fact": "EM确认全资香格里拉博闻经营松茸及制品、牛肝菌等采购、初加工及销售。",
+    "reason": "选择EM真实食用菌行业标签，与明确经营产品相符；不沿用股票名称或旧水泥业务推断。",
+    "source_sector_name": "食用菌",
+    "source_sector_provider": "东方财富",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600884.SH",
+    "key": "anode_materials",
+    "sector": "负极材料",
+    "chain": [
+      "人造石墨、硅基负极及软硬碳材料"
+    ],
+    "stage": "revenue",
+    "fact": "EM确认锂电负极及钠电材料研发生产销售，与偏光片双业务经营。",
+    "ths_fact": "负极材料解释确认石墨及硅基产品供货，2026年解释确认硅基产品批量供应；OLED另有实际偏光片业务。",
+    "company_fact": "EM确认锂电负极及钠电材料研发生产销售，与偏光片双业务经营。",
+    "reason": "负极材料是完整技术产品及客户链支撑的市场身份；OLED并存不否定，固态研发不能把全部负极收入改记固态电池收入。",
+    "source_sector_name": "负极材料",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600885.SH",
+    "key": "automotive_electronics",
+    "sector": "汽车电子",
+    "chain": [
+      "新能源汽车高压直流继电器及车用电气部件"
+    ],
+    "stage": "revenue",
+    "fact": "EM继电器和电气产品主营列汽车继电器、新能源继电器及汽车应用。",
+    "ths_fact": "汽车电子及新能源汽车解释列高压直流继电器、主电路控制和充电配套，已有车企供货。",
+    "company_fact": "EM继电器和电气产品主营列汽车继电器、新能源继电器及汽车应用。",
+    "reason": "车用继电器有产品、供货和经营交叉证据，形成明确细分身份；低空和星载连接器存在应用，但当前材料不足以替代成熟车电主线。",
+    "source_sector_name": "汽车电子",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600886.SH",
+    "key": "green_power",
+    "sector": "绿色电力",
+    "chain": [
+      "水电为基础的风光等清洁电力运营"
+    ],
+    "stage": "revenue",
+    "fact": "截至2025年底已有控股水电2130.45万千瓦、风电414.03万千瓦和光伏768.94万千瓦，另有火电。",
+    "ths_fact": "绿色电力解释确认水电为主、水火并济的项目运营。",
+    "company_fact": "截至2025年底已有控股水电2130.45万千瓦、风电414.03万千瓦和光伏768.94万千瓦，另有火电。",
+    "reason": "清洁发电拥有实际装机和运营，绿色电力匹配市场业务组合；抽水蓄能项目公司存在不等于所有规划容量已投产。",
+    "source_sector_name": "绿色电力",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600887.SH",
+    "key": "dairy",
+    "sector": "乳业",
+    "chain": [
+      "液态奶、奶粉、酸奶、奶酪及乳品"
+    ],
+    "stage": "revenue",
+    "fact": "主营乳品及健康饮品生产销售，涵盖液态奶、奶粉、酸奶、乳脂等。",
+    "ths_fact": "乳业解释与产品系列一致；宠物业务仅初步尝试布局依宝品牌。",
+    "company_fact": "主营乳品及健康饮品生产销售，涵盖液态奶、奶粉、酸奶、乳脂等。",
+    "reason": "乳业体现现有完整品牌及生产销售经营；宠物品牌可跟踪实际规模，不因推出品牌即替换主要市场身份。",
+    "source_sector_name": "乳业",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600888.SH",
+    "key": "integrated_die_casting",
+    "sector": "一体化压铸",
+    "chain": [
+      "汽车一体化压铸用免热处理铝合金材料"
+    ],
+    "stage": "delivery",
+    "fact": "EM主营高纯铝、铝制品和合金材料，产品用于汽车制造等领域。",
+    "ths_fact": "2025年9月官微解释确认免热合金材料实现批量稳定供应。",
+    "company_fact": "EM主营高纯铝、铝制品和合金材料，产品用于汽车制造等领域。",
+    "reason": "一体化压铸对应已供货的汽车合金材料，是传统铝加工向明确新应用的实际延伸；delivery不把全公司铝收入计成该细分材料收入。",
+    "source_sector_name": "一体化压铸",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600889.SH",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "chain": [
+      "南京工艺：人形机器人滚动功能部件"
+    ],
+    "stage": "orders",
+    "fact": "EM明确2026年3月南京工艺100%完成置入，原资产负债置出，经营转为丝杠及导轨等滚动功能部件。",
+    "ths_fact": "2024年风险提示确认个别产品应用和约10.24万元订单，未形成批量订单。",
+    "company_fact": "EM明确2026年3月南京工艺100%完成置入，原资产负债置出，经营转为丝杠及导轨等滚动功能部件。",
+    "reason": "已完成交易使机器人功能部件成为真实业务关联，结合已有市场主题取人形机器人；仅按已披露小额订单，不夸大批量或收入。后续人形订单放量及实际交付触发更新。",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "600889_20260302_asset_completion",
+        "source_kind": "official_filing",
+        "publisher": "南京化纤",
+        "title": "关于标的资产过户完成的公告（2026-013）",
+        "source_url": "https://stock.stockstar.com/notice/SN2026030200035391.shtml",
+        "published_at": "2026-03-02",
+        "assertions": [
+          "南京工艺100%股份已变更至上市公司，成为全资子公司。",
+          "置出资产全部权利义务转移，交易标的资产交割完成。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "600892.SH",
+    "key": "online_games",
+    "sector": "网络游戏",
+    "chain": [
+      "游戏研发、发行及运营"
+    ],
+    "stage": "revenue",
+    "fact": "EM主营包括游戏研发发行运营及影视内容制作发行，已形成两类业务集群。",
+    "ths_fact": "网络游戏和手机游戏解释列桃花源记等运营产品；短剧解释为新公司拟设安排。",
+    "company_fact": "EM主营包括游戏研发发行运营及影视内容制作发行，已形成两类业务集群。",
+    "reason": "已有持续运营游戏产品支撑网络游戏身份；短剧新业务经营进展继续跟踪，不能把设立计划直接记成已实现短剧收入。",
+    "source_sector_name": "网络游戏",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  }
+]

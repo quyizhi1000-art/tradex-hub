@@ -1,0 +1,474 @@
+--- work\radar_recent_cross_20260918\before\docs__intraday-macd-j.md
++++ docs\intraday-macd-j.md
+@@ -1,16 +1,18 @@
+ # 双拐雷达：当前规则
+ 
+-2026-09-18 经确认，盘中雷达沿用盘后 `macd-j-upturn-main-board.v1` 条件，不放宽选股规则：
++2026-09-18 经确认，盘后选股和盘中雷达共同使用 `macd-j-upturn-main-board.v3`：
+ 
+-- 昨日 DIF ≤ DEA，当前 DIF > DEA，即当日新金叉。
++- 最近一次从 DIF ≤ DEA 到 DIF > DEA 的金叉发生在当天、前 1 或前 2 个交易日，且当前 DIF > DEA。金叉当天计 0，超过 2 个交易日或当前已死叉不入选。
+ - 当前 J 高于昨日 J；J 最近一次向上拐头发生在当天或此前 1～3 个交易日。
+ - 主板非 ST、有效成交与历史指标等校验保持原样。
+ - 盘中仍保留 DIF−DEA > 0.004、J 增量 > 0.02 的舍入保护；盘后使用正式指标。
+ 
+-每轮展示 **本轮符合条件的股票集合 − 上一交易日 v1 正式存档集合**。开盘第一轮已经符合的计入新增；不要求在今天更早的一轮中先被判为不符合。当天后续扫描仍与昨日固定基准比较，不减上一轮。
++每轮展示 **本轮符合条件的股票集合 − 上一交易日 v3 正式存档集合**。开盘第一轮已经符合的计入新增；不要求在今天更早的一轮中先被判为不符合。当天后续扫描仍与昨日固定基准比较，不减上一轮。
+ 
+-原规则下昨天入选的股票通常不会再次满足今天的新金叉条件，因此差集可能不减少股票数量；名单不重叠不代表趋势全部反转。数量多少不能作为调整条件的依据。
++允许 MACD 前天已金叉、KDJ 今天才上拐的股票作为盘中新增。金叉日期仍有效的昨日候选可以与今天重叠，由差集排除。金叉年龄按核验过的交易日序列计算，不按自然日计算。
+ 
+-原始扫描归 Collector 保存，服务层统一投影扫描窗口和实时提示。缺少上一交易日同版本有效存档时明确显示无法判断新增；不伪造零结果，不使用已停用的 v2 基准代替。有效但覆盖不足的昨日存档会附覆盖提示。收盘确认展示 v1 正式全量结果。
++原始扫描归 Collector 保存，服务层统一投影扫描窗口和实时提示。缺少上一交易日同版本有效存档时明确显示无法判断新增；不伪造零结果，不使用旧版基准代替。有效但覆盖不足的昨日存档会附覆盖提示。收盘确认优先展示 v3 正式全量结果，旧日期仅有 v1 时显示该历史版本并标识。
+ 
+-曾经放宽为“当前处于金叉状态”的 v2 已停用。已产生的 v2 存档和扫描原样保留、按自身版本核对，并在界面标明停用；不混入当前选股或收盘确认。读扫描历史的基准缓存按交易日和规则版本共同区分。
++v1“仅当天金叉”和 v2“不限制金叉年龄”均不再作为当前选股规则。旧存档和扫描原样保留，按自身版本核对并标识。读扫描历史的基准缓存按交易日和规则版本共同区分。
++
++`macd_rules.recent_macd_cross_index` 统一负责盘后、盘中及候选契约验证的最近金叉判断。每只 v3 候选携带 `macd_cross_date`、`macd_cross_age_sessions`，页面展示实际金叉日期与交易日间隔；J 分组按筛选日计算，不声称 MACD 与 J 必须同日拐头。
+--- work\radar_recent_cross_20260918\before\tradex__src__tradex__dashboard__watch__app.js
++++ tradex\src\tradex\dashboard\watch\app.js
+@@ -3541,15 +3541,17 @@
+     const body = byId("stock-macd-j-table-body");
+     body.replaceChildren();
+     if (!valid) return;
+-    byId("stock-macd-j-rule").textContent = payload.screen_version === "macd-j-upturn-main-board.v2"
+-      ? "已停用的放宽规则：当前金叉状态 · v2" : "当天新金叉 · v1";
++    byId("stock-macd-j-rule").textContent = payload.screen_version === "macd-j-upturn-main-board.v3"
++      ? "金叉距今日 0～2 个交易日 · v3"
++      : payload.screen_version === "macd-j-upturn-main-board.v2"
++        ? "已停用的放宽规则：当前金叉状态 · v2" : "历史规则：当天新金叉 · v1";
+     const eligible = Number(payload.board_eligible_count);
+     const evaluated = Number(payload.evaluated_count);
+     byId("stock-macd-j-summary").textContent =
+       `主板非 ST ${formatCount(eligible)} 只 · 完整指标 ${formatCount(evaluated)} 只`
+       + ` · 覆盖 ${eligible ? (evaluated / eligible * 100).toFixed(1) : "0.0"}%`
+       + ` · 命中 ${formatCount(payload.matched_count)} 只`
+-      + `（同日 ${formatCount(payload.same_day_count)} · 提前 1～3 日 ${formatCount(payload.prior_3_sessions_count)}）`
++      + `（J 当日拐头 ${formatCount(payload.same_day_count)} · 此前 1～3 日拐头 ${formatCount(payload.prior_3_sessions_count)}）`
+       + ` · ${{ accepted: "完备", degraded: "降级", unavailable: "不可用" }[payload.quality] || "未知"}`;
+     const metadata = asArray(payload.source_metadata);
+     const latest = objectValue(metadata[metadata.length - 1]);
+@@ -3577,14 +3579,16 @@
+       const details = createElement("details");
+       const points = asArray(candidate.evidence);
+       const today = objectValue(points[points.length - 1]);
+-      details.append(createElement("summary", "", `${candidate.signal_trade_date} 金叉 · DIF ${number(today.dif)} / DEA ${number(today.dea)} · J ${number(today.j)}`));
++      details.append(createElement("summary", "", `${candidate.signal_trade_date} 指标 · DIF ${number(today.dif)} / DEA ${number(today.dea)} · J ${number(today.j)}`));
++      if (candidate.macd_cross_date) evidence.append(createElement("div", "",
++        `MACD 金叉 ${candidate.macd_cross_date} · 距扫描日 ${candidate.macd_cross_age_sessions} 个交易日`));
+       const list = createElement("ul");
+       points.forEach((point) => list.append(createElement("li", "",
+         `${point.trade_date}：DIF ${number(point.dif)} / DEA ${number(point.dea)} · K ${number(point.k)} / D ${number(point.d)} / J ${number(point.j)}`)));
+       details.append(list); evidence.append(details);
+       row.append(nameCell, createElement("td", "", stockSelectionIndustryName(candidate)),
+         createElement("td", "", formatLevel(candidate.reference_close)),
+-        createElement("td", "", candidate.signal_group === "same_day" ? "同日金叉与拐头" : "J 提前 1～3 日拐头"),
++        createElement("td", "", candidate.signal_group === "same_day" ? "J 当日拐头" : "J 此前 1～3 日拐头"),
+         createElement("td", "", { above_zero: "零轴上方", below_zero: "零轴下方", crossing_zero: "零轴附近" }[candidate.zero_axis_zone]),
+         turn, evidence);
+       body.append(row);
+@@ -7260,7 +7264,7 @@
+       return;
+     }
+     const increment = objectValue(payload.comparison).status === "available";
+-    const storageKey = `tradex.intradayMacdJ.seen.${payload.trade_date}${closeScan ? ".manual-close" : increment && payload.screen_version === "macd-j-upturn-main-board.v2" ? ".state-v2" : ""}`;
++    const storageKey = `tradex.intradayMacdJ.seen.${payload.trade_date}${closeScan ? ".manual-close" : increment && payload.screen_version === "macd-j-upturn-main-board.v3" ? ".recent-v3" : increment && payload.screen_version === "macd-j-upturn-main-board.v2" ? ".state-v2" : ""}`;
+     state.intradayMacdJSeen = state.intradayMacdJSeen || {};
+     const seen = new Set(state.intradayMacdJSeen[storageKey] || loadStoredArray(storageKey));
+     if (asArray(state.intradayMacdJToastIds).some(id => !records.some(r => r.instrument_id === id && r.active))) {
+@@ -7356,6 +7360,8 @@
+     const increment = objectValue(scan.comparison).status === "available";
+     if (scan.screen_version === "macd-j-upturn-main-board.v2") {
+       target.append(createElement("p", "", "此记录使用已停用的放宽规则（只要求当前金叉状态），不代表当前双拐条件下的新增；保留供核对。"));
++    } else if (scan.screen_version !== "macd-j-upturn-main-board.v3") {
++      target.append(createElement("p", "", "此记录使用历史规则（仅当天新金叉）；原始结果保留，不与当前 0～2 个交易日规则混算。"));
+     }
+     if (scan.scan_kind === "manual_close") {
+       target.append(createElement("p", "", "此记录使用收盘价推算指标，属于预估；正式名单见收盘确认。"));
+@@ -7408,6 +7414,8 @@
+       const details = createElement("details");
+       details.append(createElement("summary", "", `DIF ${number(record.dif)} / DEA ${number(record.dea)} · J ${number(record.j)}`),
+         createElement("p", "", `K ${number(record.k)} / D ${number(record.d)} / J ${number(record.j)}`));
++      if (record.macd_cross_date) evidence.append(createElement("div", "",
++        `MACD 金叉 ${record.macd_cross_date} · 距扫描日 ${record.macd_cross_age_sessions} 个交易日`));
+       evidence.append(details);
+       row.append(name, createElement("td", "", stockSelectionIndustryName(record)),
+         createElement("td", "", formatLevel(record.price)),
+--- work\radar_recent_cross_20260918\before\tradex__src__tradex__dashboard__watch__index.html
++++ tradex\src\tradex\dashboard\watch\index.html
+@@ -236,7 +236,7 @@
+             <h2 id="intraday-macd-j-heading">双拐雷达</h2>
+             <p id="intraday-macd-j-status" role="status">等待后台扫描状态…</p>
+             <p>09:30～11:30、13:00～15:00 每 15 分钟扫描；午休仅 11:45 复核一次。命中即提示，每只股票每天提示一次。</p>
+-            <p>沿用盘后选股条件：日线 MACD(12,26,9) 当天新金叉＋KDJ(9,3,3) J 线今日上升、同日或此前 1～3 日拐头。每轮显示本轮符合条件且不在上一交易日存档中的股票，开盘首次扫描已符合的也计入；当日各轮使用同一基准。盘中预估，收盘前可能失效；收盘确认展示完整股票池。</p>
++            <p>与盘后选股使用同一条件：日线 MACD(12,26,9) 最近一次金叉距今日 0～2 个交易日，且当前 DIF＞DEA；KDJ(9,3,3) J 线今日上升、当天或此前 1～3 日拐头。每轮显示本轮符合条件且不在上一交易日同版本存档中的股票，开盘首次符合的也计入。盘中为未收盘日线预估；收盘确认展示完整股票池。</p>
+             <p id="intraday-macd-j-coverage"></p>
+             <button class="button button-primary" id="intraday-macd-j-history-open" type="button">查看每次扫描结果</button>
+           </section>
+@@ -759,7 +759,7 @@
+             <section id="stock-selection-panel-macd-j" role="tabpanel" data-stock-selection-result-contract="stock_macd_j_screen.v1" hidden>
+               <div class="stock-pattern-rule" aria-label="MACD 金叉与 J 线拐头规则">
+                 <strong>MACD 金叉 + J 线拐头</strong>
+-                <span>主板非 ST</span><span>日线前复权</span><span>MACD(12,26,9)</span><span>KDJ(9,3,3)</span><span id="stock-macd-j-rule">当天新金叉</span><span>低位只做标签</span>
++                <span>主板非 ST</span><span>日线前复权</span><span>MACD(12,26,9)</span><span>KDJ(9,3,3)</span><span id="stock-macd-j-rule">金叉距今日 0～2 个交易日</span><span>低位只做标签</span>
+               </div>
+               <div class="stock-pattern-empty" id="stock-macd-j-empty">该交易日尚无此策略档案；按收盘后规则生成，历史缺失不代表没有股票命中。</div>
+               <div id="stock-macd-j-content" hidden>
+@@ -768,8 +768,8 @@
+                 <label for="stock-macd-j-group">信号分组</label>
+                 <select id="stock-macd-j-group" aria-label="MACD J 信号分组">
+                   <option value="all">全部命中</option>
+-                  <option value="same_day">同日金叉与拐头</option>
+-                  <option value="prior_3_sessions">J 提前 1～3 个交易日拐头</option>
++                  <option value="same_day">J 当日拐头</option>
++                  <option value="prior_3_sessions">J 此前 1～3 个交易日拐头</option>
+                 </select>
+                 <div class="stock-selection-table-scroll" tabindex="0" aria-label="MACD J 命中股票表">
+                   <table class="stock-selection-table">
+--- work\radar_recent_cross_20260918\before\tradex__src__tradex__stock_selection__contracts.py
++++ tradex\src\tradex\stock_selection\contracts.py
+@@ -474,7 +474,9 @@
+ 
+ 
+ class MacdJCandidateV1(SelectionModel):
+-    signal_rule: Literal["fresh_cross", "bullish_state"] = "fresh_cross"
++    signal_rule: Literal["fresh_cross", "bullish_state", "recent_cross_2_sessions"] = "fresh_cross"
++    macd_cross_date: date | None = None
++    macd_cross_age_sessions: int | None = Field(default=None, ge=0, le=2)
+     instrument_id: str = Field(pattern=r"^\d{6}\.(?:SH|SZ)$")
+     name: str
+     industry: str | None = None
+@@ -503,6 +505,12 @@
+             raise ValueError("candidate requires bullish MACD state and rising J")
+         if self.signal_rule == "fresh_cross" and yesterday.dif > yesterday.dea:
+             raise ValueError("candidate requires fresh MACD crossover")
++        if self.signal_rule == "recent_cross_2_sessions":
++            from .macd_rules import recent_macd_cross_index
++            cross = recent_macd_cross_index([p.dif-p.dea for p in self.evidence])
++            if (cross is None or self.macd_cross_date != dates[cross]
++                    or self.macd_cross_age_sessions != len(dates)-1-cross):
++                raise ValueError("candidate requires exact recent MACD cross evidence within two sessions")
+         index = 5 - self.gap_sessions
+         before, low, turn = self.evidence[index - 2:index + 1]
+         if not before.j > low.j < turn.j or self.j_trough != low.j or self.j_turn_value != turn.j:
+@@ -513,7 +521,7 @@
+ class MacdJScreenV1(SelectionModel):
+     contract: Literal["stock_macd_j_screen.v1"] = "stock_macd_j_screen.v1"
+     schema_version: Literal[1] = 1
+-    screen_version: Literal["macd-j-upturn-main-board.v1", "macd-j-upturn-main-board.v2"] = "macd-j-upturn-main-board.v1"
++    screen_version: Literal["macd-j-upturn-main-board.v1", "macd-j-upturn-main-board.v2", "macd-j-upturn-main-board.v3"] = "macd-j-upturn-main-board.v1"
+     title: str = "MACD 金叉 + J 线拐头"
+     quality: Literal["accepted", "degraded", "unavailable"]
+     universe_count: int = Field(ge=0)
+@@ -530,7 +538,7 @@
+ 
+     @model_validator(mode="after")
+     def validate_counts(self):
+-        rule = "bullish_state" if self.screen_version.endswith(".v2") else "fresh_cross"
++        rule = {"v1": "fresh_cross", "v2": "bullish_state", "v3": "recent_cross_2_sessions"}[self.screen_version.rsplit(".", 1)[1]]
+         if any(c.signal_rule != rule for c in self.candidates):
+             raise ValueError("MACD J candidate rule must match screen version")
+         if not self.matched_count <= self.evaluated_count <= self.board_eligible_count <= self.universe_count:
+--- work\radar_recent_cross_20260918\before\tradex__src__tradex__stock_selection__intraday_increment.py
++++ tradex\src\tradex\stock_selection\intraday_increment.py
+@@ -7,7 +7,7 @@
+ CONTRACT = "intraday_macd_j_increment.v1"
+ 
+ 
+-def load_previous_close(day, *, version="v1"):
++def load_previous_close(day, *, version="v3"):
+     previous = day - timedelta(days=1)
+     for _ in range(30):
+         status = calendar_day_status(previous)
+@@ -38,7 +38,7 @@
+ 
+ def with_previous_close_difference(scan, *, baselines=None):
+     """Project display/alerts only. Raw scan archives and close results stay intact."""
+-    if (scan.get("screen_version") not in {"macd-j-upturn-main-board.v1", "macd-j-upturn-main-board.v2"}
++    if (scan.get("screen_version") not in {"macd-j-upturn-main-board.v1", "macd-j-upturn-main-board.v2", "macd-j-upturn-main-board.v3"}
+             or scan.get("scan_kind") in {"manual_close", "close_confirmation"}
+             or scan.get("status") not in {"monitoring", "partial"}
+             or not isinstance(scan.get("scan_candidates"), list)):
+--- work\radar_recent_cross_20260918\before\tradex__src__tradex__stock_selection__intraday_macd_j.py
++++ tradex\src\tradex\stock_selection\intraday_macd_j.py
+@@ -14,10 +14,11 @@
+ from tradex.market_calendar import CalendarDayStatus, a_share_session, calendar_day_status
+ from .engine import _special_treatment_name
+ from .intraday_increment import with_previous_close_difference
++from .macd_rules import recent_macd_cross_index
+ 
+ SHANGHAI = ZoneInfo("Asia/Shanghai")
+ CONTRACT = "intraday_macd_j_watch.v1"
+-SCREEN_VERSION = "macd-j-upturn-main-board.v1"
++SCREEN_VERSION = "macd-j-upturn-main-board.v3"
+ SCAN_MINUTES = tuple(range(570, 691, 15)) + (705,) + tuple(range(780, 901, 15))
+ 
+ 
+@@ -155,8 +156,13 @@
+             continue
+         evaluated += 1
+         evaluated_ids.add(q.instrument_id)
+-        if previous.dif > previous.dea or dif - dea <= 0.004:
+-            excluded["no_clear_new_cross"] += 1
++        if dif - dea <= 0.004:
++            excluded["macd_not_clearly_bullish"] += 1
++            continue
++        macd_points = points[-3:]
++        cross = recent_macd_cross_index([p.dif-p.dea for p in macd_points] + [dif-dea])
++        if cross is None:
++            excluded["no_macd_cross_within_two_sessions"] += 1
+             continue
+         if j - previous.j <= 0.02:
+             excluded["j_not_clearly_rising"] += 1
+@@ -174,6 +180,8 @@
+             "observed_at": stamp.isoformat() if stamp else None,
+             "price_basis": "daily_close" if closing_bars is not None else "intraday_quote",
+             "price_trade_date": day.isoformat(), "dif": dif, "dea": dea, "k": k, "d": d, "j": j,
++            "macd_cross_date": ([s.trade_date for s in seeds[-3:]] + [day])[cross].isoformat(),
++            "macd_cross_age_sessions": 3-cross,
+             "signal_group": "同日拐头" if turn == 5 else "此前 1～3 日拐头",
+             "zero_axis_zone": "零轴上方" if min(dif, dea) > 0 else "零轴下方" if max(dif, dea) < 0 else "零轴附近",
+             "j_turn_date": dates[turn].isoformat(), "j_trough": trough,
+@@ -248,7 +256,8 @@
+     if day > local.date() or (day == local.date() and local.hour < 15):
+         return None
+     from .store import read_archived_strategy_result
+-    result = read_archived_strategy_result(day, "macd-j-upturn-main-board", strategy_version="v1")
++    result = (read_archived_strategy_result(day, "macd-j-upturn-main-board", strategy_version="v3")
++              or read_archived_strategy_result(day, "macd-j-upturn-main-board", strategy_version="v1"))
+     if result is None or result.quality == "unavailable":
+         return None
+     screen = result.payload
+@@ -264,6 +273,8 @@
+             "zero_axis_zone": {"above_zero": "零轴上方", "below_zero": "零轴下方",
+                                "crossing_zero": "零轴附近"}[candidate.zero_axis_zone],
+             "j_turn_date": candidate.j_turn_date.isoformat(), "j_trough": candidate.j_trough,
++            "macd_cross_date": candidate.macd_cross_date.isoformat() if candidate.macd_cross_date else None,
++            "macd_cross_age_sessions": candidate.macd_cross_age_sessions,
+             "low_j_tags": list(candidate.low_j_tags),
+         })
+     return {
+--- work\radar_recent_cross_20260918\before\tradex__src__tradex__stock_selection__macd_j.py
++++ tradex\src\tradex\stock_selection\macd_j.py
+@@ -6,10 +6,11 @@
+ 
+ from .contracts import MacdJCandidateV1, MacdJEvidenceV1, MacdJScreenV1
+ from .engine import _special_treatment_name
++from .macd_rules import recent_macd_cross_index
+ 
+ 
+-def screen_macd_j(snapshot: DailyStockFactorSnapshotV1, *, version="v1") -> MacdJScreenV1:
+-    if version not in {"v1", "v2"}:
++def screen_macd_j(snapshot: DailyStockFactorSnapshotV1, *, version="v3") -> MacdJScreenV1:
++    if version not in {"v1", "v2", "v3"}:
+         raise ValueError("unsupported MACD J screen version")
+     window = snapshot.technicals
+     days = window.days if window else ()
+@@ -44,8 +45,12 @@
+             continue
+         evaluated += 1
+         yesterday, today = points[-2:]
++        cross = recent_macd_cross_index([p.dif-p.dea for p in points])
+         if today.dif <= today.dea or (version == "v1" and yesterday.dif > yesterday.dea):
+             excluded["no_fresh_macd_cross" if version == "v1" else "macd_not_bullish"] += 1
++            continue
++        if version == "v3" and cross is None:
++            excluded["no_macd_cross_within_two_sessions"] += 1
+             continue
+         if today.j <= yesterday.j:
+             excluded["j_not_rising"] += 1
+@@ -62,7 +67,9 @@
+         zone = ("above_zero" if min(today.dif, today.dea) > 0 else
+                 "below_zero" if max(today.dif, today.dea) < 0 else "crossing_zero")
+         candidates.append(MacdJCandidateV1(
+-            signal_rule="fresh_cross" if version == "v1" else "bullish_state",
++            signal_rule={"v1": "fresh_cross", "v2": "bullish_state", "v3": "recent_cross_2_sessions"}[version],
++            macd_cross_date=days[cross].trade_date if version == "v3" else None,
++            macd_cross_age_sessions=len(days)-1-cross if version == "v3" else None,
+             instrument_id=row.instrument_id, name=row.name, industry=row.industry,
+             reference_close=row.close, signal_trade_date=snapshot.trade_date,
+             signal_group="same_day" if gap == 0 else "prior_3_sessions",
+@@ -86,8 +93,9 @@
+         methodology=(
+             "仅沪深主板非 ST、非退市股票；以信号日 ST 名单和证券名称交叉排除。",
+             "收盘日线、前复权 MACD(12,26,9) 与 KDJ(9,3,3)，采用数据源已发布的历史指标。",
+-            ("新金叉：昨天 DIF ≤ DEA，今天 DIF > DEA。" if version == "v1" else
+-             "金叉状态：今天 DIF > DEA，不要求当天刚发生金叉；昨天已满足的股票可以继续入选。")
++            ({"v1": "新金叉：昨天 DIF ≤ DEA，今天 DIF > DEA。",
++              "v2": "金叉状态：今天 DIF > DEA，不要求当天刚发生金叉；昨天已满足的股票可以继续入选。",
++              "v3": "最近一次金叉在当天或此前 1～2 个交易日，当前 DIF > DEA；金叉当天记第 0 日，超过 2 日或当前已死叉不入选。"}[version])
+             + "今天双线均正标上方、均负标下方，其余标零轴附近。",
+             "J 刚拐头：前天 J > 昨天 J，今天 J > 昨天 J；平走不算下降。",
+             "对照两组：同日拐头；此前 1～3 个交易日内拐头且筛选当天 J 仍高于昨天。取最近一次拐头，两组互斥。",
+--- work\radar_recent_cross_20260918\before\tradex__src__tradex__stock_selection__strategies.py
++++ tradex\src\tradex\stock_selection\strategies.py
+@@ -159,7 +159,7 @@
+     ),
+     RegisteredStockSelectionStrategy(
+         strategy_id="macd-j-upturn-main-board",
+-        strategy_version="v1",
++        strategy_version="v3",
+         title="MACD 金叉 + J 线拐头",
+         result_contract="stock_macd_j_screen.v1",
+         evaluation_policy="not_defined",
+--- work\radar_recent_cross_20260918\before\tradex__tests__test_intraday_increment.py
++++ tradex\tests\test_intraday_increment.py
+@@ -9,7 +9,7 @@
+ 
+ def scan():
+     candidates = [{"instrument_id": "600000.SH"}, {"instrument_id": "600001.SH"}]
+-    return {"screen_version": "macd-j-upturn-main-board.v1", "trade_date": "2026-09-18",
++    return {"screen_version": "macd-j-upturn-main-board.v3", "trade_date": "2026-09-18",
+             "status": "monitoring", "message": "scan", "scan_candidates": candidates,
+             "records": [{**c, "active": True} for c in candidates]}
+ 
+@@ -73,12 +73,12 @@
+     calls = []
+     def load(day, *, version):
+         calls.append(version)
+-        return baseline(("600000.SH",) if version == "v1" else ("600001.SH",))
++        return baseline(("600000.SH",) if version == "v3" else ("600001.SH",))
+     monkeypatch.setattr(module, "load_previous_close", load)
+     cache = {}
+     current = module.with_previous_close_difference(scan(), baselines=cache)
+     old = module.with_previous_close_difference({**scan(), "screen_version":"macd-j-upturn-main-board.v2"}, baselines=cache)
+-    assert calls == ["v1", "v2"]
++    assert calls == ["v3", "v2"]
+     assert current['scan_candidates'] == [{'instrument_id':'600001.SH'}]
+     assert old['scan_candidates'] == [{'instrument_id':'600000.SH'}]
+ 
+@@ -109,10 +109,10 @@
+     ids, info = module.load_previous_close(date(2026, 9, 21))
+     assert ids is None
+     assert info["trade_date"] == "2026-09-18"
+-    assert calls == [(date(2026, 9, 18), "v1")]
++    assert calls == [(date(2026, 9, 18), "v3")]
+ 
+ 
+-@pytest.mark.parametrize("quality,version", [("unavailable", "v1"), ("degraded", "v2")])
++@pytest.mark.parametrize("quality,version", [("unavailable", "v3"), ("degraded", "v1"), ("degraded", "v2")])
+ def test_unavailable_or_wrong_rule_archive_cannot_be_baseline(monkeypatch, quality, version):
+     screen = NS(contract="stock_macd_j_screen.v1", quality=quality,
+                 screen_version=f"macd-j-upturn-main-board.{version}")
+--- work\radar_recent_cross_20260918\before\tradex__tests__test_intraday_macd_j.py
++++ tradex\tests\test_intraday_macd_j.py
+@@ -67,24 +67,31 @@
+     assert not evaluate(seeds, universe, now=NOW)[0]
+ 
+ 
+-def test_intraday_rejects_yesterdays_bullish_state_even_if_j_rises_again():
++@pytest.mark.parametrize("age", [1, 2, 3])
++def test_intraday_accepts_recent_cross_but_rejects_older_bullish_state(age):
+     seeds, universe, *_ = fixture()
+     q = universe.quotes[0]
+-    dif, dea, k, d, j = project_daily([s.points[0] for s in seeds][-8:], q)
+-    assert dif > dea
+-    previous = NS(instrument_id=q.instrument_id, close=q.last, adjusted_close=q.last,
+-                  high=q.high, low=q.low, amount_cny=q.amount_cny, adjustment_factor=1,
+-                  dif=dif, dea=dea, k=k, d=d, j=j)
+-    points = [s.points[0] for s in seeds][1:] + [previous]
+-    for seed, point in zip(seeds, points):
+-        seed.points = [point]
+-    q.previous_close = previous.close
+-    q.last += 3
+-    q.high = q.last
++    for _ in range(age):
++        dif, dea, k, d, j = project_daily([s.points[0] for s in seeds][-8:], q)
++        assert dif > dea
++        previous = NS(instrument_id=q.instrument_id, close=q.last, adjusted_close=q.last,
++                      high=q.high, low=q.low, amount_cny=q.amount_cny, adjustment_factor=1,
++                      dif=dif, dea=dea, k=k, d=d, j=j)
++        points = [s.points[0] for s in seeds][1:] + [previous]
++        for seed, point in zip(seeds, points):
++            seed.points = [point]
++        q.previous_close = previous.close
++        q.last += 3
++        q.high = q.last
+     candidates, coverage, _ = evaluate(seeds, universe, now=NOW)
+-    assert candidates == []
+     assert coverage["evaluated_count"] == 1
+-    assert coverage["excluded_counts"] == {"no_clear_new_cross": 1}
++    if age <= 2:
++        assert len(candidates) == 1
++        assert candidates[0]['macd_cross_age_sessions'] == age
++        assert candidates[0]['macd_cross_date'] == prior_sessions(NOW.date())[-age].isoformat()
++    else:
++        assert candidates == []
++        assert coverage['excluded_counts'] == {'no_macd_cross_within_two_sessions': 1}
+ 
+ 
+ @pytest.mark.parametrize("failure", ["st", "growth", "stale", "future", "no_time", "exright", "bad_basis", "missing"])
+@@ -409,7 +416,7 @@
+             assert history["scans"] == [payload, original]
+         assert read_watch(now=now.replace(hour=10), root=tmp_path)["status"] != "close_confirmed"
+         assert read_watch(now=now+timedelta(days=1), root=tmp_path)["status"] != "close_confirmed"
+-        assert store.get_strategy_result(data.trade_date, result.strategy_id, strategy_version="v1") == result
++        assert store.get_strategy_result(data.trade_date, result.strategy_id, strategy_version="v3") == result
+     assert {p.name: p.read_bytes() for p in tmp_path.glob("scan-*.json")} == before
+ 
+ 
+--- work\radar_recent_cross_20260918\before\tradex__tests__test_macd_j_selection.py
++++ tradex\tests\test_macd_j_selection.py
+@@ -125,7 +125,7 @@
+     assert current.candidates[0].signal_rule == "bullish_state"
+     assert MacdJScreenV1.model_validate_json(current.model_dump_json()) == current
+     old = screen_macd_j(data, version="v1")
+-    assert screen_macd_j(data) == old
++    assert screen_macd_j(data).candidates[0].macd_cross_age_sessions == 1
+     assert old.matched_count == 0
+     assert old.excluded_counts == {"no_fresh_macd_cross": 1}
+     # A falling J or DIF at/below DEA still fails the current-state rule.
+@@ -154,6 +154,53 @@
+         "macd_dif": -.1, "macd_dea": -.2,
+         "kdj_k": 30, "kdj_d": 50, "kdj_j": -10,
+     }], "special_treatment": [{"ts_code": "600001.SH", "trade_date": "20260916"}]}
++
++
++def with_macd_spreads(spreads):
++    data = source()
++    days = tuple(day.model_copy(update={"points": (
++        day.points[0].model_copy(update={"dif": day.points[0].dea + spread}),)})
++        for day, spread in zip(data.technicals.days, spreads))
++    return data.model_copy(update={"technicals": StockTechnicalWindowV1(days=days)})
++
++
++@pytest.mark.parametrize("age,matched", [(0, 1), (1, 1), (2, 1), (3, 0)])
++def test_recent_cross_includes_today_previous_two_sessions_only(age, matched):
++    data = with_macd_spreads([-.1 if i < 5-age else .1 for i in range(6)])
++    result = screen_macd_j(data)
++    assert result.screen_version == "macd-j-upturn-main-board.v3"
++    assert result.matched_count == matched
++    if matched:
++        candidate = result.candidates[0]
++        assert candidate.macd_cross_age_sessions == age
++        assert candidate.macd_cross_date == data.technicals.days[5-age].trade_date
++        assert candidate.j_turn_date == data.trade_date
++        assert candidate.signal_rule == "recent_cross_2_sessions"
++
++
++@pytest.mark.parametrize("spreads,expected_age", [
++    ([-.1, .1, .1, -.1, .1, .1], 1),
++    ([-.1, -.1, -.1, .1, .1, -.1], None),
++    ([-.1, -.1, -.1, .1, .1, 0], None),
++    ([.1, .1, .1, .1, .1, .1], None),
++])
++def test_recent_cross_uses_latest_cross_and_requires_current_bullish_state(spreads, expected_age):
++    result = screen_macd_j(with_macd_spreads(spreads))
++    assert result.matched_count == (expected_age is not None)
++    if expected_age is not None:
++        assert result.candidates[0].macd_cross_age_sessions == expected_age
++
++
++def test_recent_cross_contract_rejects_wrong_age_or_date():
++    from tradex.stock_selection.contracts import MacdJScreenV1
++    data = with_macd_spreads([-.1, -.1, -.1, .1, .1, .1])
++    screen = screen_macd_j(data)
++    assert MacdJScreenV1.model_validate_json(screen.model_dump_json()) == screen
++    for field, value in [('macd_cross_age_sessions', 0), ('macd_cross_date', str(data.trade_date))]:
++        raw = screen.model_dump(mode='json')
++        raw['candidates'][0][field] = value
++        with pytest.raises(ValueError, match='exact recent MACD cross'):
++            MacdJScreenV1.model_validate(raw)
+ 
+ 
+ def mapped(raw):

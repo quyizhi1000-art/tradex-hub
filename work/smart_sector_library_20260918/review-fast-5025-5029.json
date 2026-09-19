@@ -1,0 +1,77 @@
+[
+  {
+    "id": "688538.SH",
+    "key": "oled",
+    "sector": "OLED",
+    "source_sector_name": "OLED",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "AMOLED显示面板"
+    ],
+    "fact": "高解析AMOLED面板研产销，覆盖手机穿戴及电脑等。",
+    "company_fact": "高解析AMOLED面板研产销，覆盖手机穿戴及电脑等。",
+    "ths_fact": "主营AMOLED半导体显示面板。",
+    "reason": "显示面板身份，不因股东或某客户标签改变主归属。"
+  },
+  {
+    "id": "688539.SH",
+    "key": "commercial_space",
+    "sector": "商业航天",
+    "source_sector_name": "商业航天",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "火箭遥测及控制传感器"
+    ],
+    "fact": "高可靠传感器及采集网络服务宇航等严酷环境。",
+    "company_fact": "高可靠传感器及采集网络服务宇航等严酷环境。",
+    "ths_fact": "已配套蓝箭中科宇航天兵等客户，覆盖火箭贮箱发动机和发射场。",
+    "reason": "具体商业火箭配套支持；人形仅战略合作意向不提升。"
+  },
+  {
+    "id": "688543.SH",
+    "key": "military",
+    "sector": "军工",
+    "source_sector_name": "军工",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "导弹固体发动机与弹药"
+    ],
+    "fact": "多型动力控制和弹药产品已定型列装批产。",
+    "company_fact": "多型动力控制和弹药产品已定型列装批产。",
+    "ths_fact": "专注导弹火箭动力和弹药生产销售，以军品为主。",
+    "reason": "军工兵装身份清晰，商业火箭配套保留次标签。"
+  },
+  {
+    "id": "688545.SH",
+    "key": "electronic_chemicals",
+    "sector": "电子化学品",
+    "source_sector_name": "电子化学品Ⅱ",
+    "source_sector_provider": "东方财富",
+    "stage": "revenue",
+    "chain": [
+      "超高纯湿电子化学品"
+    ],
+    "fact": "电子级酸双氧水蚀刻液清洗剂用于集成电路湿法制程。",
+    "company_fact": "电子级酸双氧水蚀刻液清洗剂用于集成电路湿法制程。",
+    "ths_fact": "电子磷酸等已供中芯长存长鑫等芯片客户。",
+    "reason": "以既有电子化学品行业归属；买技术和拟购不等于光刻胶整品量产。"
+  },
+  {
+    "id": "688548.SH",
+    "key": "commercial_space",
+    "sector": "商业航天",
+    "source_sector_name": "商业航天",
+    "source_sector_provider": "同花顺",
+    "stage": "orders",
+    "chain": [
+      "航天发射氦气供应"
+    ],
+    "fact": "电子大宗及工业气体一体化制备储运供应。",
+    "company_fact": "电子大宗及工业气体一体化制备储运供应。",
+    "ths_fact": "已中标海南商业航天发射场2026至2028年度火箭任务氦气供应。",
+    "reason": "明确航天供气合同支撑市场概念，订单不视为未来三年收入已确认。"
+  }
+]

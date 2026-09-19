@@ -1,0 +1,43 @@
+{
+  "instrument_id": "002188.SZ",
+  "name": "中天服务",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "002188.SZ",
+    "name": "中天服务",
+    "memberships": [
+      "房地产",
+      "房地产服务",
+      "物业管理",
+      "浙江板块",
+      "微盘股",
+      "长江三角"
+    ],
+    "business_sections": [
+      {
+        "title": "物业管理与生活服务相关业务",
+        "kind": "主营业务",
+        "text": "公司从事物业管理与生活服务相关业务，核心服务覆盖住宅、写字楼、政府办公楼、学校、医院、产业园等多元业态，主要分为基础物业服务与增值服务两大板块。基础物业服务为核心业务，聚焦“四保一服”核心内容，即安保巡查、环境保洁、设施设备维修养护、绿化管护与客户综合服务，为业主及使用方提供安全、整洁、有序的空间运维保障，筑牢居住与办公基础环境；以及面向地产开发端的案场服务、前期介入服务等。增值服务围绕业主多元需求延伸布局，涵盖社区到家服务、美居服务、社区养老、社区团购、资产运营等生活类服务，进一步拓宽服务边界、满足全周期生活与商用配套需求，实现物业服务从基础保障向品质生活升级的跨越，践行“让服务更有温度，让生活更具质感”的服务承诺。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ002188",
+    "fetched_at": "2026-09-18T22:43:22.385312+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [
+    "房地产"
+  ],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "物业管理及综合配套服务"
+}

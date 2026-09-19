@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import math
 import os
 import sqlite3
 import zlib
@@ -17,6 +18,7 @@ SHANGHAI = ZoneInfo("Asia/Shanghai")
 ENV_DB_PATH = "TRADEX_MARKET_WATCH_RECOVERY_SOURCE_DB"
 CONTRACT = "market_watch_recovery_source_matrix.v1"
 SCHEMA_VERSION = 1
+CHECKPOINT_CONTRACT = "market_watch_recovery_source_checkpoint.v1"
 
 
 def _canonical_bytes(value: Any) -> bytes:
@@ -36,7 +38,7 @@ def _time_key(value: time) -> str:
 
 
 def _positive_number(value: Any, *, name: str) -> float:
-    if isinstance(value, bool) or not isinstance(value, (int, float)) or value <= 0:
+    if isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value) or value <= 0:
         raise ValueError(f"{name} must be a positive number")
     return float(value)
 
@@ -78,7 +80,85 @@ class RecoverySourceMatrixStore:
                 payload_blob BLOB NOT NULL,
                 updated_at TEXT NOT NULL
             );
+            CREATE TABLE IF NOT EXISTS recovery_source_checkpoints (
+                trade_date TEXT PRIMARY KEY,
+                payload_digest TEXT NOT NULL,
+                payload_blob BLOB NOT NULL,
+                updated_at TEXT NOT NULL
+            );
             """
+        )
+
+    @staticmethod
+    def _checkpoint_payload(*, trade_date, provider_as_of, previous_close, stock_prices):
+        if provider_as_of.tzinfo is None or provider_as_of.utcoffset() is None:
+            raise ValueError("recovery checkpoint requires an aware close timestamp")
+        observed = provider_as_of.astimezone(SHANGHAI)
+        if observed.date() != trade_date or observed.time() < time(15):
+            raise ValueError("recovery checkpoint requires same-day close proof")
+        closes = {str(code): _positive_number(value, name="previous close") for code, value in previous_close.items()}
+        if not closes:
+            raise ValueError("recovery checkpoint requires the complete instrument universe")
+        prices = {}
+        for minute, values in stock_prices.items():
+            if not set(values).issubset(closes):
+                raise ValueError("recovery checkpoint contains an unexpected instrument")
+            prices[_time_key(minute)] = {
+                code: _positive_number(value, name="exact minute price")
+                for code, value in values.items()
+            }
+        return {
+            "contract": CHECKPOINT_CONTRACT,
+            "trade_date": trade_date.isoformat(),
+            "provider_as_of": observed.isoformat(timespec="seconds"),
+            "previous_close": closes,
+            "stock_prices": prices,
+        }
+
+    def record_checkpoint(self, *, trade_date, provider_as_of, previous_close, stock_prices) -> None:
+        """Keep validated partial inputs separate from publishable full matrices."""
+        payload = self._checkpoint_payload(
+            trade_date=trade_date, provider_as_of=provider_as_of,
+            previous_close=previous_close, stock_prices=stock_prices,
+        )
+        raw = _canonical_bytes(payload)
+        with sqlite3.connect(self.db_path, timeout=5) as connection:
+            connection.execute("PRAGMA journal_mode = WAL")
+            self._initialize(connection)
+            connection.execute(
+                """INSERT INTO recovery_source_checkpoints VALUES (?, ?, ?, ?)
+                ON CONFLICT(trade_date) DO UPDATE SET
+                    payload_digest=excluded.payload_digest,
+                    payload_blob=excluded.payload_blob, updated_at=excluded.updated_at""",
+                (trade_date.isoformat(), hashlib.sha256(raw).hexdigest(),
+                 zlib.compress(raw, level=1), datetime.now(SHANGHAI).isoformat(timespec="seconds")),
+            )
+            connection.execute("""DELETE FROM recovery_source_checkpoints WHERE trade_date NOT IN
+                (SELECT trade_date FROM recovery_source_checkpoints ORDER BY trade_date DESC LIMIT 2)""")
+
+    def read_checkpoint(self, trade_date: date) -> dict[str, Any] | None:
+        if not Path(self.db_path).exists():
+            return None
+        with sqlite3.connect(Path(self.db_path).as_uri() + "?mode=ro", uri=True, timeout=5) as connection:
+            if connection.execute("SELECT 1 FROM sqlite_master WHERE name='recovery_source_checkpoints'").fetchone() is None:
+                return None
+            row = connection.execute(
+                "SELECT payload_digest,payload_blob FROM recovery_source_checkpoints WHERE trade_date=?",
+                (trade_date.isoformat(),),
+            ).fetchone()
+        if row is None:
+            return None
+        raw = zlib.decompress(row[1])
+        if hashlib.sha256(raw).hexdigest() != row[0]:
+            raise RuntimeError("recovery checkpoint digest mismatch")
+        payload = json.loads(raw)
+        if payload.get("contract") != CHECKPOINT_CONTRACT or payload.get("trade_date") != trade_date.isoformat():
+            raise RuntimeError("recovery checkpoint identity mismatch")
+        return self._checkpoint_payload(
+            trade_date=trade_date,
+            provider_as_of=datetime.fromisoformat(payload["provider_as_of"]),
+            previous_close=payload["previous_close"],
+            stock_prices={time.fromisoformat(minute): values for minute, values in payload["stock_prices"].items()},
         )
 
     def record(
@@ -205,6 +285,7 @@ class RecoverySourceMatrixStore:
                 )
                 """
             )
+            connection.execute("DELETE FROM recovery_source_checkpoints WHERE trade_date=?", (trade_date.isoformat(),))
         return {"action": action, "payload_digest": digest}
 
     def read(

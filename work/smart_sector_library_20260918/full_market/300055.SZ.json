@@ -1,0 +1,60 @@
+{
+  "instrument_id": "300055.SZ",
+  "name": "万邦达",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "300055.SZ",
+    "name": "万邦达",
+    "memberships": [
+      "石油石化",
+      "炼化及贸易",
+      "其他石化",
+      "北京板块",
+      "破增发价股",
+      "破发股",
+      "创业板综",
+      "深股通",
+      "融资融券",
+      "机构重仓",
+      "QFII重仓",
+      "医废处理",
+      "PPP模式",
+      "新材料",
+      "节能环保"
+    ],
+    "business_sections": [
+      {
+        "title": "新材料生产销售和综合环保服务",
+        "kind": "主营业务",
+        "text": "公司作为从事新材料生产销售和综合环保服务的高新技术企业，经过多年探索与升级，充分发挥华南地区资源组合优势，逐步深耕化工新材料领域，现已经形成了以化工新材料业务为核心，环保皮革业务为推进方向，工业水处理与运营及危固废处理共为支撑的多元发展格局。"
+      },
+      {
+        "title": "技术研发优势",
+        "kind": "核心竞争力",
+        "text": "公司持续夯实研发领域核心竞争力，围绕前沿热塑性弹性体材料、功能树脂新材料、高端用聚烯烃材料等战略方向，在研发协同机制、硬件平台建设及知识产权储备等方面取得积极进展，为公司新材料产业布局提供有力支撑。"
+      },
+      {
+        "title": "产业协同的优势",
+        "kind": "核心竞争力",
+        "text": "作为工业水处理领域的首批创业板上市企业，公司深耕煤化工、石油化工领域多年，与国内大型能源企业保持了良好的合作关系。在业务转型进入化工新材料领域后，公司与大型能源企业的合作从传统的环保服务进一步增加到承接化工副产品的深加工。通过客户纽带，传统的工业水处理与运营业务及危固废处理业务，与化工新材料业务实现了相互促进。在地域上，公司围绕惠州大亚湾和揭阳大南海石化工业区两个国内大型石化中心，依托其具有的优越的区位、交通及原料供应优势，通过产业结构的优化升级，建立了规模化、资源化的处理装置，形成集约化采购和规模化成本优势，提升高附加值精细加工产品在公司业务中的比重，形成区域间协同联动及多产业横向融合的格局。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ300055",
+    "fetched_at": "2026-09-18T23:01:28.563440+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "油气"
+}

@@ -1,0 +1,478 @@
+[
+  {
+    "id": "601958.SH",
+    "key": "molybdenum",
+    "sector": "钼",
+    "chain": [
+      "钼采选、冶炼及钼化工金属加工"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富主营确认钼炉料、化工、金属加工三类钼产品研产销。",
+    "ths_fact": "同花顺钼解释列采矿选矿冶炼深加工一体化及在营钼矿，靶材为其中加工产品。",
+    "company_fact": "东方财富主营确认钼炉料、化工、金属加工三类钼产品研产销。",
+    "reason": "资源、生产及深加工共同支持钼的市场身份；OLED靶材是产业链用途，参股矿山不全部按本体产量计算。",
+    "source_sector_name": "钼",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601963.SH",
+    "key": "bank",
+    "sector": "银行",
+    "chain": [
+      "存贷款、结算与公司及个人金融"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富主营列存贷款、结算、票据、债券、银行卡及金融服务。",
+    "ths_fact": "同花顺乡村振兴与成渝解释实质为信贷及债券服务，消费金融和村镇银行段无具体正文。",
+    "company_fact": "东方财富主营列存贷款、结算、票据、债券、银行卡及金融服务。",
+    "reason": "已有银行行业最完整对应金融经营；农业贷款和区域融资不能转成农业或基建生产身份。",
+    "source_sector_name": "银行",
+    "source_sector_provider": "东方财富",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601965.SH",
+    "key": "autonomous_driving",
+    "sector": "无人驾驶",
+    "chain": [
+      "智能网联汽车测试评价、场景仿真及测评工具"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富主营为汽车技术研发、测试评价、认证、软件工具与试验装备，覆盖安全绿色体验。",
+    "ths_fact": "同花顺无人驾驶解释明确智能网联汽车仿真工具、道路和场地测试及自动驾驶测评，车联网段确认对外测试服务。",
+    "company_fact": "东方财富主营为汽车技术研发、测试评价、认证、软件工具与试验装备，覆盖安全绿色体验。",
+    "reason": "自动驾驶测评与工具服务有完整技术业务支撑，选无人驾驶产业链身份；提供检测评价而非自营无人驾驶整车，内部DeepSeek部署不另作主线。",
+    "source_sector_name": "无人驾驶",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601966.SH",
+    "key": "tires_wheels",
+    "sector": "轮胎轮毂",
+    "chain": [
+      "乘用、商用及非公路轮胎研发制造销售"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富主营明确各类子午线轮胎及非公路轮胎，并持续供应全球主机厂及新能源车企。",
+    "ths_fact": "同花顺新能源车与汽车制造解释列实际轮胎配套和量产发货，机器人、变压器另有新产品。",
+    "company_fact": "东方财富主营明确各类子午线轮胎及非公路轮胎，并持续供应全球主机厂及新能源车企。",
+    "reason": "跨车型全球轮胎配套及替换市场构成稳定身份；新装备有产品但现有证据不足以替代轮胎品牌与产业叙事，选真实轮胎轮毂板块。",
+    "source_sector_name": "轮胎轮毂",
+    "source_sector_provider": "东方财富",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601968.SH",
+    "key": "metal_packaging",
+    "sector": "金属包装",
+    "chain": [
+      "食品饮料两片罐、易拉盖及印铁包装"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富主营明确快消品金属两片罐、易拉盖及印铁产品。",
+    "ths_fact": "同花顺食品包装列可口可乐、啤酒、食品客户及金属罐供货，海外基地已形成产线。",
+    "company_fact": "东方财富主营明确快消品金属两片罐、易拉盖及印铁产品。",
+    "reason": "两源确认金属制罐生产与食品饮料客户，选择已有金属包装行业；集团参与万达私有化不当作上市公司产业业务。",
+    "source_sector_name": "金属包装",
+    "source_sector_provider": "东方财富",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601969.SH",
+    "key": "lithium_mining",
+    "sector": "锂矿",
+    "chain": [
+      "布谷尼锂矿采选与电池级锂盐加工"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富主营已包含铁矿、锂矿、油气资源勘探采选加工销售，未细分投产节点。",
+    "ths_fact": "同花顺确认马里布谷尼采矿权与锂盐项目，但部分氢氧化锂段仍是早年建设计划。",
+    "company_fact": "东方财富主营已包含铁矿、锂矿、油气资源勘探采选加工销售，未细分投产节点。",
+    "reason": "2025年报确认布谷尼一期正式投产、首批精矿抵港及氢氧化锂首批销售，锂资源新主线已有经营闭环；黄金为参股探矿权益，不能说金矿产销。",
+    "source_sector_name": "锂矿概念",
+    "source_sector_provider": "东方财富",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "601969-original-0-20260919",
+        "source_kind": "official_filing",
+        "publisher": "海南矿业",
+        "title": "2025年年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=601969&id=12014229",
+        "published_at": null,
+        "assertions": [
+          "布谷尼一期采选正式投产，首批精矿已运抵海南；年内完成首批氢氧化锂产品销售。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "601975.SH",
+    "key": "shipping",
+    "sector": "航运",
+    "chain": [
+      "成品油及化工品等液体散货船舶运输"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富主营段说明水运液体货物运输类型，属于行业介绍，不能据此断言本公司经营全部货类。",
+    "ths_fact": "同花顺航运解释明确公司从事国内沿海及全球航线液体散货船舶运输。",
+    "company_fact": "东方财富主营段说明水运液体货物运输类型，属于行业介绍，不能据此断言本公司经营全部货类。",
+    "reason": "供应商板块与公司运输解释支持航运身份，保守限定油品化工品液货承运；不将一般行业介绍中的集装箱运输写为公司实业。",
+    "source_sector_name": "航运概念",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601985.SH",
+    "key": "nuclear_power",
+    "sector": "核电",
+    "chain": [
+      "核电站运营售电及核电技术服务"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富主营列核能等清洁能源开发建设运营、售电与安全技术服务。",
+    "ths_fact": "同花顺核电解释列秦山、田湾等在营核电站；核聚变段为参股增资审批方案，另有机器人实际应用。",
+    "company_fact": "东方财富主营列核能等清洁能源开发建设运营、售电与安全技术服务。",
+    "reason": "在营核电站与售电业务构成完整核电身份；不把核裂变运营等同核聚变，聚变投资与技术商业进展后续单独复核。",
+    "source_sector_name": "核电",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601988.SH",
+    "key": "bank",
+    "sector": "银行",
+    "chain": [
+      "境内外公司个人金融及跨境结算"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富主营确认公司金融、个人金融、资金与投资银行等综合银行服务。",
+    "ths_fact": "同花顺CIPS解释确认跨境人民币清算规模及间接参与行服务，证金持股只是股东属性。",
+    "company_fact": "东方财富主营确认公司金融、个人金融、资金与投资银行等综合银行服务。",
+    "reason": "跨境支付是已确认银行业务特色，与综合银行经营共同支持银行市场身份；不把清算交易金额当营业收入。",
+    "source_sector_name": "银行",
+    "source_sector_provider": "东方财富",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601990.SH",
+    "key": "securities",
+    "sector": "券商",
+    "chain": [
+      "证券经纪、自营、投行及资产管理"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富主营明确证券及期货经纪、证券投资、投行和资产管理业务，并列收费收入模式。",
+    "ths_fact": "同花顺期货正文亦列综合证券业务，宁证期货属于子公司业务。",
+    "company_fact": "东方财富主营明确证券及期货经纪、证券投资、投行和资产管理业务，并列收费收入模式。",
+    "reason": "综合券商业务证据完整，期货是服务分支，选择已有券商概念而非标签首项。",
+    "source_sector_name": "券商概念",
+    "source_sector_provider": "东方财富",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601991.SH",
+    "key": "green_power",
+    "sector": "绿色电力",
+    "chain": [
+      "水电、风电光伏及综合发电运营"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富主营确认运营煤气电、水电、风电和光伏，清洁电源为实际在役资产。",
+    "ths_fact": "同花顺2026年半年报解释列在役水电9204.73兆瓦及风光合计18493.655兆瓦。",
+    "company_fact": "东方财富主营确认运营煤气电、水电、风电和光伏，清洁电源为实际在役资产。",
+    "reason": "风光水电已形成实质运营，选择既有绿色电力主题体现清洁能源发展身份，同时明确公司也有大量火电；不把怒江项目等同雅下工程订单。",
+    "source_sector_name": "绿色电力",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601992.SH",
+    "key": "cement",
+    "sector": "水泥",
+    "chain": [
+      "水泥熟料、混凝土及配套绿色建材"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富主营确认水泥为核心的混凝土、墙材、装配式建材产业链，兼有房地产与物业。",
+    "ths_fact": "同花顺水泥解释为重大工程特种混凝土供货；核聚变段是BEST项目AAC建材，航天是耐火材料。",
+    "company_fact": "东方财富主营确认水泥为核心的混凝土、墙材、装配式建材产业链，兼有房地产与物业。",
+    "reason": "建筑材料产品与区域水泥产业经营支持水泥身份；核聚变普通建材及发射场耐材供货真实但不等同反应堆核心设备，相关项目放量与专用技术变化可再复核。",
+    "source_sector_name": "水泥概念",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601995.SH",
+    "key": "securities",
+    "sector": "券商",
+    "chain": [
+      "投资银行、证券交易、财富及资产管理"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富主营详细确认股债融资承销、股票及固收、财富资产管理等综合证券服务。",
+    "ths_fact": "同花顺北京自贸区正文列投资银行综合业务，期货由全资中金期货经营。",
+    "company_fact": "东方财富主营详细确认股债融资承销、股票及固收、财富资产管理等综合证券服务。",
+    "reason": "业务链与已有券商板块一致，期货、区域和中字头属性不替代综合证券市场身份。",
+    "source_sector_name": "券商概念",
+    "source_sector_provider": "东方财富",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601996.SH",
+    "key": "fiberboard",
+    "sector": "纤维板",
+    "chain": [
+      "中高密度纤维板、刨花板及上游营林"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富主营确认六个板材基地、纤维板及刨花板生产，上游营林保障原料。",
+    "ths_fact": "同花顺纤维板解释确认板材产销及林板一体化，部分产能数据为旧年份。",
+    "company_fact": "东方财富主营确认六个板材基地、纤维板及刨花板生产，上游营林保障原料。",
+    "reason": "实际林板一体化产品支撑已有纤维板标签；碳吸收估算不当作已成交碳汇，避免混用不同年份产能。",
+    "source_sector_name": "纤维板",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601997.SH",
+    "key": "bank",
+    "sector": "银行",
+    "chain": [
+      "商业银行存贷款、结算及财富服务"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富主营列人民币和外汇存贷款、结算、票据、债券及基金销售等银行业务。",
+    "ths_fact": "同花顺只有高股息和区域标签，无新产业经营正文。",
+    "company_fact": "东方财富主营列人民币和外汇存贷款、结算、票据、债券及基金销售等银行业务。",
+    "reason": "银行行业与具体金融经营相符，高股息和地域信息不足以构成其他产业主线。",
+    "source_sector_name": "银行",
+    "source_sector_provider": "东方财富",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601998.SH",
+    "key": "bank",
+    "sector": "银行",
+    "chain": [
+      "公司金融、交易银行与零售财富管理"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富主营列公司、国际、交易、托管、财富及个人信贷等银行服务。",
+    "ths_fact": "同花顺主要为中特估、国企、证金持股等属性，无替代业务。",
+    "company_fact": "东方财富主营列公司、国际、交易、托管、财富及个人信贷等银行服务。",
+    "reason": "银行经营及已有银行板块提供直接依据；集团金融加实业背景不代表上市银行亲自经营集团所有产业。",
+    "source_sector_name": "银行",
+    "source_sector_provider": "东方财富",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601999.SH",
+    "key": "ai_applications",
+    "sector": "AI应用",
+    "chain": [
+      "图书AI伴读数字人及内容问答服务"
+    ],
+    "stage": "delivery",
+    "fact": "东方财富主营为教材和一般图书出版发行、印刷及物资，未单列AI经营阶段。",
+    "ths_fact": "同花顺2026年4月21日解释明确现代纸书RAYS已在数学周报、尖子生题库等产品落地。",
+    "company_fact": "东方财富主营为教材和一般图书出版发行、印刷及物资，未单列AI经营阶段。",
+    "reason": "年报确认现代纸书和AI数字人合作，公司互动进一步确认图书AI助手实际应用，选AI应用新主线；仅记交付应用，不把图书全部销售或合作方技术收入归入AI收入。",
+    "source_sector_name": "AI应用",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "601999-original-0-20260919",
+        "source_kind": "official_filing",
+        "publisher": "出版传媒",
+        "title": "2025年年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=601999&id=12071915",
+        "published_at": null,
+        "assertions": [
+          "公司推进现代纸书项目并与清华学堂在线达成AI数字人合作。"
+        ]
+      },
+      {
+        "evidence_id": "601999-original-1-20260919",
+        "source_kind": "official_company",
+        "publisher": "出版传媒",
+        "title": "2026年4月21日公司互动回复（同花顺转载）",
+        "source_url": "https://yuanchuang.10jqka.com.cn/20260421/c676151581.shtml",
+        "published_at": "2026-04-21",
+        "assertions": [
+          "公司确认AI图书数字人提供答疑伴读，已在数学周报与尖子生题库落地。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "603000.SH",
+    "key": "ai_training_data",
+    "sector": "AI语料",
+    "chain": [
+      "主流价值语料库、媒体语料平台及数据服务"
+    ],
+    "stage": "product",
+    "fact": "东方财富主营确认内容科技、数据与信息服务，以云数链平台提供数据存管用。",
+    "ths_fact": "同花顺2026年半年报解释列主流价值语料库、媒体语料服务平台及具身交互数据集。",
+    "company_fact": "东方财富主营确认内容科技、数据与信息服务，以云数链平台提供数据存管用。",
+    "reason": "公司官网原文确认媒体语料平台已发布并提供工具与产权管理方案，AI语料具有真实产品和既有数据业务支撑；阶段按已上线产品，未由新闻和广告收入推断语料付费收入。",
+    "source_sector_name": "AI语料",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "603000-original-0-20260919",
+        "source_kind": "official_company",
+        "publisher": "人民网",
+        "title": "人民网发布媒体语料服务平台项目",
+        "source_url": "https://finance.people.com.cn/n1/2026/0526/c1004-40727877.html",
+        "published_at": "2026-05-26",
+        "assertions": [
+          "人民网正式发布媒体语料服务平台，联合伙伴提供云资源、语料处理及产权管理等服务能力。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "603001.SH",
+    "key": "footwear_headwear_other",
+    "sector": "鞋帽及其他",
+    "chain": [
+      "皮鞋、休闲鞋及皮具研发生产零售"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富主营明确鞋类及皮具研发、生产、零售分销。",
+    "ths_fact": "同花顺体育用品解释列奥康康龙自有品牌及运动休闲代理品牌，跨境电商来自兰亭集势少数股权。",
+    "company_fact": "东方财富主营明确鞋类及皮具研发、生产、零售分销。",
+    "reason": "鞋履品牌及生产销售形成直接经营身份，选已有鞋帽行业；少数电商与银行股权不能直接写成并表主业。",
+    "source_sector_name": "鞋帽及其他",
+    "source_sector_provider": "东方财富",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603002.SH",
+    "key": "copper_clad_laminate",
+    "sector": "覆铜板",
+    "chain": [
+      "高频高速覆铜板、半固化片及电子树脂"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富主营确认覆铜板和半固化片业务及环氧树脂业务，产品应用服务器通信等PCB制造。",
+    "ths_fact": "同花顺PCB解释确认高速高频覆铜板及下游板厂客户；先进封装增层膜则为合作开发和认证推广。",
+    "company_fact": "东方财富主营确认覆铜板和半固化片业务及环氧树脂业务，产品应用服务器通信等PCB制造。",
+    "reason": "覆铜板产品及PCB客户构成实际电子材料主线，选择已有覆铜板板块；英伟达供应链交流不表述直接供货，增层膜合作不表述量产收入。",
+    "source_sector_name": "覆铜板概念",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603004.SH",
+    "key": "dyes",
+    "sector": "染料",
+    "chain": [
+      "染发着色剂、染料中间体及配套单体"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富主营确认染发剂着色原料、中间体及耦合剂规模生产，并有特种材料单体和植保材料。",
+    "ths_fact": "同花顺染料解释说明一般染料及中间体业务以贸易为主自产为辅，商业航天为材料用途。",
+    "company_fact": "东方财富主营确认染发剂着色原料、中间体及耦合剂规模生产，并有特种材料单体和植保材料。",
+    "reason": "染发着色材料与染料中间体实际经营支撑已有染料类别；不把贸易染料全部说自产，航天应用未确认独立放量。",
+    "source_sector_name": "染料",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603005.SH",
+    "key": "advanced_packaging",
+    "sector": "先进封装",
+    "chain": [
+      "传感器晶圆级TSV及芯片尺寸封装测试"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富主营确认8英寸与12英寸晶圆级封装规模量产及传感器综合封装服务。",
+    "ths_fact": "同花顺先进封装解释明确TSV领先技术及持续服务，玻璃基板亦有多年量产工艺积累。",
+    "company_fact": "东方财富主营确认8英寸与12英寸晶圆级封装规模量产及传感器综合封装服务。",
+    "reason": "技术、产线及客户服务共同支持先进封装身份；光刻机微光学零部件与参股GaN是其他链条，不混称光刻机整机或自有GaN晶圆厂。",
+    "source_sector_name": "先进封装",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603006.SH",
+    "key": "automotive_parts",
+    "sector": "汽车零部件",
+    "chain": [
+      "汽车白车身冲压焊接总成及供应链服务"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富主营为轮罩、立柱、天窗框等车身冲压焊接总成，兼有供应链与冷链物流。",
+    "ths_fact": "同花顺汽车制造解释对应一级车身零件供应商，新能源水冷板已有订单；特斯拉为进入目录。",
+    "company_fact": "东方财富主营为轮罩、立柱、天窗框等车身冲压焊接总成，兼有供应链与冷链物流。",
+    "reason": "实际车身零部件产品及客户共同构成汽车零部件身份；进入供应商目录不等于特定订单兑现，冷链为另项经营。",
+    "source_sector_name": "汽车零部件",
+    "source_sector_provider": "东方财富",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603007.SH",
+    "key": "sensors",
+    "sector": "传感器",
+    "chain": [
+      "车规压力传感器、惯性测量及组合导航模组"
+    ],
+    "stage": "product",
+    "fact": "东方财富主营确认传感器样品测试、IMU等定型和客户验证，并确认尼威动力已完成收购。",
+    "ths_fact": "同花顺传感器解释列MEMS及惯性模组，低空与无人驾驶段明确尚在验证导入；液冷为设立合资布局。",
+    "company_fact": "东方财富主营确认传感器样品测试、IMU等定型和客户验证，并确认尼威动力已完成收购。",
+    "reason": "2026半年报确认部分传感器由研发试制转为具备标准化量产能力，选真实产品化的传感器转型主线；尚未据此推断对外销量收入，原汽车油箱收入与传感器分开，液冷公司设立不算交付。",
+    "source_sector_name": "传感器",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "603007-original-0-20260919",
+        "source_kind": "official_filing",
+        "publisher": "顺景科技",
+        "title": "2026年半年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=603007&id=12571906",
+        "published_at": null,
+        "assertions": [
+          "2025年8月完成尼威动力收购并纳入合并；2026上半年部分传感器经验证审核转入标准化量产能力阶段，未据此确认全部已销售。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "603008.SH",
+    "key": "brain_computer_interface",
+    "sector": "脑机接口",
+    "chain": [
+      "与强脑科技合作的脑电感应睡眠床垫"
+    ],
+    "stage": "product",
+    "fact": "东方财富主营确认智能及传统床垫、睡眠产品研发生产销售，未单列脑电联名型号收入。",
+    "ths_fact": "同花顺脑机接口解释指宝褓BrainCo联名产品，借脑电数据调节睡眠助眠参数。",
+    "company_fact": "东方财富主营确认智能及传统床垫、睡眠产品研发生产销售，未单列脑电联名型号收入。",
+    "reason": "公司ESG报告原文确认与强脑科技联合发布脑电感应AI床垫，已有具体产品支持脑机接口消费应用身份；阶段仅产品，不把其他智能床垫销量当该型号销量，不声称自研脑机芯片或医疗器械获批。",
+    "source_sector_name": "脑机接口",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "603008-original-0-20260919",
+        "source_kind": "official_filing",
+        "publisher": "喜临门",
+        "title": "2025年度ESG报告",
+        "source_url": "https://static.cninfo.com.cn/finalpage/2026-04-25/1225186136.PDF",
+        "published_at": "2026-04-25",
+        "assertions": [
+          "公司与强脑科技联合发布脑电感应AI产品宝褓BrainCo床垫；总体AI床垫销量不等于该联名型号销量。"
+        ]
+      }
+    ]
+  }
+]

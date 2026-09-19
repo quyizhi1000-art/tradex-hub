@@ -1,0 +1,59 @@
+{
+  "instrument_id": "000755.SZ",
+  "name": "山西高速",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "000755.SZ",
+    "name": "山西高速",
+    "memberships": [
+      "交通运输",
+      "铁路公路",
+      "高速公路",
+      "山西板块",
+      "深股通",
+      "融资融券",
+      "绿色电力",
+      "央国企改革",
+      "参股银行"
+    ],
+    "business_sections": [
+      {
+        "title": "高速公路管理与运营",
+        "kind": "主营业务",
+        "text": "公司通过重组并购等方式获得经营性高速公路特许经营权，公司主要业务为高速公路管理与运营，通过为过往车辆提供通行服务，并按照行业监管部门制定的收费标准对过往车辆收取通行费,以此来回收投资并获取收益，同时，对高速公路沿线进行综合开发经营，并负责道路的养护维修和安全维护。收费高速公路具有投资回收期长、收益相对稳定的特点，通行费收入是公司的主要营业收入来源。"
+      },
+      {
+        "title": "核心资产优良",
+        "kind": "核心竞争力",
+        "text": "核心资产优良。公司所辖平榆高速、榆和高速两条高速公路和太佳黄河桥是晋煤外运的主要通道，地理位置优越，运输需求旺盛，车流量大，资产质量优良，协同效益较好，属于我省经营性高速公路中的优质资产，单公里收费和盈利能力居于省内经营性高速公路前列，稳定的通行费收入带来较为充裕的现金流，为未来稳健经营及后续发展提供了资金保障。"
+      },
+      {
+        "title": "发展空间广阔",
+        "kind": "核心竞争力",
+        "text": "发展空间广阔。公司间接控股股东山西交控集团作为省內主要的高速公路投资和管理主体，高速公路路产及沿线资源处于领先地位，公司作为其旗下唯一高速公路上市平台，依托山西交控集团能发挥良好的资源整合与协同发展效能，在投资并购、产业布局等方面有效支撑规模合理扩张与长期价值增长。"
+      },
+      {
+        "title": "运营理念领先",
+        "kind": "核心竞争力",
+        "text": "运营理念领先。公司在道路保畅、养护管理、应急救援、智慧运行等方面积累了丰富的经验和技能，培育了成熟的收费、养护、路政、治超和安全管理等专业化队伍，所辖高速公路管理成本低、服务品质好、运营效率高，构建了成熟高效、科学合理、精细化的高速公路管理运营体系。同时，着力打造交能融合数智化区域微电网、工区级养护分析决策系统等示范项目，在省内同行业中居于前列。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ000755",
+    "fetched_at": "2026-09-18T22:35:50.654581+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "高速公路特许经营权项目收入"
+}

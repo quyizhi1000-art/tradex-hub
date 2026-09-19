@@ -243,6 +243,10 @@ enabled = false
 [mcp_servers.node_repl]
 enabled = false
 
+[mcp_servers.cua_repl]
+command = 'C:\Users\Admin\AppData\Local\OpenAI\Codex\runtimes\cua_node\6f12e0ef1c6e5061\bin\node.exe'
+enabled = false
+
 # This global server points at the LMGameDev Docker gateway and must never be
 # inherited by Tradex tasks.
 [mcp_servers.MCP_DOCKER]

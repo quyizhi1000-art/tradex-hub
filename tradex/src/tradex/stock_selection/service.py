@@ -13,6 +13,9 @@ from zoneinfo import ZoneInfo
 
 from tradex.data_gateway.stock_selection import fetch_daily_stock_factor_snapshot
 from tradex.data_gateway.stock_selection_contracts import DailyStockFactorSnapshotV1
+from tradex.data_gateway.stock_technicals import fetch_stock_technical_window
+from tradex.data_gateway.macd_price_history import fetch_macd_price_histories
+from .macd_j import price_history_requests
 from tradex.market_calendar import (
     CalendarDayStatus,
     TradingSessionPhase,
@@ -23,6 +26,7 @@ from tradex.market_calendar import (
 from .contracts import DailyStockSelectionOutcomeV1, DailyStockSelectionV1
 from .engine import DEFAULT_SELECTION_CONFIG, select_daily_stocks
 from .industry_display import load_selection_industry_display
+from .insights import build_insights, trading_window
 from .strategies import (
     REGISTERED_STOCK_SELECTION_STRATEGIES,
     build_strategy_results,
@@ -126,10 +130,17 @@ class DailyStockSelectionService:
         store: DailyStockSelectionStore,
         *,
         factor_loader: Callable[[date], DailyStockFactorSnapshotV1] | None = None,
+        technical_loader: Callable | None = None,
+        price_history_loader: Callable | None = None,
+        membership_loader: Callable | None = None,
         clock: Callable[[], datetime] | None = None,
     ) -> None:
         self.store = store
+        self._membership_loader = membership_loader
+        self._membership_attempts: dict[date, datetime] = {}
         self._factor_loader = factor_loader or _load_factor_snapshot_with_relationships
+        self._technical_loader = technical_loader or (fetch_stock_technical_window if factor_loader is None else None)
+        self._price_history_loader = price_history_loader or (fetch_macd_price_histories if factor_loader is None else None)
         self._clock = clock or (lambda: datetime.now(SHANGHAI))
         self._lock = threading.RLock()
         self._execution_lock = threading.Lock()
@@ -255,6 +266,38 @@ class DailyStockSelectionService:
                     strategy_version=strategy.strategy_version,
                 ) is None
             )
+            if snapshot.technicals is None and self._technical_loader is not None and any(
+                strategy.result_contract == "stock_macd_j_screen.v1" for strategy in missing_strategies
+            ):
+                try:
+                    technicals = self._technical_loader(snapshot.candlestick_window_trade_dates[-6:])
+                    snapshot = DailyStockFactorSnapshotV1.model_validate({
+                        **snapshot.model_dump(), "technicals": technicals,
+                    })
+                except Exception as exc:
+                    # An optional source outage cannot erase or block the four
+                    # existing strategies. Missing results remain retryable.
+                    logger.warning("MACD J indicators unavailable; preserving other strategies (%s)", type(exc).__name__)
+            price_windows_ready = True
+            if (snapshot.technicals is not None and self._price_history_loader is not None
+                    and any(s.result_contract == "stock_macd_j_screen.v1" for s in missing_strategies)):
+                requested = price_history_requests(snapshot)
+                try:
+                    histories = self._price_history_loader(requested, target)
+                except Exception as exc:
+                    logger.warning("MACD J price acquisition failed (%s)", type(exc).__name__)
+                    histories = ()
+                snapshot = snapshot.model_copy(update={"technicals": snapshot.technicals.model_copy(
+                    update={"price_histories": histories})})
+                if requested and not histories:
+                    price_windows_ready = False
+                    logger.warning("MACD J price windows unavailable; keeping strategy retryable")
+                    missing_strategies = tuple(s for s in missing_strategies if s.result_contract != "stock_macd_j_screen.v1")
+            executable_strategies = tuple(
+                strategy for strategy in REGISTERED_STOCK_SELECTION_STRATEGIES
+                if strategy.result_contract != "stock_macd_j_screen.v1" or (snapshot.technicals is not None and price_windows_ready)
+            )
+            missing_strategies = tuple(s for s in missing_strategies if s in executable_strategies)
             if existing is not None and all(
                 not strategy.requires_legacy_selection for strategy in missing_strategies
             ):
@@ -286,7 +329,7 @@ class DailyStockSelectionService:
                 raise SelectionDataUnavailableError(
                     "当日没有通过完整性和流动性门槛的候选股票。"
                 )
-            strategy_results = build_strategy_results(snapshot, selection)
+            strategy_results = build_strategy_results(snapshot, selection, strategies=executable_strategies)
             update_phase("archiving")
             self._evaluate_previous(snapshot)
             action, stored = self.store.record(selection)
@@ -538,12 +581,45 @@ class DailyStockSelectionService:
                 else None
             ),
             "strategy_results": [item.model_dump(mode="json") for item in results],
+            "missing_strategy_ids": [strategy.strategy_id for strategy in REGISTERED_STOCK_SELECTION_STRATEGIES
+                                     if not any(item.strategy_id == strategy.strategy_id
+                                                and item.strategy_version == strategy.strategy_version for item in results)],
             "strategy_outcomes": [
                 outcome.model_dump(mode="json")
                 for item in results
                 if (outcome := self.store.get_strategy_outcome(item.result_id)) is not None
             ],
         }
+
+    def refresh_limit_up_memberships(self, *, max_requests: int = 5) -> str:
+        """Worker-owned bounded backfill; reads never contact a market provider."""
+        from tradex.data_gateway.limit_events import fetch_daily_limit_up_membership
+
+        now = self._now()
+        needed = set()
+        for entry in self.store.list_strategy_dates(limit=365):
+            needed.update(trading_window(date.fromisoformat(entry["trade_date"])))
+        requests = 0
+        for day in sorted(needed, reverse=True):
+            if day > now.date() or (day == now.date() and now.time().replace(tzinfo=None) < MANUAL_SELECTION_START):
+                continue
+            if self.store.get_limit_up_membership(day) is not None:
+                continue
+            attempted = self._membership_attempts.get(day)
+            if attempted and (now - attempted).total_seconds() < 600:
+                continue
+            if requests >= max_requests:
+                break
+            self._membership_attempts[day] = now
+            requests += 1
+            try:
+                membership = (self._membership_loader or fetch_daily_limit_up_membership)(day.isoformat(), now=now)
+                if membership.trading_date != day:
+                    raise ValueError("limit-up membership returned wrong trade date")
+                self.store.record_limit_up_membership(membership)
+            except Exception:
+                logger.warning("selection closing limit-up evidence unavailable: %s", day, exc_info=True)
+        return self.store.limit_up_membership_revision()
 
     def strategy_history(
         self,
@@ -581,12 +657,19 @@ class DailyStockSelectionService:
             candidate.instrument_id for result in results
             for candidate in result.payload.candidates
         }
+        instrument_ids.update(candidate.instrument_id for result in results
+                              for candidate in getattr(result.payload, "pending_candidates", ()))
         legacy = self.store.get(target) if target else None
         if legacy is not None:
             instrument_ids.update(candidate.instrument_id for candidate in legacy.candidates)
             for screen in (*legacy.pattern_screens, *legacy.limit_up_tendency_screens):
                 instrument_ids.update(candidate.instrument_id for candidate in screen.candidates)
-        industry_display = load_selection_industry_display(instrument_ids)
+        insights = build_insights(self.store, date.fromisoformat(target), REGISTERED_STOCK_SELECTION_STRATEGIES) if target else None
+        followup_ids = {
+            row["instrument_id"] for strategy in (insights or {}).get("strategies", {}).values()
+            for row in strategy["followup"]["rows"]
+        }
+        industry_display = load_selection_industry_display(instrument_ids | followup_ids)
         outcomes = [
             outcome
             for result in results
@@ -599,6 +682,7 @@ class DailyStockSelectionService:
             "dates": dates,
             "catalog": strategy_catalog().model_dump(mode="json"),
             "industry_display": industry_display.model_dump(mode="json"),
+            "insights": insights,
             "results": [item.model_dump(mode="json") for item in results],
             "outcomes": [item.model_dump(mode="json") for item in outcomes],
             "recent_outcomes": [

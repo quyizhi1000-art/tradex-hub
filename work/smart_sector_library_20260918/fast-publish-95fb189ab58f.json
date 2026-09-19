@@ -1,0 +1,78 @@
+[
+  {
+    "id": "600515.SH",
+    "key": "duty_free_shops",
+    "sector": "免税店",
+    "source_sector_name": "免税店",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "机场免税商业运营"
+    ],
+    "company_fact": "机场运营与免税商业并存，构建机场商业离岛岛民免税协同。",
+    "ths_fact": "通过机场免税店参股参与免税业务。",
+    "fact": "机场运营与免税商业并存，构建机场商业离岛岛民免税协同。",
+    "reason": "机场客流与免税商业形成明确市场身份；本次仅确认免税商业运营关联，不沿用2020参股比例或虚构免税商品并表营收。"
+  },
+  {
+    "id": "600516.SH",
+    "key": "graphite_electrodes",
+    "sector": "石墨电极",
+    "source_sector_name": "石墨电极",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "石墨电极及炭素材料"
+    ],
+    "company_fact": "石墨电极炭砖等研产销，主要服务电弧炉炼钢等。",
+    "ths_fact": "主营石墨炭素，拥有电极生产装备与针状焦自供。",
+    "fact": "石墨电极炭砖等研产销，主要服务电弧炉炼钢等。",
+    "reason": "成熟石墨电极周期品身份明确，核用材料是延伸产品；不照搬2017产量排名为当前事实。"
+  },
+  {
+    "id": "600517.SH",
+    "key": "carbon_trading",
+    "sector": "碳交易",
+    "source_sector_name": "碳交易",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "英大碳资产服务"
+    ],
+    "company_fact": "旗下碳资产业务碳管理交易金融，撮合累计超400万吨。",
+    "ths_fact": "子公司从事碳资产经营。",
+    "fact": "旗下碳资产业务碳管理交易金融，撮合累计超400万吨。",
+    "reason": "能源绿色金融与成熟碳交易形成市场特色，非仅政策标签；不把撮合量算自营交易收入。"
+  },
+  {
+    "id": "600518.SH",
+    "key": "chinese_medicine",
+    "sector": "中医药",
+    "source_sector_name": "中医药",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "中药饮片",
+      "中医药全链服务"
+    ],
+    "company_fact": "中药饮片生产销售为核心，产业链覆盖药材饮片市场物流及药房。",
+    "ths_fact": "已有中医药成员，旧解析为2017至2018产业规划。",
+    "fact": "中药饮片生产销售为核心，产业链覆盖药材饮片市场物流及药房。",
+    "reason": "现有饮片经营而非旧投资规划支撑中医药归属，不能把历史巨额计划当当前完成项目。"
+  },
+  {
+    "id": "600519.SH",
+    "key": "baijiu",
+    "sector": "白酒",
+    "source_sector_name": "白酒概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "茅台及系列酒"
+    ],
+    "company_fact": "茅台酒及系列酒产销，酱香型白酒品牌。",
+    "ths_fact": "主营茅台酒和系列酒生产销售。",
+    "fact": "茅台酒及系列酒产销，酱香型白酒品牌。",
+    "reason": "产品品牌渠道一致对应白酒，超级品牌仅风格属性。"
+  }
+]

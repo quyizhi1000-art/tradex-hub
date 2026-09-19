@@ -1,0 +1,82 @@
+[
+  {
+    "id": "300491.SZ",
+    "key": "high_voltage_fast_charging",
+    "sector": "高压快充",
+    "source_sector_name": "高压快充",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "高压充电模块",
+      "功率变换电源"
+    ],
+    "fact": "主营功率变换电力电子研发产销，用于充换电电网航空储能等。",
+    "ths_fact": "高压快充明确1000V产品已市场化，充电桩解析为模块控制板。",
+    "company_fact": "主营功率变换电力电子研发产销，用于充换电电网航空储能等。",
+    "reason": "现有高压快充对应模块实际业务及细分识别，不是整车制造；电源用于数据中心不等于运营算力中心。"
+  },
+  {
+    "id": "300492.SZ",
+    "key": "vocational_education",
+    "sector": "职业教育",
+    "source_sector_name": "职业教育",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "公考招录培训",
+      "职业资格考试辅导"
+    ],
+    "fact": "当前非学历培训覆盖公务员事业单位等招录及资格考试，建筑设计并行。",
+    "ths_fact": "职业教育明确全资华图教育科技非学历培训，AI为教学批改工具。",
+    "company_fact": "当前非学历培训覆盖公务员事业单位等招录及资格考试，建筑设计并行。",
+    "reason": "已有职业教育对应真实培训机构及服务，内部AI升级保留技术标签，不把所有培训费等同单独AI产品收入。"
+  },
+  {
+    "id": "300493.SZ",
+    "key": "ai_glasses",
+    "sector": "AI眼镜",
+    "source_sector_name": "AI眼镜",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "低功耗SoC方案",
+      "近场声学器件"
+    ],
+    "fact": "公司分销和应用设计低功耗SoC无线连接及传感器芯片，提供IC解决方案。",
+    "ths_fact": "AI眼镜解析明确SoC及近场扬声器件已用于客户AR/AI眼镜。",
+    "company_fact": "公司分销和应用设计低功耗SoC无线连接及传感器芯片，提供IC解决方案。",
+    "reason": "已有眼镜产品配套与核心方案能力支持市场主线，链位是分销应用设计和器件，非所有芯片自研或眼镜整机生产。"
+  },
+  {
+    "id": "300494.SZ",
+    "key": "cloud_gaming",
+    "sector": "云游戏",
+    "source_sector_name": "云游戏",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "云游戏平台",
+      "数字娱乐场景服务"
+    ],
+    "fact": "随乐游云游戏基于云边技术，配合易乐游场馆易乐途酒店运营及社交增值业务。",
+    "ths_fact": "云游戏已有盛天云云机房方案，网络游戏确认平台广告增值及联运。",
+    "company_fact": "随乐游云游戏基于云边技术，配合易乐游场馆易乐途酒店运营及社交增值业务。",
+    "reason": "现有云游戏有具体平台及场景运营基础，智能座舱只是终端拓展，AI音乐应用并行保留。"
+  },
+  {
+    "id": "300496.SZ",
+    "key": "smart_cockpit",
+    "sector": "智能座舱",
+    "source_sector_name": "智能座舱",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "汽车操作系统",
+      "舱驾融合软件"
+    ],
+    "fact": "公司软件许可开发和软硬一体销售，滴水OS跨域协同与AIBox匹配座舱场景。",
+    "ths_fact": "智能座舱明确从座舱OS到驾驶OS整车平台全系列能力，Kanzi已配车型。",
+    "company_fact": "公司软件许可开发和软硬一体销售，滴水OS跨域协同与AIBox匹配座舱场景。",
+    "reason": "已有智能座舱由实用汽车软件平台和授权服务支撑，移动物流机器人不能仅因具身表述全算人形整机。"
+  }
+]

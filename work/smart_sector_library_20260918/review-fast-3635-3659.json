@@ -1,0 +1,467 @@
+[
+  {
+    "id": "600983.SH",
+    "key": "home_appliances",
+    "sector": "家用电器",
+    "chain": [
+      "冰箱、洗衣机及洗碗机等厨洗电器研发制造销售"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富主营明确提供洗衣与厨房解决方案，生产销售冰箱、洗衣机、干衣机、洗碗机等家电。",
+    "ths_fact": "同花顺家用电器解释确认冰洗与厨房电器业务，并记载海外销售。",
+    "company_fact": "东方财富主营明确提供洗衣与厨房解决方案，生产销售冰箱、洗衣机、干衣机、洗碗机等家电。",
+    "reason": "两源一致支持家电产品与品牌经营身份；海外收入是市场渠道，垃圾分类标签未提供更强业务依据。",
+    "source_sector_name": "家用电器",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600984.SH",
+    "key": "construction_machinery",
+    "sector": "工程机械",
+    "chain": [
+      "塔机租赁、筑路设备及新能源矿用车辆"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富主营确认庞源塔机租赁、路机租赁和工程机械制造，新能源矿车已有量产量销及下矿使用。",
+    "ths_fact": "同花顺煤化工解释引用2026年8月25日蒲洁能化收购预案，审计评估尚未完成，交易价格待定。",
+    "company_fact": "东方财富主营确认庞源塔机租赁、路机租赁和工程机械制造，新能源矿车已有量产量销及下矿使用。",
+    "reason": "现有工程机械经营与租赁形成完整业务证据；蒲洁能化尚为交易预案，实际交割及煤化工并表后复核主归属。",
+    "source_sector_name": "工程机械",
+    "source_sector_provider": "东方财富",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600985.SH",
+    "key": "coking_coal",
+    "sector": "焦煤",
+    "chain": [
+      "炼焦精煤采选及焦化配套"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富主营包括炼焦精煤、动力煤与焦炭、甲醇等煤化工产品。",
+    "ths_fact": "同花顺煤炭解释明确焦煤、肥煤、瘦煤等煤种及焦化业务。",
+    "company_fact": "东方财富主营包括炼焦精煤、动力煤与焦炭、甲醇等煤化工产品。",
+    "reason": "炼焦煤资源及配套焦化共同形成焦煤产业身份，选择已有细分焦煤板块；集团合作与拟建发电不替代已确认经营。",
+    "source_sector_name": "焦煤",
+    "source_sector_provider": "东方财富",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600986.SH",
+    "key": "computing_power_leasing",
+    "sector": "算力租赁",
+    "chain": [
+      "智算服务器交付、租赁、调度与运维"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富主营列数智营销、数字文化及算力基础设施，浙文智算等主体已面向模型、智驾及文化客户提供算力服务。",
+    "ths_fact": "同花顺算力租赁解释记载多批智算服务器交付并形成一体化运营，数字人和AI营销也已有应用。",
+    "company_fact": "东方财富主营列数智营销、数字文化及算力基础设施，浙文智算等主体已面向模型、智驾及文化客户提供算力服务。",
+    "reason": "年报确认算力业务由试点进入规模化运营并成为业绩增长点，选择这一有实际经营的新主线；AI营销产品保留在业务说明，不把参投融资租赁公司全额算作本体收入。",
+    "source_sector_name": "算力租赁",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "600986-primary-business-original-20260919",
+        "source_kind": "official_filing",
+        "publisher": "浙文互联",
+        "title": "2025年年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=600986&id=12048366",
+        "published_at": null,
+        "assertions": [
+          "报告确认多批智算服务器已交付，算力业务由试点转向规模化运营，成为业绩新增长点。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "600987.SH",
+    "key": "gold",
+    "sector": "黄金",
+    "chain": [
+      "黄金首饰生产加工及批发"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富主营确认印染与黄金首饰双主业，航民百泰、航民尚金缘开展黄金饰品生产及销售。",
+    "ths_fact": "同花顺黄金概念解释明确黄金饰品经营，与印染业务并存。",
+    "company_fact": "东方财富主营确认印染与黄金首饰双主业，航民百泰、航民尚金缘开展黄金饰品生产及销售。",
+    "reason": "黄金首饰生产批发构成真实持续经营及黄金主题身份，非名称或参股推断；链条属于饰品加工销售，不是黄金矿山。",
+    "source_sector_name": "黄金概念",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600988.SH",
+    "key": "gold",
+    "sector": "黄金",
+    "chain": [
+      "黄金矿山开采、冶炼及销售"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富主营为黄金开采销售，并有电解铜及资源综合回收。",
+    "ths_fact": "同花顺黄金解释对应境内外金矿业务；稀土段含矿产资源与规划产能。",
+    "company_fact": "东方财富主营为黄金开采销售，并有电解铜及资源综合回收。",
+    "reason": "黄金矿山经营是两源共同确认的市场身份；稀土资源、设计产能不自动视为已生产销售。",
+    "source_sector_name": "黄金概念",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600989.SH",
+    "key": "coal_chemicals",
+    "sector": "煤化工",
+    "chain": [
+      "煤制甲醇、烯烃及聚乙烯聚丙烯"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富主营确认煤炭经甲醇转化为烯烃、聚乙烯、聚丙烯及EVA等，并有焦化精细化工。",
+    "ths_fact": "同花顺煤化工解释对应已投产业务，氢能解释说明绿氢供内部替代煤制氢，部分产能仍在建。",
+    "company_fact": "东方财富主营确认煤炭经甲醇转化为烯烃、聚乙烯、聚丙烯及EVA等，并有焦化精细化工。",
+    "reason": "以实际煤制烯烃一体化产业身份选择煤化工；自用绿氢与规划规模不表述为对外氢能销售。",
+    "source_sector_name": "煤化工概念",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600990.SH",
+    "key": "nuclear_fusion",
+    "sector": "可控核聚变",
+    "chain": [
+      "控股华耀电子为EAST提供PSM高压电源系统"
+    ],
+    "stage": "delivery",
+    "fact": "东方财富主营包含雷达、感知基础中的电源及微波器件，未单列核聚变交付金额。",
+    "ths_fact": "同花顺可控核聚变及核电解释记载华耀电子EAST电源项目与四套系统交付。",
+    "company_fact": "东方财富主营包含雷达、感知基础中的电源及微波器件，未单列核聚变交付金额。",
+    "reason": "原投资者记录确认控股华耀电子已提供四套EAST电源并回款，使核聚变成为有实物供货的新业务主线；阶段按交付，未将全部电源收入或后续BEST机会计为核聚变收入。",
+    "source_sector_name": "可控核聚变",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "600990-primary-business-original-20260919",
+        "source_kind": "official_filing",
+        "publisher": "四创电子",
+        "title": "2025年5月投资者关系活动记录",
+        "source_url": "https://pdf.dfcfw.com/pdf/H22_AN202505271680063872_1.pdf",
+        "published_at": "2025-05-27",
+        "assertions": [
+          "控股子公司华耀电子为EAST提供四套PSM高压电源系统，项目已交付且收回款项。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "600992.SH",
+    "key": "offshore_equipment",
+    "sector": "海工装备",
+    "chain": [
+      "海洋工程钢丝绳、系泊锚缆等配套"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富主营为钢丝、钢绳、绞线与索具生产销售。",
+    "ths_fact": "同花顺海工装备解释列深海锚缆和特种绳缆研发验收，军工与航母段存在较早年度案例。",
+    "company_fact": "东方财富主营为钢丝、钢绳、绞线与索具生产销售。",
+    "reason": "2025年报确认海洋工程是已服务的销售应用领域并取得高端市场突破，选择有现行业务支持的海工配套身份；新型号研制验收与一般海工销售分开，不把全部钢绳收入视为海工收入。",
+    "source_sector_name": "海工装备",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "600992-primary-business-original-20260919",
+        "source_kind": "official_filing",
+        "publisher": "贵绳股份",
+        "title": "2025年年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=600992&id=12179139",
+        "published_at": null,
+        "assertions": [
+          "钢丝绳等产品已服务海洋工程，海洋工程高端市场取得突破；新型系泊锚缆完成研制评审。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "600993.SH",
+    "key": "traditional_chinese_medicine",
+    "sector": "中药",
+    "chain": [
+      "麝香痔疮膏栓、龙珠软膏及八宝眼膏等"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富主营确认肛肠用药及眼科、皮肤药品，麝香痔疮膏栓、八宝眼膏、龙珠软膏等已有经营。",
+    "ths_fact": "同花顺眼科、医药电商与民营医院对应现有产品渠道，创新药段包含在研项目；仿制药批准不能等同创新药上市。",
+    "company_fact": "东方财富主营确认肛肠用药及眼科、皮肤药品，麝香痔疮膏栓、八宝眼膏、龙珠软膏等已有经营。",
+    "reason": "已有中药产品群和肛肠品牌支撑中药市场身份；创新研发继续跟踪临床和获批，不借仿制药销售抬高创新药阶段。",
+    "source_sector_name": "中药概念",
+    "source_sector_provider": "东方财富",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600995.SH",
+    "key": "pumped_storage",
+    "sector": "抽水蓄能",
+    "chain": [
+      "抽水蓄能电站建设运营及调峰服务"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富主营披露2025年抽水蓄能投产规模1268万千瓦，并有电化学储能和调峰水电运营。",
+    "ths_fact": "同花顺抽水蓄能解释与经营相符，部分重组说明仍用早年预案；虚拟电厂与钠电分别有平台和研发项目。",
+    "company_fact": "东方财富主营披露2025年抽水蓄能投产规模1268万千瓦，并有电化学储能和调峰水电运营。",
+    "reason": "以已投产抽蓄电站形成的调峰服务身份归属，不沿用过时重组未来时；虚拟电厂平台与钠电研发不替代成熟抽蓄主线。",
+    "source_sector_name": "抽水蓄能",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600996.SH",
+    "key": "cloud_computing",
+    "sector": "云计算",
+    "chain": [
+      "广电节点传统政务云计算、云存储服务"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富主营为广电网络、宽带及依托云计算等技术的政企智慧广电服务。",
+    "ths_fact": "同花顺云计算解释记载云上贵州广电节点和多彩贵州平台对外提供云计算、云存储；旧算力租赁表述不能扩成AI智算。",
+    "company_fact": "东方财富主营为广电网络、宽带及依托云计算等技术的政企智慧广电服务。",
+    "reason": "公司2026年4月28日回复确认传统政务云服务有收入但占比不足1%，并明确不涉及AI算力租赁、智算运营；选已有云计算主题且严格限定传统服务，数据中心建设或AI业务取得新确认时复核。",
+    "source_sector_name": "云计算",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "600996-primary-business-original-20260919",
+        "source_kind": "official_company",
+        "publisher": "贵广网络",
+        "title": "公司2026年4月28日互动回复（同花顺转载）",
+        "source_url": "https://yuanchuang.10jqka.com.cn/20260428/c676344489.shtml",
+        "published_at": "2026-04-28",
+        "assertions": [
+          "公司确认传统政务云计算及云存储服务占收入不足1%，不涉及AI算力租赁、智算运营等热点业务。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "600997.SH",
+    "key": "coke",
+    "sector": "焦炭",
+    "chain": [
+      "炼焦煤洗选、焦炭生产及煤化工"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富主营涵盖煤炭开采洗选、焦化与煤化工。",
+    "ths_fact": "同花顺煤炭和煤化工解释确认肥煤、焦炭及面向钢铁客户的焦化产业链。",
+    "company_fact": "东方财富主营涵盖煤炭开采洗选、焦化与煤化工。",
+    "reason": "自有煤炭与持续焦化经营共同支撑已有焦炭板块；甲醇为产业链副产品，不据标签顺序替换整体焦化身份。",
+    "source_sector_name": "焦炭Ⅲ",
+    "source_sector_provider": "东方财富",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600998.SH",
+    "key": "smart_medical",
+    "sector": "智能医疗",
+    "chain": [
+      "九医诊所AI辅诊及基层医疗数字服务"
+    ],
+    "stage": "delivery",
+    "fact": "东方财富主营为医药流通、新零售、工业与CSO，并列技术增值及数字物流，未单列AI收入。",
+    "ths_fact": "同花顺智能医疗解释明确九医诊所AI辅诊六模块、接入DeepSeekV3及2025年底48%使用率。",
+    "company_fact": "东方财富主营为医药流通、新零售、工业与CSO，并列技术增值及数字物流，未单列AI收入。",
+    "reason": "2025年报原文确认AI辅诊平台已上线并被诊所使用，选择真实落地的智能医疗新主线；阶段为交付使用，医药分销收入不冒充AI收入，创新药受理与脑机设备经销另行区分。",
+    "source_sector_name": "智能医疗",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "600998-primary-business-original-20260919",
+        "source_kind": "official_filing",
+        "publisher": "九州通",
+        "title": "2025年年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=600998&id=12221276",
+        "published_at": null,
+        "assertions": [
+          "九医诊所AI辅助诊断平台已上线；截至2025年底使用率48%，九医SaaS系统已在2400余家诊所上线。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "600999.SH",
+    "key": "securities",
+    "sector": "券商",
+    "chain": [
+      "证券经纪、投行、投资交易及资产管理"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富主营明确证券经纪、投行、自营、资管、融资融券及做市等金融服务。",
+    "ths_fact": "同花顺保存概念主要是央国企与参股万达，未提供足以替代证券主业的新业务正文。",
+    "company_fact": "东方财富主营明确证券经纪、投行、自营、资管、融资融券及做市等金融服务。",
+    "reason": "公司业务与东方财富已有券商概念对应，选证券服务市场身份；不以空白参股标签或股东性质替代经营依据。",
+    "source_sector_name": "券商概念",
+    "source_sector_provider": "东方财富",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601000.SH",
+    "key": "ports",
+    "sector": "港口",
+    "chain": [
+      "京唐港区港口装卸、堆存及运输仓储"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富主营确认京唐港区多货种港口装卸、堆存、运输仓储及配套物流。",
+    "ths_fact": "同花顺航运解释实质为港口经营，智能物流对应港区作业。",
+    "company_fact": "东方财富主营确认京唐港区多货种港口装卸、堆存、运输仓储及配套物流。",
+    "reason": "实际资产和服务环节是港口运营，选择已有港口板块；航运标签不意味着船队承运业务。",
+    "source_sector_name": "港口",
+    "source_sector_provider": "东方财富",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601001.SH",
+    "key": "thermal_coal",
+    "sector": "动力煤",
+    "chain": [
+      "动力煤开采、洗选及销售"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富主营为煤炭生产销售，煤种服务于发电、水泥、建材等用途。",
+    "ths_fact": "同花顺煤炭解释确认动力煤产销业务。",
+    "company_fact": "东方财富主营为煤炭生产销售，煤种服务于发电、水泥、建材等用途。",
+    "reason": "终端燃料用途与实际矿井经营共同支持动力煤细分身份，非仅凭煤炭行业顺序选取。",
+    "source_sector_name": "动力煤",
+    "source_sector_provider": "东方财富",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601002.SH",
+    "key": "rail_transit",
+    "sector": "轨道交通",
+    "chain": [
+      "高速铁路扣件系统及轨道紧固件"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富主营为紧固件及铁路扣件研发、制造和销售。",
+    "ths_fact": "同花顺轨道交通与高铁解释列250/350公里等级铁路扣件产品，核电及汽车螺栓另有业务。",
+    "company_fact": "东方财富主营为紧固件及铁路扣件研发、制造和销售。",
+    "reason": "铁路扣件系统的实际产品与长期客户应用支撑轨道交通身份；不沿用旧资料国内唯一称谓，汽车与核电零件是其他配套场景。",
+    "source_sector_name": "轨道交通",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601003.SH",
+    "key": "steel",
+    "sector": "钢铁",
+    "chain": [
+      "钢铁冶炼、轧制及多品种钢材"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富主营为钢铁生产经营，涵盖多品种钢材及完整冶炼加工。",
+    "ths_fact": "同花顺北部湾解释正文亦确认钢铁制造，养老主要为投资关联。",
+    "company_fact": "东方财富主营为钢铁生产经营，涵盖多品种钢材及完整冶炼加工。",
+    "reason": "两源实际业务指向钢铁产品供应，地域概念和养老投资不足以改变经营身份。",
+    "source_sector_name": "钢铁",
+    "source_sector_provider": "东方财富",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601005.SH",
+    "key": "steel",
+    "sector": "钢铁",
+    "chain": [
+      "中厚板、热轧板卷及钢铁冶炼"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富主营为热轧、中厚板、钢坯等钢铁产品及配套焦化。",
+    "ths_fact": "同花顺列船舶海工、核电、风电与新能源车用钢，均为钢材下游应用。",
+    "company_fact": "东方财富主营为热轧、中厚板、钢坯等钢铁产品及配套焦化。",
+    "reason": "跨多个行业供钢是材料生产经营的统一身份，选择已有钢铁板块；核电供货不等同核电站运营，各新钢种实际放量可触发细分主题复核。",
+    "source_sector_name": "钢铁",
+    "source_sector_provider": "东方财富",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601006.SH",
+    "key": "railway_transport",
+    "sector": "铁路运输",
+    "chain": [
+      "煤炭铁路货运及客运和委托运输"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富主营为铁路货运、客运与运输配套服务，煤炭货运是重要运输业务。",
+    "ths_fact": "同花顺高铁和铁路基建解释对应铁路线路管理、委托运营及实际运输。",
+    "company_fact": "东方财富主营为铁路货运、客运与运输配套服务，煤炭货运是重要运输业务。",
+    "reason": "企业提供运输服务而非开采煤炭或制造高铁设备，以已有铁路运输板块表达经营及市场身份。",
+    "source_sector_name": "铁路运输",
+    "source_sector_provider": "东方财富",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601007.SH",
+    "key": "hotels",
+    "sector": "酒店",
+    "chain": [
+      "酒店经营管理、餐饮及配套服务"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富主营以酒店经营为核心，兼有商贸、商业综合体及食品经营。",
+    "ths_fact": "同花顺物业解释涉及酒店资产运营，预制菜及直播销售为已开展的食品延伸业务。",
+    "company_fact": "东方财富主营以酒店经营为核心，兼有商贸、商业综合体及食品经营。",
+    "reason": "酒店品牌、经营管理和餐饮服务构成持续身份；食品零售与少数保险投资不足以代替酒店主线。",
+    "source_sector_name": "酒店",
+    "source_sector_provider": "东方财富",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601008.SH",
+    "key": "ports",
+    "sector": "港口",
+    "chain": [
+      "港口装卸、仓储及综合物流"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富主营为港口装卸、仓储和综合物流。",
+    "ths_fact": "同花顺航运港口及航运解释围绕港区货物中转和港口服务。",
+    "company_fact": "东方财富主营为港口装卸、仓储和综合物流。",
+    "reason": "港区基础设施及货物流转经营支持港口身份；贸易通道属于客户和区域条件，不推导自营航运船队。",
+    "source_sector_name": "港口",
+    "source_sector_provider": "东方财富",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601009.SH",
+    "key": "bank",
+    "sector": "银行",
+    "chain": [
+      "公司银行、个人银行及资金业务"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富主营明确公司银行、个人银行与资金业务等商业银行服务。",
+    "ths_fact": "同花顺只有高股息等标签，未提供新产业业务解释。",
+    "company_fact": "东方财富主营明确公司银行、个人银行与资金业务等商业银行服务。",
+    "reason": "以已有银行板块和银行实际经营交叉核实；高股息为财务属性，不能作为经营主归属。",
+    "source_sector_name": "银行",
+    "source_sector_provider": "东方财富",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601010.SH",
+    "key": "general_retail",
+    "sector": "一般零售",
+    "chain": [
+      "百货、超市、家电及购物中心零售"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富主营确认南通、上海等地区百货、超市、家电及购物中心经营。",
+    "ths_fact": "同花顺保存ST和徐翔相关标签，未给出可以替代零售经营的产业正文。",
+    "company_fact": "东方财富主营确认南通、上海等地区百货、超市、家电及购物中心经营。",
+    "reason": "选择真实已有的一般零售行业，涵盖已确认多业态门店；ST和股东关联不构成产业主线。",
+    "source_sector_name": "一般零售",
+    "source_sector_provider": "东方财富",
+    "basis": "crosschecked_sources"
+  }
+]

@@ -716,6 +716,10 @@ def build_risk_appetite_snapshot(
         leadership_status["reason"] = "wrong_trade_date"
     leadership_status["eligible_for_vote"] = leadership_vote_enabled
     attribution = attribute_limit_up_records(limit_up_records)
+    if attribution["membership_coverage"] < 1.0:
+        leadership_vote_enabled = False
+        leadership_status["eligible_for_vote"] = False
+        leadership_status["reason"] = "market_membership_unverified"
 
     industry_change_universe = [_number(_field(record, _CHANGE_FIELDS)) for record in industries]
     concept_change_universe = [_number(_field(record, _CHANGE_FIELDS)) for record in concepts]
@@ -757,7 +761,7 @@ def build_risk_appetite_snapshot(
         for definition in DEFENSE_FOCUS_DEFINITIONS
     }
 
-    if leadership_status.get("source_valid"):
+    if leadership_status.get("source_valid") and attribution["membership_coverage"] == 1.0:
         ranked = sorted(
             sectors.values(),
             key=lambda item: (
@@ -826,6 +830,8 @@ def build_risk_appetite_snapshot(
             "pool_total": attribution.get("pool_total", len(limit_up_records)),
             "reason_coverage": attribution.get("reason_coverage"),
             "industry_profile_coverage": attribution.get("industry_profile_coverage"),
+            "membership_coverage": attribution["membership_coverage"],
+            "membership_basis": "smart_sector_library",
             "unmapped_tags": attribution.get("unmapped_tags", []),
             "unmapped_industries": attribution.get("unmapped_industries", []),
             "status": leadership_status,

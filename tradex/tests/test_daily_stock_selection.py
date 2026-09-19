@@ -608,13 +608,15 @@ def test_walk_forward_enters_at_next_session_open_and_charges_costs():
 
 
 def test_service_generates_once_and_reads_immutable_archive(tmp_path):
-    day = date(2026, 8, 26)
-    now = datetime(2026, 8, 26, 18, 31, tzinfo=SHANGHAI)
+    from test_macd_j_selection import source
+    complete_snapshot = source()
+    day = complete_snapshot.trade_date
+    now = datetime.combine(day, datetime.min.time(), tzinfo=SHANGHAI).replace(hour=18, minute=31)
     calls = []
     store = DailyStockSelectionStore(tmp_path / "selection.sqlite3")
     service = DailyStockSelectionService(
         store,
-        factor_loader=lambda requested: calls.append(requested) or _snapshot(requested),
+        factor_loader=lambda requested: calls.append(requested) or complete_snapshot,
         clock=lambda: now,
     )
     try:
@@ -629,15 +631,15 @@ def test_service_generates_once_and_reads_immutable_archive(tmp_path):
     assert calls == [day]
     assert history["contract"] == "daily_stock_selection_archive.v1"
     assert history["selection"]["selection_id"] == first["selection"]["selection_id"]
-    assert len(first["strategy_results"]) == 4
-    assert len(second["strategy_results"]) == 4
+    assert len(first["strategy_results"]) == 5
+    assert len(second["strategy_results"]) == 5
     assert history["strategy_archive"]["contract"] == (
         "stock_selection_strategy_archive.v1"
     )
-    assert len(history["strategy_archive"]["results"]) == 4
+    assert len(history["strategy_archive"]["results"]) == 5
     assert len(
         {item["source_snapshot_revision"] for item in first["strategy_results"]}
-    ) == 1
+    ) == 2
     assert history["schedule"]["automatic_if_missing_after"] == "18:30"
 
 

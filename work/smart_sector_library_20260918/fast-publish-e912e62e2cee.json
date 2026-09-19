@@ -1,0 +1,428 @@
+[
+  {
+    "id": "301607.SZ",
+    "key": "high_voltage_fast_charging",
+    "sector": "高压快充",
+    "source_sector_name": "高压快充",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "高压电源及液冷超充模块"
+    ],
+    "stage": "revenue",
+    "fact": "主营车载充电机、DC/DC等新能源汽车高压电源。",
+    "company_fact": "主营车载充电机、DC/DC等新能源汽车高压电源。",
+    "ths_fact": "2024年9月解析明确液冷超充电源模块已量产应用。",
+    "reason": "快充为高压电源能力的直接商业化延伸；使用碳化硅器件不等于制造半导体。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301608.SZ",
+    "key": "vehicle_road_coordination",
+    "sector": "车联网(车路协同)",
+    "source_sector_name": "车联网(车路协同)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "智能车载定位与视频终端"
+    ],
+    "stage": "revenue",
+    "fact": "以无线通信模组和云平台构建智能交通等物联网终端。",
+    "company_fact": "以无线通信模组和云平台构建智能交通等物联网终端。",
+    "ths_fact": "车载终端支持定位、视频和ADAS/DMS等辅助驾驶功能。",
+    "reason": "车辆联网终端业务明确；辅助驾驶设备不等于整车无人驾驶。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301609.SZ",
+    "key": "smart_grid",
+    "sector": "智能电网",
+    "source_sector_name": "智能电网",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "电网故障监测与同步设备"
+    ],
+    "stage": "revenue",
+    "fact": "主营电力监测、故障录波、输电故障定位和时间同步。",
+    "company_fact": "主营电力监测、故障录波、输电故障定位和时间同步。",
+    "ths_fact": "智能电网解析与电网监测产品吻合，特高压工程已有应用。",
+    "reason": "归入数字监测设备主线；虚拟电厂合作尚不替代实际产品。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301611.SZ",
+    "key": "lithography",
+    "sector": "光刻机",
+    "source_sector_name": "光刻机",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "半导体设备陶瓷部件及涂层"
+    ],
+    "stage": "revenue",
+    "fact": "先进陶瓷材料零部件和半导体设备表面处理构成业务。",
+    "company_fact": "先进陶瓷材料零部件和半导体设备表面处理构成业务。",
+    "ths_fact": "陶瓷零部件应用于光刻、涂胶显影等前道设备，客户包括上海微电子、芯源微。",
+    "reason": "已有设备关键材料配套支撑光刻机题材；属于部件材料而非整机。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301613.SZ",
+    "key": "new_energy_vehicles",
+    "sector": "新能源汽车",
+    "source_sector_name": "新能源汽车",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "新能源电池铝合金箱体"
+    ],
+    "stage": "revenue",
+    "fact": "主营新能源汽车电池系统铝合金零部件和电池盒箱体。",
+    "company_fact": "主营新能源汽车电池系统铝合金零部件和电池盒箱体。",
+    "ths_fact": "新能源汽车解析对应实际箱体业务；宏联相关机器人等解析引用旧拟收购状态。",
+    "reason": "原8月31日公告已确认宏联100%过户，修正旧解析；仍选直接批量经营的新能源汽车，新获消费电子及机器人业务需按具体产品订单分层复核。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "original-301613-2026-08-31",
+        "source_kind": "official_filing",
+        "publisher": "新铝时代",
+        "title": "标的资产过户完成公告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12577121&stockid=301613",
+        "published_at": "2026-08-31",
+        "assertions": [
+          "宏联电子100%股权已过户至上市公司，成为全资子公司。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "301616.SZ",
+    "key": "high_end_equipment",
+    "sector": "高端装备",
+    "source_sector_name": "高端装备",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "塑料机械螺杆机筒"
+    ],
+    "stage": "revenue",
+    "fact": "研发生产销售塑料机械螺杆、机筒等核心部件。",
+    "company_fact": "研发生产销售塑料机械螺杆、机筒等核心部件。",
+    "ths_fact": "向伊之密大型注塑设备配套高压大直径螺杆，核心零部件自主可控。",
+    "reason": "高端装备产品与主营相互印证；发那科客户关系对应注塑机械，不据此认定机器人业务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301617.SZ",
+    "key": "solid_state_batteries",
+    "sector": "固态电池",
+    "source_sector_name": "固态电池",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "固态电解质配套高纯碘化锂"
+    ],
+    "stage": "pilot",
+    "fact": "经营碘化物精细化学品和资源回收，具备碘化学技术基础。",
+    "company_fact": "经营碘化物精细化学品和资源回收，具备碘化学技术基础。",
+    "ths_fact": "与当升合作对应高纯碘化锂；原2026年7月1日IR明确已向约30家企业送样并推进试生产。",
+    "reason": "有真实材料和客户验证支撑固态主线，阶段为试样验证；框架协议不作订单或收入，当升硫化物电解质能力不移植给博苑。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "original-301617-2026-07-01",
+        "source_kind": "official_filing",
+        "publisher": "博苑新材",
+        "title": "投资者关系活动记录表",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12426784&stockid=301617",
+        "published_at": "2026-07-01",
+        "assertions": [
+          "固态电池用高纯碘化锂正送样验证及试生产，已向约30家企业送样。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "301618.SZ",
+    "key": "pcb",
+    "sector": "PCB",
+    "source_sector_name": "PCB概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "PCB电子干膜材料"
+    ],
+    "stage": "product",
+    "fact": "主营水性印花胶浆、树脂和相关印花材料设备。",
+    "company_fact": "主营水性印花胶浆、树脂和相关印花材料设备。",
+    "ths_fact": "2026年5月解析将PCB干膜列入公司产品。",
+    "reason": "电子干膜为明确产品延伸，可纳PCB材料主线；未见收入量化，保留product并跟踪出货。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301622.SZ",
+    "key": "rare_earth_magnets",
+    "sector": "稀土永磁",
+    "source_sector_name": "稀土永磁",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "稀土磁性器件与组件"
+    ],
+    "stage": "revenue",
+    "fact": "主营稀土永磁单磁体及磁组件，应用消费电子和电机等。",
+    "company_fact": "主营稀土永磁单磁体及磁组件，应用消费电子和电机等。",
+    "ths_fact": "消费电子解析明确苹果微软等客户，稀土永磁解析列配套产能项目。",
+    "reason": "磁性器件是跨客户与下游应用的共同业务主线；人形电机样品尚不等于规模订单。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301626.SZ",
+    "key": "consumer_electronics",
+    "sector": "消费电子",
+    "source_sector_name": "消费电子概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "热管均热板与导热材料"
+    ],
+    "stage": "revenue",
+    "fact": "主营热管、均热板、导热界面材料、石墨膜及模组。",
+    "company_fact": "主营热管、均热板、导热界面材料、石墨膜及模组。",
+    "ths_fact": "产品服务三星华为OPPO等消费电子客户；液冷合资项目尚含后续研发验证。",
+    "reason": "既有散热器件形成明确消费电子供应链，服务器液冷规划需订单进展再评价。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301628.SZ",
+    "key": "pcb",
+    "sector": "PCB",
+    "source_sector_name": "PCB概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "中高端样板小批量电路板"
+    ],
+    "stage": "revenue",
+    "fact": "主营中高端PCB样板和小批量板。",
+    "company_fact": "主营中高端PCB样板和小批量板。",
+    "ths_fact": "400G光模块PCB已有产品，800G研发完成；毫米波雷达板产业化。",
+    "reason": "多类实际PCB共同支持主归属；不将光模块板研发扩大为CPO系统批量收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301629.SZ",
+    "key": "semiconductor_equipment",
+    "sector": "半导体设备",
+    "source_sector_name": "半导体设备",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "晶圆探针测试设备"
+    ],
+    "stage": "revenue",
+    "fact": "主营CP、WAT和FT等测试用探针台设备。",
+    "company_fact": "主营CP、WAT和FT等测试用探针台设备。",
+    "ths_fact": "芯片解析确认12英寸设备商业应用并列晶圆制造封测客户。",
+    "reason": "探针设备为明确半导体设备；存储客户DEMO验证不直接写存储芯片量产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301630.SZ",
+    "key": "pcb",
+    "sector": "PCB",
+    "source_sector_name": "PCB概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "覆铜板电子树脂"
+    ],
+    "stage": "revenue",
+    "fact": "电子树脂供应建滔、生益、南亚等覆铜板企业。",
+    "company_fact": "电子树脂供应建滔、生益、南亚等覆铜板企业。",
+    "ths_fact": "PCB解析对应改性环氧树脂、DOPO和高溴树脂等产品。",
+    "reason": "材料已进入覆铜板链，PCB为市场既有主线，产业链注明树脂而非制板。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301631.SZ",
+    "key": "data_centers",
+    "sector": "数据中心(AIDC)",
+    "source_sector_name": "数据中心(AIDC)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "SOFC供电系统电连接组件"
+    ],
+    "stage": "delivery",
+    "fact": "电芯连接、电源信号连接及FPC用于汽车储能并拓展数据中心。",
+    "company_fact": "电芯连接、电源信号连接及FPC用于汽车储能并拓展数据中心。",
+    "ths_fact": "2026年1月解析明确AIDC用SOFC电源配套连接组件已交付、收入占比较小。",
+    "reason": "已有交付支持AIDC增量主线；只认连接组件，不扩写燃料电池整机或人形机器人批量业务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301632.SZ",
+    "key": "building_inspection",
+    "sector": "房屋检测",
+    "source_sector_name": "房屋检测",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "建设工程与房屋安全检测"
+    ],
+    "stage": "revenue",
+    "fact": "主营房建市政交通水利环境等工程检验检测。",
+    "company_fact": "主营房建市政交通水利环境等工程检验检测。",
+    "ths_fact": "房屋检测解析列结构安全、可靠性等具体检测服务。",
+    "reason": "工程安全检测业务直连现有板块；自用检测机器人和园区低空规划不作主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301633.SZ",
+    "key": "new_industrialization",
+    "sector": "新型工业化",
+    "source_sector_name": "新型工业化",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "工业自动化驱动与控制软件"
+    ],
+    "stage": "revenue",
+    "fact": "主营工业自动化驱动、控制系统和软件。",
+    "company_fact": "主营工业自动化驱动、控制系统和软件。",
+    "ths_fact": "新型工业化解析对应自动化产品；机器人伺服逐步推市场，AIDC预制电力模组刚推出。",
+    "reason": "既有工业控制具备清晰商业基础，新增场景产品待实际订单再调整。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301636.SZ",
+    "key": "photovoltaics",
+    "sector": "光伏",
+    "source_sector_name": "光伏概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "光伏接线盒"
+    ],
+    "stage": "revenue",
+    "fact": "主营光伏接线盒，并拓展汽车辅助电池保护盒。",
+    "company_fact": "主营光伏接线盒，并拓展汽车辅助电池保护盒。",
+    "ths_fact": "光伏解析对应现有产品；钙钛矿接线盒仍研发。",
+    "reason": "光伏连接保护产品真实经营，汽车为拓展，不因研发钙钛矿扩大产品阶段。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301638.SZ",
+    "key": "smart_grid",
+    "sector": "智能电网",
+    "source_sector_name": "智能电网",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "电鸿数字电网平台与终端"
+    ],
+    "stage": "revenue",
+    "fact": "主营数字电网、企业数字化和数据服务，提供云边端芯体系。",
+    "company_fact": "主营数字电网、企业数字化和数据服务，提供云边端芯体系。",
+    "ths_fact": "智能电网解析对应电鸿平台、伏羲芯片和电网数字化解决方案。",
+    "reason": "数字电网为软硬一体可识别主线；液冷项目节能验证和通用AI标签作为业务细分。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301655.SZ",
+    "key": "new_energy_vehicles",
+    "sector": "新能源汽车",
+    "source_sector_name": "新能源汽车",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "商用新能源动力总成"
+    ],
+    "stage": "revenue",
+    "fact": "经营新能源商用车驱动电机、自动变速器、控制器、电驱桥等。",
+    "company_fact": "经营新能源商用车驱动电机、自动变速器、控制器、电驱桥等。",
+    "ths_fact": "新能源汽车解析对应实际纯电和混动动力系统。",
+    "reason": "电驱传动系统直接服务新能源整车；不同动力路线纳同一现有主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301656.SZ",
+    "key": "new_energy_vehicles",
+    "sector": "新能源汽车",
+    "source_sector_name": "新能源汽车",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "电驱电源与主动底盘"
+    ],
+    "stage": "revenue",
+    "fact": "主营汽车电驱、电源、主动底盘及自主减速器功率模块。",
+    "company_fact": "主营汽车电驱、电源、主动底盘及自主减速器功率模块。",
+    "ths_fact": "新能源汽车解析列电驱电源产品平台，小米为供应客户。",
+    "reason": "减速器用于汽车动力总成，不因共用名称转入机器人；新能源汽车覆盖实际体系。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301658.SZ",
+    "key": "energy_storage",
+    "sector": "储能",
+    "source_sector_name": "储能",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "储能逆变器电池及系统"
+    ],
+    "stage": "revenue",
+    "fact": "光伏并网与储能逆变器、储能电池和系统为产品。",
+    "company_fact": "光伏并网与储能逆变器、储能电池和系统为产品。",
+    "ths_fact": "储能解析确认新能源电力设备研发生产销售，列储能逆变器和电池。",
+    "reason": "双向变流与电池系统构成实质储能业务，光伏为关联主业而非仅概念标签。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301662.SZ",
+    "key": "solid_state_batteries",
+    "sector": "固态电池",
+    "source_sector_name": "固态电池",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "固态电池上料输送搅拌设备"
+    ],
+    "stage": "orders",
+    "fact": "为锂电池等行业提供散装物料自动化处理产线设备。",
+    "company_fact": "为锂电池等行业提供散装物料自动化处理产线设备。",
+    "ths_fact": "2025年5月解析明确成为固态上料输送搅拌核心供应商并签数千万元订单。",
+    "reason": "已有专用工序设备订单支持固态主线；不把订单全部写成确认收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301665.SZ",
+    "key": "pesticides",
+    "sector": "农药",
+    "source_sector_name": "农药",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "杀菌剂除草剂及农药制剂"
+    ],
+    "stage": "revenue",
+    "fact": "研发生产销售农药产品和功能化学品。",
+    "company_fact": "研发生产销售农药产品和功能化学品。",
+    "ths_fact": "生态农业解析列百菌清嘧菌酯2,4-D核心产品及原药制剂业务。",
+    "reason": "农药研发至生产销售证据完整；草甘膦为部分制剂、含氟中间体为延伸，不盖过综合农药定位。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301666.SZ",
+    "key": "memory_chips",
+    "sector": "存储芯片",
+    "source_sector_name": "存储芯片",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "企业级SSD主控固件模组"
+    ],
+    "stage": "revenue",
+    "fact": "数据中心企业级SSD全栈自研并批量出货。",
+    "company_fact": "数据中心企业级SSD全栈自研并批量出货。",
+    "ths_fact": "存储芯片及AIDC解析确认主控芯片固件模组能力和PCIe企业级SSD产品。",
+    "reason": "企业级存储是具体核心业务；AI客户导入与数据中心是应用，不等于每个新客户均规模收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301667.SZ",
+    "key": "automotive_thermal",
+    "sector": "汽车热管理",
+    "source_sector_name": "汽车热管理",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "动力电池液冷板及集成箱体"
+    ],
+    "stage": "revenue",
+    "fact": "生产动力电池液冷板、集成箱体和发动机散热等热管理产品。",
+    "company_fact": "生产动力电池液冷板、集成箱体和发动机散热等热管理产品。",
+    "ths_fact": "汽车热管理解析对应液冷板技术；已为宁德时代和车企配套。",
+    "reason": "汽车热管理直接概括已销售产品能力，储能为共同技术延伸。",
+    "basis": "crosschecked_sources"
+  }
+]

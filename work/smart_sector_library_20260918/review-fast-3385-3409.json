@@ -1,0 +1,455 @@
+[
+  {
+    "id": "600650.SH",
+    "key": "autonomous_driving",
+    "sector": "无人驾驶",
+    "source_sector_name": "无人驾驶",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "Robotaxi运营"
+    ],
+    "stage": "pilot",
+    "fact": "从事车辆运营与低温物流。",
+    "company_fact": "从事车辆运营与低温物流。",
+    "ths_fact": "2026年4月明确获得示范运营牌照，并与合作方在浦东开展无人驾驶出租车商业化示范。",
+    "reason": "已有车辆运营场景和示范服务，主线为自动驾驶应用运营，不是自产驾驶算法或整车。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600651.SH",
+    "key": "chip_packaging_testing",
+    "sector": "芯片封装测试",
+    "source_sector_name": "芯片封装测试",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "智能卡模块及芯片测试"
+    ],
+    "stage": "revenue",
+    "fact": "全资仪电智能电子经营模块封测、芯片测试减薄划片等服务。",
+    "company_fact": "全资仪电智能电子经营模块封测、芯片测试减薄划片等服务。",
+    "ths_fact": "智能卡模块封测及芯片测试为独立经营业务。",
+    "reason": "真实封测能力对应半导体链，同时保留汽车电子经营事实，非按旧音响名称分类。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600653.SH",
+    "key": "auto_dealers",
+    "sector": "汽车经销商",
+    "source_sector_name": "汽车经销商",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "品牌汽车销售及售后"
+    ],
+    "stage": "revenue",
+    "fact": "通过申华晨宝经营宝马整车销售、售后、二手车及保险代理。",
+    "company_fact": "通过申华晨宝经营宝马整车销售、售后、二手车及保险代理。",
+    "ths_fact": "新能源汽车解析明确汽车消费服务和品牌4S网点。",
+    "reason": "整车销售服务有经营基础，AI运维新设合资平台仍缺具体对外订单产品证据。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600654.SH",
+    "key": "security_surveillance",
+    "sector": "安防",
+    "source_sector_name": "安防",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "安保运营与安全物联网"
+    ],
+    "stage": "revenue",
+    "fact": "开展境外安保运营、国内系统集成及智能安防产品制造。",
+    "company_fact": "开展境外安保运营、国内系统集成及智能安防产品制造。",
+    "ths_fact": "安防解析与三类业务一致，传感器及门禁等产品已研产销。",
+    "reason": "安防全链运营明确；算力中心合作协议不能直接当成运营收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600655.SH",
+    "key": "gold",
+    "sector": "黄金",
+    "source_sector_name": "黄金概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "黄金珠宝品牌零售"
+    ],
+    "stage": "revenue",
+    "fact": "运营老庙、亚一黄金珠宝品牌及门店网络。",
+    "company_fact": "运营老庙、亚一黄金珠宝品牌及门店网络。",
+    "ths_fact": "黄金解析明确旗下珠宝集团与两大品牌。",
+    "reason": "黄金珠宝消费具有直接产品与市场身份，不借旧招金持股推断当前金矿控制。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600657.SH",
+    "key": "real_estate_development",
+    "sector": "房地产开发",
+    "source_sector_name": "房地产开发",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "住宅开发及代建"
+    ],
+    "stage": "revenue",
+    "fact": "以房地产开发为核心，提供代建物业和商业运营服务。",
+    "company_fact": "以房地产开发为核心，提供代建物业和商业运营服务。",
+    "ths_fact": "物业及北京自贸解析明确住宅商业开发等产品。",
+    "reason": "自身开发业务证据明确，AMC解析仅说明上级股东，尚非自身不良资产处置经营证据。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600658.SH",
+    "key": "data_elements",
+    "sector": "数据要素",
+    "source_sector_name": "数据要素",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "工业数据资产登记运营"
+    ],
+    "stage": "delivery",
+    "fact": "科技产业服务及空间数智化业务提供数据和园区数字服务。",
+    "company_fact": "科技产业服务及空间数智化业务提供数据和园区数字服务。",
+    "ths_fact": "创E+为全国工业数据资产登记北京节点运营主体，2024年9月开始登记工作。",
+    "reason": "数据登记服务已实际落地，支持数据要素增量；量子合作网络规划尚不等于自有算力。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600660.SH",
+    "key": "specialty_glass",
+    "sector": "特种玻璃",
+    "source_sector_name": "特种玻璃",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "汽车安全玻璃"
+    ],
+    "stage": "revenue",
+    "fact": "全球研发生产销售汽车安全玻璃及车窗饰件。",
+    "company_fact": "全球研发生产销售汽车安全玻璃及车窗饰件。",
+    "ths_fact": "特种玻璃解析明确面向主流车企提供汽车玻璃。",
+    "reason": "功能化汽车玻璃构成直接产品身份，单一品牌供应或光伏背板拓展不替代核心认知。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600661.SH",
+    "key": "vocational_education",
+    "sector": "职业教育",
+    "source_sector_name": "职业教育",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "综合教育及职业培训"
+    ],
+    "stage": "revenue",
+    "fact": "经营素质职业基础国际及成人教育。",
+    "company_fact": "经营素质职业基础国际及成人教育。",
+    "ths_fact": "职业教育解析列示实际培训业务与产品。",
+    "reason": "已有教育产品业务形成归属，AI工作组与内部升级不等于已形成AI产品销售。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600662.SH",
+    "key": "ai_applications",
+    "sector": "AI应用",
+    "source_sector_name": "AI应用",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "人力资源行业AI服务"
+    ],
+    "stage": "product",
+    "fact": "提供人事派遣招聘薪酬管理等综合人力资源解决方案。",
+    "company_fact": "提供人事派遣招聘薪酬管理等综合人力资源解决方案。",
+    "ths_fact": "2025年12月推出面向企业客户的人力资源行业智库，提供政策检索、成本计算及合规问答。",
+    "reason": "从内部提效扩展到面向企业的具体AI产品，支撑市场增量；未据发布就推断规模收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600663.SH",
+    "key": "commercial_real_estate",
+    "sector": "商业地产",
+    "source_sector_name": "商业地产",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "城市商务区开发运营"
+    ],
+    "stage": "revenue",
+    "fact": "开发运营陆家嘴、前滩等城区并提供商旅金融服务。",
+    "company_fact": "开发运营陆家嘴、前滩等城区并提供商旅金融服务。",
+    "ths_fact": "物业及迪士尼解析明确自身房地产开发经营与物业资产。",
+    "reason": "商务区和商业物业经营直接对应，集团迪士尼股权不能自动视为上市公司投资。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600664.SH",
+    "key": "influenza",
+    "sector": "流感",
+    "source_sector_name": "流感",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "呼吸与感冒用药"
+    ],
+    "stage": "revenue",
+    "fact": "研发制造多种化药中药，包含小儿感冒颗粒等呼吸领域药品。",
+    "company_fact": "研发制造多种化药中药，包含小儿感冒颗粒等呼吸领域药品。",
+    "ths_fact": "流感解析明确双黄连、感冒药及布洛芬等在产产品。",
+    "reason": "有在产药物形成疾病用药主线，不将未披露具体临床进展的创新研发概括为成熟创新药。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600665.SH",
+    "key": "real_estate_development",
+    "sector": "房地产开发",
+    "source_sector_name": "房地产开发",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "住宅地产开发经营"
+    ],
+    "stage": "revenue",
+    "fact": "以西安等区域为基地开发经营房地产。",
+    "company_fact": "以西安等区域为基地开发经营房地产。",
+    "ths_fact": "物业解析明确房地产开发销售及不动产服务。",
+    "reason": "开发经营双源吻合，区域及少量水电业务不形成更强主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600666.SH",
+    "key": "computing_power_leasing",
+    "sector": "算力租赁",
+    "source_sector_name": "算力租赁",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "GPU算力资源及运维"
+    ],
+    "stage": "revenue",
+    "fact": "提供算力资源、运维和训练推理技术服务。",
+    "company_fact": "提供算力资源、运维和训练推理技术服务。",
+    "ths_fact": "2024年3月明确算力租赁项目投入运营，后续上线云平台模型服务。",
+    "reason": "实际算力运营匹配当前转型业务，旧蓝宝石定增计划不能替代现实主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600667.SH",
+    "key": "memory_chips",
+    "sector": "存储芯片",
+    "source_sector_name": "存储芯片",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "DRAM与NAND封装测试"
+    ],
+    "stage": "revenue",
+    "fact": "海太和太极半导体提供封装测试模组装配等业务，兼营电子工程。",
+    "company_fact": "海太和太极半导体提供封装测试模组装配等业务，兼营电子工程。",
+    "ths_fact": "2025年2月明确为DRAM及NAND提供后工序服务并已有营业收入。",
+    "reason": "存储后道服务形成产业链身份，不能因工程收入较大抹去存储认知，也不写成晶圆制造。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600668.SH",
+    "key": "innovative_drugs",
+    "sector": "创新药",
+    "source_sector_name": "创新药",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "抗肿瘤新药临床研发"
+    ],
+    "stage": "pilot",
+    "fact": "医药板块由尖峰药业研发生产药品，兼营水泥及健康品。",
+    "company_fact": "医药板块由尖峰药业研发生产药品，兼营水泥及健康品。",
+    "ths_fact": "JFAN-1001一类创新抗肿瘤药临床研究被列入研发攻关计划。",
+    "reason": "具名创新药临床项目支持医药增量，阶段为临床验证；仿制药新获批不等于该创新药获批。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600671.SH",
+    "key": "chinese_medicine",
+    "sector": "中医药",
+    "source_sector_name": "中医药",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "精品中成药"
+    ],
+    "stage": "revenue",
+    "fact": "黄山天目生产六味地黄口服液、河车大造胶囊等。",
+    "company_fact": "黄山天目生产六味地黄口服液、河车大造胶囊等。",
+    "ths_fact": "医保解析明确河车大造及多种中成药产品。",
+    "reason": "直接中成药研发制造形成归属，培训与器械经营为辅助业务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600673.SH",
+    "key": "computing_power_leasing",
+    "sector": "算力租赁",
+    "source_sector_name": "算力租赁",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "AI算力服务及基础设施协同"
+    ],
+    "stage": "orders",
+    "fact": "原2026半年报：云智算采购服务器提供算力服务，已落地390至460亿元五年期订单。",
+    "company_fact": "原2026半年报：云智算采购服务器提供算力服务，已落地390至460亿元五年期订单。",
+    "ths_fact": "算力租赁解析引2026年1月秦淮交易，原半年报进一步明确自身算力服务及秦淮参股边界。",
+    "reason": "自身大额长期算力订单支持主线；秦淮30%为投资、剩余70%仍在推进，不能把秦淮收入并为本公司；订单总額不是当期收入。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "600673-12500120",
+        "source_kind": "official_filing",
+        "publisher": "东阳光",
+        "title": "2026年半年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12500120&stockid=600673",
+        "published_at": "2026-08-18",
+        "assertions": [
+          "公司间接持有秦淮数据30%；剩余70%收购申请获受理，秦淮尚未并表。",
+          "云智算为自身算力服务经营主体，已落地多笔五年期算力订单，总规模390至460亿元。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "600674.SH",
+    "key": "hydroelectric_generation",
+    "sector": "水力发电",
+    "source_sector_name": "水力发电",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "水电投资运营"
+    ],
+    "stage": "revenue",
+    "fact": "投资开发经营清洁能源，兼有轨道电气及光纤业务。",
+    "company_fact": "投资开发经营清洁能源，兼有轨道电气及光纤业务。",
+    "ths_fact": "2025年3月明确控股在运11个水电项目，另有权益水电投资。",
+    "reason": "自有控股水电与长期投资运营共同支持水电身份，不将参股雅砻江算电项目当成全部自有算力。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600675.SH",
+    "key": "real_estate_development",
+    "sector": "房地产开发",
+    "source_sector_name": "房地产开发",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "城市更新及住宅开发"
+    ],
+    "stage": "revenue",
+    "fact": "开发住宅商办物业并运营城市生活服务。",
+    "company_fact": "开发住宅商办物业并运营城市生活服务。",
+    "ths_fact": "物业解析明确房地产开发、商品房和租赁经营。",
+    "reason": "城市开发有完整业务基础，净菜及农业供应链是延伸；农业地变建设用地亦有明确不确定性。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600676.SH",
+    "key": "sports_industry",
+    "sector": "体育产业",
+    "source_sector_name": "体育产业",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "体育赛事及场馆运营"
+    ],
+    "stage": "revenue",
+    "fact": "原7月交割公告确认取得赛事运营和场馆等公司100%股权并纳入合并。",
+    "company_fact": "原7月交割公告确认取得赛事运营和场馆等公司100%股权并纳入合并。",
+    "ths_fact": "体育解析明确运营F1中国大奖赛、上海网球大师赛等赛事。",
+    "reason": "原公告已证资产置换完成，以实际纳入的体育经营归属；排除旧EM仍列置出汽车制造主营。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "600676-12432009",
+        "source_kind": "official_filing",
+        "publisher": "久事动娱",
+        "title": "资产置换交割完成公告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12432009&stockid=600676",
+        "published_at": "2026-07-07",
+        "assertions": [
+          "截至6月30日股东工商变更完成，7月3日签交割确认书。赛事运营、场馆、浦江游览、演艺公司均100%股权纳入，汽车制造等资产置出。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "600678.SH",
+    "key": "hydrogen_energy",
+    "sector": "氢能源",
+    "source_sector_name": "氢能源",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "电氢及移动储充装备"
+    ],
+    "stage": "product",
+    "fact": "控股新工绿氢已生产新能源装备并取得收入。",
+    "company_fact": "控股新工绿氢已生产新能源装备并取得收入。",
+    "ths_fact": "2026年4月列示制加氢一体站、醇氢发电站及移动加能产品。",
+    "reason": "新能源装备已有产品收入背景，氢能具体产品阶段保守记product；矿卡及人形平台不自动推成量产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600679.SH",
+    "key": "two_wheelers",
+    "sector": "两轮车",
+    "source_sector_name": "两轮车",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "自行车及电助力车"
+    ],
+    "stage": "revenue",
+    "fact": "生产销售凤凰等品牌自行车、E-bike、童车及部件。",
+    "company_fact": "生产销售凤凰等品牌自行车、E-bike、童车及部件。",
+    "ths_fact": "两轮车解析明确整车及零部件生产销售。",
+    "reason": "完整两轮产品和全球销售支撑主归属，共享单车为部分客户场景。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600681.SH",
+    "key": "robotics",
+    "sector": "机器人",
+    "source_sector_name": "机器人概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "投资具身视觉与工业机器人"
+    ],
+    "stage": "revenue",
+    "fact": "主营燃气；原2026半年报长期股权投资列西安中科光电期末账面2.36亿元。",
+    "company_fact": "主营燃气；原2026半年报长期股权投资列西安中科光电期末账面2.36亿元。",
+    "ths_fact": "机器人解析列示标的具身视觉及焊接测量装配机器人实际应用，原投资公告确认产品与历史营业收入。",
+    "reason": "已持有真实机器人经营企业投资，形成跨界市场主线；这是参股投资关系，标的收入不是本公司并表收入，也不等于人形机器人量产。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "600681-12565952",
+        "source_kind": "official_filing",
+        "publisher": "百川能源",
+        "title": "2026年半年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12565952&stockid=600681",
+        "published_at": "2026-08-29",
+        "assertions": [
+          "长期股权投资中列西安中科光电，期末账面价值236000355.11元。"
+        ]
+      },
+      {
+        "evidence_id": "600681-2025043",
+        "source_kind": "official_filing",
+        "publisher": "百川能源",
+        "title": "关于购买资产及对外投资的公告",
+        "source_url": "https://stockmc.xueqiu.com/202510/600681_20251101_VYUA.pdf",
+        "published_at": "2025-11-01",
+        "assertions": [
+          "公司此前已持有标的股权，本次拟追加投资；西安中科光电生产具身视觉及焊接测量装配等机器人，2024营业收入10064.62万元，不纳入上市公司合并。"
+        ]
+      }
+    ],
+    "relation": "investment",
+    "investment_reviewed": true
+  },
+  {
+    "id": "600682.SH",
+    "key": "cell_immunotherapy",
+    "sector": "细胞免疫治疗",
+    "source_sector_name": "细胞免疫治疗",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "细胞免疫治疗及健康服务"
+    ],
+    "stage": "revenue",
+    "fact": "经营健康养老、生物医疗和现代商业，包含细胞免疫业务。",
+    "company_fact": "经营健康养老、生物医疗和现代商业，包含细胞免疫业务。",
+    "ths_fact": "收购Dendreon相关解析明确Provenge为获批细胞免疫治疗产品。",
+    "reason": "现有细胞治疗产品与生物医疗业务支持归属，养老机器人基金投资不替代已经营的治疗业务。",
+    "basis": "crosschecked_sources"
+  }
+]

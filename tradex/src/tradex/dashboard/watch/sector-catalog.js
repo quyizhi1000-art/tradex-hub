@@ -42,7 +42,17 @@
       }
     });
   }
-  if (typeof module !== "undefined" && module.exports) module.exports = { matching, sortByChange, validateDetail };
+  function recoveryLabel(recovery, revision, now = Date.now()) {
+    if (!recovery || recovery.catalog_revision !== revision) return "自动回填状态待核验";
+    const checked = Date.parse(recovery.checked_at);
+    if (!Number.isFinite(checked) || now - checked > 180000) return "自动回填检查已超时，等待采集器恢复";
+    const labels = { complete: "分钟覆盖已验证", pending: "自动回填待处理", running: "自动回填处理中",
+      backoff: "数据源未补齐，自动退避重试", unavailable: "缺口超出当前自动补采能力", failed: "回填或发布失败，将自动重试" };
+    const progress = `${recovery.total_series - recovery.missing_series}/${recovery.total_series}`;
+    const retry = recovery.next_retry_at ? ` · 下次 ${timeParts.format(new Date(recovery.next_retry_at))}` : "";
+    return `${labels[recovery.state] || "自动回填状态待核验"} · ${progress}${retry}`;
+  }
+  if (typeof module !== "undefined" && module.exports) module.exports = { matching, sortByChange, validateDetail, recoveryLabel };
   if (typeof document === "undefined") return;
   const byId = suffix => document.getElementById(`sector-catalog-${suffix}`);
   let catalog = null, selected = new Set(), page = 0, chartPage = 0, generation = 0, refreshing = false;
@@ -136,7 +146,7 @@
       if (auto) setDefaults();
       const date = new Date(data.as_of);
       const quoteTime = data.quote_as_of ? timeParts.format(new Date(data.quote_as_of)) : timeParts.format(date);
-      byId("status").textContent = `${data.trade_date}（上海） · 资金曲线截至 ${timeParts.format(date)} · 板块行情及热点判断截至 ${quoteTime}`;
+      byId("status").textContent = `${data.trade_date}（上海） · 资金曲线截至 ${timeParts.format(date)} · 板块行情及热点判断截至 ${quoteTime} · ${recoveryLabel(data.recovery, data.catalog_revision)}`;
       const names = { total: "目录总数", observed: "当日发现", mapped: "已纳入进攻/防御", unclassified: "待分类", with_curve: "有真实轨迹", history_missing: "分钟历史缺失", curve_unverified: "补采能力待核实", missing_latest: "最新快照缺失", hot: "当日热点" };
       byId("counts").replaceChildren(...Object.entries(names).map(([key, label]) => element("span", `${label} ${data.counts[key]}`)));
       renderTable();

@@ -1,0 +1,61 @@
+{
+  "instrument_id": "002653.SZ",
+  "name": "海思科",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "002653.SZ",
+    "name": "海思科",
+    "memberships": [
+      "医药生物",
+      "化学制药",
+      "化学制剂",
+      "西藏板块",
+      "2026中报预增",
+      "医药医疗风格",
+      "2026一季报预增",
+      "中盘成长",
+      "中盘股",
+      "标准普尔",
+      "富时罗素",
+      "MSCI中国",
+      "深股通",
+      "融资融券",
+      "深成500",
+      "基金重仓",
+      "创新药",
+      "单抗概念",
+      "医疗器械概念",
+      "参股保险",
+      "西部大开发"
+    ],
+    "business_sections": [
+      {
+        "title": "新药研发、生产制造、推广营销业务",
+        "kind": "主营业务",
+        "text": "海思科是集新药研发、生产制造、推广营销业务于一体的专业化医药公司，致力于成为最受信赖的国际化制药企业。公司以“创新”为内核，以“以奋斗之心，与生命同行”为使命，始终以客户需求为导向，不断为客户提供创新特色专科领域的药物产品。"
+      },
+      {
+        "title": "从药物早期发现到商业化的全流程技术体系",
+        "kind": "核心竞争力",
+        "text": "公司通过专业、专注、国际化的研发思路布局研发领域，已搭建起一套完整的从药物早期发现到商业化的全流程技术体系，同样重视将早期研发成果转化为创新药物的研究过程，并设立了相关的检测与分析平台，从而实现高效的项目管理，并达到研发与生产和临床之间的无缝衔接。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ002653",
+    "fetched_at": "2026-09-18T22:52:44.240120+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "自主生产"
+}

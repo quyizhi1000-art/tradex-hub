@@ -1,0 +1,440 @@
+[
+  {
+    "id": "000856.SZ",
+    "key": "cement",
+    "sector": "水泥",
+    "source_sector_name": "水泥概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "水泥装备",
+      "生产线检修"
+    ],
+    "stage": "revenue",
+    "fact": "经营立磨、回转窑、篦冷机等水泥机械和备件，提供生产线检修及安装服务。",
+    "company_fact": "经营立磨、回转窑、篦冷机等水泥机械和备件，提供生产线检修及安装服务。",
+    "ths_fact": "水泥解析明确装备制造维修及立磨、回转窑、篦冷机产品。",
+    "reason": "水泥产业链装备和维修是两源具体支持的市场定位；清仓机器人仍在优化、尚未定型，未以研发项目替代现有主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "000858.SZ",
+    "key": "baijiu",
+    "sector": "白酒",
+    "source_sector_name": "白酒概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "浓香型白酒",
+      "五粮液系列酒"
+    ],
+    "stage": "revenue",
+    "fact": "公司持续生产销售五粮液、五粮春、五粮醇等浓香白酒。",
+    "company_fact": "公司持续生产销售五粮液、五粮春、五粮醇等浓香白酒。",
+    "ths_fact": "白酒解析明确浓香型白酒龙头及五粮液系列品牌。",
+    "reason": "品牌、产品与生产销售一致，选白酒；参股金融属于投资背景。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "000859.SZ",
+    "key": "film_materials",
+    "sector": "膜材料",
+    "source_sector_name": "膜材料",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "功能薄膜",
+      "PI及电子信息用膜"
+    ],
+    "stage": "revenue",
+    "fact": "公司具有功能膜、光电材料和聚酰亚胺材料研发采购生产销售体系，并向电子信息用膜和芯屏材料拓展。",
+    "company_fact": "公司具有功能膜、光电材料和聚酰亚胺材料研发采购生产销售体系，并向电子信息用膜和芯屏材料拓展。",
+    "ths_fact": "膜材料解析明确BOPP、BOPET包装膜和电子信息用膜；芯片解析有PI膜批量供货，光刻胶解析为联合研发。",
+    "reason": "选择同时覆盖实际产品和升级方向的已有膜材料；不把光刻胶研发或MLCC产线调试写成量产，客户验证和销售突破后复核主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "000860.SZ",
+    "key": "baijiu",
+    "sector": "白酒",
+    "source_sector_name": "白酒概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "牛栏山二锅头",
+      "宁城老窖"
+    ],
+    "stage": "revenue",
+    "fact": "公司白酒业务拥有牛栏山和宁诚系列，另有养猪屠宰肉制品业务。",
+    "company_fact": "公司白酒业务拥有牛栏山和宁诚系列，另有养猪屠宰肉制品业务。",
+    "ths_fact": "白酒解析列出经典及传统二锅头、百年牛栏山等产品。",
+    "reason": "牛栏山品牌与完整白酒产品体系形成清楚消费主线，选白酒；养猪为并行业务，不因双主业而放弃判断。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "000862.SZ",
+    "key": "green_power",
+    "sector": "绿色电力",
+    "source_sector_name": "绿色电力",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "风电运营",
+      "光伏发电"
+    ],
+    "stage": "revenue",
+    "fact": "报告期经营风电、集中和分布式光伏发电，同时开展塔筒制造和运维。",
+    "company_fact": "报告期经营风电、集中和分布式光伏发电，同时开展塔筒制造和运维。",
+    "ths_fact": "绿色电力解析列示已投运风电161万千瓦、集中光伏31万千瓦及分布式15万千瓦。",
+    "reason": "已投运清洁能源和风光发电双重印证，选绿色电力；装备运维为配套。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "000863.SZ",
+    "key": "tourism",
+    "sector": "旅游",
+    "source_sector_name": "旅游概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "文旅演艺",
+      "演出编创与版权运营"
+    ],
+    "stage": "revenue",
+    "fact": "公司从事旅游文化演艺策划创意制作投资及版权运营，同时保留绿色地产业务。",
+    "company_fact": "公司从事旅游文化演艺策划创意制作投资及版权运营，同时保留绿色地产业务。",
+    "ths_fact": "旅游解析明确文化旅游演艺经营；文化传媒和IP解析列示观印象演出及印象、又见等系列。",
+    "reason": "文旅内容及运营具有独立品牌辨识，选已有旅游概念；地产背景保留，VR和元宇宙是呈现技术而非单独经营平台。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "000868.SZ",
+    "key": "new_energy_vehicles",
+    "sector": "新能源汽车",
+    "source_sector_name": "新能源汽车",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "新能源客车整车"
+    ],
+    "stage": "revenue",
+    "fact": "公司研发制造销售各类公路公交和新能源客车并提供服务。",
+    "company_fact": "公司研发制造销售各类公路公交和新能源客车并提供服务。",
+    "ths_fact": "新能源车解析明确2023年安徽区域新能源客车销售占比，新能源整车解析列纯电公交产品。",
+    "reason": "实际新能源客车生产销售与市场标签相符，选新能源汽车；无人驾驶能力及氢燃料客车作细分，不从技术描述推断规模订单。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "000869.SZ",
+    "key": "wine_industry",
+    "sector": "酿酒",
+    "source_sector_name": "酿酒概念",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "葡萄酒",
+      "白兰地"
+    ],
+    "stage": "revenue",
+    "fact": "公司经营张裕、解百纳、爱斐堡等葡萄酒及可雅等白兰地系列。",
+    "company_fact": "公司经营张裕、解百纳、爱斐堡等葡萄酒及可雅等白兰地系列。",
+    "ths_fact": "超级品牌和老字号解析对应葡萄酒、白兰地生产销售及张裕品牌。",
+    "reason": "酒类品牌和实际产品构成稳定消费定位；酒庄旅游服务为品牌营销延伸，不能以旅游代替酿酒。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "000875.SZ",
+    "key": "green_power",
+    "sector": "绿色电力",
+    "source_sector_name": "绿色电力",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "风光发电",
+      "综合清洁能源"
+    ],
+    "stage": "revenue",
+    "fact": "公司经营风电太阳能水电等发电和供热，绿色氢基能源、储能等业务亦列入经营范围。",
+    "company_fact": "公司经营风电太阳能水电等发电和供热，绿色氢基能源、储能等业务亦列入经营范围。",
+    "ths_fact": "抽水蓄能解析明确新能源及综合能源布局，电力改革解析记载风电太阳能发电；其中无关机器人插入句不采信。",
+    "reason": "风光发电经营与已有绿色电力成员关系成立，选绿色电力；氢能和储能分项目商业化不能由业务范围自动认定。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "000876.SZ",
+    "key": "pig_farming",
+    "sector": "猪肉",
+    "source_sector_name": "猪肉",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "生猪养殖",
+      "饲料养殖协同"
+    ],
+    "stage": "revenue",
+    "fact": "公司饲料覆盖多料种，养猪进入稳健运营，2025年生猪出栏1755万头。",
+    "company_fact": "公司饲料覆盖多料种，养猪进入稳健运营，2025年生猪出栏1755万头。",
+    "ths_fact": "猪肉解析明确饲料、生猪养殖及屠宰业务。",
+    "reason": "规模化生猪经营与猪周期市场标签有直接支持，选猪肉；不能因饲料历史收入较大抹去养猪主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "000877.SZ",
+    "key": "cement",
+    "sector": "水泥",
+    "source_sector_name": "水泥概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "水泥熟料",
+      "商混骨料"
+    ],
+    "stage": "revenue",
+    "fact": "公司生产销售六大系列普通水泥及多种特种水泥、砂浆，服务工程建设。",
+    "company_fact": "公司生产销售六大系列普通水泥及多种特种水泥、砂浆，服务工程建设。",
+    "ths_fact": "水泥解析明确水泥熟料商品混凝土及骨料生产销售。",
+    "reason": "成熟水泥产品和市场认知一致；自用光伏降碳和参股危废不替代水泥主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "000878.SZ",
+    "key": "metal_copper",
+    "sector": "金属铜",
+    "source_sector_name": "金属铜",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "铜采选冶炼",
+      "阴极铜"
+    ],
+    "stage": "revenue",
+    "fact": "公司经营铜勘探采选冶炼及伴生贵稀金属、硫化工，形成铜产业链。",
+    "company_fact": "公司经营铜勘探采选冶炼及伴生贵稀金属、硫化工，形成铜产业链。",
+    "ths_fact": "金属铜解析明确铜勘探采选冶炼；小金属解析确认主要产品阴极铜。",
+    "reason": "铜完整产业链与主要产品两源一致，选金属铜；黄金白银为伴生经营而非仅凭热度换主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "000880.SZ",
+    "key": "data_centers",
+    "sector": "数据中心(AIDC)",
+    "source_sector_name": "数据中心(AIDC)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "数据中心备用电源",
+      "柴油发电机组"
+    ],
+    "stage": "revenue",
+    "fact": "公司制造销售发动机及发电机组，发电机产品实际应用数据中心、通信、船舶等市场。",
+    "company_fact": "公司制造销售发动机及发电机组，发电机产品实际应用数据中心、通信、船舶等市场。",
+    "ths_fact": "AIDC解析明确陆用机组在数据中心领域销量和收入显著增长。",
+    "reason": "数据中心供电有具体产品、场景及销售支持，选择增量辨识明确的AIDC；保留船舶动力背景，非按传统业务收入锁定造船。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "000881.SZ",
+    "key": "nuclear_power",
+    "sector": "核电",
+    "source_sector_name": "核电",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "核电检测加速器",
+      "核电配套材料"
+    ],
+    "stage": "product",
+    "fact": "公司官方年报主营产品表明确工业探伤加速器用于辐射检测，下游包含核电；新材料覆盖核电与新能源等领域。",
+    "company_fact": "公司经营电子加速器研发制造、辐照加工、新材料及医疗健康。",
+    "ths_fact": "核电解析明确核电专用电缆及用于核电系统无损检测的电子加速器。",
+    "reason": "原年报明确核电检测及核电配套材料用途，结合已有核电概念选择该市场主线。属于配套产品而非核电站运营，阶段记product，不臆测核电收入。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "000881.SZ-2025-annual-nuclear",
+        "source_kind": "official_filing",
+        "publisher": "中广核技",
+        "title": "2025年年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12221456&stockid=000881",
+        "published_at": "2026-04-28",
+        "assertions": [
+          "主营产品表明确工业探伤加速器用于辐射检测，下游包含核电。",
+          "新材料产品覆盖核电与新能源等七个板块；不由此推断核电用途收入规模。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "000882.SZ",
+    "key": "commercial_property_operations",
+    "sector": "商业物业经营",
+    "source_sector_name": "商业物业经营",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "购物中心运营",
+      "社区商业"
+    ],
+    "stage": "revenue",
+    "fact": "公司社区购物中心经营具品牌基础，DT商业项目已有三家开业，同时运营影院。",
+    "company_fact": "公司社区购物中心经营具品牌基础，DT商业项目已有三家开业，同时运营影院。",
+    "ths_fact": "物业管理解析列购物中心经营、租赁物业管理及联营专柜等。",
+    "reason": "商业物业经营比一般地产开发或影视标签更准确表达社区商业运营及已开业项目。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "000883.SZ",
+    "key": "green_power",
+    "sector": "绿色电力",
+    "source_sector_name": "绿色电力",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "水电",
+      "风光发电"
+    ],
+    "stage": "revenue",
+    "fact": "公司建成鄂西水电基地，新能源覆盖湖北并建成陕武直流一期210万千瓦光伏基地，兼有火电气煤。",
+    "company_fact": "公司建成鄂西水电基地，新能源覆盖湖北并建成陕武直流一期210万千瓦光伏基地，兼有火电气煤。",
+    "ths_fact": "绿色电力解析确认水电新能源经营，风电解析记载风机已并网。",
+    "reason": "有规模清洁能源经营支撑绿色电力，兼容传统能源背景；抽蓄前期和储能协议不当作既有收益。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "000885.SZ",
+    "key": "biomass_power",
+    "sector": "生物质能发电",
+    "source_sector_name": "生物质能发电",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "垃圾焚烧发电",
+      "固废资源化"
+    ],
+    "stage": "revenue",
+    "fact": "固废业务以生活垃圾焚烧发电投资建设运营为核心，协同危废、环卫及水处理。",
+    "company_fact": "固废业务以生活垃圾焚烧发电投资建设运营为核心，协同危废、环卫及水处理。",
+    "ths_fact": "生物质能发电解析明确运营垃圾发电项目及投运处理能力。",
+    "reason": "投运项目和实际固废处理业务支撑垃圾发电市场主线；数字化管理和制氢拓展不取代核心经营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "000886.SZ",
+    "key": "road_construction",
+    "sector": "公路建设",
+    "source_sector_name": "公路建设",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "交通建材",
+      "公路养护与建设"
+    ],
+    "stage": "revenue",
+    "fact": "公司在海南布局交通建材加工仓储，开展省干线市场化养护及道路工程施工。",
+    "company_fact": "公司在海南布局交通建材加工仓储，开展省干线市场化养护及道路工程施工。",
+    "ths_fact": "公路建设解析明确交通基础设施建设养护；数字经济解析同时列交通建材与代建服务。",
+    "reason": "公路建设有当期完整经营交叉支持；算力租赁、低空中标虽有THS事件，现有公司经营材料未独立核对交付，留作下一次主线复核而不否认其存在。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "000887.SZ",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "机器人关节",
+      "减速器及轻量化骨骼"
+    ],
+    "stage": "product",
+    "fact": "公司明确机器人核心零部件制造、本体代工和销售应用场景三轮布局，传统智能底盘和热管理继续经营。",
+    "company_fact": "公司明确机器人核心零部件制造、本体代工和销售应用场景三轮布局，传统智能底盘和热管理继续经营。",
+    "ths_fact": "人形机器人解析列直接机器人业务，机器人解析明确关节减速器力矩传感器骨骼送样及生产配套。",
+    "reason": "机器人直接产品与公司经营战略相互印证，选人形机器人而非按汽车收入归类；送样不等于批量收入，待订单及交付披露复核阶段。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "000888.SZ",
+    "key": "tourism",
+    "sector": "旅游",
+    "source_sector_name": "旅游概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "峨眉山景区",
+      "索道酒店"
+    ],
+    "stage": "revenue",
+    "fact": "公司受托经营峨眉山游山票、金顶及万年索道，并经营景区酒店。",
+    "company_fact": "公司受托经营峨眉山游山票、金顶及万年索道，并经营景区酒店。",
+    "ths_fact": "旅游概念列峨眉山公司，冰雪解析明确冬季旅游产品经营，成渝解析说明旅游上市平台。",
+    "reason": "景区门票索道酒店构成直接旅游闭环；低空尚为尝试，不升级为独立主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "000889.SZ",
+    "key": "communication_services",
+    "sector": "通信服务",
+    "source_sector_name": "通信服务",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "企业短信",
+      "通信网络运维"
+    ],
+    "stage": "revenue",
+    "fact": "创世漫道经营短信智能传输及接口服务，长实通信为运营商铁塔提供网络工程维护。",
+    "company_fact": "创世漫道经营短信智能传输及接口服务，长实通信为运营商铁塔提供网络工程维护。",
+    "ths_fact": "5G解析将消息业务定位短信升级；客户概念解析明确创世漫道短彩信服务。",
+    "reason": "已有通信服务覆盖两个实际经营平台；5G、AI合作为服务升级，不能把合作框架推成独立AI收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "000890.SZ",
+    "key": "wastewater_treatment",
+    "sector": "污水处理",
+    "source_sector_name": "污水处理",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "垃圾渗滤液处理",
+      "环保装备运营"
+    ],
+    "stage": "revenue",
+    "fact": "控股广泰源开发生产生活垃圾渗滤液处理设备并提供运营管理，另有钢丝金属制品业务。",
+    "company_fact": "控股广泰源开发生产生活垃圾渗滤液处理设备并提供运营管理，另有钢丝金属制品业务。",
+    "ths_fact": "污水处理解析明确控股广泰源高难度废水、渗滤液设备及运营。",
+    "reason": "控股环保业务有完整实经营证据和市场标签，选择污水处理；集团关联储能及旧金融方案未获本体当前业务交叉支持。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "000892.SZ",
+    "key": "ai_applications",
+    "sector": "AI应用",
+    "source_sector_name": "AI应用",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "AI影视内容",
+      "短剧与漫剧制作"
+    ],
+    "stage": "delivery",
+    "fact": "麟跃实验室运用多模态及文生视频模型开展影视全流程应用，已上线十州三境概念片和传承江西作品。",
+    "company_fact": "麟跃实验室运用多模态及文生视频模型开展影视全流程应用，已上线十州三境概念片和传承江西作品。",
+    "ths_fact": "AI应用解析明确短剧互动影游及AI短剧漫剧布局；AIGC解析称联合实验室已运营产出作品。",
+    "reason": "AI内容有实际作品落地并与影视IP协同，选择已有AI应用主线；不宣称模型自研或独立AI收入，商业化规模为复核条件。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "000893.SZ",
+    "key": "potash",
+    "sector": "钾肥",
+    "source_sector_name": "钾肥",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "老挝钾盐开采",
+      "钾肥生产"
+    ],
+    "stage": "revenue",
+    "fact": "公司采掘加工钾盐并生产销售钾肥，持续优化采选及生产装置。",
+    "company_fact": "公司采掘加工钾盐并生产销售钾肥，持续优化采选及生产装置。",
+    "ths_fact": "钾肥解析确认钾盐开采和东南亚销售，化肥解析列2025产销量均超200万吨。",
+    "reason": "钾肥资源开发和产销事实清晰，使用该股已有钾肥细分板块；供销社关联属于股权背景。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "000895.SZ",
+    "key": "meat_products",
+    "sector": "肉制品",
+    "source_sector_name": "肉制品",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "生猪屠宰",
+      "肉制品加工"
+    ],
+    "stage": "revenue",
+    "fact": "公司以屠宰和肉制品加工为两大支柱，配套饲料养殖包装及渠道，形成双汇品牌。",
+    "company_fact": "公司以屠宰和肉制品加工为两大支柱，配套饲料养殖包装及渠道，形成双汇品牌。",
+    "ths_fact": "超级品牌解析明确肉类加工基地及完整产业链；预制菜解析列调理产品。",
+    "reason": "实际加工品牌与市场消费定位更适合肉制品；猪养殖仅产业链一环，人造肉及预制菜为具体产品延伸。",
+    "basis": "crosschecked_sources"
+  }
+]

@@ -1,0 +1,402 @@
+[
+  {
+    "id": "002576.SZ",
+    "key": "new_energy_vehicles",
+    "sector": "新能源汽车",
+    "source_sector_name": "新能源汽车",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "驱动电机定转子铁芯"
+    ],
+    "stage": "revenue",
+    "fact": "生产新能源汽车及工业电机定转子铁芯。",
+    "company_fact": "生产新能源汽车及工业电机定转子铁芯。",
+    "ths_fact": "新能源汽车解析明确生产驱动电机铁芯；机器人仅可适用。",
+    "reason": "汽车电机已有专门产品，机器人适用性不等于供货。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002577.SZ",
+    "key": "esports",
+    "sector": "电子竞技",
+    "source_sector_name": "电子竞技",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "游戏键鼠与电竞外设"
+    ],
+    "stage": "revenue",
+    "fact": "以计算机外设为核心，运营游戏V系列与电竞馆方案。",
+    "company_fact": "以计算机外设为核心，运营游戏V系列与电竞馆方案。",
+    "ths_fact": "电竞解析明确硬件游戏外设并合作电竞战队。",
+    "reason": "直接电竞产品形成市场主题，机器人为产线集成不是本体。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002578.SZ",
+    "key": "photovoltaics",
+    "sector": "光伏",
+    "source_sector_name": "光伏概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "光伏铝支架及边框"
+    ],
+    "stage": "revenue",
+    "fact": "工业铝型材覆盖光伏和汽车等新能源用途。",
+    "company_fact": "工业铝型材覆盖光伏和汽车等新能源用途。",
+    "ths_fact": "光伏解析明确多年生产支架边框，是主要工业材之一。",
+    "reason": "光伏配套产品已制造销售，明确铝构件而非光伏电池。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002579.SZ",
+    "key": "pcb",
+    "sector": "PCB",
+    "source_sector_name": "PCB概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "刚柔电路板与HDI"
+    ],
+    "stage": "revenue",
+    "fact": "研发制造刚性HDI柔性及刚柔结合PCB。",
+    "company_fact": "研发制造刚性HDI柔性及刚柔结合PCB。",
+    "ths_fact": "PCB解析同类产品完整，CPO说明实际为光模块板工艺。",
+    "reason": "板级制造是共同经营基础，不能把模块PCB当共封装光学引擎。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002580.SZ",
+    "key": "data_centers",
+    "sector": "数据中心(AIDC)",
+    "source_sector_name": "数据中心(AIDC)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "算力中心备用电池与电源"
+    ],
+    "stage": "revenue",
+    "fact": "数据算力中心电池业务实现规模突破，为主要收入来源之一。",
+    "company_fact": "数据算力中心电池业务实现规模突破，为主要收入来源之一。",
+    "ths_fact": "AIDC解析明确配合UPS及高压直流设备的电源系列。",
+    "reason": "算力电源已成增长业务，产业链定位备电，固态仅测试完成。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002581.SZ",
+    "key": "innovative_drugs",
+    "sector": "创新药",
+    "source_sector_name": "创新药",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "眼科重组蛋白创新药"
+    ],
+    "stage": "pilot",
+    "fact": "全资衍渡重组蛋白平台SMR001已启动III期临床。",
+    "company_fact": "全资衍渡重组蛋白平台SMR001已启动III期临床。",
+    "ths_fact": "创新药解析眼科创新生物药拟开展III期，重组蛋白明确平台。",
+    "reason": "全资创新管线支持主题，疫苗仅联营持股，临床不当收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002582.SZ",
+    "key": "red_dates",
+    "sector": "红枣",
+    "source_sector_name": "红枣",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "红枣制品与健康锁鲜食品"
+    ],
+    "stage": "revenue",
+    "fact": "研发生产销售枣博士等红枣制品及健康锁鲜食品。",
+    "company_fact": "研发生产销售枣博士等红枣制品及健康锁鲜食品。",
+    "ths_fact": "红枣解析以红枣向健康食品扩展；网红为直播销售渠道。",
+    "reason": "产品主题真实明确，品牌IP周边不替代为谷子主业。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002583.SZ",
+    "key": "private_network_communications",
+    "sector": "专网通信",
+    "source_sector_name": "专网通信",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "应急集群与指挥调度"
+    ],
+    "stage": "revenue",
+    "fact": "窄带专网、公专融合、应急和指挥调度为业务基础。",
+    "company_fact": "窄带专网、公专融合、应急和指挥调度为业务基础。",
+    "ths_fact": "专网通信解析掌握TETRA/PDT/DMR/专网LTE全系列标准产品。",
+    "reason": "自有通信设备系统完整，EMS低空合作不能代替核心专业主题。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002584.SZ",
+    "key": "photoresist",
+    "sector": "光刻胶",
+    "source_sector_name": "光刻胶",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "显影剥离蚀刻清洗试剂"
+    ],
+    "stage": "revenue",
+    "fact": "化学试剂研发生产销售，电子化学品属于现有业务。",
+    "company_fact": "化学试剂研发生产销售，电子化学品属于现有业务。",
+    "ths_fact": "光刻胶解析明确生产配套剥离液显影液蚀刻液清洗液。",
+    "reason": "保留市场已有光刻胶主题，产业链严格注明配套试剂不称胶本体。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002585.SZ",
+    "key": "film_materials",
+    "sector": "膜材料",
+    "source_sector_name": "膜材料",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "功能聚酯薄膜"
+    ],
+    "stage": "revenue",
+    "fact": "光学新能源信息热收缩节能窗膜五类功能材料。",
+    "company_fact": "光学新能源信息热收缩节能窗膜五类功能材料。",
+    "ths_fact": "膜材料解析聚酯镀铝PVC功能膜已有规模生产。",
+    "reason": "功能膜经营双源一致，PET铜箔首次订单后项目仍推进不夸大量产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002586.SZ",
+    "key": "water_conservancy",
+    "sector": "水利",
+    "source_sector_name": "水利",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "海堤与河道防洪工程"
+    ],
+    "stage": "revenue",
+    "fact": "建设海堤河道水库防洪农田水利等工程。",
+    "company_fact": "建设海堤河道水库防洪农田水利等工程。",
+    "ths_fact": "水利解析明确海塘河堤工程领先。",
+    "reason": "直接专业施工支持水利归属，不以泛工程分类掩盖具体主题。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002587.SZ",
+    "key": "ai_applications",
+    "sector": "AI应用",
+    "source_sector_name": "AI应用",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "AI与XR虚拟制片"
+    ],
+    "stage": "product",
+    "fact": "以AI与视讯产品提供硬件软件内容服务的一体化方案。",
+    "company_fact": "以AI与视讯产品提供硬件软件内容服务的一体化方案。",
+    "ths_fact": "AI应用明确自研Metabox、星核及源行AIGC虚拟制片工具。",
+    "reason": "自研内容工具与专业影视场景落地，不仅LED硬件或客户概念。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002588.SZ",
+    "key": "fertilizer",
+    "sector": "化肥",
+    "source_sector_name": "化肥",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "复合肥与磷酸一铵"
+    ],
+    "stage": "revenue",
+    "fact": "规模生产复合肥与磷酸一铵，形成肥料配套。",
+    "company_fact": "规模生产复合肥与磷酸一铵，形成肥料配套。",
+    "ths_fact": "化肥解析明确硫基氯基及新型复合肥。",
+    "reason": "肥料产品与农化服务闭环，锂电材料标签不替代。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002589.SZ",
+    "key": "traditional_chinese_medicine",
+    "sector": "中药",
+    "source_sector_name": "中药概念",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "药材种植饮片及流通"
+    ],
+    "stage": "revenue",
+    "fact": "中医药成为转型增长极，覆盖种植饮片药材食品等链条。",
+    "company_fact": "中医药成为转型增长极，覆盖种植饮片药材食品等链条。",
+    "ths_fact": "中医药解析六种植基地、饮片加工及终端批发销售。",
+    "reason": "真实中药全产业链支持转型；创新药泛称无具体获批品种不越级。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002590.SZ",
+    "key": "evtols",
+    "sector": "飞行汽车(eVTOL)",
+    "source_sector_name": "飞行汽车(eVTOL)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "飞行汽车副车架"
+    ],
+    "stage": "delivery",
+    "fact": "研发制造底盘控制、副车架、悬架制动等系统。",
+    "company_fact": "研发制造底盘控制、副车架、悬架制动等系统。",
+    "ths_fact": "飞行汽车解析向国内知名客户提供副车架已小批生产。",
+    "reason": "核心底盘制造已有飞行应用，机器人2.72%参股不当控股制造。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002591.SZ",
+    "key": "computing_power",
+    "sector": "东数西算(算力)",
+    "source_sector_name": "东数西算(算力)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "AI算力服务器整机"
+    ],
+    "stage": "revenue",
+    "fact": "节能环保及互联网业务，后者布局短信和AI算力服务器。",
+    "company_fact": "节能环保及互联网业务，后者布局短信和AI算力服务器。",
+    "ths_fact": "算力解析全资宝乐互动从事AI服务器整机生产销售。",
+    "reason": "服务器整机业务双源落地，明确产品销售而非算力租赁。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002592.SZ",
+    "key": "automotive_thermal",
+    "sector": "汽车热管理",
+    "source_sector_name": "汽车热管理",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "汽车换热器"
+    ],
+    "stage": "revenue",
+    "fact": "主营汽车热管理换热器和汽车外饰件研发生产销售。",
+    "company_fact": "主营汽车热管理换热器和汽车外饰件研发生产销售。",
+    "ths_fact": "汽车热管理列明散热器中冷器油冷器冷凝器暖风机，不生产燃料电池。",
+    "reason": "直接热交换产品闭环，不将燃料电池配套理解为电池制造。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002593.SZ",
+    "key": "prefabricated_buildings",
+    "sector": "装配式建筑",
+    "source_sector_name": "装配式建筑",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "建筑设备及桥梁钢结构"
+    ],
+    "stage": "revenue",
+    "fact": "钢结构设计制造安装覆盖厂房石化桥梁等，并经营车轮。",
+    "company_fact": "钢结构设计制造安装覆盖厂房石化桥梁等，并经营车轮。",
+    "ths_fact": "装配式建筑明确钢结构面向装配建筑工业。",
+    "reason": "实际钢结构建设支持主题，自用焊接机器人不能称机器人供应商。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002594.SZ",
+    "key": "new_energy_vehicles",
+    "sector": "新能源汽车",
+    "source_sector_name": "新能源汽车",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "新能源整车与核心电池"
+    ],
+    "stage": "revenue",
+    "fact": "新能源汽车电动智能化研发制造，兼营电子和电池。",
+    "company_fact": "新能源汽车电动智能化研发制造，兼营电子和电池。",
+    "ths_fact": "新能源汽车及新能源整车解析自主研发品牌销售、一体化生产。",
+    "reason": "整车市场身份与核心技术商业化一致，电池芯片是产业链标签。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002595.SZ",
+    "key": "machine_tools",
+    "sector": "工业母机",
+    "source_sector_name": "工业母机",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "五轴复合加工与激光机床"
+    ],
+    "stage": "revenue",
+    "fact": "五轴加工中心和复合激光机床已推向市场，兼营模具和铸件。",
+    "company_fact": "五轴加工中心和复合激光机床已推向市场，兼营模具和铸件。",
+    "ths_fact": "工业母机解析明确机床装备研发生产销售。",
+    "reason": "直接成套机床产品支持主题，不只作为轮胎模具厂分类。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002596.SZ",
+    "key": "hainan_free_trade_zone",
+    "sector": "海南自贸区",
+    "source_sector_name": "海南自贸区",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "海南商品混凝土"
+    ],
+    "stage": "revenue",
+    "fact": "海南商品混凝土省内占有率8.32%，服务自贸港基础设施。",
+    "company_fact": "海南商品混凝土省内占有率8.32%，服务自贸港基础设施。",
+    "ths_fact": "海南自贸区解析本地商品混凝土及建材经营。",
+    "reason": "本地建材需求直接连接自贸港建设，不因注册地址单独归类。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002597.SZ",
+    "key": "sugar_substitutes",
+    "sector": "代糖",
+    "source_sector_name": "代糖概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "三氯蔗糖与安赛蜜"
+    ],
+    "stage": "revenue",
+    "fact": "食品添加剂包括三氯蔗糖安赛蜜，合成生物甜菊糖亦投产。",
+    "company_fact": "食品添加剂包括三氯蔗糖安赛蜜，合成生物甜菊糖亦投产。",
+    "ths_fact": "代糖解析三氯蔗糖为爱乐甜无糖甜味料主要来源。",
+    "reason": "核心甜味剂产品形成直接主题，固态材料仍实验室研发。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002598.SZ",
+    "key": "wastewater_treatment",
+    "sector": "污水处理",
+    "source_sector_name": "污水处理",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "工业水处理系统"
+    ],
+    "stage": "delivery",
+    "fact": "经营环保水处理，增加水处理技术研发与应用推广。",
+    "company_fact": "经营环保水处理，增加水处理技术研发与应用推广。",
+    "ths_fact": "污水处理明确预处理污水中水回用零排放及运营服务。",
+    "reason": "已形成工业水服务体系，钠电固态为参股材料业务而非自营电池。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002599.SZ",
+    "key": "ai_applications",
+    "sector": "AI应用",
+    "source_sector_name": "AI应用",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "青少年AI教育工具与课程"
+    ],
+    "stage": "delivery",
+    "fact": "科创教育课程教具平台一体化，含AI专属学习平台。",
+    "company_fact": "科创教育课程教具平台一体化，含AI专属学习平台。",
+    "ths_fact": "AI应用有GPT助手，智谱解析专属知识库学习助手与AI创作课程已上线。",
+    "reason": "实际教育工具和课程形成应用业务，人形教学机器人不等于工业人形量产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002600.SZ",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "关节灵巧手及整机ODM"
+    ],
+    "stage": "delivery",
+    "fact": "AI硬件核心板块覆盖机器人，提供部件模组及整机组装。",
+    "company_fact": "AI硬件核心板块覆盖机器人，提供部件模组及整机组装。",
+    "ths_fact": "人形机器人解释具备量产经验且已供国内北美头部客户，整机ODM有成熟经验。",
+    "reason": "零件模组整机均有直接供应证据，归属不受消费电子原营收权重限制。",
+    "basis": "crosschecked_sources"
+  }
+]

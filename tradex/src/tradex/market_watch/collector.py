@@ -21,7 +21,7 @@ from .collection_contracts import (
     RetryableCollectionError,
     TerminalCollectionError,
 )
-from .collection_store import MarketWatchCollectionStore
+from .collection_store import MarketWatchCollectionStore, validate_snapshot_for_collection
 from .session_schedule import EXPECTED_MARKET_WATCH_MINUTES, FINAL_CLOSE_TIME
 from .contracts import MarketWatchSnapshotV1
 
@@ -109,6 +109,7 @@ class MarketWatchCollector:
         persist_snapshot: PersistCallable,
         history_records: HistoryRecordsCallable | None = None,
         prepare_daily_recovery: RecoveryPreparationCallable | None = None,
+        publish_trajectories: Callable[[datetime], Mapping[str, Any]] | None = None,
         clock: Callable[[], datetime] | None = None,
         retry_policy: CollectorRetryPolicy | None = None,
         recovery_batch_limit: int = EXPECTED_MARKET_WATCH_MINUTES,
@@ -120,6 +121,8 @@ class MarketWatchCollector:
         self._persist_snapshot = persist_snapshot
         self._history_records = history_records
         self._prepare_daily_recovery = prepare_daily_recovery
+        self._publish_trajectories = publish_trajectories
+        self._last_publication_check: datetime | None = None
         self._clock = clock or (lambda: datetime.now(SHANGHAI))
         self.retry_policy = retry_policy or CollectorRetryPolicy()
         if not 1 <= int(recovery_batch_limit) <= EXPECTED_MARKET_WATCH_MINUTES:
@@ -144,7 +147,7 @@ class MarketWatchCollector:
         if self._history_records is not None:
             for item in self._history_records():
                 result = self._store.reconcile_history_record(item)
-                if result.get("action") in {"imported", "heartbeat"}:
+                if result.get("action") in {"imported", "heartbeat", "invalidated"}:
                     reconciled += 1
         self._store.update_runtime(CollectorRuntimeState.RUNNING, heartbeat_at=now)
         self._started = True
@@ -163,7 +166,20 @@ class MarketWatchCollector:
         self._store.update_runtime(CollectorRuntimeState.RUNNING, heartbeat_at=observed)
         if not session.is_trading_day:
             return {"action": "idle", "reason": session.phase.value}
-        return self._run_due_slot(observed)
+        result = self._run_due_slot(observed)
+        # Current-minute capture always runs first. Publication is local-only,
+        # serialized with capture, and retries after failure/restart.
+        publication_at = self._now()
+        if self._publish_trajectories is not None and (
+            self._last_publication_check is None
+            or (publication_at - self._last_publication_check).total_seconds() >= 30
+        ):
+            self._last_publication_check = publication_at
+            try:
+                result["trajectory_publication"] = dict(self._publish_trajectories(publication_at))
+            except Exception:
+                logger.exception("persisted sector trajectory publication failed; will retry")
+        return result
 
     def _run_due_slot(
         self,
@@ -233,7 +249,7 @@ class MarketWatchCollector:
                 )
             else:
                 captured = capture(slot)
-            snapshot = MarketWatchSnapshotV1.model_validate(captured)
+            snapshot = validate_snapshot_for_collection(captured)
             if snapshot.as_of.astimezone(SHANGHAI).replace(
                 second=0,
                 microsecond=0,
@@ -297,6 +313,7 @@ class MarketWatchCollector:
                             "snapshot_id": snapshot.snapshot_id,
                             "payload_digest": digest,
                             "record_kind": "accepted_real",
+                            "payload": snapshot,
                             "updated_at": completed_at.isoformat(),
                         }
                     )
@@ -411,6 +428,7 @@ class MarketWatchCollector:
             self._store.requeue_daily_recovery_gaps(
                 recovery.trade_date,
                 requested_at=observed,
+                preserve_retry_schedule=recovery.trigger is DailyRecoveryTrigger.AUTOMATIC,
             )
             while attempted < self._recovery_batch_limit:
                 attempt_observed = self._now()
@@ -479,7 +497,8 @@ class MarketWatchCollector:
             )
 
     def run_forever(self, stop_event: threading.Event) -> None:
-        self.start()
+        if not self._started:
+            self.start()
         try:
             while not stop_event.is_set():
                 observed = self._now()

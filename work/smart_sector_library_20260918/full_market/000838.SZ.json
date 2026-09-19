@@ -1,0 +1,58 @@
+{
+  "instrument_id": "000838.SZ",
+  "name": "*ST发展",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "000838.SZ",
+    "name": "*ST发展",
+    "memberships": [
+      "房地产",
+      "房地产开发",
+      "住宅开发",
+      "重庆板块",
+      "长期破净",
+      "低价股",
+      "机构重仓",
+      "QFII重仓",
+      "ST股",
+      "西部大开发",
+      "节能环保"
+    ],
+    "business_sections": [
+      {
+        "title": "房地产业务",
+        "kind": "主营业务",
+        "text": "报告期内，公司从事的主要业务为房地产，截止报告期末，公司在3个省（市）开展房地产业务，报告期公司房地产签约销售金额主要来自于重庆市、江苏省镇江市。"
+      },
+      {
+        "title": "较高的专业性和权威性",
+        "kind": "核心竞争力",
+        "text": "重庆瀚渝公司具备年处理10大类约7.69万吨危险废弃物的能力，拥有多种危险废弃物处理资格，在危险废弃物处理领域具有较高的专业性和权威性，满足不同客户的需求。公司始终把技术创新作为核心竞争力。目前已累计获得5项发明专利、54项实用新型专利，技术成果覆盖危废处理全流程，从源头分类、无害化处理到资源再生利用，均实现技术突破。以“高质量、可持续谋发展”为核心，立足川渝危废处置市场实际，对标粤苏先进企业经验，通过“技术升级提附加值、资源整合扩规模、市场攻坚稳客户、组织优化强活力”四大举措，推动公司从“资源争夺型”向“技术驱动型”转型；聚焦核心业务，淘汰低效产线，培育高利润增长点，实现“减量提质、降本增效”，打造西南地区危废资源化利用领域“品类全、技术强、成本优、服务好”的标杆企业。"
+      },
+      {
+        "title": "区域市场优势",
+        "kind": "核心竞争力",
+        "text": "公司具备国家一级房地产开发资质，深耕重庆市场，对区域市场有着较为深度的理解。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ000838",
+    "fetched_at": "2026-09-18T22:35:59.225972+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [
+    "房地产"
+  ],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "房地产"
+}

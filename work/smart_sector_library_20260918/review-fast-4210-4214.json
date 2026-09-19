@@ -1,0 +1,77 @@
+[
+  {
+    "id": "603435.SH",
+    "key": "flexible_dc_transmission",
+    "sector": "柔性直流输电",
+    "source_sector_name": "柔性直流输电",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "电容器绝缘基膜"
+    ],
+    "fact": "BOPP电工膜为薄膜电容器介质，柔直输变电为重要应用。",
+    "company_fact": "BOPP电工膜为薄膜电容器介质，柔直输变电为重要应用。",
+    "ths_fact": "进入国网柔性直流供应链并实现供货。",
+    "reason": "已有供货链位，复合铜箔放量不确定不作量产收入。"
+  },
+  {
+    "id": "603439.SH",
+    "key": "chinese_medicine",
+    "sector": "中医药",
+    "source_sector_name": "中医药",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "中成药研发制造"
+    ],
+    "fact": "开喉剑芪胶升白妇科再造等药品研发生产销售。",
+    "company_fact": "开喉剑芪胶升白妇科再造等药品研发生产销售。",
+    "ths_fact": "经典验方研究及注册项目，已有开喉剑等。",
+    "reason": "直接中药业务，阿尔茨海默临床前候选受让与拟创新药合作另留标签。"
+  },
+  {
+    "id": "603444.SH",
+    "key": "online_games",
+    "sector": "网络游戏",
+    "source_sector_name": "网络游戏",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "游戏研发运营"
+    ],
+    "fact": "专注网络游戏研发运营，实际营业收入。",
+    "company_fact": "专注网络游戏研发运营，实际营业收入。",
+    "ths_fact": "杖剑传说道友来挖宝已上线。",
+    "reason": "游戏发行研发身份明确，衍生IP为相关标签。"
+  },
+  {
+    "id": "603448.SH",
+    "key": "liquid_cooled_servers",
+    "sector": "液冷服务器",
+    "source_sector_name": "液冷服务器",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "液冷智能水阀"
+    ],
+    "fact": "汽车热管理技术向储能和AI数据中心拓展且建立合作。",
+    "company_fact": "汽车热管理技术向储能和AI数据中心拓展且建立合作。",
+    "ths_fact": "向阳光电源英维克同飞等供应智能水阀。",
+    "reason": "实际液冷水阀供应，机器人六维力传感器供应不直接推断人形批产。"
+  },
+  {
+    "id": "603456.SH",
+    "key": "cro",
+    "sector": "CRO",
+    "source_sector_name": "CRO概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "药物CDMO服务"
+    ],
+    "fact": "创新驱动CDMO为全球药企提供研发生产服务。",
+    "company_fact": "创新驱动CDMO为全球药企提供研发生产服务。",
+    "ths_fact": "小分子多肽偶联小核酸CDMO一站式服务。",
+    "reason": "创新药研发生产外包身份，不把客户药物视为自有药品权益。"
+  }
+]

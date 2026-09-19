@@ -1,0 +1,85 @@
+[
+  {
+    "id": "300502.SZ",
+    "key": "co_packaged_optics",
+    "sector": "共封装光学(CPO)",
+    "source_sector_name": "共封装光学(CPO)",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "高速光模块",
+      "AI数据中心光互联"
+    ],
+    "fact": "高速光模块进入数据中心与AI算力集群，主归属CPO产业链。",
+    "ths_fact": "同花顺引用互动回复，800G硅光、800G LPO及1.6T产品布局，高速光模块销售占比提升。",
+    "company_fact": "公司业务资料明确全系列光模块研发生产销售，服务AI算力集群、云数据中心和电信。",
+    "reason": "选已有共封装光学(CPO)体现市场高速光互联主线；链条是光模块，不将可插拔LPO及硅光模块销售称为CPO封装量产。"
+  },
+  {
+    "id": "300503.SZ",
+    "key": "humanoid_robot",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "stage": "pilot",
+    "chain": [
+      "谐波减速器",
+      "无框力矩电机",
+      "机器人关节功能部件"
+    ],
+    "fact": "以机器人核心部件参与人形机器人客户合作及原型测试。",
+    "ths_fact": "同花顺人形解析记载关节原型测试和客户接洽，协作按摩机器人已有批量应用。",
+    "company_fact": "业务资料列完整谐波减速器系列，与协作机器人头部企业稳定合作，并与部分人形头部企业达成合作。",
+    "reason": "选已有的人形机器人，核心部件比地域和泛装备标签更贴合市场身份；协作机器人批量不能等同人形机器人批量交付，人形阶段按验证。"
+  },
+  {
+    "id": "300504.SZ",
+    "key": "f5g",
+    "sector": "F5G",
+    "source_sector_name": "F5G概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "光接入终端",
+      "10GPON光猫",
+      "WiFi路由器"
+    ],
+    "fact": "主营宽带接入及组网设备，映射既有F5G概念。",
+    "ths_fact": "同花顺F5G解析明确WiFi6路由器与10GPON光猫为主要产品。",
+    "company_fact": "公司主营资料确认面向运营商的宽带网络终端、物理连接保护及移动网络优化设备研发生产销售。",
+    "reason": "F5G直接覆盖光接入与家庭组网产品；参股光波导企业不能提升成自营AI眼镜主归属，卫星投资计划也不替代已运营通信业务。"
+  },
+  {
+    "id": "300505.SZ",
+    "key": "phosphorus_chemicals",
+    "sector": "磷化工",
+    "source_sector_name": "磷化工",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "湿法磷酸",
+      "净化磷酸",
+      "磷酸盐与磷肥"
+    ],
+    "fact": "湿法磷酸分级利用形成磷化工产品业务。",
+    "ths_fact": "同花顺引用公告说明公司具备磷酸及磷酸盐生产能力与净化磷酸技术。",
+    "company_fact": "主营资料明确围绕湿法磷酸工艺生产饲料添加剂、肥料及湿法净化磷酸。",
+    "reason": "已有磷化工覆盖主要产品、技术和市场身份；规划磷酸铁锂前驱体项目不作为已投产依据，产能不当作产量。"
+  },
+  {
+    "id": "300506.SZ",
+    "key": "led",
+    "sector": "LED",
+    "source_sector_name": "LED概念",
+    "source_sector_provider": "东方财富",
+    "stage": "revenue",
+    "chain": [
+      "LED景观灯具",
+      "照明工程"
+    ],
+    "fact": "LED灯具及照明工程构成已运营业务。",
+    "ths_fact": "同花顺地域解析明确照明设计施工与LED洗墙灯、点光源等产品，节能减排解析也记载大功率LED灯头。",
+    "company_fact": "公司主营资料明确景观照明设计施工和LED灯具研发生产销售，用于商业、市政和景观装饰。",
+    "reason": "采用已有LED概念对应照明实业；智慧灯杆是较小新兴业务，旧IGBT拟收购不能据此判定已有半导体控制及收入。"
+  }
+]

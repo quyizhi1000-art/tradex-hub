@@ -1,0 +1,3438 @@
+[
+  {
+    "id": "688584.SH",
+    "key": "semiconductor_materials",
+    "sector": "半导体材料",
+    "source_sector_name": "半导体材料",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "硅外延片"
+    ],
+    "stage": "revenue",
+    "fact": "晶体成长衬底成型到外延生长一体制造。",
+    "company_fact": "晶体成长衬底成型到外延生长一体制造。",
+    "ths_fact": "功率与模拟芯片用硅外延片制造销售。",
+    "reason": "芯片基础材料实际完整生产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688585.SH",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "启元Q1/T1",
+      "自研整机"
+    ],
+    "stage": "product",
+    "fact": "材料经营基础之外原H1确认已推出启元Q1/T1机器人。",
+    "company_fact": "材料经营基础之外原H1确认已推出启元Q1/T1机器人。",
+    "ths_fact": "自研QDD关节控制器及小型人形项目。",
+    "reason": "原报告证实独立机器人产品，非仅控股股东身份；不把展示与规模量产混同。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "688585-original-h1",
+        "source_kind": "official_filing",
+        "publisher": "上纬新材",
+        "title": "2026年半年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12496850&stockid=688585",
+        "published_at": "2026-08-15",
+        "assertions": [
+          "上市公司已研发推出启元Q1与T1两款消费级具身智能机器人，Q1个人小型人形，T1可变形；不以展示推出认定规模量产。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "688586.SH",
+    "key": "military",
+    "sector": "军工",
+    "source_sector_name": "军工",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "航空生保",
+      "特种制冷"
+    ],
+    "stage": "revenue",
+    "fact": "军机氧气惰性化系统油箱及全军种特种制冷。",
+    "company_fact": "军机氧气惰性化系统油箱及全军种特种制冷。",
+    "ths_fact": "军用航空与制冷装备实业。",
+    "reason": "军用航空完整身份，航天生保配套是细分实际业务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688588.SH",
+    "key": "ai_agents",
+    "sector": "AI智能体",
+    "source_sector_name": "AI智能体",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "证券投行预审Agent"
+    ],
+    "stage": "product",
+    "fact": "金融核心软件及证券业务方案。",
+    "company_fact": "金融核心软件及证券业务方案。",
+    "ths_fact": "已推出IPO招股书预审Agent。",
+    "reason": "对外证券智能体真实产品，不将原对日软件收入全部认AI。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688589.SH",
+    "key": "power_iot",
+    "sector": "电力物联网",
+    "source_sector_name": "电力物联网",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "PLC通信芯片"
+    ],
+    "stage": "revenue",
+    "fact": "自有PLC芯片供国网南网及智能用电。",
+    "company_fact": "自有PLC芯片供国网南网及智能用电。",
+    "ths_fact": "电力通信芯片模块终端主要供电网。",
+    "reason": "电力物联直接业务交叉。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688590.SH",
+    "key": "ai_agents",
+    "sector": "AI智能体",
+    "source_sector_name": "AI智能体",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "新致新知",
+      "ACE产品"
+    ],
+    "stage": "product",
+    "fact": "金融与行业软件算力服务。",
+    "company_fact": "金融与行业软件算力服务。",
+    "ths_fact": "自研新致新知平台及营销代理助手等Agent产品。",
+    "reason": "独立企业AI产品，不只内部工具。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688591.SH",
+    "key": "ai_chips",
+    "sector": "AI芯片",
+    "source_sector_name": "AI芯片",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "边缘AI",
+      "低功耗SoC"
+    ],
+    "stage": "product",
+    "fact": "已推出支持边缘AI系列芯片工具，自研NPU与无线集成。",
+    "company_fact": "已推出支持边缘AI系列芯片工具，自研NPU与无线集成。",
+    "ths_fact": "芯片解析实际低功耗IoT及音频研销。",
+    "reason": "自主NPU和具体AI芯片推出支撑EM现有AI芯片，非仅连接芯片可供AI终端。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688592.SH",
+    "key": "satellite_navigation",
+    "sector": "卫星导航",
+    "source_sector_name": "卫星导航",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "北斗GNSS",
+      "RTK"
+    ],
+    "stage": "revenue",
+    "fact": "定位芯片模块接收机及高精度应用。",
+    "company_fact": "定位芯片模块接收机及高精度应用。",
+    "ths_fact": "厘米毫米高精度定位技术产品广泛客户应用。",
+    "reason": "卫星导航完整产品而非卫星制造。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688593.SH",
+    "key": "microled",
+    "sector": "MicroLED",
+    "source_sector_name": "MicroLED概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "微显示驱动芯片"
+    ],
+    "stage": "delivery",
+    "fact": "显示驱动矩阵，MicroLED产品已用于AR眼镜。",
+    "company_fact": "显示驱动矩阵，MicroLED产品已用于AR眼镜。",
+    "ths_fact": "微显示产品已小量出货。",
+    "reason": "真实微显示芯片，AR应用不直接等于AI终端。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688595.SH",
+    "key": "ai_glasses",
+    "sector": "AI眼镜",
+    "source_sector_name": "AI眼镜",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "压力触控芯片"
+    ],
+    "stage": "delivery",
+    "fact": "ADC MCU全信号链芯片及算法方案。",
+    "company_fact": "ADC MCU全信号链芯片及算法方案。",
+    "ths_fact": "压力触控已经用于夸克AI眼镜。",
+    "reason": "具体AI眼镜终端落地。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688596.SH",
+    "key": "chips",
+    "sector": "芯片",
+    "source_sector_name": "芯片概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "制程系统",
+      "工艺材料"
+    ],
+    "stage": "revenue",
+    "fact": "半导体关键制程系统材料零件运维一体服务。",
+    "company_fact": "半导体关键制程系统材料零件运维一体服务。",
+    "ths_fact": "半导体实际业务收入与订单占比提升，前驱体部分仍送样。",
+    "reason": "完整半导体供应业务，部分材料送样不一并称量产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688597.SH",
+    "key": "low_altitude_economy",
+    "sector": "低空经济",
+    "source_sector_name": "低空经济",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "无人机",
+      "电网巡检"
+    ],
+    "stage": "revenue",
+    "fact": "低空智能巡检软硬件服务输配电城市消防等。",
+    "company_fact": "低空智能巡检软硬件服务输配电城市消防等。",
+    "ths_fact": "AI配网巡检自主项目及低空综合方案。",
+    "reason": "实际巡检服务与设备主线，电表为并行业务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688598.SH",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "轻量化碳基材料"
+    ],
+    "stage": "product",
+    "fact": "先进碳基材料多领域研发制造。",
+    "company_fact": "先进碳基材料多领域研发制造。",
+    "ths_fact": "与超能合作湘江1号以特种材料替代金属减重。",
+    "reason": "实际特定人形轻量化方案，不称整机股权或大批收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688599.SH",
+    "key": "photovoltaics",
+    "sector": "光伏",
+    "source_sector_name": "光伏概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "组件",
+      "光储系统"
+    ],
+    "stage": "revenue",
+    "fact": "组件制造全球销售及储能电站运维体系。",
+    "company_fact": "组件制造全球销售及储能电站运维体系。",
+    "ths_fact": "组件系统电站智能微网主要产品。",
+    "reason": "光伏全链实际业务，储能作为独立次线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688600.SH",
+    "key": "liquid_cooled_servers",
+    "sector": "液冷服务器",
+    "source_sector_name": "液冷服务器",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "液冷密封检测"
+    ],
+    "stage": "revenue",
+    "fact": "精密检测仪器已覆盖液冷行业。",
+    "company_fact": "精密检测仪器已覆盖液冷行业。",
+    "ths_fact": "液冷部件气密检测2025年实收3740.53万元。",
+    "reason": "直接液冷产业设备收入；聚变联合实验室不等于量产产品。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688601.SH",
+    "key": "ai_smartphone",
+    "sector": "AI手机",
+    "source_sector_name": "AI手机",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "电源管理芯片"
+    ],
+    "stage": "delivery",
+    "fact": "电源转换保护信号链驱动芯片。",
+    "company_fact": "电源转换保护信号链驱动芯片。",
+    "ths_fact": "已用于三星等有AI功能手机。",
+    "reason": "具体AI终端供给，非仅泛消费电子应用。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688602.SH",
+    "key": "solid_state_batteries",
+    "sector": "固态电池",
+    "source_sector_name": "固态电池",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "LiFSI",
+      "电解液添加剂"
+    ],
+    "stage": "revenue",
+    "fact": "新型电池材料电子化学品及CDMO经营。",
+    "company_fact": "新型电池材料电子化学品及CDMO经营。",
+    "ths_fact": "LiFSI等已供主要电解液客户并用于半固态固态。",
+    "reason": "直接电池材料商业应用，参股光敏剂不是必须取代该主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688603.SH",
+    "key": "glass_substrate",
+    "sector": "玻璃基板",
+    "source_sector_name": "玻璃基板",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "TGV电镀添加剂"
+    ],
+    "stage": "delivery",
+    "fact": "PCB载板先进封装湿电子化学品。",
+    "company_fact": "PCB载板先进封装湿电子化学品。",
+    "ths_fact": "TGV TSV RDL电镀添加剂已小批出货。",
+    "reason": "实际玻璃基板工艺材料交付。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688605.SH",
+    "key": "semiconductor_equipment",
+    "sector": "半导体设备",
+    "source_sector_name": "半导体设备",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "刻蚀沉积",
+      "精密零件"
+    ],
+    "stage": "revenue",
+    "fact": "反应腔内衬加热器匀气盘等工艺关键件制造。",
+    "company_fact": "反应腔内衬加热器匀气盘等工艺关键件制造。",
+    "ths_fact": "刻蚀薄膜设备关键零件主营。",
+    "reason": "已经营半导体装备零件，光刻机零件新研发不当量产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688606.SH",
+    "key": "in_vitro_diagnostics",
+    "sector": "体外诊断",
+    "source_sector_name": "体外诊断",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "POCT试剂"
+    ],
+    "stage": "revenue",
+    "fact": "1600余上市快速诊断产品。",
+    "company_fact": "1600余上市快速诊断产品。",
+    "ths_fact": "快速诊断六大应用领域实际产品。",
+    "reason": "直接诊断试剂经营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688607.SH",
+    "key": "medical_devices",
+    "sector": "医疗器械",
+    "source_sector_name": "医疗器械",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "X射线探测器"
+    ],
+    "stage": "revenue",
+    "fact": "数字X射线平板探测器及智能DR方案。",
+    "company_fact": "数字X射线平板探测器及智能DR方案。",
+    "ths_fact": "医学影像探测传感产品及AI诊断升级方向。",
+    "reason": "真实影像器械产品，智能化合作效果待形成可核实独立产品。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688608.SH",
+    "key": "ai_glasses",
+    "sector": "AI眼镜",
+    "source_sector_name": "AI眼镜",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "低功耗主控SoC"
+    ],
+    "stage": "delivery",
+    "fact": "含NPU视觉音频多核无线计算SoC。",
+    "company_fact": "含NPU视觉音频多核无线计算SoC。",
+    "ths_fact": "小米夸克理想多款AI眼镜已量产上市用其芯片。",
+    "reason": "具体AI眼镜主控核心产品交付。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688609.SH",
+    "key": "harmonyos",
+    "sector": "鸿蒙",
+    "source_sector_name": "鸿蒙概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "软件发行版",
+      "终端"
+    ],
+    "stage": "product",
+    "fact": "鸿蒙发行版开发板边缘设备AIPC等产品线。",
+    "company_fact": "鸿蒙发行版开发板边缘设备AIPC等产品线。",
+    "ths_fact": "自建鸿蒙实验室及多场景产品生态。",
+    "reason": "独立鸿蒙软硬件业务，100G模块销售不等同CPO。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688610.SH",
+    "key": "machine_vision",
+    "sector": "机器视觉",
+    "source_sector_name": "机器视觉",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "工业相机",
+      "采集卡"
+    ],
+    "stage": "revenue",
+    "fact": "工业相机采集卡及5D检测系统。",
+    "company_fact": "工业相机采集卡及5D检测系统。",
+    "ths_fact": "工业机器视觉核心部件研产销。",
+    "reason": "完整机器视觉产品。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688611.SH",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "六维力传感器"
+    ],
+    "stage": "product",
+    "fact": "智能感知及机器人核心部件矩阵。",
+    "company_fact": "智能感知及机器人核心部件矩阵。",
+    "ths_fact": "六维力系列含专门人形型号。",
+    "reason": "已有具体人形关键传感产品，电网收入不限定新市场身份。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688612.SH",
+    "key": "high_voltage_fast_charging",
+    "sector": "高压快充",
+    "source_sector_name": "高压快充",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "800V车载电源"
+    ],
+    "stage": "delivery",
+    "fact": "车载充电DCDC电驱及液冷充电模块。",
+    "company_fact": "车载充电DCDC电驱及液冷充电模块。",
+    "ths_fact": "800V集成电源已定点并应用上市小鹏G9。",
+    "reason": "具体高压电源落地，飞行汽车定点不自动等于交付。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688613.SH",
+    "key": "medical_devices",
+    "sector": "医疗器械",
+    "source_sector_name": "医疗器械概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "仿生骨",
+      "再生修复"
+    ],
+    "stage": "revenue",
+    "fact": "组织再生修复生物材料器械研产销。",
+    "company_fact": "组织再生修复生物材料器械研产销。",
+    "ths_fact": "自主矿化胶原人工骨产品。",
+    "reason": "已上市骨修复器械完整业务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688615.SH",
+    "key": "ai_agents",
+    "sector": "AI智能体",
+    "source_sector_name": "AI智能体",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "启信慧眼",
+      "企业决策"
+    ],
+    "stage": "product",
+    "fact": "多模态文本智能AI产品面向B/C客户。",
+    "company_fact": "多模态文本智能AI产品面向B/C客户。",
+    "ths_fact": "企业级启信慧眼Agent已提供寻源尽调关系风险管理。",
+    "reason": "具体对外Agent产品，非泛内部AI使用。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688616.SH",
+    "key": "power_iot",
+    "sector": "电力物联网",
+    "source_sector_name": "电力物联网",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "智能电表",
+      "采集网关"
+    ],
+    "stage": "revenue",
+    "fact": "计量表采集终端电网数据交互应用。",
+    "company_fact": "计量表采集终端电网数据交互应用。",
+    "ths_fact": "计量网关智慧插座已开发拓市场。",
+    "reason": "实际电力数据感知通信链条。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688617.SH",
+    "key": "medical_devices",
+    "sector": "医疗器械",
+    "source_sector_name": "医疗器械概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "电生理",
+      "介入通路"
+    ],
+    "stage": "revenue",
+    "fact": "心血管及非血管介入耗材设备经营。",
+    "company_fact": "心血管及非血管介入耗材设备经营。",
+    "ths_fact": "电生理冠脉外周等产品研产销。",
+    "reason": "真实器械产品体系。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688618.SH",
+    "key": "industrial_internet",
+    "sector": "工业互联网",
+    "source_sector_name": "工业互联网",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "工业通信",
+      "HaaS平台"
+    ],
+    "stage": "revenue",
+    "fact": "采网算控四层工业通信全套方案。",
+    "company_fact": "采网算控四层工业通信全套方案。",
+    "ths_fact": "边缘网关服务器交换机等自研产品。",
+    "reason": "直接工业互联产品商业经营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688619.SH",
+    "key": "ai_agents",
+    "sector": "AI智能体",
+    "source_sector_name": "AI智能体",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "工业端侧",
+      "财务智能体"
+    ],
+    "stage": "product",
+    "fact": "AI软硬件及多行业完整方案。",
+    "company_fact": "AI软硬件及多行业完整方案。",
+    "ths_fact": "工业端侧与财务智能体用于设备质量与业务运营。",
+    "reason": "具体对外智能体方案与AI主营交叉。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688620.SH",
+    "key": "ai_glasses",
+    "sector": "AI眼镜",
+    "source_sector_name": "AI眼镜",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "KMO1W视觉芯片"
+    ],
+    "stage": "product",
+    "fact": "AISoC覆盖智能视觉交互通信及眼镜应用。",
+    "company_fact": "AISoC覆盖智能视觉交互通信及眼镜应用。",
+    "ths_fact": "正式发布针对AI眼镜的低功耗KMO1W。",
+    "reason": "眼镜专用芯片产品真实，不将全部SoC销量认眼镜。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688621.SH",
+    "key": "innovative_drugs",
+    "sector": "创新药",
+    "source_sector_name": "创新药",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "自主STC007/008"
+    ],
+    "stage": "pilot",
+    "fact": "CRO与自主新药双轮研发体系。",
+    "company_fact": "CRO与自主新药双轮研发体系。",
+    "ths_fact": "自有二十余I类管线且007/008临床开展。",
+    "reason": "自主真实临床主线，不由原CRO营收限制归属。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688622.SH",
+    "key": "instruments",
+    "sector": "仪器仪表",
+    "source_sector_name": "仪器仪表",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "自主质谱仪"
+    ],
+    "stage": "revenue",
+    "fact": "质谱仪制造及环境食品实验室检测技术服务。",
+    "company_fact": "质谱仪制造及环境食品实验室检测技术服务。",
+    "ths_fact": "量子解析同时确认原科学仪器平台，新增标的原H1仍审核。",
+    "reason": "原H1排除拟购量羲为已交割，选实际仪器；批准交割或自主量子产品落地后复核。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "688622-original-h1",
+        "source_kind": "official_filing",
+        "publisher": "禾信仪器",
+        "title": "2026年半年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12534546&stockid=688622",
+        "published_at": "2026-08-26",
+        "assertions": [
+          "拟购量羲56%股权仍在上交所审核，现有质谱设备业务。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "688623.SH",
+    "key": "machine_vision",
+    "sector": "机器视觉",
+    "source_sector_name": "机器视觉",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "在线缺陷检测"
+    ],
+    "stage": "revenue",
+    "fact": "自动测控与视觉检测两平台。",
+    "company_fact": "自动测控与视觉检测两平台。",
+    "ths_fact": "视觉检测系统研产销。",
+    "reason": "实际视觉设备经营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688625.SH",
+    "key": "pcb",
+    "sector": "PCB",
+    "source_sector_name": "PCB概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "高频树脂",
+      "阻燃剂"
+    ],
+    "stage": "revenue",
+    "fact": "高分子树脂助剂自主研发和规模制造。",
+    "company_fact": "高分子树脂助剂自主研发和规模制造。",
+    "ths_fact": "全资电子材料主体聚苯醚及高速阻燃剂批供头部CCL。",
+    "reason": "具体覆铜板上游材料批量销售，新主线有真实产品支撑。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688626.SH",
+    "key": "brain_computer_interface",
+    "sector": "脑机接口",
+    "source_sector_name": "脑机接口",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "非侵入脑控康复"
+    ],
+    "stage": "delivery",
+    "fact": "康复器械全系列及脑机自主技术。",
+    "company_fact": "康复器械全系列及脑机自主技术。",
+    "ths_fact": "同股要点已有脑电诱发注册证，脑控设备推广多家三甲医院。",
+    "reason": "具体脑机康复设备临床应用，不将全部康复营收作脑机收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688627.SH",
+    "key": "memory_chips",
+    "sector": "存储芯片",
+    "source_sector_name": "存储芯片",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "DRAM测试",
+      "老化修复"
+    ],
+    "stage": "revenue",
+    "fact": "DRAM晶圆成品测试老化修复设备。",
+    "company_fact": "DRAM晶圆成品测试老化修复设备。",
+    "ths_fact": "核心设备在存储头部厂规模应用。",
+    "reason": "实际存储制造测试链，非自产存储芯片。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688628.SH",
+    "key": "ai_agents",
+    "sector": "AI智能体",
+    "source_sector_name": "AI智能体",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "智能示波器助手"
+    ],
+    "stage": "product",
+    "fact": "测试仪表研发生产全系列。",
+    "company_fact": "测试仪表研发生产全系列。",
+    "ths_fact": "MSO8000HD已发布搭载面向用户的智能助手。",
+    "reason": "直接嵌入产品的Agent，不仅企业内部接模型；光纤拟购不认已过户。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688629.SH",
+    "key": "high_speed_copper_interconnect",
+    "sector": "铜缆高速连接",
+    "source_sector_name": "铜缆高速连接",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "224G背板连接器"
+    ],
+    "stage": "delivery",
+    "fact": "光电连接器线缆组件研产销。",
+    "company_fact": "光电连接器线缆组件研产销。",
+    "ths_fact": "224G高速背板连接器已批量交付。",
+    "reason": "真实高速互联交付，CPO基础技术研究不当量产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688630.SH",
+    "key": "lithography",
+    "sector": "光刻机",
+    "source_sector_name": "光刻机",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "直写光刻",
+      "PCB成像"
+    ],
+    "stage": "revenue",
+    "fact": "微纳直写光刻设备及PCB直接成像设备。",
+    "company_fact": "微纳直写光刻设备及PCB直接成像设备。",
+    "ths_fact": "现有制版光刻能力并推进90nm设备。",
+    "reason": "真实光刻装备业务，不将未来90nm设备当已量产，不等于EUV。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688631.SH",
+    "key": "low_altitude_economy",
+    "sector": "低空经济",
+    "source_sector_name": "低空经济",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "空管",
+      "低空智联"
+    ],
+    "stage": "delivery",
+    "fact": "民航空管道路交通与城市指挥信息系统。",
+    "company_fact": "民航空管道路交通与城市指挥信息系统。",
+    "ths_fact": "文成eVTOL文旅飞行低空智联项目已落实。",
+    "reason": "具体低空运行保障方案落地。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688633.SH",
+    "key": "high_end_equipment",
+    "sector": "高端装备",
+    "source_sector_name": "高端装备",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "石墨化工设备"
+    ],
+    "stage": "revenue",
+    "fact": "石墨材料及合成换热塔器系统全链。",
+    "company_fact": "石墨材料及合成换热塔器系统全链。",
+    "ths_fact": "自主石墨设备设计制造维保。",
+    "reason": "专业化工装备直接经营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688635.SH",
+    "key": "optical_fiber",
+    "sector": "光纤",
+    "source_sector_name": "光纤概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "掺稀土特种光纤"
+    ],
+    "stage": "revenue",
+    "fact": "多品类特种光纤研发产业化。",
+    "company_fact": "多品类特种光纤研发产业化。",
+    "ths_fact": "掺镱铒铥光纤等真实产品销售。",
+    "reason": "光纤核心材料产品而非一般通信渠道。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688636.SH",
+    "key": "commercial_space",
+    "sector": "商业航天",
+    "source_sector_name": "商业航天",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "嵌入式计算模块"
+    ],
+    "stage": "revenue",
+    "fact": "高可靠嵌入式计算模块用于航天与特种电子。",
+    "company_fact": "高可靠嵌入式计算模块用于航天与特种电子。",
+    "ths_fact": "商业航天模块列入主要产品。",
+    "reason": "真实航天计算部件经营，保留军用背景。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688638.SH",
+    "key": "solid_state_batteries",
+    "sector": "固态电池",
+    "source_sector_name": "固态电池",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "自动化电池装备"
+    ],
+    "stage": "delivery",
+    "fact": "锂电与消费电子自动装配测试设备。",
+    "company_fact": "锂电与消费电子自动装配测试设备。",
+    "ths_fact": "半固态固态相关客户已小批出货。",
+    "reason": "具体制造装备供给，不称固态电芯生产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688639.SH",
+    "key": "synthetic_biology",
+    "sector": "合成生物",
+    "source_sector_name": "合成生物",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "氨基酸",
+      "生物基单体"
+    ],
+    "stage": "revenue",
+    "fact": "合成生物制造氨基酸维生素单体。",
+    "company_fact": "合成生物制造氨基酸维生素单体。",
+    "ths_fact": "以合成生物为核心生物基产品研产销。",
+    "reason": "底层制造与产品商业化直接一致。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688646.SH",
+    "key": "solid_state_batteries",
+    "sector": "固态电池",
+    "source_sector_name": "固态电池",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "电芯装配",
+      "激光工艺"
+    ],
+    "stage": "delivery",
+    "fact": "锂电电芯PACK激光装配装备。",
+    "company_fact": "锂电电芯PACK激光装配装备。",
+    "ths_fact": "已向半固态固态厂商供电芯装配线。",
+    "reason": "直接交付设备主线；原H1确认参股荆楚，但先前预计小批量不直接作当前实绩，人形成果持续复核。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "688646-original-h1",
+        "source_kind": "official_filing",
+        "publisher": "逸飞激光",
+        "title": "2026年半年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12499956&stockid=688646",
+        "published_at": "2026-08-18",
+        "assertions": [
+          "荆楚人形机器人为当前参股联营，长期股权投资期末913.74万元；不能将旧预计三季度量产直接作为当前已交付。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "688648.SH",
+    "key": "smart_logistics",
+    "sector": "智能物流",
+    "source_sector_name": "智能物流",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "分拣",
+      "传输仓储"
+    ],
+    "stage": "revenue",
+    "fact": "定制智能分拣传输仓储及专用车。",
+    "company_fact": "定制智能分拣传输仓储及专用车。",
+    "ths_fact": "物流整体方案与AI感知研发。",
+    "reason": "具体物流装备经营，机器人公司注册不等于已有独立整机。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688651.SH",
+    "key": "commercial_space",
+    "sector": "商业航天",
+    "source_sector_name": "商业航天",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "卫星互联网安全"
+    ],
+    "stage": "product",
+    "fact": "卫星互联网安全与网络空间地图业务平台。",
+    "company_fact": "卫星互联网安全与网络空间地图业务平台。",
+    "ths_fact": "已推出卫星互联网安全方案支持天地切换加密。",
+    "reason": "具体航天安全产品，不称发射运营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688652.SH",
+    "key": "semiconductor_equipment",
+    "sector": "半导体设备",
+    "source_sector_name": "半导体设备",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "温控",
+      "废气处理传片"
+    ],
+    "stage": "revenue",
+    "fact": "Chiller LocalScrubber Sorter设备研产销。",
+    "company_fact": "Chiller LocalScrubber Sorter设备研产销。",
+    "ths_fact": "半导体专用三类设备实际主营。",
+    "reason": "直接半导体生产设备。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688653.SH",
+    "key": "chips",
+    "sector": "芯片",
+    "source_sector_name": "芯片概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "WiFi射频前端"
+    ],
+    "stage": "revenue",
+    "fact": "自主WiFi射频前端芯片模组Fabless。",
+    "company_fact": "自主WiFi射频前端芯片模组Fabless。",
+    "ths_fact": "射频业务及参股芯中芯终端布局。",
+    "reason": "当前自营无线芯片完整市场身份；原H1参股模块业务仍在运营，不把标的全部收入作AI眼镜收入。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "688653-original-h1",
+        "source_kind": "official_filing",
+        "publisher": "康希通信",
+        "title": "2026年半年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12529634&stockid=688653",
+        "published_at": "2026-08-25",
+        "assertions": [
+          "芯中芯为当前参股公司，智能模块实际营业及在手订单，未将全部模块收入当AI眼镜。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "688655.SH",
+    "key": "pcb",
+    "sector": "PCB",
+    "source_sector_name": "PCB概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "高频高速",
+      "HDI"
+    ],
+    "stage": "revenue",
+    "fact": "从样板到批量PCB全生命周期。",
+    "company_fact": "从样板到批量PCB全生命周期。",
+    "ths_fact": "HDI高速高频等PCB批量产品。",
+    "reason": "真实PCB，400G光模块用板不自动当CPO。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688656.SH",
+    "key": "in_vitro_diagnostics",
+    "sector": "体外诊断",
+    "source_sector_name": "体外诊断",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "过敏",
+      "自免检测"
+    ],
+    "stage": "revenue",
+    "fact": "过敏自身免疫检测试剂研发生产销售。",
+    "company_fact": "过敏自身免疫检测试剂研发生产销售。",
+    "ths_fact": "同股主营要点过敏原抗体检测规模生产。",
+    "reason": "两源实际IVD经营一致。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688657.SH",
+    "key": "ai_applications",
+    "sector": "AI应用",
+    "source_sector_name": "AI应用",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "CAD智能设计"
+    ],
+    "stage": "product",
+    "fact": "2D/3D/BIM与云CAD自主软件。",
+    "company_fact": "2D/3D/BIM与云CAD自主软件。",
+    "ths_fact": "已发布AI设计智能体图片转CAD及渲染矩阵。",
+    "reason": "具体工业AI软件产品形成新主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688658.SH",
+    "key": "innovative_drugs",
+    "sector": "创新药",
+    "source_sector_name": "创新药",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "爱地那非",
+      "创新管线"
+    ],
+    "stage": "revenue",
+    "fact": "完整药品研产销及爱地那非1.1类创新药产品。",
+    "company_fact": "完整药品研产销及爱地那非1.1类创新药产品。",
+    "ths_fact": "创新药解析PCSK9 siRNA具体研发管线。",
+    "reason": "已有创新产品与持续研发交叉，stage针对上市爱地那非而非新siRNA销售。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688659.SH",
+    "key": "ai_applications",
+    "sector": "AI应用",
+    "source_sector_name": "AI应用",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "智能环保岛"
+    ],
+    "stage": "delivery",
+    "fact": "环保材料与AI工业烟气治理全流程平台。",
+    "company_fact": "环保材料与AI工业烟气治理全流程平台。",
+    "ths_fact": "AI系统已在电力钢铁落地。",
+    "reason": "实际对外AI环保工艺控制，非内部自动化；碳纤维布局待明确样品。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688660.SH",
+    "key": "wind_power",
+    "sector": "风电",
+    "source_sector_name": "风电",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "风机",
+      "服务"
+    ],
+    "stage": "revenue",
+    "fact": "全功率全场景风机制造及服务。",
+    "company_fact": "全功率全场景风机制造及服务。",
+    "ths_fact": "2.5至18MW机组研产销。",
+    "reason": "风电整机直接经营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688661.SH",
+    "key": "chips",
+    "sector": "芯片",
+    "source_sector_name": "芯片概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "测试探针",
+      "精密零件"
+    ],
+    "stage": "revenue",
+    "fact": "半导体探针MEMS及微传动制造。",
+    "company_fact": "半导体探针MEMS及微传动制造。",
+    "ths_fact": "探针已用于主流测试机及英伟达客户。",
+    "reason": "芯片测试耗材实际商业供应，机器人传动为并行细分。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688662.SH",
+    "key": "optical_modules",
+    "sector": "光通信模块",
+    "source_sector_name": "光通信模块",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "MicroTEC温控器件"
+    ],
+    "stage": "pilot",
+    "fact": "半导体热电器件与整机研发制造拓通信。",
+    "company_fact": "半导体热电器件与整机研发制造拓通信。",
+    "ths_fact": "400G/800G光模块MicroTEC开发并送样。",
+    "reason": "模块温控具体产品验证；未证CPO封装不以概念直接升级。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688663.SH",
+    "key": "data_centers",
+    "sector": "数据中心(AIDC)",
+    "source_sector_name": "数据中心(AIDC)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "SVG",
+      "电能质量"
+    ],
+    "stage": "delivery",
+    "fact": "电力电子无功补偿变频储能产品。",
+    "company_fact": "电力电子无功补偿变频储能产品。",
+    "ths_fact": "SVG已用于阿里张北华海云谷等数据中心。",
+    "reason": "实际数据中心配套供电，非自持运营机房。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688665.SH",
+    "key": "sensors",
+    "sector": "传感器",
+    "source_sector_name": "传感器",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "气体智能感知"
+    ],
+    "stage": "revenue",
+    "fact": "光学超声MEMS等气体传感产品平台。",
+    "company_fact": "光学超声MEMS等气体传感产品平台。",
+    "ths_fact": "红外激光甲烷与丙烷等系列产品。",
+    "reason": "完整传感器经营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688667.SH",
+    "key": "automotive_electronics",
+    "sector": "汽车电子",
+    "source_sector_name": "汽车电子",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "发动机",
+      "混动电控"
+    ],
+    "stage": "revenue",
+    "fact": "发动机纯电混动控制系统及标定。",
+    "company_fact": "发动机纯电混动控制系统及标定。",
+    "ths_fact": "同三大汽车电控产品。",
+    "reason": "真实汽车电子产品平台。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688668.SH",
+    "key": "high_speed_copper_interconnect",
+    "sector": "铜缆高速连接",
+    "source_sector_name": "铜缆高速连接",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "高速连接器组件"
+    ],
+    "stage": "revenue",
+    "fact": "高速背板IO铜缆及散热组件制造。",
+    "company_fact": "高速背板IO铜缆及散热组件制造。",
+    "ths_fact": "高速铜缆连接器列入主要经营产品。",
+    "reason": "直接高速铜缆经营，跟进CPO方向不直接证明具体CPO交付。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688669.SH",
+    "key": "modified_plastics",
+    "sector": "改性塑料",
+    "source_sector_name": "改性塑料",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "功能高分子材料"
+    ],
+    "stage": "revenue",
+    "fact": "改性粒子汽车型材光显材料阻燃剂研产销。",
+    "company_fact": "改性粒子汽车型材光显材料阻燃剂研产销。",
+    "ths_fact": "旧光刻胶建设项目原H1已要求停产拆除整改，不能沿用旧拟投产。",
+    "reason": "已有改性材料产业链经营，光刻胶主线重大证据已变化须排除。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "688669-original-h1",
+        "source_kind": "official_filing",
+        "publisher": "聚石化学",
+        "title": "2026年半年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12524929&stockid=688669",
+        "published_at": "2026-08-25",
+        "assertions": [
+          "安徽拉瓦锡年产18000吨光刻胶等项目须停产拆除整改，由当地管委会等按整改收购补偿。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "688670.SH",
+    "key": "vaccines",
+    "sector": "生物疫苗",
+    "source_sector_name": "生物疫苗",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "四价流感疫苗"
+    ],
+    "stage": "revenue",
+    "fact": "人用疫苗研发销售，四价流感已上市。",
+    "company_fact": "人用疫苗研发销售，四价流感已上市。",
+    "ths_fact": "流感狂犬等疫苗产品梯队。",
+    "reason": "真实疫苗商业化，未把全十种研发产品都算上市。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688671.SH",
+    "key": "ai_applications",
+    "sector": "AI应用",
+    "source_sector_name": "AI应用",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "农业智能决策",
+      "监测"
+    ],
+    "stage": "product",
+    "fact": "感知硬件大数据智慧软件一体服务。",
+    "company_fact": "感知硬件大数据智慧软件一体服务。",
+    "ths_fact": "已开发作物生长与智能灌溉AI应用模型。",
+    "reason": "面向外部农业应用模型与执行设备结合，不仅内部模型。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688676.SH",
+    "key": "data_centers",
+    "sector": "数据中心(AIDC)",
+    "source_sector_name": "数据中心(AIDC)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "变压器",
+      "供配电"
+    ],
+    "stage": "revenue",
+    "fact": "干式液浸变压器已用于数据中心，固态变压器样机。",
+    "company_fact": "干式液浸变压器已用于数据中心，固态变压器样机。",
+    "ths_fact": "传统变压器用于百余国内外数据中心项目。",
+    "reason": "成熟供电业务支撑，固态样机不称批量收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688677.SH",
+    "key": "medical_devices",
+    "sector": "医疗器械",
+    "source_sector_name": "医疗器械概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "内窥镜光学"
+    ],
+    "stage": "revenue",
+    "fact": "临床外科光学元件模组整机制造。",
+    "company_fact": "临床外科光学元件模组整机制造。",
+    "ths_fact": "内窥镜核心部件至系统集成。",
+    "reason": "实际光学医疗器械经营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688678.SH",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "微型丝杠",
+      "精密零件"
+    ],
+    "stage": "pilot",
+    "fact": "精密金属零件研制制造与材料技术。",
+    "company_fact": "精密金属零件研制制造与材料技术。",
+    "ths_fact": "机器人项目主体已设，微型丝杠研发送样。",
+    "reason": "人形专用零件已送样，不以建厂计划当量产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688679.SH",
+    "key": "liquid_cooled_servers",
+    "sector": "液冷服务器",
+    "source_sector_name": "液冷服务器",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "浸没油基液冷",
+      "测试中心"
+    ],
+    "stage": "pilot",
+    "fact": "环保系统工程能力；原H1液冷测试展示中心已装机注液部署假负载。",
+    "company_fact": "环保系统工程能力；原H1液冷测试展示中心已装机注液部署假负载。",
+    "ths_fact": "牵头全场景浸没油基液冷联合体。",
+    "reason": "原证有具体验证平台支撑超越协议，阶段pilot，非客户交付或收入。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "688679-original-h1",
+        "source_kind": "official_filing",
+        "publisher": "通源环境",
+        "title": "2026年半年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12535639&stockid=688679",
+        "published_at": "2026-08-26",
+        "assertions": [
+          "液冷测试展示中心已完成装修设备安装硅油注入假负载部署，验证方案优化与冷却液注入；客户量产交付不能由此推定。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "688680.SH",
+    "key": "poe_film",
+    "sector": "POE胶膜",
+    "source_sector_name": "POE胶膜",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "光伏封装薄膜"
+    ],
+    "stage": "revenue",
+    "fact": "特种高分子膜研发生产销售。",
+    "company_fact": "特种高分子膜研发生产销售。",
+    "ths_fact": "单层POE及共挤POE胶膜实际产品。",
+    "reason": "直接光伏封装材料经营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688681.SH",
+    "key": "smart_grid",
+    "sector": "智能电网",
+    "source_sector_name": "智能电网",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "故障监测",
+      "配网自动化"
+    ],
+    "stage": "revenue",
+    "fact": "电网监测定位自动化控制及储能。",
+    "company_fact": "电网监测定位自动化控制及储能。",
+    "ths_fact": "国网南网下属客户实际故障监测业务。",
+    "reason": "电网主线完整，虚拟电厂可应用不等于运营聚合收益。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688682.SH",
+    "key": "commercial_space",
+    "sector": "商业航天",
+    "source_sector_name": "商业航天",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "低轨卫星",
+      "载荷测量"
+    ],
+    "stage": "revenue",
+    "fact": "相控阵射频卫星测量及仿真产品。",
+    "company_fact": "相控阵射频卫星测量及仿真产品。",
+    "ths_fact": "低轨卫星载荷测量研发生产销售。",
+    "reason": "卫星制造检测环节真实经营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688683.SH",
+    "key": "solid_state_batteries",
+    "sector": "固态电池",
+    "source_sector_name": "固态电池",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "固态电解质涂层",
+      "集流体"
+    ],
+    "stage": "product",
+    "fact": "原H1确认固态电解质涂层与适配固态电池完整产品体系。",
+    "company_fact": "原H1确认固态电解质涂层与适配固态电池完整产品体系。",
+    "ths_fact": "固态集流体研发方向已有，原报更新具体成果。",
+    "reason": "已超越旧研发计划，但不以全涂碳箔收入当固态材料收入。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "688683-original-h1",
+        "source_kind": "official_filing",
+        "publisher": "莱尔科技",
+        "title": "2026年半年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12502859&stockid=688683",
+        "published_at": "2026-08-19",
+        "assertions": [
+          "已构建功能性固态电解质涂层等多元产品矩阵，可适配半固态固态电池，不能把整个集流体订单计为固态收入。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "688685.SH",
+    "key": "computing_power_leasing",
+    "sector": "算力租赁",
+    "source_sector_name": "算力租赁",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "控股智算运营"
+    ],
+    "stage": "revenue",
+    "fact": "控股智算子公司长期服务合同已规模交付并有显著收入贡献。",
+    "company_fact": "控股智算子公司长期服务合同已规模交付并有显著收入贡献。",
+    "ths_fact": "瑞盈智算已签具体租赁客户合同。",
+    "reason": "新算力实际经营成立，保留航空零件基本盘。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688686.SH",
+    "key": "machine_vision",
+    "sector": "机器视觉",
+    "source_sector_name": "机器视觉",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "核心视觉软硬件"
+    ],
+    "stage": "revenue",
+    "fact": "视觉软硬件及传感运动控制产品。",
+    "company_fact": "视觉软硬件及传感运动控制产品。",
+    "ths_fact": "视觉部件配件自研销售。",
+    "reason": "直接机器视觉平台。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688687.SH",
+    "key": "innovative_drugs",
+    "sector": "创新药",
+    "source_sector_name": "创新药",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "可洛派韦",
+      "干扰素"
+    ],
+    "stage": "revenue",
+    "fact": "自主丙肝创新药及培集成干扰素已产业化。",
+    "company_fact": "自主丙肝创新药及培集成干扰素已产业化。",
+    "ths_fact": "病毒免疫创新药研产销。",
+    "reason": "自有上市创新产品实际经营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688689.SH",
+    "key": "chips",
+    "sector": "芯片",
+    "source_sector_name": "芯片概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "功率分立器件",
+      "IDM"
+    ],
+    "stage": "revenue",
+    "fact": "器件设计晶圆制造封测销售一体。",
+    "company_fact": "器件设计晶圆制造封测销售一体。",
+    "ths_fact": "功率MOS IGBT二三极管等产品。",
+    "reason": "完整功率芯片经营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688690.SH",
+    "key": "weight_loss_drugs",
+    "sector": "减肥药",
+    "source_sector_name": "减肥药",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "多肽分离纯化微球"
+    ],
+    "stage": "revenue",
+    "fact": "高性能微球用于制药工艺及分析诊断。",
+    "company_fact": "高性能微球用于制药工艺及分析诊断。",
+    "ths_fact": "层析填料用于利拉鲁肽商业生产。",
+    "reason": "GLP1生产核心耗材真实供给，非自有减肥制剂。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688691.SH",
+    "key": "chips",
+    "sector": "芯片",
+    "source_sector_name": "芯片概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "定制设计",
+      "量产服务"
+    ],
+    "stage": "revenue",
+    "fact": "全定制工程定制设计流片量产服务。",
+    "company_fact": "全定制工程定制设计流片量产服务。",
+    "ths_fact": "一站式芯片定制实际业务。",
+    "reason": "直接芯片设计与工程服务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688692.SH",
+    "key": "xinchuang",
+    "sector": "信创",
+    "source_sector_name": "信创",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "自主数据库"
+    ],
+    "stage": "revenue",
+    "fact": "关系文档图时序数据库及集群产品。",
+    "company_fact": "关系文档图时序数据库及集群产品。",
+    "ths_fact": "自主数据库已用于党政金融电力替代场景。",
+    "reason": "国产基础软件真实商用身份。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688693.SH",
+    "key": "third_generation_semiconductors",
+    "sector": "第三代半导体",
+    "source_sector_name": "第三代半导体",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "SiC MOSFET"
+    ],
+    "stage": "product",
+    "fact": "第三代SiC工艺平台及完整功率器件研发制造。",
+    "company_fact": "第三代SiC工艺平台及完整功率器件研发制造。",
+    "ths_fact": "已推出650至3300V SiC系列。",
+    "reason": "具体碳化硅芯片产品，不把全部硅基营收计第三代。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688695.SH",
+    "key": "ai_agents",
+    "sector": "AI智能体",
+    "source_sector_name": "AI智能体",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "AI数据与Agent平台"
+    ],
+    "stage": "product",
+    "fact": "基础中间件销售定制与运维。",
+    "company_fact": "基础中间件销售定制与运维。",
+    "ths_fact": "已构建AI数据平台和AI智能体平台核心产品。",
+    "reason": "对外软件完成智能迭代，非内部采用AI。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688696.SH",
+    "key": "consumer_electronics",
+    "sector": "消费电子",
+    "source_sector_name": "消费电子概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "智能投影",
+      "光学整机"
+    ],
+    "stage": "revenue",
+    "fact": "智能投影研产销及光机算法整机全链。",
+    "company_fact": "智能投影研产销及光机算法整机全链。",
+    "ths_fact": "核心投影产品商业经营，AI眼镜目前来源明确品牌发布。",
+    "reason": "成熟独立消费产品定位；AI眼镜原H1进入新业务，待具体终端及交付加强后复核。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "688696-original-h1",
+        "source_kind": "official_filing",
+        "publisher": "极米科技",
+        "title": "2026年半年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12567087&stockid=688696",
+        "published_at": "2026-08-29",
+        "assertions": [
+          "主营智能投影及车载光学行业显示，原报告将AI眼镜列入新业务延伸。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "688697.SH",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "机器人零件专用车床"
+    ],
+    "stage": "product",
+    "fact": "中高档数控机床300余型号制造销售。",
+    "company_fact": "中高档数控机床300余型号制造销售。",
+    "ths_fact": "已开发人形丝杠减速器等专用卧车系列。",
+    "reason": "具体人形制造设备，非仅通用机床可应用。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688698.SH",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "执行器",
+      "灵巧手"
+    ],
+    "stage": "product",
+    "fact": "电气传动工控并正式执行端机器人零件战略。",
+    "company_fact": "电气传动工控并正式执行端机器人零件战略。",
+    "ths_fact": "已推出旋转直线执行器与灵巧手。",
+    "reason": "实际人形产品，工业伺服营收不混计。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688699.SH",
+    "key": "mini_led",
+    "sector": "MiniLED",
+    "source_sector_name": "MiniLED",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "显示驱动芯片"
+    ],
+    "stage": "revenue",
+    "fact": "模拟数模驱动芯片设计封测销售。",
+    "company_fact": "模拟数模驱动芯片设计封测销售。",
+    "ths_fact": "MiniLED驱动多年量产销售。",
+    "reason": "具体显示升级芯片商业化。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688700.SH",
+    "key": "glass_substrate",
+    "sector": "玻璃基板",
+    "source_sector_name": "玻璃基板",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "TGV/PVD/RDL装备"
+    ],
+    "stage": "delivery",
+    "fact": "高端电镀设备制造并向新工艺拓展。",
+    "company_fact": "高端电镀设备制造并向新工艺拓展。",
+    "ths_fact": "玻璃基板PVD TGV RDL设备均已交付。",
+    "reason": "实际玻璃封装工艺设备而非设想，PCB保留基础业务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688701.SH",
+    "key": "soil_remediation",
+    "sector": "土壤修复",
+    "source_sector_name": "土壤修复",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "污染土壤",
+      "地下水"
+    ],
+    "stage": "revenue",
+    "fact": "环境修复污染治理全流程工程装备运维。",
+    "company_fact": "环境修复污染治理全流程工程装备运维。",
+    "ths_fact": "环境修复以土壤工程为主。",
+    "reason": "明确土壤修复实业。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688702.SH",
+    "key": "data_centers",
+    "sector": "数据中心(AIDC)",
+    "source_sector_name": "数据中心(AIDC)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "以太网交换芯片"
+    ],
+    "stage": "revenue",
+    "fact": "接入至核心以太网芯片与配套产品。",
+    "company_fact": "接入至核心以太网芯片与配套产品。",
+    "ths_fact": "数据中心2.4T/1.2T芯片已导入主流设备商量产。",
+    "reason": "具体数据中心核心芯片，超大容量新品试产不当已量产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688707.SH",
+    "key": "solid_state_batteries",
+    "sector": "固态电池",
+    "source_sector_name": "固态电池",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "正极",
+      "固体电解质"
+    ],
+    "stage": "pilot",
+    "fact": "液态固态两路线正极矩阵。",
+    "company_fact": "液态固态两路线正极矩阵。",
+    "ths_fact": "复合电解质吨级稳定制备，多客户验证。",
+    "reason": "实际固态材料验证阶段，不把吨级制备等于客户销售。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688708.SH",
+    "key": "military",
+    "sector": "军工",
+    "source_sector_name": "军工",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "隐身电磁材料"
+    ],
+    "stage": "revenue",
+    "fact": "电磁涂层结构件维护与兼容材料。",
+    "company_fact": "电磁涂层结构件维护与兼容材料。",
+    "ths_fact": "军用战机隐身材料已定型批产。",
+    "reason": "实际国防材料主线，商业航天可应用待具体落地。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688709.SH",
+    "key": "chips",
+    "sector": "芯片",
+    "source_sector_name": "芯片概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "FPGA",
+      "特种数模芯片"
+    ],
+    "stage": "revenue",
+    "fact": "特种数字模拟FPGA ADC MCU系列。",
+    "company_fact": "特种数字模拟FPGA ADC MCU系列。",
+    "ths_fact": "多系列特种芯片商业产品。",
+    "reason": "自营芯片身份，脑机与人形合作尚不足具体成熟产品。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688710.SH",
+    "key": "cro",
+    "sector": "CRO",
+    "source_sector_name": "CRO概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "非临床新药研究"
+    ],
+    "stage": "revenue",
+    "fact": "早期成药性非临床与临床检测研发服务。",
+    "company_fact": "早期成药性非临床与临床检测研发服务。",
+    "ths_fact": "GLP资质非临床药研综合服务。",
+    "reason": "实际药研服务，非自有药品销售。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688711.SH",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "GaN关节电机驱动"
+    ],
+    "stage": "pilot",
+    "fact": "IGBT SiC GaN功率芯片模块研产销。",
+    "company_fact": "IGBT SiC GaN功率芯片模块研产销。",
+    "ths_fact": "GaN100V/7mΩ关节产品已经送样未量产。",
+    "reason": "具体人形驱动芯片验证，聚变联合研发仍无成熟订单。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688712.SH",
+    "key": "medical_devices",
+    "sector": "医疗器械",
+    "source_sector_name": "医疗器械概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "精准心血管介入"
+    ],
+    "stage": "revenue",
+    "fact": "12款介入诊疗产品覆盖全球多院。",
+    "company_fact": "12款介入诊疗产品覆盖全球多院。",
+    "ths_fact": "IVUS FFR等已获准并应用。",
+    "reason": "完整介入医疗器械经营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688716.SH",
+    "key": "peek_materials",
+    "sector": "PEEK材料",
+    "source_sector_name": "PEEK材料",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "聚醚醚酮全工艺"
+    ],
+    "stage": "revenue",
+    "fact": "PEEK合成提纯增强全国产化规模制造。",
+    "company_fact": "PEEK合成提纯增强全国产化规模制造。",
+    "ths_fact": "已规模量产高性能PEEK。",
+    "reason": "高性能材料直接市场身份，人形合作尚未起量作为次线跟踪。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688717.SH",
+    "key": "energy_storage",
+    "sector": "储能",
+    "source_sector_name": "储能",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "户储",
+      "工商业电站"
+    ],
+    "stage": "revenue",
+    "fact": "多功率储能逆变电池及智慧管理系统。",
+    "company_fact": "多功率储能逆变电池及智慧管理系统。",
+    "ths_fact": "海外光伏储能系统和电池商业销售。",
+    "reason": "储能全链核心产品实际经营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688718.SH",
+    "key": "film_materials",
+    "sector": "膜材料",
+    "source_sector_name": "膜材料",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "反渗透纳滤膜",
+      "压力容器"
+    ],
+    "stage": "revenue",
+    "fact": "分离膜与膜壳压力罐研发规模生产。",
+    "company_fact": "分离膜与膜壳压力罐研发规模生产。",
+    "ths_fact": "自主膜配方涂布卷膜全工艺。",
+    "reason": "分离膜实际产业化身份。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688719.SH",
+    "key": "nuclear_fusion",
+    "sector": "可控核聚变",
+    "source_sector_name": "可控核聚变",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "托卡马克电源系统"
+    ],
+    "stage": "delivery",
+    "fact": "精密测试及特种电源成套产品。",
+    "company_fact": "精密测试及特种电源成套产品。",
+    "ths_fact": "参与全超导托卡马克建设并提供电源装备和交钥匙总包。",
+    "reason": "有具体聚变工程交付，非将所有测试电源销售算聚变。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688720.SH",
+    "key": "photoresist",
+    "sector": "光刻胶",
+    "source_sector_name": "光刻胶",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "光刻胶及配套试剂"
+    ],
+    "stage": "revenue",
+    "fact": "光刻胶及配套、电镀液两核心生产业务。",
+    "company_fact": "光刻胶及配套、电镀液两核心生产业务。",
+    "ths_fact": "树脂到配方工艺全链具备供应能力。",
+    "reason": "真实光刻材料经营，不外推EUV能力。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688721.SH",
+    "key": "semiconductor_materials",
+    "sector": "半导体材料",
+    "source_sector_name": "半导体材料",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "石英掩模版"
+    ],
+    "stage": "revenue",
+    "fact": "90nm掩模版量产及更高制程验证。",
+    "company_fact": "90nm掩模版量产及更高制程验证。",
+    "ths_fact": "石英苏打掩模用于芯片制造。",
+    "reason": "已有半导体材料行业对应核心产品。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688722.SH",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "UHMWPE腱绳"
+    ],
+    "stage": "delivery",
+    "fact": "高性能聚乙烯纤维及复合材料规模经营。",
+    "company_fact": "高性能聚乙烯纤维及复合材料规模经营。",
+    "ths_fact": "腱绳系列已批产，订单增长但规模较小。",
+    "reason": "具体人形腱绳已交付，不将传统防护材料收入计入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688726.SH",
+    "key": "bc_battery",
+    "sector": "BC电池",
+    "source_sector_name": "BC电池",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "光伏热制程",
+      "镀膜设备"
+    ],
+    "stage": "revenue",
+    "fact": "光伏核心热制程镀膜自动化装备。",
+    "company_fact": "光伏核心热制程镀膜自动化装备。",
+    "ths_fact": "BC批量交付适配ABC及HPBC。",
+    "reason": "已有BC设备商业成果。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688727.SH",
+    "key": "photoresist",
+    "sector": "光刻胶",
+    "source_sector_name": "光刻胶",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "KrF",
+      "i线",
+      "ArF"
+    ],
+    "stage": "revenue",
+    "fact": "自有光刻与前驱体材料业务。",
+    "company_fact": "自有光刻与前驱体材料业务。",
+    "ths_fact": "KrF和i线实际销售，ArF浸没验证及小规模销售。",
+    "reason": "明确自有光刻胶商业产品。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688728.SH",
+    "key": "ai_glasses",
+    "sector": "AI眼镜",
+    "source_sector_name": "AI眼镜",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "CIS影像传感芯片"
+    ],
+    "stage": "delivery",
+    "fact": "CIS及显示驱动设计制造。",
+    "company_fact": "CIS及显示驱动设计制造。",
+    "ths_fact": "5MP与8MP CIS已用于AI眼镜量产。",
+    "reason": "具体终端芯片实际量产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688729.SH",
+    "key": "semiconductor_equipment",
+    "sector": "半导体设备",
+    "source_sector_name": "半导体设备",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "去胶",
+      "刻蚀",
+      "热处理"
+    ],
+    "stage": "revenue",
+    "fact": "晶圆制造设备研产销。",
+    "company_fact": "晶圆制造设备研产销。",
+    "ths_fact": "干法去胶热处理刻蚀产品。",
+    "reason": "自营晶圆工艺装备身份。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688733.SH",
+    "key": "solid_state_batteries",
+    "sector": "固态电池",
+    "source_sector_name": "固态电池",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "勃姆石隔膜涂层"
+    ],
+    "stage": "revenue",
+    "fact": "勃姆石在半固态隔膜涂层逐步推广。",
+    "company_fact": "勃姆石在半固态隔膜涂层逐步推广。",
+    "ths_fact": "半固态应用已建立客户业务关系。",
+    "reason": "半固态材料经营，不称全固态电芯量产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688737.SH",
+    "key": "carbon_fiber",
+    "sector": "碳纤维",
+    "source_sector_name": "碳纤维",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "预浸料",
+      "结构件"
+    ],
+    "stage": "product",
+    "fact": "复合材项目验收形成150万平方米预浸料与40吨结构件产能。",
+    "company_fact": "复合材项目验收形成150万平方米预浸料与40吨结构件产能。",
+    "ths_fact": "布局碳纤维预浸及复合结构件。",
+    "reason": "原建设标签已具产品产能，但不据产能推收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688739.SH",
+    "key": "vaccines",
+    "sector": "生物疫苗",
+    "source_sector_name": "生物疫苗",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "狂犬",
+      "乙脑疫苗"
+    ],
+    "stage": "revenue",
+    "fact": "狂犬乙脑商业化，人二倍体新获批。",
+    "company_fact": "狂犬乙脑商业化，人二倍体新获批。",
+    "ths_fact": "疫苗研产销及后续管线。",
+    "reason": "上市疫苗实业，不将全部研发管线算收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688750.SH",
+    "key": "aero_engines",
+    "sector": "航空发动机",
+    "source_sector_name": "航空发动机",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "高端钛合金棒材锻坯"
+    ],
+    "stage": "revenue",
+    "fact": "高端钛材实际用于航空装备。",
+    "company_fact": "高端钛材实际用于航空装备。",
+    "ths_fact": "批量供应发动机零部件用钛材。",
+    "reason": "直接发动机材料配套经营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688755.SH",
+    "key": "weight_loss_drugs",
+    "sector": "减肥药",
+    "source_sector_name": "减肥药",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "GLP1色谱纯化装备"
+    ],
+    "stage": "revenue",
+    "fact": "色谱分离纯化装备耗材及服务。",
+    "company_fact": "色谱分离纯化装备耗材及服务。",
+    "ths_fact": "已向多家GLP1厂商供应纯化装备服务。",
+    "reason": "减肥药生产装备实际经营，非自研制剂。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688757.SH",
+    "key": "cpo",
+    "sector": "共封装光学(CPO)",
+    "source_sector_name": "共封装光学(CPO)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "光引擎可靠性检测"
+    ],
+    "stage": "product",
+    "fact": "半导体失效材料与可靠性分析服务。",
+    "company_fact": "半导体失效材料与可靠性分析服务。",
+    "ths_fact": "掌握CPO光引擎可靠性检测技术。",
+    "reason": "具备具体CPO检测产品能力，光模块总收入不直接当CPO收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688758.SH",
+    "key": "recombinant_proteins",
+    "sector": "重组蛋白",
+    "source_sector_name": "重组蛋白",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "工业色谱填料"
+    ],
+    "stage": "revenue",
+    "fact": "工业纯化填料商业生产。",
+    "company_fact": "工业纯化填料商业生产。",
+    "ths_fact": "重组胶原纯化客户稳定生产，白蛋白覆盖头部。",
+    "reason": "实际蛋白纯化耗材，非蛋白制剂自营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688759.SH",
+    "key": "innovative_drugs",
+    "sector": "创新药",
+    "source_sector_name": "创新药",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "BEBT908",
+      "小分子与小核酸"
+    ],
+    "stage": "product",
+    "fact": "核心竞争力明确BEBT908首款1类获批上市，其他管线临床。",
+    "company_fact": "核心竞争力明确BEBT908首款1类获批上市，其他管线临床。",
+    "ths_fact": "自主创新药研发与BEBT908产品。",
+    "reason": "已有获批产品，尚不据获批推全部实现收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688765.SH",
+    "key": "innovative_drugs",
+    "sector": "创新药",
+    "source_sector_name": "创新药",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "植物源重组白蛋白"
+    ],
+    "stage": "revenue",
+    "fact": "水稻蛋白平台与GMP产业化。",
+    "company_fact": "水稻蛋白平台与GMP产业化。",
+    "ths_fact": "HY1001获批后已开首张处方。",
+    "reason": "原创新药进入商业使用，非农业种植主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688766.SH",
+    "key": "memory_chips",
+    "sector": "存储芯片",
+    "source_sector_name": "存储芯片",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "NOR",
+      "EEPROM",
+      "NAND"
+    ],
+    "stage": "revenue",
+    "fact": "存储与衍生芯片设计销售。",
+    "company_fact": "存储与衍生芯片设计销售。",
+    "ths_fact": "非易失性存储系列产品。",
+    "reason": "直接存储芯片经营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688767.SH",
+    "key": "in_vitro_diagnostics",
+    "sector": "体外诊断",
+    "source_sector_name": "体外诊断",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "POCT试剂与仪器"
+    ],
+    "stage": "revenue",
+    "fact": "POCT研发生产销售，原H1仍确认在营诊断产品。",
+    "company_fact": "POCT研发生产销售，原H1仍确认在营诊断产品。",
+    "ths_fact": "体外诊断系列平台；脑机标签早期青石参股计划。",
+    "reason": "原H1确认新脑机基金及中科意象参股，但其具体商业产品阶段尚需进一步原证；当前诊断主线明确，非因少数股权一概排除脑机。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "688767-h1-original",
+        "source_kind": "official_filing",
+        "publisher": "博拓生物",
+        "title": "2026年半年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=688767&id=12569724",
+        "published_at": "2026-08-29",
+        "assertions": [
+          "POCT研发生产销售，原H1仍确认在营诊断产品。",
+          "原H1确认新脑机基金及中科意象参股，但其具体商业产品阶段尚需进一步原证；当前诊断主线明确，非因少数股权一概排除脑机。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "688768.SH",
+    "key": "ai_agents",
+    "sector": "AI智能体",
+    "source_sector_name": "AI智能体",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "设备运维Agent"
+    ],
+    "stage": "product",
+    "fact": "工业智能运维及订阅服务。",
+    "company_fact": "工业智能运维及订阅服务。",
+    "ths_fact": "设备运维Agent已正式发布。",
+    "reason": "自有工业Agent具体对外产品。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688772.SH",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "机器人动力电池"
+    ],
+    "stage": "pilot",
+    "fact": "消费电池并扩动力储能场景。",
+    "company_fact": "消费电池并扩动力储能场景。",
+    "ths_fact": "已对多家人形头部客户送样并获认可。",
+    "reason": "真实人形用电池验证，不当规模订单。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688775.SH",
+    "key": "drones",
+    "sector": "无人机",
+    "source_sector_name": "无人机",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "影翎全景无人机"
+    ],
+    "stage": "product",
+    "fact": "原H1列自有Antigravity A1全景无人机具体产品与产线市场投入。",
+    "company_fact": "原H1列自有Antigravity A1全景无人机具体产品与产线市场投入。",
+    "ths_fact": "旧解析为2025年无人机品牌规划，原报已更新为产品。",
+    "reason": "全景影像技术延伸真实整机，原报仍市场教育期，不假定盈利规模。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "688775-h1-original",
+        "source_kind": "official_filing",
+        "publisher": "影石创新",
+        "title": "2026年半年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=688775&id=12560817",
+        "published_at": "2026-08-29",
+        "assertions": [
+          "原H1列自有Antigravity A1全景无人机具体产品与产线市场投入。",
+          "全景影像技术延伸真实整机，原报仍市场教育期，不假定盈利规模。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "688776.SH",
+    "key": "nuclear_fusion",
+    "sector": "可控核聚变",
+    "source_sector_name": "可控核聚变",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "第一壁",
+      "偏滤器"
+    ],
+    "stage": "delivery",
+    "fact": "真空微波器件及联合环流工程研制。",
+    "company_fact": "真空微波器件及联合环流工程研制。",
+    "ths_fact": "第一壁偏滤器等核聚变部件制造。",
+    "reason": "具体聚变装置部件交付，不将全部真空器件营收归聚变。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688777.SH",
+    "key": "ai_agents",
+    "sector": "AI智能体",
+    "source_sector_name": "AI智能体",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "工业智能问答与运营"
+    ],
+    "stage": "product",
+    "fact": "工业自动化控制及AI软件。",
+    "company_fact": "工业自动化控制及AI软件。",
+    "ths_fact": "中控智问已自主研发，覆盖问答业务分析运营工具。",
+    "reason": "自有工业智能体产品明确，人形中心投资另作次线跟踪。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688778.SH",
+    "key": "solid_state_batteries",
+    "sector": "固态电池",
+    "source_sector_name": "固态电池",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "固态正极",
+      "电解质"
+    ],
+    "stage": "delivery",
+    "fact": "高电压高镍三元钴酸锂等电池材料经营。",
+    "company_fact": "高电压高镍三元钴酸锂等电池材料经营。",
+    "ths_fact": "氧化物路线正极已供货；电解质吨级生产，硫化物验证。",
+    "reason": "已供货材料形成主线，区分不同路线阶段。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688779.SH",
+    "key": "solid_state_batteries",
+    "sector": "固态电池",
+    "source_sector_name": "固态电池",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "全固态及半固态正极"
+    ],
+    "stage": "delivery",
+    "fact": "高效电池正极研产销。",
+    "company_fact": "高效电池正极研产销。",
+    "ths_fact": "全固态正极百公斤发货，半固态累计5吨销量。",
+    "reason": "明确固态材料交付，非仅研发计划。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688781.SH",
+    "key": "ai_glasses",
+    "sector": "AI眼镜",
+    "source_sector_name": "AI眼镜",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "硅基OLED微显示"
+    ],
+    "stage": "product",
+    "fact": "微显示及XR整体光学方案。",
+    "company_fact": "微显示及XR整体光学方案。",
+    "ths_fact": "提供AI眼镜整体方案及硅基OLED。",
+    "reason": "具体AI眼镜核心显示产品，不推全部XR收入为AI眼镜。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688783.SH",
+    "key": "memory_chips",
+    "sector": "存储芯片",
+    "source_sector_name": "存储芯片",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "12英寸存储用硅片"
+    ],
+    "stage": "revenue",
+    "fact": "12英寸抛光外延硅片主供存储与逻辑。",
+    "company_fact": "12英寸抛光外延硅片主供存储与逻辑。",
+    "ths_fact": "存储用硅片已量产，高代际验证。",
+    "reason": "存储上游材料实际规模供给，非自营存储芯片设计。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688785.SH",
+    "key": "chips",
+    "sector": "芯片",
+    "source_sector_name": "芯片概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "射频电源",
+      "等离子体设备部件"
+    ],
+    "stage": "revenue",
+    "fact": "多代半导体射频电源并提供晶圆厂原位替换。",
+    "company_fact": "多代半导体射频电源并提供晶圆厂原位替换。",
+    "ths_fact": "半导体设备核心电源零部件研产销。",
+    "reason": "芯片制造基础部件国产替代实际业务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688786.SH",
+    "key": "three_d_printing",
+    "sector": "3D打印",
+    "source_sector_name": "3D打印",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "金属增材粉末"
+    ],
+    "stage": "revenue",
+    "fact": "金属微纳粉末与注射成型软磁深加工。",
+    "company_fact": "金属微纳粉末与注射成型软磁深加工。",
+    "ths_fact": "铁镍钴钛合金3D粉体已用于医疗。",
+    "reason": "增材耗材已有真实应用，不把未来特种拓展作现业绩。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688787.SH",
+    "key": "ai_training_data",
+    "sector": "AI语料",
+    "source_sector_name": "AI语料",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "语音视觉自然语言训练数据"
+    ],
+    "stage": "revenue",
+    "fact": "多模态数据设计采集标注质检与平台服务。",
+    "company_fact": "多模态数据设计采集标注质检与平台服务。",
+    "ths_fact": "训练数据覆盖AI核心三领域商业服务。",
+    "reason": "核心AI数据供应商，人形合作建设仍待专属交付。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688788.SH",
+    "key": "defense_informatization",
+    "sector": "军工信息化",
+    "source_sector_name": "军工信息化",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "指控",
+      "雷达处理系统"
+    ],
+    "stage": "revenue",
+    "fact": "加固指控雷达信息处理及智能无人装备。",
+    "company_fact": "加固指控雷达信息处理及智能无人装备。",
+    "ths_fact": "军用电子信息装备与专用模块研产销。",
+    "reason": "直接军用信息化系统经营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688789.SH",
+    "key": "textile_apparel_equipment",
+    "sector": "纺织服装设备",
+    "source_sector_name": "纺织服装设备",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "数码喷印",
+      "自动缝纫"
+    ],
+    "stage": "revenue",
+    "fact": "工业数码喷印设备耗材和自动缝纫。",
+    "company_fact": "工业数码喷印设备耗材和自动缝纫。",
+    "ths_fact": "染料涉及收购标的生产业务，非仅凭拟购替代装备。",
+    "reason": "数码纺织设备完整业务；染料交易需完成证据再调权。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688790.SH",
+    "key": "commercial_space",
+    "sector": "商业航天",
+    "source_sector_name": "商业航天",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "卫星通信射频芯片"
+    ],
+    "stage": "delivery",
+    "fact": "射频前端与SoC芯片设计销售。",
+    "company_fact": "射频前端与SoC芯片设计销售。",
+    "ths_fact": "兼容北斗天通及低轨卫星产品已在品牌手机量产出货。",
+    "reason": "具体卫星通信终端芯片落地，不等同航天器制造。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688793.SH",
+    "key": "home_appliances",
+    "sector": "家用电器",
+    "source_sector_name": "家用电器",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "便携智能按摩器"
+    ],
+    "stage": "revenue",
+    "fact": "眼头等个人护理按摩硬件研产销。",
+    "company_fact": "眼头等个人护理按摩硬件研产销。",
+    "ths_fact": "便携健康按摩器品牌经营。",
+    "reason": "实际健康家电，脑电按摩器仍联合研发待产品验证。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688795.SH",
+    "key": "ai_chips",
+    "sector": "AI芯片",
+    "source_sector_name": "AI芯片",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "全功能GPU",
+      "MUSA"
+    ],
+    "stage": "revenue",
+    "fact": "自有GPU架构支持训练推理图形科学计算。",
+    "company_fact": "自有GPU架构支持训练推理图形科学计算。",
+    "ths_fact": "GPU及AI智算产品研发设计销售。",
+    "reason": "AI计算芯片直接业务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688796.SH",
+    "key": "cro",
+    "sector": "CRO",
+    "source_sector_name": "CRO概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "基因编辑模型",
+      "抗体发现"
+    ],
+    "stage": "revenue",
+    "fact": "模型销售临床前药效评价及抗体授权。",
+    "company_fact": "模型销售临床前药效评价及抗体授权。",
+    "ths_fact": "临床前药研服务实际经营。",
+    "reason": "AI研发智能体仍建设，CRO体现成熟自营服务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688797.SH",
+    "key": "memory_chips",
+    "sector": "存储芯片",
+    "source_sector_name": "存储芯片",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "存储晶圆制造零部件"
+    ],
+    "stage": "revenue",
+    "fact": "刻蚀沉积材料部件批量供应先进存储产线。",
+    "company_fact": "刻蚀沉积材料部件批量供应先进存储产线。",
+    "ths_fact": "海力士大连稳定批供，美光合作未规模销售。",
+    "reason": "实际存储制造供应链，不将合作当全部客户量产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688798.SH",
+    "key": "chips",
+    "sector": "芯片",
+    "source_sector_name": "芯片概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "数模混合",
+      "电源管理"
+    ],
+    "stage": "revenue",
+    "fact": "音频触觉防抖电源信号链芯片矩阵。",
+    "company_fact": "音频触觉防抖电源信号链芯片矩阵。",
+    "ths_fact": "消费电子与穿戴芯片已用于智能眼镜。",
+    "reason": "成熟模拟芯片市场身份；智能眼镜原句不足单独确认AI终端。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688799.SH",
+    "key": "innovative_drugs",
+    "sector": "创新药",
+    "source_sector_name": "创新药",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "中药创新",
+      "小分子",
+      "改良新药"
+    ],
+    "stage": "product",
+    "fact": "化药中药制剂及原料药研发生产。",
+    "company_fact": "化药中药制剂及原料药研发生产。",
+    "ths_fact": "已布局乾清颗粒及ZG等具体创新管线。",
+    "reason": "具体自主创新药管线，阶段记研发产品而非全部在售收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688800.SH",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "低压连接器",
+      "以太网线束"
+    ],
+    "stage": "product",
+    "fact": "光电微波流体数据多类连接器。",
+    "company_fact": "光电微波流体数据多类连接器。",
+    "ths_fact": "已开发人形低压TypeC及以太网线束系列。",
+    "reason": "具体机器人互连产品成立，不推规模订单。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688801.SH",
+    "key": "chips",
+    "sector": "芯片",
+    "source_sector_name": "芯片概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "云端AI芯片",
+      "智算系统"
+    ],
+    "stage": "revenue",
+    "fact": "四代架构五款云端AI芯片完整产品。",
+    "company_fact": "四代架构五款云端AI芯片完整产品。",
+    "ths_fact": "AI芯片加速卡模组系统软件研发设计销售。",
+    "reason": "云端AI芯片为真实业务，采用已有芯片成员。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688802.SH",
+    "key": "ai_chips",
+    "sector": "AI芯片",
+    "source_sector_name": "AI芯片",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "全栈GPU",
+      "训推平台"
+    ],
+    "stage": "revenue",
+    "fact": "高性能GPU与软件栈设计销售。",
+    "company_fact": "高性能GPU与软件栈设计销售。",
+    "ths_fact": "训练推理科学计算GPU及平台经营。",
+    "reason": "直接国产AI核心芯片供给。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688805.SH",
+    "key": "superconductors",
+    "sector": "超导",
+    "source_sector_name": "超导概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "MRI超导磁体"
+    ],
+    "stage": "revenue",
+    "fact": "MRI磁体梯度线圈规模制造。",
+    "company_fact": "MRI磁体梯度线圈规模制造。",
+    "ths_fact": "零挥发无液氦1.5T3T磁体批量供给。",
+    "reason": "超导磁体真实商业产品，不推聚变用途。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688806.SH",
+    "key": "innovative_drugs",
+    "sector": "创新药",
+    "source_sector_name": "创新药",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "抗破伤风单抗"
+    ],
+    "stage": "product",
+    "fact": "斯泰度塔单抗2025年获批，RSV管线申报。",
+    "company_fact": "斯泰度塔单抗2025年获批，RSV管线申报。",
+    "ths_fact": "创新药研产销并推进核心药商业化。",
+    "reason": "已批准原创新药，不把获批直接等同盈利。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688807.SH",
+    "key": "chips",
+    "sector": "芯片",
+    "source_sector_name": "芯片概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "光通信收发电芯片"
+    ],
+    "stage": "revenue",
+    "fact": "PON及数据中心光互联芯片系列。",
+    "company_fact": "PON及数据中心光互联芯片系列。",
+    "ths_fact": "TIA LA LDD收发芯片研发销售。",
+    "reason": "光通信电芯片直接业务，泛收发产品不足证明CPO共封装。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688808.SH",
+    "key": "optical_modules",
+    "sector": "光通信模块",
+    "source_sector_name": "光通信模块",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "高速光模块测试仪器"
+    ],
+    "stage": "revenue",
+    "fact": "高速通信及半导体测试仪器研发销售。",
+    "company_fact": "高速通信及半导体测试仪器研发销售。",
+    "ths_fact": "400G800G1.6T光模块核心测试仪器量产供货。",
+    "reason": "选择已有光通信模块产业链成员，普通模块测试不直接推CPO。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688809.SH",
+    "key": "memory_chips",
+    "sector": "存储芯片",
+    "source_sector_name": "存储芯片",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "MEMS存储测试探针卡"
+    ],
+    "stage": "pilot",
+    "fact": "自有MEMS探针制造并量产销售探针卡。",
+    "company_fact": "自有MEMS探针制造并量产销售探针卡。",
+    "ths_fact": "HBM NOR探针卡完成验证，DRAM NAND样卡研制。",
+    "reason": "存储测试专用产品验证，不将全部探针销售算存储。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688811.SH",
+    "key": "commercial_space",
+    "sector": "商业航天",
+    "source_sector_name": "商业航天",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "航天热控铝材"
+    ],
+    "stage": "delivery",
+    "fact": "金属基复合特种铝铜合金研产销。",
+    "company_fact": "金属基复合特种铝铜合金研产销。",
+    "ths_fact": "铝合金槽道热管型材已批量用于航天器热控。",
+    "reason": "具体航天器材料批量应用。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688813.SH",
+    "key": "pcb",
+    "sector": "PCB",
+    "source_sector_name": "PCB概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "电子电路铜箔成套装备"
+    ],
+    "stage": "revenue",
+    "fact": "铜箔阴极辊生箔机阳极材料全线设备。",
+    "company_fact": "铜箔阴极辊生箔机阳极材料全线设备。",
+    "ths_fact": "PCB高性能铜箔生产线已供国内外厂商。",
+    "reason": "真实PCB上游装备；普通光模块外壳不直接当共封装。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688816.SH",
+    "key": "machine_vision",
+    "sector": "机器视觉",
+    "source_sector_name": "机器视觉",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "汽车制造检测引导测量"
+    ],
+    "stage": "revenue",
+    "fact": "汽车制造全工艺机器视觉设备。",
+    "company_fact": "汽车制造全工艺机器视觉设备。",
+    "ths_fact": "视觉检测引导测量系统实际产品。",
+    "reason": "完整机器视觉软硬件经营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688818.SH",
+    "key": "commercial_space",
+    "sector": "商业航天",
+    "source_sector_name": "商业航天",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "宇航电源系统"
+    ],
+    "stage": "revenue",
+    "fact": "卫星飞船探测器电源全场景配套。",
+    "company_fact": "卫星飞船探测器电源全场景配套。",
+    "ths_fact": "与40余家商业航天总体单位长期稳定合作。",
+    "reason": "具体航天平台核心电源经营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688819.SH",
+    "key": "solid_state_batteries",
+    "sector": "固态电池",
+    "source_sector_name": "固态电池",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "300及400Wh/kg原型电池"
+    ],
+    "stage": "product",
+    "fact": "铅锂电池经营及固态等新材料电池体系。",
+    "company_fact": "铅锂电池经营及固态等新材料电池体系。",
+    "ths_fact": "已制备两款固态原型并与无人机两轮客户合作。",
+    "reason": "固态原型实际完成，商业化合作不推已销售。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688820.SH",
+    "key": "advanced_packaging",
+    "sector": "先进封装",
+    "source_sector_name": "先进封装",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "Bumping",
+      "2.5D",
+      "WLCSP"
+    ],
+    "stage": "revenue",
+    "fact": "先进晶圆加工及2.5D规模量产。",
+    "company_fact": "先进晶圆加工及2.5D规模量产。",
+    "ths_fact": "中段晶圆与多芯片集成全流程先进封测。",
+    "reason": "直接先进封装经营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688825.SH",
+    "key": "memory_chips",
+    "sector": "存储芯片",
+    "source_sector_name": "存储芯片",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "DRAM研发制造"
+    ],
+    "stage": "revenue",
+    "fact": "DRAM四代平台及DDR5 LPDDR5规模量产。",
+    "company_fact": "DRAM四代平台及DDR5 LPDDR5规模量产。",
+    "ths_fact": "DRAM设计制造封测模组全链技术。",
+    "reason": "明确存储芯片IDM主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688826.SH",
+    "key": "quantum_technology",
+    "sector": "量子科技",
+    "source_sector_name": "量子科技",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "量子计算精密激光器"
+    ],
+    "stage": "revenue",
+    "fact": "面向量子计算测量的精准激光研产销。",
+    "company_fact": "面向量子计算测量的精准激光研产销。",
+    "ths_fact": "量子科技专用精准激光器产品。",
+    "reason": "量子基础器件真实经营，非泛科研标签。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688828.SH",
+    "key": "quantum_technology",
+    "sector": "量子科技",
+    "source_sector_name": "量子科技",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "量子传感",
+      "科学仪器"
+    ],
+    "stage": "revenue",
+    "fact": "增强型量子传感等高端仪器器件方案。",
+    "company_fact": "增强型量子传感等高端仪器器件方案。",
+    "ths_fact": "量子科技仪器和关键量子传感器供给。",
+    "reason": "量子测量核心实业。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688835.SH",
+    "key": "lithography",
+    "sector": "光刻机",
+    "source_sector_name": "光刻机",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "主动减振压电阀"
+    ],
+    "stage": "delivery",
+    "fact": "精密流体控制部件覆盖半导体。",
+    "company_fact": "精密流体控制部件覆盖半导体。",
+    "ths_fact": "压电比例阀已应用国内头部光刻设备。",
+    "reason": "明确光刻机减振部件用途，不当整机制造。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688836.SH",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "通用人形整机"
+    ],
+    "stage": "revenue",
+    "fact": "人形四足及组件研发生产销售。",
+    "company_fact": "人形四足及组件研发生产销售。",
+    "ths_fact": "人形整机与具身模型真实经营。",
+    "reason": "人形整机产业身份明确。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688837.SH",
+    "key": "innovative_drugs",
+    "sector": "创新药",
+    "source_sector_name": "创新药",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "小分子",
+      "ADC",
+      "抗感染"
+    ],
+    "stage": "revenue",
+    "fact": "NDA与III期梯队且全球BD授权反哺研发。",
+    "company_fact": "NDA与III期梯队且全球BD授权反哺研发。",
+    "ths_fact": "XNW系列抗肿瘤及抗感染产品。",
+    "reason": "阶段收入指已授权转让，未说在研药已上市销售。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688981.SH",
+    "key": "chips",
+    "sector": "芯片",
+    "source_sector_name": "芯片概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "晶圆代工"
+    ],
+    "stage": "revenue",
+    "fact": "8及12英寸代工与设计掩模服务。",
+    "company_fact": "8及12英寸代工与设计掩模服务。",
+    "ths_fact": "多节点代工及IP配套服务。",
+    "reason": "自营晶圆制造核心身份。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "689009.SH",
+    "key": "two_wheelers",
+    "sector": "两轮车",
+    "source_sector_name": "两轮车",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "智能电动两轮及滑板车"
+    ],
+    "stage": "revenue",
+    "fact": "智能电动两轮累计千万台及滑板车规模供货。",
+    "company_fact": "智能电动两轮累计千万台及滑板车规模供货。",
+    "ths_fact": "短交通两轮滑板车Ebike真实业务。",
+    "reason": "智能两轮品牌主线，割草机器人并行产品。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920000.BJ",
+    "key": "automotive_parts",
+    "sector": "汽车零部件",
+    "source_sector_name": "汽车零部件",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "汽车滤清器"
+    ],
+    "stage": "revenue",
+    "fact": "汽车空气空调机油燃油滤清器研产销。",
+    "company_fact": "汽车空气空调机油燃油滤清器研产销。",
+    "ths_fact": "新能源滤清器仍计划研发。",
+    "reason": "真实汽车滤清器行业，新能源计划不抢主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920001.BJ",
+    "key": "oled",
+    "sector": "OLED",
+    "source_sector_name": "OLED",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "偏光片",
+      "光学膜"
+    ],
+    "stage": "revenue",
+    "fact": "显示用偏光片光学膜已销售给OLED等终端。",
+    "company_fact": "显示用偏光片光学膜已销售给OLED等终端。",
+    "ths_fact": "OLED显示材料及ARVR偏光批供。",
+    "reason": "显示材料实业，ARVR原文不直接证明AI眼镜。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920002.BJ",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "薄壁轴承"
+    ],
+    "stage": "pilot",
+    "fact": "叉车轴承及回转支承研发制造体系。",
+    "company_fact": "叉车轴承及回转支承研发制造体系。",
+    "ths_fact": "人形专用薄壁轴承手工样品研制。",
+    "reason": "具体人形轴承样品研发，阶段不等于量产或订单。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920003.BJ",
+    "key": "engineering_consulting_services",
+    "sector": "工程咨询服务",
+    "source_sector_name": "工程咨询服务Ⅱ",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "造价",
+      "监理",
+      "BIM"
+    ],
+    "stage": "revenue",
+    "fact": "工程造价招标监理BIM全过程咨询。",
+    "company_fact": "工程造价招标监理BIM全过程咨询。",
+    "ths_fact": "BIM与传统咨询业务深度融合。",
+    "reason": "工程咨询核心实业，数字技术是服务实现方式。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920005.BJ",
+    "key": "consumer_electronics",
+    "sector": "消费电子",
+    "source_sector_name": "消费电子概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "功能结构",
+      "防护精密件"
+    ],
+    "stage": "revenue",
+    "fact": "消费电子屏蔽粘贴绝缘及MIM多类产品。",
+    "company_fact": "消费电子屏蔽粘贴绝缘及MIM多类产品。",
+    "ths_fact": "子公司生产AR智能眼镜零配件。",
+    "reason": "消费电子配套真实，AR配件未明确AI属性。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920006.BJ",
+    "key": "aero_engines",
+    "sector": "航空发动机",
+    "source_sector_name": "航空发动机",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "航空减振器"
+    ],
+    "stage": "product",
+    "fact": "国防装备配套研发至批量供应体系。",
+    "company_fact": "国防装备配套研发至批量供应体系。",
+    "ths_fact": "有小型航空发动机专用减振器。",
+    "reason": "具体发动机部件，不推全部防务收入属发动机。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920007.BJ",
+    "key": "photovoltaics",
+    "sector": "光伏",
+    "source_sector_name": "光伏概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "跟踪支架零部件"
+    ],
+    "stage": "revenue",
+    "fact": "光伏支架扭矩管轴承安装件檩条研产销。",
+    "company_fact": "光伏支架扭矩管轴承安装件檩条研产销。",
+    "ths_fact": "支架核心部件完整系列。",
+    "reason": "直接光伏设备配套。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920008.BJ",
+    "key": "defense_informatization",
+    "sector": "军工信息化",
+    "source_sector_name": "军工信息化",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "航电总线",
+      "特种显示"
+    ],
+    "stage": "revenue",
+    "fact": "网络总线航电测试特种显示生产销售。",
+    "company_fact": "网络总线航电测试特种显示生产销售。",
+    "ths_fact": "武器通信指控训练仿真具体应用。",
+    "reason": "直接军用信息系统部件。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920009.BJ",
+    "key": "in_vitro_diagnostics",
+    "sector": "体外诊断",
+    "source_sector_name": "体外诊断",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "真菌病早期诊断"
+    ],
+    "stage": "revenue",
+    "fact": "真菌及病原体IVD试剂仪器研发销售。",
+    "company_fact": "真菌及病原体IVD试剂仪器研发销售。",
+    "ths_fact": "耐药基因检测试剂临床，成熟病原诊断。",
+    "reason": "体外诊断完整经营，不把基因型检测试剂当测序平台。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920011.BJ",
+    "key": "home_appliances",
+    "sector": "家用电器",
+    "source_sector_name": "家用电器",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "清洁电器微特电机"
+    ],
+    "stage": "revenue",
+    "fact": "吸尘器清洁电器电机设计销售。",
+    "company_fact": "吸尘器清洁电器电机设计销售。",
+    "ths_fact": "扫地机等清洁电器微电机实际应用。",
+    "reason": "清洁家电核心部件主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920012.BJ",
+    "key": "advanced_packaging",
+    "sector": "先进封装",
+    "source_sector_name": "先进封装",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "高导热环氧封装材料"
+    ],
+    "stage": "pilot",
+    "fact": "热固复合电子封装材料研产销。",
+    "company_fact": "热固复合电子封装材料研产销。",
+    "ths_fact": "先进封装环氧模塑料多款已送样测试。",
+    "reason": "具体先进封装验证，普通封装销售不全部计先进。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920010.BJ",
+    "key": "natural_gas",
+    "sector": "天然气",
+    "source_sector_name": "天然气",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "城镇供气",
+      "LNG"
+    ],
+    "stage": "revenue",
+    "fact": "城市管道天然气压缩气和LNG销售，原H1燃气经营持续。",
+    "company_fact": "城市管道天然气压缩气和LNG销售，原H1燃气经营持续。",
+    "ths_fact": "天然气主营；旧智算标签仅建设计划。",
+    "reason": "原H1智算中心仍在建且在建工程9369万元，子公司36万元收入未披露具体类别，不能直接称算力租赁商用；取得明确机房客户运营后复核。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "920010-h1",
+        "source_kind": "official_filing",
+        "publisher": "凯添燃气",
+        "title": "2026年半年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=920010&id=12512960",
+        "published_at": "2026-08-20",
+        "assertions": [
+          "城市管道天然气压缩气和LNG销售，原H1燃气经营持续。",
+          "原H1智算中心仍在建且在建工程9369万元，子公司36万元收入未披露具体类别，不能直接称算力租赁商用；取得明确机房客户运营后复核。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "920014.BJ",
+    "key": "hydrogen_energy",
+    "sector": "氢能源",
+    "source_sector_name": "氢能源",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "制输加用氢装备"
+    ],
+    "stage": "orders",
+    "fact": "氢能全链成套设备及天然气装备。",
+    "company_fact": "氢能全链成套设备及天然气装备。",
+    "ths_fact": "输氢掺氢制氢已有订单。",
+    "reason": "明确氢能装备实单支持。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920015.BJ",
+    "key": "photoresist",
+    "sector": "光刻胶",
+    "source_sector_name": "光刻胶",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "电子级羟胺",
+      "配套化学品"
+    ],
+    "stage": "revenue",
+    "fact": "羟胺水溶液及酮肟精细材料生产。",
+    "company_fact": "羟胺水溶液及酮肟精细材料生产。",
+    "ths_fact": "光刻相关工程化项目已试生产销售7.6吨羟胺水溶液。",
+    "reason": "核心配套化学品实际经营，非完整光刻胶配方制造。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920016.BJ",
+    "key": "food_feed_additives",
+    "sector": "食品及饲料添加剂",
+    "source_sector_name": "食品及饲料添加剂",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "香精香料"
+    ],
+    "stage": "revenue",
+    "fact": "香料香精专业研发生产销售。",
+    "company_fact": "香料香精专业研发生产销售。",
+    "ths_fact": "产品用于食品饮料日化烟草等。",
+    "reason": "选择已有添加剂行业涵盖真实香精经营，非因烟草标签锁单一客户用途。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920017.BJ",
+    "key": "cro",
+    "sector": "CRO",
+    "source_sector_name": "CRO概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "CMC/CMO药物产业化服务"
+    ],
+    "stage": "revenue",
+    "fact": "制剂研发生产及CMC CMO一体化服务已有收入。",
+    "company_fact": "制剂研发生产及CMC CMO一体化服务已有收入。",
+    "ths_fact": "创新药产业化共享平台和药物研发管线。",
+    "reason": "直接药研制造服务主线，平台建设不等同自有创新药获批。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920018.BJ",
+    "key": "uhv",
+    "sector": "特高压",
+    "source_sector_name": "特高压",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "变压器电磁线"
+    ],
+    "stage": "revenue",
+    "fact": "高压超特高压电磁线规模制造。",
+    "company_fact": "高压超特高压电磁线规模制造。",
+    "ths_fact": "电磁线用于超特高压变压器。",
+    "reason": "真实高等级电网材料。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920019.BJ",
+    "key": "resource_extraction",
+    "sector": "资源开采",
+    "source_sector_name": "资源开采概念",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "非煤矿山开发工程"
+    ],
+    "stage": "revenue",
+    "fact": "多矿种矿山工程运营优化一体化服务。",
+    "company_fact": "多矿种矿山工程运营优化一体化服务。",
+    "ths_fact": "爆破标的签约仅辅助新交易，现有矿山建设基础明确。",
+    "reason": "现有资源开发服务主线；爆破收购完成与并表待原证再调整。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920020.BJ",
+    "key": "autonomous_driving",
+    "sector": "无人驾驶",
+    "source_sector_name": "无人驾驶",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "矿山轮胎智能协同"
+    ],
+    "stage": "revenue",
+    "fact": "场景轮胎及数字化管理系统。",
+    "company_fact": "场景轮胎及数字化管理系统。",
+    "ths_fact": "无人驾驶协同技术实时数据决策已大批量生产。",
+    "reason": "矿车智能协同真实产品，非自动驾驶整车制造。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920021.BJ",
+    "key": "ai_agents",
+    "sector": "AI智能体",
+    "source_sector_name": "AI智能体",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "视听监测",
+      "行业智能助手"
+    ],
+    "stage": "product",
+    "fact": "智慧视听系统软件及内容运营。",
+    "company_fact": "智慧视听系统软件及内容运营。",
+    "ths_fact": "牛金金哈勃及AI鼠标助手具体发布。",
+    "reason": "自有AI视听产品，射频参控股线另列。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920022.BJ",
+    "key": "sensors",
+    "sector": "传感器",
+    "source_sector_name": "传感器",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "氢燃料热管理传感器"
+    ],
+    "stage": "product",
+    "fact": "控股九昌开发热管理与传感产品。",
+    "company_fact": "控股九昌开发热管理与传感产品。",
+    "ths_fact": "电导温压传感器已研发完成并业务合作。",
+    "reason": "真实传感产品，不把合作直接计批量订单。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920023.BJ",
+    "key": "fruit_vegetable_processing",
+    "sector": "果蔬加工",
+    "source_sector_name": "果蔬加工",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "原料果汁",
+      "速冻果蔬"
+    ],
+    "stage": "revenue",
+    "fact": "热带果汁与果蔬加工销售。",
+    "company_fact": "热带果汁与果蔬加工销售。",
+    "ths_fact": "自有种植基地为加工供原料。",
+    "reason": "已有果蔬加工产业身份，种植是配套。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920026.BJ",
+    "key": "ai_glasses",
+    "sector": "AI眼镜",
+    "source_sector_name": "AI眼镜",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "精密点胶装备"
+    ],
+    "stage": "delivery",
+    "fact": "点胶设备阀与核心部件研产销。",
+    "company_fact": "点胶设备阀与核心部件研产销。",
+    "ths_fact": "Mate AI眼镜取得千万级量产订单且交付。",
+    "reason": "明确AI终端制造装备实单。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920027.BJ",
+    "key": "high_speed_rail",
+    "sector": "高铁",
+    "source_sector_name": "高铁",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "铁路安全监测装备"
+    ],
+    "stage": "revenue",
+    "fact": "轨交智能装备与专业技术服务。",
+    "company_fact": "轨交智能装备与专业技术服务。",
+    "ths_fact": "轨道交通产品研发生产销售。",
+    "reason": "铁路安全基础装备真实经营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920028.BJ",
+    "key": "five_g",
+    "sector": "5G",
+    "source_sector_name": "5G",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "透波MPP发泡材料"
+    ],
+    "stage": "revenue",
+    "fact": "多类功能高分子发泡材料规模经营。",
+    "company_fact": "多类功能高分子发泡材料规模经营。",
+    "ths_fact": "MPP透波材料用于5G天线并在华为产品应用。",
+    "reason": "具体通信材料商业用途。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920029.BJ",
+    "key": "smart_grid",
+    "sector": "智能电网",
+    "source_sector_name": "智能电网",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "智能计量",
+      "AMI"
+    ],
+    "stage": "revenue",
+    "fact": "智能电水气表与能源管理系统。",
+    "company_fact": "智能电水气表与能源管理系统。",
+    "ths_fact": "智能计量终端及AMI软件研产销。",
+    "reason": "电网数智计量核心业务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920030.BJ",
+    "key": "automobile_dismantling",
+    "sector": "汽车拆解",
+    "source_sector_name": "汽车拆解概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "报废车回收拆解"
+    ],
+    "stage": "revenue",
+    "fact": "全周期汽车服务包含报废回收拆解实际收入。",
+    "company_fact": "全周期汽车服务包含报废回收拆解实际收入。",
+    "ths_fact": "报废拆解已有明确1285万半年收入。",
+    "reason": "实际汽车循环利用业务，保留经销背景。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920033.BJ",
+    "key": "metal_copper",
+    "sector": "金属铜",
+    "source_sector_name": "金属铜",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "湿法铜萃取剂"
+    ],
+    "stage": "revenue",
+    "fact": "铜金属萃取剂全球研发制造销售。",
+    "company_fact": "铜金属萃取剂全球研发制造销售。",
+    "ths_fact": "铜萃取及浮选特种化学品用于矿冶。",
+    "reason": "铜冶金关键耗材实业，非自有铜矿；回收试产不算成熟收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920035.BJ",
+    "key": "cold_chain_logistics",
+    "sector": "冷链物流",
+    "source_sector_name": "冷链物流",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "温控检测与监测仪表"
+    ],
+    "stage": "revenue",
+    "fact": "食品医药冷链检测记录智能控制器。",
+    "company_fact": "食品医药冷链检测记录智能控制器。",
+    "ths_fact": "冷链仪表云平台，液冷驱动仍研发投入。",
+    "reason": "真实冷链设备主线，液冷待具体验证或交付。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920036.BJ",
+    "key": "ai_agents",
+    "sector": "AI智能体",
+    "source_sector_name": "AI智能体",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "灵瞳视频Agent"
+    ],
+    "stage": "product",
+    "fact": "摄像机软件云服务与AI增值服务。",
+    "company_fact": "摄像机软件云服务与AI增值服务。",
+    "ths_fact": "已推出灵瞳多模态视频大模型Agent。",
+    "reason": "具体对外视觉Agent产品。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920037.BJ",
+    "key": "uhv",
+    "sector": "特高压",
+    "source_sector_name": "特高压",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "变压器绝缘纤维"
+    ],
+    "stage": "revenue",
+    "fact": "超特高压交直流变压器绝缘材料制造。",
+    "company_fact": "超特高压交直流变压器绝缘材料制造。",
+    "ths_fact": "750kV以上绝缘制品自主规模能力。",
+    "reason": "特高压核心材料经营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920038.BJ",
+    "key": "gold",
+    "sector": "黄金",
+    "source_sector_name": "黄金概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "环保浸金药剂"
+    ],
+    "stage": "revenue",
+    "fact": "黄金等贵金属选矿剂规模生产销售。",
+    "company_fact": "黄金等贵金属选矿剂规模生产销售。",
+    "ths_fact": "金银矿作业药剂实际应用。",
+    "reason": "黄金产业耗材直接经营，非矿权黄金储量。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920039.BJ",
+    "key": "professional_services",
+    "sector": "专业服务",
+    "source_sector_name": "专业服务",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "招标采购代理"
+    ],
+    "stage": "revenue",
+    "fact": "医疗交通能源等招标及采购咨询服务。",
+    "company_fact": "医疗交通能源等招标及采购咨询服务。",
+    "ths_fact": "电子招标平台积累数据库。",
+    "reason": "专业采购服务实业，数据积累不等同数据资产交易。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920045.BJ",
+    "key": "cpo",
+    "sector": "共封装光学(CPO)",
+    "source_sector_name": "共封装光学(CPO)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "无源内连光器件"
+    ],
+    "stage": "product",
+    "fact": "数通电信光模块无源器件研产销。",
+    "company_fact": "数通电信光模块无源器件研产销。",
+    "ths_fact": "已开发CPO无源内连系列，普通800G大批出货。",
+    "reason": "CPO具体产品成立，普通光模块收入不全部算共封装。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920046.BJ",
+    "key": "data_centers",
+    "sector": "数据中心(AIDC)",
+    "source_sector_name": "数据中心(AIDC)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "数据中心配电变压器"
+    ],
+    "stage": "delivery",
+    "fact": "变压电抗开关及工程系统销售。",
+    "company_fact": "变压电抗开关及工程系统销售。",
+    "ths_fact": "字节马来一期210MW变压器已两批交付运行。",
+    "reason": "数据中心配电明确交付场景，非IDC运营商。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920047.BJ",
+    "key": "innovative_drugs",
+    "sector": "创新药",
+    "source_sector_name": "创新药",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "基因治疗",
+      "重组蛋白"
+    ],
+    "stage": "product",
+    "fact": "基因与蛋白新药和眼科药研发产业化。",
+    "company_fact": "基因与蛋白新药和眼科药研发产业化。",
+    "ths_fact": "一款1类新药已国内获批，后续生物药管线。",
+    "reason": "自有创新药获批，不把全部临床管线当销售。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920050.BJ",
+    "key": "medical_devices",
+    "sector": "医疗器械",
+    "source_sector_name": "医疗器械概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "康复护理",
+      "手术感控耗材"
+    ],
+    "stage": "revenue",
+    "fact": "护理垫冰袋手术包衣铺单ODM OEM生产。",
+    "company_fact": "护理垫冰袋手术包衣铺单ODM OEM生产。",
+    "ths_fact": "医疗耗材质量体系及国际客户业务。",
+    "reason": "实际医疗耗材经营。",
+    "basis": "crosschecked_sources"
+  }
+]

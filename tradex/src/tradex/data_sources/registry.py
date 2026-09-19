@@ -148,6 +148,7 @@ def _register_all_sources_unlocked() -> None:
     for capability, fetcher in (
         ("stock_selection_calendar", tsf.fetch_stock_selection_calendar),
         ("stock_selection_daily", tsf.fetch_stock_selection_daily),
+        ("stock_selection_technicals", tsf.fetch_stock_selection_technicals),
         ("stock_selection_daily_basic", tsf.fetch_stock_selection_daily_basic),
         ("limit_up_daily_membership", tsf.fetch_limit_up_daily_membership),
         ("limit_sentiment_daily", tsf.fetch_limit_sentiment_daily),
@@ -484,6 +485,8 @@ def _register_all_sources_unlocked() -> None:
     if biying_provides("concept_attribution"):
         router.register("concept_attribution", "biying", bf.fetch_concept_attribution, priority=1)
     router.register("concept_attribution", "em_push2delay", asf.fetch_concept_attribution, priority=100 if biying_provides("concept_attribution") else 1)
+    from .sector_evidence_fetchers import fetch_sector_evidence
+    router.register("stock_sector_evidence", "eastmoney_f10", fetch_sector_evidence, priority=1)
 
     # ── v3.3.1 新增：全局行情（腾讯直连，美股/大宗/亚太/外汇） ──
     router.register("global_market_quote", "tencent_http", hf.fetch_global_quote_tencent, priority=1)
@@ -526,6 +529,13 @@ def _register_all_sources_unlocked() -> None:
         hf.fetch_realtime_quotes_tencent,
         priority=1,
     )
+    router.register(
+        "intraday_scan_quotes", "tencent_http", hf.fetch_realtime_quotes_tencent, priority=1,
+    )
+    if tushare_universe:
+        router.register(
+            "intraday_scan_universe", "tushare", tsf.fetch_market_universe, priority=1,
+        )
     router.register(
         "stock_sector_profiles",
         "em_push2delay",

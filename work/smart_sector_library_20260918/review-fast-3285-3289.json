@@ -1,0 +1,77 @@
+[
+  {
+    "id": "600526.SH",
+    "key": "flue_gas_treatment",
+    "sector": "废气处理",
+    "source_sector_name": "废气处理",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "工业烟气除尘脱硫脱硝"
+    ],
+    "fact": "大气治理覆盖燃煤电厂钢铁等，提供EPC与核心装备并经营环保水务。",
+    "company_fact": "大气治理覆盖燃煤电厂钢铁等，提供EPC与核心装备并经营环保水务。",
+    "ths_fact": "长期经营电除尘等大气污染防治设备。",
+    "reason": "废气治理设备业务与市场概念直接相符；爬壁机器人现场应用及自身固废处置不优先于治理主线。"
+  },
+  {
+    "id": "600527.SH",
+    "key": "textile_manufacturing",
+    "sector": "纺织制造",
+    "source_sector_name": "纺织制造",
+    "source_sector_provider": "东方财富",
+    "stage": "revenue",
+    "chain": [
+      "涤纶毛条与复合短纤维"
+    ],
+    "fact": "生产涤纶毛条及ES复合短纤维，供应纺织面料和卫生无纺材料。",
+    "company_fact": "生产涤纶毛条及ES复合短纤维，供应纺织面料和卫生无纺材料。",
+    "ths_fact": "新型工业化解析涉及涤纶毛条产线技术改造，明确纺织生产性质。",
+    "reason": "采用已有纺织制造行业；粘胶短纤标签解释实为复合短纤，不能把涤纶ES写成粘胶产品；小贷投资非主身份。"
+  },
+  {
+    "id": "600528.SH",
+    "key": "high_end_equipment",
+    "sector": "高端装备",
+    "source_sector_name": "高端装备",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "盾构TBM与轨道基建设备"
+    ],
+    "fact": "主营盾构TBM、施工机械、铁路道岔等研发制造服务。",
+    "company_fact": "主营盾构TBM、施工机械、铁路道岔等研发制造服务。",
+    "ths_fact": "盾构道岔桥梁和铁路专用设备构成基础设施装备业务。",
+    "reason": "高端装备更准确覆盖盾构与轨交制造；内部AI工具和专用工序机器人不等于人形机器人。"
+  },
+  {
+    "id": "600529.SH",
+    "key": "glass",
+    "sector": "玻璃",
+    "source_sector_name": "玻璃",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "药用玻璃包装"
+    ],
+    "fact": "生产药用模制瓶棕色瓶安瓿管制瓶及配套胶塞盖。",
+    "company_fact": "生产药用模制瓶棕色瓶安瓿管制瓶及配套胶塞盖。",
+    "ths_fact": "主营各种药用玻璃包装产品研发生产销售。",
+    "reason": "选择已有玻璃概念并注明药用包装链位；不以药包材推断创新药或疫苗生产，重组身份不替代实际产品。"
+  },
+  {
+    "id": "600530.SH",
+    "key": "elderly_care",
+    "sector": "养老",
+    "source_sector_name": "养老概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "老年医疗护理及医养运营"
+    ],
+    "fact": "医养业务运营医院护理院，并向养老机构输出管理咨询服务，另有保健品。",
+    "company_fact": "医养业务运营医院护理院，并向养老机构输出管理咨询服务，另有保健品。",
+    "ths_fact": "2025互动明确面向老年失能失智群体提供医疗康复护理与健康管理。",
+    "reason": "养老对应持续直接医养运营；保健品和宠物新品保留辅助标签，ST状态不是业务归属。"
+  }
+]

@@ -1,0 +1,77 @@
+[
+  {
+    "id": "301357.SZ",
+    "key": "drones",
+    "sector": "无人机",
+    "source_sector_name": "无人机",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "军用无人机"
+    ],
+    "company_fact": "军用车辆配套装备研产销，产品包括军用无人机。",
+    "ths_fact": "无人机产品以军品为主，民用仍布局。",
+    "fact": "军用车辆配套装备研产销，产品包括军用无人机。",
+    "reason": "明确自有军用无人机产品，归无人机并保留军工环节，不将民用布局算量产。"
+  },
+  {
+    "id": "301358.SZ",
+    "key": "lithium_iron_phosphate",
+    "sector": "磷酸铁锂",
+    "source_sector_name": "磷酸铁锂",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "锂电正极材料"
+    ],
+    "company_fact": "锂离子电池正极材料研发生产销售供应商。",
+    "ths_fact": "新增磷酸铁锂产能已达产并销售；固态富锂锰基仍研发。",
+    "fact": "锂离子电池正极材料研发生产销售供应商。",
+    "reason": "磷酸铁锂实际产销定位明确，固态研发进展尚不足替代稳定产业身份。"
+  },
+  {
+    "id": "301359.SZ",
+    "key": "home_appliances",
+    "sector": "家用电器",
+    "source_sector_name": "家用电器",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "家电微动开关"
+    ],
+    "company_fact": "微动开关研产销，覆盖家电汽车电动工具等。",
+    "ths_fact": "主要直销客户为知名家电制造商。",
+    "fact": "微动开关研产销，覆盖家电汽车电动工具等。",
+    "reason": "家电零件配套实际客户明确，汽车开关为延伸业务，不等于整车厂。"
+  },
+  {
+    "id": "301360.SZ",
+    "key": "ai_glasses",
+    "sector": "AI眼镜",
+    "source_sector_name": "AI眼镜",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "智能眼镜检测组装设备"
+    ],
+    "company_fact": "自主检测组装装备与柔性产线研产销技术服务。",
+    "ths_fact": "智能眼镜检测组装设备客户有苹果Meta亚马逊，另有完整治具产品阵列。",
+    "fact": "自主检测组装装备与柔性产线研产销技术服务。",
+    "reason": "眼镜设备产品客户明确，归产业链设备而非整机品牌，不虚构专项收入。"
+  },
+  {
+    "id": "301361.SZ",
+    "key": "ai_data_centers",
+    "sector": "数据中心(AIDC)",
+    "source_sector_name": "数据中心(AIDC)",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "数据中心备用发电控制"
+    ],
+    "company_fact": "发电机组发动机及微电网控制系统研发制造销售。",
+    "ths_fact": "HGM9530N冗余并联控制模块配套潍柴博杜安高压发电机组已完成调试。",
+    "fact": "发电机组发动机及微电网控制系统研发制造销售。",
+    "reason": "明确数据中心供电控制解决方案，取product，不把发电机组控制器当数据中心运营收入。"
+  }
+]

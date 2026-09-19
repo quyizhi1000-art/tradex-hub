@@ -1,0 +1,72 @@
+{
+  "instrument_id": "002492.SZ",
+  "name": "恒基达鑫",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "002492.SZ",
+    "name": "恒基达鑫",
+    "memberships": [
+      "交通运输",
+      "物流",
+      "仓储物流",
+      "广东板块",
+      "2026中报首亏",
+      "机构重仓",
+      "QFII重仓",
+      "微盘股",
+      "快递概念",
+      "粤港自贸",
+      "参股保险",
+      "创投"
+    ],
+    "business_sections": [
+      {
+        "title": "储罐仓储板块",
+        "kind": "主营业务",
+        "text": "聚焦油品及液体化工品仓储、管道运输、装卸服务，在华南、华东布局珠海高栏港、扬州长江岸线两大核心基地，依托自有码头资源，精准服务珠海、扬州等核心化工园区企业，深度赋能区域产业链供应链协同。"
+      },
+      {
+        "title": "化工仓库板块",
+        "kind": "主营业务",
+        "text": "以武汉都市圈为中心，构建数字化、自动化仓储体系，重点服务长江中游城市群新兴产业，提供电子化学品、化工原料仓储解决方案，助力先进制造业集群发展。"
+      },
+      {
+        "title": "硬件设施优势",
+        "kind": "核心竞争力",
+        "text": "公司拥有自有码头和大容量储罐集群，硬件设施达标合规要求，规模效应突出，具备承接大型客户、长周期订单的坚实基础。"
+      },
+      {
+        "title": "客户资源优势",
+        "kind": "核心竞争力",
+        "text": "公司凭借多年行业深耕，积累了优质且稳定的石化企业客户群体，树立了良好的品牌形象与较高的客户认可度，客户合作关系持续稳定。"
+      },
+      {
+        "title": "区域布局优势",
+        "kind": "核心竞争力",
+        "text": "公司业务布局覆盖华南、华东、华中三大核心化工港区，精准对接国内重点石化产业集群，能够快速响应客户需求，降低物流成本，构建了显著的区域竞争壁垒。"
+      },
+      {
+        "title": "合规运营优势",
+        "kind": "核心竞争力",
+        "text": "公司严格落实HSE（健康、安全、环境）管理体系，具备完善的安全风控机制与合规运营能力，契合行业强监管要求，筑牢经营安全底线。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ002492",
+    "fetched_at": "2026-09-18T22:49:31.580848+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "主营业务-仓储"
+}

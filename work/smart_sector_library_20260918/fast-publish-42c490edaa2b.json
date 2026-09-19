@@ -1,0 +1,441 @@
+[
+  {
+    "id": "002137.SZ",
+    "key": "advanced_packaging",
+    "sector": "先进封装",
+    "source_sector_name": "先进封装",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "封装设备部件",
+      "整机制造服务"
+    ],
+    "stage": "revenue",
+    "fact": "为半导体封装设备厂商提供部件与制造服务。",
+    "ths_fact": "先进封装段明确为ASM PT封装测试设备部件主要供应商，数字营销及SaaS另有历史和参股信息。",
+    "company_fact": "主营智能硬件直接列半导体封装设备部件及整机，按订单采购组装并收销售款。",
+    "reason": "先进封装对应直接设备供应链，非公司自行封测芯片，也不照旧传媒标签归类。LED等保留背景；封装设备客户、产品与交付结构变化时复核。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002138.SZ",
+    "key": "data_centers",
+    "sector": "数据中心(AIDC)",
+    "source_sector_name": "数据中心(AIDC)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "AI服务器供电磁性器件",
+      "功率电感及电容"
+    ],
+    "stage": "revenue",
+    "fact": "为AI服务器供电架构供应功率电感等元件。",
+    "ths_fact": "芯片段明确向头部服务器及功率半导体厂商批量供货，AIDC段列磁铜共烧及组装电感，CPO磁珠收入尚小。",
+    "company_fact": "主营为精密元件制造；核心竞争力明确数据中心AI市场及头部客户认可。",
+    "reason": "已有AIDC获得元器件供货和实际客户支撑，表达新兴供电需求；不把元件商写为服务器运营商，燃料电池陶瓷合作与CPO配套分开。新一代供电器件放量时复核。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002139.SZ",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "灵巧手空心杯电机",
+      "机器人控制部件"
+    ],
+    "stage": "pilot",
+    "fact": "开发用于人形机器人灵巧手的空心杯电机。",
+    "ths_fact": "人形机器人段确认成立专门BU及多客户送样，液冷服务器段是冷源控制器与电机定点，不涉CDU整机。",
+    "company_fact": "主营明确空心杯电机产品范围、产能及人形机器人灵巧手执行器应用，控制器与储能分别经营。",
+    "reason": "专用电机与送样实证支撑已有机器人主线；未确认机器人批量收入，阶段记pilot，不将全部电机销量转算机器人出货。客户验证、订单及商业交付触发复核。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002140.SZ",
+    "key": "salt_lake_lithium",
+    "sector": "盐湖提锂",
+    "source_sector_name": "盐湖提锂",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "盐湖提锂工程总包",
+      "碳酸锂工艺服务"
+    ],
+    "stage": "revenue",
+    "fact": "为盐湖提锂项目提供工程及技术服务。",
+    "ths_fact": "盐湖提锂段列藏格、西藏矿业、青海汇信及玻利维亚工程业绩，拥有连续碳酸锂生产工艺专利。",
+    "company_fact": "主营明确工程咨询设计施工总包全链服务，并区分自营环保与化工材料。",
+    "reason": "已有盐湖提锂由实际工程和工艺技术支撑，产业链限定工程服务而非自有锂矿产销。POE及石墨烯中试不算成熟产能，提锂合同履约和工艺产业化变化时复核。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002141.SZ",
+    "key": "pcb",
+    "sector": "PCB",
+    "source_sector_name": "PCB概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "覆铜板",
+      "粘结片材料"
+    ],
+    "stage": "revenue",
+    "fact": "通过高硕航宇研发产销覆铜板及粘结片。",
+    "ths_fact": "PCB段明确2025年覆铜板已产生主营收入，消费电子段列实际产品系列；锂矿为参股。",
+    "company_fact": "主营确认高硕航宇生产覆铜板等PCB上游材料，并单列兽用疫苗经营。",
+    "reason": "PCB现有板块对应新经营材料业务，注明上游覆铜板而非成品板制造；动物疫苗真实但旧拟收购条目不用于新增交易断言。材料结构及业务资产变化时复核。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002142.SZ",
+    "key": "bank",
+    "sector": "银行",
+    "source_sector_name": "银行",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "商业银行存贷款",
+      "结算及财富管理"
+    ],
+    "stage": "revenue",
+    "fact": "经营商业银行存贷、结算及相关金融服务。",
+    "ths_fact": "共同富裕段说明浙江经营全覆盖及银行网点拓展；证金持股仅股东标签。",
+    "company_fact": "主营列吸储放贷结算等银行业务，核心竞争力确认本体与基金、金租等子公司利润中心。",
+    "reason": "银行既有板块与实际特许业务一致，金融科技是银行运营支撑，不能从内部数字化另造科技主业。经营牌照、重大资产或业务模式改变时复核。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002144.SZ",
+    "key": "medical_devices",
+    "sector": "医疗器械",
+    "source_sector_name": "医疗器械概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "超声诊疗设备",
+      "康复设备"
+    ],
+    "stage": "revenue",
+    "fact": "全资威尔德提供超声诊疗及康复设备，同时经营汽车内饰面料。",
+    "ths_fact": "医疗器械段列威尔德超声诊疗业务及历史收入，2025年机器人段确认注册证与AI惠影系列开发。",
+    "company_fact": "主营织造单列；核心竞争力确认威尔德完整超声产品线和浙江威尔德2025年生产AI惠影、推出理疗设备。",
+    "reason": "已有医疗器械得到直接子公司产品、制造和销售证据，表达医疗技术业务；不把机器人推出直接推算机器人独立收入，碳纤维仍规划。新品销售与业务资产变化时复核。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002145.SZ",
+    "key": "phosphorus_chemicals",
+    "sector": "磷化工",
+    "source_sector_name": "磷化工",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "磷矿与黄磷",
+      "磷酸铁材料"
+    ],
+    "stage": "revenue",
+    "fact": "销售磷矿、黄磷及磷酸铁，同时经营钛白粉。",
+    "ths_fact": "2026年磷化工段确认磷酸铁获得客户认可并批量供货，合志磷酸铁锂为参股及试产。",
+    "company_fact": "主营明确磷矿、黄磷、磷酸铁实际销售，与钛白粉共同构成经营业务。",
+    "reason": "磷化工有资源端至材料的实际产品链和新增供货，不单按名称选钛白粉，也不把备案50万吨当已建产能。磷材料客户放量及资源资产变化时复核。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002146.SZ",
+    "key": "real_estate",
+    "sector": "房地产",
+    "source_sector_name": "房地产",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "房地产开发销售",
+      "物业及康旅配套"
+    ],
+    "stage": "revenue",
+    "fact": "经营房地产开发销售及相关物业、康旅业务。",
+    "ths_fact": "雄安段明确开发经营，物业及康旅为具体业务；低空资料是旅游场景项目而非公司飞机制造。",
+    "company_fact": "主营确认房地产开发销售资质和康旅、物业、产业新城布局。",
+    "reason": "地产开发及配套经营共同支持已有房地产主线，多项旅游合作协议不等于全转旅游运营。低空场景及康旅经营形成实质独立重心时复核。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002148.SZ",
+    "key": "iot",
+    "sector": "物联网",
+    "source_sector_name": "物联网",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "连接管理",
+      "物联网云服务"
+    ],
+    "stage": "revenue",
+    "fact": "以蜂巢物联平台提供连接管理及服务。",
+    "ths_fact": "物联网与云通信段确认连接平台，车联网已有客户合作；无人机及机器狗主要出自参股天宇经纬。",
+    "company_fact": "主营明确连接通道整合和稳定连接解决方案，并单列手游及产业园。",
+    "reason": "已有物联网对应直接经营服务，不能把联营企业无人机或比科奇芯片合并成自营制造。直连场景、控制权与连接服务产品改变时复核。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002149.SZ",
+    "key": "commercial_space",
+    "sector": "商业航天",
+    "source_sector_name": "商业航天",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "航天稀有金属材料",
+      "铌合金及耐高温部件"
+    ],
+    "stage": "revenue",
+    "fact": "供应用于火箭、卫星等航天装备的稀有金属材料。",
+    "ths_fact": "商业航天段明确铌合金用于火箭卫星和重大航天工程；相关段确认航天铌合金批量使用。",
+    "company_fact": "主营贵金属及难熔材料明确为航天配套生产销售，涵盖铌钽钨钼等材料组件。",
+    "reason": "已有商业航天由具体关键材料及真实供货支撑，链条限材料而非整箭制造。核聚变热沉与核电材料同为真实应用；航天客户交付及新增聚变合同变化时复核。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002150.SZ",
+    "key": "inverters",
+    "sector": "逆变器",
+    "source_sector_name": "逆变器",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "光伏逆变器",
+      "储能变流器"
+    ],
+    "stage": "revenue",
+    "fact": "研发制造销售光伏储能逆变器及储能系统。",
+    "ths_fact": "光伏和储能段明确光储设备双主业，充电桩部分为金属壳体钣金。",
+    "company_fact": "主营列光储逆变器和系统全场景解决方案，金属箱柜及钣金独立经营。",
+    "reason": "已有逆变器对准实际电能转换产品，不能继续用旧金属工具箱印象判断，也不将壳体供货当整桩制造。逆变器产品和储能系统订单结构变化时复核。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002151.SZ",
+    "key": "satellite_navigation",
+    "sector": "卫星导航",
+    "source_sector_name": "卫星导航",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "定位芯片及天线",
+      "高精度位置数据服务"
+    ],
+    "stage": "revenue",
+    "fact": "提供导航定位芯片、模块、天线和增强数据服务。",
+    "ths_fact": "卫星导航段确认产品及运营，农机和机器人段有定位产品商用；航天为北斗商业应用。",
+    "company_fact": "主营明确自研芯片及云数据、导航产品、陶瓷元件三类业务。",
+    "reason": "卫星导航将芯片和位置服务连接为一致主线，低空及机器人属于应用客户，不误写自造飞行器。旧智能座舱资料不推定当前控制范围，定位服务商业化结构变化时复核。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002152.SZ",
+    "key": "ai_applications",
+    "sector": "AI应用",
+    "source_sector_name": "AI应用",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "政务金融AI应用",
+      "知识中台及智能体"
+    ],
+    "stage": "delivery",
+    "fact": "通过望道大模型及悟道知识中台提供行业AI应用。",
+    "ths_fact": "AI应用段明确多个政府部门及省级交通集团项目落地，人工智能段确认模型备案及具体服务项目。",
+    "company_fact": "主营城市智能及金融科技强调AI场景、数据底座落地，核心竞争力确认数字金融规模化应用。",
+    "reason": "已有AI应用有具体平台与外部客户落地，阶段采用delivery，不将模型备案、机器人展示当收入证据；传统金融设备仍为经营背景。项目验收收费和AI产品销售披露触发复核。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002153.SZ",
+    "key": "cloud_computing",
+    "sector": "云计算",
+    "source_sector_name": "云计算",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "酒店餐饮云系统",
+      "PMS及POS平台"
+    ],
+    "stage": "revenue",
+    "fact": "为酒店餐饮零售提供云化管理系统。",
+    "ths_fact": "云计算段确认云POS上线客户3955家和国际酒店集团推广；AI营销已有少量收入但不是全部平台收入。",
+    "company_fact": "主营信息系统服务；核心竞争力完整说明DAYLIGHT PMS云架构、产品交付及海外服务网络。",
+    "reason": "已有云计算表达确定的酒旅云平台转型，不把客户行业误当自营旅游，也不以支付牌照推定跨境支付收入。AI收费和云产品规模变化时复核。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002154.SZ",
+    "key": "apparel_home_textiles",
+    "sector": "服装家纺",
+    "source_sector_name": "服装家纺",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "品牌服装",
+      "定制及全渠道销售"
+    ],
+    "stage": "revenue",
+    "fact": "研发生产销售多品牌服饰。",
+    "ths_fact": "C2M段确认云翼定制及加工业务，数据要素为内部治理和经营分析平台。",
+    "company_fact": "主营明确生产基地、全品类服装和自有代理品牌矩阵。",
+    "reason": "产品、制造及品牌销售支撑已有服装家纺，不将内部数据中台说成对外售数业务。定制和新品牌经营发生实质改变时复核。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002155.SZ",
+    "key": "gold",
+    "sector": "黄金",
+    "source_sector_name": "黄金概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "金矿采选冶",
+      "黄金产品加工销售"
+    ],
+    "stage": "revenue",
+    "fact": "从事金锑钨矿采选冶及黄金销售。",
+    "ths_fact": "黄金段列矿山冶炼产品和产金地位，锑为真实业务；2026年资产收购仍拟交易。",
+    "company_fact": "主营明确金锑采选冶炼和金条饰品销售，终端黄金加工主要采用代加工。",
+    "reason": "已有黄金有从矿山到销售的实证支撑，锑产业保留且不按单一金属收入机械裁决。未用拟购矿山扩张当前产能，交割或金锑经营重心变化时复核。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002156.SZ",
+    "key": "advanced_packaging",
+    "sector": "先进封装",
+    "source_sector_name": "先进封装",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "集成电路封装测试",
+      "倒装及高密度封装"
+    ],
+    "stage": "revenue",
+    "fact": "为AI计算、存储和汽车等芯片提供封装测试。",
+    "ths_fact": "先进封装段列FC、SiP等技术；其他段确认高端CPU/GPU量产封测，CPO仍研发及初步可靠性试验。",
+    "company_fact": "主营为设计仿真至封装测试服务，明确AI、高性能计算和存储等应用。",
+    "reason": "已有先进封装由成熟量产服务支撑，不把2.5D/3D通线或CPO初试推作全部量产，链条不是芯片设计。新封装技术验收与客户量产变化时复核。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002157.SZ",
+    "key": "pig_farming",
+    "sector": "猪肉",
+    "source_sector_name": "猪肉",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "生猪养殖",
+      "肥猪及仔猪销售"
+    ],
+    "stage": "revenue",
+    "fact": "养殖销售生猪并配套饲料及兽药。",
+    "ths_fact": "猪肉段确认养销全链，饲料旧营收比例不代表当前唯一主线，能源为合作协议。",
+    "company_fact": "主营明确肥猪出售屠宰加工客户、仔猪出售育肥客户，饲料与兽药单列。",
+    "reason": "猪肉体现实际养殖和客户销售经营；不将计划土地规模或能源协议当投产资产。养殖恢复、产能及业务结构重大变化时复核。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002158.SZ",
+    "key": "liquid_cooled_servers",
+    "sector": "液冷服务器",
+    "source_sector_name": "液冷服务器",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "数据中心制冷压缩机",
+      "磁悬浮及螺杆机组"
+    ],
+    "stage": "revenue",
+    "fact": "供应数据中心温控用压缩机与机组。",
+    "ths_fact": "液冷段列RC-3、RTM、RTA，数据中心段确认已向数据中心提供螺杆及磁悬浮制冷产品。",
+    "company_fact": "主营制冷业务明确数据中心场景及多类压缩机生产销售，真空泵为另一业务。",
+    "reason": "已有液冷服务器对应具体数据中心冷源设备供货，产业链不写服务器整机或CDU。燃料电池空气泵仍样机验证；AI冷源客户及产品放量时复核。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002159.SZ",
+    "key": "tourism",
+    "sector": "旅游",
+    "source_sector_name": "旅游概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "景区索道",
+      "旅游目的地运营"
+    ],
+    "stage": "revenue",
+    "fact": "经营索道、景区、温泉及住宿服务。",
+    "ths_fact": "旅游段确认索道门票酒店等收入业务，IP衍生品围绕景区游客，券商为少数持股。",
+    "company_fact": "主营完整列各地运营索道、观光项目、体验住宿及文创零售。",
+    "reason": "旅游贯穿实际经营产品，冰雪和IP是景区体验延伸，不把投资证券写成券商业务。景区组合及独立文创业务变化时复核。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002160.SZ",
+    "key": "automotive_thermal",
+    "sector": "汽车热管理",
+    "source_sector_name": "汽车热管理",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "汽车换热铝材",
+      "电池壳及冷却板"
+    ],
+    "stage": "revenue",
+    "fact": "提供汽车换热材料、设备及电池散热产品。",
+    "ths_fact": "汽车热管理段列散热器、pack散热模块等；固态铝箔明确仍技术储备，再生铝设备安装不等于达产。",
+    "company_fact": "主营热传递业务明确汽车和新能源客户、冷却系统材料水冷板电池箔，洁净工程独立经营。",
+    "reason": "已有汽车热管理得到产品与客户双重支撑，较仅概括铝材更体现实际配套市场。配套洁净区不等于制药，新材料量产及再生铝投产时复核。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002161.SZ",
+    "key": "iot",
+    "sector": "物联网",
+    "source_sector_name": "物联网",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "RFID识别",
+      "铁路图书及零售数字化"
+    ],
+    "stage": "revenue",
+    "fact": "提供以RFID为核心的物联网产品与行业方案。",
+    "ths_fact": "物联网电子标签段确认产品体系；图书机器人已落地，宠物智能设备虽发售但仍孵化。",
+    "company_fact": "主营数智铁路、文化、零售均基于RFID和AI，列真实客户及方案运营。",
+    "reason": "物联网贯通三项已确认经营，机器人和宠物属于新应用，不能将客户设备识别当自营零售。孵化产品外部收入及客户覆盖发生显著变化时复核。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002162.SZ",
+    "key": "elderly_care",
+    "sector": "养老",
+    "source_sector_name": "养老概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "医养照护",
+      "康养服务及人才培训"
+    ],
+    "stage": "revenue",
+    "fact": "经营医养结合及康养服务，并保留建材和城市更新。",
+    "ths_fact": "养老段明确康复护理到养老照护体系，职业教育有在校生；辅助生殖国内资质运作属于合作医院。",
+    "company_fact": "主营明确大康养业务，核心竞争力完整说明运营团队、照护体系和医养康教研服务链。",
+    "reason": "已有养老由运营与专业服务支撑，不能按瓷砖旧收入比例否定实际转型。康复机器人合资协议不直接证明制造收入，辅助生殖资质不转归公司；机构经营与合资交付进展时复核。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002163.SZ",
+    "key": "pet_economy",
+    "sector": "宠物经济",
+    "source_sector_name": "宠物经济",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "宠物品牌电商运营",
+      "渠道及供应链服务"
+    ],
+    "stage": "revenue",
+    "fact": "完成网营科技控股收购，经营宠物品牌电商与供应链服务。",
+    "ths_fact": "宠物经济段明确标的自2020年经营宠物赛道，合作大宠爱、费利威、皇家等品牌，涵盖医疗保健和食品并有自有品牌。",
+    "company_fact": "当前主营确认控股网营科技为全链路品牌电商服务商，宠物为客户重点领域，品牌优势列实际营销与运营成果。",
+    "reason": "2025年8月15日原公告确认网营收购已完成工商登记，公司持51%并成为控股股东，消除旧概念正文仍称标的的时点差异。已有宠物经济由真实品牌运营支撑，不把代理品牌药品写成自研自产，不采信免税45%拟交易为完成；品牌业务与整合经营变化时复核。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "002163.SZ-wangying-transfer-official",
+        "source_kind": "official_filing",
+        "publisher": "海南发展",
+        "title": "收购网营科技股权完成交割的公告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=11300302&stockid=002163",
+        "published_at": "2025-08-15",
+        "assertions": [
+          "网营科技完成股东名册及董事、高级管理人员变更的工商登记。",
+          "收购完成后海南发展持有网营科技51%股权并成为控股股东。"
+        ]
+      }
+    ]
+  }
+]

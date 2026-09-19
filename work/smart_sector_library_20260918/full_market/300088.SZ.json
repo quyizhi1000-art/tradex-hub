@@ -1,0 +1,82 @@
+{
+  "instrument_id": "300088.SZ",
+  "name": "长信科技",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "300088.SZ",
+    "name": "长信科技",
+    "memberships": [
+      "电子",
+      "光学光电子",
+      "面板",
+      "安徽板块",
+      "小盘股",
+      "富时罗素",
+      "创业板综",
+      "深股通",
+      "融资融券",
+      "深成500",
+      "QFII重仓",
+      "显示技术",
+      "电池技术",
+      "消费电子概念",
+      "荣耀概念",
+      "玻璃基板",
+      "柔性屏(折叠屏)",
+      "混合现实",
+      "算力概念",
+      "先进封装",
+      "电子纸概念",
+      "元宇宙概念",
+      "华为汽车",
+      "固态电池",
+      "商业航天",
+      "HJT电池",
+      "华为概念",
+      "小米概念",
+      "车联网(车路云)",
+      "新能源车",
+      "3D玻璃",
+      "OLED",
+      "虚拟现实",
+      "央国企改革",
+      "苹果概念",
+      "特斯拉概念",
+      "智能穿戴",
+      "大数据",
+      "石墨烯",
+      "LED概念"
+    ],
+    "business_sections": [
+      {
+        "title": "汽车电子、消费电子、算力业务",
+        "kind": "主营业务",
+        "text": "公司主营业务包括汽车电子和消费电子等业务领域的龙头地位进一步巩固并布局算力业务新板块。"
+      },
+      {
+        "title": "区位优势、资源禀赋及国企背景优势",
+        "kind": "核心竞争力",
+        "text": "国家“东数西算”工程全面推进，围绕八大算力枢纽加快算力集群建设，行业发展重心转向规范化建设与精细化运营。长信科技所在地芜湖为全国一体化算力网络长三角国家枢纽节点、东数西算八大算力枢纽之一，是中部地区重要的国家级算力集群承载地，区域内智算资源集聚、政策支持力度大、产业生态完善、集约高效、调度便捷等突出优势，为公司布局智算业务提供得天独厚的区位条件与产业支撑。报告期内，公司顺应产业发展大势，新设子公司长信智算，积极布局算力服务领域，抢抓数字经济与AI产业高速发展的历史机遇，依托区位优势、资源禀赋及国企背景优势，稳步培育新的业绩增长点，持续优化业务结构，增强公司长期可持续发展能力与核心竞争力。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ300088",
+    "fetched_at": "2026-09-18T23:02:08.573401+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [
+    "算力"
+  ],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "显示器件材料"
+}

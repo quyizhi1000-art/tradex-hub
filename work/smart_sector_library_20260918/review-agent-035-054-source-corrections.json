@@ -1,0 +1,234 @@
+{
+  "purpose": "已发布035-054审阅建议修订清单；仅供主代理复核并以新版本处理，未直接修改主库",
+  "source_files": [
+    "review-agent-035-054.json"
+  ],
+  "source_selection_rule": "明确归属必须存在于同一股票THS概念或EM memberships；只允许去掉概念后缀",
+  "changes": [
+    {
+      "id": "000059.SZ",
+      "change_type": "sector_and_source_correction",
+      "old_key": "petrochemicals",
+      "old_sector": "石油化工",
+      "new_key": "petrochemicals",
+      "new_sector": "石油石化",
+      "source_sector_name": "石油石化",
+      "source_sector_provider": "eastmoney_f10",
+      "new_judgment": {
+        "id": "000059.SZ",
+        "key": "petrochemicals",
+        "sector": "石油石化",
+        "chain": [
+          "炼化一体化",
+          "聚烯烃与石油制品"
+        ],
+        "fact": "经营炼油、聚烯烃、ABS及石油制品生产，并生产销售化学肥料。",
+        "ths_fact": "同花顺油品改革、沥青和聚丙烯解析明确对应下游炼化、油品及树脂产品；化肥解析同时列明石油化工与尿素等产品。",
+        "company_fact": "公司资料列明柴油、聚丙烯、聚乙烯、ABS、芳烃、燃料油、沥青及润滑油，说明已形成炼油至聚烯烃、ABS的完整产业链。",
+        "reason": "选择该股东方财富已有行业候选“石油石化”，同花顺油品改革、沥青及聚丙烯解析与完整炼化产品链相互支持；不再自行命名为“石油化工”。化肥保留业务背景，少量石油焦产能不能升格为石墨电极制造，旧产能数字不作为当前规模证明。",
+        "source_sector_name": "石油石化",
+        "source_sector_provider": "eastmoney_f10"
+      }
+    },
+    {
+      "id": "000060.SZ",
+      "change_type": "source_provenance_added",
+      "old_key": "nonferrous_metals",
+      "old_sector": "有色金属",
+      "new_key": "nonferrous_metals",
+      "new_sector": "有色金属",
+      "source_sector_name": "有色金属",
+      "source_sector_provider": "eastmoney_f10",
+      "new_judgment": {
+        "id": "000060.SZ",
+        "key": "nonferrous_metals",
+        "sector": "有色金属",
+        "chain": [
+          "铅锌铜采选冶",
+          "伴生稀贵金属综合回收"
+        ],
+        "fact": "从事铜铅锌采矿、选矿、冶炼，并综合回收银、金、镓、锗、铟等伴生金属。",
+        "ths_fact": "同花顺金属铅、金属锌、金属铜解析明确矿冶产品，金属回收解析引用2026-04-22报告说明稀有稀散稀贵金属综合回收。",
+        "company_fact": "公司业务资料明确铜铅锌采选冶、凡口及盘龙等矿山与国内外资源布局，并说明铅锌完整产业链及铜产业链整合。",
+        "reason": "铅锌铜和伴生回收共同构成有实际资源与产品的有色金属主线，不能按概念第一项只定铅，也不能将勘探钻孔发现含钴矿脉当作钴量产；内部DeepSeek办公试点不构成AI经营。",
+        "source_sector_name": "有色金属",
+        "source_sector_provider": "eastmoney_f10"
+      }
+    },
+    {
+      "id": "000061.SZ",
+      "change_type": "sector_and_source_correction",
+      "old_key": "agricultural_distribution",
+      "old_sector": "农产品流通",
+      "new_key": "unified_market",
+      "new_sector": "统一大市场",
+      "source_sector_name": "统一大市场",
+      "source_sector_provider": "ths_concept",
+      "new_judgment": {
+        "id": "000061.SZ",
+        "key": "unified_market",
+        "sector": "统一大市场",
+        "chain": [
+          "农产品批发市场",
+          "冷链与食材配送"
+        ],
+        "fact": "经营实体农产品批发市场、物流园与交易综合服务，并提供基地服务、食材加工配送及进出口服务。",
+        "ths_fact": "同花顺农村电商、统一大市场及物流电商平台解析围绕农产品市场交易与物流网络；食品安全解析说明深农厨房的食材配送服务。",
+        "company_fact": "公司资料列明35个实体物流园及场地租赁、仓储冷藏、食品检测、装卸运输等服务，并说明向上游基地和下游食材配送延伸。",
+        "reason": "选择同花顺已有“统一大市场”概念，其解析直接对应全国农产品批发市场和物流网络，公司资料确认实体物流园、交易及仓储配送服务。农产品流通是产业链描述，不再自设为主板块；基地种植和农机研发不替代交易流通主题，参股平台的区块链业务也不据此升为主归属。",
+        "source_sector_name": "统一大市场",
+        "source_sector_provider": "ths_concept"
+      }
+    },
+    {
+      "id": "000065.SZ",
+      "change_type": "source_provenance_added",
+      "old_key": "overseas_engineering",
+      "old_sector": "国际工程",
+      "new_key": "overseas_engineering",
+      "new_sector": "国际工程",
+      "source_sector_name": "国际工程",
+      "source_sector_provider": "eastmoney_f10",
+      "new_judgment": {
+        "id": "000065.SZ",
+        "key": "overseas_engineering",
+        "sector": "国际工程",
+        "chain": [
+          "海外工程承包",
+          "基础设施投建营"
+        ],
+        "fact": "承接国际工程建设，并经营海外电力投建营、设备出口及配套资源供应链。",
+        "ths_fact": "仅采用000065概念页搜索结果；一带一路解析列明巴基斯坦地铁、克罗地亚风电、孟加拉电站等承包及投资建设项目，太阳能解析亦明确国际工程承包。",
+        "company_fact": "公司资料列明国际工程承包与货运代理，并确认克罗地亚塞尼风电、老挝南湃水电处于运营阶段。",
+        "reason": "一带一路题材有跨国工程与运营项目支撑，产业位置是国际工程及投建营。不能把承建不同能源项目分别当作设备制造，也不以煤炭贸易推作煤矿开采；名称相近或搜索页同行股票未纳入证据。",
+        "source_sector_name": "国际工程",
+        "source_sector_provider": "eastmoney_f10"
+      }
+    },
+    {
+      "id": "000088.SZ",
+      "change_type": "sector_and_source_correction",
+      "old_key": "port_logistics",
+      "old_sector": "港口物流",
+      "new_key": "ports",
+      "new_sector": "港口",
+      "source_sector_name": "港口",
+      "source_sector_provider": "eastmoney_f10",
+      "new_judgment": {
+        "id": "000088.SZ",
+        "key": "ports",
+        "sector": "港口",
+        "chain": [
+          "码头开发运营",
+          "港口装卸与仓储"
+        ],
+        "fact": "经营码头开发、货物装卸运输、港口仓储及配套交通设施。",
+        "ths_fact": "航运概念及航运港口解析直接说明港口货物装卸、码头建设、配套仓储与高速公路经营，统一大市场解析以港口枢纽为中心。",
+        "company_fact": "公司资料区分控股经营的惠州荃湾、深汕小漠、黄石等港口与参股经营的盐田国际等项目，同时列明仓储及惠盐高速。",
+        "reason": "选择东方财富已有“港口”行业板块，航运与统一大市场解析对应码头运营、装卸及港口仓储。港口物流仅作业务描述，不再自行拼成主标签；控股股东国际通道和智慧港口合作不直接归入上市公司新业务，也不把港口运营等同于船舶运输。",
+        "source_sector_name": "港口",
+        "source_sector_provider": "eastmoney_f10"
+      }
+    },
+    {
+      "id": "000089.SZ",
+      "change_type": "source_provenance_added",
+      "old_key": "airports",
+      "old_sector": "机场",
+      "new_key": "airports",
+      "new_sector": "机场",
+      "source_sector_name": "机场",
+      "source_sector_provider": "eastmoney_f10",
+      "new_judgment": {
+        "id": "000089.SZ",
+        "key": "airports",
+        "sector": "机场",
+        "chain": [
+          "机场运营",
+          "航空客货地面服务"
+        ],
+        "fact": "运营机场基础设施及航空客货运输地面服务，提供航空物流和联运配套。",
+        "ths_fact": "仅采用000089概念页搜索结果；粤港澳解析明确航空客货地面服务，跨境电商解析说明国际货运航线、中转与货物处理服务。",
+        "company_fact": "完整公司资料的资源保障与机场服务章节列明航站楼、卫星厅、跑道运营及实际旅客、货邮吞吐，支持机场运营而不只是宏观民航行业描述。",
+        "reason": "市场题材的实际承载环节是机场及货运枢纽，跨境电商为货源场景；与华为共建的自有云用于机场运营，不能定为云计算供应商，未凭供应商低空经济名单推断新主归属。",
+        "source_sector_name": "机场",
+        "source_sector_provider": "eastmoney_f10"
+      }
+    },
+    {
+      "id": "000090.SZ",
+      "change_type": "source_provenance_added",
+      "old_key": "urban_construction",
+      "old_sector": "新型城镇化",
+      "new_key": "urban_construction",
+      "new_sector": "新型城镇化",
+      "source_sector_name": "新型城镇化",
+      "source_sector_provider": "ths_concept",
+      "new_judgment": {
+        "id": "000090.SZ",
+        "key": "urban_construction",
+        "sector": "新型城镇化",
+        "chain": [
+          "市政建设",
+          "城市更新与综合开发"
+        ],
+        "fact": "提供市政道路管网及房建施工、综合开发和城市基础设施管养、土地整备等服务。",
+        "ths_fact": "新型城镇化解析列明学校、管网和路网等代建项目，装配式建筑解析说明已实施的开发建设面积，区域解析明确城市建设、综合开发、城市服务。",
+        "company_fact": "公司资料详细列明道路桥隧、轨道交通、市政管网、房地产开发与城中村改造，并提供棚改和城际铁路等项目实例。",
+        "reason": "概念解析与城市建设、更新、开发的具体项目一致，采用新型城镇化并明确施工与开发环节；BIM和建筑机器人主要用于工程服务及内部推广，不能变成人形机器人或通用AI主归属。",
+        "source_sector_name": "新型城镇化",
+        "source_sector_provider": "ths_concept"
+      }
+    },
+    {
+      "id": "000099.SZ",
+      "change_type": "source_provenance_added",
+      "old_key": "low_altitude_economy",
+      "old_sector": "低空经济",
+      "new_key": "low_altitude_economy",
+      "new_sector": "低空经济",
+      "source_sector_name": "低空经济",
+      "source_sector_provider": "ths_concept",
+      "new_judgment": {
+        "id": "000099.SZ",
+        "key": "low_altitude_economy",
+        "sector": "低空经济",
+        "chain": [
+          "通用航空运营",
+          "低空运输与应急救援"
+        ],
+        "fact": "提供直升机飞行、短途运输、低空游览、应急救援及通航维修服务，并进行eVTOL货运试飞。",
+        "ths_fact": "低空经济解析明确已有陆上通航与低空游览；旅游解析记录深圳至珠海低空短途航线及出行平台，无人机解析说明巡查、应急等运营业务。",
+        "company_fact": "公司资料确认深圳至珠海短途运输常态化运行、多条游览航线、应急救援和通航维修，并区分eVTOL货运试飞与成熟海上油气飞行服务。",
+        "reason": "低空主题有真实航线和运营服务支撑，不因海上油气飞行贡献主要收入而排除低空归属。产业链位置是运营与保障，不能把合作和试飞写成eVTOL整机制造或规模商业交付；海上风电关联也不等于发电运营。",
+        "source_sector_name": "低空经济",
+        "source_sector_provider": "ths_concept"
+      }
+    },
+    {
+      "id": "000153.SZ",
+      "change_type": "sector_and_source_correction",
+      "old_key": "pharmaceutical_manufacturing",
+      "old_sector": "医药制造",
+      "new_key": "chemical_pharmaceuticals",
+      "new_sector": "化学制药",
+      "source_sector_name": "化学制药",
+      "source_sector_provider": "eastmoney_f10",
+      "new_judgment": {
+        "id": "000153.SZ",
+        "key": "chemical_pharmaceuticals",
+        "sector": "化学制药",
+        "chain": [
+          "化学药制剂",
+          "原料药"
+        ],
+        "fact": "研发、生产销售化学药、生物药、中药及原料药，同时经营药品配送和连锁零售。",
+        "ths_fact": "同花顺一致性评价解析列明20个药品23个规格通过评价，流感解析列明赖氨匹林，表格行内说明西尼地平用于高血压、肝素钠注射剂生产；医保目录解析包含化学制药及历史新药研发生产品种。",
+        "company_fact": "公司资料列明解热镇痛、妇儿、神经系统、心血管、抗生素、原料药等制造产品，并将医药配送与药房零售单列为商业流通。",
+        "reason": "选择该股东方财富已有“化学制药”行业候选。同花顺一致性评价、赖氨匹林、西尼地平等具体产品及化学制药说明，与另一发布方的化学药、原料药和解热镇痛等经营资料交叉支持。当前保存的同花顺概念及东方财富候选未检出“创新药”，这不代表其他日期或供应商绝无该归属；一、二类新药历史说明与2012年抗癌上市目标不足以直接确立当前创新药市场主线，不再自造“医药制造”标签。",
+        "source_sector_name": "化学制药",
+        "source_sector_provider": "eastmoney_f10"
+      }
+    }
+  ]
+}

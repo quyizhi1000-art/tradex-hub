@@ -1,0 +1,64 @@
+{
+  "instrument_id": "002014.SZ",
+  "name": "永新股份",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "002014.SZ",
+    "name": "永新股份",
+    "memberships": [
+      "轻工制造",
+      "包装印刷",
+      "塑料包装",
+      "安徽板块",
+      "红利股",
+      "深股通",
+      "股权激励",
+      "供销社概念",
+      "包装材料"
+    ],
+    "business_sections": [
+      {
+        "title": "彩印复合软包装材料",
+        "kind": "主营业务",
+        "text": "报告期内，公司生产的彩印复合软包装材料是公司营业收入的主要来源，其轻便、可塑性强，具有高阻隔、耐蒸煮、耐冷冻、保鲜性等特性，且成本较金属、玻璃等包装物相对低廉，广泛应用于食品、日化、医药等领域，对产品具有很强的保护性，能够延长产品的寿命期，减少浪费；公司生产的多功能膜材料为绿色环保新材料，应用于食品、日用品、医疗防护、纺织品、电子产品等产品的包装及保护。"
+      },
+      {
+        "title": "品牌优势",
+        "kind": "核心竞争力",
+        "text": "公司聚焦整体包装解决方案，以技术创新为驱动，定制化服务为依托，深度参与市场消费引领与迭代升级进程。通过BRCGS等国际标准认证，绑定食品、日化、医药跨国企业、国内头部企业，打造行业口碑，提升溢价与市场准入能力，为公司稳固市场地位筑牢根基。"
+      },
+      {
+        "title": "产业链完整优势",
+        "kind": "核心竞争力",
+        "text": "公司长期践行“纵向一体化”发展战略，稳步推进产业链自建与并购延伸，实现技术平台升级，完善配套生产，有效压减生产成本，保障产品良率与品质稳定性。同时，功能薄膜新材料开发能力进阶，构建优势互补格局，增强抗市场风险韧性，为毛利率水平的稳定与提升提供支撑。"
+      },
+      {
+        "title": "技术研发优势",
+        "kind": "核心竞争力",
+        "text": "公司立足主业，大力创新，提升研发水平，与客户分享新技术带来市场增值。不仅培养了公司自己的科研团队，还建立了一套较为科学的研发系统，在注重自主研发的同时，通过合作开发及引进消化，持续巩固业内竞争壁垒。"
+      },
+      {
+        "title": "合规与绿色发展优势",
+        "kind": "核心竞争力",
+        "text": "公司掌握了多层共挤（五层/七层/九层）、无溶剂复合、高阻隔镀铝/镀氧化铝等工艺技术，实现减薄不降性能；大力发展绿色包装材料，实现可回收、易回收，降低单耗与碳排放，提升可持续性，契合客户ESG要求，符合行业环保发展趋势。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ002014",
+    "fetched_at": "2026-09-18T22:39:48.289061+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "包装"
+}

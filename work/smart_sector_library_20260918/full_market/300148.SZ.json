@@ -1,0 +1,64 @@
+{
+  "instrument_id": "300148.SZ",
+  "name": "天舟文化",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "300148.SZ",
+    "name": "天舟文化",
+    "memberships": [
+      "传媒",
+      "出版",
+      "教育出版",
+      "湖南板块",
+      "破发股",
+      "创业板综",
+      "机构重仓",
+      "QFII重仓",
+      "数据确权",
+      "虚拟数字人",
+      "元宇宙概念",
+      "区块链",
+      "增强现实",
+      "人工智能",
+      "虚拟现实",
+      "网络游戏",
+      "创投"
+    ],
+    "business_sections": [
+      {
+        "title": "图书出版与发行、教育服务、手机游戏的研发、发行、代理与运营",
+        "kind": "主营业务",
+        "text": "公司目前主要从事图书出版与发行，教育服务，手机游戏的研发、发行、代理与运营等业务。"
+      },
+      {
+        "title": "出版领域资源壁垒",
+        "kind": "核心竞争力",
+        "text": "以教育图书出版发行为核心根基，在出版领域构建了资源壁垒，公司累计持有著作权千余项，覆盖青少年教育、文化阅读等核心场景；包括中小学生课外读物、教材教辅等产品，多年来，我们聚焦核心赛道，以专业能力为支撑，已为人民出版社、人民教育出版社、湖南出版集团等全国近三百家出版社持续提供优质教育资源与服务，形成“优质内容供给+权威背书”的合作生态，保障核心出版资源的独家性与稳定性。业务覆盖全国二十余个省市区，从校园渠道到线上电商平台，构建起“线上线下融合”的发行网络，实现教育图书从内容生产到终端用户的高效触达，成为青少年教育出版领域的关键参与者。"
+      },
+      {
+        "title": "互联网领域全产业链体系",
+        "kind": "核心竞争力",
+        "text": "在互联网领域，公司通过多次并购重组，先后收购神奇时代、游爱网络等企业，构建起游戏研发、发行及运营的全产业链体系。以自有IP为核心，打造了“孵化-迭代-变现”的全周期内容生态，凸显强原创力与商业转化能力。公司在MMORPG、SLG、卡牌、塔防等多个类型游戏领域中形成了较强的研运能力，运营的游戏产品超百款，游戏版号七十余项，自研《王者纷争》《忘仙》《风云天下OL》《塔王之王》等多款长周期、精品游戏，覆盖SLG、MMO、塔防等主流赛道，形成对不同用户群体的全面覆盖，累计用户规模庞大，奠定细分市场的用户壁垒。核心团队资深且稳定，保障了战略执行与产品调性的连贯性。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ300148",
+    "fetched_at": "2026-09-18T23:03:18.612098+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [
+    "游戏"
+  ],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "传媒"
+}

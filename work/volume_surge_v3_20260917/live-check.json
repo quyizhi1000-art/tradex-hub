@@ -1,0 +1,93 @@
+{
+  "dates": [
+    {
+      "date": "2026-09-09",
+      "matched_count": 130,
+      "confirmed_events": 131,
+      "retained_versions": [
+        "v1",
+        "v2",
+        "v3"
+      ],
+      "passed": true
+    },
+    {
+      "date": "2026-09-10",
+      "matched_count": 97,
+      "confirmed_events": 98,
+      "retained_versions": [
+        "v1",
+        "v2",
+        "v3"
+      ],
+      "passed": true
+    },
+    {
+      "date": "2026-09-11",
+      "matched_count": 60,
+      "confirmed_events": 61,
+      "retained_versions": [
+        "v1",
+        "v2",
+        "v3"
+      ],
+      "passed": true
+    },
+    {
+      "date": "2026-09-14",
+      "matched_count": 64,
+      "confirmed_events": 65,
+      "retained_versions": [
+        "v1",
+        "v2",
+        "v3"
+      ],
+      "passed": true
+    },
+    {
+      "date": "2026-09-15",
+      "matched_count": 54,
+      "confirmed_events": 55,
+      "retained_versions": [
+        "v1",
+        "v2",
+        "v3"
+      ],
+      "passed": true
+    },
+    {
+      "date": "2026-09-16",
+      "matched_count": 51,
+      "confirmed_events": 51,
+      "retained_versions": [
+        "v1",
+        "v2",
+        "v3"
+      ],
+      "passed": true
+    },
+    {
+      "date": "2026-09-17",
+      "matched_count": 43,
+      "confirmed_events": 43,
+      "retained_versions": [
+        "v2",
+        "v3"
+      ],
+      "passed": true
+    }
+  ],
+  "served_assets": [
+    {
+      "asset": "index.html",
+      "sha256": "9fee2951cb25a783e66603548c6aec91e5d837b732c15fb9b18cb543b0eec20c",
+      "matches_local": true
+    },
+    {
+      "asset": "app.js",
+      "sha256": "7d2169d65ba1dd726ae601fd2a4715a6ebd0336fb91b4a37bbd832b44fafabae",
+      "matches_local": true
+    }
+  ],
+  "passed": true
+}

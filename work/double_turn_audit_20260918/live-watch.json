@@ -1,0 +1,321 @@
+{
+  "contract": "intraday_macd_j_watch.v1",
+  "trade_date": "2026-09-18",
+  "generated_at": "2026-09-18T11:00:15.882009+08:00",
+  "status": "monitoring",
+  "message": "每 15 分钟扫描：命中即提示，当日去重；盘中预估，收盘前可能失效。",
+  "records": [
+    {
+      "instrument_id": "000066.SZ",
+      "name": "中国长城",
+      "price": 14.12,
+      "observed_at": "2026-09-18T11:00:12+08:00",
+      "dif": -0.2300997150997151,
+      "dea": -0.23881994301994303,
+      "k": 26.21103448275859,
+      "d": 27.491678160919534,
+      "j": 23.649747126436694,
+      "signal_group": "同日拐头",
+      "zero_axis_zone": "零轴下方",
+      "j_turn_date": "2026-09-18",
+      "j_trough": 10.997,
+      "low_j_tags": [
+        "J<20"
+      ],
+      "active": true,
+      "unverified": false,
+      "consecutive_samples": 1,
+      "first_seen_at": "2026-09-18T09:45:13.549423+08:00",
+      "alerted_at": "2026-09-18T09:45:13.549423+08:00"
+    },
+    {
+      "instrument_id": "000559.SZ",
+      "name": "万向钱潮",
+      "price": 10.97,
+      "observed_at": "2026-09-18T11:00:12+08:00",
+      "dif": -0.22419373219373212,
+      "dea": -0.23203874643874645,
+      "k": 33.46430107526882,
+      "d": 23.16210035842294,
+      "j": 54.068702508960584,
+      "signal_group": "此前 1～3 日拐头",
+      "zero_axis_zone": "零轴下方",
+      "j_turn_date": "2026-09-17",
+      "j_trough": 1.401,
+      "low_j_tags": [
+        "J<20"
+      ],
+      "active": true,
+      "unverified": false,
+      "consecutive_samples": 1,
+      "first_seen_at": "2026-09-18T09:45:13.549423+08:00",
+      "alerted_at": "2026-09-18T09:45:13.549423+08:00"
+    },
+    {
+      "instrument_id": "000782.SZ",
+      "name": "恒申新材",
+      "price": 8.19,
+      "observed_at": "2026-09-18T11:00:15+08:00",
+      "dif": 0.10165527065527065,
+      "dea": 0.09473105413105413,
+      "k": 64.9953789954338,
+      "d": 51.06179299847793,
+      "j": 92.86255098934555,
+      "signal_group": "此前 1～3 日拐头",
+      "zero_axis_zone": "零轴上方",
+      "j_turn_date": "2026-09-16",
+      "j_trough": 24.338,
+      "low_j_tags": [],
+      "active": true,
+      "unverified": false,
+      "consecutive_samples": 1,
+      "first_seen_at": "2026-09-18T11:00:15.882009+08:00",
+      "alerted_at": "2026-09-18T11:00:15.882009+08:00"
+    },
+    {
+      "instrument_id": "000498.SZ",
+      "name": "山东路桥",
+      "price": 5.07,
+      "observed_at": "2026-09-18T10:45:30+08:00",
+      "dif": -0.003880341880341887,
+      "dea": -0.008776068376068378,
+      "k": 57.552962962963036,
+      "d": 44.95032098765435,
+      "j": 82.75824691358042,
+      "signal_group": "此前 1～3 日拐头",
+      "zero_axis_zone": "零轴下方",
+      "j_turn_date": "2026-09-15",
+      "j_trough": 7.734,
+      "low_j_tags": [
+        "J<20"
+      ],
+      "active": false,
+      "unverified": false,
+      "consecutive_samples": 0,
+      "first_seen_at": "2026-09-18T10:15:36.991792+08:00",
+      "alerted_at": "2026-09-18T10:15:36.991792+08:00"
+    },
+    {
+      "instrument_id": "000756.SZ",
+      "name": "新华制药",
+      "price": 13.78,
+      "observed_at": "2026-09-18T10:00:48+08:00",
+      "dif": -0.16669800569800572,
+      "dea": -0.18133960113960113,
+      "k": 37.259901234567884,
+      "d": 25.367300411522628,
+      "j": 61.045102880658405,
+      "signal_group": "同日拐头",
+      "zero_axis_zone": "零轴下方",
+      "j_turn_date": "2026-09-18",
+      "j_trough": 3.272,
+      "low_j_tags": [
+        "J<20"
+      ],
+      "active": false,
+      "unverified": false,
+      "consecutive_samples": 0,
+      "first_seen_at": "2026-09-18T10:00:48.000054+08:00",
+      "alerted_at": "2026-09-18T10:00:48.000054+08:00"
+    }
+  ],
+  "next_scan_at": "2026-09-18T11:15:00+08:00",
+  "universe_count": 240,
+  "eligible_count": 240,
+  "evaluated_count": 240,
+  "excluded_counts": {
+    "no_clear_new_cross": 236,
+    "no_recent_turn": 1
+  },
+  "scan_candidates": [
+    {
+      "instrument_id": "000066.SZ",
+      "name": "中国长城",
+      "price": 14.12,
+      "observed_at": "2026-09-18T11:00:12+08:00",
+      "dif": -0.2300997150997151,
+      "dea": -0.23881994301994303,
+      "k": 26.21103448275859,
+      "d": 27.491678160919534,
+      "j": 23.649747126436694,
+      "signal_group": "同日拐头",
+      "zero_axis_zone": "零轴下方",
+      "j_turn_date": "2026-09-18",
+      "j_trough": 10.997,
+      "low_j_tags": [
+        "J<20"
+      ]
+    },
+    {
+      "instrument_id": "000559.SZ",
+      "name": "万向钱潮",
+      "price": 10.97,
+      "observed_at": "2026-09-18T11:00:12+08:00",
+      "dif": -0.22419373219373212,
+      "dea": -0.23203874643874645,
+      "k": 33.46430107526882,
+      "d": 23.16210035842294,
+      "j": 54.068702508960584,
+      "signal_group": "此前 1～3 日拐头",
+      "zero_axis_zone": "零轴下方",
+      "j_turn_date": "2026-09-17",
+      "j_trough": 1.401,
+      "low_j_tags": [
+        "J<20"
+      ]
+    },
+    {
+      "instrument_id": "000782.SZ",
+      "name": "恒申新材",
+      "price": 8.19,
+      "observed_at": "2026-09-18T11:00:15+08:00",
+      "dif": 0.10165527065527065,
+      "dea": 0.09473105413105413,
+      "k": 64.9953789954338,
+      "d": 51.06179299847793,
+      "j": 92.86255098934555,
+      "signal_group": "此前 1～3 日拐头",
+      "zero_axis_zone": "零轴上方",
+      "j_turn_date": "2026-09-16",
+      "j_trough": 24.338,
+      "low_j_tags": []
+    }
+  ],
+  "last_scan_slot": "2026-09-18T11:00:00+08:00",
+  "requested_count": 3043,
+  "missing_quote_count": 2803,
+  "source_metadata": {
+    "contract": "intraday_scan_quotes.v1",
+    "schema_version": 1,
+    "provider": "tencent_http",
+    "provider_request_id": null,
+    "provider_as_of": "2026-09-18T11:00:15+08:00",
+    "fetched_at": "2026-09-18T11:00:12.693744+08:00",
+    "quality": "degraded",
+    "quality_flags": [
+      "per_instrument_freshness_required",
+      "partial_quote_coverage"
+    ]
+  },
+  "baseline_dates": [
+    "2026-09-07",
+    "2026-09-08",
+    "2026-09-09",
+    "2026-09-10",
+    "2026-09-11",
+    "2026-09-14",
+    "2026-09-15",
+    "2026-09-16",
+    "2026-09-17"
+  ],
+  "seed_metadata": [
+    {
+      "contract": "intraday_technical_seed_day.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": null,
+      "fetched_at": "2026-09-17T19:52:18.704027+08:00",
+      "quality": "degraded",
+      "quality_flags": [
+        "provider_timestamp_unavailable"
+      ]
+    },
+    {
+      "contract": "intraday_technical_seed_day.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": null,
+      "fetched_at": "2026-09-17T19:52:27.216929+08:00",
+      "quality": "degraded",
+      "quality_flags": [
+        "provider_timestamp_unavailable"
+      ]
+    },
+    {
+      "contract": "intraday_technical_seed_day.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": null,
+      "fetched_at": "2026-09-17T19:52:36.758943+08:00",
+      "quality": "degraded",
+      "quality_flags": [
+        "provider_timestamp_unavailable"
+      ]
+    },
+    {
+      "contract": "intraday_technical_seed_day.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": null,
+      "fetched_at": "2026-09-17T19:52:48.703170+08:00",
+      "quality": "degraded",
+      "quality_flags": [
+        "provider_timestamp_unavailable"
+      ]
+    },
+    {
+      "contract": "intraday_technical_seed_day.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": null,
+      "fetched_at": "2026-09-17T19:53:00.960644+08:00",
+      "quality": "degraded",
+      "quality_flags": [
+        "provider_timestamp_unavailable"
+      ]
+    },
+    {
+      "contract": "intraday_technical_seed_day.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": null,
+      "fetched_at": "2026-09-17T19:53:11.686652+08:00",
+      "quality": "degraded",
+      "quality_flags": [
+        "provider_timestamp_unavailable"
+      ]
+    },
+    {
+      "contract": "intraday_technical_seed_day.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": null,
+      "fetched_at": "2026-09-17T19:53:20.335832+08:00",
+      "quality": "degraded",
+      "quality_flags": [
+        "provider_timestamp_unavailable"
+      ]
+    },
+    {
+      "contract": "intraday_technical_seed_day.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": null,
+      "fetched_at": "2026-09-18T09:20:21.537683+08:00",
+      "quality": "degraded",
+      "quality_flags": [
+        "provider_timestamp_unavailable"
+      ]
+    },
+    {
+      "contract": "intraday_technical_seed_day.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": null,
+      "fetched_at": "2026-09-18T09:42:21.507016+08:00",
+      "quality": "degraded",
+      "quality_flags": [
+        "provider_timestamp_unavailable"
+      ]
+    }
+  ]
+}

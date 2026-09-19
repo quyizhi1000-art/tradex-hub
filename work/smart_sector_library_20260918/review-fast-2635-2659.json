@@ -1,0 +1,592 @@
+[
+  {
+    "id": "301232.SZ",
+    "key": "commercial_space",
+    "sector": "商业航天",
+    "source_sector_name": "商业航天",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "火箭紧固件",
+      "发动机精密零部件"
+    ],
+    "stage": "revenue",
+    "fact": "已开展商业火箭紧固件和发动机零部件经营。",
+    "ths_fact": "2026年1月解析披露2025商业航天收入约123万元、未经审计。",
+    "company_fact": "主营确认已拓展航空航天，列商业火箭紧固件及推力室、涡轮泵零部件。",
+    "reason": "虽占比很小，已有航天主题仍有具体产品与收入承接；不因风电占比高否定新主线，亦不将低空初步对接当作量产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301233.SZ",
+    "key": "aero_engines",
+    "sector": "航空发动机",
+    "source_sector_name": "航空发动机",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "航空发动机密封件",
+      "航空橡胶部件"
+    ],
+    "stage": "revenue",
+    "fact": "航空发动机相关密封件已向航空客户交付并销售。",
+    "ths_fact": "航空发动机与军民融合解析确认飞机发动机应用及订单。",
+    "company_fact": "东方财富主营概述较泛；原年报详述航空密封产品、航发客户、签收确认收入与航空产品销量增长。",
+    "reason": "选择真实供应链支持的已有航空发动机；2025新减震组件仍长期测试，大飞机新阀产品开发不一概认定量产。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "301233-review-official-0",
+        "source_kind": "official_filing",
+        "publisher": "盛帮股份",
+        "title": "2025年年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=301233&id=12158640",
+        "published_at": null,
+        "assertions": [
+          "航空密封产品面向中航工业及中航发客户，已按签收确认收入；新航空减震组件仍长期测试。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "301234.SZ",
+    "key": "medical_devices",
+    "sector": "医疗器械",
+    "source_sector_name": "医疗器械概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "一次性无菌输注耗材",
+      "医疗用品集成供应"
+    ],
+    "stage": "revenue",
+    "fact": "已生产销售一次性无菌输注医疗器械。",
+    "ths_fact": "医疗器械解析列注射器、输液器、针头等实际产品。",
+    "company_fact": "主营确认无菌输注耗材制造及ODM加集成供应，服务国际医用耗材品牌。",
+    "reason": "唯一已有医疗器械由两源产品经营一致支持，海外收入属于销售地域而非主归属。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301235.SZ",
+    "key": "smart_medical",
+    "sector": "智能医疗",
+    "source_sector_name": "智能医疗",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "数字化手术室",
+      "医疗信息化集成"
+    ],
+    "stage": "revenue",
+    "fact": "已提供数字化手术室和医疗建筑智能化等集成服务。",
+    "ths_fact": "智能医疗解析确认医疗特殊科室信息化、数字手术室与智能管理系统。",
+    "company_fact": "主营单列智慧信息化整体解决方案，面向医疗机构提供建筑智能化与医疗信息化服务。",
+    "reason": "已有智能医疗有实际服务承接；芯片对应洁净工程而非芯片制造，辅助生殖对应科室建设而非治疗服务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301236.SZ",
+    "key": "ai_agents",
+    "sector": "AI智能体",
+    "source_sector_name": "AI智能体",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "企业智能体编排",
+      "天璇AutoAgent平台"
+    ],
+    "stage": "delivery",
+    "fact": "已推出企业智能体平台并提供从开发到运营的AI服务。",
+    "ths_fact": "AI智能体、DeepSeek解析确认天璇AutoAgent及零代码企业开发功能。",
+    "company_fact": "主营与核心段明确天璇平台、智能体开发及持续运营服务，能源场景含巡检和调度智能体。",
+    "reason": "实际平台与外部服务共同支撑已有AI智能体；人形合作和智算硬件保留产业链背景，不推定所有业务收入来自智能体。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301237.SZ",
+    "key": "carbon_fiber",
+    "sector": "碳纤维",
+    "source_sector_name": "碳纤维",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "高性能碳纤维",
+      "T级与M级纤维验证"
+    ],
+    "stage": "pilot",
+    "fact": "受控碳纤维项目已试生产并开展客户送样认证。",
+    "ths_fact": "2026年8月解析确认T800稳定试生产及高端客户批量送样，认证仍在进行。",
+    "company_fact": "主营以聚酯膜为主；原年报确认控股和兴碳纤维及试生产风险，尚未形成规模销售。",
+    "reason": "已有碳纤维具备实物和验证进展，阶段为试验；不能把航天院所送样当作商业航天规模收入。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "301237-review-official-0",
+        "source_kind": "official_filing",
+        "publisher": "和顺科技",
+        "title": "2025年年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=301237&id=12042276",
+        "published_at": null,
+        "assertions": [
+          "和兴碳纤维为控股公司，项目处试生产阶段、尚未形成规模销售；客户认证和工艺稳定性仍需验证。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "301238.SZ",
+    "key": "solid_state_batteries",
+    "sector": "固态电池",
+    "source_sector_name": "固态电池",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "固态电池添加剂",
+      "电解质材料"
+    ],
+    "stage": "revenue",
+    "fact": "部分材料已应用固态电池并形成小比例销售。",
+    "ths_fact": "固态解析明确材料已销售、占比较小；无人机交付来自参股企业。",
+    "company_fact": "核心段确认部分添加剂已批量用于固态锂电池，其他固态电解质仍小试。",
+    "reason": "以自身已有材料经营选择固态电池；区分已销售添加剂与小试新品，不借参股整电池交付抬高阶段。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301239.SZ",
+    "key": "ophthalmology",
+    "sector": "眼科医疗",
+    "source_sector_name": "眼科医疗",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "眼科连锁医院",
+      "验光配镜"
+    ],
+    "stage": "revenue",
+    "fact": "眼科医院网络已提供诊疗和医学验光配镜服务。",
+    "ths_fact": "眼科医疗解析对应全科诊疗，智能医疗部分为后续建设计划。",
+    "company_fact": "主营确认眼科连锁医疗及已运营医院门诊网络。",
+    "reason": "已有眼科医疗与真实经营一致；智能化升级为服务工具，不把未来AI协作变成独立软件产品经营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301246.SZ",
+    "key": "sodium_ion_battery",
+    "sector": "钠离子电池",
+    "source_sector_name": "钠离子电池",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "六氟磷酸钠",
+      "电解质材料"
+    ],
+    "stage": "revenue",
+    "fact": "六氟磷酸钠已实现量产和对外销售。",
+    "ths_fact": "2025年10月解析确认六氟磷酸钠开始量产，固态硫化物仅公斤级实验。",
+    "company_fact": "东方财富主营强调医药及六氟磷酸锂；原年报明确六氟磷酸钠项目产品销售并实现效益。",
+    "reason": "原文支持钠电真实增量，选择已有钠离子电池；不混同六氟磷酸锂产线能力，不把固态实验称量产。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "301246-review-official-0",
+        "source_kind": "official_filing",
+        "publisher": "宏源药业",
+        "title": "2025年年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=301246&id=12259810",
+        "published_at": null,
+        "assertions": [
+          "六氟磷酸钠项目产品已对外销售，年度实现效益99.10万元，效益不等同收入额。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "301248.SZ",
+    "key": "ai_applications",
+    "sector": "AI应用",
+    "source_sector_name": "AI应用",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "行业AI应用系统",
+      "智能安全与分析平台"
+    ],
+    "stage": "delivery",
+    "fact": "AI应用产品已在行业客户场景落地。",
+    "ths_fact": "AI应用解析列工程安全、辅助诊断、生物疫病信息系统及客户应用。",
+    "company_fact": "主营通信安全与数智平台引入机器学习大模型，核心段确认行业AI产品和标杆客户落地。",
+    "reason": "已有AI应用由外部项目支撑；机器人筹建与服务器拟采购不等于机器人销售或算力租赁履约。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301251.SZ",
+    "key": "pcb",
+    "sector": "PCB",
+    "source_sector_name": "PCB概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "高多层HDI板",
+      "服务器电源与控制电路板"
+    ],
+    "stage": "revenue",
+    "fact": "已生产销售工业控制及服务器电源等用PCB。",
+    "ths_fact": "PCB解析明确主营，CPO解释仅列100G、25G光模块。",
+    "company_fact": "主营为PCB，产品含高多层厚铜HDI、MiniLED光电板等。",
+    "reason": "选择证据充分的已有PCB；普通光模块产品不能直接证明共封装能力，专用CPO产品出现后复核。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301252.SZ",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "机器人散热模组",
+      "关节与芯片热管理"
+    ],
+    "stage": "pilot",
+    "fact": "已为人形机器人散热开展试制、迭代与客户送样。",
+    "ths_fact": "2026年5月解析确认与头部客户沟通并完成产品送样。",
+    "company_fact": "东方财富主营提探索具身领域；原年报明确公司自身机器人热管理产品研发试制送样。",
+    "reason": "具体送样使主线超出基金投资，选择已有人形机器人；阶段为试验，不将量产能力规划写作已批量收入。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "301252-review-official-0",
+        "source_kind": "official_filing",
+        "publisher": "同星科技",
+        "title": "2025年年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=301252&id=12228851",
+        "published_at": null,
+        "assertions": [
+          "针对人形机器人散热问题开展研发试制迭代送样；未来量产全价值链建设属于计划。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "301255.SZ",
+    "key": "reducers",
+    "sector": "减速器",
+    "source_sector_name": "减速器",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "工业传动减速机",
+      "行星减速机"
+    ],
+    "stage": "revenue",
+    "fact": "工业减速机已向多行业客户配套销售。",
+    "ths_fact": "减速器解析列工业客户及TP系列应用；机器人是参股企业业务。",
+    "company_fact": "主营明确减速机研发生产销售服务。",
+    "reason": "已有减速器对应自有产品和客户；不因参股巡检机器人公司把上市公司归为已销售机器人整机。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301256.SZ",
+    "key": "chips",
+    "sector": "芯片",
+    "source_sector_name": "芯片概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "半导体湿电子化学品",
+      "电子级氢氧化钾"
+    ],
+    "stage": "delivery",
+    "fact": "电子级氢氧化钾已工业化生产，半导体客户已有导入。",
+    "ths_fact": "芯片解析明确电子级装置及部分半导体客户完成导入。",
+    "company_fact": "主营确认高等级氢氧化钾包含电子级，并生产盐酸等化学品。",
+    "reason": "选已有芯片并限定湿电子化学品配套；客户导入记为交付应用，不推断独立半导体业务收入，也不将配套试剂称成品光刻胶。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301257.SZ",
+    "key": "ai_agents",
+    "sector": "AI智能体",
+    "source_sector_name": "AI智能体",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "临床文本生成",
+      "蕊星智能管理系统"
+    ],
+    "stage": "product",
+    "fact": "已建立集成问答、临床质控及文本生成的智能管理系统。",
+    "ths_fact": "AI智能体解析列蕊星临床文本生成算法及管理系统功能。",
+    "company_fact": "东方财富主营为SMO；原年报确认自研算法备案和已搭建的蕊星智能管理系统。",
+    "reason": "真实专用产品支持已有AI智能体；尚无独立外销收费证明，阶段产品，不把SMO全部收入说成AI收入。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "301257-review-official-0",
+        "source_kind": "official_filing",
+        "publisher": "普蕊斯",
+        "title": "2025年年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=301257&id=12247051",
+        "published_at": null,
+        "assertions": [
+          "蕊星临床试验文本生成算法已备案，基于该算法搭建智能管理系统，集成问答和临床质控等功能。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "301258.SZ",
+    "key": "synthetic_biology",
+    "sector": "合成生物",
+    "source_sector_name": "合成生物",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "酶法R-硫辛酸",
+      "医药与保健品原料"
+    ],
+    "stage": "revenue",
+    "fact": "酶法R-硫辛酸已实现商业化生产销售。",
+    "ths_fact": "合成生物解析明确2022年酶法量产并对外销售。",
+    "company_fact": "主营持续经营硫辛酸等原料；原2022半年报确认酶法商业化，2025年报继续列酶法工艺开发与改进。",
+    "reason": "已实现过商业化且仍有相关产品经营与持续工艺研发，选已有合成生物；不据旧销售推算当前增速或新增产能。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "301258-review-official-0",
+        "source_kind": "official_filing",
+        "publisher": "富士莱",
+        "title": "2022年半年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=301258&id=8452758",
+        "published_at": null,
+        "assertions": [
+          "酶法R-硫辛酸在2022上半年已经量产并对外销售，完成新工艺商业化。"
+        ]
+      },
+      {
+        "evidence_id": "301258-review-official-1",
+        "source_kind": "official_filing",
+        "publisher": "富士莱",
+        "title": "2025年年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=301258&id=12146330",
+        "published_at": null,
+        "assertions": [
+          "持续开展R-硫辛酸酶法工艺研究及改进；不以此推定新增产能或销售增长。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "301259.SZ",
+    "key": "computing_power_leasing",
+    "sector": "算力租赁",
+    "source_sector_name": "算力租赁",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "AI算力中心运营",
+      "计算资源租赁"
+    ],
+    "stage": "revenue",
+    "fact": "上饶AI算力中心已建成运营并开展算力租赁。",
+    "ths_fact": "算力租赁解析明确200PFlop/s中心面向市场运营。",
+    "company_fact": "东方财富主营仍为环境治理；原2025年报单列算力租赁服务及按月结算确认收入方式。",
+    "reason": "原文确认自有运营主线，选择已有算力租赁；中昊芯英为参股，不能声称上市公司自研AI芯片，保留项目运营风险。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "301259-review-official-0",
+        "source_kind": "official_filing",
+        "publisher": "艾布鲁",
+        "title": "2025年年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=301259&id=12242352",
+        "published_at": null,
+        "assertions": [
+          "上饶AI算力中心建成运营并开展算力租赁，按月客户结算确认收入；芯片企业为参股，算力项目存在经营风险。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "301260.SZ",
+    "key": "robotics",
+    "sector": "机器人",
+    "source_sector_name": "机器人概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "智能割草机器人",
+      "自动草坪养护"
+    ],
+    "stage": "product",
+    "fact": "已有AiMowbot智能割草机器人产品矩阵。",
+    "ths_fact": "人工智能解析列智能割草机器人；最新解析明确新四驱产品尚待认证上市、商用清洁机器人仍测试。",
+    "company_fact": "主营独立列AiMowbot割草机器人，覆盖家庭园林及半商用场景。",
+    "reason": "具体自有机器人产品支持主归属，保守记产品阶段；不将新四驱型号和清洁机器人写成量产，不将智元合作写成人形整机收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301261.SZ",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "机器人精密结构件",
+      "减速器关键部件"
+    ],
+    "stage": "delivery",
+    "fact": "机器人关键部件已有小批交付，产品线包括人形结构件。",
+    "ths_fact": "人形与机器人解析确认上下肢结构件制造，减速器解析列小批供货。",
+    "company_fact": "东方财富主营较旧；原年报明确机器人结构件、RV核心客户批量应用和谐波刚轮小批交付。",
+    "reason": "受控制造业务支持已有人形机器人；交付指已披露零件，不推断自主整机量产或所有人形结构件收入。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "301261-review-official-0",
+        "source_kind": "official_filing",
+        "publisher": "恒工精密",
+        "title": "2025年年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=301261&id=12217775",
+        "published_at": null,
+        "assertions": [
+          "产品包括人形机器人上下肢结构件；RV部件核心客户批量应用，谐波刚轮已小批交付，不等于整机量产。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "301262.SZ",
+    "key": "ai_applications",
+    "sector": "AI应用",
+    "source_sector_name": "AI应用",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "AI漫剧制作平台",
+      "智能视听内容"
+    ],
+    "stage": "delivery",
+    "fact": "自研AIGC创作平台已支撑漫剧制作及内容输出。",
+    "ths_fact": "AI应用解析确认漫剧商业化推进，但尚无规模营收。",
+    "company_fact": "主营列AI漫剧平台及创作流程，其他业务确认自研平台系列作品200余部。",
+    "reason": "选择已有AI应用承接实际内容生产；未有AI视频同名成员，不能自建AI视频归属，亦不把IPTV收入算AI收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301263.SZ",
+    "key": "innovative_drugs",
+    "sector": "创新药",
+    "source_sector_name": "创新药",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "CKBA皮肤自免新药",
+      "临床研发"
+    ],
+    "stage": "pilot",
+    "fact": "控股研发的CKBA正在开展临床试验。",
+    "ths_fact": "创新药解析确认控股博创园与CKBA管线，毛发产品仍研发未申报。",
+    "company_fact": "主营及核心段确认CKBA白癜风已完成二期、启动三期，并推进玫瑰痤疮等适应症临床。",
+    "reason": "临床资产构成真实创新药主线；阶段为试验，已销眼科及肠胃药不等于CKBA上市收入，上市审批与减肥药实际销售后续复核。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301265.SZ",
+    "key": "memory_chips",
+    "sector": "存储芯片",
+    "source_sector_name": "存储芯片",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "存储器件再制造",
+      "DIE测试与分选"
+    ],
+    "stage": "revenue",
+    "fact": "控股慧镕已完成存储产品规模化代加工交付并产生收入。",
+    "ths_fact": "存储芯片解析列DRAM、FLASH旧器件和模组再制造及Ink DIE测试。",
+    "company_fact": "东方财富主营为资源再生；原年报确认51%控股慧镕，2026半年报确认当期代加工交付与营收。",
+    "reason": "新业务已有控制权及商业化原文，选已有存储芯片；限定再制造测试分选，不称晶圆制造或自研存储芯片设计。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "301265-review-official-0",
+        "source_kind": "official_filing",
+        "publisher": "华新科技",
+        "title": "2025年年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=301265&id=12148790",
+        "published_at": null,
+        "assertions": [
+          "慧镕科技海南由公司持股51%，开展存储再制造、测试分选业务。"
+        ]
+      },
+      {
+        "evidence_id": "301265-review-official-1",
+        "source_kind": "official_filing",
+        "publisher": "华新科技",
+        "title": "2026年半年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=301265&id=12539717",
+        "published_at": null,
+        "assertions": [
+          "2026上半年慧镕完成规模化代加工交付并产生营收，自主生产交付仍在转型推进。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "301266.SZ",
+    "key": "bc_battery",
+    "sector": "BC电池",
+    "source_sector_name": "BC电池",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "BC组件复合焊带",
+      "光伏互联材料"
+    ],
+    "stage": "product",
+    "fact": "已开发BC组件多层复合焊带并完成产品应用验证。",
+    "ths_fact": "BC解析明确复合焊带产品及材料结构设计。",
+    "company_fact": "主营为光伏焊带；原年报确认复合焊带已在BC组件验证为优化降本方案。",
+    "reason": "具体BC材料产品支持已有BC电池，未披露专属收入故记产品；热管理和超导企业为参股，不能据其批量供货替代自身经营归属。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "301266-review-official-0",
+        "source_kind": "official_filing",
+        "publisher": "宇邦新材",
+        "title": "2025年年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=301266&id=12101207",
+        "published_at": null,
+        "assertions": [
+          "多层复合焊带已在BC组件得到验证；宇邦逢君持股40%为参股，不能把其业务并作自身收入。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "301267.SZ",
+    "key": "ophthalmology",
+    "sector": "眼科医疗",
+    "source_sector_name": "眼科医疗",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "眼科全科诊疗",
+      "眼视光服务"
+    ],
+    "stage": "revenue",
+    "fact": "已通过眼科连锁机构提供诊疗和眼视光服务。",
+    "ths_fact": "眼科解析列各亚专科；智能眼镜为验配合作、探索落地且业绩影响小。",
+    "company_fact": "主营确认眼科八大亚专科及眼视光经营。",
+    "reason": "已有眼科医疗覆盖真实服务；AI已用于诊疗但属医疗服务工具，眼镜验配合作不等于智能眼镜研产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301268.SZ",
+    "key": "liquid_cooled_servers",
+    "sector": "液冷服务器",
+    "source_sector_name": "液冷服务器",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "服务器液冷散热",
+      "精密热管理结构件"
+    ],
+    "stage": "revenue",
+    "fact": "液冷散热业务已经营并逐步起量，收入涉及服务器领域。",
+    "ths_fact": "液冷解析明确负责团队已有业务收入且主要来自服务器领域。",
+    "company_fact": "东方财富主营为精密结构件；原年报明确子公司液冷业务逐步起量并切入数据中心。",
+    "reason": "已有液冷服务器有实际收入及原文支持，优先真实新业务；机器人仍认证试样及量产导入，不凭合作协议称整机经营。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "301268-review-official-0",
+        "source_kind": "official_filing",
+        "publisher": "铭利达",
+        "title": "2025年年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=301268&id=12227877",
+        "published_at": null,
+        "assertions": [
+          "子公司液冷散热业务逐步起量并切入数据中心；机器人仍量产导入及认证试样。"
+        ]
+      }
+    ]
+  }
+]

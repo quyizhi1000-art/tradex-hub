@@ -1,5 +1,20 @@
 # Project-level development constraints
 
+## Stock market sector attribution
+
+- All displays and analysis answering which market sector a stock belongs to must use `tradex.smart_sector_library.SmartSectorCatalog`; ordinary consumers display its single verified primary only. Every completed review must choose one evidenced existing primary; multiple businesses or uncertain new themes are not grounds for an unresolved completed review. Unreviewed stocks remain unfinished work. Provider board quotes and fund flows keep their original sources and semantics.
+- Read `tradex/docs/smart-sector-library-method.md` before assigning or changing stock market sectors. Choose from the stock's evidenced existing industry or concept memberships; do not invent a sector from business descriptions or replace market recognition with the largest revenue segment. Record the source sector name and publisher. Products and industry-chain detail belong in the chain field, not a new primary category.
+- Crosscheck the stock's concept explanation against company business information; consult original disclosures when ownership, transaction completion, delivery or other material evidence conflicts. Preserve prior dated evidence and correction snapshots. Source acquisition counts do not count as reviewed stocks or verified attribution.
+
+## Mandatory stock market-sector attribution
+
+- Before changing stock-sector classification, read `tradex/docs/smart-sector-library-method.md`. Market attribution means the market-recognized investment theme backed by real business, not the largest revenue segment or a vendor's industry/concept list order.
+- `tradex.smart_sector_library` is the sole authority for stock market-sector membership. All pages, selection displays, portfolio analysis, limit-up grouping, and MCP consumers must obtain membership through its public catalog reader. Do not implement consumer-side keyword classifiers, stock-code overrides, provider-industry fallback, or parallel membership caches.
+- Ordinary consumers show exactly one primary market sector. Secondary concepts and chain details belong in the library's own page or explicitly designated detail views. A completed review must select the best-supported existing concept or industry and record remaining doubts as specific review triggers. Unreviewed stocks display `尚未审阅`; expired or invalid conclusions require review. Never automatically fill a missing primary with a supplier label.
+- Keep the taxonomy's original business/statistical industry and historical date-specific event attribution separate. Sector quotes/fund flows keep their existing provider contracts; statistical peer comparisons remain explicitly statistical. Never rewrite archived strategy evidence with current membership.
+- New assignments require traceable business and market evidence, review/effective dates, and a reason. Follow the shared evidence gates and retain prior versions. An expired assignment cannot be renewed merely because its source was read again.
+- Run the focused smart-sector consumer-boundary and attribution regression tests when changing these paths. These rules apply to all future work in this project.
+
 ## Lean path for small tasks
 
 - Treat a task as small when it is one local, reversible concern with narrow acceptance criteria and it does not cross architecture, schema, authentication, security, licensing, deployment, external-write, or release boundaries.

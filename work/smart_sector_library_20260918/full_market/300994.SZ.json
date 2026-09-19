@@ -1,0 +1,62 @@
+{
+  "instrument_id": "300994.SZ",
+  "name": "久祺股份",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "300994.SZ",
+    "name": "久祺股份",
+    "memberships": [
+      "汽车",
+      "摩托车及其他",
+      "其他运输设备",
+      "浙江板块",
+      "创业板综",
+      "融资融券",
+      "机构重仓",
+      "跨境电商",
+      "交运设备",
+      "贬值受益",
+      "体育产业",
+      "婴童概念"
+    ],
+    "business_sections": [
+      {
+        "title": "自行车整车、零部件及衍生产品的设计、研发、生产与销售",
+        "kind": "主营业务",
+        "text": "公司是集自行车整车、零部件及衍生产品的设计、研发、生产与销售于一体的出口导向型企业。产品线覆盖成人自行车、儿童自行车、电助力自行车（E-BIKE）等品类，同步配套核心零部件、骑行装备与服饰，构建了垂直整合、完备高效的产业链体系。"
+      },
+      {
+        "title": "研发设计优势",
+        "kind": "核心竞争力",
+        "text": "研发创新是公司核心竞争力之一，也是顺应行业电动化、高端化趋势的重要支撑。公司坚持研发投入，构建覆盖产品结构、外观设计、电控系统等领域的专业化研发团队。"
+      },
+      {
+        "title": "品牌与渠道优势",
+        "kind": "核心竞争力",
+        "text": "公司坚持自主品牌全球化发展战略，构建多品牌矩阵，主要包括“JoyStar”“HILAND”“Logan”“小趣”“DR BIKE”“STITCH”“cycmoto”“久祺”“祺娃娃”等，覆盖不同市场定位与消费群体。"
+      },
+      {
+        "title": "智能制造与绿色制造优势",
+        "kind": "核心竞争力",
+        "text": "公司推行智能化、数字化、绿色化生产模式，通过自动化设备与工艺升级，建立高效、稳定、环保的生产体系，保障产品品质与交付能力。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ300994",
+    "fetched_at": "2026-09-18T23:20:33.559533+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "配件"
+}

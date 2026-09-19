@@ -1,0 +1,73 @@
+{
+  "instrument_id": "002632.SZ",
+  "name": "道明光学",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "002632.SZ",
+    "name": "道明光学",
+    "memberships": [
+      "基础化工",
+      "塑料",
+      "膜材料",
+      "浙江板块",
+      "昨日高振幅",
+      "深股通",
+      "参股新三板",
+      "显示技术",
+      "电池技术",
+      "柔性屏(折叠屏)",
+      "中俄贸易概念",
+      "固态电池",
+      "华为概念",
+      "增强现实",
+      "虚拟现实",
+      "安防概念",
+      "电商概念",
+      "石墨烯",
+      "光伏概念",
+      "锂电池概念",
+      "新材料"
+    ],
+    "business_sections": [
+      {
+        "title": "反光材料",
+        "kind": "主营业务",
+        "text": "反光材料主要由公司龙游和永康基地生产，根据应用场景及领域的不同细分为个人安全防护材料及制品、车辆安全防护材料及制品、道路安全防护材料及制品。"
+      },
+      {
+        "title": "微纳光学显示材料",
+        "kind": "主营业务",
+        "text": "微纳光学显示材料主要由公司常州、惠州基地生产，主要产品为LCD用多功能复合型增亮膜卷材以及光学膜片材，包括增光膜、复合膜（DOP、POP、MOP、COP等）、量子点膜等产品，主要应用于各式LCD显示器的背光模组中。"
+      },
+      {
+        "title": "电子功能材料",
+        "kind": "主营业务",
+        "text": "电子功能材料主要由永康两大基地及龙游道明新材料生产，目前主要产品有离型材料、铝塑膜、PC/PMMA复合板材及薄膜、石墨烯导热膜等，最终在消费电子、电池等领域应用。"
+      },
+      {
+        "title": "产能规模优势、品牌优势、技术创新和研发实力优势、原料自产优势等方面",
+        "kind": "核心竞争力",
+        "text": "报告期内，公司及子公司新增多项实用新型专利，其中龙游道明共获得授权专利9项，其中：发明专利5项、实用新型专利4项；道明光电共获得授权专利6项。其中：发明专利3项、实用新型专利2项，外观设计专利1项；华威新材料共获得授权专利5项，其中：发明专利3项、实用新型专利2项；道明科创新材料共获得实用新型专利2项；道明超导共获得发明专利2项；道明新材料共获得发明专利1项。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ002632",
+    "fetched_at": "2026-09-18T22:52:16.793188+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [
+    "消费电子"
+  ],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "反光材料"
+}

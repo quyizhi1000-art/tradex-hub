@@ -1,0 +1,454 @@
+[
+  {
+    "id": "301087.SZ",
+    "key": "medical_devices",
+    "sector": "医疗器械",
+    "source_sector_name": "医疗器械概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "个人健康管理器械"
+    ],
+    "stage": "revenue",
+    "fact": "医疗器械研发生产销售服务完整链条。",
+    "company_fact": "医疗器械研发生产销售服务完整链条。",
+    "ths_fact": "监测康复护理呼吸支持均有产品，脑机仅少数参股。",
+    "reason": "实际器械业务充分，参股脑机不替代主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301088.SZ",
+    "key": "e_commerce",
+    "sector": "电商",
+    "source_sector_name": "电商概念",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "线上品牌服饰"
+    ],
+    "stage": "revenue",
+    "fact": "依托互联网运营戎美服饰设计供应链与销售。",
+    "company_fact": "依托互联网运营戎美服饰设计供应链与销售。",
+    "ths_fact": "经营页确认服饰设计销售，披露订单GMV及服装销量。",
+    "reason": "电商与服饰供应链构成实际模式，经营页补足概念表空白。",
+    "basis": "crosschecked_sources",
+    "extra_evidence": [
+      {
+        "evidence_id": "ths-301088-operate",
+        "source_kind": "web_secondary",
+        "publisher": "同花顺",
+        "title": "经营分析",
+        "source_url": "https://basic.10jqka.com.cn/301088/operate.html",
+        "published_at": null,
+        "assertions": [
+          "经营页确认服饰设计销售，披露订单GMV及服装销量。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "301089.SZ",
+    "key": "synthetic_biology",
+    "sector": "合成生物",
+    "source_sector_name": "合成生物",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "发酵核苷原料药"
+    ],
+    "stage": "revenue",
+    "fact": "化学合成与生物发酵核苷原料药中间体生产。",
+    "company_fact": "化学合成与生物发酵核苷原料药中间体生产。",
+    "ths_fact": "合成生物平台围绕原料药中间体食品原料。",
+    "reason": "平台与实际发酵产业化交叉，不推定所有产品均合成生物路线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301090.SZ",
+    "key": "three_d_printing",
+    "sector": "3D打印",
+    "source_sector_name": "3D打印",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "PETG打印材料"
+    ],
+    "stage": "revenue",
+    "fact": "聚酯瓶片与特种聚酯PETG生产销售。",
+    "company_fact": "聚酯瓶片与特种聚酯PETG生产销售。",
+    "ths_fact": "PETG在3D打印领域已经批量销售。",
+    "reason": "真实新材料供货支持打印主题而非设备制造。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301091.SZ",
+    "key": "low_altitude_economy",
+    "sector": "低空经济",
+    "source_sector_name": "低空经济",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "低空交通数字管控"
+    ],
+    "stage": "orders",
+    "fact": "交通数字平台咨询规划智慧基建。",
+    "company_fact": "交通数字平台咨询规划智慧基建。",
+    "ths_fact": "联合体承接深圳低空智能融合基础设施一期项目。",
+    "reason": "数字交通能力与具体低空项目对上，不推定飞行器制造。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301092.SZ",
+    "key": "chips",
+    "sector": "芯片",
+    "source_sector_name": "芯片概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "半导体超纯水树脂"
+    ],
+    "stage": "revenue",
+    "fact": "离子交换吸附树脂规模生产。",
+    "company_fact": "离子交换吸附树脂规模生产。",
+    "ths_fact": "电子级低TOC抛光树脂应用芯片超纯水处理。",
+    "reason": "直接洁净工艺材料支撑芯片链条，非芯片设计制造。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301093.SZ",
+    "key": "medical_devices",
+    "sector": "医疗器械",
+    "source_sector_name": "医疗器械概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "注射剂药用胶塞"
+    ],
+    "stage": "revenue",
+    "fact": "覆膜及常规药用胶塞研产销。",
+    "company_fact": "覆膜及常规药用胶塞研产销。",
+    "ths_fact": "胶塞广泛用于输液单抗冻干等制剂包装。",
+    "reason": "自有药包材明确，AI创新药投资不等于自有获批药。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301095.SZ",
+    "key": "eda",
+    "sector": "EDA设计软件",
+    "source_sector_name": "EDA设计软件",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "芯片设计良率工具"
+    ],
+    "stage": "revenue",
+    "fact": "EDA PDA软件与晶圆电性测试设备。",
+    "company_fact": "EDA PDA软件与晶圆电性测试设备。",
+    "ths_fact": "提供EDA授权开发与WAT测试方案。",
+    "reason": "设计测试软件全流程业务直接，光子设计属延伸。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301096.SZ",
+    "key": "cro",
+    "sector": "CRO",
+    "source_sector_name": "CRO概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "药物研发生产外包"
+    ],
+    "stage": "revenue",
+    "fact": "受托研发成果转化及CDMO全链条。",
+    "company_fact": "受托研发成果转化及CDMO全链条。",
+    "ths_fact": "客户工艺开发临床样品至商业批产外包。",
+    "reason": "真实外包体系充分，AI平台目前重点内部研发。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301097.SZ",
+    "key": "medical_devices",
+    "sector": "医疗器械",
+    "source_sector_name": "医疗器械概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "血液净化耗材"
+    ],
+    "stage": "revenue",
+    "fact": "透析重症护理高分子医用耗材。",
+    "company_fact": "透析重症护理高分子医用耗材。",
+    "ths_fact": "体外循环血路采血吸氧等产品在产。",
+    "reason": "现有耗材产品支持器械。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301098.SZ",
+    "key": "urban_construction",
+    "sector": "新型城镇化",
+    "source_sector_name": "新型城镇化",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "城市生态园林工程"
+    ],
+    "stage": "revenue",
+    "fact": "规划园林建设运维与生态修复。",
+    "company_fact": "规划园林建设运维与生态修复。",
+    "ths_fact": "城市水路绿景整体提升与全链条工程服务。",
+    "reason": "城市环境建设落地，区别仅旅游框架协议。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301099.SZ",
+    "key": "ai_glasses",
+    "sector": "AI眼镜",
+    "source_sector_name": "AI眼镜",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "眼镜电源模块分销"
+    ],
+    "stage": "delivery",
+    "fact": "元器件分销及自研芯片，拓展端侧AI。",
+    "company_fact": "元器件分销及自研芯片，拓展端侧AI。",
+    "ths_fact": "代理模块已间接批量供应META眼镜。",
+    "reason": "实际AI眼镜供货强于人形送样，明确代理非自研模块。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301100.SZ",
+    "key": "chemical_products",
+    "sector": "化学制品",
+    "source_sector_name": "化学制品",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "高分子抗氧助剂"
+    ],
+    "stage": "revenue",
+    "fact": "受阻酚亚磷酸酯等高分子助剂。",
+    "company_fact": "受阻酚亚磷酸酯等高分子助剂。",
+    "ths_fact": "既有抗氧化剂产能明确，另推广POE催化助剂。",
+    "reason": "抗氧助剂实际制造，旧募投预期不能当当前满产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301101.SZ",
+    "key": "ai_glasses",
+    "sector": "AI眼镜",
+    "source_sector_name": "AI眼镜",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "智能眼镜光学配镜"
+    ],
+    "stage": "delivery",
+    "fact": "光学树脂镜片及原料成镜服务。",
+    "company_fact": "光学树脂镜片及原料成镜服务。",
+    "ths_fact": "已为小米AI眼镜提供独家光学镜片配镜。",
+    "reason": "实际终端镜片供货，不仅泛智能穿戴规划。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301102.SZ",
+    "key": "advertising_media",
+    "sector": "广告媒体",
+    "source_sector_name": "广告媒体",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "高铁数字广告"
+    ],
+    "stage": "revenue",
+    "fact": "高铁媒体开发运营和广告发布。",
+    "company_fact": "高铁媒体开发运营和广告发布。",
+    "ths_fact": "刷屏与LED数字媒体广告为主营。",
+    "reason": "AIGC是内容制作工具，广告媒体为真实完整业务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301103.SZ",
+    "key": "ophthalmology",
+    "sector": "眼科医疗",
+    "source_sector_name": "眼科医疗",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "眼科诊疗视光"
+    ],
+    "stage": "revenue",
+    "fact": "眼病专科诊疗与视光健康管理。",
+    "company_fact": "眼病专科诊疗与视光健康管理。",
+    "ths_fact": "白内障屈光视网膜青光眼等服务。",
+    "reason": "实际医疗机构业务，不把集团创新平台全部算上市公司。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301105.SZ",
+    "key": "printing_packaging_machinery",
+    "sector": "印刷包装机械",
+    "source_sector_name": "印刷包装机械",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "自动化包装设备"
+    ],
+    "stage": "revenue",
+    "fact": "包装专用设备研发生产销售。",
+    "company_fact": "包装专用设备研发生产销售。",
+    "ths_fact": "公司页列自动包装系列与上糊压泡成型设备。",
+    "reason": "具体包装机器强于出口地域，补公司页交叉。",
+    "basis": "crosschecked_sources",
+    "extra_evidence": [
+      {
+        "evidence_id": "ths-301105-company",
+        "source_kind": "web_secondary",
+        "publisher": "同花顺",
+        "title": "公司资料",
+        "source_url": "https://basic.10jqka.com.cn/301105/company.html",
+        "published_at": null,
+        "assertions": [
+          "公司页列自动包装系列与上糊压泡成型设备。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "301106.SZ",
+    "key": "automotive_electronics",
+    "sector": "汽车电子",
+    "source_sector_name": "汽车电子",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "车载液晶显示"
+    ],
+    "stage": "delivery",
+    "fact": "定制液晶显示屏模组用于工控汽车等。",
+    "company_fact": "定制液晶显示屏模组用于工控汽车等。",
+    "ths_fact": "经一级供应商交付国内多家主机厂，部分新能源车型量产。",
+    "reason": "真实汽车显示供货明确，PCB使用不等于PCB主业。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301107.SZ",
+    "key": "generator_equipment",
+    "sector": "发电机",
+    "source_sector_name": "发电机概念",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "发电机电源配件"
+    ],
+    "stage": "revenue",
+    "fact": "通机点火供能及发电机电源系统部件。",
+    "company_fact": "通机点火供能及发电机电源系统部件。",
+    "ths_fact": "点火器变流器规模生产，机器人关节项目前期未收益。",
+    "reason": "实际动力电源组件充分，研发机器人不能等同量产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301108.SZ",
+    "key": "three_child_policy",
+    "sector": "三胎",
+    "source_sector_name": "三胎概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "婴儿湿巾"
+    ],
+    "stage": "revenue",
+    "fact": "湿巾研发生产销售。",
+    "company_fact": "湿巾研发生产销售。",
+    "ths_fact": "婴幼儿湿巾供给金佰利强生babycare等。",
+    "reason": "母婴消费客户与产品明确，重组胶原用外购原料勿当自研蛋白。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301109.SZ",
+    "key": "solid_waste_treatment",
+    "sector": "固废处理",
+    "source_sector_name": "固废处理",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "垃圾资源化焚烧"
+    ],
+    "stage": "revenue",
+    "fact": "固废处置绿色能源项目投建运营。",
+    "company_fact": "固废处置绿色能源项目投建运营。",
+    "ths_fact": "垃圾餐厨污泥渗滤液飞灰全链条服务。",
+    "reason": "真实运营体系支持固废，海外框架不作已投产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301110.SZ",
+    "key": "digital_marketing",
+    "sector": "数字营销",
+    "source_sector_name": "数字营销",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "品牌电商运营营销"
+    ],
+    "stage": "revenue",
+    "fact": "代运营经销品牌营销技术与消费者运营。",
+    "company_fact": "代运营经销品牌营销技术与消费者运营。",
+    "ths_fact": "为品牌提供综合电商与数字营销服务。",
+    "reason": "AI客服用于服务提效，客户业务核心仍电商营销。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301111.SZ",
+    "key": "computing_power_leasing",
+    "sector": "算力租赁",
+    "source_sector_name": "算力租赁",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "GPU算力云服务"
+    ],
+    "stage": "orders",
+    "fact": "中药之外，控股万宏智算新拓GPU云服务。",
+    "company_fact": "中药之外，控股万宏智算新拓GPU云服务。",
+    "ths_fact": "已签五年12.4416亿元预估服务合同。",
+    "reason": "原公告确认尚未提供服务、设备尚待采购，记订单并跟踪验收融资。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "original-301111-12557138",
+        "source_kind": "official_filing",
+        "publisher": "粤万年青",
+        "title": "重大合同公告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12557138&stockid=301111",
+        "published_at": "2026-08-28",
+        "assertions": [
+          "原公告确认尚未提供服务、设备尚待采购，记订单并跟踪验收融资。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "301112.SZ",
+    "key": "industrial_robots",
+    "sector": "工业机器人",
+    "source_sector_name": "工业机器人",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "机器人产线集成"
+    ],
+    "stage": "revenue",
+    "fact": "汽车与航空自动化产线装备集成。",
+    "company_fact": "汽车与航空自动化产线装备集成。",
+    "ths_fact": "以工业机器人技术提供产线设计制造装配。",
+    "reason": "英迪芯微原公告仍交易审查阶段，不能当已取得芯片业务。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "original-301112-12560647",
+        "source_kind": "official_filing",
+        "publisher": "信邦智能",
+        "title": "交易评估报告加期公告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12560647&stockid=301112",
+        "published_at": "2026-08-28",
+        "assertions": [
+          "英迪芯微原公告仍交易审查阶段，不能当已取得芯片业务。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "301113.SZ",
+    "key": "camping_economy",
+    "sector": "露营经济",
+    "source_sector_name": "露营经济",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "户外火盆气炉"
+    ],
+    "stage": "revenue",
+    "fact": "户外休闲家具火盆气炉取暖器等。",
+    "company_fact": "户外休闲家具火盆气炉取暖器等。",
+    "ths_fact": "火盆气炉完整研发生产销售体系。",
+    "reason": "实际户外场景产品与露营主题吻合。",
+    "basis": "crosschecked_sources"
+  }
+]

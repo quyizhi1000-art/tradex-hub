@@ -112,7 +112,7 @@ def test_post_close_recovery_has_audited_status_and_one_manual_command():
     assert "recovery.latest_attempt_minute_bucket" in JS
     assert "recovery.failed_attempts" in JS
     assert "recovery.last_error_message" in JS
-    assert "下次重试" in JS
+    assert "下次自动重试" in JS
     assert "不会用当前值伪造历史" in JS
     assert ".collection-recovery-error" in CSS
     assert ".collection-recovery-strip.is-attention" in CSS
@@ -271,21 +271,12 @@ def test_watch_page_keeps_the_decision_path_and_evidence_boundaries_visible():
         'id="sector-flow-offense-observation-list"',
         'id="breadth-up-ratio"',
         'id="rotation-summary"',
-        'id="what-is-happening"',
-        'id="supporting-evidence"',
-        'id="counter-evidence"',
-        'id="scenario-list"',
-        'id="confirmed-change"',
-        'id="alert-list"',
     ]
 
     positions = [HTML.index(anchor) for anchor in anchors]
     assert positions == sorted(positions)
     assert "资金仍是估计 / 辅助" in JS
     assert "主力资金" not in HTML + JS
-    assert "slice(0, 2)" in JS
-    assert "scenario.invalidation" in JS
-    assert "change.available === true" in JS
     assert "change.confirmed" not in JS
     assert "return parsed * 100" in JS
     assert 'id="breadth-bar-unclassified"' in HTML
@@ -647,9 +638,9 @@ def test_sector_flow_observations_keep_sector_change_and_leaders_visible():
 
 
 def test_intraday_sector_move_radar_has_live_trajectory_leaders_and_alert_delivery():
-    assert 'id="sector-move-radar"' in HTML
-    assert 'id="sector-move-radar-list"' in HTML
-    assert 'id="sector-move-radar-threshold"' in HTML
+    assert 'id="sector-move-radar"' not in HTML
+    assert 'id="intraday-macd-j-section"' in HTML
+    assert 'id="intraday-macd-j-history-dialog"' in HTML
     assert "function sectorMoveCandidates(snapshot)" in JS
     assert "function renderSectorMoveMiniChart(item)" in JS
     assert "function renderSectorMoveRadar(snapshot)" in JS
@@ -869,7 +860,7 @@ def test_no_accepted_real_keeps_the_shell_and_last_verified_batch_visible():
     assert "latest_accepted_real" in JS
 
 
-def test_watch_page_reads_only_canonical_v1_fields_and_event_reads_are_scoped():
+def test_watch_page_reads_only_canonical_v1_fields():
     legacy_aliases = (
         "quality_status",
         "is_fresh",
@@ -889,7 +880,6 @@ def test_watch_page_reads_only_canonical_v1_fields_and_event_reads_are_scoped():
     assert 'normalized === "weakening"' in JS
     assert 'abstain: "暂不判断"' in JS
     assert "REGIME_LABELS" in JS
-    assert "alertReadKey(alert, snapshot)" in JS
     assert "snapshot.snapshot_id" in JS
 
 
@@ -928,7 +918,7 @@ def test_limit_up_pool_is_revision_bound_and_separates_current_display_from_rela
     assert "item?.business_tags" in JS
     assert "item?.statistical_industry_name" in JS
     assert "item.relationship_verification_status" in JS
-    assert "只有题材而无直接业务证据时退回长期目录" in HTML
+    assert "证据不足显示待核验，不用主营行业或供应商概念补位" in HTML
     assert 'height > 0 ? `${height}板` : "历史日榜\\n不可用"' in JS
     assert "formatLimitUpSealTime(item.first_sealed_at)" in JS
     assert (
@@ -964,9 +954,29 @@ def test_limit_up_pool_is_revision_bound_and_separates_current_display_from_rela
     assert 'id="limit-up-pool-classified"' in HTML
     assert 'id="limit-up-pool-unmatched"' in HTML
     assert "每分钟刷新涨停名单、板数与首次封板时间" in HTML
-    assert "主显示优先读取当日人工复核" in HTML
-    assert "长期主营仍只读取统一真实归属库" in HTML
+    assert "市场主归属统一读取聪明板块库" in HTML
+    assert "证据不足显示待核验" in HTML
     assert "申万三级行业单独展示为统计行业" not in HTML
-    assert 'displayLabel ? `主显示 · ${displayLabel}`' in JS
-    assert "长期目录 ·" in JS
+    assert 'displayLabel ? `市场主归属 · ${displayLabel}`' in JS
+    assert "长期目录 ·" not in JS
     assert "@media" not in CSS
+
+
+def test_removed_analysis_cards_leave_no_dom_accesses_and_keep_neighbor_panels():
+    removed_ids = (
+        "analysis-strength", "what-is-happening", "supporting-evidence",
+        "counter-evidence", "scenario-list", "change-as-of", "confirmed-change",
+        "mark-read-button", "alert-delivery-state", "unread-count", "alert-list",
+    )
+    for element_id in removed_ids:
+        assert f'id="{element_id}"' not in HTML
+        assert f'byId("{element_id}")' not in JS
+    for title in ("此刻盘面在做什么", "接下来最值得盯的条件", "最近确认变化", "<h2>盘面变化提醒</h2>"):
+        assert title not in HTML
+    assert 'class="analysis-grid"' not in HTML
+    assert 'class="bottom-grid"' not in HTML
+    anchors = ('id="stock-selection-section"', 'id="breadth-up-ratio"', 'id="rotation-summary"')
+    positions = [HTML.index(anchor) for anchor in anchors]
+    assert positions == sorted(positions)
+    assert "state.alerts = alertListFromSnapshot(snapshot);" in JS
+    assert "function processBackendAlerts(snapshot)" in JS

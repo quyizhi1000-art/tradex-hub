@@ -1,0 +1,415 @@
+[
+  {
+    "id": "300926.SZ",
+    "key": "integrated_die_casting",
+    "sector": "一体化压铸",
+    "source_sector_name": "一体化压铸",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "汽车大型车身铸件"
+    ],
+    "stage": "revenue",
+    "fact": "汽车精密件模具，掌握压铸冲压热成型焊接。",
+    "company_fact": "汽车精密件模具，掌握压铸冲压热成型焊接。",
+    "ths_fact": "已获后地板减震塔等订单，减震塔量产、后地板小批生产。",
+    "reason": "压铸实业已量产，人形仍客户前期对接。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300927.SZ",
+    "key": "glyphosate",
+    "sector": "草甘膦",
+    "source_sector_name": "草甘膦",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "多聚甲醛上游原料"
+    ],
+    "stage": "revenue",
+    "fact": "甲醇下游精细化学品生产销售，子公司生产SAP。",
+    "company_fact": "甲醇下游精细化学品生产销售，子公司生产SAP。",
+    "ths_fact": "多聚甲醛用于草甘膦，客户江山股份江苏森萱。",
+    "reason": "既有草甘膦上游供货清楚，不说生产草甘膦成品；丙烯酸项目仍拟建。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300928.SZ",
+    "key": "evtols",
+    "sector": "飞行汽车(eVTOL)",
+    "source_sector_name": "飞行汽车(eVTOL)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "飞行器座舱显示系统"
+    ],
+    "stage": "delivery",
+    "fact": "车载显示定制系统开发及座舱终端研发生产供货。",
+    "company_fact": "车载显示定制系统开发及座舱终端研发生产供货。",
+    "ths_fact": "小鹏汇天面世飞行器部分显示由公司提供，深度参与样机开发。",
+    "reason": "飞行器显示已有供货支撑新主线；固态是参股早期研发。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300929.SZ",
+    "key": "wastewater_treatment",
+    "sector": "污水处理",
+    "source_sector_name": "污水处理",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "生物滤池及污水工程运营"
+    ],
+    "stage": "revenue",
+    "fact": "水环境治理智能污水装备及多领域工程。",
+    "company_fact": "水环境治理智能污水装备及多领域工程。",
+    "ths_fact": "水治理工程产品销售与污水投资运营。",
+    "reason": "完整水处理实业最充分，储能首箱下线尚未证实订单收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300930.SZ",
+    "key": "metal_recycling",
+    "sector": "金属回收",
+    "source_sector_name": "金属回收",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "废金属制高品质铁粉"
+    ],
+    "stage": "revenue",
+    "fact": "废金属熔炼雾化还原生产纯铁合金及电池铁粉。",
+    "company_fact": "废金属熔炼雾化还原生产纯铁合金及电池铁粉。",
+    "ths_fact": "通过废旧金属转化高附加值制造原料。",
+    "reason": "回收再生金属粉体直接业务，3D粉体仍研发未批产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300931.SZ",
+    "key": "elevators",
+    "sector": "电梯",
+    "source_sector_name": "电梯概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "客货电梯及自动扶梯"
+    ],
+    "stage": "revenue",
+    "fact": "研发制造销售客货医用观光电梯扶梯人行道。",
+    "company_fact": "研发制造销售客货医用观光电梯扶梯人行道。",
+    "ths_fact": "物联网解析确认电梯控制系统接入实时监控远测报警。",
+    "reason": "电梯本体经营与智能控制交叉验证，不因电梯概念空解释放弃完整同股证据。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300932.SZ",
+    "key": "data_centers",
+    "sector": "数据中心(AIDC)",
+    "source_sector_name": "数据中心(AIDC)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "HVDC和UPS继电器"
+    ],
+    "stage": "product",
+    "fact": "继电器及电流电压互感器研发生产销售。",
+    "company_fact": "继电器及电流电压互感器研发生产销售。",
+    "ths_fact": "产品用于HVDC UPS，合作设备厂并配合开发算力电源。",
+    "reason": "算力基础设施有明确电气产品位置，未单证收入按产品。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300933.SZ",
+    "key": "smart_grid",
+    "sector": "智能电网",
+    "source_sector_name": "智能电网",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "输配电电缆"
+    ],
+    "stage": "revenue",
+    "fact": "电缆附件供两网全国主干配网建设。",
+    "company_fact": "电缆附件供两网全国主干配网建设。",
+    "ths_fact": "两百余细分线缆用于31省输配电升级。",
+    "reason": "电网产品客户充分；算力合资仅未来建营表述。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300935.SZ",
+    "key": "ai_agents",
+    "sector": "AI智能体",
+    "source_sector_name": "AI智能体",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "建筑BIM对话式智能设计"
+    ],
+    "stage": "product",
+    "fact": "建筑基础设施BIM软件及AI设计销售服务。",
+    "company_fact": "建筑基础设施BIM软件及AI设计销售服务。",
+    "ths_fact": "分层AI支持文本语音图纸，已有问答建模设置Agent。",
+    "reason": "专业设计智能体已形成应用，未推定独立AI收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300936.SZ",
+    "key": "copper_clad_laminate",
+    "sector": "覆铜板",
+    "source_sector_name": "覆铜板概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "高频覆铜板"
+    ],
+    "stage": "revenue",
+    "fact": "高频覆铜板供PCB厂，另VC散热片和引线框架。",
+    "company_fact": "高频覆铜板供PCB厂，另VC散热片和引线框架。",
+    "ths_fact": "生产高频覆铜板用于高频PCB制造。",
+    "reason": "直接上游板材产品，半导体封装材料保留副线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300937.SZ",
+    "key": "pharma_ecommerce",
+    "sector": "医药电商",
+    "source_sector_name": "医药电商",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "院外B2B医药流通"
+    ],
+    "stage": "revenue",
+    "fact": "院外医药流通并建大健康科技平台。",
+    "company_fact": "院外医药流通并建大健康科技平台。",
+    "ths_fact": "线上线下新零售、B2B电商医药供应链批发。",
+    "reason": "数字医药流通实际经营明确。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300938.SZ",
+    "key": "low_altitude_economy",
+    "sector": "低空经济",
+    "source_sector_name": "低空经济",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "无人机第三方检测"
+    ],
+    "stage": "revenue",
+    "fact": "汽车电子电气可靠性EMC等检测服务。",
+    "company_fact": "汽车电子电气可靠性EMC等检测服务。",
+    "ths_fact": "为包括亿航在内无人驾驶飞行器企业提供检测，含环境EMC材料可靠性。",
+    "reason": "实际低空检测客户支撑主题，收入碎片化不冒称占比高。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300939.SZ",
+    "key": "electronic_paper",
+    "sector": "电子纸",
+    "source_sector_name": "电子纸",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "中小尺寸电子纸材料模组"
+    ],
+    "stage": "product",
+    "fact": "液晶触控显示研发设计生产销售。",
+    "company_fact": "液晶触控显示研发设计生产销售。",
+    "ths_fact": "电子纸已实现颜料至膜片模组全链自主研发，面向标签姓名牌等。",
+    "reason": "具体电子纸研发产品支持新显示主题，未证批量按产品。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300940.SZ",
+    "key": "consumer_electronics",
+    "sector": "消费电子",
+    "source_sector_name": "消费电子概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "背光显示模组"
+    ],
+    "stage": "revenue",
+    "fact": "背光模组用于电竞平板手机车载等。",
+    "company_fact": "背光模组用于电竞平板手机车载等。",
+    "ths_fact": "背光模组为核心消费电子零部件研发生产销售。",
+    "reason": "现有显示模组经营明确；MicroLED募集项目不等于产品量产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300941.SZ",
+    "key": "digital_currency",
+    "sector": "数字货币",
+    "source_sector_name": "数字货币",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "数字人民币商户受理终端"
+    ],
+    "stage": "delivery",
+    "fact": "电子支付软件POS扫码刷脸终端及行业方案。",
+    "company_fact": "电子支付软件POS扫码刷脸终端及行业方案。",
+    "ths_fact": "完成数字人民币平台终端升级，承接多家银行数字人民币营销。",
+    "reason": "数字人民币受理及银行服务已有应用，不仅技术储备。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300942.SZ",
+    "key": "food_safety",
+    "sector": "食品安全",
+    "source_sector_name": "食品安全",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "食品快速检测试剂仪器"
+    ],
+    "stage": "revenue",
+    "fact": "食品安全快检及动物诊断，试剂仪器和服务。",
+    "company_fact": "食品安全快检及动物诊断，试剂仪器和服务。",
+    "ths_fact": "胶体金ELISA理化及PCR试剂等食品安全快检。",
+    "reason": "实际食品检测链比泛体外诊断更贴合。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300943.SZ",
+    "key": "natural_gas",
+    "sector": "天然气",
+    "source_sector_name": "天然气",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "燃气流体控制阀"
+    ],
+    "stage": "revenue",
+    "fact": "流体控制阀系统涵盖油气燃气供热空调等。",
+    "company_fact": "流体控制阀系统涵盖油气燃气供热空调等。",
+    "ths_fact": "新奥华润深圳燃气等客户，燃气控制产品有销售收入。",
+    "reason": "燃气控制为已证经营；原2026半年报春晖仪表仍参股38.69%权益法，收购剩余61.3106%尚在实施，不能冒认已控股航天供货。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "official-300943-h1-2026",
+        "source_kind": "official_filing",
+        "publisher": "春晖智控",
+        "title": "2026年半年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12522789&stockid=300943",
+        "published_at": "2026-08-25",
+        "assertions": [
+          "春晖仪表持股38.69%按权益法核算；收购剩余61.3106%股权事项尚在实施中。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "300945.SZ",
+    "key": "gold",
+    "sector": "黄金",
+    "source_sector_name": "黄金概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "黄金珠宝品牌零售"
+    ],
+    "stage": "revenue",
+    "fact": "珠宝创意品牌及连锁销售，覆盖多个年轻化品牌。",
+    "company_fact": "珠宝创意品牌及连锁销售，覆盖多个年轻化品牌。",
+    "ths_fact": "爱尚金为黄金素金饰品，另有甄嬛传联名黄金。",
+    "reason": "黄金饰品经营直接，文化IP是设计营销载体。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300946.SZ",
+    "key": "machine_tools",
+    "sector": "工业母机",
+    "source_sector_name": "工业母机",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "数控切削磨床与导轨"
+    ],
+    "stage": "revenue",
+    "fact": "金属切削工具、数控机床高精度螺纹磨床及滚动部件。",
+    "company_fact": "金属切削工具、数控机床高精度螺纹磨床及滚动部件。",
+    "ths_fact": "产品有锯床加工中心直线导轨；人形专用丝杠处研发产业化加速。",
+    "reason": "成熟母机及核心工部件实业充分，不将合资研发写成人形量产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300947.SZ",
+    "key": "property_management",
+    "sector": "物业管理",
+    "source_sector_name": "物业管理",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "文科创园区运营服务"
+    ],
+    "stage": "revenue",
+    "fact": "园区定位改造招商运营及企业增值服务。",
+    "company_fact": "园区定位改造招商运营及企业增值服务。",
+    "ths_fact": "运营包含物业，主营园区全流程服务。",
+    "reason": "园区运营真实，谷子为文旅街区业态不足取代业务主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300948.SZ",
+    "key": "soil_remediation",
+    "sector": "土壤修复",
+    "source_sector_name": "土壤修复",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "矿山土壤与生态恢复"
+    ],
+    "stage": "revenue",
+    "fact": "矿山荒漠边坡污染场地生态修复，多个实际工程。",
+    "company_fact": "矿山荒漠边坡污染场地生态修复，多个实际工程。",
+    "ths_fact": "土壤制备喷播工艺在高盐尾矿高寒裸岩等成功应用。",
+    "reason": "独特修复技术与在建实施项目交叉吻合。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300949.SZ",
+    "key": "ai_agents",
+    "sector": "AI智能体",
+    "source_sector_name": "AI智能体",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "文旅城市空间智能体"
+    ],
+    "stage": "product",
+    "fact": "城市更新景观设计和亲子文旅整体方案。",
+    "company_fact": "城市更新景观设计和亲子文旅整体方案。",
+    "ths_fact": "2026披露Urban Flow为自主研发城市文旅空间智能体。",
+    "reason": "具体行业AI产品可为主线，独立商业收入未证按产品；旧算力合作不作运营推定。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300950.SZ",
+    "key": "hydrogen_energy",
+    "sector": "氢能源",
+    "source_sector_name": "氢能源",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "制氢换热及储存装备"
+    ],
+    "stage": "delivery",
+    "fact": "换热预热器余热锅炉及专用压力装备。",
+    "company_fact": "换热预热器余热锅炉及专用压力装备。",
+    "ths_fact": "已为多个氢能客户提供换热储存装备。",
+    "reason": "实际制氢装备供货支撑氢能链，区别于自产氢。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300951.SZ",
+    "key": "virtual_reality",
+    "sector": "虚拟现实",
+    "source_sector_name": "虚拟现实",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "ARVR装备及光学功能膜"
+    ],
+    "stage": "revenue",
+    "fact": "精密功能件自动化装备，ARVR光学高端设备收入增长。",
+    "company_fact": "精密功能件自动化装备，ARVR光学高端设备收入增长。",
+    "ths_fact": "ARVR设备及光学膜研发，部分已有销售收入。",
+    "reason": "直接ARVR产品销售支撑新主线，传统手机功能件为背景。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300952.SZ",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "柔性防护件与腱绳材料"
+    ],
+    "stage": "delivery",
+    "fact": "防护手套并拓展机器人腱绳柔性防护皮肤。",
+    "company_fact": "防护手套并拓展机器人腱绳柔性防护皮肤。",
+    "ths_fact": "机器人手套腰封颈部包覆已商品交付使用。",
+    "reason": "人形防护件真实交付，不能因手套原主业排除新链。",
+    "basis": "crosschecked_sources"
+  }
+]

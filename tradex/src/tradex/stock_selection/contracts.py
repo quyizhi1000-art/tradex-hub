@@ -4,9 +4,12 @@ from __future__ import annotations
 
 import math
 from datetime import date, datetime
+from decimal import Decimal
 from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
+
+from tradex.data_gateway.contracts import ContractMetadata
 
 
 class SelectionModel(BaseModel):
@@ -379,6 +382,21 @@ class VolumeSurgeEvidenceV1(SelectionModel):
     prior_5d_average_volume_shares: float = Field(gt=0, allow_inf_nan=False)
     volume_multiple: float = Field(ge=2, allow_inf_nan=False)
     low: float | None = Field(default=None, gt=0, allow_inf_nan=False)
+    next_trade_date: date | None = None
+    next_volume_shares: float | None = Field(default=None, gt=0, allow_inf_nan=False)
+    next_volume_ratio: float | None = Field(default=None, gt=0, le=0.66, allow_inf_nan=False)
+
+    @model_validator(mode="after")
+    def validate_next_session(self):
+        supplied = (self.next_trade_date, self.next_volume_shares, self.next_volume_ratio)
+        if any(value is not None for value in supplied):
+            if any(value is None for value in supplied) or self.next_trade_date <= self.trade_date:
+                raise ValueError("volume confirmation requires the next session date and volume")
+            if not math.isclose(self.next_volume_ratio, self.next_volume_shares / self.volume_shares, rel_tol=1e-12):
+                raise ValueError("volume confirmation ratio does not match volumes")
+            if Decimal(str(self.next_volume_shares)) * 100 > Decimal(str(self.volume_shares)) * 66:
+                raise ValueError("next-session volume exceeds 66 percent")
+        return self
 
 
 class VolumeSurgeCandidateV1(SelectionModel):
@@ -411,7 +429,7 @@ class VolumeSurgeCandidateV1(SelectionModel):
 class VolumeSurgeScreenV1(SelectionModel):
     contract: Literal["stock_volume_surge_screen.v1"] = "stock_volume_surge_screen.v1"
     schema_version: Literal[1] = 1
-    screen_version: Literal["upward-volume-surge-main-board.v1", "upward-volume-surge-main-board.v2"] = "upward-volume-surge-main-board.v1"
+    screen_version: Literal["upward-volume-surge-main-board.v1", "upward-volume-surge-main-board.v2", "upward-volume-surge-main-board.v3"] = "upward-volume-surge-main-board.v1"
     title: str = "7 日向上放量"
     lookback_sessions: Literal[7] = 7
     baseline_sessions: Literal[5] = 5
@@ -434,11 +452,143 @@ class VolumeSurgeScreenV1(SelectionModel):
         ids = [item.instrument_id for item in self.candidates]
         if self.matched_count != len(ids) or len(ids) != len(set(ids)):
             raise ValueError("volume screen candidates must be unique and match count")
-        if self.screen_version.endswith(".v2") and any(
+        if self.screen_version.endswith((".v2", ".v3")) and any(
             item.anchor_trade_date is None or item.anchor_low is None
             or any(event.low is None for event in item.evidence) for item in self.candidates
         ):
-            raise ValueError("volume screen v2 requires price-floor evidence")
+            raise ValueError("volume screen v2/v3 requires price-floor evidence")
+        if self.screen_version.endswith(".v3") and any(
+            event.next_trade_date is None for item in self.candidates for event in item.evidence
+        ):
+            raise ValueError("volume screen v3 requires next-session volume confirmation")
+        return self
+
+
+class MacdJEvidenceV1(SelectionModel):
+    trade_date: date
+    dif: float = Field(allow_inf_nan=False)
+    dea: float = Field(allow_inf_nan=False)
+    k: float = Field(allow_inf_nan=False)
+    d: float = Field(allow_inf_nan=False)
+    j: float = Field(allow_inf_nan=False)
+
+
+class MacdJCandidateV1(SelectionModel):
+    signal_rule: Literal["fresh_cross", "bullish_state", "recent_cross_2_sessions", "strict_cross_v4", "pending_cross_v4", "strict_cross_v5", "pending_cross_v5"] = "fresh_cross"
+    macd_cross_date: date | None = None
+    macd_cross_age_sessions: int | None = Field(default=None, ge=0, le=2)
+    instrument_id: str = Field(pattern=r"^\d{6}\.(?:SH|SZ)$")
+    name: str
+    industry: str | None = None
+    reference_close: float = Field(gt=0, allow_inf_nan=False)
+    signal_trade_date: date
+    signal_group: Literal["same_day", "prior_3_sessions", "prior_1_session", "prior_2_sessions"]
+    zero_axis_zone: Literal["above_zero", "below_zero", "crossing_zero"]
+    j_turn_date: date
+    gap_sessions: int = Field(ge=0, le=3)
+    j_trough: float = Field(allow_inf_nan=False)
+    j_turn_value: float = Field(allow_inf_nan=False)
+    low_j_tags: tuple[Literal["J<20", "J<0"], ...] = ()
+    high_60: float | None = Field(default=None, gt=0, allow_inf_nan=False)
+    high_60_date: date | None = None
+    drawdown_60_pct: float | None = Field(default=None, allow_inf_nan=False)
+    ma5: float | None = Field(default=None, gt=0, allow_inf_nan=False)
+    volume_ratio: float | None = Field(default=None, ge=0, allow_inf_nan=False)
+    price_window_start: date | None = None
+    price_window_end: date | None = None
+    evidence: tuple[MacdJEvidenceV1, ...] = Field(min_length=6, max_length=6)
+
+    @model_validator(mode="after")
+    def validate_evidence(self):
+        dates = [p.trade_date for p in self.evidence]
+        if dates != sorted(set(dates)) or dates[-1] != self.signal_trade_date:
+            raise ValueError("MACD J evidence dates must be ordered and end on signal day")
+        if self.j_turn_date != dates[5 - self.gap_sessions]:
+            raise ValueError("J turn date must match session gap")
+        if (self.signal_group == "same_day") != (self.gap_sessions == 0):
+            raise ValueError("MACD J group must match session gap")
+        yesterday, today = self.evidence[-2:]
+        if self.signal_rule in {"strict_cross_v4", "pending_cross_v4", "strict_cross_v5", "pending_cross_v5"}:
+            from .macd_rules import v4_signal
+            from decimal import Decimal
+            kind, index = v4_signal(self.evidence, max_j_lead=2 if self.signal_rule.endswith("v5") else 1)
+            expected = "confirmed" if self.signal_rule.startswith("strict_cross_") else "pending_cross"
+            if kind != expected or index != 5-self.gap_sessions:
+                raise ValueError("v4 signal evidence mismatch")
+            if self.signal_group != ("same_day" if self.gap_sessions == 0 else "prior_2_sessions" if self.signal_rule.endswith("v5") else "prior_1_session"):
+                raise ValueError("v4 requires J today or previous session")
+            if (self.macd_cross_date, self.macd_cross_age_sessions) != (
+                    (self.signal_trade_date, 0) if kind == "confirmed" else (None, None)):
+                raise ValueError("v4 cross date mismatch")
+            if any(v is None for v in (self.high_60, self.high_60_date, self.ma5,
+                    self.volume_ratio, self.drawdown_60_pct, self.price_window_start, self.price_window_end)):
+                raise ValueError("v4 requires price and volume evidence")
+            if (Decimal(str(self.reference_close)) >= Decimal(str(self.high_60))*Decimal("0.8")
+                    or self.reference_close < self.ma5 or self.volume_ratio > 1.5
+                    or not math.isclose(self.drawdown_60_pct, (self.reference_close/self.high_60-1)*100, abs_tol=1e-9)
+                    or self.price_window_end != self.signal_trade_date
+                    or not self.price_window_start <= self.high_60_date <= self.price_window_end):
+                raise ValueError("v4 price or volume filter mismatch")
+            if self.j_trough != self.evidence[index-1].j or self.j_turn_value != self.evidence[index].j:
+                raise ValueError("v4 J turn values mismatch")
+            return self
+        if not (today.dif > today.dea and today.j > yesterday.j):
+            raise ValueError("candidate requires bullish MACD state and rising J")
+        if self.signal_rule == "fresh_cross" and yesterday.dif > yesterday.dea:
+            raise ValueError("candidate requires fresh MACD crossover")
+        if self.signal_rule == "recent_cross_2_sessions":
+            from .macd_rules import recent_macd_cross_index
+            cross = recent_macd_cross_index([p.dif-p.dea for p in self.evidence])
+            if (cross is None or self.macd_cross_date != dates[cross]
+                    or self.macd_cross_age_sessions != len(dates)-1-cross):
+                raise ValueError("candidate requires exact recent MACD cross evidence within two sessions")
+        index = 5 - self.gap_sessions
+        before, low, turn = self.evidence[index - 2:index + 1]
+        if not before.j > low.j < turn.j or self.j_trough != low.j or self.j_turn_value != turn.j:
+            raise ValueError("candidate requires dated J turning evidence")
+        return self
+
+
+class MacdJScreenV1(SelectionModel):
+    contract: Literal["stock_macd_j_screen.v1"] = "stock_macd_j_screen.v1"
+    schema_version: Literal[1] = 1
+    screen_version: Literal["macd-j-upturn-main-board.v1", "macd-j-upturn-main-board.v2", "macd-j-upturn-main-board.v3", "macd-j-upturn-main-board.v4", "macd-j-upturn-main-board.v5"] = "macd-j-upturn-main-board.v1"
+    title: str = "MACD 金叉 + J 线拐头"
+    quality: Literal["accepted", "degraded", "unavailable"]
+    universe_count: int = Field(ge=0)
+    board_eligible_count: int = Field(ge=0)
+    evaluated_count: int = Field(ge=0)
+    matched_count: int = Field(ge=0)
+    same_day_count: int = Field(ge=0)
+    prior_3_sessions_count: int = Field(ge=0)
+    candidates: tuple[MacdJCandidateV1, ...] = ()
+    pending_candidates: tuple[MacdJCandidateV1, ...] = ()
+    pending_count: int = Field(default=0, ge=0)
+    excluded_counts: dict[str, int]
+    source_metadata: tuple[ContractMetadata, ...] = ()
+    methodology: tuple[str, ...]
+    limitations: tuple[str, ...]
+
+    @model_validator(mode="after")
+    def validate_counts(self):
+        rule = {"v1": "fresh_cross", "v2": "bullish_state", "v3": "recent_cross_2_sessions", "v4": "strict_cross_v4", "v5": "strict_cross_v5"}[self.screen_version.rsplit(".", 1)[1]]
+        if (self.pending_count != len(self.pending_candidates)
+                or any(c.signal_rule != rule.replace("strict_cross_", "pending_cross_") for c in self.pending_candidates)
+                or (self.pending_candidates and rule not in {"strict_cross_v4", "strict_cross_v5"})
+                or len({c.instrument_id for c in (*self.candidates, *self.pending_candidates)}) != self.matched_count+self.pending_count
+                or self.matched_count+self.pending_count > self.evaluated_count):
+            raise ValueError("pending MACD candidates must be separate and counted")
+        if any(c.signal_rule != rule for c in self.candidates):
+            raise ValueError("MACD J candidate rule must match screen version")
+        if not self.matched_count <= self.evaluated_count <= self.board_eligible_count <= self.universe_count:
+            raise ValueError("MACD J coverage counts are inconsistent")
+        ids = [c.instrument_id for c in self.candidates]
+        if len(set(ids)) != len(ids) or len(ids) != self.matched_count:
+            raise ValueError("MACD J candidate count must match unique rows")
+        if self.same_day_count != sum(c.gap_sessions == 0 for c in self.candidates):
+            raise ValueError("same day count mismatch")
+        if self.prior_3_sessions_count != self.matched_count - self.same_day_count:
+            raise ValueError("prior three sessions count mismatch")
         return self
 
 
@@ -455,6 +605,7 @@ class StockSelectionStrategyDefinitionV1(SelectionModel):
         "stock_pattern_screen.v1",
         "stock_limit_up_tendency_screen.v1",
         "stock_volume_surge_screen.v1",
+        "stock_macd_j_screen.v1",
     ]
     evaluation_policy: Literal[
         "next_session_open_to_close_excess_return",
@@ -500,6 +651,7 @@ class StockSelectionStrategyResultV1(SelectionModel):
         "stock_pattern_screen.v1",
         "stock_limit_up_tendency_screen.v1",
         "stock_volume_surge_screen.v1",
+        "stock_macd_j_screen.v1",
     ]
     trade_date: date
     generated_at: datetime
@@ -513,6 +665,7 @@ class StockSelectionStrategyResultV1(SelectionModel):
         | StockPatternScreenV1
         | LimitUpTendencyScreenV1
         | VolumeSurgeScreenV1
+        | MacdJScreenV1
     )
 
     @field_validator("generated_at", "source_provider_as_of")
@@ -526,9 +679,15 @@ class StockSelectionStrategyResultV1(SelectionModel):
     def validate_payload_contract(self) -> "StockSelectionStrategyResultV1":
         if self.payload.contract != self.result_contract:
             raise ValueError("strategy result contract must match its payload")
+        if isinstance(self.payload, MacdJScreenV1) and self.payload.screen_version != f"{self.strategy_id}.{self.strategy_version}":
+            raise ValueError("MACD J strategy version must match screen version")
         payload_quality = getattr(self.payload, "quality", self.source_quality)
         if payload_quality != self.quality:
             raise ValueError("strategy result quality must match its payload")
+        if isinstance(self.payload, VolumeSurgeScreenV1) and self.payload.screen_version.endswith(".v3"):
+            if any(event.next_trade_date > self.trade_date
+                   for candidate in self.payload.candidates for event in candidate.evidence):
+                raise ValueError("volume confirmation cannot use a session after the archive date")
         return self
 
 

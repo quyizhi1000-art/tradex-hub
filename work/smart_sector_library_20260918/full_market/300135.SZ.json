@@ -1,0 +1,66 @@
+{
+  "instrument_id": "300135.SZ",
+  "name": "宝利国际",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "300135.SZ",
+    "name": "宝利国际",
+    "memberships": [
+      "石油石化",
+      "炼化及贸易",
+      "其他石化",
+      "江苏板块",
+      "创业板综",
+      "机构重仓",
+      "低空经济",
+      "中俄贸易概念",
+      "一带一路",
+      "央国企改革",
+      "通用航空"
+    ],
+    "business_sections": [
+      {
+        "title": "沥青和通用航空业务",
+        "kind": "主营业务",
+        "text": "公司主营业务包括沥青业务和通用航空业务。沥青业务主要产品为改性沥青的研发、生产和销售，通用航空业务主要为直升机运营、销售、租赁、保障及维修等。"
+      },
+      {
+        "title": "品牌优势",
+        "kind": "核心竞争力",
+        "text": "经过多年的精心经营，凭借稳定的产品质量和完善的售后服务，公司在行业内享有良好的声誉，公司相关产品在下游客户中具有一定知名度，逐步形成品牌优势。报告期内，公司持续推进品牌和产品的宣传，致力于进一步提升品牌知名度。"
+      },
+      {
+        "title": "产品及技术创新优势",
+        "kind": "核心竞争力",
+        "text": "公司产品种类齐全，已形成完整的产品系列和齐全的产品规格，满足不同类型客户需求的能力较强。目前公司可以提供的产品包括通用型SBS改性沥青、SBR改性沥青、EVA改性沥青、PE改性沥青、普通乳化沥青、改性乳化沥青、高速铁路专用乳化沥青、高粘度改性沥青、高弹性改性沥青、废橡塑改性沥青、环氧改性沥青、50#至110#道路石油沥青、高强度结构沥青料等。此外，公司一直以来高度注重技术研发，倡导技术创新，以提升公司产品的市场竞争力。"
+      },
+      {
+        "title": "专业团队优势",
+        "kind": "核心竞争力",
+        "text": "公司业务团队由具备多学科背景的复合型人才组成，由技术专家、营销精英、经营管理等互补人才构成专业团队；在运营管理方面，公司注重稳健发展和风险控制，实施健康的财务体系，强化抗风险能力建设。"
+      },
+      {
+        "title": "股东背景及上市公司平台优势",
+        "kind": "核心竞争力",
+        "text": "报告期内，公司实际控制人变更为池州市国资委，公司成为国有控股上市公司，强大的股东背景为公司品牌和信誉带来增信，公司在市场开拓、融资等多方面更具竞争优势。同时，公司作为上市平台，受到合作伙伴、客户和投资者广泛关注，有利于提升行业知名度，形成品牌效应，并享有资本平台多元融资优势，为公司发展提供资金保障。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ300135",
+    "fetched_at": "2026-09-18T23:03:01.590531+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "油气"
+}

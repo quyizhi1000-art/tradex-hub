@@ -1,0 +1,55 @@
+{
+  "instrument_id": "300241.SZ",
+  "name": "瑞丰光电",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "300241.SZ",
+    "name": "瑞丰光电",
+    "memberships": [
+      "电子",
+      "光学光电子",
+      "LED",
+      "广东板块",
+      "创业板综",
+      "股权激励",
+      "机构重仓",
+      "电子纸概念",
+      "植物照明",
+      "激光雷达",
+      "MicroLED",
+      "MiniLED",
+      "智能家居",
+      "LED概念",
+      "深圳特区"
+    ],
+    "business_sections": [
+      {
+        "title": "LED产品、电子纸产品",
+        "kind": "主营业务",
+        "text": "公司是专业从事LED封装及提供相关解决方案的国家级高新技术企业，也是国内封装领域领军企业。报告期内，公司的主营业务为LED封装技术的研发和LED封装产品制造、销售，提供从LED封装工艺结构设计、光学设计、驱动设计、散热设计、LED器件封装、技术服务到标准光源模组集成的LED光源整体解决方案。作为全球光电技术的创新型科技企业，公司以“创新科技丰富人类生活”为使命，深耕LED光源及产品解决方案，业务覆盖LED照明、车用、触显、MiniLED显示等前沿领域，致力于为客户提供高品质、高附加值的创新产品方案，引领行业发展。"
+      },
+      {
+        "title": "核心竞争力",
+        "kind": "核心竞争力",
+        "text": "（一）管理优势\n2022年,公司内部流程得到了进一步提升,各项信息化项目也在陆续地开展,为公司在未来发展奠定了坚实的基础。公司在成本管控、系统优化、库存管理、客诉改善、人效提升方面持续精进,同时,全面提高生产精细化管控能力,优化管理流程,减少冗余资源投入,优化和完善选人用人机制及绩效管理体系,提升公司管理能力。公司还引进和提拔新的人才,不断完善绩效评价和人才激励机制、内控体系以及通过不断加强内部审计监督等措施,使得公司及子公司各项内控制度能够得到有效实施。\n（二）客户优势\n公司在 LED 行业深耕多年,积累了丰富的行业服务经验,能够针对客户的不同需求快速影响,为客户提供高质量的LED 光源整体解决方案。多年来公司凭借过硬的产品研发与制造能力及高品质的服务,赢得了众多国内外客户的信任,并与之建立长期稳定的合作关系。2022年,公司在维护存量客户的基础上,积极拓展新客户,特别是显示、车用、触控显示及电子纸领域,取得了一定的进展。\n（三）研发优势\n公司作为国家级高新技术企业,同时拥有国家级实验室,公司始终将创新与品质放在首位。为持续提升产品竞争力,公司不断加大研发投入,完善研发管理体系,积极探索行业前沿技术,发技术创新驱动未来发展。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ300241",
+    "fetched_at": "2026-09-18T23:05:12.341219+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "LED"
+}

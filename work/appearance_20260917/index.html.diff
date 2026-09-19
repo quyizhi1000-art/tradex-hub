@@ -1,0 +1,59 @@
+--- 
+
++++ 
+
+@@ -5,4 +5,13 @@
+
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+     <title>盘面刹车器 · Tradex</title>
++    <script>
++      // Restore appearance before paint; invalid or unavailable storage uses the soft default.
++      (() => {
++        let preference = {};
++        try { preference = JSON.parse(localStorage.getItem("tradex.marketWatch.appearance.v1")) || {}; } catch {}
++        document.documentElement.dataset.theme = ["paper", "mist", "sage", "graphite", "classic"].includes(preference.theme) ? preference.theme : "paper";
++        document.documentElement.dataset.layout = ["comfortable", "compact", "wide"].includes(preference.layout) ? preference.layout : "comfortable";
++      })();
++    </script>
+     <link rel="stylesheet" href="/watch/styles.css">
+     <link rel="stylesheet" href="/watch/sector-catalog.css">
+@@ -21,4 +30,7 @@
+
+           </div>
+         </div>
++        <button class="button button-secondary appearance-trigger" id="appearance-button" type="button" popovertarget="appearance-panel" aria-haspopup="dialog" aria-expanded="false">
++          <span aria-hidden="true">◐</span> 外观 · <span id="appearance-current">暖纸米白</span>
++        </button>
+         <div class="toolbar" aria-label="刷新与提醒控制">
+           <span class="poll-status" id="poll-status">等待首份盘面</span>
+@@ -40,4 +52,29 @@
+
+         </div>
+       </header>
++
++      <div class="appearance-panel" id="appearance-panel" popover role="dialog" aria-labelledby="appearance-title">
++        <div class="appearance-heading">
++          <div><h2 id="appearance-title">让看盘轻松一点</h2><p>点击即切换，自动记住你的选择。</p></div>
++          <button class="button button-secondary" type="button" popovertarget="appearance-panel" popovertargetaction="hide" aria-label="关闭外观设置">×</button>
++        </div>
++        <fieldset class="appearance-fieldset"><legend>页面配色</legend>
++          <div class="appearance-themes">
++            <button type="button" class="appearance-choice" data-appearance-theme="paper" aria-pressed="true"><span class="appearance-swatch" style="--sample-bg:#f1eee6;--sample-panel:#faf8f2;--sample-accent:#826744" aria-hidden="true"><i></i><i></i><i></i></span><strong>暖纸米白</strong><small>柔和暖底 · 长时间阅读</small><span class="appearance-selected" aria-hidden="true">✓ 已选</span></button>
++            <button type="button" class="appearance-choice" data-appearance-theme="mist" aria-pressed="false"><span class="appearance-swatch" style="--sample-bg:#e8edf2;--sample-panel:#f5f7fa;--sample-accent:#486d94" aria-hidden="true"><i></i><i></i><i></i></span><strong>雾蓝浅灰</strong><small>清爽浅灰 · 层次分明</small><span class="appearance-selected" aria-hidden="true">✓ 已选</span></button>
++            <button type="button" class="appearance-choice" data-appearance-theme="sage" aria-pressed="false"><span class="appearance-swatch" style="--sample-bg:#e7ece4;--sample-panel:#f3f6ef;--sample-accent:#526e50" aria-hidden="true"><i></i><i></i><i></i></span><strong>鼠尾草绿</strong><small>低饱和绿 · 安静自然</small><span class="appearance-selected" aria-hidden="true">✓ 已选</span></button>
++            <button type="button" class="appearance-choice" data-appearance-theme="graphite" aria-pressed="false"><span class="appearance-swatch" style="--sample-bg:#25272b;--sample-panel:#303237;--sample-accent:#b4b9ca" aria-hidden="true"><i></i><i></i><i></i></span><strong>柔和石墨</strong><small>中性深灰 · 减少炫光</small><span class="appearance-selected" aria-hidden="true">✓ 已选</span></button>
++            <button type="button" class="appearance-choice" data-appearance-theme="classic" aria-pressed="false"><span class="appearance-swatch" style="--sample-bg:#071016;--sample-panel:#13232d;--sample-accent:#55c8d2" aria-hidden="true"><i></i><i></i><i></i></span><strong>经典深青</strong><small>保留原来的配色</small><span class="appearance-selected" aria-hidden="true">✓ 已选</span></button>
++          </div>
++        </fieldset>
++        <fieldset class="appearance-fieldset"><legend>桌面布局</legend>
++          <div class="appearance-layouts">
++            <button class="appearance-choice" type="button" data-appearance-layout="comfortable" aria-pressed="true"><strong>舒展阅读</strong><small>留白更多，逐区查看</small></button>
++            <button class="appearance-choice" type="button" data-appearance-layout="compact" aria-pressed="false"><strong>紧凑看盘</strong><small>缩小间距，同屏更多</small></button>
++            <button class="appearance-choice" type="button" data-appearance-layout="wide" aria-pressed="false"><strong>宽屏工作台</strong><small>铺满窗口，展开图表</small></button>
++          </div>
++        </fieldset>
++        <p class="appearance-note">涨红跌绿和板块曲线颜色保持一致；曲线区保留深色底，方便分辨。</p>
++        <p class="appearance-status" id="appearance-status" role="status" aria-live="polite"></p>
++      </div>
+ 
+       <aside class="risk-overlay is-visible" id="data-risk-overlay" role="alert" aria-live="assertive">

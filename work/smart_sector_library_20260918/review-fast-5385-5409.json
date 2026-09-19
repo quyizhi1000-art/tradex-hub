@@ -1,0 +1,402 @@
+[
+  {
+    "id": "920268.BJ",
+    "key": "medical_devices",
+    "sector": "医疗器械",
+    "source_sector_name": "医疗器械概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "外科缝线及手术耗材"
+    ],
+    "stage": "revenue",
+    "fact": "手术缝线已进入近3000家医院，另有多肽合成设备。",
+    "company_fact": "手术缝线已进入近3000家医院，另有多肽合成设备。",
+    "ths_fact": "外科缝线、栓塞和止血材料研发生产销售。",
+    "reason": "已获证并商业销售的手术器械身份清晰，不因多肽设备客户推定自产药物。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920269.BJ",
+    "key": "hydrogen_energy",
+    "sector": "氢能源",
+    "source_sector_name": "氢能源",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "氢气循环泵及密封阀"
+    ],
+    "stage": "revenue",
+    "fact": "汽车排气动力系统为基础，氢燃料电池零部件已量产销售。",
+    "company_fact": "汽车排气动力系统为基础，氢燃料电池零部件已量产销售。",
+    "ths_fact": "2026年8月24日明确氢气循环泵、电控密封阀量产销售。",
+    "reason": "有真实氢能源核心部件收入支撑新主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920270.BJ",
+    "key": "body_accessories_trim",
+    "sector": "车身附件及饰件",
+    "source_sector_name": "车身附件及饰件",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "越野绞盘与电动踏板"
+    ],
+    "stage": "revenue",
+    "fact": "绞盘、电动踏板、空压机及车身改装件研发销售。",
+    "company_fact": "绞盘、电动踏板、空压机及车身改装件研发销售。",
+    "ths_fact": "军工解析同样确认越野改装件，机器人仅合作开发，Cybertruck踏板送样。",
+    "reason": "成熟越野改装产品身份充分，机器人合作尚不构成已商业化的新主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920271.BJ",
+    "key": "low_altitude_economy",
+    "sector": "低空经济",
+    "source_sector_name": "低空经济",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "低空飞行器散热器"
+    ],
+    "stage": "delivery",
+    "fact": "热交换器研发生产，汽车冷凝器和油冷器为基础。",
+    "company_fact": "热交换器研发生产，汽车冷凝器和油冷器为基础。",
+    "ths_fact": "2025年9月官微明确低空散热器小批供货；2026年新款低空、AI散热器研发验证后拟试产。",
+    "reason": "既有低空产品交付与新款试产分开，不把AI新品验证写成液冷规模销售。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920273.BJ",
+    "key": "prepared_food",
+    "sector": "预制菜",
+    "source_sector_name": "预制菜",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "魔芋预制食材"
+    ],
+    "stage": "revenue",
+    "fact": "魔芋精深加工，产品含亲水胶体、休闲食品及预制食材。",
+    "company_fact": "魔芋精深加工，产品含亲水胶体、休闲食品及预制食材。",
+    "ths_fact": "以一致品牌魔芋预制菜拓展餐饮渠道。",
+    "reason": "真实预制食材业务支撑消费题材，宠物原料销量较小且并行。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920274.BJ",
+    "key": "plastic_packaging",
+    "sector": "塑料包装",
+    "source_sector_name": "塑料包装",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "复合膜袋与食品注塑容器"
+    ],
+    "stage": "revenue",
+    "fact": "彩印复合膜袋、食品级注塑容器及包装新材料研发销售。",
+    "company_fact": "彩印复合膜袋、食品级注塑容器及包装新材料研发销售。",
+    "ths_fact": "与安琪、盼盼、蒙牛、伊利等食品客户长期合作；锂电软包装为募投布局。",
+    "reason": "成熟食品等塑料包装业务明确，不以未核交付的锂电项目替代。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920275.BJ",
+    "key": "pet_economy",
+    "sector": "宠物经济",
+    "source_sector_name": "宠物经济",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "宠物营养主粮"
+    ],
+    "stage": "product",
+    "fact": "动物造血营养添加剂、预混料及全价配合饲料。",
+    "company_fact": "动物造血营养添加剂、预混料及全价配合饲料。",
+    "ths_fact": "2023年半年报确认造血产品矩阵扩展至宠物，研发皇上宠品牌主粮。",
+    "reason": "有具名宠物产品支撑延展，未将产品推出直接认定宠物收入；合成生物尚建设研究室。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920278.BJ",
+    "key": "medical_devices",
+    "sector": "医疗器械",
+    "source_sector_name": "医疗器械概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "家用监测及康护设备"
+    ],
+    "stage": "revenue",
+    "fact": "家用心脑血管监测、呼吸治疗康复和健康设备产销。",
+    "company_fact": "家用心脑血管监测、呼吸治疗康复和健康设备产销。",
+    "ths_fact": "血压计、听诊器等家用医疗器械有自主技术及销售。",
+    "reason": "自有医疗器械业务明确，跨境电商是销售方式；参股宠物设备不混作自身主营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920284.BJ",
+    "key": "lithium_batteries",
+    "sector": "锂电池",
+    "source_sector_name": "锂电池概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "锂电制浆及粉料自动化"
+    ],
+    "stage": "revenue",
+    "fact": "物料处理系统覆盖输送配料混合，应用新能源等行业。",
+    "company_fact": "物料处理系统覆盖输送配料混合，应用新能源等行业。",
+    "ths_fact": "双螺杆制浆、正负极材料生产线服务锂电客户，获宁德时代设备合同。",
+    "reason": "成熟锂电生产设备支撑充分，固态仅联合研发阶段性成果。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920288.BJ",
+    "key": "specialty_paper",
+    "sector": "特种纸",
+    "source_sector_name": "特种纸",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "数码纸基材料及食品包装纸"
+    ],
+    "stage": "revenue",
+    "fact": "数码印花纸基新材料、水性墨及食品包装材料制造。",
+    "company_fact": "数码印花纸基新材料、水性墨及食品包装材料制造。",
+    "ths_fact": "上市解析确认上述绿色特色产品研发制造销售。",
+    "reason": "特种纸产品身份直接，不能凭以纸代塑用途添加该股未列概念。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920289.BJ",
+    "key": "lithium_batteries",
+    "sector": "锂电池",
+    "source_sector_name": "锂电池概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "正极材料纳米研磨装备"
+    ],
+    "stage": "revenue",
+    "fact": "正极研磨系统、纳米砂磨机和制浆机为成熟装备，2024年新拓数控机床。",
+    "company_fact": "正极研磨系统、纳米砂磨机和制浆机为成熟装备，2024年新拓数控机床。",
+    "ths_fact": "纳米砂磨机已进入湖南裕能、万润新能、贝特瑞供应体系。",
+    "reason": "锂电材料制造装备客户与销售明确，工业母机为并行新产品方向。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920298.BJ",
+    "key": "chips",
+    "sector": "芯片",
+    "source_sector_name": "芯片概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "半导体设备精密零部件"
+    ],
+    "stage": "revenue",
+    "fact": "精密零部件制造服务半导体、分析仪器、油气等高端装备。",
+    "company_fact": "精密零部件制造服务半导体、分析仪器、油气等高端装备。",
+    "ths_fact": "实际主要产品列半导体设备零部件及其他精密零件。",
+    "reason": "现有芯片题材对应设备零部件，不称芯片设计或制造，多领域业务保留链条说明。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920299.BJ",
+    "key": "smart_grid",
+    "sector": "智能电网",
+    "source_sector_name": "智能电网",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "电能质量监测系统"
+    ],
+    "stage": "revenue",
+    "fact": "电能质量监测装置和系统销售国家及地方电网。",
+    "company_fact": "电能质量监测装置和系统销售国家及地方电网。",
+    "ths_fact": "PQS-883支持各电压等级智能变电站在线监测和IEC61850传输。",
+    "reason": "直接电网监测产品充分，灿能云为电能质量服务平台，不等于运营AI算力中心。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920300.BJ",
+    "key": "superconductors",
+    "sector": "超导",
+    "source_sector_name": "超导概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "超导磁体与MRI硬件"
+    ],
+    "stage": "revenue",
+    "fact": "超导MRI系统、磁体及射频探测器研发销售。",
+    "company_fact": "超导MRI系统、磁体及射频探测器研发销售。",
+    "ths_fact": "超导MRI核心硬件及特种磁体为实际产品，半导体磁模块已研发完成。",
+    "reason": "超导技术贯穿医疗与科研实物业务，不凭名单推定核聚变交付。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920304.BJ",
+    "key": "molten_salt_energy_storage",
+    "sector": "熔盐储能",
+    "source_sector_name": "熔盐储能",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "储热熔盐"
+    ],
+    "stage": "orders",
+    "fact": "硝酸产业链生产硝酸盐、储能熔盐及水溶肥。",
+    "company_fact": "硝酸产业链生产硝酸盐、储能熔盐及水溶肥。",
+    "ths_fact": "多个光热项目及江苏国信淮安压缩空气储能项目有熔盐供应订单。",
+    "reason": "熔盐是明确订单产品，不能将项目签约全部视为已确认收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920339.BJ",
+    "key": "led",
+    "sector": "LED",
+    "source_sector_name": "LED概念",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "工业与商业LED灯具"
+    ],
+    "stage": "revenue",
+    "fact": "LED灯具研发制造销售，应用工业、办公、商业照明。",
+    "company_fact": "LED灯具研发制造销售，应用工业、办公、商业照明。",
+    "ths_fact": "越南灯具生产基地2023年已投产试运营并获新增订单。",
+    "reason": "双源确认实体照明业务，LED属于已有概念。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920344.BJ",
+    "key": "recombinant_proteins",
+    "sector": "重组蛋白",
+    "source_sector_name": "重组蛋白",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "重组干扰素药物"
+    ],
+    "stage": "revenue",
+    "fact": "人干扰素α1b多剂型产销，运德素喷雾剂已有销售增长。",
+    "company_fact": "人干扰素α1b多剂型产销，运德素喷雾剂已有销售增长。",
+    "ths_fact": "重组基因工程蛋白药物研发产业化，多种干扰素表达纯化及制剂平台。",
+    "reason": "直接重组蛋白药物商业化充分；胶原原料生产与器械中试不能当终端获批销售。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920346.BJ",
+    "key": "low_altitude_economy",
+    "sector": "低空经济",
+    "source_sector_name": "低空经济",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "飞行汽车连接线束"
+    ],
+    "stage": "orders",
+    "fact": "线束、注塑、PCBA及线圈一体化连接控制方案。",
+    "company_fact": "线束、注塑、PCBA及线圈一体化连接控制方案。",
+    "ths_fact": "已获小鹏汇天飞行汽车控制台和充电系统线束项目定点。",
+    "reason": "具体飞行汽车项目定点支持主线，保留orders而非批量收入；人形仍战略合作验证。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920351.BJ",
+    "key": "shipping",
+    "sector": "航运",
+    "source_sector_name": "航运概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "江海联运与国际船代"
+    ],
+    "stage": "revenue",
+    "fact": "长沙至上海、岳阳至洋山等集装箱江海联运及货运代理。",
+    "company_fact": "长沙至上海、岳阳至洋山等集装箱江海联运及货运代理。",
+    "ths_fact": "国际物流代理、航运、公路服务及具体江海运输航线。",
+    "reason": "实际航运服务比未提供产品依据的低空标签更充分。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920357.BJ",
+    "key": "pcb",
+    "sector": "PCB",
+    "source_sector_name": "PCB概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "PCBA电子装联"
+    ],
+    "stage": "revenue",
+    "fact": "PCBA控制板制造服务汽车、消费电子及工控。",
+    "company_fact": "PCBA控制板制造服务汽车、消费电子及工控。",
+    "ths_fact": "BOM优化、电子装联、检验测试等PCBA制造服务明确。",
+    "reason": "PCB产业链实为装联服务，毫米波舱内感知仍研制，不写成雷达量产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920363.BJ",
+    "key": "satellite_navigation",
+    "sector": "卫星导航",
+    "source_sector_name": "卫星导航",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "激光与卫星定位系统"
+    ],
+    "stage": "product",
+    "fact": "激光测量、距离与角度传感控制及智能定位产品。",
+    "company_fact": "激光测量、距离与角度传感控制及智能定位产品。",
+    "ths_fact": "工程定位产品包含卫星导航定位系统，用于工程与农业整平。",
+    "reason": "卫星导航为已存在具体产品，不等于商业航天布局已成订单。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920367.BJ",
+    "key": "api_pharmaceuticals",
+    "sector": "原料药",
+    "source_sector_name": "原料药",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "葡萄糖酸盐原料药"
+    ],
+    "stage": "revenue",
+    "fact": "葡萄糖酸钙锌等原料药直销三精、澳诺等制剂客户，并产销化药中药。",
+    "company_fact": "葡萄糖酸钙锌等原料药直销三精、澳诺等制剂客户，并产销化药中药。",
+    "ths_fact": "有维C咀嚼片、复方银翘氨敏胶囊等实际产品及线上销售渠道；AI和创新药解析涉及联营或参股企业。",
+    "reason": "既有原料药产业身份有实际客户支撑；投资AI与创新药不能混作并表制药收入，控制和具体进展再核。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920368.BJ",
+    "key": "bc_battery",
+    "sector": "BC电池",
+    "source_sector_name": "BC电池",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "BC电池丝网印刷装备"
+    ],
+    "stage": "orders",
+    "fact": "光伏及半导体晶体生长加工装备与整线服务。",
+    "company_fact": "光伏及半导体晶体生长加工装备与整线服务。",
+    "ths_fact": "2024年报明确BC技术相关丝网印刷设备取得批量订单。",
+    "reason": "自有BC装备订单支撑主线，不以参股拉普拉斯TOPCon业务冒充本体收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920370.BJ",
+    "key": "waste_sorting",
+    "sector": "垃圾分类",
+    "source_sector_name": "垃圾分类",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "城乡垃圾收集分类运输"
+    ],
+    "stage": "revenue",
+    "fact": "城乡环境治理、再生资源与固废资源化运营。",
+    "company_fact": "城乡环境治理、再生资源与固废资源化运营。",
+    "ths_fact": "主营包含道路垃圾清扫收集、生活垃圾分类及经营性运输。",
+    "reason": "实际环卫运营身份清晰，DeepSeek接入为内部管理，不代表对外AI业务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920371.BJ",
+    "key": "prepared_food",
+    "sector": "预制菜",
+    "source_sector_name": "预制菜",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "预制蛋品"
+    ],
+    "stage": "revenue",
+    "fact": "蛋液、蛋粉及蛋皮炒蛋欧姆蛋等预制蛋品供应餐饮零售。",
+    "company_fact": "蛋液、蛋粉及蛋皮炒蛋欧姆蛋等预制蛋品供应餐饮零售。",
+    "ths_fact": "2023年半年报确认预制蛋品业务及欧姆蛋、炒蛋、蛋皮丝等产品。",
+    "reason": "实际预制食品生产销售支撑主线，不将基础蛋液原料全部混为预制菜。",
+    "basis": "crosschecked_sources"
+  }
+]

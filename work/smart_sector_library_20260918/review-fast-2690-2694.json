@@ -1,0 +1,107 @@
+[
+  {
+    "id": "301303.SZ",
+    "key": "robotics",
+    "sector": "机器人",
+    "source_sector_name": "机器人概念",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "工业机器人本体"
+    ],
+    "company_fact": "现有仪表及汽车零件业务，机器人收购另核半年报。",
+    "ths_fact": "签约收购芜湖藦卡，标的含焊接六轴SCARA，不涉及人形。",
+    "fact": "现有仪表及汽车零件业务，机器人收购另核半年报。",
+    "reason": "原半年报明确7月28日已完成工商变更及具体工业机器人产品，选机器人；不沿用仅拟收购，也不把收购后经营当H1并表收入。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "official-301303.SZ-12526922",
+        "source_kind": "official_filing",
+        "publisher": "真兰仪表",
+        "title": "2026年半年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12526922&stockid=301303",
+        "published_at": "2026-08-25",
+        "assertions": [
+          "7月28日收购芜湖藦卡完成工商变更，披露焊接六轴SCARA工业机器人产品。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "301305.SZ",
+    "key": "synthetic_biology",
+    "sector": "合成生物",
+    "source_sector_name": "合成生物",
+    "source_sector_provider": "同花顺",
+    "stage": "pilot",
+    "chain": [
+      "母乳低聚糖生物合成"
+    ],
+    "company_fact": "合成生物智造为两大主营之一，HMOs多品种完成中试放大。",
+    "ths_fact": "主营包含生物质资源再生和合成生物智造。",
+    "fact": "合成生物智造为两大主营之一，HMOs多品种完成中试放大。",
+    "reason": "自有基因编辑发酵平台与HMO中试支撑合成生物主线；创新RDC多肽仅基础研究，不写临床商业化。"
+  },
+  {
+    "id": "301306.SZ",
+    "key": "commercial_space",
+    "sector": "商业航天",
+    "source_sector_name": "商业航天",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "航天电子检测",
+      "可靠性试验"
+    ],
+    "company_fact": "航空航天电子装备检测筛选装联可靠性电磁兼容综合服务。",
+    "ths_fact": "向卫星相关客户提供测试，包括已公开探测器项目服务。",
+    "fact": "航空航天电子装备检测筛选装联可靠性电磁兼容综合服务。",
+    "reason": "既有航天题材有实际检测服务，不以测试存储芯片改称芯片制造，不把探测器服务全称商业发射。"
+  },
+  {
+    "id": "301307.SZ",
+    "key": "integrated_die_casting",
+    "sector": "一体化压铸",
+    "source_sector_name": "一体化压铸",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "汽车一体化精密压铸"
+    ],
+    "company_fact": "通信结构件及汽车电驱车身热管理等精密压铸件。",
+    "ths_fact": "多个一体化压铸产品成功量产，有协同设计开发和制造。",
+    "fact": "通信结构件及汽车电驱车身热管理等精密压铸件。",
+    "reason": "已有压铸题材落地最清晰；补查H1已量产液冷主要指通信基站，服务器合作不可直接扩大成服务器量产收入。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "official-301307.SZ-12527236",
+        "source_kind": "official_filing",
+        "publisher": "美利信",
+        "title": "2026年半年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12527236&stockid=301307",
+        "published_at": "2026-08-25",
+        "assertions": [
+          "报告明确5G-A基站液冷产品规模量产；信创智冷75%列子公司，不据此推导服务器产品量产。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "301308.SZ",
+    "key": "memory_chips",
+    "sector": "存储芯片",
+    "source_sector_name": "存储芯片",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "存储器",
+      "主控芯片设计封测"
+    ],
+    "company_fact": "存储及主控研发设计封测销售，覆盖消费企业汽车工业级。",
+    "ths_fact": "同时有主控及小容量存储芯片设计，多款自研主控用于UFS eMMC等。",
+    "fact": "存储及主控研发设计封测销售，覆盖消费企业汽车工业级。",
+    "reason": "完整自有存储软硬件与市场存储芯片主线一致，不被某一终端客户概念替代。"
+  }
+]

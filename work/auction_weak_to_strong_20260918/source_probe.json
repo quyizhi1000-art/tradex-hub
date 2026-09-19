@@ -1,0 +1,21 @@
+{
+  "metadata": {
+    "contract": "opening_auction_market.v1",
+    "schema_version": 1,
+    "provider": "tushare",
+    "provider_request_id": null,
+    "provider_as_of": "2026-09-18T09:25:00+08:00",
+    "fetched_at": "2026-09-18T15:16:56.535440+08:00",
+    "quality": "accepted",
+    "quality_flags": []
+  },
+  "trading_date": "2026-09-18",
+  "instrument_count": 5565,
+  "excluded_row_count": 0,
+  "provider_row_count": 5565,
+  "up_count": 3884,
+  "down_count": 1020,
+  "flat_count": 661,
+  "total_volume_shares": 1036105300.0,
+  "total_amount_cny": 18376576028.0
+}

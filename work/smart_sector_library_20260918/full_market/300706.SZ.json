@@ -1,0 +1,71 @@
+{
+  "instrument_id": "300706.SZ",
+  "name": "阿石创",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "300706.SZ",
+    "name": "阿石创",
+    "memberships": [
+      "电子",
+      "半导体",
+      "半导体材料",
+      "福建板块",
+      "专精特新",
+      "创业板综",
+      "深股通",
+      "玻璃基板",
+      "柔性屏(折叠屏)",
+      "存储芯片",
+      "复合集流体",
+      "半导体概念",
+      "HJT电池",
+      "OLED",
+      "光伏概念",
+      "新材料"
+    ],
+    "business_sections": [
+      {
+        "title": "PVD镀膜材料的研发、生产与销售",
+        "kind": "主营业务",
+        "text": "公司深耕PVD镀膜材料领域二十余载，是国家级专精特新小巨人、国家制造业单项冠军企业，专业从事PVD镀膜材料的研发、生产与销售，自主研发了超200款镀膜材料，已构建涵盖溅射靶材、蒸镀材料和镀膜配件等全品类PVD镀膜材料产品体系。主要产品覆盖平板显示、光学光通信、半导体、新能源四大应用领域。"
+      },
+      {
+        "title": "技术研发优势",
+        "kind": "核心竞争力",
+        "text": "公司拥有经验丰富的技术管理团队和技术支持团队。核心技术人员和研发团队深耕PVD镀膜材料领域，具有深厚的专业知识和丰富的实践经验。公司始终重视研发团队的建设，持续加大研发投入，形成多项自主专利技术成果，先后设立了博士后科研工作站、福建省镀膜靶材企业工程技术研究中心、福建省企业技术中心等国家级、省级科研平台，打造了一支国内领先的技术研发团队。"
+      },
+      {
+        "title": "全链条自主可控精益生产优势",
+        "kind": "核心竞争力",
+        "text": "公司拥有专业技术研发团队，具备特种设备自主设计、定制开发及升级改造能力，可以确保生产过程的稳定性和产品质量的一致性。"
+      },
+      {
+        "title": "CNAS认可实验室拓宽长期竞争护城河",
+        "kind": "核心竞争力",
+        "text": "CNAS认可实验室为研发迭代提供精准数据支撑，实现靶材全生命周期闭环质量管控，保障靶材性能的稳定性与一致性。实验室配备GDMS、ICP-OES、XRF等国际一流检测设备，构建了全方位分析与评价体系，可实现ppb级痕量杂质的精准检测，全面覆盖靶材纯度检测、成分分析、微观结构表征、溅射性能测试等关键环节。"
+      },
+      {
+        "title": "提供一站式解决方案能力的优势",
+        "kind": "核心竞争力",
+        "text": "公司建立PVD薄膜实验室，掌握蒸镀与磁控溅射镀膜技术，薄膜方案设计，薄膜性能分析与评价等核心技术；可紧密贴近下游需求，为客户提供多样化的PVD镀膜材料供应、膜系设计、工艺开发、制备技术实现等一站式解决方案，从镀膜材料到镀膜工艺系统性的进行新产品开发和应用推广，从产品咨询、技术交流、材料研发、检验检测及售后服务等全链条全品类的精准服务，有利于降低客户采购与验证成本，提升客户的忠诚度和满意度。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ300706",
+    "fetched_at": "2026-09-18T23:14:42.642667+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "溅射靶材"
+}

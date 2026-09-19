@@ -506,6 +506,18 @@ def test_realtime_batch_rejects_unverified_41_symbol_request() -> None:
         )
 
 
+def test_empty_partial_batch_exposes_all_omissions_only_when_requested(monkeypatch):
+    monkeypatch.setattr(tushare_fetchers, "_request", lambda *args, **kwargs: _result())
+    with pytest.raises(RuntimeError, match="空数据"):
+        tushare_fetchers.fetch_minute_data_batch_partial(symbols=("000001.SZ",))
+    frame = tushare_fetchers.fetch_minute_data_batch_partial(
+        symbols=("000001.SZ",), allow_empty=True,
+    )
+    assert frame.empty and "代码" in frame.columns
+    assert frame.attrs["provider_as_of"] is None
+    assert frame.attrs["request_id"] == "request-1"
+
+
 def test_realtime_minutes_normalize_compatible_proxy_lots_to_shares(monkeypatch):
     monkeypatch.setattr(
         tushare_fetchers,

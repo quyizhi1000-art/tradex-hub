@@ -1,0 +1,70 @@
+{
+  "instrument_id": "000069.SZ",
+  "name": "华侨城A",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "000069.SZ",
+    "name": "华侨城A",
+    "memberships": [
+      "房地产",
+      "房地产开发",
+      "商业地产",
+      "广东板块",
+      "低市净率",
+      "破增发价股",
+      "小盘价值",
+      "小盘股",
+      "长期破净",
+      "破净股",
+      "低价股",
+      "标准普尔",
+      "富时罗素",
+      "深股通",
+      "融资融券",
+      "深成500",
+      "机构重仓",
+      "冰雪经济",
+      "旅游概念",
+      "央国企改革",
+      "电商概念",
+      "婴童概念",
+      "深圳特区"
+    ],
+    "business_sections": [
+      {
+        "title": "文旅业务",
+        "kind": "主营业务",
+        "text": "公司文旅业务坚持“以文塑旅、以旅彰文”，创新“旅游+节庆”“旅游+演艺”等多种形式，积极发展都市游、康养游、银发游等多元业态。主要产品形态包括：\n（一）主题公园（主题游乐类、水公园类、主题文化类、生态田园类、摩天轮类等）；\n（二）酒店；\n（三）文商旅综合体及公园式商业街区；\n（四）自然人文景区及其他；\n（五）旅行服务等。"
+      },
+      {
+        "title": "房地产业务",
+        "kind": "主营业务",
+        "text": "公司房地产业务聚焦核心城市、核心区域，积极落实国家关于“好房子”建设部署要求，加快搭建具有华侨城特色的“好房子”产品体系，打造“安全、舒适、绿色、智慧”的高品质住宅及文商旅住深度融合的宜居产品。主要产品形态包括：\n（一）多业态融合发展的综合性社区；\n（二）单体住宅社区；\n（三）写字楼等。"
+      },
+      {
+        "title": "多元化、差异化的产品竞争力",
+        "kind": "核心竞争力",
+        "text": "公司深耕文旅及房地产行业多年，旅游业务市场知名度较高，房地产业务打造了天鹅堡、纯水岸等一系列知名品牌，积累了较好的品牌声誉。公司旗下欢乐谷、欢乐海岸等产品线在核心城市、核心板块占据区位优势。文旅和房地产两大主业相互赋能，构建起了多元化、差异化的产品竞争力，在资源获取、业态布局、协同发展上为公司可持续发展提供有力支撑。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ000069",
+    "fetched_at": "2026-09-18T22:35:19.009562+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [
+    "房地产"
+  ],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "旅游"
+}

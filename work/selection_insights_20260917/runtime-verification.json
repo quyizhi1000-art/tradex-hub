@@ -1,0 +1,273 @@
+{
+  "published": 18,
+  "membership_revision": "077a24935c284c1088b1334b7062f6be4ef1e365fe810e53b282d81927c0acdf",
+  "dates": [
+    {
+      "trade_date": "2026-09-17",
+      "window": [
+        "2026-09-11",
+        "2026-09-14",
+        "2026-09-15",
+        "2026-09-16",
+        "2026-09-17"
+      ],
+      "strategies": {
+        "balanced-multifactor-a-share": {
+          "comparison": {
+            "changed": 13,
+            "new": 7,
+            "unchanged": 0,
+            "unknown": 0
+          },
+          "quality": "partial",
+          "rows": 2,
+          "missing_limits": [],
+          "missing_archives": []
+        },
+        "long-upper-shadow-main-board": {
+          "comparison": {
+            "changed": 16,
+            "new": 28,
+            "unchanged": 40,
+            "unknown": 0
+          },
+          "quality": "complete",
+          "rows": 8,
+          "missing_limits": [],
+          "missing_archives": []
+        },
+        "macd-j-upturn-main-board": {
+          "comparison": {
+            "changed": 0,
+            "new": 56,
+            "unchanged": 0,
+            "unknown": 0
+          },
+          "quality": "partial",
+          "rows": 34,
+          "missing_limits": [],
+          "missing_archives": [
+            "2026-09-11",
+            "2026-09-14",
+            "2026-09-15"
+          ]
+        },
+        "next-session-limit-up-tendency-main-board": {
+          "comparison": {
+            "changed": 0,
+            "new": 0,
+            "unchanged": 0,
+            "unknown": 20
+          },
+          "quality": "partial",
+          "rows": 17,
+          "missing_limits": [],
+          "missing_archives": [
+            "2026-09-16"
+          ]
+        },
+        "upward-volume-surge-main-board": {
+          "comparison": {
+            "changed": 17,
+            "new": 41,
+            "unchanged": 112,
+            "unknown": 0
+          },
+          "quality": "partial",
+          "rows": 25,
+          "missing_limits": [],
+          "missing_archives": []
+        }
+      }
+    },
+    {
+      "trade_date": "2026-09-16",
+      "window": [
+        "2026-09-10",
+        "2026-09-11",
+        "2026-09-14",
+        "2026-09-15",
+        "2026-09-16"
+      ],
+      "strategies": {
+        "balanced-multifactor-a-share": {
+          "comparison": {
+            "changed": 12,
+            "new": 8,
+            "unchanged": 0,
+            "unknown": 0
+          },
+          "quality": "complete",
+          "rows": 0,
+          "missing_limits": [],
+          "missing_archives": []
+        },
+        "long-upper-shadow-main-board": {
+          "comparison": {
+            "changed": 5,
+            "new": 10,
+            "unchanged": 59,
+            "unknown": 0
+          },
+          "quality": "complete",
+          "rows": 10,
+          "missing_limits": [],
+          "missing_archives": []
+        },
+        "macd-j-upturn-main-board": {
+          "comparison": {
+            "changed": 0,
+            "new": 0,
+            "unchanged": 0,
+            "unknown": 89
+          },
+          "quality": "partial",
+          "rows": 22,
+          "missing_limits": [],
+          "missing_archives": [
+            "2026-09-10",
+            "2026-09-11",
+            "2026-09-14",
+            "2026-09-15"
+          ]
+        },
+        "next-session-limit-up-tendency-main-board": {
+          "comparison": {
+            "changed": 0,
+            "new": 0,
+            "unchanged": 0,
+            "unknown": 0
+          },
+          "quality": "partial",
+          "rows": 20,
+          "missing_limits": [],
+          "missing_archives": [
+            "2026-09-16"
+          ]
+        },
+        "upward-volume-surge-main-board": {
+          "comparison": {
+            "changed": 6,
+            "new": 30,
+            "unchanged": 130,
+            "unknown": 0
+          },
+          "quality": "partial",
+          "rows": 30,
+          "missing_limits": [],
+          "missing_archives": []
+        }
+      }
+    },
+    {
+      "trade_date": "2026-09-04",
+      "window": [
+        "2026-08-31",
+        "2026-09-01",
+        "2026-09-02",
+        "2026-09-03",
+        "2026-09-04"
+      ],
+      "strategies": {
+        "balanced-multifactor-a-share": {
+          "comparison": {
+            "changed": 12,
+            "new": 8,
+            "unchanged": 0,
+            "unknown": 0
+          },
+          "quality": "partial",
+          "rows": 1,
+          "missing_limits": [],
+          "missing_archives": []
+        },
+        "long-upper-shadow-main-board": {
+          "comparison": {
+            "changed": 12,
+            "new": 30,
+            "unchanged": 37,
+            "unknown": 0
+          },
+          "quality": "complete",
+          "rows": 10,
+          "missing_limits": [],
+          "missing_archives": []
+        },
+        "macd-j-upturn-main-board": {
+          "comparison": {
+            "changed": 0,
+            "new": 0,
+            "unchanged": 0,
+            "unknown": 0
+          },
+          "quality": "partial",
+          "rows": 0,
+          "missing_limits": [],
+          "missing_archives": [
+            "2026-08-31",
+            "2026-09-01",
+            "2026-09-02",
+            "2026-09-03",
+            "2026-09-04"
+          ]
+        },
+        "next-session-limit-up-tendency-main-board": {
+          "comparison": {
+            "changed": 0,
+            "new": 20,
+            "unchanged": 0,
+            "unknown": 0
+          },
+          "quality": "complete",
+          "rows": 5,
+          "missing_limits": [],
+          "missing_archives": []
+        },
+        "upward-volume-surge-main-board": {
+          "comparison": {
+            "changed": 0,
+            "new": 0,
+            "unchanged": 0,
+            "unknown": 0
+          },
+          "quality": "partial",
+          "rows": 0,
+          "missing_limits": [],
+          "missing_archives": [
+            "2026-08-31",
+            "2026-09-01",
+            "2026-09-02",
+            "2026-09-03",
+            "2026-09-04"
+          ]
+        }
+      }
+    }
+  ],
+  "served_assets": {
+    "app.js": {
+      "matches_local": true,
+      "sha256": "e2eebac525aa455724318ec8cfd6a26bba36f3098e07da8888b6b3073ea044cc"
+    },
+    "styles.css": {
+      "matches_local": true,
+      "sha256": "7422c8bb9f076ea57203233c6e48eb9db634e9da0e3619cfce855e0d30bce605"
+    }
+  },
+  "worker": {
+    "state": "running",
+    "process_pid": 6680,
+    "heartbeat_at": "2026-09-17T13:18:23.996839+00:00"
+  },
+  "membership_coverage": {
+    "needed": 18,
+    "available": 18
+  },
+  "validation": {
+    "backend_checks": 50,
+    "frontend_checks": 21,
+    "browser_strategy_tabs": 5,
+    "history_date_switch": "2026-09-17 -> 2026-09-16 -> latest",
+    "full_suite": "not_run"
+  }
+}

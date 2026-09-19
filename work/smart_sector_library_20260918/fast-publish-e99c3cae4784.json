@@ -1,0 +1,436 @@
+[
+  {
+    "id": "002713.SZ",
+    "key": "data_centers",
+    "sector": "数据中心(AIDC)",
+    "source_sector_name": "数据中心(AIDC)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "算力中心集成",
+      "长空智慧"
+    ],
+    "stage": "orders",
+    "fact": "2026半年报摘要确认完成长空智慧100%收购，报告期签订相关业务订单，算力中心集成进入实质运营。",
+    "company_fact": "2026半年报摘要确认完成长空智慧100%收购，报告期签订相关业务订单，算力中心集成进入实质运营。",
+    "ths_fact": "概念解析记录算力集成转型及订单承接计划；原半年报已确认承接落地。",
+    "reason": "收购完成与真实订单使AIDC从计划进入实质运营，选择已有市场主线；家装保留背景，云著智算尚待注入不能计入，订单不等于收入。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "dy-20260826-halfyear",
+        "source_kind": "official_filing",
+        "publisher": "东易日盛",
+        "title": "2026年半年度报告摘要",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12532735&stockid=002713",
+        "published_at": "2026-08-26",
+        "assertions": [
+          "完成长空智慧100%收购；报告期已签算力中心集成业务订单并进入实质运营。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "002714.SZ",
+    "key": "pig_farming",
+    "sector": "猪肉",
+    "source_sector_name": "猪肉",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "生猪养殖",
+      "屠宰"
+    ],
+    "stage": "revenue",
+    "fact": "公司养殖销售商品猪仔猪种猪并屠宰生产白条分割产品。",
+    "company_fact": "公司养殖销售商品猪仔猪种猪并屠宰生产白条分割产品。",
+    "ths_fact": "猪肉解析明确同类养殖屠宰业务。",
+    "reason": "直接养殖肉品全链对应猪肉周期，合成生物不取代明确经营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002715.SZ",
+    "key": "automotive_parts",
+    "sector": "汽车零部件",
+    "source_sector_name": "汽车零部件",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "发动机进排气门"
+    ],
+    "stage": "revenue",
+    "fact": "公司2025主要业务明确气门研发生产销售，配套康明斯卡特彼勒潍柴玉柴等。",
+    "company_fact": "公司2025主要业务明确气门研发生产销售，配套康明斯卡特彼勒潍柴玉柴等。",
+    "ths_fact": "新能源解析为汽车配套方向，黄金解析仅记2021收购矿业进入采选。",
+    "reason": "当前气门产品及客户经营完整，旧黄金收购不能推断当前矿山经营状态；黄金控制及在产变化明确后复核。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002716.SZ",
+    "key": "silver",
+    "sector": "白银",
+    "source_sector_name": "白银",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "银矿采选冶炼",
+      "白银深加工"
+    ],
+    "stage": "revenue",
+    "fact": "公司经营铅锌银勘采冶炼贸易深加工，银锭有LBMA及上期所交割品牌。",
+    "company_fact": "公司经营铅锌银勘采冶炼贸易深加工，银锭有LBMA及上期所交割品牌。",
+    "ths_fact": "小金属解析明确富银铅精矿回收白银和白银冶炼深加工。",
+    "reason": "白银产品及完整产业链构成清楚辨识，黄金伴生及相关收入不自动替代白银主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002717.SZ",
+    "key": "water_conservancy",
+    "sector": "水利",
+    "source_sector_name": "水利",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "水利工程",
+      "城乡水务水生态"
+    ],
+    "stage": "revenue",
+    "fact": "控股岭南水务业务涵盖水利城乡水务水生态，公司亦经营生态园林及文旅。",
+    "company_fact": "控股岭南水务业务涵盖水利城乡水务水生态，公司亦经营生态园林及文旅。",
+    "ths_fact": "水利解析确认研发设计施工运营全链条服务及多地项目。",
+    "reason": "实际水务工程运营与主题完整相符，元宇宙旧标签不足取代。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002718.SZ",
+    "key": "smart_home",
+    "sector": "智能家居",
+    "source_sector_name": "智能家居",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "集成吊顶墙面",
+      "智能功能模块"
+    ],
+    "stage": "product",
+    "fact": "公司提供功能型集成吊顶墙面家居系统，以场景生活解决方案为导向。",
+    "company_fact": "公司提供功能型集成吊顶墙面家居系统，以场景生活解决方案为导向。",
+    "ths_fact": "智能家居解析明确智能浴霸照明晾衣及控制器现有产品。",
+    "reason": "集成家居本体与具体智能模块交叉成立，选智能家居；不把家居整体收入当智能模块收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002719.SZ",
+    "key": "dairy",
+    "sector": "乳业",
+    "source_sector_name": "乳业",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "乳制品",
+      "奶饮品"
+    ],
+    "stage": "revenue",
+    "fact": "公司经营乳制品及烘焙制造分销连锁，辅以冷冻节日食品。",
+    "company_fact": "公司经营乳制品及烘焙制造分销连锁，辅以冷冻节日食品。",
+    "ths_fact": "乳业解析确认乳制品与烘焙产品业务。",
+    "reason": "实际乳品消费与现有主题直接，烘焙为并行经营而非不归属理由。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002721.SZ",
+    "key": "digital_currency",
+    "sector": "数字货币",
+    "source_sector_name": "数字货币",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "银行支付清算",
+      "数币软件方案"
+    ],
+    "stage": "product",
+    "fact": "公司通过股权与表决权合计控制开科唯识57.48%表决并表，经营银行支付清算及财富软件。",
+    "company_fact": "公司通过股权与表决权合计控制开科唯识57.48%表决并表，经营银行支付清算及财富软件。",
+    "ths_fact": "数币解析确认统一支付全网收单及数字人民币专属方案，AI中标规模较小。",
+    "reason": "已控股银行支付平台且有数币专属产品，选数字货币；珠宝并行，不将系统能力误称持有加密币或数币收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002722.SZ",
+    "key": "special_steel",
+    "sector": "特钢",
+    "source_sector_name": "特钢概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "特种精密钢丝",
+      "梳理器材及钢板"
+    ],
+    "stage": "revenue",
+    "fact": "公司生产各用途特种钢丝与不锈钢装饰板梳理器材，特种精密钢丝具完整热加工设备。",
+    "company_fact": "公司生产各用途特种钢丝与不锈钢装饰板梳理器材，特种精密钢丝具完整热加工设备。",
+    "ths_fact": "特钢解析确认多品种钢丝及具体下游；AI灵伴持股仅6.18%影响小。",
+    "reason": "真实钢材产品与市场特钢主题直接，AI少数股权不代表上市公司自营AI。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002723.SZ",
+    "key": "home_appliances",
+    "sector": "家用电器",
+    "source_sector_name": "家用电器",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "充电照明",
+      "风扇及生活家电"
+    ],
+    "stage": "revenue",
+    "fact": "公司家电为充电灯风扇及智能生活电器，全产业制造能力稳定。",
+    "company_fact": "公司家电为充电灯风扇及智能生活电器，全产业制造能力稳定。",
+    "ths_fact": "家电解析2026-04-25确认持续研发制造销售，液冷为2024齐盛项目官微。",
+    "reason": "两源当前家电经营最明确，旧液冷合作采购需核实持续控制和交付再提升；工程为参股不冒充控股施工。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002724.SZ",
+    "key": "lighting_equipment",
+    "sector": "照明设备",
+    "source_sector_name": "照明设备Ⅱ",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "专业工作照明",
+      "智能照明系统"
+    ],
+    "stage": "revenue",
+    "fact": "公司生产销售特殊环境LED激光照明并提供控制器平台服务方案。",
+    "company_fact": "公司生产销售特殊环境LED激光照明并提供控制器平台服务方案。",
+    "ths_fact": "智慧灯杆解析确认控股明之辉涉及路灯灯杆及通信应用。",
+    "reason": "专业照明产品服务是统一真实主线，智慧灯杆属于细分场景，选照明设备。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002725.SZ",
+    "key": "automotive_parts",
+    "sector": "汽车零部件",
+    "source_sector_name": "汽车零部件",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "铝合金车轮",
+      "售后及OEM"
+    ],
+    "stage": "revenue",
+    "fact": "公司持续研发制造销售铝轮毂，核心AM市场并有OEM批供。",
+    "company_fact": "公司持续研发制造销售铝轮毂，核心AM市场并有OEM批供。",
+    "ths_fact": "新能源汽车解析确认汽车相关业务，芯片解析为持股光芯片公司。",
+    "reason": "自营车轮与客户交付明确，少数股权光芯片能力不得并入自营主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002726.SZ",
+    "key": "prepared_food",
+    "sector": "预制菜",
+    "source_sector_name": "预制菜",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "预制食品",
+      "餐饮供应链"
+    ],
+    "stage": "revenue",
+    "fact": "公司研发生产销售预制熟食，服务连锁餐饮商超，屠宰养殖配套原料。",
+    "company_fact": "公司研发生产销售预制熟食，服务连锁餐饮商超，屠宰养殖配套原料。",
+    "ths_fact": "预制菜解析确认多年经营及海底捞等客户。",
+    "reason": "食品研发与实际餐饮供货形成主线，养殖作为原料支撑，选预制菜。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002727.SZ",
+    "key": "retail_pharmacies",
+    "sector": "线下药店",
+    "source_sector_name": "线下药店",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "医药零售连锁"
+    ],
+    "stage": "revenue",
+    "fact": "公司以直营药店为核心经营医药零售批发并延伸互联网健康业务。",
+    "company_fact": "公司以直营药店为核心经营医药零售批发并延伸互联网健康业务。",
+    "ths_fact": "医药电商解析也明确主营零售连锁，新开抖音为渠道。",
+    "reason": "成熟药房网络和销售对应线下药店，线上拓展不把公司变药品制造商。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002728.SZ",
+    "key": "chinese_medicine",
+    "sector": "中医药",
+    "source_sector_name": "中医药",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "止咳中成药",
+      "化药并行"
+    ],
+    "stage": "revenue",
+    "fact": "公司主营中成药化学制剂及原料药研发生产销售。",
+    "company_fact": "公司主营中成药化学制剂及原料药研发生产销售。",
+    "ths_fact": "中医药解析明确止咳宝片及其传统中药配方。",
+    "reason": "已经营中成药品牌产品支撑中医药，NMN医美等标签需具体业务后另评。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002729.SZ",
+    "key": "data_centers",
+    "sector": "数据中心(AIDC)",
+    "source_sector_name": "数据中心(AIDC)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "服务器及IDC电源熔断器"
+    ],
+    "stage": "delivery",
+    "fact": "公司电子熔断器用于服务器电源，电力熔断器用于通信IDC及新能源。",
+    "company_fact": "公司电子熔断器用于服务器电源，电力熔断器用于通信IDC及新能源。",
+    "ths_fact": "AIDC解析确认熔断器已用于多个数据中心项目。",
+    "reason": "具体电路保护产品和机房应用交叉支持AIDC，限定元件环节而非运营算力。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002730.SZ",
+    "key": "computing_power_leasing",
+    "sector": "算力租赁",
+    "source_sector_name": "算力租赁",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "算力服务",
+      "集群及运维"
+    ],
+    "stage": "orders",
+    "fact": "公司主营已列算力基础设施租赁集群设计运维服务，与矿山防爆并行。",
+    "company_fact": "公司主营已列算力基础设施租赁集群设计运维服务，与矿山防爆并行。",
+    "ths_fact": "2024-06-27公告解析明确向无问芯穹提供算力合同5.535亿元预付结算。",
+    "reason": "实际业务范围与明确服务合同支持算力租赁，orders不将合同额当收入或已全履约。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002731.SZ",
+    "key": "gold",
+    "sector": "黄金",
+    "source_sector_name": "黄金概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "黄金饰品",
+      "珠宝渠道"
+    ],
+    "stage": "revenue",
+    "fact": "公司黄金为核心设计加工销售珠宝，直营加盟与全渠道运营。",
+    "company_fact": "公司黄金为核心设计加工销售珠宝，直营加盟与全渠道运营。",
+    "ths_fact": "黄金解析确认产品销售加工及加盟收入，锂矿仅旧收购说明。",
+    "reason": "真实黄金消费经营充分，旧锂业收购不能自动代表当前锂矿在产，选黄金饰品链。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002732.SZ",
+    "key": "dairy",
+    "sector": "乳业",
+    "source_sector_name": "乳业",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "乳制品",
+      "含乳饮料"
+    ],
+    "stage": "revenue",
+    "fact": "公司研发生产销售巴氏奶灭菌奶酸奶及乳酸菌饮料。",
+    "company_fact": "公司研发生产销售巴氏奶灭菌奶酸奶及乳酸菌饮料。",
+    "ths_fact": "乳业解析同样确认液乳花式奶及乳饮。",
+    "reason": "日常乳品经营与主题一致，冷链为运输配套。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002733.SZ",
+    "key": "hydrogen_energy",
+    "sector": "氢能源",
+    "source_sector_name": "氢能源",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "燃料电池电堆",
+      "膜电极及系统"
+    ],
+    "stage": "product",
+    "fact": "公司四类电池中明确氢燃料电池研发生产销售，核心竞争力列电堆系统膜电极。",
+    "company_fact": "公司四类电池中明确氢燃料电池研发生产销售，核心竞争力列电堆系统膜电极。",
+    "ths_fact": "2026-04-24解析确认电堆系统与车企合作，船舶应用仍寻找场景。",
+    "reason": "已具具体氢核心产品和供应链，选氢能源/product；铅酸锂电成熟收入不套用氢能，船舶未认商业化。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002734.SZ",
+    "key": "pesticides",
+    "sector": "农药",
+    "source_sector_name": "农药",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "杀菌杀虫除草",
+      "兽药"
+    ],
+    "stage": "revenue",
+    "fact": "公司研发生产销售农药及兽药原料制剂，具杀菌杀虫除草系列。",
+    "company_fact": "公司研发生产销售农药及兽药原料制剂，具杀菌杀虫除草系列。",
+    "ths_fact": "虫害防治及兽药解析对应药品生产，固态仅拟建电解质项目适用。",
+    "reason": "已售农化产品完整支撑农药，不能从电解质拟建和可适用直接改固态主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002735.SZ",
+    "key": "nuclear_fusion",
+    "sector": "可控核聚变",
+    "source_sector_name": "可控核聚变",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "磁体电源薄膜电容"
+    ],
+    "stage": "delivery",
+    "fact": "公司薄膜电容已用于聚变，核心竞争力明确宁波新容与聚变新能等客户稳定合作。",
+    "company_fact": "公司薄膜电容已用于聚变，核心竞争力明确宁波新容与聚变新能等客户稳定合作。",
+    "ths_fact": "2025-05-14官微解析确认电容已用于磁体电源并完成首单交付。",
+    "reason": "具体聚变电源关键电容及首单交付直接支持聚变主题，塑包电子并行；不称聚变发电商业化。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002736.SZ",
+    "key": "securities_industry",
+    "sector": "证券",
+    "source_sector_name": "证券Ⅱ",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "经纪投行",
+      "资产管理及交易"
+    ],
+    "stage": "revenue",
+    "fact": "公司经营证券期货经纪、承销保荐、证券交易做市和资产管理。",
+    "company_fact": "公司经营证券期货经纪、承销保荐、证券交易做市和资产管理。",
+    "ths_fact": "同花顺同股经营原文完整对应财富投行交易资管四块；国企只所有制背景。",
+    "reason": "证券全业务和牌照经营明确，选证券，不以控股性质代替行业。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002737.SZ",
+    "key": "chinese_medicine",
+    "sector": "中医药",
+    "source_sector_name": "中医药",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "品牌中成药",
+      "儿童成人健康"
+    ],
+    "stage": "revenue",
+    "fact": "公司以中成药为主导，研发制造营销儿童及成人常用药与健康产品。",
+    "company_fact": "公司以中成药为主导，研发制造营销儿童及成人常用药与健康产品。",
+    "ths_fact": "原同股中医药正文确认各类中成药生产销售，创新仅联合实验室意向。",
+    "reason": "成熟中成药品牌和产品构成直接主线，实验室合作不认已形成创新管线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002738.SZ",
+    "key": "lithium_mining",
+    "sector": "锂矿",
+    "source_sector_name": "锂矿",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "硬岩锂资源",
+      "电池级锂盐"
+    ],
+    "stage": "revenue",
+    "fact": "公司具锂矿开发精矿加工及碳酸锂氢氧化锂氟化锂生产销售一体化，铯铷并行。",
+    "company_fact": "公司具锂矿开发精矿加工及碳酸锂氢氧化锂氟化锂生产销售一体化，铯铷并行。",
+    "ths_fact": "锂矿解析确认Bikita等资源布局及锂精矿原料链。",
+    "reason": "实际硬岩资源和锂盐全链条支撑锂矿主题，旧包销数量不作当前储量及权益。",
+    "basis": "crosschecked_sources"
+  }
+]

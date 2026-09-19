@@ -1,0 +1,415 @@
+[
+  {
+    "id": "300953.SZ",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "执行器丝杠灵巧手精密件"
+    ],
+    "stage": "pilot",
+    "fact": "精密模具结构件并形成机器人执行器滚柱丝杠灵巧手零件。",
+    "company_fact": "精密模具结构件并形成机器人执行器滚柱丝杠灵巧手零件。",
+    "ths_fact": "2025年报机器人相关产品已获多个头部本体客户验证。",
+    "reason": "客户验证支持真实人形链，未证批量订单故pilot。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300955.SZ",
+    "key": "cosmetics",
+    "sector": "化妆品",
+    "source_sector_name": "化妆品概念",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "日化OEM ODM"
+    ],
+    "stage": "revenue",
+    "fact": "日化产品OEM ODM及塑料包装研发生产。",
+    "company_fact": "日化产品OEM ODM及塑料包装研发生产。",
+    "ths_fact": "长期为强生婴儿郁美净等提供产品生产服务。",
+    "reason": "日化制造业务直接，三胎为客户应用背景。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300956.SZ",
+    "key": "ai_pc",
+    "sector": "AI PC",
+    "source_sector_name": "AI PC",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "笔电金属结构件"
+    ],
+    "stage": "delivery",
+    "fact": "笔电结构模组精密模具，主要客户联宝仁宝纬创。",
+    "company_fact": "笔电结构模组精密模具，主要客户联宝仁宝纬创。",
+    "ths_fact": "联想YOGA AI元启版金属件已获订单生产出货。",
+    "reason": "AI电脑有直接供货，机器人仅送样固态仍研发。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300957.SZ",
+    "key": "medical_aesthetics",
+    "sector": "医美",
+    "source_sector_name": "医美概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "医美级护肤及器械护理"
+    ],
+    "stage": "revenue",
+    "fact": "薇诺娜瑷科缦等专业皮肤护理、器械和彩妆。",
+    "company_fact": "薇诺娜瑷科缦等专业皮肤护理、器械和彩妆。",
+    "ths_fact": "AOXMED院内械妆及居家护肤2024销售5992万元。",
+    "reason": "医美级护理品牌有收入，非注射医美或已上市创新药。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300958.SZ",
+    "key": "soil_remediation",
+    "sector": "土壤修复",
+    "source_sector_name": "土壤修复",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "污染土壤地下水修复"
+    ],
+    "stage": "revenue",
+    "fact": "环境修复设计实施风险管控及土水矿山治理。",
+    "company_fact": "环境修复设计实施风险管控及土水矿山治理。",
+    "ths_fact": "土壤地下水全链咨询设计治理运营。",
+    "reason": "直接环境修复经营吻合。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300959.SZ",
+    "key": "bytedance",
+    "sector": "抖音概念(字节概念)",
+    "source_sector_name": "抖音概念(字节概念)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "移动信息服务及数字营销"
+    ],
+    "stage": "revenue",
+    "fact": "短信5G消息等移动信息服务，并与字节平台稳定数字营销合作。",
+    "company_fact": "短信5G消息等移动信息服务，并与字节平台稳定数字营销合作。",
+    "ths_fact": "为字节跳动提供移动信息服务。",
+    "reason": "真实客户服务和营销合作支撑市场主题，不只泛标签。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300960.SZ",
+    "key": "rail_transit",
+    "sector": "轨道交通",
+    "source_sector_name": "轨道交通",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "列车电源电控电机"
+    ],
+    "stage": "revenue",
+    "fact": "轨交电气设备研发制造销售维保。",
+    "company_fact": "轨交电气设备研发制造销售维保。",
+    "ths_fact": "电源智能控制电机风机覆盖列车电气链。",
+    "reason": "完整轨交产品生态直接确认。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300961.SZ",
+    "key": "wastewater_treatment",
+    "sector": "污水处理",
+    "source_sector_name": "污水处理",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "工业污水治理及智慧水务"
+    ],
+    "stage": "revenue",
+    "fact": "工业污水供水污泥及智慧水务全流程。",
+    "company_fact": "工业污水供水污泥及智慧水务全流程。",
+    "ths_fact": "工业污水为核心，提供研发设计投资建设运营。",
+    "reason": "工程运营及水处理技术直接对应。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300962.SZ",
+    "key": "food_safety",
+    "sector": "食品安全",
+    "source_sector_name": "食品安全",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "食品辐照灭菌服务"
+    ],
+    "stage": "revenue",
+    "fact": "辐照消毒检测及电子加速器制造。",
+    "company_fact": "辐照消毒检测及电子加速器制造。",
+    "ths_fact": "食品药品医疗包装辐照灭菌为实际服务。",
+    "reason": "食品灭菌是明确经营环节，核污染检测增项和芯片工艺研究不泛化量产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300963.SZ",
+    "key": "nuclear_power",
+    "sector": "核电",
+    "source_sector_name": "核电",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "核电耐蚀阀门焊材"
+    ],
+    "stage": "delivery",
+    "fact": "耐高温腐蚀合金及制品研发生产销售，主要民用。",
+    "company_fact": "耐高温腐蚀合金及制品研发生产销售，主要民用。",
+    "ths_fact": "阀门焊材为中核中广核国核设施配套。",
+    "reason": "实际核电材料配套证据明确，不把高温合金一概当航空军品。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300964.SZ",
+    "key": "pcb",
+    "sector": "PCB",
+    "source_sector_name": "PCB概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "高频高速多层印制板"
+    ],
+    "stage": "revenue",
+    "fact": "高品质高密度PCB研发生产销售。",
+    "company_fact": "高品质高密度PCB研发生产销售。",
+    "ths_fact": "多层刚挠高频高速HDI等，光模块板为小批供货。",
+    "reason": "直接PCB产品广泛，CPO只是部分下游不能当光模块制造。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300965.SZ",
+    "key": "military",
+    "sector": "军工",
+    "source_sector_name": "军工",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "机载显示导航及专用电子"
+    ],
+    "stage": "revenue",
+    "fact": "图像显示可视化导航任务规划模块用于机舰车载专业领域。",
+    "company_fact": "图像显示可视化导航任务规划模块用于机舰车载专业领域。",
+    "ths_fact": "参与军用直升机配套科研生产，具备全部军工生产资质。",
+    "reason": "军用航电既有科研制造与产品对应。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300966.SZ",
+    "key": "synthetic_biology",
+    "sector": "合成生物",
+    "source_sector_name": "合成生物",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "甾体原料生物发酵转化"
+    ],
+    "stage": "revenue",
+    "fact": "甾体起始物料中间体原料药研产销。",
+    "company_fact": "甾体起始物料中间体原料药研产销。",
+    "ths_fact": "BA由植物甾醇发酵，生物发酵转化及合成生物技术平台。",
+    "reason": "实际甾体发酵路线支撑，不声称下游熊去氧胆酸自身已量产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300967.SZ",
+    "key": "chicken_farming",
+    "sector": "养鸡",
+    "source_sector_name": "养鸡",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "蛋种鸡繁育及雏鸡"
+    ],
+    "stage": "revenue",
+    "fact": "祖代父母代蛋种鸡繁育雏鸡育成鸡销售。",
+    "company_fact": "祖代父母代蛋种鸡繁育雏鸡育成鸡销售。",
+    "ths_fact": "主营蛋种鸡与雏鸡蛋副产品。",
+    "reason": "养鸡是准确候选，不能用肉鸡标签抹掉蛋种鸡差异。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300968.SZ",
+    "key": "ai_glasses",
+    "sector": "AI眼镜",
+    "source_sector_name": "AI眼镜",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "智能眼镜精密结构件"
+    ],
+    "stage": "delivery",
+    "fact": "智能终端结构件涉及穿戴手机及卫星终端等。",
+    "company_fact": "智能终端结构件涉及穿戴手机及卫星终端等。",
+    "ths_fact": "向国际知名品牌提供智能眼镜精密件。",
+    "reason": "直接眼镜供货支撑，低轨通信另有交付背景。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300969.SZ",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "谐波磁场电机定制"
+    ],
+    "stage": "product",
+    "fact": "汽车微电机电动模块及清洗热管理产品。",
+    "company_fact": "汽车微电机电动模块及清洗热管理产品。",
+    "ths_fact": "已以谐波磁场电机为人形客户提供定制方案。",
+    "reason": "直接电机技术方案形成进入人形链的依据，未证订单量产按产品。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300970.SZ",
+    "key": "edible_fungi",
+    "sector": "食用菌",
+    "source_sector_name": "食用菌",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "工厂化食用菌"
+    ],
+    "stage": "revenue",
+    "fact": "食用菌研发工厂化种植销售。",
+    "company_fact": "食用菌研发工厂化种植销售。",
+    "ths_fact": "农业种植说明同股食用菌制造销售；合成生物为合资研发。",
+    "reason": "明确食用菌实业，新研究不替代经营定位。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300971.SZ",
+    "key": "machine_tools",
+    "sector": "工业母机",
+    "source_sector_name": "工业母机",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "板带成形精密装备"
+    ],
+    "stage": "revenue",
+    "fact": "板带成形设备关键零件及特装配套研产销。",
+    "company_fact": "板带成形设备关键零件及特装配套研产销。",
+    "ths_fact": "高端板带设备服务冶金并替代国外同类产品。",
+    "reason": "直接精密成形装备主线，发射配套应用保留次要。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300972.SZ",
+    "key": "snacks",
+    "sector": "零食",
+    "source_sector_name": "零食",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "好想来量贩零食连锁"
+    ],
+    "stage": "revenue",
+    "fact": "量贩零食好想来老婆大人，全国18314门店。",
+    "company_fact": "量贩零食好想来老婆大人，全国18314门店。",
+    "ths_fact": "经营乳制品零食且为哪吒糖果卡牌官方线下销售方。",
+    "reason": "当前零售商品与连锁转型一致，THS旧农业菌菇不覆盖现经营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300973.SZ",
+    "key": "bakery_food",
+    "sector": "烘焙食品",
+    "source_sector_name": "烘焙食品",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "冷冻烘焙及原料"
+    ],
+    "stage": "revenue",
+    "fact": "麻薯挞皮甜甜圈蛋糕及奶油酱料等。",
+    "company_fact": "麻薯挞皮甜甜圈蛋糕及奶油酱料等。",
+    "ths_fact": "奶油产品及冷冻烘焙需零下18度储运，自建冷链配销。",
+    "reason": "冷链服务自身食品，归烘焙而非物流运营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300975.SZ",
+    "key": "memory_chips",
+    "sector": "存储芯片",
+    "source_sector_name": "存储芯片",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "存储及电子元件分销"
+    ],
+    "stage": "revenue",
+    "fact": "电子元件代理含存储IC与被动器件。",
+    "company_fact": "电子元件代理含存储IC与被动器件。",
+    "ths_fact": "代理存储模拟功率电源芯片，品牌含兆易创新等。",
+    "reason": "存储芯片分销实业成立，飞行汽车为参股不当自造飞机。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300976.SZ",
+    "key": "consumer_electronics",
+    "sector": "消费电子",
+    "source_sector_name": "消费电子概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "功能结构件及自动化装备"
+    ],
+    "stage": "revenue",
+    "fact": "消费电子定制功能结构件及配套设备研产销。",
+    "company_fact": "消费电子定制功能结构件及配套设备研产销。",
+    "ths_fact": "折叠光学膜研发推进；CPO热管理描述来自收购标的东莞运宏。",
+    "reason": "原2026半年报仍推进运宏交割，仅已付2100万元，不将标的液冷订单当已控股实业；按既有消费电子。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "official-300976-h1-2026",
+        "source_kind": "official_filing",
+        "publisher": "达瑞电子",
+        "title": "2026年半年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12500270&stockid=300976",
+        "published_at": "2026-08-18",
+        "assertions": [
+          "正推进东莞运宏股权收购交割各项工作，截至披露已向原股东支付2100万元；未以标的订单确认上市公司已控股收入。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "300977.SZ",
+    "key": "building_inspection",
+    "sector": "房屋检测",
+    "source_sector_name": "房屋检测",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "建筑质量安全评估"
+    ],
+    "stage": "revenue",
+    "fact": "第三方工程风险评估和项目管理。",
+    "company_fact": "第三方工程风险评估和项目管理。",
+    "ths_fact": "连续4年参与住建部质量安全评价，房屋评估有服务经验；检测鉴定协同仍孵化。",
+    "reason": "现有房屋安全评估支持该主题，区分新检测鉴定资质业务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300978.SZ",
+    "key": "smart_cockpit",
+    "sector": "智能座舱",
+    "source_sector_name": "智能座舱",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "车载座舱控制系统"
+    ],
+    "stage": "revenue",
+    "fact": "汽车前后装配套制造及品牌运营。",
+    "company_fact": "汽车前后装配套制造及品牌运营。",
+    "ths_fact": "主要产品包括车载智能座舱控制和承载防护装载系统。",
+    "reason": "明确智能机电座舱产品研发制造销售。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300979.SZ",
+    "key": "sporting_goods",
+    "sector": "体育用品",
+    "source_sector_name": "体育用品",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "国际品牌运动鞋制造"
+    ],
+    "stage": "revenue",
+    "fact": "运动鞋设计制造销售，客户Nike Adidas等。",
+    "company_fact": "运动鞋设计制造销售，客户Nike Adidas等。",
+    "ths_fact": "为国际运动品牌提供鞋履开发设计制造。",
+    "reason": "直接体育鞋履产品最贴合。",
+    "basis": "crosschecked_sources"
+  }
+]

@@ -1339,6 +1339,7 @@ def _watch_stocks(
     opportunities: tuple[OpportunitySectorV1, ...],
     stealth: tuple[SectorReviewItemV1, ...],
     business_profiles: Mapping[str, StockRelationshipProfileV1] | None = None,
+    market_memberships: Mapping | None = None,
 ) -> tuple[WatchStockV4, ...]:
     raw: list[tuple[str, str, str, str, str]] = []
     for item in opportunities:
@@ -1373,7 +1374,10 @@ def _watch_stocks(
             instrument_id=instrument_id,
             name=name,
             board=_stock_board(instrument_id),
-            sector_name=sector,
+            sector_name=(
+                market_memberships[instrument_id].primary_sector_name or "待核验"
+                if market_memberships and instrument_id in market_memberships else "待核验"
+            ),
             primary_business_name=(
                 relationships[instrument_id].primary_business_name
                 if instrument_id in relationships
@@ -1386,7 +1390,7 @@ def _watch_stocks(
             ),
             reason=reason,
             confirmation=(
-                f"10:00后{sector}板块仍红、上涨覆盖不低于60%、主力净流入为正，"
+                f"10:00后观察来源板块{sector}是否仍红、上涨覆盖不低于60%、主力净流入为正，"
                 f"且{name}没有脱离板块单独加速。"
             ),
             invalidation=invalidation,
@@ -3604,7 +3608,7 @@ def _article_watch_items(
             why_it_matters="标的只来自已有板块证据，并优先保留主板；没有主板证据时才会列非主板备选。",
             checkpoint="10:00 后，所属板块先确认",
             metrics=tuple(
-                f"{item.name} {item.instrument_id[:6]} / 主营 {item.primary_business_name or '待核验'} / 观察 {item.sector_name}"
+                f"{item.name} {item.instrument_id[:6]} / 市场主归属 {item.sector_name}"
                 for item in stocks
             ),
             action="先验板块，再验个股；个股脱离板块单独加速不参与。",
@@ -3656,12 +3660,13 @@ def _article_sections_v4(
     scenarios: tuple[NextDayScenarioV2, ...],
     opportunities: tuple[OpportunitySectorV1, ...],
     business_profiles: Mapping[str, StockRelationshipProfileV1] | None = None,
+    market_memberships: Mapping | None = None,
     official_announcements: ReviewOfficialAnnouncementArchiveV1 | None = None,
 ) -> tuple[ArticleSectionV4, ...]:
     evidence = review.evidence
     stealth = _stealth_sector_candidates(evidence, opportunities)
     avoid = _avoid_sector_candidates(evidence)
-    stocks = _watch_stocks(opportunities, stealth, business_profiles)
+    stocks = _watch_stocks(opportunities, stealth, business_profiles, market_memberships)
     sections = [
         _article_brief_section(review, previous=previous, opportunities=opportunities),
         _article_session_section(evidence),
@@ -3728,6 +3733,7 @@ def build_post_market_review_presentation(
     previous_review: PostMarketReviewV1 | None = None,
     business_profiles: Mapping[str, StockRelationshipProfileV1] | None = None,
     official_announcements: ReviewOfficialAnnouncementArchiveV1 | None = None,
+    market_memberships: Mapping | None = None,
 ) -> PostMarketReviewPresentationV4:
     """Render a readable V4 article without changing the immutable evidence row."""
 
@@ -3763,7 +3769,7 @@ def build_post_market_review_presentation(
     scenarios = _next_day_scenarios(outlook, opportunities)
     stealth = _stealth_sector_candidates(canonical.evidence, opportunities)
     avoid = _avoid_sector_candidates(canonical.evidence)
-    stocks = _watch_stocks(opportunities, stealth, business_profiles)
+    stocks = _watch_stocks(opportunities, stealth, business_profiles, market_memberships)
     appendix_sections = _presentation_sections_v3(
         canonical,
         previous=previous,
@@ -3784,6 +3790,7 @@ def build_post_market_review_presentation(
             scenarios=scenarios,
             opportunities=opportunities,
             business_profiles=business_profiles,
+            market_memberships=market_memberships,
             official_announcements=official_archive,
         ),
         watch_items=_article_watch_items(

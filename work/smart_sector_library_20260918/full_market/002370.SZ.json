@@ -1,0 +1,67 @@
+{
+  "instrument_id": "002370.SZ",
+  "name": "亚太药业",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "002370.SZ",
+    "name": "亚太药业",
+    "memberships": [
+      "医药生物",
+      "化学制药",
+      "化学制剂",
+      "浙江板块",
+      "股权分散",
+      "2026中报首亏",
+      "标准普尔",
+      "深股通",
+      "融资融券",
+      "机构重仓",
+      "病原体防治",
+      "创新药",
+      "幽门螺杆菌概念",
+      "工业大麻",
+      "长江三角"
+    ],
+    "business_sections": [
+      {
+        "title": "医药制造业务",
+        "kind": "主营业务",
+        "text": "报告期内，公司从事的主要业务为医药制造业务，包括化学制剂的研发、生产和销售。主要的客户为医药商业、配送企业及医疗机构。"
+      },
+      {
+        "title": "完整的制药业务产业链和丰富的产品品种",
+        "kind": "核心竞争力",
+        "text": "公司拥有完整的制药业务产业链，产品大类包括抗感染、抗病毒、消化系统、心脑血管药物等，产品品种丰富，有利于分散单一产品导致的经营风险。"
+      },
+      {
+        "title": "技术创新能力和科研水平",
+        "kind": "核心竞争力",
+        "text": "公司拥有省级企业技术中心，并与国内部分著名的研发机构、高校等建立了密切的合作关系，通过自主研发和合作开发等多种手段不断培养和提高公司的技术创新能力和科研水平。"
+      },
+      {
+        "title": "完善的市场营销体系",
+        "kind": "核心竞争力",
+        "text": "公司建立了完善的制剂产品的市场营销体系，逐步形成了覆盖商业渠道、零售药店、医疗机构的网络布局。完善的营销网络有助于公司及时把握市场需求变化，促进产品的顺利推广，提升公司的持续发展能力。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ002370",
+    "fetched_at": "2026-09-18T22:47:04.456480+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [
+    "医疗医药"
+  ],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "医药研发服务"
+}

@@ -1,0 +1,73 @@
+{
+  "instrument_id": "000815.SZ",
+  "name": "美利云",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "000815.SZ",
+    "name": "美利云",
+    "memberships": [
+      "计算机",
+      "IT服务Ⅱ",
+      "IT服务Ⅲ",
+      "宁夏板块",
+      "深股通",
+      "融资融券",
+      "东数西算",
+      "绿色电力",
+      "国资云概念",
+      "数据中心",
+      "央国企改革",
+      "大数据",
+      "西部大开发",
+      "光伏概念",
+      "云计算",
+      "新能源"
+    ],
+    "business_sections": [
+      {
+        "title": "数据中心业务",
+        "kind": "主营业务",
+        "text": "公司数据中心业务涵盖机架出租、网络接入及机架运行维护等服务。根据客户的不同需求，将业务分为数据中心大规模定制化、分模块定制化、标准机房及散租机架服务等不同类型。以数据中心大规模定制化、分模块定制化为主，标准机房及散租机架服务为辅的经营方式，为不同需求的客户提供相应的服务。"
+      },
+      {
+        "title": "光伏业务",
+        "kind": "主营业务",
+        "text": "公司50MWp光伏业务主要为太阳能发电和太阳能产品的销售，目前运营正常。"
+      },
+      {
+        "title": "区域优势",
+        "kind": "核心竞争力",
+        "text": "公司所在地——中卫市，是中国陆地几何中心区域，到全国各大城市的距离均在2000公里左右，是光纤网络覆盖全国的最优路径选择点；中卫地质构造稳定，适合建设高安全性的数据中心；中卫年平均气温8.8℃，全年大气环境优良天数达280天以上，适合采用全自然风冷却技术，可有效降低PUE值，提高能源利用效率。同时，当地日照资源丰富，为公司发展太阳能发电项目提供资源基础。"
+      },
+      {
+        "title": "政策优势",
+        "kind": "核心竞争力",
+        "text": "公司数据中心位于宁夏中卫市，作为“东数西算”工程十大集群之一，是国家（中卫）新型互联网交换中心和全国一体化算力网络国家枢纽节点，也是全国首个“双节点”城市，产业聚集优势明显。同时，宁夏回族自治区先后出台了《促进人工智能创新发展政策措施》《关于促进大数据产业发展应用的实施意见》《关于促进全国一体化算力网络国家枢纽节点宁夏枢纽建设的若干政策意见》等多项政策，为IDC产业发展提供了有力的政策支持。"
+      },
+      {
+        "title": "技术优势",
+        "kind": "核心竞争力",
+        "text": "公司数据中心拥有先进的自然冷却技术，通过湿膜加湿等技术，有效降低了数据中心电力消耗，提高能源效率，形成了明显的运行成本优势。截至2025年12月31日，公司持有专利、软件著作权等共计31项。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ000815",
+    "fetched_at": "2026-09-18T22:35:56.738917+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [
+    "算力"
+  ],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "云"
+}

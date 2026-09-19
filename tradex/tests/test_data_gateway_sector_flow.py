@@ -844,6 +844,44 @@ def test_post_close_finalization_does_not_refetch_a_curve_past_the_cutoff(
     assert report["refreshed_target_count"] == 0
 
 
+@pytest.mark.parametrize("offsets", [[0, 1, 3, 4, 5], [1, 2, 3, 4, 5], [5]])
+def test_finalization_rejects_single_missing_minute_missing_start_and_tail_only(tmp_path, offsets):
+    class IncompleteRouter(_Router):
+        def route_validated(self, data_type, validator, **kwargs):
+            self.calls.append((data_type, kwargs))
+            return validator(_frame(kwargs["trade_date"]).iloc[offsets].copy(), "eastmoney"), "eastmoney"
+
+    with SectorFundFlowStore(tmp_path / "exact.sqlite3") as store:
+        cache = SectorFundFlowBackfillCache(store=store)
+        router = IncompleteRouter()
+        fetch_sector_intraday_fund_flow_backfill((TARGET,), trading_date=TRADE_DATE, now=NOW, router=router, cache=cache, load_missing=True)
+        result = finalize_sector_intraday_fund_flow_backfill(trading_date=TRADE_DATE, required_through=NOW.replace(hour=9, minute=36), now=NOW, router=router, cache=cache)
+        assert result["complete"] is False
+        assert result["missing_target_keys"] == (TARGET["sector_key"],)
+        assert len(router.calls) == 2
+
+
+def test_cache_complete_with_zero_downloads_waits_for_collector_publication(tmp_path, monkeypatch):
+    path = tmp_path / "cache-ready.sqlite3"
+    factory = lambda: SectorFundFlowStore(path)
+    with factory() as store:
+        cache = SectorFundFlowBackfillCache(store=store)
+        fetch_sector_intraday_fund_flow_backfill((TARGET,), trading_date=TRADE_DATE, now=NOW,
+                                               router=_Router(), cache=cache, load_missing=True)
+        store.request_intraday_repair(TRADE_DATE, required_through=NOW.replace(hour=9, minute=36), requested_at=NOW)
+        monkeypatch.setattr(sector_flow_module, "SectorFundFlowStore", factory)
+        monkeypatch.setattr(sector_flow_module, "_SECTOR_FLOW_BACKFILL_CACHE", cache)
+        monkeypatch.setattr(sector_flow_module, "fetch_sector_intraday_fund_flow_backfill",
+                            lambda *args, **kwargs: pytest.fail("complete cache must not refetch"))
+        worker = sector_flow_module.SectorFundFlowIntradayRepairWorker(clock=lambda: NOW)
+        worker._run(TRADE_DATE)
+        repair = store.read_intraday_repair(TRADE_DATE)
+        assert repair["status"] == "partial"
+        assert repair["remaining_targets"] == 0
+        assert repair["attempted_targets"] == 0
+        assert "等待采集器发布" in repair["last_error"]
+
+
 def test_post_close_finalization_rejects_a_curve_with_rendered_intraday_gaps(
     tmp_path,
 ):

@@ -15,6 +15,16 @@ from tradex.dashboard.__main__ import (
 )
 
 
+def test_get_html_preserves_source_bytes_for_managed_health_check(tmp_path, monkeypatch):
+    from tradex.dashboard import __main__ as dashboard_app
+    watch = tmp_path / "watch"
+    watch.mkdir()
+    body = "<html>\r\n<title>双拐 · Tradex</title>\n</html>\r\n".encode("utf-8")
+    (watch / "index.html").write_bytes(body)
+    monkeypatch.setattr(dashboard_app, "__file__", str(tmp_path / "__main__.py"))
+    assert dashboard_app._get_html().encode("utf-8") == body
+
+
 def test_get_html_reflects_file_changes(tmp_path, monkeypatch):
     watch_path = tmp_path / "watch"
     watch_path.mkdir()

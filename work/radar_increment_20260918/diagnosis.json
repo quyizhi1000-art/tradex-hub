@@ -1,0 +1,1648 @@
+{
+  "summary": {
+    "previous_archive_id": "stock-selection-strategy-result:27d4b0b79d2f3cfd417ae601",
+    "previous_count": 56,
+    "quote_file": "work\\double_turn_audit_20260918\\repair-quotes.json",
+    "quote_observed_min": "2026-09-18T11:17:27+08:00",
+    "quote_observed_max": "2026-09-18T11:18:39+08:00",
+    "previous_stocks_verified": 53,
+    "exclusions": {
+      "no_clear_new_cross": 53,
+      "adjustment_changed": 3
+    },
+    "archive_seed_mismatch_count": 0,
+    "archive_six_day_mismatch_count": 0,
+    "verified_still_macd_above": 52,
+    "verified_macd_above_and_j_rising": 47,
+    "verified_current_state_and_recent_j_turn": 39,
+    "forced_scan_active_count": 72,
+    "forced_scan_overlap_previous_archive": [],
+    "forced_scan_all_previous_dif_le_dea": true
+  },
+  "rows": [
+    {
+      "instrument_id": "000504.SZ",
+      "name": "南华生物",
+      "archive_seed_deltas": {
+        "dif": 0.0,
+        "dea": 0.0,
+        "k": 0.0,
+        "d": 0.0,
+        "j": 0.0
+      },
+      "archive_six_day_max_delta": 0.0,
+      "evaluated": true,
+      "exclusions": {
+        "no_clear_new_cross": 1
+      },
+      "previous_dif": 0.084,
+      "previous_dea": 0.053,
+      "previous_j": 77.0,
+      "dif": 0.1963760683760684,
+      "dea": 0.08167521367521369,
+      "j": 101.43555555555555,
+      "price": 10.01,
+      "observed_at": "2026-09-18T11:18:21+08:00",
+      "previous_spread": 0.031000000000000007,
+      "spread": 0.11470085470085473,
+      "still_macd_above": true,
+      "j_still_rising": true,
+      "has_recent_j_turn": true
+    },
+    {
+      "instrument_id": "000809.SZ",
+      "name": "和展能源",
+      "archive_seed_deltas": {
+        "dif": 0.0,
+        "dea": 0.0,
+        "k": 0.0,
+        "d": 0.0,
+        "j": 0.0
+      },
+      "archive_six_day_max_delta": 0.0,
+      "evaluated": true,
+      "exclusions": {
+        "no_clear_new_cross": 1
+      },
+      "previous_dif": 0.032,
+      "previous_dea": 0.031,
+      "previous_j": 52.313,
+      "dif": 0.03788888888888887,
+      "dea": 0.032377777777777776,
+      "j": 62.592575163398664,
+      "price": 3.55,
+      "observed_at": "2026-09-18T11:18:21+08:00",
+      "previous_spread": 0.0010000000000000009,
+      "spread": 0.005511111111111092,
+      "still_macd_above": true,
+      "j_still_rising": true,
+      "has_recent_j_turn": true
+    },
+    {
+      "instrument_id": "002283.SZ",
+      "name": "天润工业",
+      "archive_seed_deltas": {
+        "dif": 0.0,
+        "dea": 0.0,
+        "k": 0.0,
+        "d": 0.0,
+        "j": 0.0
+      },
+      "archive_six_day_max_delta": 0.0,
+      "evaluated": false,
+      "exclusions": {
+        "adjustment_changed": 1
+      },
+      "previous_dif": -0.188,
+      "previous_dea": -0.196,
+      "previous_j": 76.354,
+      "dif": -0.16703988603988607,
+      "dea": -0.19020797720797725,
+      "j": 81.5707352537723,
+      "price": 8.2,
+      "observed_at": "2026-09-18T11:18:24+08:00",
+      "previous_spread": 0.008000000000000007,
+      "spread": 0.02316809116809118,
+      "still_macd_above": true,
+      "j_still_rising": true,
+      "has_recent_j_turn": true
+    },
+    {
+      "instrument_id": "002339.SZ",
+      "name": "积成电子",
+      "archive_seed_deltas": {
+        "dif": 0.0,
+        "dea": 0.0,
+        "k": 0.0,
+        "d": 0.0,
+        "j": 0.0
+      },
+      "archive_six_day_max_delta": 0.0,
+      "evaluated": true,
+      "exclusions": {
+        "no_clear_new_cross": 1
+      },
+      "previous_dif": 0.125,
+      "previous_dea": 0.088,
+      "previous_j": 79.369,
+      "dif": 0.14991452991452983,
+      "dea": 0.10038290598290597,
+      "j": 77.5052345679012,
+      "price": 8.02,
+      "observed_at": "2026-09-18T11:18:24+08:00",
+      "previous_spread": 0.037000000000000005,
+      "spread": 0.04953162393162386,
+      "still_macd_above": true,
+      "j_still_rising": false,
+      "has_recent_j_turn": true
+    },
+    {
+      "instrument_id": "002510.SZ",
+      "name": "天汽模",
+      "archive_seed_deltas": {
+        "dif": 0.0,
+        "dea": 0.0,
+        "k": 0.0,
+        "d": 0.0,
+        "j": 0.0
+      },
+      "archive_six_day_max_delta": 0.0,
+      "evaluated": true,
+      "exclusions": {
+        "no_clear_new_cross": 1
+      },
+      "previous_dif": 0.039,
+      "previous_dea": 0.034,
+      "previous_j": 49.685,
+      "dif": 0.044680911680911636,
+      "dea": 0.03613618233618233,
+      "j": 56.190256410256396,
+      "price": 5.84,
+      "observed_at": "2026-09-18T11:18:24+08:00",
+      "previous_spread": 0.0049999999999999975,
+      "spread": 0.008544729344729309,
+      "still_macd_above": true,
+      "j_still_rising": true,
+      "has_recent_j_turn": true
+    },
+    {
+      "instrument_id": "600356.SH",
+      "name": "恒丰纸业",
+      "archive_seed_deltas": {
+        "dif": 0.0,
+        "dea": 0.0,
+        "k": 0.0,
+        "d": 0.0,
+        "j": 0.0
+      },
+      "archive_six_day_max_delta": 0.0,
+      "evaluated": true,
+      "exclusions": {
+        "no_clear_new_cross": 1
+      },
+      "previous_dif": 0.276,
+      "previous_dea": 0.226,
+      "previous_j": 78.933,
+      "dif": 0.3277977207977209,
+      "dea": 0.2463595441595442,
+      "j": 87.23140740740735,
+      "price": 10.26,
+      "observed_at": "2026-09-18T11:18:27+08:00",
+      "previous_spread": 0.05000000000000002,
+      "spread": 0.0814381766381767,
+      "still_macd_above": true,
+      "j_still_rising": true,
+      "has_recent_j_turn": true
+    },
+    {
+      "instrument_id": "600418.SH",
+      "name": "江淮汽车",
+      "archive_seed_deltas": {
+        "dif": 0.0,
+        "dea": 0.0,
+        "k": 0.0,
+        "d": 0.0,
+        "j": 0.0
+      },
+      "archive_six_day_max_delta": 0.0,
+      "evaluated": true,
+      "exclusions": {
+        "no_clear_new_cross": 1
+      },
+      "previous_dif": -0.975,
+      "previous_dea": -0.976,
+      "previous_j": 19.085,
+      "dif": -0.9692022792022791,
+      "dea": -0.9746404558404559,
+      "j": 15.743333333333311,
+      "price": 18.95,
+      "observed_at": "2026-09-18T11:18:28+08:00",
+      "previous_spread": 0.0010000000000000009,
+      "spread": 0.005438176638176806,
+      "still_macd_above": true,
+      "j_still_rising": false,
+      "has_recent_j_turn": true
+    },
+    {
+      "instrument_id": "600609.SH",
+      "name": "金杯汽车",
+      "archive_seed_deltas": {
+        "dif": 0.0,
+        "dea": 0.0,
+        "k": 0.0,
+        "d": 0.0,
+        "j": 0.0
+      },
+      "archive_six_day_max_delta": 0.0,
+      "evaluated": true,
+      "exclusions": {
+        "no_clear_new_cross": 1
+      },
+      "previous_dif": 0.037,
+      "previous_dea": 0.029,
+      "previous_j": 56.958,
+      "dif": 0.05150712250712249,
+      "dea": 0.0335014245014245,
+      "j": 66.53442258652092,
+      "price": 3.61,
+      "observed_at": "2026-09-18T11:18:31+08:00",
+      "previous_spread": 0.007999999999999997,
+      "spread": 0.01800569800569799,
+      "still_macd_above": true,
+      "j_still_rising": true,
+      "has_recent_j_turn": true
+    },
+    {
+      "instrument_id": "600822.SH",
+      "name": "上海物贸",
+      "archive_seed_deltas": {
+        "dif": 0.0,
+        "dea": 0.0,
+        "k": 0.0,
+        "d": 0.0,
+        "j": 0.0
+      },
+      "archive_six_day_max_delta": 0.0,
+      "evaluated": true,
+      "exclusions": {
+        "no_clear_new_cross": 1
+      },
+      "previous_dif": 0.164,
+      "previous_dea": 0.144,
+      "previous_j": 63.504,
+      "dif": 0.1990256410256409,
+      "dea": 0.15500512820512818,
+      "j": 58.94908108108106,
+      "price": 9.43,
+      "observed_at": "2026-09-18T11:18:29+08:00",
+      "previous_spread": 0.020000000000000018,
+      "spread": 0.044020512820512725,
+      "still_macd_above": true,
+      "j_still_rising": false,
+      "has_recent_j_turn": true
+    },
+    {
+      "instrument_id": "600966.SH",
+      "name": "博汇纸业",
+      "archive_seed_deltas": {
+        "dif": 0.0,
+        "dea": 0.0,
+        "k": 0.0,
+        "d": 0.0,
+        "j": 0.0
+      },
+      "archive_six_day_max_delta": 0.0,
+      "evaluated": true,
+      "exclusions": {
+        "no_clear_new_cross": 1
+      },
+      "previous_dif": -0.002,
+      "previous_dea": -0.003,
+      "previous_j": 37.76,
+      "dif": 0.0058717948717948555,
+      "dea": -0.001225641025641029,
+      "j": 53.483111111111,
+      "price": 4.97,
+      "observed_at": "2026-09-18T11:18:26+08:00",
+      "previous_spread": 0.001,
+      "spread": 0.007097435897435884,
+      "still_macd_above": true,
+      "j_still_rising": true,
+      "has_recent_j_turn": true
+    },
+    {
+      "instrument_id": "601018.SH",
+      "name": "宁波港",
+      "archive_seed_deltas": {
+        "dif": 0.0,
+        "dea": 0.0,
+        "k": 0.0,
+        "d": 0.0,
+        "j": 0.0
+      },
+      "archive_six_day_max_delta": 0.0,
+      "evaluated": false,
+      "exclusions": {
+        "adjustment_changed": 1
+      },
+      "previous_dif": 0.032,
+      "previous_dea": 0.03,
+      "previous_j": 60.263,
+      "dif": 0.028415954415954445,
+      "dea": 0.02968319088319089,
+      "j": 24.261333333333354,
+      "price": 3.45,
+      "observed_at": "2026-09-18T11:18:31+08:00",
+      "previous_spread": 0.0020000000000000018,
+      "spread": -0.0012672364672364454,
+      "still_macd_above": false,
+      "j_still_rising": false,
+      "has_recent_j_turn": true
+    },
+    {
+      "instrument_id": "605369.SH",
+      "name": "拱东医疗",
+      "archive_seed_deltas": {
+        "dif": 0.0,
+        "dea": 0.0,
+        "k": 0.0,
+        "d": 0.0,
+        "j": 0.0
+      },
+      "archive_six_day_max_delta": 0.0,
+      "evaluated": true,
+      "exclusions": {
+        "no_clear_new_cross": 1
+      },
+      "previous_dif": -0.069,
+      "previous_dea": -0.081,
+      "previous_j": 72.85,
+      "dif": -0.0541965811965811,
+      "dea": -0.07563931623931623,
+      "j": 75.8043535988819,
+      "price": 16.78,
+      "observed_at": "2026-09-18T11:18:31+08:00",
+      "previous_spread": 0.011999999999999997,
+      "spread": 0.021442735042735132,
+      "still_macd_above": true,
+      "j_still_rising": true,
+      "has_recent_j_turn": true
+    },
+    {
+      "instrument_id": "000725.SZ",
+      "name": "京东方A",
+      "archive_seed_deltas": {
+        "dif": 0.0,
+        "dea": 0.0,
+        "k": 0.0,
+        "d": 0.0,
+        "j": 0.0
+      },
+      "archive_six_day_max_delta": 0.0,
+      "evaluated": true,
+      "exclusions": {
+        "no_clear_new_cross": 1
+      },
+      "previous_dif": -0.146,
+      "previous_dea": -0.148,
+      "previous_j": 81.08,
+      "dif": -0.11207122507122509,
+      "dea": -0.14081424501424503,
+      "j": 104.22599061032861,
+      "price": 5.85,
+      "observed_at": "2026-09-18T11:18:21+08:00",
+      "previous_spread": 0.0020000000000000018,
+      "spread": 0.028743019943019935,
+      "still_macd_above": true,
+      "j_still_rising": true,
+      "has_recent_j_turn": true
+    },
+    {
+      "instrument_id": "000811.SZ",
+      "name": "冰轮环境",
+      "archive_seed_deltas": {
+        "dif": 0.0,
+        "dea": 0.0,
+        "k": 0.0,
+        "d": 0.0,
+        "j": 0.0
+      },
+      "archive_six_day_max_delta": 0.0,
+      "evaluated": true,
+      "exclusions": {
+        "no_clear_new_cross": 1
+      },
+      "previous_dif": -1.043,
+      "previous_dea": -1.069,
+      "previous_j": 82.155,
+      "dif": -0.8267692307692306,
+      "dea": -1.0205538461538461,
+      "j": 108.91113677187576,
+      "price": 39.66,
+      "observed_at": "2026-09-18T11:18:21+08:00",
+      "previous_spread": 0.026000000000000023,
+      "spread": 0.19378461538461556,
+      "still_macd_above": true,
+      "j_still_rising": true,
+      "has_recent_j_turn": true
+    },
+    {
+      "instrument_id": "001215.SZ",
+      "name": "千味央厨",
+      "archive_seed_deltas": {
+        "dif": 0.0,
+        "dea": 0.0,
+        "k": 0.0,
+        "d": 0.0,
+        "j": 0.0
+      },
+      "archive_six_day_max_delta": 0.0,
+      "evaluated": true,
+      "exclusions": {
+        "no_clear_new_cross": 1
+      },
+      "previous_dif": -0.666,
+      "previous_dea": -0.68,
+      "previous_j": 50.764,
+      "dif": -0.5983247863247865,
+      "dea": -0.6636649572649573,
+      "j": 67.6286666666667,
+      "price": 30.48,
+      "observed_at": "2026-09-18T11:18:12+08:00",
+      "previous_spread": 0.014000000000000012,
+      "spread": 0.06534017094017086,
+      "still_macd_above": true,
+      "j_still_rising": true,
+      "has_recent_j_turn": true
+    },
+    {
+      "instrument_id": "001259.SZ",
+      "name": "利仁科技",
+      "archive_seed_deltas": {
+        "dif": 0.0,
+        "dea": 0.0,
+        "k": 0.0,
+        "d": 0.0,
+        "j": 0.0
+      },
+      "archive_six_day_max_delta": 0.0,
+      "evaluated": true,
+      "exclusions": {
+        "no_clear_new_cross": 1
+      },
+      "previous_dif": -0.775,
+      "previous_dea": -0.867,
+      "previous_j": 47.174,
+      "dif": -0.6133333333333331,
+      "dea": -0.8162666666666666,
+      "j": 79.89792982456144,
+      "price": 46.6,
+      "observed_at": "2026-09-18T11:18:03+08:00",
+      "previous_spread": 0.09199999999999997,
+      "spread": 0.20293333333333352,
+      "still_macd_above": true,
+      "j_still_rising": true,
+      "has_recent_j_turn": true
+    },
+    {
+      "instrument_id": "001266.SZ",
+      "name": "宏英智能",
+      "archive_seed_deltas": {
+        "dif": 0.0,
+        "dea": 0.0,
+        "k": 0.0,
+        "d": 0.0,
+        "j": 0.0
+      },
+      "archive_six_day_max_delta": 0.0,
+      "evaluated": true,
+      "exclusions": {
+        "no_clear_new_cross": 1
+      },
+      "previous_dif": -0.595,
+      "previous_dea": -0.635,
+      "previous_j": 76.968,
+      "dif": -0.4724643874643878,
+      "dea": -0.6024928774928776,
+      "j": 106.05088008800871,
+      "price": 33.94,
+      "observed_at": "2026-09-18T11:18:21+08:00",
+      "previous_spread": 0.040000000000000036,
+      "spread": 0.13002849002848982,
+      "still_macd_above": true,
+      "j_still_rising": true,
+      "has_recent_j_turn": true
+    },
+    {
+      "instrument_id": "002127.SZ",
+      "name": "南极电商",
+      "archive_seed_deltas": {
+        "dif": 0.0,
+        "dea": 0.0,
+        "k": 0.0,
+        "d": 0.0,
+        "j": 0.0
+      },
+      "archive_six_day_max_delta": 0.0,
+      "evaluated": true,
+      "exclusions": {
+        "no_clear_new_cross": 1
+      },
+      "previous_dif": 0.009,
+      "previous_dea": 0.007,
+      "previous_j": 42.745,
+      "dif": 0.011247863247863248,
+      "dea": 0.00784957264957265,
+      "j": 55.923037037037034,
+      "price": 3.05,
+      "observed_at": "2026-09-18T11:18:21+08:00",
+      "previous_spread": 0.001999999999999999,
+      "spread": 0.0033982905982905976,
+      "still_macd_above": true,
+      "j_still_rising": true,
+      "has_recent_j_turn": true
+    },
+    {
+      "instrument_id": "002222.SZ",
+      "name": "福晶科技",
+      "archive_seed_deltas": {
+        "dif": 0.0,
+        "dea": 0.0,
+        "k": 0.0,
+        "d": 0.0,
+        "j": 0.0
+      },
+      "archive_six_day_max_delta": 0.0,
+      "evaluated": true,
+      "exclusions": {
+        "no_clear_new_cross": 1
+      },
+      "previous_dif": 0.476,
+      "previous_dea": 0.321,
+      "previous_j": 81.997,
+      "dif": 0.695960113960114,
+      "dea": 0.39599202279202284,
+      "j": 100.68321756317945,
+      "price": 69.62,
+      "observed_at": "2026-09-18T11:18:24+08:00",
+      "previous_spread": 0.15499999999999997,
+      "spread": 0.2999680911680912,
+      "still_macd_above": true,
+      "j_still_rising": true,
+      "has_recent_j_turn": true
+    },
+    {
+      "instrument_id": "002285.SZ",
+      "name": "世联行",
+      "archive_seed_deltas": {
+        "dif": 0.0,
+        "dea": 0.0,
+        "k": 0.0,
+        "d": 0.0,
+        "j": 0.0
+      },
+      "archive_six_day_max_delta": 0.0,
+      "evaluated": true,
+      "exclusions": {
+        "no_clear_new_cross": 1
+      },
+      "previous_dif": 0.059,
+      "previous_dea": 0.052,
+      "previous_j": 78.498,
+      "dif": 0.08274358974358975,
+      "dea": 0.058148717948717954,
+      "j": 88.17946546546548,
+      "price": 2.72,
+      "observed_at": "2026-09-18T11:18:24+08:00",
+      "previous_spread": 0.006999999999999999,
+      "spread": 0.024594871794871798,
+      "still_macd_above": true,
+      "j_still_rising": true,
+      "has_recent_j_turn": true
+    },
+    {
+      "instrument_id": "002350.SZ",
+      "name": "北京科锐",
+      "archive_seed_deltas": {
+        "dif": 0.0,
+        "dea": 0.0,
+        "k": 0.0,
+        "d": 0.0,
+        "j": 0.0
+      },
+      "archive_six_day_max_delta": 0.0,
+      "evaluated": true,
+      "exclusions": {
+        "no_clear_new_cross": 1
+      },
+      "previous_dif": -0.066,
+      "previous_dea": -0.069,
+      "previous_j": 68.425,
+      "dif": -0.06466381766381757,
+      "dea": -0.06813276353276351,
+      "j": 67.95568253968258,
+      "price": 14.55,
+      "observed_at": "2026-09-18T11:18:24+08:00",
+      "previous_spread": 0.0030000000000000027,
+      "spread": 0.003468945868945944,
+      "still_macd_above": true,
+      "j_still_rising": false,
+      "has_recent_j_turn": true
+    },
+    {
+      "instrument_id": "002453.SZ",
+      "name": "华软科技",
+      "archive_seed_deltas": {
+        "dif": 0.0,
+        "dea": 0.0,
+        "k": 0.0,
+        "d": 0.0,
+        "j": 0.0
+      },
+      "archive_six_day_max_delta": 0.0,
+      "evaluated": true,
+      "exclusions": {
+        "no_clear_new_cross": 1
+      },
+      "previous_dif": 0.042,
+      "previous_dea": 0.041,
+      "previous_j": 71.505,
+      "dif": 0.10333048433048436,
+      "dea": 0.05346609686609688,
+      "j": 102.03777777777776,
+      "price": 5.34,
+      "observed_at": "2026-09-18T11:18:24+08:00",
+      "previous_spread": 0.0010000000000000009,
+      "spread": 0.04986438746438748,
+      "still_macd_above": true,
+      "j_still_rising": true,
+      "has_recent_j_turn": true
+    },
+    {
+      "instrument_id": "002639.SZ",
+      "name": "雪人集团",
+      "archive_seed_deltas": {
+        "dif": 0.0,
+        "dea": 0.0,
+        "k": 0.0,
+        "d": 0.0,
+        "j": 0.0
+      },
+      "archive_six_day_max_delta": 0.0,
+      "evaluated": true,
+      "exclusions": {
+        "no_clear_new_cross": 1
+      },
+      "previous_dif": 0.353,
+      "previous_dea": 0.33,
+      "previous_j": 28.05,
+      "dif": 0.382011396011396,
+      "dea": 0.3404022792022792,
+      "j": 43.252645161290346,
+      "price": 14.06,
+      "observed_at": "2026-09-18T11:18:27+08:00",
+      "previous_spread": 0.022999999999999965,
+      "spread": 0.041609116809116775,
+      "still_macd_above": true,
+      "j_still_rising": true,
+      "has_recent_j_turn": true
+    },
+    {
+      "instrument_id": "002640.SZ",
+      "name": "跨境通",
+      "archive_seed_deltas": {
+        "dif": 0.0,
+        "dea": 0.0,
+        "k": 0.0,
+        "d": 0.0,
+        "j": 0.0
+      },
+      "archive_six_day_max_delta": 0.0,
+      "evaluated": true,
+      "exclusions": {
+        "no_clear_new_cross": 1
+      },
+      "previous_dif": 0.048,
+      "previous_dea": 0.035,
+      "previous_j": 79.997,
+      "dif": 0.0661994301994302,
+      "dea": 0.04123988603988604,
+      "j": 86.16703814262024,
+      "price": 3.73,
+      "observed_at": "2026-09-18T11:18:27+08:00",
+      "previous_spread": 0.012999999999999998,
+      "spread": 0.024959544159544156,
+      "still_macd_above": true,
+      "j_still_rising": true,
+      "has_recent_j_turn": true
+    },
+    {
+      "instrument_id": "002730.SZ",
+      "name": "电光科技",
+      "archive_seed_deltas": {
+        "dif": 0.0,
+        "dea": 0.0,
+        "k": 0.0,
+        "d": 0.0,
+        "j": 0.0
+      },
+      "archive_six_day_max_delta": 0.0,
+      "evaluated": true,
+      "exclusions": {
+        "no_clear_new_cross": 1
+      },
+      "previous_dif": 0.094,
+      "previous_dea": 0.006,
+      "previous_j": 77.369,
+      "dif": 0.16218803418803407,
+      "dea": 0.03723760683760682,
+      "j": 84.6833131313131,
+      "price": 24.13,
+      "observed_at": "2026-09-18T11:18:24+08:00",
+      "previous_spread": 0.088,
+      "spread": 0.12495042735042725,
+      "still_macd_above": true,
+      "j_still_rising": true,
+      "has_recent_j_turn": true
+    },
+    {
+      "instrument_id": "002762.SZ",
+      "name": "金发拉比",
+      "archive_seed_deltas": {
+        "dif": 0.0,
+        "dea": 0.0,
+        "k": 0.0,
+        "d": 0.0,
+        "j": 0.0
+      },
+      "archive_six_day_max_delta": 0.0,
+      "evaluated": true,
+      "exclusions": {
+        "no_clear_new_cross": 1
+      },
+      "previous_dif": 0.125,
+      "previous_dea": 0.096,
+      "previous_j": 87.991,
+      "dif": 0.15470085470085465,
+      "dea": 0.10774017094017094,
+      "j": 82.38068544600941,
+      "price": 10.1,
+      "observed_at": "2026-09-18T11:18:12+08:00",
+      "previous_spread": 0.028999999999999998,
+      "spread": 0.046960683760683714,
+      "still_macd_above": true,
+      "j_still_rising": false,
+      "has_recent_j_turn": true
+    },
+    {
+      "instrument_id": "002792.SZ",
+      "name": "通宇通讯",
+      "archive_seed_deltas": {
+        "dif": 0.0,
+        "dea": 0.0,
+        "k": 0.0,
+        "d": 0.0,
+        "j": 0.0
+      },
+      "archive_six_day_max_delta": 0.0,
+      "evaluated": true,
+      "exclusions": {
+        "no_clear_new_cross": 1
+      },
+      "previous_dif": -0.297,
+      "previous_dea": -0.315,
+      "previous_j": 50.156,
+      "dif": -0.20794586894586875,
+      "dea": -0.29358917378917376,
+      "j": 62.628272606735635,
+      "price": 31.37,
+      "observed_at": "2026-09-18T11:18:24+08:00",
+      "previous_spread": 0.018000000000000016,
+      "spread": 0.08564330484330501,
+      "still_macd_above": true,
+      "j_still_rising": true,
+      "has_recent_j_turn": true
+    },
+    {
+      "instrument_id": "002796.SZ",
+      "name": "世嘉科技",
+      "archive_seed_deltas": {
+        "dif": 0.0,
+        "dea": 0.0,
+        "k": 0.0,
+        "d": 0.0,
+        "j": 0.0
+      },
+      "archive_six_day_max_delta": 0.0,
+      "evaluated": true,
+      "exclusions": {
+        "no_clear_new_cross": 1
+      },
+      "previous_dif": -0.164,
+      "previous_dea": -0.384,
+      "previous_j": 94.674,
+      "dif": 0.02714245014245034,
+      "dea": -0.30177150997151,
+      "j": 103.0603180428135,
+      "price": 31.76,
+      "observed_at": "2026-09-18T11:18:24+08:00",
+      "previous_spread": 0.22,
+      "spread": 0.32891396011396035,
+      "still_macd_above": true,
+      "j_still_rising": true,
+      "has_recent_j_turn": true
+    },
+    {
+      "instrument_id": "002956.SZ",
+      "name": "西麦食品",
+      "archive_seed_deltas": {
+        "dif": 0.0,
+        "dea": 0.0,
+        "k": 0.0,
+        "d": 0.0,
+        "j": 0.0
+      },
+      "archive_six_day_max_delta": 0.0,
+      "evaluated": true,
+      "exclusions": {
+        "no_clear_new_cross": 1
+      },
+      "previous_dif": -0.404,
+      "previous_dea": -0.479,
+      "previous_j": 95.074,
+      "dif": -0.26791452991452996,
+      "dea": -0.436782905982906,
+      "j": 114.15796204033207,
+      "price": 17.74,
+      "observed_at": "2026-09-18T11:18:27+08:00",
+      "previous_spread": 0.07499999999999996,
+      "spread": 0.168868376068376,
+      "still_macd_above": true,
+      "j_still_rising": true,
+      "has_recent_j_turn": true
+    },
+    {
+      "instrument_id": "600449.SH",
+      "name": "宁夏建材",
+      "archive_seed_deltas": {
+        "dif": 0.0,
+        "dea": 0.0,
+        "k": 0.0,
+        "d": 0.0,
+        "j": 0.0
+      },
+      "archive_six_day_max_delta": 0.0,
+      "evaluated": true,
+      "exclusions": {
+        "no_clear_new_cross": 1
+      },
+      "previous_dif": -0.004,
+      "previous_dea": -0.011,
+      "previous_j": 72.441,
+      "dif": 0.039606837606837614,
+      "dea": -0.0008786324786324781,
+      "j": 91.25674952919019,
+      "price": 13.09,
+      "observed_at": "2026-09-18T11:18:30+08:00",
+      "previous_spread": 0.006999999999999999,
+      "spread": 0.04048547008547009,
+      "still_macd_above": true,
+      "j_still_rising": true,
+      "has_recent_j_turn": true
+    },
+    {
+      "instrument_id": "600487.SH",
+      "name": "亨通光电",
+      "archive_seed_deltas": {
+        "dif": 0.0,
+        "dea": 0.0,
+        "k": 0.0,
+        "d": 0.0,
+        "j": 0.0
+      },
+      "archive_six_day_max_delta": 0.0,
+      "evaluated": true,
+      "exclusions": {
+        "no_clear_new_cross": 1
+      },
+      "previous_dif": 0.491,
+      "previous_dea": 0.296,
+      "previous_j": 79.645,
+      "dif": 0.788025641025642,
+      "dea": 0.3944051282051284,
+      "j": 90.70376416241194,
+      "price": 69.18,
+      "observed_at": "2026-09-18T11:18:29+08:00",
+      "previous_spread": 0.195,
+      "spread": 0.3936205128205136,
+      "still_macd_above": true,
+      "j_still_rising": true,
+      "has_recent_j_turn": true
+    },
+    {
+      "instrument_id": "600630.SH",
+      "name": "龙头股份",
+      "archive_seed_deltas": {
+        "dif": 0.0,
+        "dea": 0.0,
+        "k": 0.0,
+        "d": 0.0,
+        "j": 0.0
+      },
+      "archive_six_day_max_delta": 0.0,
+      "evaluated": true,
+      "exclusions": {
+        "no_clear_new_cross": 1
+      },
+      "previous_dif": 0.074,
+      "previous_dea": 0.056,
+      "previous_j": 68.027,
+      "dif": 0.1666752136752136,
+      "dea": 0.07813504273504274,
+      "j": 100.42066666666668,
+      "price": 8.29,
+      "observed_at": "2026-09-18T11:18:32+08:00",
+      "previous_spread": 0.017999999999999995,
+      "spread": 0.08854017094017086,
+      "still_macd_above": true,
+      "j_still_rising": true,
+      "has_recent_j_turn": true
+    },
+    {
+      "instrument_id": "600699.SH",
+      "name": "均胜电子",
+      "archive_seed_deltas": {
+        "dif": 0.0,
+        "dea": 0.0,
+        "k": 0.0,
+        "d": 0.0,
+        "j": 0.0
+      },
+      "archive_six_day_max_delta": 0.0,
+      "evaluated": true,
+      "exclusions": {
+        "no_clear_new_cross": 1
+      },
+      "previous_dif": -0.418,
+      "previous_dea": -0.441,
+      "previous_j": 47.82,
+      "dif": -0.30319373219373214,
+      "dea": -0.41343874643874645,
+      "j": 72.0813137665968,
+      "price": 20.12,
+      "observed_at": "2026-09-18T11:18:32+08:00",
+      "previous_spread": 0.02300000000000002,
+      "spread": 0.11024501424501432,
+      "still_macd_above": true,
+      "j_still_rising": true,
+      "has_recent_j_turn": true
+    },
+    {
+      "instrument_id": "600703.SH",
+      "name": "三安光电",
+      "archive_seed_deltas": {
+        "dif": 0.0,
+        "dea": 0.0,
+        "k": 0.0,
+        "d": 0.0,
+        "j": 0.0
+      },
+      "archive_six_day_max_delta": 0.0,
+      "evaluated": true,
+      "exclusions": {
+        "no_clear_new_cross": 1
+      },
+      "previous_dif": -0.273,
+      "previous_dea": -0.28,
+      "previous_j": 53.255,
+      "dif": -0.23750997150997158,
+      "dea": -0.27150199430199434,
+      "j": 90.36096296296297,
+      "price": 13.02,
+      "observed_at": "2026-09-18T11:18:32+08:00",
+      "previous_spread": 0.007000000000000006,
+      "spread": 0.033992022792022764,
+      "still_macd_above": true,
+      "j_still_rising": true,
+      "has_recent_j_turn": true
+    },
+    {
+      "instrument_id": "601127.SH",
+      "name": "赛力斯",
+      "archive_seed_deltas": {
+        "dif": 0.0,
+        "dea": 0.0,
+        "k": 0.0,
+        "d": 0.0,
+        "j": 0.0
+      },
+      "archive_six_day_max_delta": 0.0,
+      "evaluated": true,
+      "exclusions": {
+        "no_clear_new_cross": 1
+      },
+      "previous_dif": -2.14,
+      "previous_dea": -2.147,
+      "previous_j": 49.464,
+      "dif": -2.077264957264957,
+      "dea": -2.1330529914529914,
+      "j": 56.24133478339675,
+      "price": 46.54,
+      "observed_at": "2026-09-18T11:18:34+08:00",
+      "previous_spread": 0.006999999999999673,
+      "spread": 0.05578803418803435,
+      "still_macd_above": true,
+      "j_still_rising": true,
+      "has_recent_j_turn": true
+    },
+    {
+      "instrument_id": "601163.SH",
+      "name": "三角轮胎",
+      "archive_seed_deltas": {
+        "dif": 0.0,
+        "dea": 0.0,
+        "k": 0.0,
+        "d": 0.0,
+        "j": 0.0
+      },
+      "archive_six_day_max_delta": 0.0,
+      "evaluated": true,
+      "exclusions": {
+        "no_clear_new_cross": 1
+      },
+      "previous_dif": -0.145,
+      "previous_dea": -0.146,
+      "previous_j": 46.035,
+      "dif": -0.13472934472934472,
+      "dea": -0.14374586894586894,
+      "j": 54.20022222222218,
+      "price": 12.42,
+      "observed_at": "2026-09-18T11:18:32+08:00",
+      "previous_spread": 0.0010000000000000009,
+      "spread": 0.009016524216524213,
+      "still_macd_above": true,
+      "j_still_rising": true,
+      "has_recent_j_turn": true
+    },
+    {
+      "instrument_id": "603867.SH",
+      "name": "新化股份",
+      "archive_seed_deltas": {
+        "dif": 0.0,
+        "dea": 0.0,
+        "k": 0.0,
+        "d": 0.0,
+        "j": 0.0
+      },
+      "archive_six_day_max_delta": 0.0,
+      "evaluated": false,
+      "exclusions": {
+        "adjustment_changed": 1
+      },
+      "previous_dif": 0.121,
+      "previous_dea": 0.084,
+      "previous_j": 72.964,
+      "dif": 0.3308461538461542,
+      "dea": 0.13336923076923085,
+      "j": 95.19777681785457,
+      "price": 32.52,
+      "observed_at": "2026-09-18T11:18:38+08:00",
+      "previous_spread": 0.03699999999999999,
+      "spread": 0.19747692307692333,
+      "still_macd_above": true,
+      "j_still_rising": true,
+      "has_recent_j_turn": true
+    },
+    {
+      "instrument_id": "605100.SH",
+      "name": "华丰股份",
+      "archive_seed_deltas": {
+        "dif": 0.0,
+        "dea": 0.0,
+        "k": 0.0,
+        "d": 0.0,
+        "j": 0.0
+      },
+      "archive_six_day_max_delta": 0.0,
+      "evaluated": true,
+      "exclusions": {
+        "no_clear_new_cross": 1
+      },
+      "previous_dif": -0.077,
+      "previous_dea": -0.128,
+      "previous_j": 78.684,
+      "dif": 0.02342165242165254,
+      "dea": -0.0977156695156695,
+      "j": 90.84876023391811,
+      "price": 33.83,
+      "observed_at": "2026-09-18T11:18:36+08:00",
+      "previous_spread": 0.051000000000000004,
+      "spread": 0.12113732193732205,
+      "still_macd_above": true,
+      "j_still_rising": true,
+      "has_recent_j_turn": true
+    },
+    {
+      "instrument_id": "605318.SH",
+      "name": "法狮龙",
+      "archive_seed_deltas": {
+        "dif": 0.0,
+        "dea": 0.0,
+        "k": 0.0,
+        "d": 0.0,
+        "j": 0.0
+      },
+      "archive_six_day_max_delta": 0.0,
+      "evaluated": true,
+      "exclusions": {
+        "no_clear_new_cross": 1
+      },
+      "previous_dif": -1.157,
+      "previous_dea": -1.217,
+      "previous_j": 26.593,
+      "dif": -0.7503390313390315,
+      "dea": -1.1236678062678065,
+      "j": 75.24762824506752,
+      "price": 80.09,
+      "observed_at": "2026-09-18T11:18:36+08:00",
+      "previous_spread": 0.06000000000000005,
+      "spread": 0.37332877492877503,
+      "still_macd_above": true,
+      "j_still_rising": true,
+      "has_recent_j_turn": true
+    },
+    {
+      "instrument_id": "000612.SZ",
+      "name": "焦作万方",
+      "archive_seed_deltas": {
+        "dif": 0.0,
+        "dea": 0.0,
+        "k": 0.0,
+        "d": 0.0,
+        "j": 0.0
+      },
+      "archive_six_day_max_delta": 0.0,
+      "evaluated": true,
+      "exclusions": {
+        "no_clear_new_cross": 1
+      },
+      "previous_dif": -0.006,
+      "previous_dea": -0.018,
+      "previous_j": 90.508,
+      "dif": 0.024011396011396097,
+      "dea": -0.009597720797720779,
+      "j": 98.01073061550764,
+      "price": 11.46,
+      "observed_at": "2026-09-18T11:18:21+08:00",
+      "previous_spread": 0.011999999999999999,
+      "spread": 0.03360911680911688,
+      "still_macd_above": true,
+      "j_still_rising": true,
+      "has_recent_j_turn": true
+    },
+    {
+      "instrument_id": "002156.SZ",
+      "name": "通富微电",
+      "archive_seed_deltas": {
+        "dif": 0.0,
+        "dea": 0.0,
+        "k": 0.0,
+        "d": 0.0,
+        "j": 0.0
+      },
+      "archive_six_day_max_delta": 0.0,
+      "evaluated": true,
+      "exclusions": {
+        "no_clear_new_cross": 1
+      },
+      "previous_dif": -1.613,
+      "previous_dea": -1.616,
+      "previous_j": 64.522,
+      "dif": -1.266213675213675,
+      "dea": -1.5460427350427353,
+      "j": 95.20395008319477,
+      "price": 61.7,
+      "observed_at": "2026-09-18T11:18:24+08:00",
+      "previous_spread": 0.0030000000000001137,
+      "spread": 0.27982905982906026,
+      "still_macd_above": true,
+      "j_still_rising": true,
+      "has_recent_j_turn": true
+    },
+    {
+      "instrument_id": "002577.SZ",
+      "name": "雷柏科技",
+      "archive_seed_deltas": {
+        "dif": 0.0,
+        "dea": 0.0,
+        "k": 0.0,
+        "d": 0.0,
+        "j": 0.0
+      },
+      "archive_six_day_max_delta": 0.0,
+      "evaluated": true,
+      "exclusions": {
+        "no_clear_new_cross": 1
+      },
+      "previous_dif": 0.184,
+      "previous_dea": 0.103,
+      "previous_j": 82.886,
+      "dif": 0.3958062678062681,
+      "dea": 0.16156125356125361,
+      "j": 107.75481907807088,
+      "price": 21.94,
+      "observed_at": "2026-09-18T11:18:24+08:00",
+      "previous_spread": 0.081,
+      "spread": 0.23424501424501448,
+      "still_macd_above": true,
+      "j_still_rising": true,
+      "has_recent_j_turn": true
+    },
+    {
+      "instrument_id": "002631.SZ",
+      "name": "德尔未来",
+      "archive_seed_deltas": {
+        "dif": 0.0,
+        "dea": 0.0,
+        "k": 0.0,
+        "d": 0.0,
+        "j": 0.0
+      },
+      "archive_six_day_max_delta": 0.0,
+      "evaluated": true,
+      "exclusions": {
+        "no_clear_new_cross": 1
+      },
+      "previous_dif": 0.59,
+      "previous_dea": 0.554,
+      "previous_j": 90.239,
+      "dif": 0.7509116809116808,
+      "dea": 0.5933823361823363,
+      "j": 107.28816233254528,
+      "price": 13.11,
+      "observed_at": "2026-09-18T11:18:27+08:00",
+      "previous_spread": 0.03599999999999992,
+      "spread": 0.15752934472934454,
+      "still_macd_above": true,
+      "j_still_rising": true,
+      "has_recent_j_turn": true
+    },
+    {
+      "instrument_id": "600673.SH",
+      "name": "东阳光",
+      "archive_seed_deltas": {
+        "dif": 0.0,
+        "dea": 0.0,
+        "k": 0.0,
+        "d": 0.0,
+        "j": 0.0
+      },
+      "archive_six_day_max_delta": 0.0,
+      "evaluated": true,
+      "exclusions": {
+        "no_clear_new_cross": 1
+      },
+      "previous_dif": -0.405,
+      "previous_dea": -0.416,
+      "previous_j": 76.012,
+      "dif": -0.35076923076923056,
+      "dea": -0.4029538461538461,
+      "j": 86.0733827160494,
+      "price": 31.92,
+      "observed_at": "2026-09-18T11:18:32+08:00",
+      "previous_spread": 0.010999999999999954,
+      "spread": 0.05218461538461555,
+      "still_macd_above": true,
+      "j_still_rising": true,
+      "has_recent_j_turn": true
+    },
+    {
+      "instrument_id": "603063.SH",
+      "name": "禾望电气",
+      "archive_seed_deltas": {
+        "dif": 0.0,
+        "dea": 0.0,
+        "k": 0.0,
+        "d": 0.0,
+        "j": 0.0
+      },
+      "archive_six_day_max_delta": 0.0,
+      "evaluated": true,
+      "exclusions": {
+        "no_clear_new_cross": 1
+      },
+      "previous_dif": -0.878,
+      "previous_dea": -0.886,
+      "previous_j": 31.486,
+      "dif": -0.8172393162393162,
+      "dea": -0.8722478632478634,
+      "j": 47.924752481588214,
+      "price": 30.59,
+      "observed_at": "2026-09-18T11:18:33+08:00",
+      "previous_spread": 0.008000000000000007,
+      "spread": 0.05500854700854718,
+      "still_macd_above": true,
+      "j_still_rising": true,
+      "has_recent_j_turn": true
+    },
+    {
+      "instrument_id": "603726.SH",
+      "name": "朗迪集团",
+      "archive_seed_deltas": {
+        "dif": 0.0,
+        "dea": 0.0,
+        "k": 0.0,
+        "d": 0.0,
+        "j": 0.0
+      },
+      "archive_six_day_max_delta": 0.0,
+      "evaluated": true,
+      "exclusions": {
+        "no_clear_new_cross": 1
+      },
+      "previous_dif": -0.167,
+      "previous_dea": -0.17,
+      "previous_j": 58.141,
+      "dif": -0.11575213675213686,
+      "dea": -0.1591504273504274,
+      "j": 80.39436175710591,
+      "price": 24.38,
+      "observed_at": "2026-09-18T11:18:36+08:00",
+      "previous_spread": 0.0030000000000000027,
+      "spread": 0.043398290598290534,
+      "still_macd_above": true,
+      "j_still_rising": true,
+      "has_recent_j_turn": true
+    },
+    {
+      "instrument_id": "605178.SH",
+      "name": "时空科技",
+      "archive_seed_deltas": {
+        "dif": 0.0,
+        "dea": 0.0,
+        "k": 0.0,
+        "d": 0.0,
+        "j": 0.0
+      },
+      "archive_six_day_max_delta": 0.0,
+      "evaluated": true,
+      "exclusions": {
+        "no_clear_new_cross": 1
+      },
+      "previous_dif": -0.95,
+      "previous_dea": -0.978,
+      "previous_j": 33.179,
+      "dif": -0.5761680911680911,
+      "dea": -0.8976336182336182,
+      "j": 78.42328969802045,
+      "price": 69.88,
+      "observed_at": "2026-09-18T11:18:37+08:00",
+      "previous_spread": 0.028000000000000025,
+      "spread": 0.3214655270655271,
+      "still_macd_above": true,
+      "j_still_rising": true,
+      "has_recent_j_turn": true
+    },
+    {
+      "instrument_id": "000810.SZ",
+      "name": "创维数字",
+      "archive_seed_deltas": {
+        "dif": 0.0,
+        "dea": 0.0,
+        "k": 0.0,
+        "d": 0.0,
+        "j": 0.0
+      },
+      "archive_six_day_max_delta": 0.0,
+      "evaluated": true,
+      "exclusions": {
+        "no_clear_new_cross": 1
+      },
+      "previous_dif": -0.094,
+      "previous_dea": -0.095,
+      "previous_j": 40.893,
+      "dif": -0.0778717948717948,
+      "dea": -0.09157435897435898,
+      "j": 52.62870870870876,
+      "price": 9.72,
+      "observed_at": "2026-09-18T11:18:21+08:00",
+      "previous_spread": 0.0010000000000000009,
+      "spread": 0.01370256410256418,
+      "still_macd_above": true,
+      "j_still_rising": true,
+      "has_recent_j_turn": false
+    },
+    {
+      "instrument_id": "002317.SZ",
+      "name": "众生药业",
+      "archive_seed_deltas": {
+        "dif": 0.0,
+        "dea": 0.0,
+        "k": 0.0,
+        "d": 0.0,
+        "j": 0.0
+      },
+      "archive_six_day_max_delta": 0.0,
+      "evaluated": true,
+      "exclusions": {
+        "no_clear_new_cross": 1
+      },
+      "previous_dif": -0.567,
+      "previous_dea": -0.584,
+      "previous_j": 53.709,
+      "dif": -0.5856239316239317,
+      "dea": -0.5843247863247863,
+      "j": 38.59471290082021,
+      "price": 24.08,
+      "observed_at": "2026-09-18T11:18:24+08:00",
+      "previous_spread": 0.017000000000000015,
+      "spread": -0.0012991452991453212,
+      "still_macd_above": false,
+      "j_still_rising": false,
+      "has_recent_j_turn": false
+    },
+    {
+      "instrument_id": "002774.SZ",
+      "name": "快意电梯",
+      "archive_seed_deltas": {
+        "dif": 0.0,
+        "dea": 0.0,
+        "k": 0.0,
+        "d": 0.0,
+        "j": 0.0
+      },
+      "archive_six_day_max_delta": 0.0,
+      "evaluated": true,
+      "exclusions": {
+        "no_clear_new_cross": 1
+      },
+      "previous_dif": 0.047,
+      "previous_dea": 0.007,
+      "previous_j": 90.45,
+      "dif": 0.17331623931623932,
+      "dea": 0.040263247863247864,
+      "j": 110.20466055045873,
+      "price": 17.59,
+      "observed_at": "2026-09-18T11:18:24+08:00",
+      "previous_spread": 0.04,
+      "spread": 0.13305299145299146,
+      "still_macd_above": true,
+      "j_still_rising": true,
+      "has_recent_j_turn": false
+    },
+    {
+      "instrument_id": "603061.SH",
+      "name": "金海通",
+      "archive_seed_deltas": {
+        "dif": 0.0,
+        "dea": 0.0,
+        "k": 0.0,
+        "d": 0.0,
+        "j": 0.0
+      },
+      "archive_six_day_max_delta": 0.0,
+      "evaluated": true,
+      "exclusions": {
+        "no_clear_new_cross": 1
+      },
+      "previous_dif": -2.528,
+      "previous_dea": -3.693,
+      "previous_j": 92.804,
+      "dif": 0.3641424501424497,
+      "dea": -2.88157150997151,
+      "j": 110.27908534621582,
+      "price": 357.99,
+      "observed_at": "2026-09-18T11:18:32+08:00",
+      "previous_spread": 1.165,
+      "spread": 3.2457139601139597,
+      "still_macd_above": true,
+      "j_still_rising": true,
+      "has_recent_j_turn": false
+    },
+    {
+      "instrument_id": "603110.SH",
+      "name": "东方材料",
+      "archive_seed_deltas": {
+        "dif": 0.0,
+        "dea": 0.0,
+        "k": 0.0,
+        "d": 0.0,
+        "j": 0.0
+      },
+      "archive_six_day_max_delta": 0.0,
+      "evaluated": true,
+      "exclusions": {
+        "no_clear_new_cross": 1
+      },
+      "previous_dif": 0.142,
+      "previous_dea": 0.11,
+      "previous_j": 89.425,
+      "dif": 0.20382905982905966,
+      "dea": 0.12876581196581194,
+      "j": 99.30365432098763,
+      "price": 25.5,
+      "observed_at": "2026-09-18T11:18:35+08:00",
+      "previous_spread": 0.03199999999999999,
+      "spread": 0.07506324786324772,
+      "still_macd_above": true,
+      "j_still_rising": true,
+      "has_recent_j_turn": false
+    },
+    {
+      "instrument_id": "603156.SH",
+      "name": "养元饮品",
+      "archive_seed_deltas": {
+        "dif": 0.0,
+        "dea": 0.0,
+        "k": 0.0,
+        "d": 0.0,
+        "j": 0.0
+      },
+      "archive_six_day_max_delta": 0.0,
+      "evaluated": true,
+      "exclusions": {
+        "no_clear_new_cross": 1
+      },
+      "previous_dif": -0.876,
+      "previous_dea": -0.976,
+      "previous_j": 100.142,
+      "dif": -0.6188945868945869,
+      "dea": -0.9045789173789174,
+      "j": 111.58794171220396,
+      "price": 44.58,
+      "observed_at": "2026-09-18T11:18:33+08:00",
+      "previous_spread": 0.09999999999999998,
+      "spread": 0.2856843304843305,
+      "still_macd_above": true,
+      "j_still_rising": true,
+      "has_recent_j_turn": false
+    },
+    {
+      "instrument_id": "603489.SH",
+      "name": "八方股份",
+      "archive_seed_deltas": {
+        "dif": 0.0,
+        "dea": 0.0,
+        "k": 0.0,
+        "d": 0.0,
+        "j": 0.0
+      },
+      "archive_six_day_max_delta": 0.0,
+      "evaluated": true,
+      "exclusions": {
+        "no_clear_new_cross": 1
+      },
+      "previous_dif": 0.226,
+      "previous_dea": 0.183,
+      "previous_j": 94.499,
+      "dif": 0.28953561253561266,
+      "dea": 0.20430712250712255,
+      "j": 103.11068672282391,
+      "price": 29.05,
+      "observed_at": "2026-09-18T11:18:28+08:00",
+      "previous_spread": 0.04300000000000001,
+      "spread": 0.08522849002849012,
+      "still_macd_above": true,
+      "j_still_rising": true,
+      "has_recent_j_turn": false
+    },
+    {
+      "instrument_id": "603690.SH",
+      "name": "至纯科技",
+      "archive_seed_deltas": {
+        "dif": 0.0,
+        "dea": 0.0,
+        "k": 0.0,
+        "d": 0.0,
+        "j": 0.0
+      },
+      "archive_six_day_max_delta": 0.0,
+      "evaluated": true,
+      "exclusions": {
+        "no_clear_new_cross": 1
+      },
+      "previous_dif": -0.482,
+      "previous_dea": -0.508,
+      "previous_j": 78.271,
+      "dif": -0.3965071225071225,
+      "dea": -0.48570142450142456,
+      "j": 103.48622222222227,
+      "price": 24.57,
+      "observed_at": "2026-09-18T11:18:35+08:00",
+      "previous_spread": 0.026000000000000023,
+      "spread": 0.08919430199430206,
+      "still_macd_above": true,
+      "j_still_rising": true,
+      "has_recent_j_turn": false
+    },
+    {
+      "instrument_id": "603933.SH",
+      "name": "睿能科技",
+      "archive_seed_deltas": {
+        "dif": 0.0,
+        "dea": 0.0,
+        "k": 0.0,
+        "d": 0.0,
+        "j": 0.0
+      },
+      "archive_six_day_max_delta": 0.0,
+      "evaluated": true,
+      "exclusions": {
+        "no_clear_new_cross": 1
+      },
+      "previous_dif": -0.193,
+      "previous_dea": -0.21,
+      "previous_j": 75.992,
+      "dif": -0.13129914529914533,
+      "dea": -0.19425982905982908,
+      "j": 99.99055555555555,
+      "price": 19.62,
+      "observed_at": "2026-09-18T11:18:36+08:00",
+      "previous_spread": 0.016999999999999987,
+      "spread": 0.06296068376068376,
+      "still_macd_above": true,
+      "j_still_rising": true,
+      "has_recent_j_turn": false
+    }
+  ]
+}

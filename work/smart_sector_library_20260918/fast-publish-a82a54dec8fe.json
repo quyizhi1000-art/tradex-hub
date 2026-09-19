@@ -1,0 +1,104 @@
+[
+  {
+    "id": "600509.SH",
+    "key": "third_generation_semiconductors",
+    "sector": "第三代半导体",
+    "source_sector_name": "第三代半导体",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "参股天科合达碳化硅材料"
+    ],
+    "company_fact": "电热生产供应及天然气为本体业务，半导体关联需查投资原证。",
+    "ths_fact": "投资天科合达碳化硅晶片企业，旧9.5953%比例须更新。",
+    "fact": "电热生产供应及天然气为本体业务，半导体关联需查投资原证。",
+    "reason": "实际天科合达投资形成碳化硅市场身份，原年报已为9.0909%，H1仍联营；stage指被投碳化硅产品，不是上市公司自营或利润保证，AI眼镜为更间接的下游关联。",
+    "relation": "investment",
+    "investment_reviewed": true,
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "official-600509-2025holding",
+        "source_kind": "official_filing",
+        "publisher": "天富能源",
+        "title": "2025年年度报告",
+        "source_url": "https://static.cninfo.com.cn/finalpage/2026-04-22/1225135757.PDF",
+        "published_at": "2026-04-22",
+        "assertions": [
+          "持天科合达9.0909%，参股权益法核算，不能沿用旧9.5953%。"
+        ]
+      },
+      {
+        "evidence_id": "official-600509-2026h1",
+        "source_kind": "official_filing",
+        "publisher": "天富能源",
+        "title": "2026年半年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12495269&stockid=600509",
+        "published_at": "2026-08-15",
+        "assertions": [
+          "天科合达列联营投资，期末账面438943339.84元，H1权益法投资损益为负。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "600510.SH",
+    "key": "urban_construction",
+    "sector": "新型城镇化",
+    "source_sector_name": "新型城镇化",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "基建保障房及园区"
+    ],
+    "company_fact": "基建建筑保障房地产物业及园区运营，同时有纺织服装。",
+    "ths_fact": "新型城镇化为明确发展主线之一。",
+    "fact": "基建建筑保障房地产物业及园区运营，同时有纺织服装。",
+    "reason": "已有城镇开发建设运营服务构成主身份，旧新基建规划不能虚构算力经营。"
+  },
+  {
+    "id": "600511.SH",
+    "key": "fentanyl",
+    "sector": "芬太尼",
+    "source_sector_name": "芬太尼",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "麻精药品流通"
+    ],
+    "company_fact": "医药器械配送及分销，麻精药业务龙头专业管理。",
+    "ths_fact": "产品包括芬太尼瑞芬太尼舒芬太尼原料及制剂。",
+    "fact": "医药器械配送及分销，麻精药业务龙头专业管理。",
+    "reason": "麻精药专业流通与芬太尼品类构成市场辨识度，不将分销说成自有创新药研发。"
+  },
+  {
+    "id": "600512.SH",
+    "key": "infrastructure_construction",
+    "sector": "基建工程",
+    "source_sector_name": "基建工程",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "市政轨交桥梁施工"
+    ],
+    "company_fact": "基础设施市政公路桥梁房建施工，华东业务。",
+    "ths_fact": "市政特级资质及轨交地铁等施工项目。",
+    "fact": "基础设施市政公路桥梁房建施工，华东业务。",
+    "reason": "本体基建工程与实际承接对应，不用参股银行或创投关联替代。"
+  },
+  {
+    "id": "600513.SH",
+    "key": "innovative_drugs",
+    "sector": "创新药",
+    "source_sector_name": "创新药",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "自有新药及研发管线"
+    ],
+    "company_fact": "医药研发产销含国家一类爱普列特片等上市产品。",
+    "ths_fact": "创新药布局泌尿心血管肿瘤呼吸，2025年有III期及I期管线。",
+    "fact": "医药研发产销含国家一类爱普列特片等上市产品。",
+    "reason": "既有自有一类新药产品和创新管线支持身份，revenue仅指已上市产品，不把试验管线算获批。"
+  }
+]

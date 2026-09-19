@@ -1,0 +1,75 @@
+{
+  "instrument_id": "000881.SZ",
+  "name": "中广核技",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "000881.SZ",
+    "name": "中广核技",
+    "memberships": [
+      "基础化工",
+      "化学制品",
+      "其他化学制品",
+      "辽宁板块",
+      "标准普尔",
+      "富时罗素",
+      "深股通",
+      "中字头",
+      "通信技术",
+      "幽门螺杆菌概念",
+      "核污染防治",
+      "医废处理",
+      "降解塑料",
+      "华为概念",
+      "乡村振兴",
+      "大飞机",
+      "雄安新区",
+      "5G概念",
+      "一带一路",
+      "充电桩",
+      "央国企改革",
+      "医疗器械概念",
+      "核能核电",
+      "新材料",
+      "节能环保"
+    ],
+    "business_sections": [
+      {
+        "title": "电子加速器研发与制造、辐照加工服务等",
+        "kind": "主营业务",
+        "text": "公司主要开展电子加速器研发与制造、辐照加工服务、新材料研发与制造以及医疗健康等业务。"
+      },
+      {
+        "title": "科技创新能力",
+        "kind": "核心竞争力",
+        "text": "公司逐步强化科技创新主体地位，积极开展科技创新探索，推进科技创新体系改革，以长三角中心（核技术）建设为统领，以产品为核心，以重点项目为牵引，持续完善科技创新体系建设，加快核心产品持续产出，打造高水平科技创新平台，保持技术创新优势，服务公司高质量发展。"
+      },
+      {
+        "title": "市场开拓能力",
+        "kind": "核心竞争力",
+        "text": "公司聚焦大客户开发、海外市场及内部市场开发，充分发挥央企资源与市场地位优势，构建多元化市场渠道体系，全面提升品牌知名度与市场认可度，不断扩大市场份额。"
+      },
+      {
+        "title": "核技术应用新产品开发能力",
+        "kind": "核心竞争力",
+        "text": "公司以“A+”战略为引领，聚焦非动力核技术在“工业、农业、医学、环保、安全”领域的应用，完善新材料、加速器与应用、测控装备、医疗健康4个产业布局，持续推动产品迭代，部分产品和技术达到国际或国内领先水平。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ000881",
+    "fetched_at": "2026-09-18T22:36:02.260895+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "房地产"
+}

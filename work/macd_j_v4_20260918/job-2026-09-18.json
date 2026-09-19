@@ -1,0 +1,19 @@
+{
+  "contract": "tradex_analysis_job.v1",
+  "schema_version": 1,
+  "job_id": "daily_stock_selection:aded702e535a4ea8a45ce646f6c97d79",
+  "capability": "daily_stock_selection",
+  "scope_key": "date:2026-09-18",
+  "trade_date": "2026-09-18",
+  "trigger": "user:macd-j-v4-verification",
+  "state": "queued",
+  "phase": "queued",
+  "requested_at": "2026-09-18T09:15:27.570759+00:00",
+  "started_at": null,
+  "finished_at": null,
+  "updated_at": "2026-09-18T09:15:27.570759+00:00",
+  "error": null,
+  "failure_code": null,
+  "failed_phase": null,
+  "result": null
+}

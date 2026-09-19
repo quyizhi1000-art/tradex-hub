@@ -1,0 +1,74 @@
+{
+  "instrument_id": "300980.SZ",
+  "name": "祥源新材",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "300980.SZ",
+    "name": "祥源新材",
+    "memberships": [
+      "基础化工",
+      "塑料",
+      "其他塑料制品",
+      "湖北板块",
+      "2026中报预增",
+      "专精特新",
+      "创业板综",
+      "融资融券",
+      "机构重仓",
+      "QFII重仓",
+      "电池技术",
+      "消费电子概念",
+      "人形机器人",
+      "柔性屏(折叠屏)",
+      "噪声防治",
+      "建筑节能",
+      "苹果概念",
+      "锂电池概念",
+      "新材料"
+    ],
+    "business_sections": [
+      {
+        "title": "聚烯烃发泡材料、聚氨酯发泡材料、有机硅橡胶供应商",
+        "kind": "主营业务",
+        "text": "公司是一家集研发、生产和销售于一体的国家高新技术企业，专业生产交联聚烯烃发泡材料（IXPE/IXPP/XPE）及聚氨酯发泡材料、有机硅橡胶、超临界发泡材料（TPU/MPP/PVDF)、热失控和柔性传感材料等产品。公司拥有先进的生产工艺和生产设备，经过多年发展，已成为国内知名的聚烯烃发泡材料、聚氨酯发泡材料、有机硅橡胶供应商。"
+      },
+      {
+        "title": "当前主要技术成果",
+        "kind": "核心竞争力",
+        "text": "截至2025年12月31日，公司累计拥有授权专利179项，其中发明专利64项，实用新型专利108项，外观设计7项。"
+      },
+      {
+        "title": "对市场需求的快速反应能力",
+        "kind": "核心竞争力",
+        "text": "公司在湖北、安徽、泰国、越南均设有生产基地或分支机构，覆盖华中、华东、华南及东南亚等下游客户相对集中的国家和地区。"
+      },
+      {
+        "title": "推进精益管理",
+        "kind": "核心竞争力",
+        "text": "聚烯烃发泡材料生产环节包含造粒、挤片、辐照、发泡等，各个环节的产线质量高低直接决定了生产效率和产品质量。经过多年的研发和经验积累，公司已掌握了自制全套发泡设备、优化改造辐照设备等技术。公司主要发泡设备均为自主设计和制造，是行业内少数能自行设计发泡设备的企业之一。公司拥有专业的设备研发和维护团队，保证公司设备生产能力在行业处于领先地位。"
+      },
+      {
+        "title": "多年积淀带来的抗周期能力",
+        "kind": "核心竞争力",
+        "text": "在公司运营方面，公司长期保持较低的资产负债率和充足的现金流，为公司的长期经营提供资金支持。面对当下的国际局势和市场动态，公司有相对充足的底蕴面对客户需求的变化，且有足够的能力支撑研发团队探索新的应用领域。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ300980",
+    "fetched_at": "2026-09-18T23:20:16.007796+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "IXPE"
+}

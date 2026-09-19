@@ -1,0 +1,55 @@
+{
+  "instrument_id": "002039.SZ",
+  "name": "黔源电力",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "002039.SZ",
+    "name": "黔源电力",
+    "memberships": [
+      "公用事业",
+      "电力",
+      "水力发电",
+      "贵州板块",
+      "2026中报预增",
+      "2026一季报预增",
+      "2025三季报预增",
+      "深股通",
+      "融资融券",
+      "绿色电力",
+      "央国企改革",
+      "西部大开发",
+      "光伏概念"
+    ],
+    "business_sections": [
+      {
+        "title": "水力发电站的开发、建设与经营管理",
+        "kind": "主营业务",
+        "text": "公司作为一家从事电力供应相关业务的上市企业，报告期内，主要经营业务是水力发电站的开发、建设与经营管理。公司上市以来致力于贵州境内“两江一河”（北盘江、芙蓉江、三岔河）流域梯级水电和清洁能源开发，截至报告期末，公司投产总装机容量397.31万千瓦，其中：水电站装机容量为323.35万千瓦，光伏电站装机容量为73.96万千瓦。报告期内，公司发电量为121.20亿千瓦时，与上年同期相比增加71.90%；其中水电发电量为114.52亿千瓦时，同比增加80.89%；光伏发电量为6.68亿千瓦时，同比减少7.19%。"
+      },
+      {
+        "title": "远程集控与流域梯级优化调度能力",
+        "kind": "核心竞争力",
+        "text": "公司主要厂站均实现水电提效计划要求的“远程集控”目标，通过建设集控系统，为流域梯级电站优化调度、远程控制提供技术支撑，以集控系统为基础，报告期内，公司进一步优化流域梯级调度，积极协调调度拦蓄错峰，确保下游稳发满发。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ002039",
+    "fetched_at": "2026-09-18T22:40:19.180091+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [
+    "电力"
+  ],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "电力"
+}

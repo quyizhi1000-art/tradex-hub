@@ -1,0 +1,67 @@
+{
+  "instrument_id": "002567.SZ",
+  "name": "唐人神",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "002567.SZ",
+    "name": "唐人神",
+    "memberships": [
+      "农林牧渔",
+      "饲料",
+      "畜禽饲料",
+      "湖南板块",
+      "破增发价股",
+      "破发股",
+      "反内卷概念",
+      "标准普尔",
+      "富时罗素",
+      "深股通",
+      "融资融券",
+      "机构重仓",
+      "预制菜概念",
+      "鸡肉概念",
+      "猪肉概念"
+    ],
+    "business_sections": [
+      {
+        "title": "饲料、养猪、肉品生猪一体化全产业链经营",
+        "kind": "主营业务",
+        "text": "公司专注饲料、养猪、肉品生猪一体化全产业链经营，致力于农家富裕，打造绿色食品，为居民提供安全放心的肉制品，2025 年，公司实现营业收入 242.15 亿元、实现归属于上市公司股东净利润-11.87 亿元。"
+      },
+      {
+        "title": "生猪全产业链经营优势",
+        "kind": "核心竞争力",
+        "text": "公司集饲料加工、种猪繁育、商品猪育肥、生猪屠宰、肉品加工于一体的产业链经营，掌控从饲料原料到肉品加工的各个环节，全过程安全可溯源，有利于打造绿色安全放心肉品。随着公司加大对肉品业务的战略投入，逐步提升产业链的综合附加值，实现产业链经营的迭代升级。"
+      },
+      {
+        "title": "产品技术优势",
+        "kind": "核心竞争力",
+        "text": "公司从事饲料研发、生产、销售近四十年，饲料销售范围遍布全国，饲料营养价值、产品质量等经过市场多年检验，获得客户广泛认可，具备较强的市场竞争力。近四十年的饲料营养技术沉淀使得公司建立了丰富的营养配方库，能够根据饲料原料价格变化，及时调整饲料营养配方，实现对各类原料的价值应用。"
+      },
+      {
+        "title": "经营管理优势",
+        "kind": "核心竞争力",
+        "text": "公司从事生猪全产业链经营近四十年，始终专注资金、人才、管理、产品、技术、销售等，凝聚了一批具有丰富管理经验的核心管理人员，持续进行流程再造与组织变革，打造了公司牵引动力系统、内生动力系统和数字化管理营运系统，形成了“学校、家庭、军队、商号”四位一体的新型组织。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ002567",
+    "fetched_at": "2026-09-18T22:50:59.686697+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [
+    "农业"
+  ],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "养殖"
+}

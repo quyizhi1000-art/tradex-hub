@@ -1,0 +1,420 @@
+[
+  {
+    "id": "002031.SZ",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "人形机器人XT减速器"
+    ],
+    "stage": "product",
+    "fact": "公司2025-09-22投资者关系记录第30问确认自研多规格XT减速器可用于人形机器人，内部检测满足轻量化、刚性、精度和寿命要求。",
+    "company_fact": "公司2025-09-22投资者关系记录第30问确认自研多规格XT减速器可用于人形机器人，内部检测满足轻量化、刚性、精度和寿命要求。",
+    "ths_fact": "同花顺机器人题材解析及公司新闻列RV业务及人形机器人XT新品。",
+    "reason": "原公司记录明确XT具体产品和人形用途，选择人形机器人/product；29问仍寻找应用场景，不将成熟RV量产套为XT批量订单或收入。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "julun-xt-ir-20250922",
+        "source_kind": "official_filing",
+        "publisher": "巨轮智能",
+        "title": "投资者关系活动记录：XT减速器",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=11835562&stockid=002031",
+        "published_at": "2025-09-22",
+        "assertions": [
+          "第30问XT减速器可用于人形机器人且完成内部检测；第29问仍寻找应用场景。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "002032.SZ",
+    "key": "home_appliances",
+    "sector": "家用电器",
+    "source_sector_name": "家用电器",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "厨房小家电",
+      "炊具"
+    ],
+    "stage": "revenue",
+    "fact": "公司经营电饭煲压力锅等小家电及炊具厨卫家居电器。",
+    "company_fact": "公司经营电饭煲压力锅等小家电及炊具厨卫家居电器。",
+    "ths_fact": "家用电器解析明确炊具品牌及电饭煲电磁炉销售。",
+    "reason": "消费厨电及品牌一致，主归属家用电器；国际股东不改变产业定位。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002033.SZ",
+    "key": "tourism",
+    "sector": "旅游",
+    "source_sector_name": "旅游概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "丽江索道",
+      "演艺酒店"
+    ],
+    "stage": "revenue",
+    "fact": "公司形成索道酒店演艺交通等综合旅游经营。",
+    "company_fact": "公司形成索道酒店演艺交通等综合旅游经营。",
+    "ths_fact": "旅游解析明确索道印象丽江演出及酒店。",
+    "reason": "旅游资源经营闭环明确，IP和冰雪为旅游产品特色，不另造泛概念。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002034.SZ",
+    "key": "biomass_power",
+    "sector": "生物质能发电",
+    "source_sector_name": "生物质能发电",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "垃圾焚烧发电",
+      "垃圾处置"
+    ],
+    "stage": "revenue",
+    "fact": "公司特许经营生活垃圾餐厨污泥处理，收取电费及垃圾处置费。",
+    "company_fact": "公司特许经营生活垃圾餐厨污泥处理，收取电费及垃圾处置费。",
+    "ths_fact": "生物质能发电解析明确固废处置及垃圾发电运营。",
+    "reason": "售电处置双收益支撑垃圾发电主线；废电池循环留并行业务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002035.SZ",
+    "key": "kitchen_appliances",
+    "sector": "厨房电器",
+    "source_sector_name": "厨房电器",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "烟灶热水器",
+      "集成厨电"
+    ],
+    "stage": "revenue",
+    "fact": "公司研产销厨房电器，覆盖烟灶热水器及洗碗蒸烤新品。",
+    "company_fact": "公司研产销厨房电器，覆盖烟灶热水器及洗碗蒸烤新品。",
+    "ths_fact": "数字经济解析明确厨电产业园生产油烟机燃气灶热水器，净水解析列厨电产品。",
+    "reason": "厨电产品品牌确定，数智工厂属生产升级，参股无人机不替代主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002036.SZ",
+    "key": "intelligent_driving",
+    "sector": "智能驾驶",
+    "source_sector_name": "智能驾驶",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "ADAS镜头",
+      "车载影像模组"
+    ],
+    "stage": "revenue",
+    "fact": "公司为全球ADAS镜头主要供应商，深化与Mobileye及Nvidia等方案商合作。",
+    "company_fact": "公司为全球ADAS镜头主要供应商，深化与Mobileye及Nvidia等方案商合作。",
+    "ths_fact": "无人驾驶及汽车电子解析明确ADAS车载镜头和影像模组，特斯拉解析有订单。",
+    "reason": "实际车载光学与智能驾驶应用对应，选智能驾驶；人形及AI眼镜存在应用但未见同等完整交叉，CPO仍送样。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002037.SZ",
+    "key": "civil_explosives",
+    "sector": "民爆",
+    "source_sector_name": "民爆概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "工业炸药",
+      "电子雷管爆破"
+    ],
+    "stage": "revenue",
+    "fact": "公司研发生产销售配送民爆产品并提供爆破工程服务，具炸药及电子雷管许可产能。",
+    "company_fact": "公司研发生产销售配送民爆产品并提供爆破工程服务，具炸药及电子雷管许可产能。",
+    "ths_fact": "民爆解析明确研发生产销售配送爆破全链条。",
+    "reason": "直接民爆经营明确，雅下工程跟踪不等同取得合同。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002038.SZ",
+    "key": "innovative_drugs",
+    "sector": "创新药",
+    "source_sector_name": "创新药",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "基因工程新药",
+      "生物药研发"
+    ],
+    "stage": "revenue",
+    "fact": "公司自主研发并投放多个一类新药，扶济复等基因工程产品已获准生产且销量提升。",
+    "company_fact": "公司自主研发并投放多个一类新药，扶济复等基因工程产品已获准生产且销量提升。",
+    "ths_fact": "创新药解析列注册申报管线，医保解析具体国家一类新药扶济复获准上市。",
+    "reason": "已有创新品种经营和持续管线共同支撑创新药；收入阶段限已上市产品，未把GLP1申报写成上市。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002039.SZ",
+    "key": "green_power",
+    "sector": "绿色电力",
+    "source_sector_name": "绿色电力",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "梯级水电",
+      "光伏发电"
+    ],
+    "stage": "revenue",
+    "fact": "公司已投产水电323.35万千瓦及光伏73.96万千瓦并实际售电经营。",
+    "company_fact": "公司已投产水电323.35万千瓦及光伏73.96万千瓦并实际售电经营。",
+    "ths_fact": "绿色电力解析确认水电开发建设运营。",
+    "reason": "清洁电源经营直接支撑绿电；旧纯水电描述以当期风光资料更新。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002040.SZ",
+    "key": "ports",
+    "sector": "港口",
+    "source_sector_name": "港口",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "油化码头",
+      "集装箱港务"
+    ],
+    "stage": "revenue",
+    "fact": "经营原油液化品港口储存中转及集装箱业务，服务长江与园区客户。",
+    "company_fact": "经营原油液化品港口储存中转及集装箱业务，服务长江与园区客户。",
+    "ths_fact": "航运港口解析明确原油液化品及普通货装卸仓储。",
+    "reason": "港口物流实际经营明确，货种油气不等于上游石油开采。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002041.SZ",
+    "key": "seeds",
+    "sector": "种子",
+    "source_sector_name": "种子",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "杂交玉米育繁推"
+    ],
+    "stage": "revenue",
+    "fact": "公司育种生产销售玉米等种苗，登海先玉杂交种形成完整育繁推体系。",
+    "company_fact": "公司育种生产销售玉米等种苗，登海先玉杂交种形成完整育繁推体系。",
+    "ths_fact": "玉米和粮食解析明确农作物选育种子生产销售。",
+    "reason": "种子产品及育种模式直接，转基因审定为方向但不把证书视作规模销量。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002042.SZ",
+    "key": "computing_power_leasing",
+    "sector": "算力租赁",
+    "source_sector_name": "算力租赁",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "AIGC智算中心",
+      "算力服务"
+    ],
+    "stage": "delivery",
+    "fact": "公司发展智能算力中心提供算力租赁，同时保持色纺纱业务。",
+    "company_fact": "公司发展智能算力中心提供算力租赁，同时保持色纺纱业务。",
+    "ths_fact": "算力租赁解析明确上虞与阿克苏项目提供服务；早期建设节点只作历史背景。",
+    "reason": "两源明确算力服务经营，选算力租赁体现新主线；未见单项收入确认时记服务交付，不按纱线收入锁定。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002043.SZ",
+    "key": "decoration_materials",
+    "sector": "装修建材",
+    "source_sector_name": "装修建材",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "装饰板材",
+      "定制家居"
+    ],
+    "stage": "revenue",
+    "fact": "公司装饰材料经销及定制家居零售工程销售，产品有板材衣橱地板等。",
+    "company_fact": "公司装饰材料经销及定制家居零售工程销售，产品有板材衣橱地板等。",
+    "ths_fact": "保存同股概念页摘要明确装饰材料成品家居研发生产销售，主页称装饰材料综合服务商。",
+    "reason": "两源业务正文对应现有装修建材；概念表解析空不否定业务证据，智能家居标签不自动主归属。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002044.SZ",
+    "key": "ai_applications",
+    "sector": "AI应用",
+    "source_sector_name": "AI应用",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "AI体检早筛",
+      "数智健康管理"
+    ],
+    "stage": "delivery",
+    "fact": "公司将健康体检大数据与AI结合持续推出体检项目，具有累计影像及结构化健康数据支撑。",
+    "company_fact": "公司将健康体检大数据与AI结合持续推出体检项目，具有累计影像及结构化健康数据支撑。",
+    "ths_fact": "AI应用解析明确已发布健康小美并优化智能主检，AIGC解析列超声及CT辅助识别落地。",
+    "reason": "AI早筛和健管已有服务落地且依托直接体检网络，选AI应用；并非把体检全部收入归为模型销售。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002045.SZ",
+    "key": "ai_glasses",
+    "sector": "AI眼镜",
+    "source_sector_name": "AI眼镜",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "声学模组",
+      "智能眼镜电池"
+    ],
+    "stage": "product",
+    "fact": "公司智能硬件实际产品包括AI眼镜AI耳机及VRAR，声学和电池为核心。",
+    "company_fact": "公司智能硬件实际产品包括AI眼镜AI耳机及VRAR，声学和电池为核心。",
+    "ths_fact": "AI眼镜解析明确多款产品布局、声学电池专利及按订单指引布局产线。",
+    "reason": "直接AI硬件产品具交叉支持，选AI眼镜；产线和订单指引不等于具体批量收入，保守product。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002046.SZ",
+    "key": "commercial_space",
+    "sector": "商业航天",
+    "source_sector_name": "商业航天",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "航天轴承",
+      "精密基础件"
+    ],
+    "stage": "delivery",
+    "fact": "公司轴承及相关制造产品应用航空航天等核心领域。",
+    "company_fact": "公司轴承及相关制造产品应用航空航天等核心领域。",
+    "ths_fact": "商业航天解析明确轴承已用于商业航天，军民融合解析列卫星飞船配套。",
+    "reason": "航天精密部件与实际应用对应，选商业航天；培育钻石压机及半导体磨具保留并行业务，不冒充钻石销量。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002047.SZ",
+    "key": "building_decoration",
+    "sector": "装修装饰",
+    "source_sector_name": "装修装饰Ⅱ",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "建筑装饰施工",
+      "工程管理"
+    ],
+    "stage": "revenue",
+    "fact": "公司通过宝鹰建科开展建筑装饰施工及承建管理一体方案。",
+    "company_fact": "公司通过宝鹰建科开展建筑装饰施工及承建管理一体方案。",
+    "ths_fact": "横琴及基建解析明确公共建筑装修住宅精装幕墙等。",
+    "reason": "实际施工管理支撑装修装饰，参股AR及风储批复不等于新业务交付。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002048.SZ",
+    "key": "automotive_parts",
+    "sector": "汽车零部件",
+    "source_sector_name": "汽车零部件",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "内外饰",
+      "车身金属及电子附件"
+    ],
+    "stage": "revenue",
+    "fact": "公司向主流车企供应内外饰金属及电子附件，具身业务目前为前瞻投资早期培育。",
+    "company_fact": "公司向主流车企供应内外饰金属及电子附件，具身业务目前为前瞻投资早期培育。",
+    "ths_fact": "汽车电子解析确认内外饰等生产销售，机器人解析为合作，减速器仍测试验证。",
+    "reason": "实际配套与客户证据完整，选汽车零部件；PEEK关节具进展但未由第二源核对具体落地，作为优先复核条件。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002049.SZ",
+    "key": "chips",
+    "sector": "芯片",
+    "source_sector_name": "芯片概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "特种集成电路",
+      "智能安全芯片"
+    ],
+    "stage": "revenue",
+    "fact": "公司经营处理器可编程器件存储接口及安全智能卡车规芯片，覆盖多个终端。",
+    "company_fact": "公司经营处理器可编程器件存储接口及安全智能卡车规芯片，覆盖多个终端。",
+    "ths_fact": "芯片解析明确特种集成电路与智能安全芯片产品。",
+    "reason": "完整芯片设计产品平台直接明确；旧存储子公司关系和新卫星导入不自动替代综合芯片主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002051.SZ",
+    "key": "overseas_engineering",
+    "sector": "国际工程",
+    "source_sector_name": "国际工程",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "设计咨询",
+      "工程承包及运营"
+    ],
+    "stage": "revenue",
+    "fact": "公司经营设计咨询工程承包、先进装备开发及工程投资运营三板块。",
+    "company_fact": "公司经营设计咨询工程承包、先进装备开发及工程投资运营三板块。",
+    "ths_fact": "水利解析列已执行海外大坝电站疏浚工程，基建解析为工程设计承包。",
+    "reason": "跨境工程实绩及设计能力支撑国际工程；算力液冷设计属具体新增项目，现有完整业务资料未独立交叉其项目进度，留复核。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002052.SZ",
+    "key": "energy_storage",
+    "sector": "储能",
+    "source_sector_name": "储能",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "家庭储能",
+      "电池及备用电源"
+    ],
+    "stage": "revenue",
+    "fact": "公司能源业务含锂电池PACK备用电源家庭储能，另有电力电子及ICT机顶盒。",
+    "company_fact": "公司能源业务含锂电池PACK备用电源家庭储能，另有电力电子及ICT机顶盒。",
+    "ths_fact": "储能解析明确高功率电源锂电PACK家庭储能等实际产品。",
+    "reason": "已形成能源产品业务与市场储能标签匹配，旧机顶盒背景不自动锁死主归属。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002053.SZ",
+    "key": "green_power",
+    "sector": "绿色电力",
+    "source_sector_name": "绿色电力",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "风电光伏运营"
+    ],
+    "stage": "revenue",
+    "fact": "公司新能源装机259.486万千瓦，风电为主，并经营制盐。",
+    "company_fact": "公司新能源装机259.486万千瓦，风电为主，并经营制盐。",
+    "ths_fact": "绿色电力解析明确已投产风光装机，风电解析同列实际主营。",
+    "reason": "已投运新能源支持绿电主线；钠电探索、空气储能在建不当收入，集团火电与本体不混同。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002054.SZ",
+    "key": "textile_chemicals",
+    "sector": "纺织化学制品",
+    "source_sector_name": "纺织化学制品",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "印染助剂",
+      "皮革化学品"
+    ],
+    "stage": "revenue",
+    "fact": "公司经营纺织印染及皮革助剂，无氟防水剂莱赛尔整理剂有市场地位。",
+    "company_fact": "公司经营纺织印染及皮革助剂，无氟防水剂莱赛尔整理剂有市场地位。",
+    "ths_fact": "有机硅解析明确控股企业生产整理剂皮革助剂柔软剂等。",
+    "reason": "实际功能助剂链条对应纺织化学制品；创投和制冷剂旧记录不替代当前产品。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002055.SZ",
+    "key": "high_speed_copper_interconnect",
+    "sector": "铜缆高速连接",
+    "source_sector_name": "铜缆高速连接",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "高速连接器",
+      "电脑通信连接"
+    ],
+    "stage": "product",
+    "fact": "公司研产销电子连接器精密组件，应用计算机通讯及汽车等领域。",
+    "company_fact": "公司研产销电子连接器精密组件，应用计算机通讯及汽车等领域。",
+    "ths_fact": "铜缆高速连接解析明确高速传输连接器用于电脑通信，AIDC解析具体服务器数据中心应用。",
+    "reason": "选已有高速连接细分，限定连接器本体而非铜缆原料或芯片制造；细分营收未拆分记产品阶段。",
+    "basis": "crosschecked_sources"
+  }
+]

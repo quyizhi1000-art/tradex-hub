@@ -1,0 +1,93 @@
+[
+  {
+    "id": "300818.SZ",
+    "key": "high_end_equipment",
+    "sector": "高端装备",
+    "source_sector_name": "高端装备",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "矿山选矿设备",
+      "耐磨备件"
+    ],
+    "company_fact": "实际生产渣浆泵水力旋流器及磨机筛分等耐磨备件。",
+    "ths_fact": "重型选矿装备和耐磨新材料研发制造服务，兼提供工艺优化。",
+    "fact": "实际生产渣浆泵水力旋流器及磨机筛分等耐磨备件。",
+    "reason": "主营设备制造与已有高端装备概念贴合，不把矿业客户关系当成矿产资源生产。"
+  },
+  {
+    "id": "300819.SZ",
+    "key": "pcb",
+    "sector": "PCB",
+    "source_sector_name": "PCB概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "电子级玻纤布"
+    ],
+    "company_fact": "旧东方财富主营为超细纤维面料，新增玻纤布收购及经营已补读半年报。",
+    "ths_fact": "全资子公司2月13日取得根银80%，标的生产电子级玻璃纤维布。",
+    "fact": "旧东方财富主营为超细纤维面料，新增玻纤布收购及经营已补读半年报。",
+    "reason": "原半年报确认控股接管及玻纤收入1534.67万元，已有PCB题材比未生产销售的仿生肌肉更有落地支撑。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "official-300819-2026h1-genyin",
+        "source_kind": "official_filing",
+        "publisher": "聚杰微纤",
+        "title": "2026年半年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12548549&stockid=300819",
+        "published_at": "2026-08-27",
+        "assertions": [
+          "根银80%股权已登记并接管，纳入合并；玻纤收入15346706.38元。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "300820.SZ",
+    "key": "semiconductors",
+    "sector": "芯片",
+    "source_sector_name": "芯片概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "半导体设备电源"
+    ],
+    "company_fact": "功率控制及特种电源研发生产，特种电源用于半导体等工业领域。",
+    "ths_fact": "为多家半导体设备及材料企业提供设备电源。",
+    "fact": "功率控制及特种电源研发生产，特种电源用于半导体等工业领域。",
+    "reason": "已有芯片概念对应设备电源配套链位，不等同芯片设计制造。"
+  },
+  {
+    "id": "300821.SZ",
+    "key": "silicones",
+    "sector": "有机硅",
+    "source_sector_name": "有机硅概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "硅橡胶",
+      "硅油硅树脂"
+    ],
+    "company_fact": "有机硅材料研发生产销售，含硅橡胶硅油树脂及中间体。",
+    "ths_fact": "有机硅解释直接列示同类主产品与研发生产销售。",
+    "fact": "有机硅材料研发生产销售，含硅橡胶硅油树脂及中间体。",
+    "reason": "自有有机硅全链产品最直接，区别金属硅及光伏硅料。"
+  },
+  {
+    "id": "300822.SZ",
+    "key": "pet_economy",
+    "sector": "宠物经济",
+    "source_sector_name": "宠物经济",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "宠物AI摄影硬件"
+    ],
+    "company_fact": "智能控制器及照明安防家居宠养等智能产品业务。",
+    "ths_fact": "自有Pickfun宠物AI摄影师已推出，支持自动追踪拍摄智能剪辑和远程陪伴。",
+    "fact": "智能控制器及照明安防家居宠养等智能产品业务。",
+    "reason": "宠物经济现有题材有自有品牌硬件支撑；已推出产品不直接推断独立宠物营收。"
+  }
+]

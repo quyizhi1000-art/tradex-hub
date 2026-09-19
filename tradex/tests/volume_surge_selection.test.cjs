@@ -118,6 +118,23 @@ test('unavailable data is distinct from a verified zero-match result', () => {
   }
 });
 
+test('v3 displays the dated next-session contraction without claiming it for older records', () => {
+  const c = harness();
+  const payload = { contract: 'stock_volume_surge_screen.v1', schema_version: 1,
+    screen_version: 'upward-volume-surge-main-board.v3', candidates: [
+      { name: '样本', instrument_id: '600104.SH', evidence: [
+        { trade_date: '2026-09-14', volume_shares: 200, prior_5d_average_volume_shares: 100,
+          change_pct: 2, volume_multiple: 2, next_trade_date: '2026-09-15',
+          next_volume_shares: 132, next_volume_ratio: 0.66 },
+      ] },
+    ] };
+  c.renderVolumeSurgeScreen(payload);
+  assert.match(JSON.stringify(c.byId('stock-volume-surge-table-body')), /次日 2026-09-15 成交量 132 股（放量日的 66.00%）/);
+  assert.match(c.byId('stock-volume-surge-summary').textContent, /已确认次日缩量/);
+  c.renderVolumeSurgeScreen({ ...payload, screen_version: 'upward-volume-surge-main-board.v2', candidates: [] });
+  assert.match(c.byId('stock-volume-surge-summary').textContent, /旧版规则，仅检查收盘底线/);
+});
+
 const orderedFixture = () => [
   { instrument_id: '600001.SH', industry: '银行', occurrence_count: 3, rank: 1 },
   { instrument_id: '600002.SH', industry: '软件服务', occurrence_count: 1, rank: 2 },
@@ -181,7 +198,7 @@ test('industry tag clicks filter all four tables and All restores sorted rows an
     };
     c.renderStockSelectionStrategy();
     const tags = c.byId('stock-selection-industry-tags');
-    assert.deepEqual(tags.children.map(tag => tag.textContent), ['全部 7', '软件服务 3', '银行 2', '未分类 2']);
+    assert.deepEqual(tags.children.map(tag => tag.textContent), ['全部 7', '软件服务 3', '银行 2', '待核验 2']);
     const allRows = JSON.stringify(c.byId(bodyId).children);
     tags.children[1].listeners.click();
     assert.equal(c.state.stockSelectionIndustry, '软件服务');
@@ -227,16 +244,16 @@ test('tungsten and rare-earth candidates share one small-metals tag; missing blo
   ] };
   const before = JSON.stringify(archived);
   const payload = c.stockSelectionIndustryPayload(archived, {
-    contract: 'selection_industry_display.v1', schema_version: 1, basis: 'current_ths_industry',
+    contract: 'selection_industry_display.v1', schema_version: 1, basis: 'smart_sector_library',
     names_by_instrument: { '002378.SZ': '小金属', '001280.SZ': '小金属' },
   });
   c.renderStockSelectionIndustryFilters(payload.candidates, 'day:volume');
   assert.deepEqual(c.byId('stock-selection-industry-tags').children.map(tag => tag.textContent),
-    ['全部 3', '小金属 2', '未分类 1']);
+    ['全部 3', '小金属 2', '待核验 1']);
   c.state.stockSelectionIndustry = '小金属';
   assert.deepEqual(Array.from(c.stockSelectionVisibleCandidates(payload.candidates,
     item => item.evidence.length), item => item.instrument_id), ['002378.SZ', '001280.SZ']);
   assert.equal(JSON.stringify(archived), before);
   const missing = c.stockSelectionIndustryPayload(archived, {});
-  assert.ok(missing.candidates.every(item => c.stockSelectionIndustryName(item) === '未分类'));
+  assert.ok(missing.candidates.every(item => c.stockSelectionIndustryName(item) === '待核验'));
 });

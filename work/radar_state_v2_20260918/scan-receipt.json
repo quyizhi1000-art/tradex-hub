@@ -1,0 +1,37 @@
+{
+  "generated_at": "2026-09-18T12:17:52.404506+08:00",
+  "screen_version": "macd-j-upturn-main-board.v2",
+  "status": "partial",
+  "requested_count": 3043,
+  "evaluated_count": 2921,
+  "excluded_counts": {
+    "macd_not_clearly_bullish": 2248,
+    "j_not_clearly_rising": 192,
+    "no_recent_turn": 114,
+    "adjustment_changed": 115,
+    "missing_history": 7
+  },
+  "quote_provider_counts": {
+    "tushare": 3034,
+    "tencent_http": 9
+  },
+  "comparison": {
+    "contract": "intraday_macd_j_increment.v1",
+    "baseline": {
+      "status": "available",
+      "trade_date": "2026-09-17",
+      "result_id": "stock-selection-strategy-result:1c272d80a7f85997cc64f9e4",
+      "source_snapshot_revision": "f8e8a6f046c15beec678e96604ad2ee3c8d9cf5da185c9d594c6e413b7377913",
+      "strategy_version": "v2",
+      "quality": "degraded",
+      "matched_count": 243,
+      "evaluated_count": 3036,
+      "eligible_count": 3052
+    },
+    "raw_matched_count": 367,
+    "status": "available",
+    "removed_count": 138,
+    "new_count": 229
+  },
+  "old_scan_archives_unchanged": true
+}

@@ -1,0 +1,54 @@
+{
+  "instrument_id": "301061.SZ",
+  "name": "匠心家居",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "301061.SZ",
+    "name": "匠心家居",
+    "memberships": [
+      "轻工制造",
+      "家居用品",
+      "成品家居",
+      "江苏板块",
+      "小盘股",
+      "创业板综",
+      "深股通",
+      "融资融券",
+      "机构重仓",
+      "QFII重仓",
+      "贬值受益",
+      "智能家居"
+    ],
+    "business_sections": [
+      {
+        "title": "智能电动沙发、智能电动床、核心配件",
+        "kind": "主营业务",
+        "text": "公司专注于智能电动沙发、智能电动床及其核心配件的研究、设计、开发、生产、销售及服务，致力于构建高度集成且注重人性化体验的智能家居体系。根据中国证监会《上市公司行业统计分类与代码》，公司所属行业为“CC21家具制造业”下的“219其他家具制造”。"
+      },
+      {
+        "title": "客户信任与不可替代的战略地位",
+        "kind": "核心竞争力",
+        "text": "综合来看，上述客户反馈充分体现出公司在美国主流零售渠道中的竞争力与不可替代性，也反映出公司与核心客户之间稳固、长期且高度互信的合作关系。这一基础将为公司未来的持续增长与战略拓展提供坚实支撑。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ301061",
+    "fetched_at": "2026-09-18T23:21:55.108140+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [
+    "消费"
+  ],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "智能电动沙发"
+}

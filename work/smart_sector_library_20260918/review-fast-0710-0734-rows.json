@@ -1,0 +1,429 @@
+[
+  {
+    "id": "002189.SZ",
+    "key": "military",
+    "sector": "军工",
+    "source_sector_name": "军工",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "特种光电",
+      "瞄准与侦察光学",
+      "边海防监控"
+    ],
+    "stage": "revenue",
+    "fact": "公司直接生产特种光电防务及边海防监控装备。",
+    "ths_fact": "2024-09-20军工解释具体列明瞄准、侦察、测距和光电对抗等列装产品及边海防业务。",
+    "company_fact": "主营特种光电面向轻武器、单兵等，另有光学元件与投影整机。",
+    "reason": "军工对应具体装备和市场应用；AI眼镜光波导也是产品方向，但现有资料未单独确认交付规模，不把大股东重组或镜片用途取代已确认主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002190.SZ",
+    "key": "low_altitude_economy",
+    "sector": "低空经济",
+    "source_sector_name": "低空经济",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "飞行汽车结构件",
+      "舱门及轻量化成型部件"
+    ],
+    "stage": "orders",
+    "fact": "子公司已取得飞行汽车结构件及舱门订单和量产定点。",
+    "ths_fact": "2025-12-05低空经济解释确认集成吉文承接小鹏汇天项目订单，其他汽车项目已量产。",
+    "company_fact": "主营明确集成吉文获取广州汇天飞行汽车结构件及舱门订单、量产定点，另有汽车模具及航空零部件。",
+    "reason": "低空经济已由订单支持而非仅技术储备，优先体现新实际业务；仅记orders，不把其他汽车量产等同飞行汽车交付，参股锂电不作为直接主业。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002191.SZ",
+    "key": "electronic_cigarettes",
+    "sector": "电子烟",
+    "source_sector_name": "电子烟",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "电子烟器具",
+      "新型烟草成品包装"
+    ],
+    "stage": "revenue",
+    "fact": "公司开展新型烟草器具制造及成品包装。",
+    "ths_fact": "新型烟草解释确认研发生产一次性、换弹等电子烟产品；PET铜箔解释明确试产未销售。",
+    "company_fact": "主营单列新型烟草制品，核心竞争力明确器具制造与成品包装产业布局，另有纸包装及材料。",
+    "reason": "选择有具体产品经营的新型烟草市场主线，使用已有电子烟标签；不把半导体参股或复合铜箔试产升级为对应成熟经营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002192.SZ",
+    "key": "lithium_mining",
+    "sector": "锂矿",
+    "source_sector_name": "锂矿",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "锂辉石采选",
+      "锂资源上游"
+    ],
+    "stage": "revenue",
+    "fact": "甲基卡134号脉为持续在产锂辉石矿山。",
+    "ths_fact": "锂矿解释列明矿权与已形成的开采、选矿能力，同时区分推进中的扩建项目。",
+    "company_fact": "主营确认105万吨年露天开采及45万吨原矿处理能力并进入供应渠道；锂盐业务因行情缩量。",
+    "reason": "锂矿有矿权、在产与供应渠道交叉支撑；不把规划250万吨项目算已投产，不把控股股东下游布局当上市公司资产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002193.SZ",
+    "key": "apparel_home_textiles",
+    "sector": "服装家纺",
+    "source_sector_name": "服装家纺",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "纺织面料",
+      "服装设计生产销售"
+    ],
+    "stage": "revenue",
+    "fact": "公司持续经营纺织服装制造销售，数字化主要服务自身生产。",
+    "ths_fact": "工业互联网解释为服装全生命周期管理及防伪溯源，另有新疆毛纺子公司和海外销售。",
+    "company_fact": "主营为纺织品服装服饰设计、生产销售及原料加工，报告期无重大变化。",
+    "reason": "选择已有服装家纺行业，工业互联网是经营工具而非已证明对外软件收入；业务转型需实际外部客户产品再复核。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002194.SZ",
+    "key": "five_g",
+    "sector": "5G",
+    "source_sector_name": "5G",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "基站射频滤波器",
+      "双工器及射频子系统"
+    ],
+    "stage": "revenue",
+    "fact": "公司持续销售移动通信网络射频器件。",
+    "ths_fact": "5G解释确认部分型号已销售；商业航天解释援引2025年报称微波卫星产品小批交付，CPO解释实际为HTCC管壳。",
+    "company_fact": "主营明确射频器件及子系统研发生产销售，覆盖2G至5G网络。",
+    "reason": "选择当前两源具体对应的5G射频产品；卫星在轨配套是需优先补原年报的候选，现有公司主营未具体交叉该用途，6G研发和管壳交付不等同CPO量产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002195.SZ",
+    "key": "brain_computer_interface",
+    "sector": "脑机接口",
+    "source_sector_name": "脑机接口",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "脑电大模型",
+      "神经信号解码",
+      "脑机接口研发验证"
+    ],
+    "stage": "pilot",
+    "fact": "下属研究院开展脑机接口算法系统研究并进行初步性能验证。",
+    "ths_fact": "2026-08-28解释明确脑电大模型在多类任务初步验证，相关授权及申请专利合计25项。",
+    "company_fact": "主营人工智能业务单列岩思类脑研究院，以脑电大模型开展解码系统、诊断评估及状态调控研究与产品开发。",
+    "reason": "脑机接口有实际组织、技术和验证支撑，选该已有主题并记pilot；不声称疾病治疗有效或已规模商业化，机器人单台交付及核聚变新披露不与此混算。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002196.SZ",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "人形机器人关节电机"
+    ],
+    "stage": "delivery",
+    "fact": "控股子公司机器人关节电机已小批量供货并应用于人形机器人项目。",
+    "ths_fact": "2025-09-05人形机器人解释确认方德机器人及关节电机布局。",
+    "company_fact": "主营创新业务段明确专业控股子公司实现关节电机小批供货、应用于多款人形机器人，低空飞行器为样机交付。",
+    "reason": "人形机器人由最新公司材料确认实际供货，优先于传统汽车电机归类；记delivery且不宣称规模收入，不把旧研发句式覆盖最新进展。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002197.SZ",
+    "key": "compute_leasing",
+    "sector": "算力租赁",
+    "source_sector_name": "算力租赁",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "弹性云算力服务",
+      "算力资源管理运营"
+    ],
+    "stage": "revenue",
+    "fact": "公司提供云算力服务，相关领域已形成经营收入。",
+    "ths_fact": "2026-05-22算力租赁解释明确已有业务收入及弹性云算力资源；算力解释区分自持约200P和合作超100P。",
+    "company_fact": "主营云计算以证通云为依托提供IaaS至SaaS全栈服务并实现运营收入；IDC托管为基础。",
+    "reason": "选择实际云算服务支持的新主线算力租赁，保留机房与金融终端为其他业务；不把规划机柜全算建成，算力自持与合作规模分开。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002198.SZ",
+    "key": "traditional_chinese_medicine",
+    "sector": "中药",
+    "source_sector_name": "中药概念",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "中成药研发生产",
+      "呼吸及骨科等药品销售"
+    ],
+    "stage": "revenue",
+    "fact": "公司生产销售多类获批中成药。",
+    "ths_fact": "中医药及流感解释列明重感灵片、双料喉风散等；创新药解释主要是联合开发、临床前研究和项目转让。",
+    "company_fact": "主营为中成药制造，拥有五类剂型及七十余批准文号，覆盖感冒、骨科等用途。",
+    "reason": "中药同时对应获批产品与实际经营；不以创新药协议宣称新药临床成功或上市，后续临床获批及进度明确再复核。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002199.SZ",
+    "key": "lithium_batteries",
+    "sector": "锂电池",
+    "source_sector_name": "锂电池概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "电池级碳酸锂加工生产"
+    ],
+    "stage": "revenue",
+    "fact": "全资山西东拓已形成独立电池级碳酸锂生产销售业务。",
+    "ths_fact": "2026-05-13锂电池解释确认年产5000吨电池级碳酸锂生产能力。",
+    "company_fact": "主营确认新设全资子公司开展生产销售；核心竞争力详列完整工序、运营团队及正极材料企业客户。",
+    "reason": "锂电新材料已实质经营，优先于仅沿用晶振旧主业；5000吨是能力而非实际销量，不推导自有锂矿开采。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002200.SZ",
+    "key": "landscaping_engineering",
+    "sector": "园林工程",
+    "source_sector_name": "园林工程",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "园林景观施工",
+      "生态环境修复"
+    ],
+    "stage": "revenue",
+    "fact": "公司承接园林绿化和生态环保工程。",
+    "ths_fact": "园林开发解释列明景观、环境治理、苗木及人居板块，污水处理为生态治理延伸。",
+    "company_fact": "主营报告期未变，明确园林绿化及生态环保工程，实施景观、环保和人居工程。",
+    "reason": "选已有园林工程行业对应完整实际承包业务；特色小镇合作框架不视为完成建设，环保拓展需具体运营项目进展复核。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002201.SZ",
+    "key": "commercial_space",
+    "sector": "商业航天",
+    "source_sector_name": "商业航天",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "航天隔热特种玻璃纤维布"
+    ],
+    "stage": "revenue",
+    "fact": "公司为航天应用提供特种玻纤材料，同时经营广泛复合材料。",
+    "ths_fact": "商业航天解释明确火箭及飞船隔热所用特种玻纤布，并称公司为航空航天特种玻纤布定点生产企业。",
+    "company_fact": "主营为特种玻纤及增强复合材料制造销售，确认航空特种玻纤布定点生产身份。",
+    "reason": "已有商业航天主题有直接材料供应支撑，链条限于隔热玻纤布；不将公司等同火箭整机厂，风电叶片及汽车材料仍为其他真实业务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002202.SZ",
+    "key": "wind_power",
+    "sector": "风电",
+    "source_sector_name": "风电",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "风电整机",
+      "风场开发运营",
+      "风电服务"
+    ],
+    "stage": "revenue",
+    "fact": "公司经营风机制造、服务及风电场投资开发。",
+    "ths_fact": "风电解释直接对应整机零部件和风场服务；商业航天仅持蓝箭8.3%，海工平台公司为49%非并表。",
+    "company_fact": "主营明确三大风电业务及多运行环境机组，同时经营水务、储能等延伸业务。",
+    "reason": "风电有整机及运营完整闭环；不将少数股权火箭公司当自有航天业务，也不把向数据中心供绿电称提供算力。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002203.SZ",
+    "key": "pcb",
+    "sector": "PCB",
+    "source_sector_name": "PCB概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "高性能PCB铜箔",
+      "高速高频电子材料"
+    ],
+    "stage": "revenue",
+    "fact": "公司已销售PCB用铜箔并推进高端电子铜箔产品。",
+    "ths_fact": "2026-04-30 PCB解释披露2025年标箔销量5085吨，同比增长72.5%，研发RTF、HVLP及载体箔。",
+    "company_fact": "主营含铜箔制造销售并明确产品向PCB、锂电池和AIDC场景延伸。",
+    "reason": "PCB已有明确销量和材料产品，能体现新市场方向；链条为铜箔而非线路板制造，固态铜箔试产送样和复合集流体研发不写成量产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002204.SZ",
+    "key": "nuclear_power",
+    "sector": "核电",
+    "source_sector_name": "核电",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "核电环吊",
+      "核电汽轮机配套大型部件"
+    ],
+    "stage": "revenue",
+    "fact": "公司长期供应核电起重设备和汽轮机配套部件。",
+    "ths_fact": "2025-05-27核电解释确认核岛环吊、常规岛吊车及低压缸配套。",
+    "company_fact": "主营大型成套装备及零部件，核心竞争力明确核电起重设备专业化研制基地。",
+    "reason": "核电具有明确长期配套及专业基地支撑，选择该已有主线；不把军工资质本身等同订单，核电设备供应不表述为核电站运营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002205.SZ",
+    "key": "water_conservancy",
+    "sector": "水利",
+    "source_sector_name": "水利",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "PCCP输水管",
+      "引调水工程配套"
+    ],
+    "stage": "revenue",
+    "fact": "公司生产水利输水工程使用的PCCP及配件。",
+    "ths_fact": "2025-06-26水利解释列明输水管及已参与水利工程配套项目。",
+    "company_fact": "主营PCCP用于跨区域引调水、自来水、工业用水和灌溉供配水管网，同时生产其他混凝土构件。",
+    "reason": "水利同时体现实际产品和市场需求；限定管道配套环节，不把关注水利枢纽机会说成已承建，不按材料成分机械归水泥。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002206.SZ",
+    "key": "chemical_fibers",
+    "sector": "化学纤维",
+    "source_sector_name": "化学纤维",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "涤纶工业丝",
+      "轮胎帘子布",
+      "功能纤维"
+    ],
+    "stage": "revenue",
+    "fact": "公司持续生产工业长丝及轮胎帘子布，并发展功能纤维。",
+    "ths_fact": "海工装备解释确认聚酯工业丝应用于海工缆绳；新能源汽车解释披露PPS批量出货及2024收入688万元，PEEK仍研发送样。",
+    "company_fact": "主营三大业务为涤纶工业长丝、轮胎帘子布和塑胶材料研发生产销售。",
+    "reason": "化学纤维覆盖成熟及新功能材料经营；PEEK送样不可称量产，光伏反射膜新应用待公司原业务材料进一步交叉后复核主题。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002207.SZ",
+    "key": "oilfield_services",
+    "sector": "油田服务",
+    "source_sector_name": "油田服务",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "油气井测试及井下作业",
+      "增产技术服务"
+    ],
+    "stage": "revenue",
+    "fact": "公司为油气田提供监测、作业及提高采收率服务。",
+    "ths_fact": "天然气及页岩气解释均指油田动态监测、连续油管等技术服务，客户为新疆油气田。",
+    "company_fact": "主营工业业务详列测试、钻井试油试气、修井及注氮等，另有配套施工运输。",
+    "reason": "选择真实已有油田服务而非把客户油气资源视为自有开采；早年境外拟投资不作为当前矿权归属，资源交易须交割原文复核。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002208.SZ",
+    "key": "real_estate",
+    "sector": "房地产",
+    "source_sector_name": "房地产",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "住宅及产业地产开发",
+      "城市更新"
+    ],
+    "stage": "revenue",
+    "fact": "公司开展地产开发、城市更新及配套物业租赁服务。",
+    "ths_fact": "物业管理解释确认住宅产业地产核心经营模式；租售同权列明已运营长租公寓，养老为社区服务站。",
+    "company_fact": "主营列明住宅、商业、工业地产和城市更新，另有物业及住房租赁。",
+    "reason": "选择覆盖实际开发经营的房地产，养老服务站属真实服务延伸但尚不足独立替代主线；不将股东创投项目当公司业务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002209.SZ",
+    "key": "industrial_robotics",
+    "sector": "工业机器人",
+    "source_sector_name": "工业机器人",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "包装分拣机器人",
+      "装箱及码垛自动化"
+    ],
+    "stage": "revenue",
+    "fact": "公司生产包装线和机器人分拣、装箱等设备。",
+    "ths_fact": "工业机器人解释列明分拣、装箱、机械手等产品；新型工业化解释列明理瓶、码垛、贴标机器人。",
+    "company_fact": "主营包含后段智能包装设备、贴标机码垛机及全工厂方案，提供设备全生命周期服务。",
+    "reason": "工业机器人由实际包装自动化产品支持；不把工业机械手称人形机器人，消毒液小量订单和水处理能力不替代现有主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002210.SZ",
+    "key": "solid_waste",
+    "sector": "固废处理",
+    "source_sector_name": "固废处理",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "生活垃圾焚烧发电",
+      "固废综合利用"
+    ],
+    "stage": "revenue",
+    "fact": "公司经营垃圾焚烧发电及固废治理。",
+    "ths_fact": "生物质能发电解释明确重整后实际业务以生活垃圾焚烧为主；PPP解释披露垃圾处置和发电收入，固废处理条目本身仅行业统计。",
+    "company_fact": "主营环保新能源明确城乡固废治理及综合利用，另有供应链服务。",
+    "reason": "选已有固废处理板块，但业务判断来自本公司垃圾发电和收入证据，未把概念内全国行业数据冒作公司产能；股权意向非完成重组。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002211.SZ",
+    "key": "organosilicon",
+    "sector": "有机硅",
+    "source_sector_name": "有机硅概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "高温硅橡胶",
+      "生胶混炼胶液体胶"
+    ],
+    "stage": "revenue",
+    "fact": "公司生产销售硅橡胶及其制品。",
+    "ths_fact": "有机硅解释直接列明生胶、混炼胶及液体胶产品。",
+    "company_fact": "主营详列上述硅橡胶材料及下游用途，确认研发生产销售。",
+    "reason": "有机硅是市场成员与真实产品一一对应的主线；医疗、汽车等为下游用途，不据此自造器械或汽车零部件主归属。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002212.SZ",
+    "key": "ai_applications",
+    "sector": "AI应用",
+    "source_sector_name": "AI应用",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "AI安全运营",
+      "大模型安全防护",
+      "智能安全产品"
+    ],
+    "stage": "delivery",
+    "fact": "公司已推出并落地AI赋能安全和大模型防护产品。",
+    "ths_fact": "AI应用解释列明防火墙AI版、天问及大模型安全网关；数据安全解释确认内容管控落地教育医疗、API防护测试并成单。",
+    "company_fact": "主营明确深化AI与网络安全融合、构建网络安全和智算云产品服务体系。",
+    "reason": "AI应用有具体安全产品和场景落地，优先呈现转型方向；阶段记交付，不将所有网络安全收入自动算AI，也不把客户所属卫星或储能领域当自有制造。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002213.SZ",
+    "key": "memory_chips",
+    "sector": "存储芯片",
+    "source_sector_name": "存储芯片",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "DRAM及NAND存储产品",
+      "存储模组与方案"
+    ],
+    "stage": "revenue",
+    "fact": "全资大为创芯经营DRAM和NAND存储产品。",
+    "ths_fact": "存储芯片解释列明系列产品；2026-03-24芯片解释披露2025半导体存储收入10.98亿元及服务器内存、企业级SSD销售。",
+    "company_fact": "主营确认全资子公司经营DDR、LPDDR、eMMC、UFS等存储产品及多领域应用；新能源包含建设及委托加工贸易。",
+    "reason": "存储芯片由直接子公司、成熟产品和收入支撑；不把探矿权或在建碳酸锂项目写成采矿量产，也不将PCB方案设计视为线路板制造。",
+    "basis": "crosschecked_sources"
+  }
+]

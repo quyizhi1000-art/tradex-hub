@@ -1,0 +1,91 @@
+[
+  {
+    "id": "301380.SZ",
+    "key": "ai_applications",
+    "sector": "AI应用",
+    "source_sector_name": "AI应用",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "AI语音客服"
+    ],
+    "company_fact": "移动信息服务含AI语音外呼，数字集成及营销服务。",
+    "ths_fact": "为客户提供AI语音平台智能客服产品服务。",
+    "fact": "移动信息服务含AI语音外呼，数字集成及营销服务。",
+    "reason": "已有客户AI通讯应用契合技术业务，限定产品不声称营销全量由AI贡献。"
+  },
+  {
+    "id": "301381.SZ",
+    "key": "cross_border_ecommerce",
+    "sector": "跨境电商",
+    "source_sector_name": "跨境电商",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "服饰品牌出海"
+    ],
+    "company_fact": "AmazonWalmart及自营网站销售服饰等，品牌出海全链运营。",
+    "ths_fact": "出口跨境品牌电商，第三方及自营平台全球销售。",
+    "fact": "AmazonWalmart及自营网站销售服饰等，品牌出海全链运营。",
+    "reason": "真实品牌跨境业务主线，内部AI及ERP不替代市场身份。"
+  },
+  {
+    "id": "301382.SZ",
+    "key": "computing_power",
+    "sector": "东数西算(算力)",
+    "source_sector_name": "东数西算(算力)",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "ARM云终端算力运营"
+    ],
+    "company_fact": "部署通用算力中心形成IaaS底座，云终端与ISV合作覆盖游戏营销等。",
+    "ths_fact": "以算力运营为基础提供端到端云终端，ARM服务器虚拟化与算力调度。",
+    "fact": "部署通用算力中心形成IaaS底座，云终端与ISV合作覆盖游戏营销等。",
+    "reason": "算力底座和云终端构成明确科技业务，非芯片制造商；不用未披露专项收入。"
+  },
+  {
+    "id": "301383.SZ",
+    "key": "ai_glasses",
+    "sector": "AI眼镜",
+    "source_sector_name": "AI眼镜",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "AI眼镜ODM"
+    ],
+    "company_fact": "智能音频ODM转向声光电，销售产品明确包含AI眼镜。",
+    "ths_fact": "旧解析仅AR眼镜出货，AI眼镜阶段以公司业务及原H1另核。",
+    "fact": "智能音频ODM转向声光电，销售产品明确包含AI眼镜。",
+    "reason": "原H1经营销售产品列示AI眼镜支持真实产品供应，不拿20万穿戴产能冒充眼镜实际销量。",
+    "extra_evidence": [
+      {
+        "evidence_id": "official-301383-2026h1",
+        "source_kind": "official_filing",
+        "publisher": "天键股份",
+        "title": "2026年半年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12523070&stockid=301383",
+        "published_at": "2026-08-25",
+        "assertions": [
+          "经营销售的声学产品包括AI眼镜、AR眼镜；穿戴产品产能不能等同眼镜销售数量。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "301386.SZ",
+    "key": "smart_grid",
+    "sector": "智能电网",
+    "source_sector_name": "智能电网",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "断路器附件",
+      "智能配用电终端"
+    ],
+    "company_fact": "低压断路器附件与智能终端研产销，智能配电能管理安全。",
+    "ths_fact": "智能模块终端广泛用于智能电网等无人值守场景。",
+    "fact": "低压断路器附件与智能终端研产销，智能配电能管理安全。",
+    "reason": "电网智能终端实际应用与主营一致，AIDC只是部分产品逐步进入。"
+  }
+]

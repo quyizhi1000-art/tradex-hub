@@ -1,0 +1,91 @@
+{
+  "instrument_id": "002717.SZ",
+  "name": "*ST岭南",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "002717.SZ",
+    "name": "*ST岭南",
+    "memberships": [
+      "建筑装饰",
+      "基础建设",
+      "园林工程",
+      "广东板块",
+      "股权分散",
+      "破发股",
+      "最近多板",
+      "长期破净",
+      "低价股",
+      "标准普尔",
+      "富时罗素",
+      "参股新三板",
+      "ST股",
+      "首发经济",
+      "数字水印",
+      "数据确权",
+      "新型城镇化",
+      "土壤修复",
+      "数字经济",
+      "虚拟数字人",
+      "元宇宙概念",
+      "抖音概念(字节概念)",
+      "农业种植",
+      "华为概念",
+      "乡村振兴",
+      "雄安新区",
+      "网红经济",
+      "虚拟现实",
+      "PPP模式",
+      "一带一路",
+      "旅游概念",
+      "央国企改革",
+      "粤港自贸",
+      "智慧城市",
+      "参股保险",
+      "水利建设"
+    ],
+    "business_sections": [
+      {
+        "title": "生态环境建设业务",
+        "kind": "主营业务",
+        "text": "岭南股份业务涵盖生态环境、城市园林、乡村景观、生态景观、市政公用工程、智慧城市工程、城市及道路照明工程等专业领域的规划设计、施工、运营。"
+      },
+      {
+        "title": "水务水环境治理业务",
+        "kind": "主营业务",
+        "text": "岭南股份下属控股子公司——岭南水务集团有限公司是岭南大生态板块的重要组成部分，其业务涵盖水利工程、城乡水务、水生态水环境。"
+      },
+      {
+        "title": "文化旅游业务",
+        "kind": "主营业务",
+        "text": "全域纵横文旅投资有限公司是岭南股份旗下的文旅公司。文旅业务是岭南股份上市后发展的新业务，依托岭南股份在生态环境建设等多领域的特色产业优势，为客户提供文旅业务一站式解决方案。"
+      },
+      {
+        "title": "业务资质优势",
+        "kind": "核心竞争力",
+        "text": "岭南股份实施“双主业驱动战略”，构建“生态环境+文化旅游”双轮驱动格局。公司持有水利水电施工总承包一级资质、风景园林工程设计专项甲级资质、市政公用工程施工总承包一级资质等核心资质。"
+      },
+      {
+        "title": "全产业链优势",
+        "kind": "核心竞争力",
+        "text": "岭南股份调整战略布局，构建“生态+文旅”双主业驱动发展格局。聚焦生态环境建设、水务水环境治理、文化旅游三大核心业务板块，形成“生态+文旅”双向赋能的协同效应。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ002717",
+    "fetched_at": "2026-09-18T22:53:57.669462+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "生态环境建设与修复"
+}

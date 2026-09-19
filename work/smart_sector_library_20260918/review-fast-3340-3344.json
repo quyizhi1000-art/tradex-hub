@@ -1,0 +1,77 @@
+[
+  {
+    "id": "600593.SH",
+    "key": "tourism",
+    "sector": "旅游",
+    "source_sector_name": "旅游概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "海洋极地主题景区"
+    ],
+    "fact": "运营大连圣亚海洋世界和哈尔滨极地公园及场馆商业。",
+    "company_fact": "运营大连圣亚海洋世界和哈尔滨极地公园及场馆商业。",
+    "ths_fact": "现有大连哈尔滨景区经营与商业动物经营。",
+    "reason": "海洋极地景区旅游身份明确，企鹅场馆和季节性活动不等于独立冰雪装备产业。"
+  },
+  {
+    "id": "600594.SH",
+    "key": "anticancer",
+    "sector": "抗癌",
+    "source_sector_name": "抗癌",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "抗肿瘤药物及肿瘤医疗"
+    ],
+    "fact": "药品包括洛铂及复方斑蝥艾愈等抗肿瘤产品，并运营肿瘤医院放疗中心。",
+    "company_fact": "药品包括洛铂及复方斑蝥艾愈等抗肿瘤产品，并运营肿瘤医院放疗中心。",
+    "ths_fact": "抗癌解析对应艾迪康赛迪及洛铂等肿瘤药。",
+    "reason": "现有药品与肿瘤服务共同支撑抗癌身份；不沿用2013占比及增速预期，不以泛研发表述推定新药临床。"
+  },
+  {
+    "id": "600595.SH",
+    "key": "aluminum",
+    "sector": "有色铝",
+    "source_sector_name": "有色铝",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "电解铝与铝深加工"
+    ],
+    "fact": "铝精深加工配套煤电炭素，产品包括罐料电池箔汽车板等。",
+    "company_fact": "铝精深加工配套煤电炭素，产品包括罐料电池箔汽车板等。",
+    "ths_fact": "煤电铝铝加工完整产业链。",
+    "reason": "有色铝核心业务明确，旧超导示范验收不能直接替代现有产品身份。"
+  },
+  {
+    "id": "600596.SH",
+    "key": "liquid_cooled_servers",
+    "sector": "液冷服务器",
+    "source_sector_name": "液冷服务器",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "浸没式硅基冷却液"
+    ],
+    "fact": "硅基新材料覆盖工业硅有机硅至终端产品完整产业链，另有作物保护。",
+    "company_fact": "硅基新材料覆盖工业硅有机硅至终端产品完整产业链，另有作物保护。",
+    "ths_fact": "2026年3月首个商用浸没式硅基液冷算力项目已运行，已有算力储能快充三系列产品。",
+    "reason": "从硅材料延伸的实际液冷项目形成市场身份，限定冷却材料与方案环节，业务初期占比小而非服务器自产。"
+  },
+  {
+    "id": "600597.SH",
+    "key": "dairy",
+    "sector": "乳业",
+    "source_sector_name": "乳业",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "乳制品牧场至终端"
+    ],
+    "fact": "生产销售鲜奶酸奶奶粉奶酪等，经营奶牛养殖与配送。",
+    "company_fact": "生产销售鲜奶酸奶奶粉奶酪等，经营奶牛养殖与配送。",
+    "ths_fact": "乳品研发生产销售及奶牛饲养物流构成主营。",
+    "reason": "全链条乳业身份明确，冷链和数字化为经营配套。"
+  }
+]

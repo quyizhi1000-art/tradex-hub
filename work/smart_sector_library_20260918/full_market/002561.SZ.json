@@ -1,0 +1,66 @@
+{
+  "instrument_id": "002561.SZ",
+  "name": "徐家汇",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "002561.SZ",
+    "name": "徐家汇",
+    "memberships": [
+      "商贸零售",
+      "一般零售",
+      "百货",
+      "上海板块",
+      "2026中报首亏",
+      "破发股",
+      "内贸流通",
+      "融资融券",
+      "社区团购",
+      "退税商店",
+      "新零售",
+      "央国企改革",
+      "沪企改革",
+      "电商概念"
+    ],
+    "business_sections": [
+      {
+        "title": "百货零售",
+        "kind": "主营业务",
+        "text": "公司主营业务以百货零售为主，经营业态包括百货商场、奥特莱斯、时尚超市等，经营模式主要包括商品零售、场地租赁和商业服务等。公司在上海地区拥有“上海六百”、“汇金百货”、“汇联商厦”、“汇金奥莱”和“汇金超市”等零售品牌。"
+      },
+      {
+        "title": "黄金地段和自有物业",
+        "kind": "核心竞争力",
+        "text": "公司下属主要门店处于上海市级商业中心的黄金地段，聚客优势明显。绝大多数门店为自有物业，自有物业在锁定经营成本同时，获得了良好的商业价值，公司经营和盈利水平持续性得到有效保障。"
+      },
+      {
+        "title": "市场细分和错位经营",
+        "kind": "核心竞争力",
+        "text": "公司具备丰富的零售业管理经验，能够深刻把握消费者需求。所属汇金百货、汇联商厦以清晰的市场细分，通过错位经营战略分别服务中高档及大众消费需求，最大限度覆盖了不同消费层级。"
+      },
+      {
+        "title": "成熟模式和IT技术",
+        "kind": "核心竞争力",
+        "text": "公司具有长期合作的优质供应商资源，并具备涵盖商品定位、采购招商、商场布局等完备的管理体系，具备成熟的门店运营能力。同时公司研发的E-MEC系统日趋完善，有效提高运营效率，为线下业务赋能。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ002561",
+    "fetched_at": "2026-09-18T22:50:51.880287+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [
+    "消费"
+  ],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "零售"
+}

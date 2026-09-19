@@ -1,0 +1,77 @@
+[
+  {
+    "id": "688501.SH",
+    "key": "carbon_neutrality",
+    "sector": "碳中和",
+    "source_sector_name": "碳中和",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "工业节能环保装备"
+    ],
+    "fact": "炉渣资源化与烟气余热回收协同减排。",
+    "company_fact": "炉渣资源化与烟气余热回收协同减排。",
+    "ths_fact": "炉渣烟气清洁消纳脱硫废水节能处理设备。",
+    "reason": "节能环保产品身份，热储能试车不称已普遍商用。"
+  },
+  {
+    "id": "688502.SH",
+    "key": "lithography",
+    "sector": "光刻机",
+    "source_sector_name": "光刻机",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "曝光照明精密光学器件"
+    ],
+    "fact": "精密器件镜头系统服务半导体检测加工等。",
+    "company_fact": "精密器件镜头系统服务半导体检测加工等。",
+    "ths_fact": "匀光照明投影物镜与位移测量棱镜用于光刻机。",
+    "reason": "明确光学组件供货而非光刻整机；光刻胶解析实际指光学件，不能误写胶材料。"
+  },
+  {
+    "id": "688503.SH",
+    "key": "photovoltaics",
+    "sector": "光伏",
+    "source_sector_name": "光伏概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "光伏导电浆料"
+    ],
+    "fact": "不同电池结构导电浆料开发制造核心业务。",
+    "company_fact": "不同电池结构导电浆料开发制造核心业务。",
+    "ths_fact": "主营新型电子浆料及光伏电池导电浆料。",
+    "reason": "光伏浆料成熟身份；光刻胶中试送样目标不当量产销售。"
+  },
+  {
+    "id": "688505.SH",
+    "key": "innovative_drugs",
+    "sector": "创新药",
+    "source_sector_name": "创新药",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "创新生物医药"
+    ],
+    "fact": "创新药物研发制造市场营销解决临床需求。",
+    "company_fact": "创新药物研发制造市场营销解决临床需求。",
+    "ths_fact": "生物医药创新研发生产营销。",
+    "reason": "研发生产商业化实体业务，医疗器械经营范围仅辅助。"
+  },
+  {
+    "id": "688506.SH",
+    "key": "innovative_drugs",
+    "sector": "创新药",
+    "source_sector_name": "创新药",
+    "source_sector_provider": "同花顺",
+    "stage": "pilot",
+    "chain": [
+      "ADC双抗等创新管线"
+    ],
+    "fact": "17款创新药临床，含NDA受理及III期注册。",
+    "company_fact": "17款创新药临床，含NDA受理及III期注册。",
+    "ths_fact": "一项NDA三项III期及多临床创新资产。",
+    "reason": "创新管线市场身份明确，仿制药及中药销售不混作创新药上市收入。"
+  }
+]

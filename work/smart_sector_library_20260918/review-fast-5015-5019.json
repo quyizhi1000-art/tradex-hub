@@ -1,0 +1,77 @@
+[
+  {
+    "id": "688523.SH",
+    "key": "commercial_space",
+    "sector": "商业航天",
+    "source_sector_name": "商业航天",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "卫星测控天线与宇航零件"
+    ],
+    "fact": "宇航微波天线结构件及商业低轨测控馈电天线已完成。",
+    "company_fact": "宇航微波天线结构件及商业低轨测控馈电天线已完成。",
+    "ths_fact": "千帆天伺馈及多型地面站已研制交付。",
+    "reason": "具体星座供货支持商业航天身份；无人机复材为并行标签。"
+  },
+  {
+    "id": "688525.SH",
+    "key": "ai_glasses",
+    "sector": "AI眼镜",
+    "source_sector_name": "AI眼镜",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "端侧小型存储"
+    ],
+    "fact": "存储解决方案覆盖AI新兴端侧并具备研发封测一体化。",
+    "company_fact": "存储解决方案覆盖AI新兴端侧并具备研发封测一体化。",
+    "ths_fact": "AI眼镜2024年收入1.06亿元，向Meta等供ROM加RAM。",
+    "reason": "明确终端客户与收入的眼镜存储环节，非眼镜整机，也不把预测增长当已实现。"
+  },
+  {
+    "id": "688526.SH",
+    "key": "animal_vaccines",
+    "sector": "动物疫苗",
+    "source_sector_name": "动物疫苗",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "猪禽与宠物疫苗"
+    ],
+    "fact": "兽用生物制品生产销售，主要非强免猪禽疫苗。",
+    "company_fact": "兽用生物制品生产销售，主要非强免猪禽疫苗。",
+    "ths_fact": "主营猪禽疫苗并有宠物疫苗已上市销售。",
+    "reason": "动物防疫生产商，非人用创新药或养殖概念优先。"
+  },
+  {
+    "id": "688528.SH",
+    "key": "iot",
+    "sector": "物联网",
+    "source_sector_name": "物联网",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "智慧燃气水务与传感系统"
+    ],
+    "fact": "智慧城市物联网智能传感器及工业物联网三类业务。",
+    "company_fact": "智慧城市物联网智能传感器及工业物联网三类业务。",
+    "ths_fact": "智能燃气表水表及运行体系为实际产品。",
+    "reason": "以物联网系统归属，传感器多场景应用保留次标签。"
+  },
+  {
+    "id": "688529.SH",
+    "key": "humanoid_robots",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "工业专用人形与应用方案"
+    ],
+    "fact": "智能产线供应商，已开发具身智能设备及应用方案。",
+    "company_fact": "智能产线供应商，已开发具身智能设备及应用方案。",
+    "ths_fact": "当前具身产品包含人形，联合本体厂商开发拧紧涂胶等专用机器人。",
+    "reason": "实际产品与工业应用定位支持主归属，不把联合开发和完善标准化当规模收入。"
+  }
+]

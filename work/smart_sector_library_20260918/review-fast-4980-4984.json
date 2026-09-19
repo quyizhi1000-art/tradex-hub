@@ -1,0 +1,77 @@
+[
+  {
+    "id": "688469.SH",
+    "key": "cpo",
+    "sector": "共封装光学(CPO)",
+    "source_sector_name": "共封装光学(CPO)",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "数据中心硅光芯片代工"
+    ],
+    "fact": "面向AI车载工控消费功率及信号链系统代工。",
+    "company_fact": "面向AI车载工控消费功率及信号链系统代工。",
+    "ths_fact": "2026年8月IR主流数据中心硅光芯片规模稳定量产。",
+    "reason": "新硅光芯片制造已量产，链位为硅光芯片代工，不声称整套CPO光引擎收入。"
+  },
+  {
+    "id": "688472.SH",
+    "key": "photovoltaics",
+    "sector": "光伏",
+    "source_sector_name": "光伏概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "晶硅组件及系统"
+    ],
+    "fact": "核心晶硅组件研发产销，连续多年全球组件供应梯队。",
+    "company_fact": "核心晶硅组件研发产销，连续多年全球组件供应梯队。",
+    "ths_fact": "光伏组件储能系统EPC。",
+    "reason": "主要产业身份清晰，储能实际并行不泛称全组件为BC。"
+  },
+  {
+    "id": "688475.SH",
+    "key": "ai_agents",
+    "sector": "AI智能体",
+    "source_sector_name": "AI智能体",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "视觉物联网多智能体"
+    ],
+    "fact": "蓝海大模型端云协同音视频云服务及终端感知。",
+    "company_fact": "蓝海大模型端云协同音视频云服务及终端感知。",
+    "ths_fact": "蓝海AI智能体用于儿童老人宠物看护等。",
+    "reason": "有明确自研多场景智能体，非单纯第三方模型接入。"
+  },
+  {
+    "id": "688478.SH",
+    "key": "third_gen_semiconductors",
+    "sector": "第三代半导体",
+    "source_sector_name": "第三代半导体",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "碳化硅晶体生长炉"
+    ],
+    "fact": "晶体生长设备研发生产销售，碳化硅单晶炉定制。",
+    "company_fact": "晶体生长设备研发生产销售，碳化硅单晶炉定制。",
+    "ths_fact": "半导体级硅炉及SiC单晶炉。",
+    "reason": "设备环节非晶圆代工，存储客户硅片应用不直接生产存储。"
+  },
+  {
+    "id": "688479.SH",
+    "key": "ai_agents",
+    "sector": "AI智能体",
+    "source_sector_name": "AI智能体",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "车企运营与车主服务智能体"
+    ],
+    "fact": "车企营销系统车主平台交付，汽车产业数字化。",
+    "company_fact": "车企营销系统车主平台交付，汽车产业数字化。",
+    "ths_fact": "费控客服合同风控维保接待等智能体已实际应用。",
+    "reason": "具体业务应用落地，限定汽车软件场景，不写全部软件收入为AI收入。"
+  }
+]

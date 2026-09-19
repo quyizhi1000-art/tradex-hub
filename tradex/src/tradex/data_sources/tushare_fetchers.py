@@ -865,6 +865,36 @@ def fetch_stock_selection_daily(
     }
 
 
+def fetch_stock_selection_technicals(
+    trade_date: str = "", check_st: bool = False, include_seed: bool = False,
+    st_trade_date: str = "", **kwargs: Any,
+) -> dict[str, Any]:
+    """Read the published standard MACD/KDJ history, with bounded pagination."""
+    if kwargs.get("code") or kwargs.get("symbol"):
+        raise SourceCapabilityError("stock_selection_technicals is a whole-market route")
+    compact, trading_date = _daily_trade_date(trade_date, required=True)
+    rows, request_ids = _paged_records(
+        "stk_factor", {"trade_date": compact},
+        ("ts_code", "trade_date", "close", "amount", "macd_dif", "macd_dea",
+         "kdj_k", "kdj_d", "kdj_j") + (
+            ("high", "low", "adj_factor", "close_qfq") if include_seed else ()
+         ),
+        context="选股 MACD KDJ 日指标", page_size=5000, max_pages=3,
+    )
+    st_rows = None
+    if check_st:
+        st_rows, st_request_ids = _paged_records(
+            "stock_st", {"trade_date": _daily_trade_date(st_trade_date, required=True)[0]
+                         if st_trade_date else compact}, ("ts_code", "trade_date", "name"),
+            context="选股信号日 ST 名单", page_size=1000, max_pages=3,
+        )
+        request_ids.extend(st_request_ids)
+    return {
+        "trade_date": trading_date.isoformat(), "indicators": rows,
+        "special_treatment": st_rows, "request_id": _request_id_bundle(*request_ids),
+    }
+
+
 def fetch_stock_selection_daily_basic(
     trade_date: str = "",
     code: str = "",
@@ -1635,6 +1665,7 @@ def fetch_minute_data_batch(
 def fetch_minute_data_batch_partial(
     symbols: Iterable[str] | str = (),
     trade_date: date | str | None = None,
+    allow_empty: bool = False,
     **kwargs: Any,
 ) -> pd.DataFrame:
     """Return every exact series present in one bounded ``rt_min`` response."""
@@ -1654,7 +1685,12 @@ def fetch_minute_data_batch_partial(
         {"ts_code": ",".join(requested), "freq": "1MIN"},
         fields=_MINUTE_FIELDS,
     )
-    records, request_id = _records(payload, "实时分钟批量")
+    records, request_id = _records(payload, "实时分钟批量", allow_empty=allow_empty)
+    if not records:
+        # Explicit omissions let recovery use independently validated single
+        # curves. No timestamp or quote is invented for this empty response.
+        frame = _frame([], provider_as_of=None, request_id=request_id)
+        return frame.reindex(columns=["代码"])
     present = {
         _ts_code(str(item.get("ts_code") or ""))
         for item in records

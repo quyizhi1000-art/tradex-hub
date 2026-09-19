@@ -1,0 +1,83 @@
+[
+  {
+    "id": "300776.SZ",
+    "key": "bc_battery",
+    "sector": "BC电池",
+    "source_sector_name": "BC电池",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "BC激光微蚀刻",
+      "光伏电池激光加工"
+    ],
+    "fact": "以精密激光工艺设备服务BC等高效光伏电池制造。",
+    "ths_fact": "同花顺BC电池解析明确背接触电池激光微蚀刻设备，与PERC/TOPCon工艺产品并列。",
+    "company_fact": "主营确认激光微纳加工设备生产销售，下游主要光伏，半导体显示为延伸。",
+    "reason": "已有BC电池体现光伏工艺迭代主线，链为设备不是电池生产；TGV出货保留技术拓展但不假称全部半导体成熟。"
+  },
+  {
+    "id": "300777.SZ",
+    "key": "carbon_fiber",
+    "sector": "碳纤维",
+    "source_sector_name": "碳纤维",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "高性能碳纤维",
+      "航空复合材料"
+    ],
+    "fact": "高性能碳纤维及织物服务航空航天材料需求。",
+    "ths_fact": "同花顺碳纤维解析明确研发生产销售；人形解析只说材料应用基础及未来拓展。",
+    "company_fact": "主营确认航空航天碳纤维核心供应及结构功能材料开发。",
+    "reason": "已有碳纤维体现专有材料身份，不把轻量化潜力当作人形客户订单，不把客户PEEK复材研发认作本公司树脂制造。"
+  },
+  {
+    "id": "300778.SZ",
+    "key": "new_urbanization",
+    "sector": "新型城镇化",
+    "source_sector_name": "新型城镇化",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "城乡规划",
+      "工程设计咨询"
+    ],
+    "fact": "国土空间与城乡建设全生命周期服务。",
+    "ths_fact": "同花顺新型城镇化解析明确工程设计城乡规划及咨询，低空仅前期规划研究业务。",
+    "company_fact": "主营确认国土空间规划工程设计咨询三核心及智慧能源运维延伸。",
+    "reason": "已有新型城镇化完整覆盖实际客户和服务，不因低空少量规划就写为飞行器或空管产品商。"
+  },
+  {
+    "id": "300779.SZ",
+    "key": "solid_waste_treatment",
+    "sector": "固废处理",
+    "source_sector_name": "固废处理",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "废催化剂资源化",
+      "废塑料循环利用"
+    ],
+    "fact": "危废催化剂及废塑料资源化形成循环处理业务。",
+    "ths_fact": "同花顺固废条目明确危险废物处置及资源综合利用，非垃圾焚烧填埋。",
+    "company_fact": "主营确认废催化剂处置再生销售闭环及混合废塑料示范项目。",
+    "reason": "已有固废处理对应实际技术与运营，项目设计能力不当实际处理量，钒稀土回收关联不冒认采矿。"
+  },
+  {
+    "id": "300780.SZ",
+    "key": "industrial_mother_machines",
+    "sector": "工业母机",
+    "source_sector_name": "工业母机",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "数控机床",
+      "柔性制造单元",
+      "机械传动件"
+    ],
+    "fact": "数控装备、传动件及机器人单元形成制造服务体系。",
+    "ths_fact": "同花顺工业母机解析明确数控机床和机械零件主业，机器人条目为工业机器人整机集成。",
+    "company_fact": "主营列车床加工中心、FMS柔性制造及传动联结件，面向各行业制造企业。",
+    "reason": "已有工业母机覆盖工艺装备身份，工业机器人不直接等于人形机器人，平台数智化仍服务制造本业。"
+  }
+]

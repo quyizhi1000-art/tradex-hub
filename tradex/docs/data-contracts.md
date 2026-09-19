@@ -360,9 +360,11 @@ A 股目录、全量/复权 K 线、公司基本信息、三大财报与财务�
 
 - `balanced-multifactor-a-share.v1`，结果契约 `balanced_stock_selection_result.v1`；
 - `next-session-limit-up-tendency-main-board.v2`，结果契约 `stock_limit_up_tendency_screen.v1`；
-- `long-upper-shadow-main-board.v3`，结果契约 `stock_pattern_screen.v1`。
+- `long-upper-shadow-main-board.v3`，结果契约 `stock_pattern_screen.v1`；
+- `upward-volume-surge-main-board.v2`，结果契约 `stock_volume_surge_screen.v1`；
+- `macd-j-upturn-main-board.v1`，结果契约 `stock_macd_j_screen.v1`。
 
-三项策略由同一个 Analysis Worker 对同一份 `daily_stock_factor_snapshot.v1` 执行，共享采集、
+策略由同一个 Analysis Worker 对同一份 `daily_stock_factor_snapshot.v1` 执行，共享采集、
 交易日历、调度、质量门和单次快照，不建立第二套 Provider 调用、缓存或归档责任人。旧
 `daily_stock_selection.v1` / `daily-stock-selection-balanced.v6` 总包被冻结为兼容档案；新增策略
 不得再写入该总包。页面通过 `GET /api/stock-selection/strategies` 读取目录，通过
@@ -374,6 +376,33 @@ A 股目录、全量/复权 K 线、公司基本信息、三大财报与财务�
 记录下一有效交易日的盘中触板数/率和收盘封板数/率，覆盖不足 70% 时标记
 `unverifiable` 并不输出比率。长上影形态没有已经确认的收益预测目标，目录明确标记
 `not_defined`，不得套用综合候选池收益作为策略证明。
+
+## `stock_macd_j_screen.v1`
+
+独立策略 `macd-j-upturn-main-board.v1`（MACD 金叉 + J 线拐头）只筛沪深主板，
+交叉排除信号日 ST 名单、名称中 ST/退市标识与已退市证券。日线 MACD(12,26,9)
+要求 T-1 DIF ≤ DEA、T DIF > DEA；按 T 日双线均正/均负/跨零或等零标注零轴上方/
+下方/附近，不限制金叉位置。J 拐头定义为 J(t-2) > J(t-1) 且 J(t) > J(t-1)。
+两组互斥：同日拐头；最近一次拐头在 T-1～T-3 且 T 日 J 高于 T-1。后一组不要求
+中间每天连续上涨。J<20、J<0 标签基于拐头前一天谷值，仅展示，不作为入选条件。
+
+新增可选 `DailyStockFactorSnapshotV1.technicals`，包含恰好最后六个交易日的
+`stock_technical_day.v1` 规范指标，保留前复权口径、标准参数、日期、来源、请求标识、
+获取时间、有效/拒绝证券和信号日 ST 名单。当前源为 Tushare `stk_factor`（文档 296），
+指标由源端历史数据计算；非本地用六日行情初始化。精确源发布时间未提供，质量降级；
+J 与 3K-2D 不一致、缺字段、非有限数、错日、重复证券不作为有效证据。ST 来自
+`stock_st`（文档 397）；空或错日名单不可视为已排除 ST。每次生成最多六个指标日切片
+和一个 ST 切片，指标每页 5000、最多三页；独立调用上限 90 秒，不改全局路由时限。
+
+服务继续由 Analysis Worker 调用，页面读档案无采集副作用，无新增缓存/调度器。
+未取得指标时仍生成原有四个策略，新策略不写不可变空档案，`missing_strategy_ids`
+明确列出缺失项，后续沿用已有重试机制。补写只记录缺失策略，保留既有结果与摘要。
+新策略摘要包含技术指标输入，旧策略摘要排除新增可选字段以保持身份稳定。
+结果保留六日 DIF/DEA/K/D/J、信号日、拐头日、间隔、分组与低位标签；不做收益预测，
+评估策略为 `not_defined`。未知日期显示无档案，已核验零命中与不可用分别展示。
+
+参考：[技术指标](https://tushare.pro/document/2?doc_id=296)、
+[ST 名单](https://tushare.pro/document/2?doc_id=397)。
 
 ## `stock_pattern_screen.v1`
 
@@ -659,3 +688,57 @@ FC-BGA 和电子装联；在找到直接官方材料前，`ABF` 保持 `abf_unve
   Finalization permits up to six seconds of shared-queue waiting and four seconds
   per transport request; the intraday manual repair budget remains unchanged.
   A failed recovery remains failed even if all aggregate minute slots exist.
+
+- `market_watch_daily_recovery.v1.next_retry_at` exposes the existing collector's
+  next automatic sweep. A failed same-day preparation/finalization retries 60
+  seconds after its persisted completion time; reopening or reading the ledger
+  does not move that deadline. No automatic sweep is promised for an earlier day.
+  Pending/retrying minutes take priority over terminal gaps when deriving batch
+  status. Automatic continuation follows the latest run regardless of its trigger
+  and preserves each minute's later retry deadline; explicit manual retry keeps
+  its existing immediate behavior. Terminal unpublished minutes stay unresolved
+  and are not requeued. Once a failed minute is accepted, its active failure
+  projection clears while the attempt audit remains persisted. Dashboard reads
+  only project this state; they never start provider work.
+
+# 盘中 MACD + J 线扫描
+
+`intraday_macd_j_watch.v1` 由现有 Collector 辅助循环独占采集与落盘；
+`GET /api/stock-selection/intraday-macd-j` 和 `/history?trade_date=YYYY-MM-DD`
+仅读取本地物化结果。每次扫描独立保存，历史记录不会被后一次扫描覆盖。
+
+09:30–11:30、13:00–15:00 每 15 分钟扫描（含端点），午休只在 11:45
+复核一次。每个时间点允许后台在两分钟内启动一次；不追补错过的实时扫描。
+09:20 开始每分钟最多准备一个历史交易日；未准备完成的计划扫描明确记录未完成。
+
+历史基线来自前九个已结束交易日的已发布技术指标及当日 ST 名单。
+盘中报价优先通过 `intraday_scan_universe` 请求已有付费全市场实时日线，
+本地筛选目标股；仅缺失、过期或价格字段无效的股票通过 `intraday_scan_quotes`
+使用已有腾讯批量传输补充。付费请求最多 20 秒，腾讯每批最多 80 只、
+整轮 45 秒预算、连续两批失败停止；仅沪深主板非 ST。每行保留来源自己的时间，
+正常扫描排除超过 90 秒的报价；11:45 复核明确使用 11:30 收市行情，排除早于
+11:28:30 的报价。不从页面发起行情采集、不触发系统通知或声音。
+
+股票行情映射按股票所属交易所识别裸代码，避免将 `000688.SZ`、`000905.SZ`
+误认成同号沪市指数；不改变独立指数查询规则。成功一批后重置连续失败计数。
+已核验数量少于请求数量的扫描标为 `partial`，仅展示已核验范围内的命中，
+明确提示“扫描不完整，不代表全量结果”。旧记录读取时同样派生该状态，不改写
+原始存档；可靠的逐股提示和当日去重继续保留，无可核验数据仍为 `unavailable`。
+报价契约的 `quote_providers` 保留逐股来源，扫描记录保存来源计数及每只命中股票的
+`quote_provider`。备用源不得覆盖已通过校验的主源报价。
+
+显式操作员重扫复用扫描服务的 `force=True`，执行前停止 Collector，完成后恢复，
+不创建第二个调度器。手动盘中扫描使用实际时间，标为 `manual_intraday`，单独归档
+且不覆盖同分钟定时记录。仍限制在交易日 09:30–15:02；午休采用 11:30 收市行情，
+沿用 11:28:30 的最早时间门槛，并明确标记 `quote_session=midday_close`。
+不追补遗漏时刻、不替代正式收盘确认。页面后台轮询不清空已有内容，无变化不重建；
+新扫描到来时保留用户正在查看的记录、行业筛选、展开状态及滚动位置。
+
+MACD 用标准 EMA 递推的等价二阶 DIF 递推及上一日 DEA 计算，KDJ 使用前八日
+高低价与本日高低价；不从短窗口初始化 EMA。前九日复权因子必须一致、前复权
+收盘价与原始收盘价一致，本日昨收必须匹配上一日收盘价；否则不推算。
+先回算检验已发布 MACD 与上一日 KDJ 的一致性。DIF/DEA 差须大于 0.004、
+当日 J 增量须大于 0.02，以避开来源舍入误差，其余沿用收盘版新金叉与两组 J 拐头条件。
+
+单次可靠扫描命中即给出页面提示，同股同日去重；记录包括仍命中、已失效、
+数据不足待复核。全部为盘中预估，可能在收盘前消失，不替代收盘档案。

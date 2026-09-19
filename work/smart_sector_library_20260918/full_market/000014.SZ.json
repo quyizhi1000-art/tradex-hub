@@ -1,0 +1,60 @@
+{
+  "instrument_id": "000014.SZ",
+  "name": "沙河股份",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "000014.SZ",
+    "name": "沙河股份",
+    "memberships": [
+      "房地产",
+      "房地产开发",
+      "住宅开发",
+      "广东板块",
+      "机构重仓",
+      "央国企改革",
+      "粤港自贸",
+      "深圳特区"
+    ],
+    "business_sections": [
+      {
+        "title": "房地产开发与经营、现代服务型产业用房的运营与管理",
+        "kind": "主营业务",
+        "text": "沙河实业股份有限公司是由深业沙河（集团）有限公司控股的A股上市公司，总股本为242,046,224股。公司主营业务聚焦于房地产开发与经营，以及现代服务型产业用房的运营与管理。"
+      },
+      {
+        "title": "品牌形象与口碑",
+        "kind": "核心竞争力",
+        "text": "经过多年发展，公司已树立了一定的品牌形象，积累了丰富的开发经验。公司打造的“世纪村”品牌优质物业，在行业内及客户群体中赢得了良好的品牌效应与口碑，并开发了一系列楼盘，例如深圳“世纪村”、新乡“世纪村”、新乡“世纪新城”以及长沙“沙河城”等。"
+      },
+      {
+        "title": "标准化与快周转开发运营能力",
+        "kind": "核心竞争力",
+        "text": "在项目开发与运营方面，公司秉持“开发周期标准化、去化周期标准化、产品标准化”的“三化”策略，强化开发计划与成本管控，践行“快周转”运营理念，实现项目当年开工、当年销售，开发速度处于业内领先水平。"
+      },
+      {
+        "title": "成本管控信息系统",
+        "kind": "核心竞争力",
+        "text": "公司从信息化、成本管理制度、成本管理方法三方面着手，全面系统地推进成本管控信息系统建设。该系统自2009年上线运行，于2018年升级为EIP系统，目前已在项目开发与建设过程中发挥重要作用，成为公司的核心竞争力之一。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ000014",
+    "fetched_at": "2026-09-18T22:35:14.339123+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [
+    "房地产"
+  ],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "显示器件制造"
+}

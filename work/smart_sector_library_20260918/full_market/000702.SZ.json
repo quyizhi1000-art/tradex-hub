@@ -1,0 +1,49 @@
+{
+  "instrument_id": "000702.SZ",
+  "name": "正虹科技",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "000702.SZ",
+    "name": "正虹科技",
+    "memberships": [
+      "农林牧渔",
+      "饲料",
+      "畜禽饲料",
+      "湖南板块",
+      "股权转让",
+      "微盘股",
+      "猪肉概念",
+      "央国企改革",
+      "参股券商"
+    ],
+    "business_sections": [
+      {
+        "title": "饲料产品、生猪养殖、饲料原料销售",
+        "kind": "主营业务",
+        "text": "公司是一家以研发生产销售饲料产品、生猪养殖、饲料原料销售为主营业务，并拥有自主知识产权的大型企业集团。公司的经营策略是做精饲料主业，做稳生猪养殖业，做优饲料原料贸易业。"
+      },
+      {
+        "title": "综合优势",
+        "kind": "核心竞争力",
+        "text": "公司历经三十余年品牌积累，有良好的知名度和美誉度，具有较强的区域品牌价值；公司自身及产学研合作机制下的科研实力较强，在“7060大保育技术、母子料”研究方面具有专业技术优势；贸易业务资源较丰富，原材料采购业务具有比较性优势。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ000702",
+    "fetched_at": "2026-09-18T22:35:45.414964+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "养殖"
+}

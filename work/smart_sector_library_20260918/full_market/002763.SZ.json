@@ -1,0 +1,63 @@
+{
+  "instrument_id": "002763.SZ",
+  "name": "汇洁股份",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "002763.SZ",
+    "name": "汇洁股份",
+    "memberships": [
+      "纺织服饰",
+      "服装家纺",
+      "非运动服装",
+      "广东板块",
+      "QFII重仓",
+      "跨境电商",
+      "化妆品概念",
+      "网红经济",
+      "电商概念",
+      "婴童概念",
+      "深圳特区"
+    ],
+    "business_sections": [
+      {
+        "title": "内衣人体工学研究、产品设计、生产制造、市场营销、品牌推广",
+        "kind": "主营业务",
+        "text": "公司坚持以内衣行业为主要经营方向，专业从事内衣人体工学研究、产品设计、生产制造、市场营销、品牌推广。公司采用多品牌发展战略，拥有曼妮芬、伊维斯、兰卓丽、桑扶兰、秘密武器等品牌，曼妮芬设立了棉质生活、MW1摩范男士、曼妮芬儿童、曼妮芬运动、曼妮芬家居、曼妮芬美妆子品牌。各品牌在品牌定位、设计风格、目标客户等方面相互补充，涵括女士、男士、儿童不同人群，产品品类有文胸、背心、内裤、家居、保暖、功能、泳衣、运动、袜品、女士护肤品及美妆产品等。"
+      },
+      {
+        "title": "产品质量优势",
+        "kind": "核心竞争力",
+        "text": "公司拥有自行投资建设的生产基地，专注结构、工艺等研发创新和质量提升。公司作为主要起草单位之一参与了《针织内衣》《一体成型文胸》《针织家居服》等二十多项国家行业标准的制订。公司建立了严格的产品质量管理体系，江西工厂获得ISO9001质量管理体系认证。对产品质量的极致追求，是公司品牌长期发展的根本。"
+      },
+      {
+        "title": "品牌优势",
+        "kind": "核心竞争力",
+        "text": "公司“曼妮芬”“桑扶兰”商标系国家工商行政管理总局商标局认定的中国驰名商标。品牌规模、价值提升与合作商场、电商平台资源、流量倾斜形成正向循环。公司的品牌优势是公司未来销售增长的重要保证。"
+      },
+      {
+        "title": "销售网络优势",
+        "kind": "核心竞争力",
+        "text": "公司销售网络覆盖直营、电子商务、经销全渠道。公司与多家主要的零售集团建立了良好的合作关系，涵盖百货、购物中心、奥特莱斯等渠道，门店遍布全国境内31个省份。电商渠道涵括天猫、抖音、唯品会、京东、微信等主要平台。公司多渠道建设和管理能力，为未来持续稳定的发展奠定了坚实基础。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ002763",
+    "fetched_at": "2026-09-18T22:54:49.959693+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [
+    "消费"
+  ],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "文胸"
+}

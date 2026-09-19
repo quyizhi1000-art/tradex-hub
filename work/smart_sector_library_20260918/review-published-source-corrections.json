@@ -1,0 +1,757 @@
+{
+  "purpose": "已发布股票来源候选合规复核建议；主代理另行复核及版本化发布，未修改原审阅文件或正式库",
+  "review_basis": "crosschecked_sources",
+  "scope": [
+    "review-agent-055-074.json",
+    "review-agent-075-094.json",
+    "000513.SZ",
+    "000518.SZ"
+  ],
+  "counts": {
+    "reviewed": 41,
+    "correction_suggestions": 31,
+    "renamed_or_reselected": 10,
+    "source_only": 21,
+    "preserved_gaps": 10
+  },
+  "corrections": [
+    {
+      "id": "000156.SZ",
+      "source_review_file": "review-agent-055-074.json",
+      "change_type": "source_provenance_added",
+      "old_key": "media",
+      "old_sector": "传媒",
+      "new_judgment": {
+        "id": "000156.SZ",
+        "key": "media",
+        "sector": "传媒",
+        "chain": [
+          "广电网络运营",
+          "数字视听内容"
+        ],
+        "fact": "经营有线电视传输、全国新媒体内容及技术运营，同时开展宽带与智慧城市数字化服务",
+        "ths_fact": "同股文化传媒解析记载数字内容运营及财经音视频合作；短剧解析引用2026年3月公告，列举已推出的AIGC动画、文旅微短剧和计划上映作品",
+        "company_fact": "公司资料列明有线电视基本视听与节目传输、互动电视与互联网电视内容运营，并列示全牌照经营资质和节目版权资源",
+        "reason": "市场传媒、数字内容解析与独立公司业务资料一致，广电及数字视听是可确认的产业链位置。AIGC已有内容成果但材料不足以把公司单独定为AI技术供应商，智慧城市与广电5G保留业务背景。",
+        "source_sector_name": "传媒",
+        "source_sector_provider": "eastmoney_f10"
+      }
+    },
+    {
+      "id": "000157.SZ",
+      "source_review_file": "review-agent-055-074.json",
+      "change_type": "source_provenance_added",
+      "old_key": "construction_machinery",
+      "old_sector": "工程机械",
+      "new_judgment": {
+        "id": "000157.SZ",
+        "key": "construction_machinery",
+        "sector": "工程机械",
+        "chain": [
+          "起重机械",
+          "混凝土与土方机械"
+        ],
+        "fact": "研发生产工程机械、农业机械及矿山机械，为基础设施和矿山等施工提供设备",
+        "ths_fact": "机械装备、高端装备解析明确起重与混凝土设备；2025年7月雅下水电解析说明挖掘机、起重机、混凝土设备已进相关施工场地。人形机器人完整解析仍为数十台工厂试点和训练场应用",
+        "company_fact": "公司资料完整列示混凝土、起重、土方、桩工、高空设备及采矿和破碎筛分产品，服务基础设施施工",
+        "reason": "成熟产品、具体施工应用与市场工程装备定位相互印证。人形机器人已超出单纯规划，应保留试点阶段信息，但现有材料未交叉核对对外商业交付或显示其替代工程机械主认知；不以旧收入比例否定新方向。",
+        "source_sector_name": "工程机械",
+        "source_sector_provider": "eastmoney_f10"
+      }
+    },
+    {
+      "id": "000158.SZ",
+      "source_review_file": "review-agent-055-074.json",
+      "change_type": "source_provenance_added",
+      "old_key": "xinchuang",
+      "old_sector": "信创",
+      "new_judgment": {
+        "id": "000158.SZ",
+        "key": "xinchuang",
+        "sector": "信创",
+        "chain": [
+          "国产软件适配",
+          "政企系统集成",
+          "华为生态解决方案"
+        ],
+        "fact": "北明软件提供政企行业解决方案、系统集成和定制软件，开展国产基础设施与应用适配",
+        "ths_fact": "信创解析说明百余项产品完成适配、基于信创架构的城市运营中心已在长沙望城运行；华为解析列明鲲鹏、昇腾、云的百余项联合方案与交付能力",
+        "company_fact": "完整公司资料明确服务器和终端国产化替代、信创云、国产中间件数据库适配及核心应用改造，并记载华为生态联合方案和专业化伙伴身份",
+        "reason": "国产替代与政企软件存在产品适配及落地交叉证据，归入信创并在细分保留华为生态。鸿蒙团队认证本身不等于鸿蒙商业交付；政务AI、数据中心和已投产风光项目分别保留其他业务，不沿用已滞后的纺织主线背景。",
+        "source_sector_name": "信创",
+        "source_sector_provider": "ths_concept"
+      }
+    },
+    {
+      "id": "000166.SZ",
+      "source_review_file": "review-agent-055-074.json",
+      "change_type": "sector_and_source_correction",
+      "old_key": "securities",
+      "old_sector": "证券",
+      "new_judgment": {
+        "id": "000166.SZ",
+        "key": "securities",
+        "sector": "券商",
+        "chain": [
+          "证券经纪与投行",
+          "资产管理"
+        ],
+        "fact": "提供投融资、证券经纪、财富管理、机构交易、资产管理及基金管理服务",
+        "ths_fact": "同花顺金控平台解析明确存续公司建立在券商资产基础上，期货概念解析说明证券子公司通过控股申万期货开展经纪业务；同股业务解析列明企业金融、个人金融、机构交易与投资管理",
+        "company_fact": "公司资料逐项列明股债融资、财务顾问、经纪财富管理、融资融券、做市衍生品和资产基金管理",
+        "reason": "选择东方财富已有“券商概念”，仅去掉概念后缀；不把证券Ⅱ/Ⅲ自行截为证券。公司投行、经纪、财富管理、交易及资产管理与同花顺券商资产基础的金控平台及证券子公司业务交叉支持。期货为综合证券经营延伸，地域与持仓风格不替代券商主线。",
+        "source_sector_name": "券商概念",
+        "source_sector_provider": "eastmoney_f10"
+      }
+    },
+    {
+      "id": "000301.SZ",
+      "source_review_file": "review-agent-055-074.json",
+      "change_type": "sector_and_source_correction",
+      "old_key": "petrochemicals",
+      "old_sector": "石油化工",
+      "new_judgment": {
+        "id": "000301.SZ",
+        "key": "petrochemicals",
+        "sector": "石油石化",
+        "chain": [
+          "炼化一体化",
+          "化工新材料",
+          "聚酯产业链"
+        ],
+        "fact": "经营盛虹炼化、斯尔邦石化、虹港石化及涤纶长丝业务，产品覆盖石化原料与化工新材料",
+        "ths_fact": "完整解析说明炼化、MTO、PDH多路线烯烃装置，斯尔邦生产EVA光伏料及丙烯腈，虹港从事PTA生产销售；丙烯腈是供给碳纤维客户的原料",
+        "company_fact": "公司资料明确连云港石化和化工新材料基地及上述经营主体，并列示苏州、宿迁聚酯化纤基地",
+        "reason": "选择东方财富已有“石油石化”行业候选，名称不再自行改作石油化工。同花顺炼化、MTO、PDH、EVA及PTA与公司连云港石化新材料和聚酯产业链交叉一致；EVA的光伏用途、丙烯腈的碳纤维用途不代表下游成品制造，POE中试不等于规模量产。",
+        "source_sector_name": "石油石化",
+        "source_sector_provider": "eastmoney_f10"
+      }
+    },
+    {
+      "id": "000400.SZ",
+      "source_review_file": "review-agent-055-074.json",
+      "change_type": "source_provenance_added",
+      "old_key": "power_grid_equipment",
+      "old_sector": "电网设备",
+      "new_judgment": {
+        "id": "000400.SZ",
+        "key": "power_grid_equipment",
+        "sector": "电网设备",
+        "chain": [
+          "特高压直流输电",
+          "换流阀与控制保护",
+          "智能变配电"
+        ],
+        "fact": "提供特高压及柔性直流输电换流阀、控制保护和智能变配电成套设备",
+        "ths_fact": "2025年8月柔性直流解析说明换流阀及控制保护已用于多条特高压线路，特高压和智能电网解析列为核心业务",
+        "company_fact": "公司资料明确±1100千伏及以下特高压、±800千伏及以下柔性直流能力，并完整列示换流阀、量测、控制保护、继电保护与配网设备",
+        "reason": "市场特高压、智能电网主题与实际设备及项目应用交叉一致。虚拟电厂、充换电及储能属于延伸产品；可控核聚变解析的集团所属主体与上市边界尚未核清，不据此替代主归属；也不把具身智能联合攻关当成机器人量产。",
+        "source_sector_name": "电网设备",
+        "source_sector_provider": "eastmoney_f10"
+      }
+    },
+    {
+      "id": "000401.SZ",
+      "source_review_file": "review-agent-055-074.json",
+      "change_type": "source_provenance_added",
+      "old_key": "cement",
+      "old_sector": "水泥",
+      "new_judgment": {
+        "id": "000401.SZ",
+        "key": "cement",
+        "sector": "水泥",
+        "chain": [
+          "水泥熟料",
+          "特种水泥与骨料"
+        ],
+        "fact": "生产销售水泥熟料、硅酸盐水泥及配套混凝土、骨料等建材，并开展窑协同处置",
+        "ths_fact": "水泥解析直接列明水泥、熟料、骨料和固废处置；核电解析说明子公司具核电水泥资质并开展生产销售",
+        "company_fact": "公司资料确认水泥熟料和硅酸盐水泥生产销售，配套混凝土、砂石骨料及特种水泥业务",
+        "reason": "水泥产品和市场解析一致，核电是特种水泥应用场景，危废为窑协同业务。保存材料中绿色电力解析实际是人才培训文字，属于不匹配内容，已剔除，不拿来证明发电业务。",
+        "source_sector_name": "水泥",
+        "source_sector_provider": "eastmoney_f10"
+      }
+    },
+    {
+      "id": "000402.SZ",
+      "source_review_file": "review-agent-055-074.json",
+      "change_type": "source_provenance_added",
+      "old_key": "real_estate",
+      "old_sector": "房地产",
+      "new_judgment": {
+        "id": "000402.SZ",
+        "key": "real_estate",
+        "sector": "房地产",
+        "chain": [
+          "房地产开发",
+          "物业租赁经营"
+        ],
+        "fact": "经营房产开发、物业租赁及物业经营，覆盖多个城市群",
+        "ths_fact": "物业管理和北京自贸区解析均明确房地产开发销售业务；特色小镇解析说明TOD、旧城改造与城市更新，碳中和来源是交易所股权",
+        "company_fact": "公司资料直接列明房产开发、物业租赁、物业经营及京津冀、长三角等区域",
+        "reason": "开发运营业务与市场房地产相关解析相互支持；装配式建筑是开发建设采用的工艺，交易所股权不能改写成碳交易运营主业。",
+        "source_sector_name": "房地产",
+        "source_sector_provider": "eastmoney_f10"
+      }
+    },
+    {
+      "id": "000403.SZ",
+      "source_review_file": "review-agent-055-074.json",
+      "change_type": "sector_and_source_correction",
+      "old_key": "blood_products",
+      "old_sector": "血制品",
+      "new_judgment": {
+        "id": "000403.SZ",
+        "key": "blood_products",
+        "sector": "血液制品",
+        "chain": [
+          "人血白蛋白",
+          "免疫球蛋白与凝血因子"
+        ],
+        "fact": "研发生产销售血液制品，产品含白蛋白、免疫球蛋白和凝血因子",
+        "ths_fact": "肝炎解析完整列出广东双林三大类八品种十八规格生产能力及白蛋白、免疫球蛋白、凝血因子等具体产品；另列血液制品概念",
+        "company_fact": "公司资料明确主营血液制品研发、生产和销售及临床救治用途",
+        "reason": "选择同股东方财富及同花顺均已有的“血液制品”，不再缩写为血制品。白蛋白、免疫球蛋白、凝血因子产品清单与独立公司研发生产销售说明一致；肝炎是部分产品的用途，经营系统接入DeepSeek不构成AI主归属，收购框架不认定为已完成交易。",
+        "source_sector_name": "血液制品",
+        "source_sector_provider": "eastmoney_f10"
+      }
+    },
+    {
+      "id": "000404.SZ",
+      "source_review_file": "review-agent-055-074.json",
+      "change_type": "source_provenance_added",
+      "old_key": "home_appliances",
+      "old_sector": "家用电器",
+      "new_judgment": {
+        "id": "000404.SZ",
+        "key": "home_appliances",
+        "sector": "家用电器",
+        "chain": [
+          "冰箱冰柜压缩机",
+          "商用制冷压缩机"
+        ],
+        "fact": "制造家用及商用全封闭活塞压缩机，同时经营新能源汽车空调压缩机",
+        "ths_fact": "家用电器解析明确冰箱压缩机产业位置，冷链解析说明家庭商业制冷压缩机；疫苗存储原文明确未直接生产存储或冷链设备",
+        "company_fact": "公司资料列明冰箱、冰柜、冷冻陈列柜及自动售货机压缩机，并单列新能源汽车热管理空调压缩机",
+        "reason": "家电核心部件及商用制冷供给与市场家电解析一致。新能源汽车热管理保留其他业务，不能把压缩机下游用途写成疫苗储运经营，也不把旧扫地机器人销量延伸为当前人形机器人业务。",
+        "source_sector_name": "家用电器",
+        "source_sector_provider": "ths_concept"
+      }
+    },
+    {
+      "id": "000407.SZ",
+      "source_review_file": "review-agent-055-074.json",
+      "change_type": "source_provenance_added",
+      "old_key": "natural_gas",
+      "old_sector": "天然气",
+      "new_judgment": {
+        "id": "000407.SZ",
+        "key": "natural_gas",
+        "sector": "天然气",
+        "chain": [
+          "城镇燃气供应",
+          "天然气终端服务"
+        ],
+        "fact": "面向工业、商业、居民提供天然气供应和应用服务，并经营相关装备材料业务",
+        "ths_fact": "天然气解析说明面向工业、商业、居民及交通用户供应天然气，油气管网解析为PE管道；合成生物仅说明持有胜利生物45%股权",
+        "company_fact": "公司资料确认全国清洁能源天然气推广应用和工业、商业、居民天然气服务",
+        "reason": "燃气供应的直接经营与市场天然气解析一致。气源体系探索页岩气或海外LNG不等于自主上游开采；45%股权及拟收购燃气资产不自动认定为已并表生产或已完成交易。",
+        "source_sector_name": "天然气",
+        "source_sector_provider": "ths_concept"
+      }
+    },
+    {
+      "id": "000409.SZ",
+      "source_review_file": "review-agent-055-074.json",
+      "change_type": "source_provenance_added",
+      "old_key": "ai_applications",
+      "old_sector": "AI应用",
+      "new_judgment": {
+        "id": "000409.SZ",
+        "key": "ai_applications",
+        "sector": "AI应用",
+        "chain": [
+          "能源行业大模型",
+          "智能矿山与工业智能体"
+        ],
+        "fact": "面向矿山、化工、电力提供工业AI平台、大模型场景及工业智能体解决方案",
+        "ths_fact": "华为盘古完整解析说明2023年已商用盘古矿山大模型并覆盖九大专业四十场景；2025年新型工业化解析列示累计110余类成熟场景，AI智能体解析说明数据处理到模型微调应用链路",
+        "company_fact": "完整公司资料明确鼎云平台孵化AI服务平台，形成数据-模型-智能体闭环且已多行业成熟落地；智能矿山、智慧化工提供感知、分析及智能决策产品",
+        "reason": "行业大模型与智能体有对外产品和落地交叉证据，市场AI及盘古主题有业务支撑。工业互联网是交付架构，矿山是场景；40P训练中心不直接改为算力租赁经营，采掘机械机器人化改造也不等同人形机器人。",
+        "source_sector_name": "AI应用",
+        "source_sector_provider": "ths_concept"
+      }
+    },
+    {
+      "id": "000410.SZ",
+      "source_review_file": "review-agent-055-074.json",
+      "change_type": "source_provenance_added",
+      "old_key": "machine_tools",
+      "old_sector": "工业母机",
+      "new_judgment": {
+        "id": "000410.SZ",
+        "key": "machine_tools",
+        "sector": "工业母机",
+        "chain": [
+          "数控金属切削机床",
+          "主轴与机床配套"
+        ],
+        "fact": "研发制造机床、提供行业加工解决方案及铸件和主轴等关键功能部件",
+        "ths_fact": "工业母机解析列明数控机床、普通机床和相关零部件，工业机器人解析指柔性自动线及机内自动化机床",
+        "company_fact": "公司资料确认通用机床、个性化行业加工方案及铸件主轴等机床零部件供应",
+        "reason": "机床产品及市场工业母机题材直接相互支持。商业航天解析涉及拟收购标的高端五轴机床，未核实交易完成前不把它扩写为上市公司既有航空业务，且下游加工应用不改变机床链位置。",
+        "source_sector_name": "工业母机",
+        "source_sector_provider": "ths_concept"
+      }
+    },
+    {
+      "id": "000411.SZ",
+      "source_review_file": "review-agent-055-074.json",
+      "change_type": "source_provenance_added",
+      "old_key": "pharma_distribution",
+      "old_sector": "医药商业",
+      "new_judgment": {
+        "id": "000411.SZ",
+        "key": "pharma_distribution",
+        "sector": "医药商业",
+        "chain": [
+          "医药与器械分销",
+          "连锁药房"
+        ],
+        "fact": "从事药品医疗器械批发与零售，运营省内医药流通网络和药房",
+        "ths_fact": "医药电商解析记载英特药谷线上交易平台，医疗器械解析明确属于医药流通企业；减肥药解析仅为GLP-1相关产品业务及对接合作",
+        "company_fact": "公司资料列明化学药、生物制品、中成药、耗材及IVD批发和超过300家零售门店，利润来自医药购销差价",
+        "reason": "分销零售与市场医药电商、流通解析一致，不能把销售GLP-1或医疗器械认定为相应创新药研发和器械生产。冷链解析混有股权划转文字，未用作冷链业务交叉证据。",
+        "source_sector_name": "医药商业",
+        "source_sector_provider": "eastmoney_f10"
+      }
+    },
+    {
+      "id": "000415.SZ",
+      "source_review_file": "review-agent-055-074.json",
+      "change_type": "source_provenance_added",
+      "old_key": "aviation_leasing",
+      "old_sector": "航空租赁",
+      "new_judgment": {
+        "id": "000415.SZ",
+        "key": "aviation_leasing",
+        "sector": "航空租赁",
+        "chain": [
+          "商用飞机经营租赁",
+          "机队资产管理"
+        ],
+        "fact": "通过Avolon及天津渤海购入飞机或资产组合，向全球航空公司提供中长期经营租赁并管理机队资产",
+        "ths_fact": "航空租赁完整解析列明飞机附带租约资产、Avolon商业飞机租赁及采购拓展；低空经济解析仅为支持eVTOL发展和探索融资合作",
+        "company_fact": "公司资料确认Avolon及天津渤海飞机经营租赁模式、飞机出售再投资和境内融资租赁，当前资料飞机资产占租赁资产98.42%",
+        "reason": "飞机资产经营与市场航空租赁主题相互支持，归属依据是明确租赁链条而非单独资产占比。eVTOL合作探索不证明低空飞行器制造或已经交付；旧集装箱概念不能覆盖当前公司业务结构。",
+        "source_sector_name": "航空租赁",
+        "source_sector_provider": "ths_concept"
+      }
+    },
+    {
+      "id": "000417.SZ",
+      "source_review_file": "review-agent-075-094.json",
+      "change_type": "source_provenance_added",
+      "old_key": "retail",
+      "old_sector": "零售",
+      "new_judgment": {
+        "id": "000417.SZ",
+        "key": "retail",
+        "sector": "零售",
+        "chain": [
+          "百货与连锁超市",
+          "线上线下商品销售"
+        ],
+        "fact": "经营百货、家电、超市和电商零售，并经营农产品交易市场。",
+        "ths_fact": "同股票概念解析正文说明i百大平台、百货团购与超市小时达已开展销售；酒水题材依据是采销和代理，AI小百用于购物服务。",
+        "company_fact": "公司资料列明零售和农产品交易市场两类业务，百货、家电、超市有226家实体经营门店，并列明周谷堆等农批市场运营主体。",
+        "reason": "零售市场认知有具体门店与线上销售交叉支撑；农批物流保留业务背景。充电桩对应5%股权投资，金融为参股，AI为零售应用，均不足以替代消费零售主线。",
+        "source_sector_name": "零售概念",
+        "source_sector_provider": "eastmoney_f10"
+      }
+    },
+    {
+      "id": "000420.SZ",
+      "source_review_file": "review-agent-075-094.json",
+      "change_type": "source_provenance_added",
+      "old_key": "carbon_fiber",
+      "old_sector": "碳纤维",
+      "new_judgment": {
+        "id": "000420.SZ",
+        "key": "carbon_fiber",
+        "sector": "碳纤维",
+        "chain": [
+          "碳纤维材料",
+          "复合材料上游"
+        ],
+        "fact": "生产销售碳纤维及粘胶纤维，碳纤维进入复合材料应用链。",
+        "ths_fact": "碳纤维解析说明T300至T800产品；风电解析说明已产生订单；无人机等解析区分材料应用、客户合作和试用。",
+        "company_fact": "公司主营资料明确包括碳纤维产品生产销售，核心竞争力资料另说明向碳纤维复合材料产业布局，同时保留粘胶长丝业务。",
+        "reason": "碳纤维产品、实际下游订单与多个围绕碳纤维用途的市场题材形成一致链条，不因传统粘胶业务否定新材料主线。归属停留在材料供应环节，不将集团滑雪品牌、航空合作或亿航试用升级为上市公司整机量产与冰雪主业。",
+        "source_sector_name": "碳纤维",
+        "source_sector_provider": "ths_concept"
+      }
+    },
+    {
+      "id": "000423.SZ",
+      "source_review_file": "review-agent-075-094.json",
+      "change_type": "source_provenance_added",
+      "old_key": "traditional_chinese_medicine",
+      "old_sector": "中药",
+      "new_judgment": {
+        "id": "000423.SZ",
+        "key": "traditional_chinese_medicine",
+        "sector": "中药",
+        "chain": [
+          "阿胶及阿胶系列",
+          "滋补中成药"
+        ],
+        "fact": "研发、生产和销售阿胶、阿胶系列及其他中成药。",
+        "ths_fact": "中医药与保健品解析围绕阿胶产品和品牌地位；旅游解析为中医药文化展示及康养，数字经济解析为工厂数字化。",
+        "company_fact": "公司资料明确以阿胶和阿胶系列及其他中成药的研发生产销售为业务，以滋补阿胶为品牌核心并发展健康消费品。",
+        "reason": "阿胶中药产品与中医药市场认知交叉支持。驴肉预制菜、文旅和数字工厂有各自场景，未提供替代中药主线的证据；不将生产数字化归为软件业务。",
+        "source_sector_name": "中药概念",
+        "source_sector_provider": "eastmoney_f10"
+      }
+    },
+    {
+      "id": "000425.SZ",
+      "source_review_file": "review-agent-075-094.json",
+      "change_type": "source_provenance_added",
+      "old_key": "construction_machinery",
+      "old_sector": "工程机械",
+      "new_judgment": {
+        "id": "000425.SZ",
+        "key": "construction_machinery",
+        "sector": "工程机械",
+        "chain": [
+          "起重及土方机械",
+          "工程装备制造"
+        ],
+        "fact": "研发制造起重、土方、桩工、路面和矿业等工程机械及备件。",
+        "ths_fact": "高端装备和机械装备解析明确起重、铲运、压实等工程机械；雅下水电题材依据为施工装备参与工程，氢能源为氢能矿卡、装载机产品。",
+        "company_fact": "公司资料逐项列土方、起重、桩工、混凝土、路面、高空作业、矿业等机械的研发制造销售及服务。",
+        "reason": "多项市场题材共同落在工程装备供给环节，与公司产品对应。水电项目参与不能改作电力运营商，无人作业和氢能是工程机械产品升级；特种机器人保留业务标签，未据此推断人形机器人主归属。",
+        "source_sector_name": "工程机械",
+        "source_sector_provider": "eastmoney_f10"
+      }
+    },
+    {
+      "id": "000428.SZ",
+      "source_review_file": "review-agent-075-094.json",
+      "change_type": "sector_and_source_correction",
+      "old_key": "hotel_tourism",
+      "old_sector": "酒店旅游",
+      "new_judgment": {
+        "id": "000428.SZ",
+        "key": "tourism_hotels",
+        "sector": "旅游酒店",
+        "chain": [
+          "酒店运营",
+          "酒店管理及配套服务"
+        ],
+        "fact": "以自营和托管方式运营酒店，并提供洗涤、物业与团餐等服务。",
+        "ths_fact": "职业教育解析为酒店岗位培训，预制菜为酒店餐饮试推，物业解析为华天生活服务的洗涤、家政、物业和团餐。",
+        "company_fact": "公司列明华天系列酒店品牌，自营加托管共55家酒店、已开业48家，同时发展面向酒店等客户的生活服务。",
+        "reason": "严格采用东方财富已有“旅游酒店”板块原名。自营和托管酒店、已开业资产与同花顺酒店岗位培训及酒店配套服务相互支持；不再倒置为酒店旅游，配套餐饮与培训不机械升级为独立主线。",
+        "source_sector_name": "旅游酒店",
+        "source_sector_provider": "eastmoney_f10"
+      }
+    },
+    {
+      "id": "000429.SZ",
+      "source_review_file": "review-agent-075-094.json",
+      "change_type": "source_provenance_added",
+      "old_key": "highways",
+      "old_sector": "高速公路",
+      "new_judgment": {
+        "id": "000429.SZ",
+        "key": "highways",
+        "sector": "高速公路",
+        "chain": [
+          "收费公路运营",
+          "公路养护"
+        ],
+        "fact": "运营收费高速公路并承担养护，同时进行相关股权投资。",
+        "ths_fact": "粤港澳解析明确广佛、佛开公路收费养护；充电桩解析为股权投资，绿色电力解析对应服务区新能源项目取得绿证。",
+        "company_fact": "公司资料列广佛、佛开、京珠广珠段、广惠高速收费养护，并分别列出参股公路、证券及充换电企业。",
+        "reason": "收费道路经营及市场区域交通题材有具体资产支持。服务区发电与非公路投资不足以改为电力或充电设备主归属，高股息是投资风格标签。",
+        "source_sector_name": "高速公路",
+        "source_sector_provider": "eastmoney_f10"
+      }
+    },
+    {
+      "id": "000430.SZ",
+      "source_review_file": "review-agent-075-094.json",
+      "change_type": "sector_and_source_correction",
+      "old_key": "hotel_tourism",
+      "old_sector": "酒店旅游",
+      "new_judgment": {
+        "id": "000430.SZ",
+        "key": "tourism_hotels",
+        "sector": "旅游酒店",
+        "chain": [
+          "景区运营",
+          "旅游客运与索道"
+        ],
+        "fact": "运营景区、旅游客运、旅行社和旅游索道，并经营酒店。",
+        "ths_fact": "旅游概念正文具体列景区经营、旅游客运、旅行社、客运索道和酒店，微信题材是景区智能导游应用。",
+        "company_fact": "公司资料列宝峰湖、大庸古城、环保客运和观光电车、张家界中旅、杨家界索道及张国际酒店。",
+        "reason": "严格采用东方财富已有“旅游酒店”板块原名，同花顺旅游解析与宝峰湖、大庸古城、索道、旅游客运及酒店等资产对应；不再倒置为酒店旅游。细分保留景区及旅游交通，不让摘帽、银行投资或旧智能导游应用取代旅游经营。",
+        "source_sector_name": "旅游酒店",
+        "source_sector_provider": "eastmoney_f10"
+      }
+    },
+    {
+      "id": "000488.SZ",
+      "source_review_file": "review-agent-075-094.json",
+      "change_type": "source_provenance_added",
+      "old_key": "paper",
+      "old_sector": "造纸",
+      "new_judgment": {
+        "id": "000488.SZ",
+        "key": "paper",
+        "sector": "造纸",
+        "chain": [
+          "制浆造纸",
+          "白卡纸及文化纸"
+        ],
+        "fact": "经营浆纸一体化生产，产品包括白卡纸、文化纸、铜版纸等。",
+        "ths_fact": "同股票搜索正文中以纸代塑说明白卡纸业务及浆纸配套，纸浆与人民币升值解析均围绕造纸业务；EDA和区块链为投资关系。",
+        "company_fact": "公司资料确认制浆造纸生产基地和浆纸一体化，机制纸含文化纸、铜版纸、白卡纸、复印纸、工业用纸、特种纸及生活纸。",
+        "reason": "纸品、纸浆与以纸代塑题材由直接生产业务支撑，构成一致造纸链条。ST是风险状态，不是产业板块；金融投资和参股技术企业不能替代主归属，也不据旧产能文字推断当前全部产线正常开工。",
+        "source_sector_name": "造纸",
+        "source_sector_provider": "eastmoney_f10"
+      }
+    },
+    {
+      "id": "000498.SZ",
+      "source_review_file": "review-agent-075-094.json",
+      "change_type": "sector_and_source_correction",
+      "old_key": "infrastructure",
+      "old_sector": "基建",
+      "new_judgment": {
+        "id": "000498.SZ",
+        "key": "infrastructure",
+        "sector": "基础建设",
+        "chain": [
+          "路桥工程施工",
+          "公路养护工程"
+        ],
+        "fact": "承建公路、桥梁、隧道、铁路和城市基础设施，并开展道路养护施工。",
+        "ths_fact": "PPP解析列市政、公路和桥梁项目，高铁解析列参建鲁南、潍莱、郑济等铁路；装配式建筑说明施工产业链子公司。",
+        "company_fact": "公司资料列路桥与城市基础设施施工经验，并披露高速公路养护里程及预防性养护、绿色再生养护等业务。",
+        "reason": "采用东方财富已有“基础建设”行业原名，不再自行简写基建。公司公路、桥梁、隧道、铁路及养护工程与同花顺PPP、高铁具体项目相互支持；产业位置为施工养护，非收费公路运营，单个光伏EPC项目或集团软件合作不改变主线。",
+        "source_sector_name": "基础建设",
+        "source_sector_provider": "eastmoney_f10"
+      }
+    },
+    {
+      "id": "000501.SZ",
+      "source_review_file": "review-agent-075-094.json",
+      "change_type": "source_provenance_added",
+      "old_key": "retail",
+      "old_sector": "零售",
+      "new_judgment": {
+        "id": "000501.SZ",
+        "key": "retail",
+        "sector": "零售",
+        "chain": [
+          "购物中心",
+          "连锁超市与消费运营"
+        ],
+        "fact": "经营购物中心及超市商品销售，并拓展自营消费品牌和商业体验服务。",
+        "ths_fact": "物业解析明确购物中心及超市商品销售；预制菜、露营、黄金和IP题材多为商场销售、自营品牌或引流活动，免税公司材料仅确认设立登记。",
+        "company_fact": "公司主营资料说明为大型商业零售企业，主要从事购物中心及超市业态的商品销售。",
+        "reason": "各消费题材落在零售平台经营和商品销售，与公司资料一致。免税公司成立不等于免税业务已营业，无人机配送和AI员工是商业服务应用；冰雪场馆保留真实配套业务，不按热点名词替代零售主线。",
+        "source_sector_name": "零售概念",
+        "source_sector_provider": "eastmoney_f10"
+      }
+    },
+    {
+      "id": "000503.SZ",
+      "source_review_file": "review-agent-075-094.json",
+      "change_type": "sector_and_source_correction",
+      "old_key": "healthcare_it",
+      "old_sector": "医疗信息化",
+      "new_judgment": {
+        "id": "000503.SZ",
+        "key": "drg_dip",
+        "sector": "DRG/DIP",
+        "chain": [
+          "医保支付与基金监管系统",
+          "DRG/DIP与医院运营信息服务"
+        ],
+        "fact": "为医保、医疗和医药监管提供数字化平台与服务，并开展健康服务。",
+        "ths_fact": "同股票DRG/DIP正文明确医保智能审核引擎和已落地的DRG、DIP、APG支付管理平台，医保目录解析指向医保审核监管平台共建。",
+        "company_fact": "数字医保业务覆盖支付改革、基金监管和数据应用，数字医疗提供医院精益运营管理，数字医药提供药械监管信息建设与数据治理。",
+        "reason": "选择两源候选均已有的“DRG/DIP”，不再自建医疗信息化。公司数字医保支付改革、DRG/DIP+医院精益运营与完整数据库体系，和同花顺已落地的DRG、DIP、APG医保支付平台相互验证；医疗信息化是业务描述。AI应用保留技术标签，不因为大模型而归算力。",
+        "source_sector_name": "DRG/DIP",
+        "source_sector_provider": "ths_concept"
+      }
+    },
+    {
+      "id": "000505.SZ",
+      "source_review_file": "review-agent-075-094.json",
+      "change_type": "source_provenance_added",
+      "old_key": "grain",
+      "old_sector": "粮食",
+      "new_judgment": {
+        "id": "000505.SZ",
+        "key": "grain",
+        "sector": "粮食",
+        "chain": [
+          "食用油脂油料加工",
+          "粮油供应"
+        ],
+        "fact": "加工销售食用油脂油料，并经营休闲食品与烘焙产品。",
+        "ths_fact": "粮食解析具体说明油料压榨精炼、灌装销售及贸易，京津冀题材说明食用油应急加工与供应；网红经济对应零食销售。",
+        "company_fact": "公司资料列油脂原油精炼灌装、芝麻大豆花生等压榨，以及休闲食品和烘焙产品研发生产销售。",
+        "reason": "粮油供给主题与实际加工链条相符，具体定位为粮油加工而非种植育种。转基因概念只是转基因大豆油产品，直播零食属于销售渠道，不构成技术育种或传媒主线。",
+        "source_sector_name": "粮食概念",
+        "source_sector_provider": "ths_concept"
+      }
+    },
+    {
+      "id": "000506.SZ",
+      "source_review_file": "review-agent-075-094.json",
+      "change_type": "source_provenance_added",
+      "old_key": "gold",
+      "old_sector": "黄金",
+      "new_judgment": {
+        "id": "000506.SZ",
+        "key": "gold",
+        "sector": "黄金",
+        "chain": [
+          "金矿开采",
+          "金精矿及合质金"
+        ],
+        "fact": "经营黄金勘探开采、选冶和矿产品销售，旗下瓦图科拉金矿在产。",
+        "ths_fact": "黄金解析明确黄金矿业开采销售和合质金产品；一带一路解析对应斐济矿山，铜矿解析为地质勘查阶段。",
+        "company_fact": "公司资料确认主要在产矿为瓦图科拉金矿，产品为金精矿和合质金，并详细说明向冶炼精炼企业销售的计价结算方式。",
+        "reason": "黄金市场主题与在产矿、产品及销售链条直接吻合。现简称和同花顺沿用的中润资源旧称不影响同证券核对；锆钛资产置换与铜探矿不被当作已经形成主导产销的新主线。",
+        "source_sector_name": "黄金",
+        "source_sector_provider": "eastmoney_f10"
+      }
+    },
+    {
+      "id": "000507.SZ",
+      "source_review_file": "review-agent-075-094.json",
+      "change_type": "sector_and_source_correction",
+      "old_key": "port_logistics",
+      "old_sector": "港口物流",
+      "new_judgment": {
+        "id": "000507.SZ",
+        "key": "shipping_ports",
+        "sector": "航运港口",
+        "chain": [
+          "港口运营",
+          "船舶运输与港航配套物流"
+        ],
+        "fact": "投资运营港口、开展船舶运输和港航配套物流，同时经营清洁能源。",
+        "ths_fact": "航运和统一大市场解析说明港口投资运营、船舶运输、物流与集疏运，航运港口及一带一路题材围绕港口网络；风电解析另有自主风电场实际经营。",
+        "company_fact": "公司资料分别列港航物流与新能源两板块，前者明确港口运营、船舶运输、物流及港航配套，后者为风光、燃气及天然气发电投资运营。",
+        "reason": "选择同花顺已有“航运港口”概念，采用原名而不自行拼接港口物流。同花顺港口投资、船运、集疏运与一带一路解析及公司港航物流业务交叉支持；新能源是另一实质经营板块，不能当不存在，也不以新能源行业标签或利润自动替代有业务支撑的港航市场主线。",
+        "source_sector_name": "航运港口",
+        "source_sector_provider": "ths_concept"
+      }
+    },
+    {
+      "id": "000513.SZ",
+      "source_review_file": "formal_library_cli_095_114",
+      "change_type": "sector_and_source_correction",
+      "old_key": "pharmaceutical_manufacturing",
+      "old_sector": "医药制造",
+      "new_judgment": {
+        "id": "000513.SZ",
+        "key": "innovative_drugs",
+        "sector": "创新药",
+        "source_sector_name": "创新药",
+        "source_sector_provider": "ths_concept",
+        "chain": [
+          "创新药研发",
+          "差异化专科药物临床管线"
+        ],
+        "fact": "经营化学药、生物药等药品研发生产销售，并持续建设差异化创新管线，多项创新药处于关键临床阶段。",
+        "ths_fact": "创新药解析引用2025-08-13互动易，明确多项创新药已进入关键临床；2026-05-22解析说明研发环节及早期创新能力建设，疫苗与减肥药材料另有临床阶段和历史预计获批时间。",
+        "company_fact": "完整公司资料说明临床价值及差异化创新导向，聚焦消化道、精神神经、GnRH/辅助生殖，向自免代谢、心脑血管等领域延伸，并明确技术平台、创新管线和研发转化能力；同时保留化学药、生物药、中药、原料药及诊断经营。",
+        "reason": "创新药在该股同花顺及东方财富现有候选中均出现，关键临床研发与另一发布方差异化创新平台相互支持，选择现有创新药而不按传统制剂或原料药收入大小压回自建医药制造。这里确认的是创新药研发与管线主题；不得把预计上市或历史预计获批年写成已获批，不声称全部管线已产生销售，AI用于研发生产流程不替代药品主线。"
+      },
+      "publication_constraint": "创新药支持材料为研发及关键临床阶段。发布时必须据实际阶段处理，不能沿用原医药制造候选的revenue来声称创新药已上市销售；若现有门槛不接受临床阶段则保留待核验，不伪改阶段。"
+    },
+    {
+      "id": "000518.SZ",
+      "source_review_file": "formal_library_cli_095_114",
+      "change_type": "sector_and_source_correction",
+      "old_key": "pharmaceutical_manufacturing",
+      "old_sector": "医药制造",
+      "new_judgment": {
+        "id": "000518.SZ",
+        "key": "biological_products",
+        "sector": "生物制品",
+        "source_sector_name": "生物制品",
+        "source_sector_provider": "eastmoney_f10",
+        "chain": [
+          "重组蛋白药品",
+          "生物药注射剂"
+        ],
+        "fact": "通过北京四环生物研发生产销售人白介素-2、人促红素及人粒细胞刺激因子等生物药，另有苗木绿化业务。",
+        "ths_fact": "同股搜索结果中的医保目录和体外诊断解析具体列明德路生、新德路生、欣粒生、环尔博及重组蛋白药品；该等药品名称用于业务验证，不把疾病栏目当全部产品的适应症证明。",
+        "company_fact": "完整公司资料确认生物医药生产销售，并逐项列明北京四环生物的白介素-2、人促红素、人粒细胞刺激因子等主要产品和相关专利、新药证书；苗木种植及绿化另列。",
+        "reason": "选择东方财富已有“生物制品”，以双源一致的重组蛋白药品和注射剂为直接业务支持，不再自建医药制造。不是凭干细胞概念推定细胞治疗，器械销售经营范围不等于器械制造，苗木绿化保留另一业务背景。"
+      }
+    }
+  ],
+  "preserved_gaps": [
+    {
+      "source_review_file": "review-agent-055-074.json",
+      "id": "000155.SZ",
+      "gap": "川能动力已交叉核对风光发电与锂矿采选两条真实业务：同花顺绿色电力解析引用2026年5月互动易的已并网容量，锂矿解析说明控股能投锂业及李家沟采矿权；公司资料明确生产、销售锂精矿并有鼎盛锂业锂盐业务。现有材料不足以判定电力与锂资源哪条是当前持续市场主认知。需补近期围绕这两条业务的市场题材证据及李家沟当期产销公告，不能用风电利润或概念顺序决定，也不能把已生产锂矿仍写成仅规划；磷矿20%参股不构成直接磷化工归属。"
+    },
+    {
+      "source_review_file": "review-agent-055-074.json",
+      "id": "000159.SZ",
+      "gap": "国际实业公司资料确认成品油/化工批发和中大杆塔电力铁塔、光伏支架制造并行；同股搜索摘录出现2026年5月14日题材为定增落地+油品批发+光伏支架，特高压解析只留下国家电网合格供应商的截断句。2024年新疆怡宝80%股权仍为收购意向书，不能升级矿产经营。需补中大杆塔近期订单/交付公告、怡宝收购后续及完整特高压解析，并确认油品贸易与电力/光伏制造的持续市场主线。已排除混入搜索结果的开创国际和旧基金持仓表。"
+    },
+    {
+      "source_review_file": "review-agent-055-074.json",
+      "id": "000338.SZ",
+      "gap": "潍柴动力公司完整资料确认动力系统、商用车、农业装备、智慧物流及电力能源；同花顺2025年1月解析明确大缸径发动机已广泛用于数据中心，不能当成纯用途想象或用重卡老主营直接排除AI算力电源主线。但另一发布方现存资料只列电力能源大类，未交叉确认数据中心产品交付。需补大缸径数据中心机组当期订单/交付披露及近期市场认知；2026年6月SOFC可应用场景也不能独立证明数据中心已交付，需与公交重卡氢燃料电池批量销售区分。"
+    },
+    {
+      "source_review_file": "review-agent-055-074.json",
+      "id": "000408.SZ",
+      "gap": "藏格矿业的钾肥与盐湖提锂均已由同花顺完整解析和公司资料交叉确认，不能将盐湖提锂降为未投产规划；巨龙铜业在解析中为30.78%股权，黄金来自其伴生矿，不能当作上市公司直接铜金经营。现有材料同时支持钾、锂且缺近期持续市场主线证据，需补当期题材认知及盐湖产销披露；如拟按铜归属，还必须回原公告核实巨龙股权、并表边界与经营关系，而不能因盈利贡献或控股股东为紫金自动归铜。"
+    },
+    {
+      "source_review_file": "review-agent-075-094.json",
+      "id": "000419.SZ",
+      "gap": "同花顺物业解析实际描述购物中心、百货和电器连锁，金融解析又明确100%小贷及典当、保理的经营，旅游解析对应酒店；另一发布方公司资料也列商业零售、金融信用和酒店三类真实经营。需要近期持续市场题材证据区分零售与金融、酒店主线，不能把金融全部说成参股，也不能凭旧百货背景或概念首项物业管理确定主归属。"
+    },
+    {
+      "source_review_file": "review-agent-075-094.json",
+      "id": "000421.SZ",
+      "gap": "公司资料已列天然气销售、光储充换及电力服务、地产开发；同花顺又有充换电示范站投运、出租运营等直接经营证据，不能全当规划。虚拟电厂解析涉及南京新能源集团新设公司，电池回收解析仍为2024年战略合作及拟组建合资。须核对最新公告的集团与上市公司经营边界、回收项目进展，并补天然气/新能源/地产之间的持续市场主线证据后确定唯一归属。"
+    },
+    {
+      "source_review_file": "review-agent-075-094.json",
+      "id": "000422.SZ",
+      "gap": "同花顺和公司原文共同确认磷铵、尿素、PVC、烧碱与煤炭实际经营，公司原文还列磷铵副产氟化物循环链。磷化工、化肥、氯碱、煤炭均有实质业务，现有材料不足以区分当前市场主线；不能因磷化工位于概念首项即判为主归属。与邦普合作的2024年材料仍表述规划建设，光引发剂为参股公司产品；如以电池材料或光刻胶定归属，须补最新投产/控制权公告及持续市场证据。"
+    },
+    {
+      "source_review_file": "review-agent-075-094.json",
+      "id": "000426.SZ",
+      "gap": "公司完整原文确认银漫、宇邦等在产矿山，银漫为白银生产矿山且锡精矿产量国内前列；同花顺解析也列银、锡及铅锌铜等实际产出。白银与锡都具备强业务支撑，需补持续市场认知区分贵金属与锡/小金属主线，不能按简称银锡、首项金属铅或泛有色名单决定。唐河时代公司原文为停建，镍钴钌等储量不可算成生产；如选这些方向须查复工与产出公告。"
+    },
+    {
+      "source_review_file": "review-agent-075-094.json",
+      "id": "000504.SZ",
+      "gap": "细胞存储、制备检测服务已被同花顺和公司资料交叉支持；公司最新资料同时列金弘新材、金大路环保开展再生资源业务，并明确城光节能于2025年10月出售，旧智慧灯杆概念不能沿用。CRO解析仍为2025年8月筹划收购慧泽医药51%，需查成交/终止及并表公告；电池回收旧解析为收购加增资方案，需核对最终控制权与现有运营范围，再结合持续市场题材区分细胞服务/CRO/资源回收主线，不能把细胞存储直接写成已商业化细胞治疗药。"
+    },
+    {
+      "source_review_file": "review-agent-075-094.json",
+      "id": "000509.SZ",
+      "gap": "公司资料明确天玑智谷显示终端、宏创智能精密机床及碳索空间瓦斯治理三项业务，并称机床于2025年9月投产；同花顺机床解析仍停留2025年8月拟设合资及建基地，瓦斯解析是全资子公司设立与业务范围。须回原公告核对机床实际订单交付、控制权和瓦斯项目投运，再补工业母机/碳治理/显示终端的持续市场认知。搜索正文还出现网络安全栏目接人民币贬值文字和旧塑料园林背景，不能将这些错位旧文作为当前归属依据。"
+    }
+  ]
+}

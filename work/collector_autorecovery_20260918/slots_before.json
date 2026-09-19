@@ -1,0 +1,1914 @@
+[
+  {
+    "minute_bucket": "2026-09-18T09:25:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-auction:20260918-0925",
+    "source_snapshot_revision": "d2efc8fef56ecd2b51a7cd466b29273cfca23e2459184f0e7f0641e031fafc32",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T09:30:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000003-6cf467a6bc5b4a99ae9886f0e5f02240",
+    "source_snapshot_revision": "31ea35f8641b29fe41b5c15eb95759b71e2754c9904998fb673e5896dd7cfe07",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T09:31:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000004-db1d87368cb241c099400a421183b13f",
+    "source_snapshot_revision": "35fe1156dda1326f7136de1312974d51186d0534a7b7e413ca66f8cfe410143c",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T09:32:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000005-45a1859ae13247d390ab4b81bd01ab31",
+    "source_snapshot_revision": "058d6124924a64a5aec9a7a7ad94b644739996ee5632443539368e960c6d3886",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T09:33:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000006-92e0d170fbba44718723aa05254de48b",
+    "source_snapshot_revision": "038d8c787d4807c821f9498faa52bdb510b94b45b8a9f30bf7f96df654a0e774",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T09:34:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000007-bd3de40854a2430ba72e654246a13174",
+    "source_snapshot_revision": "c99c4980e96ad19860e027fae1bfae20d550182a3c2c017a35bf67205a4fea5e",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T09:35:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-00000008-ef20704703f64adabff29104ffef35e2",
+    "source_snapshot_revision": "b7bd57179111e6c2b41446bf1e0c8fcffad8d74459f02b8841613371608a41eb",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T09:36:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000009-c03ac13d949642b898aee91076b83f4d",
+    "source_snapshot_revision": "fcdd4693bc4aa0ae9c10f17390fc8dba6fa654677271f5e85d7dc66d9b84f878",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T09:37:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-00000010-f9283b0419da4acd927cf58aac362457",
+    "source_snapshot_revision": "d75088de7e56c84a1e7750c6229217adb90d4380eafd41dde1fd2e43c23ee0a3",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T09:38:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-00000011-cbc82917f0fc44bcb7e512c31385bad7",
+    "source_snapshot_revision": "024b4028abab114099dd69cb75b78ee55a373b76a1bac5cecdb67bf6e5d5bbe9",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T09:39:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000012-e6e4974039af4f818adcc7443b3c8355",
+    "source_snapshot_revision": "c6fc1168434e4354208b1a92001d53415393020cf75a1c0caafe418624dce235",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T09:40:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-00000013-02759cd624a94ff28aee9cd78c0c7ff4",
+    "source_snapshot_revision": "dc398ffcd2492c678ad9f0f19a8f0f0b7a45c91675fbda39043fd65a7ac08e19",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T09:41:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000014-f6d640f4ddfa42d1801f78595fa9d2f4",
+    "source_snapshot_revision": "b72f1a6c1bdbeb68b489fc19ac79246b920f958a3d5a3b35da6a9635b3ca0ed3",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T09:42:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000015-67497bdfebce4a97afac2f8509a36dd8",
+    "source_snapshot_revision": "0e236186a95aa85caa58486b6ab16e0cb43e673b9cbe320e82c9767bc98c04ff",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T09:43:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000016-0b7763d983b34aa594275f2b6fe8e0f7",
+    "source_snapshot_revision": "68c61f308cd4b99a599f4fc3e62cf6a4cfcae7ed908984ff76343ba0a429f31e",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T09:44:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000017-d8a36d47197748c3a981bf150fbcd7be",
+    "source_snapshot_revision": "63a46eb35e646fbae04a4ef29a702acc5bf8b9ee72690aadc922ae28203b41ce",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T09:45:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000018-f4e9a54a243c4e07bc31dc7164c732b7",
+    "source_snapshot_revision": "af77409a3cba833c9f3eb7060aa2f28269f7422ffe5e202e128b55df09a4c2af",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T09:46:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-00000019-a9dd283396d34825bea70857c44de34f",
+    "source_snapshot_revision": "6b324c67617e41a1b870bbbb9bab844ffd251d939eb7b35bf04c001361f0bc91",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T09:47:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000020-c6f22fc65dd1443c9b9fbe057548a3ed",
+    "source_snapshot_revision": "38971eff60a6ff9d54bfb3df491e74c0482fe247279db94a749e57877dcfc846",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T09:48:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000021-d1c30dc3067943e29a61dc80da5e06be",
+    "source_snapshot_revision": "9a3e62c62fdece769afb63a5b6a397bf16902c531e5f8660f107b776f46f5066",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T09:49:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000022-c6c20fd2e132486ea4bd5a5b3b8e56f6",
+    "source_snapshot_revision": "8debfb8314c24f14df98a951585d2f465cf57640f0406d136ed1f223de25a1f1",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T09:50:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000023-df2e484d19e844258c09bc85b749425b",
+    "source_snapshot_revision": "5b8ed997f91e1156be30c53c9f33a8d2747554ec1bfd85e8a30f4864377bc48b",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T09:51:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000024-025e823435994e1787ed57c366a0ce12",
+    "source_snapshot_revision": "65f90c5eeaf2863579f93f5ad843bccbafec9255b4c4938878123869986b1541",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T09:52:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-00000025-390333e8126c4b1b96fc5bc63b5644e2",
+    "source_snapshot_revision": "537ff6c9f77e3c14f75956a487e5703e1838de402a89fa9bbf49651b39846339",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T09:53:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000026-713c2cb72da94d1e8900c657f11b6952",
+    "source_snapshot_revision": "159cb81bbc843f05d032431342713f89498900f0a9f3fc5f132f9a4655f5e87b",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T09:54:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000027-2228710f4b3c4882b4e1c4be5c1380b2",
+    "source_snapshot_revision": "3096ed15c24c3785f4204b306dca480c633e5aabcb92b66bcb36aedcd10a8821",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T09:55:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000028-5984e20d06ca4ac7a48305d92df2c4eb",
+    "source_snapshot_revision": "b8c58e913e43f2882692ab2c4ac41efaa45077fa597bf45486756484292c684a",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T09:56:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000029-bc668e52b94e4897963fd20587b1b1df",
+    "source_snapshot_revision": "5841897c7b7e1b203d2e4cf1d2a127e46c24bbac0063c3d43514b4eda0b95d52",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T09:57:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000030-5bffc6eda64b47628e4d58247b48211d",
+    "source_snapshot_revision": "f499b17123a6d576cf3c72ba6941fe2e61863cb5df0af795a25146073a3a2a1b",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T09:58:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-00000031-a1f2100c48e14f4cbb34c6c5f6d872cd",
+    "source_snapshot_revision": "6382c2faf233347bfd7c297b11eb7c742aeb97768a0c2e57b747614f7ee14535",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T09:59:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000032-4b69955e0d2e4443ac33374435063daa",
+    "source_snapshot_revision": "215d2f5f092d20543135e8c056a85419d9dca61b509581a4b45e537024d9d580",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T10:00:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000033-e7c1d03db3ff42f08680a1ad56b03121",
+    "source_snapshot_revision": "9d27beece3520a48e23e9bb44346a70895e2e30a3ab603ff0d31acced5b6f4b9",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T10:01:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000034-cc784494b8294aa4b756454270f4c618",
+    "source_snapshot_revision": "1741bd4923d4ce39384af51bb6426168197e000cfc5b89e5962766bb234923a4",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T10:02:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-00000035-475e52f901f3416aa08192240e62cea1",
+    "source_snapshot_revision": "5e07bfbc6c0bbb5cce379ecb89d70a8b59fb79c858d540517528c1a7c4bb6868",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T10:03:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000036-d85d77b73df34535a3dc8739d0e3444a",
+    "source_snapshot_revision": "c46f369293811b0114f04bdb968a8fd7b16aaa28fdbb5edb0501aa2482c93b63",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T10:04:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000037-61d7f17d255f4ecca7004d81df14226a",
+    "source_snapshot_revision": "1510d90cd7556b058b79652e978e965455a04589207cba0f1aa16dd3db2c917f",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T10:05:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-recovery:20260918-1005",
+    "source_snapshot_revision": "f56dbc67d403caab7534c3e0e8dbb862af132a0b7de13d506cd6ed1bbeb243b4",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T10:06:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000041-375fc30e37a4480fb3d869e7d96ee5ca",
+    "source_snapshot_revision": "4869d290b57659641047319f7eaf9a08652d064d38e7da179b3ddd8d7a933f79",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T10:07:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000042-fd8fcdf51c0940259f24fc79942105c1",
+    "source_snapshot_revision": "b2d9795a031b4661c8823830006e5b4d9728a6c38821bb889755dc22a13e2d60",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T10:08:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-recovery:20260918-1008",
+    "source_snapshot_revision": "9a0dfb0c5f630cf8ea1f9f12ec012a1301a1abbef5cdf7e375eafaa840802880",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T10:09:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-00000048-67b0e587e3034e5db17d171451134eda",
+    "source_snapshot_revision": "caa613e20229d15f49ef036df18e575ec2f62ea6037ba6309932816db1113917",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T10:10:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-00000049-830b11305dda486c859f08e7ac6f5f52",
+    "source_snapshot_revision": "398014e5d7bee3fe4a203318990ff02d24a73d663ee9cef422d4df7beef506fa",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T10:11:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000050-3016653de91c45d79bbb69bba8659f84",
+    "source_snapshot_revision": "01b657e3e8c019d6d43ec6a603dc9939e1547319d092ac990ae51ea5f7b42a85",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T10:12:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-recovery:20260918-1012",
+    "source_snapshot_revision": "c4280905bcd6b3ff49906a2c6fbb79c2ee118e1ed3c9186da7a3f1e86d205170",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T10:13:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000053-7ccbf4cd5fb441d0a5076c61ca8e3c9f",
+    "source_snapshot_revision": "d78ae2db2171ad92264501d5a9d846a9c4c1dbef73c1546eb7a2363b91a36367",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T10:14:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000054-8d877f4595d54e7dabf2d3253513ae1b",
+    "source_snapshot_revision": "da2a2816542c4845857785efd7b7930b629b3786213988b98ec695f83563d44e",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T10:15:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000055-ff79a4edaa3342f293d27eef7081e2aa",
+    "source_snapshot_revision": "e31bd3e4781138862b00b129597d4417c4ebeeed4a97ff90675518833b067d5f",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T10:16:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-recovery:20260918-1016",
+    "source_snapshot_revision": "b5a0c1c4873c2d0c86c5c44f1d2195b84376dc77dea27fcd8e9937283329e7b9",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T10:17:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-00000060-522d5c8c1662471993142054a4980eee",
+    "source_snapshot_revision": "3654356686d4ef22d667b095772c574b60780c0fc1f223193194004fa89219c9",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T10:18:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000061-5acb030fb53746f2bd973a63bdee261c",
+    "source_snapshot_revision": "7da2daf279e1abfae59da89ec2723b0c88bcb96fdc8341996c2d6ff0a4d75a62",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T10:19:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-00000062-a42242d10cf7414191bc43017e8a0bcb",
+    "source_snapshot_revision": "7ddc7d57698816db8b338ddd3e4a31f2f188068034ebe8aa20ce3ea6309760ec",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T10:20:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-recovery:20260918-1020",
+    "source_snapshot_revision": "767eec9311ed30186418bf0f9c6a85ec8508e3e61741c37012e5b5e622a610f4",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T10:21:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000066-d04debe145f8490eaf069c6550c53446",
+    "source_snapshot_revision": "ba9a154ad9208f9a122a81b2040100f4fa7788d1754ff83c65c79f8255928e57",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T10:22:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000067-db434bb8da844464877796f8891ccf7c",
+    "source_snapshot_revision": "730f5439c4be7923c79fa5021166b5996e5eb5991f931125f36dd6fb02f6a382",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T10:23:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-recovery:20260918-1023",
+    "source_snapshot_revision": "b4548704821294b9d2842891ee77a5d6c87b4041915dfc998581efeb674afb29",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T10:24:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-recovery:20260918-1024",
+    "source_snapshot_revision": "3598097775fabc216c0074b3b5f36f35ead62c9a0669491b844450daa07f53fe",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T10:25:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-recovery:20260918-1025",
+    "source_snapshot_revision": "e51bef59b741bd5477bb51cd2ae647db5782882b860c01143a1f2a318fb28873",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T10:26:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-00000078-129870dc7caa4442aefff92476381711",
+    "source_snapshot_revision": "2cf0437e47259e1af0c63d1e9379f7b41c10f9e8cd7e43fe9a63621481a0423a",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T10:27:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000079-1d29cd4ef5c44945a6ad4cb728b92f32",
+    "source_snapshot_revision": "03ae0e926ada5b02b431e4f33287294b86a251a280e4fa4cf19398e0d595849c",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T10:28:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-recovery:20260918-1028",
+    "source_snapshot_revision": "6a1eb6afb407cd60eab9ff359ce28c87784a4edf66f73db04cdba3f29c7824b7",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T10:29:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000083-2f44ce099e5e4d7aa875c0ddbe41de60",
+    "source_snapshot_revision": "127a06a09201933c9eb0dfafe8bc4e4db77fe2c5d31abf225b26a58eaf1f4f20",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T10:30:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000084-e6b29fdb14b44b53bcab80f0c23a9acf",
+    "source_snapshot_revision": "a67cc363487e43fb095878cb60246556f0eba656eae643a639e4fe091570fc2d",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T10:31:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000085-80a09530c4914a28bbd00908bb3adfa3",
+    "source_snapshot_revision": "61563dc073da24cefdccc6fb5f3df258bd5efaed7e9a27a53d61dff098657abf",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T10:32:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000086-f2603fb5d1844cc6a9a62897965b7631",
+    "source_snapshot_revision": "874f3701ac6136b03ba47f392a50a16d6aafd4924b27f310fe9fccf0d1770ba3",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T10:33:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-recovery:20260918-1033",
+    "source_snapshot_revision": "749dab49147a646075dc62ad3c535cbd0dac78e484365286fba52834b51a3a85",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T10:34:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000089-d1e64bc4bbb04e1699448cf20ae4bbd5",
+    "source_snapshot_revision": "01b627a1afc8436d312b38eb1043b02e209833ddff934adfb3fd1022702e63fa",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T10:35:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000090-f04ae7b992af43368b013559acdfc988",
+    "source_snapshot_revision": "e5c84f61fef87e97102764ab118cac4fc1c06e6b2d01fa971f480f1d06ef0a8d",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T10:36:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-recovery:20260918-1036",
+    "source_snapshot_revision": "5f784212fbf50e42b9b6e5056e023ffb6f015a6d1671c16ca741126d99a81236",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T10:37:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-recovery:20260918-1037",
+    "source_snapshot_revision": "67defdcae29db0ae2e476c7645a60c6791780496f2af14ad6e01cb66ea1401c4",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T10:38:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-recovery:20260918-1038",
+    "source_snapshot_revision": "c7414381133762081c02829d4033a561f10d7e924a78ef6ac58b1d61eb155fa1",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T10:39:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-recovery:20260918-1039",
+    "source_snapshot_revision": "5caeb2caeb2505ac1b922b1cf5cee257a3d076a8d3934d39b16410ab6bda33b5",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T10:40:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-recovery:20260918-1040",
+    "source_snapshot_revision": "de1c7cddfe16f4e18603c4150a30feb3e2c6b9e738619f5af534b042bc8e60d9",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T10:41:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-recovery:20260918-1041",
+    "source_snapshot_revision": "3a8c452d99f996da3e532179a333201dd226aa13677467adfaa2cdedb4f7efcf",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T10:42:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-recovery:20260918-1042",
+    "source_snapshot_revision": "23a8724516275d916546ea588aa0caade25849a63dafd1f8fd56a0f2e4585dbf",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T10:43:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-recovery:20260918-1043",
+    "source_snapshot_revision": "6f8519fa664d5ea9511ce4bd1b52b7e71d59e3303eea53e23a207b210550140a",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T10:44:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000114-f625275c8b64431fb09af45ce16b7920",
+    "source_snapshot_revision": "1e2d736a296f84e624a6bc7fd0017a8a647aa4c29269c45cb2460ce4935c1e15",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T10:45:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-00000115-418a23b5567b48bc937f1f93285cb591",
+    "source_snapshot_revision": "4031633908666a6089ee40513c954712d38b890d45ee3949176447edca2b33c0",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T10:46:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-00000117-09814c536e934b2d8322c074afa8452e",
+    "source_snapshot_revision": "6133422501560fe4832fb02d337d13feffec3615f2f12310f64722ee9b99bfd7",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T10:47:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000118-c616ee3521bf47498673b709e2e330c1",
+    "source_snapshot_revision": "7431ac3b04da65cf0e5d0d72e67fa3a67a38c65576f14e3a94ceb595dfb3b23a",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T10:48:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-recovery:20260918-1048",
+    "source_snapshot_revision": "1cad9c8fd61be568dff7a0666fb39b82cf3a8e499edb245197cda30fe9d7bc37",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T10:49:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-recovery:20260918-1049",
+    "source_snapshot_revision": "91f1dd6f47692d101c9032aa5e6948779cddd7a5db96140a32627d7476db3447",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T10:50:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-recovery:20260918-1050",
+    "source_snapshot_revision": "4627cfc7352e18042706cb9e1d8cdeb06f9b6ade1d6fb3ea037132fac5670eeb",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T10:51:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000128-e2f0d660393e4f3590d2622467fec160",
+    "source_snapshot_revision": "17760a8b6c706589ac422b574b4f5ca8c9bcb311107ef979a9862ccd774cac30",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T10:52:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000129-b2118b67d6ac4cc9a5678804f9217e5e",
+    "source_snapshot_revision": "c3886fb513f1a93c8e74710ade74819702545f2e62fddbae361500e34cb41c58",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T10:53:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-recovery:20260918-1053",
+    "source_snapshot_revision": "6b4ce7afb88947fa201fee0ebe27be37fa2222942f305050f387c65cf4397726",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T10:54:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-recovery:20260918-1054",
+    "source_snapshot_revision": "fb6ed030cd06628b1291ff98a3ff0aefb70828aff7a0b0f0d5f749072537f1b4",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T10:55:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-recovery:20260918-1055",
+    "source_snapshot_revision": "2ea33f5fb3db305c866dd76e440bc91adac188e1638eab1e39bd4f9e872aeca3",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T10:56:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-recovery:20260918-1056",
+    "source_snapshot_revision": "d183de5a0d81f020eac6d861bb5bff309418cb07e4267463cba11018060c17da",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T10:57:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-recovery:20260918-1057",
+    "source_snapshot_revision": "7b11e8134de3c0f09b10986140d154221d01f16430d11c0fd84b920823ae22c0",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T10:58:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-recovery:20260918-1058",
+    "source_snapshot_revision": "f109b8f24bcc5020ab43da2b3a324d6b22ea298f416e2a70cdd895632f81e916",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T10:59:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-recovery:20260918-1059",
+    "source_snapshot_revision": "38544a6052ba479ecdd84d7b4abb475e8a51c8544026fb7c3da9377161d6780a",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T11:00:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-recovery:20260918-1100",
+    "source_snapshot_revision": "36988c013665ea3ba1586f7f4b18389e48c0a827b20926775a86508e45ec6892",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T11:01:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000154-5e16463acf5b4bfab5a3093900573286",
+    "source_snapshot_revision": "e7c9a9a8ca09e042ecbe3ab395f991cf337b20f55a7ce46876ec104914f3d843",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T11:02:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000155-d4f3db7537fa427b9a0f47a5d9667642",
+    "source_snapshot_revision": "46b4d7c4cccf25f1ff998ef07a7a54b213949b045b99c979f2f2b3068be45d2b",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T11:03:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000156-7dc91a7fe2df417bb416e819118b45d9",
+    "source_snapshot_revision": "c1b9341683bd5f8c8ce27e9a3e9ea3bf74aa36d56bea69495bd902136c064d26",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T11:04:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-recovery:20260918-1104",
+    "source_snapshot_revision": "6de67449f7c749f2f801c2e3cd3abe4b2468cd61316531d4ecc10ebe7884323f",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T11:05:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000160-8c10ab5fa6504feab2b19882f0873cbc",
+    "source_snapshot_revision": "54d9780d432b5f4bd165d63930ad4311b223170bf260de55895170b682a72b2a",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T11:06:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000161-170e7f6411604459b84cb7a3c38e4776",
+    "source_snapshot_revision": "3e3952b34af9b288281a81a03d053f025b7396d91405316f96fb4e59593156df",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T11:07:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-recovery:20260918-1107",
+    "source_snapshot_revision": "4743c6292794eed0d2565366c88b0223574fc3b696b4b65219b828ccd6636153",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T11:08:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-recovery:20260918-1108",
+    "source_snapshot_revision": "bbb8dd81e6400abdcdb337e0f0aba4a2fa7547a21f48d376e5519832a5c23901",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T11:09:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000168-ba35f63791c1441cb778a5b11a4d42ff",
+    "source_snapshot_revision": "bf24e2cdbeb7ae96ba329b7b082fa8e447f828526f7237e225f934fc8a3336a8",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T11:10:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000169-ece2a2a4a2da41f1be875a1fd3c80f6f",
+    "source_snapshot_revision": "90da4cdf30279cb351aa4bc83dec49b7a9530058f737eac5e90bcc830d8cf489",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T11:11:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000170-396a4d818f2740139107e6e0fd4f6b05",
+    "source_snapshot_revision": "e9751977cd18cca110cc4ac15bd26c3f367d3e2057edf806f337751797b14cd9",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T11:12:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-00000172-b531572d56c24356938e5bdd0a17b518",
+    "source_snapshot_revision": "9a746c8668f2da357af666a76f4aa6ed8072efd5df950b0663539caf83252e5f",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T11:13:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000173-cc23ee74fbb14bb2a86aa9c4c691be4c",
+    "source_snapshot_revision": "7fa8d7dff0773f7b8fde5fa25f828cb05425a4970dc87cf12a0a2bc0c2aac309",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T11:14:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000174-43640bb2c29b4b8ea30e0849db9fdbf9",
+    "source_snapshot_revision": "1275ecb15d82936aa36807bc5237d1bf823f0064113c8511e0338f2d4c41c700",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T11:15:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000175-172d8b79e8ba458b893cb56537959e77",
+    "source_snapshot_revision": "ed68a2e8d20f9bdbeadc1f03fb561fddece5e8672d676b69438909bd1b264a5a",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T11:16:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-00000176-28e108a3770848c0b3a48c7de8e93ede",
+    "source_snapshot_revision": "5b56708394fa8a1fb1875bcd2d1201edc90c6cdd3c543660fd2cdd2a8d79c700",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T11:17:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000177-ddc04db626d542c88991e2fcfe9c29f0",
+    "source_snapshot_revision": "ee2bd879c9ab40dabeceee92ac30a4059b02fb590e59e2161e59de428c244e24",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T11:18:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000178-5b3a529974914eaabe4968cb7d393e00",
+    "source_snapshot_revision": "70abf4d72189bc17a4cd90271842d1b6f921c0fb8aafbb50003140c2991104b1",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T11:19:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-recovery:20260918-1119",
+    "source_snapshot_revision": "f0508043a3530c078902624e93d75e85f6a353a91ba3b7feec9b3d150c680ce7",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T11:20:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000181-4159f56d2e144d85af0c71bcd0206d7e",
+    "source_snapshot_revision": "cd62b8991fb31c0787d6abdf95632427164d8b6be0727bf119fdf1e1f68f9f94",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T11:21:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000182-48f1057afd3843c98c1e1d19b9108d1b",
+    "source_snapshot_revision": "2bff76fbceaa6e7f94f40fe2df4709f2443b8997aa41fefd77842e0118d8e670",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T11:22:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-recovery:20260918-1122",
+    "source_snapshot_revision": "53b0515be9c47c8e25b0aa135ed939288ad0280a6a9f389b6f532147ab77f74c",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T11:23:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-recovery:20260918-1123",
+    "source_snapshot_revision": "0bef2174b891f4dc6537a55005e99179a53e46a0985f4511b93f6fa25481d165",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T11:24:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-recovery:20260918-1124",
+    "source_snapshot_revision": "b8be97c2bc80cea84463c91c0b5a4541d356e3567e71766d900e928d6ba0e539",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T11:25:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-recovery:20260918-1125",
+    "source_snapshot_revision": "d048db7b0e9911e1934af5796b1db630fe665443a78275efa4980c84fc7e7517",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T11:26:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-recovery:20260918-1126",
+    "source_snapshot_revision": "fd301d0b7d938397e90602bc389abd7346d74e873c7e4368b83a8914982c4610",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T11:27:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000198-2ec1ded9c3484458b284f5aa71176d27",
+    "source_snapshot_revision": "e432e1e8913b711269c8779e2cae7843e104c237921190fe097461d9d7d2ed71",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T11:28:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000199-f1e0fd8be00345d9939fc184b01d379d",
+    "source_snapshot_revision": "03179b8d9731d594cfdaa5ed79ed754e962d1f21f94614a338f79b549a5a67f8",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T11:29:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-recovery:20260918-1129",
+    "source_snapshot_revision": "be0bfda199b7528a7af8261971da977f70a03334d3580640846494ec8d8fef0b",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T13:00:00+08:00",
+    "status": "unresolved",
+    "source_snapshot_id": null,
+    "source_snapshot_revision": null,
+    "last_error_code": "HistoricalTrajectoryNotPublished",
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T13:01:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000202-cd4696faf20340c7af4eff8943251806",
+    "source_snapshot_revision": "4e57136e5c473fbfd03d58cf3e71e4f0ac3d7210e16e063031cddf1724d035bc",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T13:02:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000203-c4b9de0189ba486e8a5edbdb1b4be5e8",
+    "source_snapshot_revision": "30c1b5dd7c4e7876863443bbf6e4111632137cacb83c678a5b5a8a797d7e4650",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T13:03:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000204-3d5c4eb16ea240e5b28bc8494f7ed273",
+    "source_snapshot_revision": "133cd641e3fdef2dbd8983ba4eb9c389a3ea8b5e2e6cb3cefb3c1f91420784ca",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T13:04:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000205-9716170c32a541c58c267c3f14624526",
+    "source_snapshot_revision": "2e5ccc0be9f5941c8a254abe80acdd67f12701d8b0a8c83a4f42003507e8e136",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T13:05:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-00000206-8801b6d5a7a3463cb7edaf71ede76a39",
+    "source_snapshot_revision": "d0adcd83a164752ccfae45ab87c3453f102757b3fa5a2a132148e5ca8724d547",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T13:06:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000207-949a117dd2d34f87ac63d2224f3752ea",
+    "source_snapshot_revision": "092838762bd29b280538a05ec3d4a55d6d51598b9ad5cafbdb782efa6b09b18f",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T13:07:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-00000208-b9877da6bd6c43fbbe0deba1886c4302",
+    "source_snapshot_revision": "d5743abbafadeaa387c0621493e236a1b8e8940253cfb13c82e554e393d9a23e",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T13:08:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000209-8b1db1f03c034a29806600b18e0a9aa9",
+    "source_snapshot_revision": "710f3c94bee3772e4b2b49c7a7aa9ea78d62deed4fe9006918aefe1560e6fce1",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T13:09:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000210-26d2c97215a94104b2da5d97e4671968",
+    "source_snapshot_revision": "9e0307bd7077c01270b846a44cc1066f9e50ac11a68820b46308de740b447db8",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T13:10:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000211-e92bb93f99714933a713dbbe6fd1f057",
+    "source_snapshot_revision": "2f232b392570292b96fe867d3940e92e375f9988c2ffc4cec6cfeea1f19ca6c8",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T13:11:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000212-751e601402a0490498865f2b25262fa0",
+    "source_snapshot_revision": "c97e533c11ed9364d362fbadaa80777dc624877c54407fa43240e39f9adc84bf",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T13:12:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-00000213-ac516afd4ca94adbbdc88a327d914738",
+    "source_snapshot_revision": "0c07652cf30d0685ff9ff0235723d78028a8d19687764b5464b599781394b854",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T13:13:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000214-53688889cefe4df690b6a023f4b21ed3",
+    "source_snapshot_revision": "7f552cf35b55f288cfd73143c2fe91a27b5b5df8bd52443f2d81c4482464fad9",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T13:14:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-00000215-95cc10e2e64a4916a343c92851d46133",
+    "source_snapshot_revision": "15adf5734582062a3718477c5293bf4276a534a9f51371e685fc6451bd2832f6",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T13:15:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000216-00af997810fd4c2d89cb7ef1c6f5f83c",
+    "source_snapshot_revision": "c91c62dbd9f039dad78d4102bde7b4b412263b032554e3b64aa2744e3b8448ee",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T13:16:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000217-32b8c2d376fd45bfbdc139aa9bf0d4d2",
+    "source_snapshot_revision": "6fd8151e757176f1c7870a38c5a3b6cac7fdbbf26bc98bc401ac5a0b13d75b7e",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T13:17:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-00000218-847f1c48a3eb44aab17faa8b6f470694",
+    "source_snapshot_revision": "3196d1ac88ec448fc6b0baeb31e7e970a3c01eb365b45694f115a4d998a9128e",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T13:18:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000219-57fde704238b4c948a241428b6957962",
+    "source_snapshot_revision": "4a8d694da125e31f2a410af71eb14eb612c800f0c7174c0c529fccab6cd5f8a6",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T13:19:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000220-3ad6f33218c94e0687caed32b2067793",
+    "source_snapshot_revision": "108c065c7c73b8cf8a5c090a7deb2be52acb8762910e8319a20cbb003edf712f",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T13:20:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000221-627fbaa6f77041fc89d6910dd23e0d63",
+    "source_snapshot_revision": "28e76570d2a20e7755eff7bbf96f401b941b5d513e7dec54b8f9eb1945ba12c7",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T13:21:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000222-013be5fdfbb94b97a0811526a1584438",
+    "source_snapshot_revision": "cbb8d3c9dad7246851297a3c572f6ab8fc84f632fce3e4769439055405cf5ea6",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T13:22:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000223-f6be621d37d9416c998a28a5cd487d0d",
+    "source_snapshot_revision": "d900956951b5cc6da7a7b1aaa32a159505b5103c1e049b9779ef5519eb560784",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T13:23:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000224-0133f96f910e450fb77f6d82762199fb",
+    "source_snapshot_revision": "4149cf3553e0e28f6ddd90fbd4e9cb15fbcd344a5cfa1ce4a9a9476db5ec6adc",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T13:24:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000225-dac8789c0ec444a2b68579fc71c4c689",
+    "source_snapshot_revision": "32d90b1746dd29bf791a77ec5c013920aafdba3c61446d3ccfc63fd990fbfe01",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T13:25:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-00000226-c3eb51ce81df44a48d44cb405d26922f",
+    "source_snapshot_revision": "ba7829d1b9abe14b73d8faaf5d06306d7ded2891efafd664b42597cd62a910fa",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T13:26:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000227-d76b324973bd421da5b7e6cdca1f96ca",
+    "source_snapshot_revision": "da4a59f9c1359c6150863ad37157218bd4d99e3260b5b1bafc192e0a89ae37e7",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T13:27:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000228-e4b3271e9eb342ebbbe99ec6333befb5",
+    "source_snapshot_revision": "87c125d3b5f44099d18a3133e764826a89851557d9a338d60a658747ad432fb5",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T13:28:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000229-bb0132393eab49969a22b5a93c94ee4d",
+    "source_snapshot_revision": "2ea287b9a50e2d0fd5cf98c72d0a1c71835a87ad32c1b511cbf8ed44dc0af31c",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T13:29:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-00000230-89b2cf966d4241ee8d719c844b1c7831",
+    "source_snapshot_revision": "2afaca73ac1da31673556e683e207589733ce7fb751ce09f4eb8a252557d6be6",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T13:30:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000231-e2fd966cb94f4722a070705cc02aed68",
+    "source_snapshot_revision": "5920bc1960f3251ba78550f264fac7296f60dee897d5ad27ac3f82bc3457474d",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T13:31:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000232-e0ebf9861b2946c0810044a38b97a929",
+    "source_snapshot_revision": "85b5f6eabe3df0f170d07d44684ae0ee9247a521ac75ba26934099029250b37f",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T13:32:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000233-975e7e9138914abd9ce238ee3bea14bc",
+    "source_snapshot_revision": "3b93a2253dd31d33a4734908e8bd17ba2964a648bf6430d68ab2ca3be64c1458",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T13:33:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-00000234-63aff4e8b94e408cb0e7afed0d83bbc7",
+    "source_snapshot_revision": "8ec08bfd96f30d8d82698e090820a3c52bc529df91d9493d84d7e6de160453b3",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T13:34:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000235-c5e3ce92477d420ab2ecabbf4833dbe2",
+    "source_snapshot_revision": "efa2e5be19f835f24c4589c6bc95f5629cb74582bd6c2fb5217fe4b50e028c6c",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T13:35:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000236-d748b09c908a4b31ae2ebeda1f2c46a5",
+    "source_snapshot_revision": "00ceef3ecd654dfb49f5c0231c83f6b40e042d9f6557c97fda073205ea50d640",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T13:36:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000237-03188eab0f764ed4ba45f06723966233",
+    "source_snapshot_revision": "caecde2d8debd5e0fd220ea79eb04db4a3dd7889845ed8c477baa72998d5cf13",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T13:37:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000238-e38760e369d744e084963036004f016d",
+    "source_snapshot_revision": "0ba4c65e3045d1066b852d101c611fdedf1d2190fef7a57ef49564715e49a8a3",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T13:38:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000239-0a1a8b9605f94d10bdabcf38796857c5",
+    "source_snapshot_revision": "391531500b62f0af2cf58020847db7f84f961e444f0528b8b1342071b6eaf456",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T13:39:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000240-140001911b864dc5b66924f22015cf03",
+    "source_snapshot_revision": "c985d0d89d80689be00bad02fbc0b71160ff0cd0824bba5e254e43d9de497ffe",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T13:40:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-00000241-e02aeaf9664a4c8ea5fcd0ce77e48977",
+    "source_snapshot_revision": "5fe77e0a67fa4da236da1c48ce6140a01e26f2ea5b7904678a163c4c15bf02dd",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T13:41:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000242-3b6b6b27629b4166a6755d59a6923e56",
+    "source_snapshot_revision": "650eb1fb012ca40f0e5d75f0b3c520b531a8b851682a1750e6ed90fb83800f82",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T13:42:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-00000243-16abc1a4a249410292271a75bc958c60",
+    "source_snapshot_revision": "8e4da6194a437b186fff22577a639a4e2504cea77ac04820af231e1704d1b290",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T13:43:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000244-03ae7bfe517c41639a2a5078f6b9a0ee",
+    "source_snapshot_revision": "0d55eea1c79480b58a2f40e5b1866410627563ad58dfb45b664adbeb3f6aeef7",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T13:44:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-00000245-8998cf562f8a41fcb5d3f9a2e7e340f8",
+    "source_snapshot_revision": "6e2332be8044b88dca2aae0b9de2f7f1942295551e65f116c73b8953e92cff1e",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T13:45:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000246-282a065892fd4798b05ccb8dea6f05e8",
+    "source_snapshot_revision": "da5ad11051333fd2ffd5efe7b87a93387f4f097553d69d7f6804bd24a37f5af3",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T13:46:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000247-16643b6005fc4f838693ee071208c483",
+    "source_snapshot_revision": "8349a2b84fe3a7522f5eb0ed49bb2715bb167d3fa26d1f4e6674ca5e175b19ec",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T13:47:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000248-0d1297f8efc14dbb9af813fa81653902",
+    "source_snapshot_revision": "ea8dead3d86666ec005d3a93e7fdaf2cfbb2d0fa5c0614ae51b7ac51357ea992",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T13:48:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-00000249-9a077d229fee42639ba7a9150c2bb4a0",
+    "source_snapshot_revision": "451d2bac3272db8d085b649b2ee84ac5a2521db553945168ef3d07f732e43bcb",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T13:49:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000250-2e768ab4009c42cd8465399a65331d47",
+    "source_snapshot_revision": "91f802853db8c4866952ad36e447be48427546f19cd9ce04b58faf4b1760bf89",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T13:50:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000251-0f388aee762d449497e3f92e4c2fc522",
+    "source_snapshot_revision": "054a3c6186105350a18c9b1922d2878dfa4705239ac5d00ba0aaf9faa54a6626",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T13:51:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-00000252-e601bc74de474148bd97fdb5bfd43fbc",
+    "source_snapshot_revision": "ec2b66681c268a9f549575129e6c352ebaa1149b6fcdb7c1ac0fc349339aaa66",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T13:52:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000253-cf50d7dd46b14872af79563da941abbe",
+    "source_snapshot_revision": "ad0b8c239514967dc94de733ce24cb5d9135788dce404fe55c6e89116b955a11",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T13:53:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000254-3be578324c7a41509368c1e8b290e8b6",
+    "source_snapshot_revision": "a329a13f2eabf82a748b4559137be401dd79fe89406af9cfabd5d56cad543e30",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T13:54:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000255-f16e53cda319461cbf8b0b614b0147aa",
+    "source_snapshot_revision": "3515f24f4c34676386ded18608bd6e7ba450ee0890797a5097569a46bbf24636",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T13:55:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-00000256-f238a59e003c4490b456fac24b04756d",
+    "source_snapshot_revision": "c70118396d6fcd4b6c62adeeffd9a3f2bdaa5b5d10fd7fb3d34c8ae4c316ee95",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T13:56:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000257-37983d595e0c40b4993ba834d05a4a35",
+    "source_snapshot_revision": "c3195be109402009c03634e861b519ab384a4af00729f030c21e2fb19696915c",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T13:57:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-00000258-72f6ab76817f49df98f051f118964e14",
+    "source_snapshot_revision": "8301cf92573c1b3a1059ae13ff03dadb2508c03badb24e26e035aa0fc6090719",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T13:58:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000259-b308985a2c364e08bd2c2ce70b49a7ed",
+    "source_snapshot_revision": "52a5a2bbeeee14b7e4fefabee96f40060cb7ee31679cdda2a05385a244c81877",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T13:59:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000260-54cccc8adfee43b3945eab011008051d",
+    "source_snapshot_revision": "62d2c4ac1a8d81701f8e9cb87fa3f6b1359f2b8edb88d410a21bc3652d248c7b",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T14:00:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000261-335cfdf4f74d4a0e88e1fcb6f57e9f05",
+    "source_snapshot_revision": "3598a710a639b7e55f05b34f832aca2b3b0374749d42a96028e1ff389c3e8a75",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T14:01:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000262-e834b7a06baf4e11bc8d97601a9295ae",
+    "source_snapshot_revision": "2997787d4a2dde07accef804ed74a424fdb65867d2cc218ffc0d53ae270f05ae",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T14:02:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000263-c9ee7cb0194f4c45af837db3f79ae9ba",
+    "source_snapshot_revision": "c70acfa438400b8c06dc10ee0984cdff668ca7e090039eb17b7d88f9e9e515e2",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T14:03:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000264-c95ad522933e4437a05bd859d143f9e2",
+    "source_snapshot_revision": "c9d3f29f668e49e2a0870a7d8543d48c2b3a66c55af6a05c9c9ea05d83628c8a",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T14:04:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-00000265-837092eb416440a69f018fbc00a11935",
+    "source_snapshot_revision": "a5f1511f80df6bcea36aa320086b7a7f50772b9a3a7a357c8fb25c89c9aab0ec",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T14:05:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000266-d847e84ecc1d4687892ba3ba8cc04df8",
+    "source_snapshot_revision": "7338225b88ac5317b8a88a650d3cdd135d2aacb8218e45bb024174ea497548b2",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T14:06:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-00000267-d04c9c6fdfe146e4ad575c1ae98999f2",
+    "source_snapshot_revision": "351e8c84126ebfd6fa479445fa86e1c854b75916cc4caedd3449f6a4fddb8f5f",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T14:07:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000268-d712acdf5ab44bff96117e2ac645fb4f",
+    "source_snapshot_revision": "0ee90afe2a7df9cb3c6d2c96cb78bd349da78068d941b0e2c29dc7b3ce910df6",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T14:08:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000269-adeb8c301b6447ffacda99436cab2a7d",
+    "source_snapshot_revision": "bfc493f2af738319f19ee9b65c8a368fd160695d6c82eb8e0de4bc27c91e48a9",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T14:09:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000270-0699c6ad670d46ceb4d7622564b80c3b",
+    "source_snapshot_revision": "9b87253a14af870d58bfe93b57ec79c82e87177fe033efd3dce9239de949dbaa",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T14:10:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-00000271-5991256180414f4eb66d78eff31016d1",
+    "source_snapshot_revision": "c0274edaa0692b4ffb814bcd3a8de4bca4f10349bc2b0994b0689fd21f88678c",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T14:11:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000272-072b8a90654d49b180f77b6e3906c321",
+    "source_snapshot_revision": "65c1a6ccf47da8e28d01a521cd6d8f72895a906fbeeab3458193b582a8a03e8d",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T14:12:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-00000273-46b361c432fc48809b77f6f8226cb2e9",
+    "source_snapshot_revision": "d64112d379a912cf50719d32fabcbf5d167c08fb3444b86dcc8db335a5d0498a",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T14:13:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000274-1fe5ccfbd95e4c3b96e167940ce2e2df",
+    "source_snapshot_revision": "8b4e2224e469daf2f7110aa092c101b96f0d36dfc2b53071eeae0839559af4f1",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T14:14:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000275-efc2c8ac8794418da9ecb0d384d6e28b",
+    "source_snapshot_revision": "5a072140a7a20a448e605f4970b64d27874a2363ebea63f91da613fdec8f1a5e",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T14:15:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000276-d5ce63955b274788a36246f3240b1d62",
+    "source_snapshot_revision": "a162ec5d802afa385d1e19bb5146ffa8fe0b549e455f7f436c38ea4125219869",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T14:16:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000277-b8302a5c2ed1406cb2041e3e8a07ad85",
+    "source_snapshot_revision": "09393c329e72c33f74950eb0fe6285cac141d1cfd837edcdf58ccd95c2028b97",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T14:17:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-00000278-32b8f5f1762341f78ed80c505727a1ed",
+    "source_snapshot_revision": "2df1cc242d9950fb3ef7efcebfaa5bf5c836f5b7c8b38b34d7094b381b98d984",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T14:18:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000279-4cc0b88d0e3e4a48b597e9ceefd3de43",
+    "source_snapshot_revision": "bbb4b1ab945e345a3b6ab52d26ebdc4885ac23c967abe926318ad90712a53ba9",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T14:19:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000280-bc0a089d902d4da18c913d3ee2a05ac4",
+    "source_snapshot_revision": "a8c884dafa73123c0f454942c257deba4a1704aad38c52c1efdd1c46f89cb4ec",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T14:20:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-00000281-35b88954c16c498fbd29bd2c3c813ee7",
+    "source_snapshot_revision": "9df9685c58457dab3713e4fd7d81f59475b18ded6b3526380f2c7afff059af9a",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T14:21:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000282-ac8a785effd04c979e77590415fe574e",
+    "source_snapshot_revision": "6f36c0bf3d1ba994d2707289d08135018d5af9937d7b783563955b8868032395",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T14:22:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-00000283-9b6fd946823c402bbe481e450f1b9bf6",
+    "source_snapshot_revision": "5309c9451d02d48ce8f6a440dff613874326058b7ecf8be465bd5094d5691cc8",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T14:23:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000284-993f92e20aa44bd3a7655e8f2437d741",
+    "source_snapshot_revision": "60e94db2e5b69093dfa44d4d4524416d02d88696e58bbd31d93e5d8c4ef57507",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T14:24:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000285-0aa2c37f2abb417c852df9369d1b042e",
+    "source_snapshot_revision": "2fbcdb4761bf5f2d694b44ed2f2c230ccc81bdf2407c2689edd43e1d87b9eb9b",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T14:25:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000286-dc7c8b10869d4e1680b1533addeefc4a",
+    "source_snapshot_revision": "d9ef012d90500e8630ea7999f3c22df261f637fe21efca82f8848de5e56b6d79",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T14:26:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000287-13414ea3a7db4009879dd3c3b3382129",
+    "source_snapshot_revision": "dad3f2aaaf3e146df8929fcf52279e6568454ea4b92f8c050bd8ac03abf7d61e",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T14:27:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-00000288-3377eaf64f344ffdba6a096dd78eb2cc",
+    "source_snapshot_revision": "06788c67defe758aaec2ddd8ec64aa2ca67b4edab0f7e28e5893e670eff63905",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T14:28:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000289-641291b8a6a74ed8ad91ca425d28e5cc",
+    "source_snapshot_revision": "fa509b0fd50b19a00245c143fc0270817ec233ecec6809cf32dd25e8850c1c5b",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T14:29:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000290-4e04a7476d784b88891d491319b1e191",
+    "source_snapshot_revision": "275ef02448458bcca2a29c0a9641a1a60d7f635850d5532fe94a49ca8935bb4d",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T14:30:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000291-9ce8aa694cea42f5a51aa0a8d0161c30",
+    "source_snapshot_revision": "5a13aa8c8b382ed7cc03d7a64b5ceb29be509890c0c7262c24796f3bba6b9471",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T14:31:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000292-6804adfb4751468c8d603646bf9fa9d1",
+    "source_snapshot_revision": "c2e16bfd351d33b4a47dfae21ece57df4ff36a76285d993bb2d7dc3498369ae5",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T14:32:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-00000293-e403daa7d95840b6bf925504def8351a",
+    "source_snapshot_revision": "b01e42372d695b503b571a6b39da46ebbac799b419446a4868ed523be0bf51f1",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T14:33:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000294-92e98e10090c442d9b62d829e56922b3",
+    "source_snapshot_revision": "261a008867ecb11766db29cc0353f08a87604f68ac3d958d704b3afa9ac5644d",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T14:34:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000295-3dfbeaa5fa6443b283f8cc801df15709",
+    "source_snapshot_revision": "7fb5a53ded8e9fd71564935a714a1ac410cbded0f5e1c1a4c083536466f14339",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T14:35:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000296-50b50d4d8e944c708124e26f1c923e09",
+    "source_snapshot_revision": "550e54bc2f511d606d338ec23982bd055f5aa06ae14c5aec7f4a0d4df49d40f8",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T14:36:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000297-e76d3e8be8a947658591a95a1b9dd5ed",
+    "source_snapshot_revision": "6331b390c5adc569f3cdfe5046c03db1d4f1b622a1dbbc573f99d1bfca7f8296",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T14:37:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000298-b870aaa8f5a5475da4a9f278c178d1ac",
+    "source_snapshot_revision": "783df0ef8cd8b6efcededf5c799ec6f253efb03ff3ab0bff74d591081925e075",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T14:38:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-00000299-5e42011c807b425cb95dbba287184cb0",
+    "source_snapshot_revision": "f5f9e0fa4912f9efba277fbcca147a0746dda34bdc85a72853a3cc7846732613",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T14:39:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000300-3a4c67b31ab04417a7bc34acb938f353",
+    "source_snapshot_revision": "57f7497a155720703a1e5948a4c605ce41ddfd48945d91c983d7f62719af163f",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T14:40:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000301-4be10377f48d4892aa3d837297c54158",
+    "source_snapshot_revision": "55e933baa74b85546509ed85640e28e616790f81ee05ddfe098ec48a443663dd",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T14:41:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000302-cd93eb2f40bc4335922986d7b2a91cd2",
+    "source_snapshot_revision": "a95261aee36eee98849b0539a92c9bcb610c661712a872cd5bed3ddf1caead20",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T14:42:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-recovery:20260918-1442",
+    "source_snapshot_revision": "aa4fc87d62b0fdd3f6e966e303a0efb5a2c964afc363e1719d55abe4e5ad1808",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T14:43:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000305-478599d6aef14ef2b253648cb4575110",
+    "source_snapshot_revision": "0c27432086a14ebb9f1d65e84c91b804d24ef4b52bc8206fab1055a76cdb097d",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T14:44:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000306-754d5368cfea4f70aadcd9fd36008b30",
+    "source_snapshot_revision": "bb746c46925e445938ffdd9385cd59ca01d5879b321b464d5bf213402c3a29e1",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T14:45:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000307-7bfa86e62e474eef9fa6c8bf818e3b8b",
+    "source_snapshot_revision": "7e655345fa8a7b676845e0c9051fc843bfec684517969f288ead09fe64ca7c32",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T14:46:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000308-66cb7ecd9a9445e5aa56113be8a1e2cd",
+    "source_snapshot_revision": "892acc20c35f91bf3b4a563a9cafe53e840f90e916c6302b175815e47c2b5122",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T14:47:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000309-840f9fcc780841178f3e397d3050143e",
+    "source_snapshot_revision": "a0d28da1b8ea6790f05aa81feb1ced377b4ffc5a474616587433030ca56ace67",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T14:48:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-00000310-bfde10b6c341421cbae482bed1b5abee",
+    "source_snapshot_revision": "4e84809c873b4e2772d69287774985512b354a89f8d5352ff64a7e1106ac5efd",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T14:49:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-recovery:20260918-1449",
+    "source_snapshot_revision": "1d3b7b2d08bcf74bb2785181b369afcf836602f97158ff48201b8680c52f9f18",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T14:50:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-00000314-719a747ff0874e15bbdd06312a533ef0",
+    "source_snapshot_revision": "94499670b67b437e92a34acf4c08ac944da1b6601e3f6f69e36ce00f2941ecb8",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T14:51:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000315-639d55c299a5413f9746d6fff6cd7240",
+    "source_snapshot_revision": "55bf8136a06a197432a93aca318c937dcc80c9afc1c7f03c9d230c70e3c8c9b6",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T14:52:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000316-868afbf0f87643c9b012f0897a2b5a59",
+    "source_snapshot_revision": "cf35741c043f7e166c6439196c77516655492fa5c9bde20a7d25700c32877c93",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T14:53:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-recovery:20260918-1453",
+    "source_snapshot_revision": "50db7676e720b846a74ab7e4f51646b87fd39ae213dbd18021c5ad05505afb57",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T14:54:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-recovery:20260918-1454",
+    "source_snapshot_revision": "9c6a3cf3cca2785e3c2047368356ddddaa84049078a01f0c9cac622f48fd94a3",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T14:55:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-recovery:20260918-1455",
+    "source_snapshot_revision": "12335a8a7a8899afab3f057c2e9da0fb7cd547338a08b1cdfec70dbdbf0dc752",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T14:56:00+08:00",
+    "status": "accepted_real",
+    "source_snapshot_id": "mw-00000323-ae19cb725210493abcb65b8d0ce48701",
+    "source_snapshot_revision": "d73ce4a810a672852672a6a1dbb2118236bc109eddb3c4912c65d223473db10e",
+    "last_error_code": null,
+    "next_retry_at": null
+  },
+  {
+    "minute_bucket": "2026-09-18T15:00:00+08:00",
+    "status": "repaired",
+    "source_snapshot_id": "mw-0-7028cffc5e0e43a1be0e9eb6e96640e5",
+    "source_snapshot_revision": "311f29e4f5f157481842dc7bc0b6cf5c7da381f34f204b9d0c4c09a57809cc78",
+    "last_error_code": null,
+    "next_retry_at": null
+  }
+]

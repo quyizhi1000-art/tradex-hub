@@ -1,0 +1,78 @@
+{
+  "instrument_id": "301035.SZ",
+  "name": "润丰股份",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "301035.SZ",
+    "name": "润丰股份",
+    "memberships": [
+      "基础化工",
+      "农化制品",
+      "农药",
+      "山东板块",
+      "小盘价值",
+      "小盘股",
+      "创业板综",
+      "深股通",
+      "融资融券",
+      "基金重仓",
+      "农药兽药",
+      "农业种植",
+      "草甘膦"
+    ],
+    "business_sections": [
+      {
+        "title": "主营业务",
+        "kind": "主营业务",
+        "text": "公司主要从事植物保护产品，即农药原药及制剂的研发、生产和销售。"
+      },
+      {
+        "title": "独特的业务模式实现“全球中国造”到“中国品牌全球化”的战略跨越",
+        "kind": "核心竞争力",
+        "text": "公司成立之初，依托创始团队深厚的行业积淀，以供应商的角色切入全球作物保护品产业链，并抓住了产业向中国转移的历史机遇，完成了初步的成长与积累。当前，公司正依据中期战略规划，加速境外自主登记的投入与全球“Business Solution Platform”的构建，并坚持以“轻架构、快速响应”的原则在目标国自建团队，大力发展自有品牌业务。依托中国强大的供应链优势，我们正稳步推进从“全球中国造”向“中国品牌全球化”的宏伟跨越。"
+      },
+      {
+        "title": "明确且坚定实施的战略规划",
+        "kind": "核心竞争力",
+        "text": "2024年7月，公司基于BLM（业务领先模型），凝聚全体核心团队的智慧，经过深入研讨，确立了“以商业成功为目标，坚持做难而正确的事，迈向产业价值链高地，打造完整产业链”的2025-2029年中期战略规划。"
+      },
+      {
+        "title": "专业、专注、国际化的核心团队",
+        "kind": "核心竞争力",
+        "text": "公司拥有一支稳定且经验丰富的运营团队。以创始股东为首的运营团队，二十余年如一日地专注于作物保护领域，具备深厚的专业知识和对全球市场趋势的深刻洞察。"
+      },
+      {
+        "title": "广泛覆盖的全球营销网络",
+        "kind": "核心竞争力",
+        "text": "公司已构建起辐射全球的业务网络。我们在山东、宁夏及海外的阿根廷、西班牙、美国共拥有10处制造基地，并在全球100多个国家设立了超过130家下属公司，业务触角遍布五大洲。"
+      },
+      {
+        "title": "研发创新支撑的先进制造",
+        "kind": "核心竞争力",
+        "text": "自2019年起，公司将研发重心聚焦于活性组分单品的先进制造，经过多年深耕，已形成五大核心竞争能力。"
+      },
+      {
+        "title": "以完整产业链为基础，源自中国",
+        "kind": "核心竞争力",
+        "text": "公司已构建起涵盖研发、制造、品牌、渠道、销售与服务的，从工厂到农场的完整产业链，并具备了对全流程的通透理解，能够从各个环节创造价值。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ301035",
+    "fetched_at": "2026-09-18T23:21:24.080414+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "农药"
+}

@@ -1,0 +1,11 @@
+--- before/test_market_watch_ui.py
++++ tradex/tests/test_market_watch_ui.py
+@@ -975,7 +975,7 @@
+         assert title not in HTML
+     assert 'class="analysis-grid"' not in HTML
+     assert 'class="bottom-grid"' not in HTML
+-    anchors = ('id="breadth-up-ratio"', 'id="rotation-summary"', 'id="stock-selection-section"')
++    anchors = ('id="stock-selection-section"', 'id="breadth-up-ratio"', 'id="rotation-summary"')
+     positions = [HTML.index(anchor) for anchor in anchors]
+     assert positions == sorted(positions)
+     assert "state.alerts = alertListFromSnapshot(snapshot);" in JS

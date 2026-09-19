@@ -1,0 +1,71 @@
+{
+  "instrument_id": "002437.SZ",
+  "name": "誉衡药业",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "002437.SZ",
+    "name": "誉衡药业",
+    "memberships": [
+      "医药生物",
+      "化学制药",
+      "化学制剂",
+      "黑龙江",
+      "股权分散",
+      "2026一季报预增",
+      "标准普尔",
+      "深股通",
+      "融资融券",
+      "机构重仓",
+      "病原体防治",
+      "创新药",
+      "肝炎概念",
+      "维生素"
+    ],
+    "business_sections": [
+      {
+        "title": "药品的研发、生产和销售",
+        "kind": "主营业务",
+        "text": "2025年，公司及子公司主要从事药品的研发、生产和销售，主营业务未发生变更。自2010年上市以来，公司始终贯彻“产品为王”战略，通过外延并购、合作代理及自主研发等多元化途径，持续扩充产品线。公司已成功从上市初期局限于骨科治疗的单一领域，拓展至涵盖心脑血管等广阔治疗领域，构建了多领域协同的产品集群。"
+      },
+      {
+        "title": "企业文化及发展理念",
+        "kind": "核心竞争力",
+        "text": "公司自成立以来便将“誉衡因您更精彩”作为企业文化，经过多年发展，这种以尊重为前提、成长为导向、激情为动力、合作为基础、分享为目的的文化理念已经融入到了公司产品开发、运营管理、人才发展、产业整合等各个环节，并起到了积极向上的引领作用。"
+      },
+      {
+        "title": "产品优势",
+        "kind": "核心竞争力",
+        "text": "自IPO以来，公司始终坚定实施“产品为王”发展战略，多年深耕，持续通过产品引进、合作开发、产业投资及并购等多元路径，不断丰富产品矩阵，已构建起覆盖领域广泛、产品线结构丰富的核心竞争优势。"
+      },
+      {
+        "title": "生产、工艺及质量优势",
+        "kind": "核心竞争力",
+        "text": "公司旗下拥有6家生产子公司，均建立了完备的生产及质量管理体系与专业团队，已形成“原料药＋制剂”一体化的生产基地布局。各子公司配备先进生产工艺、优质生产设备及完善的生产保障体系，生产范围覆盖原料药、冻干、粉针、水针、片剂、胶囊、乳剂、栓剂、颗粒剂等多种剂型。截至报告期末，公司合计拥有50余条生产线，包含头孢无菌分装、预充式注射剂等特色生产线。"
+      },
+      {
+        "title": "运营管理优势",
+        "kind": "核心竞争力",
+        "text": "公司具备成熟且高效的运营管理体系。董事会坚持科学决策、充分授权，经理层对公司日常经营活动全权负责。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ002437",
+    "fetched_at": "2026-09-18T22:48:25.876049+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [
+    "医疗医药"
+  ],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "维生素类药物"
+}

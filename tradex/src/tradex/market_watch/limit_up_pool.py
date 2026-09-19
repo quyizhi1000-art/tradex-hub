@@ -64,6 +64,7 @@ class LimitUpPoolItemV2(ContractModel):
         "manual_market_review",
         "event_business_crosscheck",
         "evidence_candidate_ranking",
+        "smart_sector_library",
         "relationship_directory",
         "primary_business",
         "unresolved",
@@ -222,6 +223,7 @@ class LimitUpPoolV2(ContractModel):
                 "manual_market_review",
                 "event_business_crosscheck",
                 "evidence_candidate_ranking",
+                "smart_sector_library",
             }
             for item in self.items
         )
@@ -256,6 +258,7 @@ class LimitUpPoolV2(ContractModel):
                     "manual_market_review",
                     "event_business_crosscheck",
                     "evidence_candidate_ranking",
+                    "smart_sector_library",
                 }
                 for item in items
             ),
@@ -324,6 +327,12 @@ def _pool_items(
             for event in events
         )
     )
+    # Current membership is not the same thing as an exact-day event explanation.
+    # Keep pre-migration historical reconstruction under its original method.
+    memberships = {}
+    if trade_date >= date(2026, 9, 18):
+        from tradex.smart_sector_library.catalog import read_market_memberships
+        memberships = read_market_memberships((event.instrument_id for event in events), as_of=trade_date)
     items = []
     for event in events:
         relationship = relationships.get(event.instrument_id)
@@ -336,6 +345,11 @@ def _pool_items(
         display_key = decision.category_key
         display_name = decision.category_name
         display_basis = decision.basis
+        if event.instrument_id in memberships:
+            membership = memberships[event.instrument_id]
+            display_key = membership.primary_sector_key if relationship else None
+            display_name = membership.primary_sector_name if relationship else None
+            display_basis = "smart_sector_library" if display_key else "unresolved"
         items.append(LimitUpPoolItemV2(
             instrument_id=event.instrument_id,
             name=event.name,
@@ -514,6 +528,14 @@ def build_limit_up_pool(
     if classified_count != len(items):
         quality_flags.append("stock_business_classification_partial")
     quality_flags = list(dict.fromkeys(quality_flags))
+    relationship_revision = catalog_status.catalog_revision if catalog_status else None
+    if trade_date >= date(2026, 9, 18):
+        from tradex.smart_sector_library.catalog import SmartSectorCatalog
+        with SmartSectorCatalog(as_of=trade_date) as sectors:
+            relationship_revision = stable_sha256({"business": relationship_revision,
+                                                  "market": sectors.revision})
+        if any(item.display_category_basis == "unresolved" for item in items):
+            quality_flags.append("market_sector_review_partial")
     return LimitUpPoolV2.create(
         source_snapshot_revision=source_snapshot_revision,
         source_snapshot_id=canonical.snapshot_id,
@@ -522,7 +544,7 @@ def build_limit_up_pool(
         generated_at=generated_at,
         limit_event_provider=events.metadata.provider,
         relationship_catalog_revision=(
-            catalog_status.catalog_revision if catalog_status else None
+            relationship_revision
         ),
         quality="degraded" if quality_flags else "accepted",
         quality_flags=tuple(quality_flags),
@@ -537,6 +559,7 @@ def build_limit_up_pool(
                 "manual_market_review",
                 "event_business_crosscheck",
                 "evidence_candidate_ranking",
+                "smart_sector_library",
             }
             for item in items
         ),

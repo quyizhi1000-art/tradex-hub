@@ -1,0 +1,57 @@
+{
+  "instrument_id": "000609.SZ",
+  "name": "*ST中迪",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "000609.SZ",
+    "name": "*ST中迪",
+    "memberships": [
+      "房地产",
+      "房地产开发",
+      "住宅开发",
+      "北京板块",
+      "长期破净",
+      "ST股",
+      "北交所概念",
+      "半导体概念",
+      "互联网金融",
+      "创投"
+    ],
+    "business_sections": [
+      {
+        "title": "房地产开发",
+        "kind": "主营业务",
+        "text": "公司主要从事的业务以房地产开发为主，集中在重庆市、四川省达州市，包括：1、位于重庆市的“两江·中迪广场”商业地产项目，该项目C分区已经于2019年完工，B分区目前处于停工待建状态。2、位于四川省达州市的“中迪·花熙樾”项目（业态包括住宅及小区配套商业），于2024年末整体完工，该项目住宅已全部销售并交付完毕，还余部分小区配套商业以及车位在售。3、位于四川省达州市的“中迪·绥定府”项目（业态包括住宅及小区配套商业），该项目整体规划计容建筑面积24.75万平方米，截至2025年末累计已完工面积12.58万平方米，其中2025年内完工7.24万平方米，目前主要是住宅和配套商业在售。"
+      },
+      {
+        "title": "深耕川渝地区房地产业,经验丰富",
+        "kind": "核心竞争力",
+        "text": "公司房地产业务一直集中在川渝地区,业务先后涉及一、二级开发领域,经过多年的发展,积累了丰富的房地产开发经验,与当地政府形成了良好的合作关系,公司有信心凭借开发经验尽快带领企业摆脱目前的困境。"
+      },
+      {
+        "title": "房地产业务项目团队经验丰富",
+        "kind": "核心竞争力",
+        "text": "2022年上半年,随着公司完成董事会、监事会的补选工作,法人治理较为完善;在人员团队方面,公司拥有财务、证券、法务的专业人才,以及具备多年从事房地产业务丰富经验的项目团队。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ000609",
+    "fetched_at": "2026-09-18T22:35:37.875230+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [
+    "房地产"
+  ],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "房地产"
+}

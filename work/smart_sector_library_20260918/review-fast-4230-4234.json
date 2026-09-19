@@ -1,0 +1,91 @@
+[
+  {
+    "id": "603508.SH",
+    "key": "high_speed_rail",
+    "sector": "高铁",
+    "source_sector_name": "高铁",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "列控与高铁运行监测"
+    ],
+    "fact": "列车控制安全防护及高铁动态监测系统。",
+    "company_fact": "列车控制安全防护及高铁动态监测系统。",
+    "ths_fact": "普速高铁列控铁路安全监测信息管理。",
+    "reason": "铁路控制技术直接业务；车联网解释为机车不误作道路智能车。"
+  },
+  {
+    "id": "603511.SH",
+    "key": "non_sports_apparel",
+    "sector": "非运动服装",
+    "source_sector_name": "非运动服装",
+    "source_sector_provider": "东方财富",
+    "stage": "revenue",
+    "chain": [
+      "贴身服饰"
+    ],
+    "fact": "高品质贴身服饰及用品研发生产销售，多品牌矩阵。",
+    "company_fact": "高品质贴身服饰及用品研发生产销售，多品牌矩阵。",
+    "ths_fact": "儿童内衣及品牌服饰产品，跨境为销售渠道。",
+    "reason": "服饰实体经营，IP联名不作为IP运营主业。"
+  },
+  {
+    "id": "603515.SH",
+    "key": "smart_home",
+    "sector": "智能家居",
+    "source_sector_name": "智能家居",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "智能照明系统"
+    ],
+    "fact": "家居商用灯具光源控制产品，转型智能照明系统方案。",
+    "company_fact": "家居商用灯具光源控制产品，转型智能照明系统方案。",
+    "ths_fact": "SDL光谱照明接入鸿蒙智家全屋控制。",
+    "reason": "已有智能照明方案及产品落地，不止合作意向。"
+  },
+  {
+    "id": "603516.SH",
+    "key": "liquid_cooled_servers",
+    "sector": "液冷服务器",
+    "source_sector_name": "液冷服务器",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "液冷老化测试平台"
+    ],
+    "fact": "检测测试平台及AI识别产品，覆盖工业检测等。",
+    "company_fact": "检测测试平台及AI识别产品，覆盖工业检测等。",
+    "ths_fact": "液冷检测设备需按客户参数定制开发适配。",
+    "reason": "原异动证实实际参与液冷老化测试，主归属限定测试设备产品；无整机制造，未确认收入或批供。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "603516-202606-liquid-test",
+        "source_kind": "official_filing",
+        "publisher": "淳中科技",
+        "title": "股票交易异常波动公告2026-024",
+        "source_url": "https://epaper.stcn.com/pic/202606/06/fa76c05ec72d33386049aed0ff935f04.pdf",
+        "published_at": "2026-06-06",
+        "assertions": [
+          "仅参与液冷老化测试平台等测试环节，不涉及液冷服务器生产制造，受客户迭代影响业务推进不确定。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "603517.SH",
+    "key": "snack_food",
+    "sector": "休闲零食",
+    "source_sector_name": "休闲零食",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "休闲卤制食品"
+    ],
+    "fact": "卤制品开发生产销售全链条。",
+    "company_fact": "卤制品开发生产销售全链条。",
+    "ths_fact": "卤制肉制品素食品研发生产销售。",
+    "reason": "冷链为自有食品流通支撑，不归物流运营主业。"
+  }
+]

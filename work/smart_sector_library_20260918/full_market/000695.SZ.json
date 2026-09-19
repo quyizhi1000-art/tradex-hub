@@ -1,0 +1,60 @@
+{
+  "instrument_id": "000695.SZ",
+  "name": "滨海能源",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "000695.SZ",
+    "name": "滨海能源",
+    "memberships": [
+      "电力设备",
+      "电池",
+      "电池化学品",
+      "天津板块",
+      "QFII重仓",
+      "电池技术",
+      "固态电池",
+      "光伏概念",
+      "锂电池概念",
+      "滨海新区"
+    ],
+    "business_sections": [
+      {
+        "title": "锂电池负极材料业务",
+        "kind": "主营业务",
+        "text": "公司围绕锂电池负极材料业务，开展人造石墨负极材料的研发、生产与销售；同时着眼于行业未来趋势，发展包括多孔碳、硅碳负极在内的一系列新型锂电池材料产业。公司立足“世界领先的新能源公司——创新引领未来”的愿景，结合源网荷储绿电深耕锂电池材料领域，致力于打造成为锂电产业链卓越的服务提供商与材料生产商。"
+      },
+      {
+        "title": "技术研发优势",
+        "kind": "核心竞争力",
+        "text": "新建产线具有技术和工艺优势。负极材料产线采用一体化设计，实现全流程高效协同，大幅提升生产效率和资源利用率。产线核心设备采用行业先进技术或引进进口高端设备，确保工艺精度与稳定性；关键工艺环节依托大型化路线，显著提升单线产能并降低能耗成本。同时，产线各环节通过全负压技术实现设备连接与物料输送的全程密闭管理，有效杜绝粉尘逸散，保障生产环境清洁无污染。整体方案深度融合智能化与绿色化理念，以更环保的排放标准、更安全的作业环境、更绿色的能源利用，推动负极材料生产向高端化、可持续方向升级。"
+      },
+      {
+        "title": "依托集团大化工产业管理优势",
+        "kind": "核心竞争力",
+        "text": "公司引进旭阳集团先进的大化工管理经验及领先的企业管理经验，包括系统决策能力、销运产供研的供应链管理能力、环保领先、信息化数字化的管理经验等核心竞争能力，加快生产物料流转速度，提高翻炉效率，严控生产质量，增强公司的核心竞争力，为公司业务的升级和长久健康发展赋能。"
+      },
+      {
+        "title": "成本优势",
+        "kind": "核心竞争力",
+        "text": "电费优势。公司主要的生产基地位于内蒙古自治区，资源禀赋丰富，区域电价优势明显；此外，公司在内蒙古的负极材料等项目配有源网荷储绿电指标，绿电覆盖比例预计超过50%，有利于降低生产成本。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ000695",
+    "fetched_at": "2026-09-18T22:35:44.612702+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "锂电池"
+}

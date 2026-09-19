@@ -1,0 +1,109 @@
+[
+  {
+    "id": "300120.SZ",
+    "key": "uhv",
+    "sector": "特高压",
+    "source_sector_name": "特高压",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "特高压电抗器",
+      "专用电磁线"
+    ],
+    "fact": "生产电抗器与电力用专用电磁线。",
+    "ths_fact": "特高压条目确认电抗器专用线及经纬正能产品。",
+    "company_fact": "主营明确换位铝线换位铜线等电磁线用于电力，兼有显示。",
+    "reason": "已有特高压由持续电力业务产品支撑，显示拟售和通信新并购不机械决定电力链消失；新板块实质经营占位变化时复核。"
+  },
+  {
+    "id": "300121.SZ",
+    "key": "rubber",
+    "sector": "橡胶",
+    "source_sector_name": "橡胶",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "橡胶助剂",
+      "防焦剂促进剂及硫磺"
+    ],
+    "fact": "生产橡胶加工配套助剂。",
+    "ths_fact": "橡胶条目列防焦剂促进剂不溶性硫磺等实际产品。",
+    "company_fact": "主营完整确认综合橡胶助剂与轮胎配套技术。",
+    "reason": "已有橡胶准确体现轮胎化学品链位；波米交易2026-07-13回复无新进展，不能把拟购半导体材料直接算成自有规模业务。交易完成或产品结构改变时复核。",
+    "extra_evidence": [
+      {
+        "evidence_id": "reply-300121-20260713",
+        "source_kind": "web_secondary",
+        "publisher": "同花顺",
+        "title": "阳谷华泰关于波米交易进展回复",
+        "source_url": "https://yuanchuang.10jqka.com.cn/20260713/c678128013.shtml",
+        "published_at": "2026-07-13",
+        "assertions": [
+          "公司回复购买波米科技事项暂无新进展，不据此认为已经收购完成。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "300122.SZ",
+    "key": "vaccines",
+    "sector": "生物疫苗",
+    "source_sector_name": "生物疫苗",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "疫苗研发生产",
+      "疫苗代理销售"
+    ],
+    "fact": "研发生产并销售疫苗及生物制品。",
+    "ths_fact": "2026-06-18解析列在售流脑肺炎流感HPV带状疱疹疫苗。",
+    "company_fact": "主营全产业链疫苗生物制品，披露上市产品涵盖多种感染预防和结核方案。",
+    "reason": "已有生物疫苗是具体在售产品和市场认知，区分自主与代理，不将所有在售品写成自研或把管线当上市。授权品类及注册经营变化时复核。"
+  },
+  {
+    "id": "300123.SZ",
+    "key": "military_electronics",
+    "sector": "军工电子",
+    "source_sector_name": "军工电子Ⅱ",
+    "source_sector_provider": "东方财富",
+    "stage": "revenue",
+    "chain": [
+      "微波电路组件",
+      "军用半导体器件"
+    ],
+    "fact": "为雷达航天通信等提供微波器件和组件。",
+    "ths_fact": "军工信息化与军工条目明确亚光电子微波芯片等军用配套。",
+    "company_fact": "主营军工电子及长期军工客户供货，军标产线与组件技术体系完整。",
+    "reason": "已有军工电子比泛军工进一步定位核心器件，卫星只是应用之一；不把GaN产品泛化晶圆厂。客户和产品业务结构改变时复核。"
+  },
+  {
+    "id": "300124.SZ",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "无框电机",
+      "仿生臂及执行器模组"
+    ],
+    "fact": "形成多种人形核心零部件并有部分实际小批应用。",
+    "ths_fact": "旧2024解析为电机驱动执行器预研，阶段以2026原半年报补正。",
+    "company_fact": "当前主营智能机器人明确七自由度仿生臂及执行器电机丝杠编码器产品，工控汽车为其他业务。",
+    "reason": "已有主归属人形体现全栈部件新主线；原半年报仅无框电机头部主机厂小批应用，仿生臂验证及后续场景拓展不当全系列批量收入。各部件交付节点改变时复核。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "official-h1-300124-20260829",
+        "source_kind": "official_filing",
+        "publisher": "汇川技术",
+        "title": "2026年半年度报告摘要",
+        "source_url": "https://disc.static.szse.cn/disc/disk03/finalpage/2026-08-29/6064bed7-16f2-45ad-92fa-59658eedaec0.PDF",
+        "published_at": "2026-08-29",
+        "assertions": [
+          "无框电机在头部人形整机厂已小批量应用；七自由度仿生臂量产版发布并推进送样合作，场景批量仍需推进。"
+        ]
+      }
+    ]
+  }
+]

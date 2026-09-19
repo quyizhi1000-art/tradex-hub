@@ -1,0 +1,108 @@
+[
+  {
+    "id": "300797.SZ",
+    "key": "nuclear_power",
+    "sector": "核电",
+    "source_sector_name": "核电",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "核电材料检测",
+      "标准等效评价"
+    ],
+    "company_fact": "金属材料检测服务和仪器实际经营，业务覆盖核电等行业。",
+    "ths_fact": "核电项目包括在线金相、材料性能、轴瓦失效分析及国产材料国际标准等效评价。",
+    "fact": "金属材料检测服务和仪器实际经营，业务覆盖核电等行业。",
+    "reason": "已有核电成员且具体检测服务链位成立，光刻胶只是检测仪器用途，不是光刻胶生产商。"
+  },
+  {
+    "id": "300798.SZ",
+    "key": "computing_power_leasing",
+    "sector": "算力租赁",
+    "source_sector_name": "算力租赁",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "自有智算集群",
+      "算力租赁运维"
+    ],
+    "company_fact": "现存东方财富资料主营为活性染料研发生产销售；算力新增业务另以半年报原文核实。",
+    "ths_fact": "千卡智算集群提供租赁、部署托管并向平台及解决方案延伸。",
+    "fact": "半年报确认全资英智创新经营智算租赁，H1算力分部收入3693.76万元。",
+    "reason": "染料旧主营描述遗漏新业务，已核半年报真实算力经营及收入；主归属按新增市场身份，不按旧业务收入占比机械选择。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "official-300798-2026h1-compute",
+        "source_kind": "official_filing",
+        "publisher": "锦鸡股份",
+        "title": "2026年半年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12522673&stockid=300798",
+        "published_at": "2026-08-25",
+        "assertions": [
+          "第11页确认自有集群租赁和已交付运营；第158页算力分部营业收入36937614.38元。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "300800.SZ",
+    "key": "ai_applications",
+    "sector": "AI应用",
+    "source_sector_name": "AI应用",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "AI水质检测系统"
+    ],
+    "company_fact": "检测监测仪器及系统研发生产销售并提供运营维护。",
+    "ths_fact": "已推出IDLIN700全自动AI水检系统，实现批量和无人值守检测。",
+    "fact": "检测监测仪器及系统研发生产销售并提供运营维护。",
+    "reason": "人工智能已经进入自有水检产品，主归属选AI应用，阶段仅产品推出，不推断独立AI收入。"
+  },
+  {
+    "id": "300801.SZ",
+    "key": "solid_state_batteries",
+    "sector": "固态电池",
+    "source_sector_name": "固态电池",
+    "source_sector_provider": "同花顺",
+    "stage": "pilot",
+    "chain": [
+      "固态电解质",
+      "硫化锂原料"
+    ],
+    "company_fact": "现存主营为水处理药剂及联副产品，应用于电力化工等领域；固态材料阶段另核半年报。",
+    "ths_fact": "2025解析提及固态电解质多项中试及部分LATP和LiTFSI小批订单。",
+    "fact": "水处理化学品为存量业务；2026半年报确认硫化锂及LPSC中试研究。",
+    "reason": "固态电池既有题材与自有研发吻合；最新报告硫化锂和LPSC仍中试，取pilot，不把旧部分产品订单扩大为整条路线量产。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "official-300801-2026h1-solid",
+        "source_kind": "official_filing",
+        "publisher": "泰和科技",
+        "title": "2026年半年度报告",
+        "source_url": "https://static.cninfo.com.cn/finalpage/2026-08-24/1225489384.PDF",
+        "published_at": "2026-08-24",
+        "assertions": [
+          "第11至13页明确硫化锂和LPSC中试阶段，与其他电解质项目及已产业化NFPP分开。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "300802.SZ",
+    "key": "cpo",
+    "sector": "共封装光学(CPO)",
+    "source_sector_name": "共封装光学(CPO)",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "光模块视觉检测设备"
+    ],
+    "company_fact": "自有机器视觉设备研发制造销售，覆盖电子信息等场景。",
+    "ths_fact": "8月27日公告解析称光模块SMT检测拓展至成品AVI自动视觉设备，已开发推出。",
+    "fact": "自有机器视觉设备研发制造销售，覆盖电子信息等场景。",
+    "reason": "已有CPO题材并有实际光模块检测产品，链位只检测设备；未把AVI推出当成CPO整机量产或该新产品已确认收入。"
+  }
+]

@@ -1,0 +1,58 @@
+{
+  "instrument_id": "000722.SZ",
+  "name": "湖南发展",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "000722.SZ",
+    "name": "湖南发展",
+    "memberships": [
+      "公用事业",
+      "电力",
+      "水力发电",
+      "湖南板块",
+      "2026中报预增",
+      "2026一季报预增",
+      "深股通",
+      "融资融券",
+      "供销社概念",
+      "绿色电力",
+      "央国企改革",
+      "水利建设",
+      "光伏概念"
+    ],
+    "business_sections": [
+      {
+        "title": "清洁能源业务",
+        "kind": "主营业务",
+        "text": "公司主要开展水力发电、光伏发电等清洁能源项目投资、开发、建设及运营管理。截至报告期末，公司运营管理湖南境内的株洲航电、蟒塘溪、鸟儿巢3座水电站以及南洲产业园、常德汽配城、湘科大厦、果子熟了、娄星产业开发区5个分布式光伏电站，可控总装机容量为24.502万千瓦。其中水力发电所生产的电力全部输入湖南电网；光伏发电采用“自发自用、余电上网”的模式，一部分由产业园内部企业消纳，剩余部分输入湖南电网。"
+      },
+      {
+        "title": "自然资源业务",
+        "kind": "主营业务",
+        "text": "公司以湖南发展益沅为平台，开展河砂、河卵石、碎石等产品在长江中下游地区的销售业务，主要从具有河道采砂经营权的地方政府平台公司批发砂石后分销，报告期内经营模式未发生变化。"
+      },
+      {
+        "title": "水力发电综合运营经验丰富",
+        "kind": "核心竞争力",
+        "text": "水电作为国家优先发展的非化石能源，具有可再生、无污染、二氧化碳“零排放”等特征，符合国家“碳达峰、碳中和”的清洁低碳、安全高效的能源转型目标和电力行业发展规划，同时水电消纳享有政策优先权，被明确纳入“保障优先发电”序列，执行“保量保价”机制。公司长期从事水力发电综合运营，经营调度和日常管控等方面经验丰富。依托专业的人才队伍，秉承安全生产、科学调度、经济运行、精细管理的理念，公司各电站保持较高的水能利用率，水电经营业绩良好。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ000722",
+    "fetched_at": "2026-09-18T22:35:47.945382+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "电力"
+}

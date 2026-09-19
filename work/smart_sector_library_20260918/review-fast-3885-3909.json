@@ -1,0 +1,521 @@
+[
+  {
+    "id": "603009.SH",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "chain": [
+      "机器人肢体与灵巧手用精密丝杠"
+    ],
+    "stage": "product",
+    "fact": "东方财富主营确认转向齿条、活塞杆等精密加工与汽车零件，未单列机器人收入。",
+    "ths_fact": "同花顺人形机器人解释为丝杠样件研发，较新段记昆山产线搬迁及泰国基地建设。",
+    "company_fact": "东方财富主营确认转向齿条、活塞杆等精密加工与汽车零件，未单列机器人收入。",
+    "reason": "2026半年报确认机器人关节和灵巧手用丝杠具备规模量产基本条件，支持机器人转型主线；仍有需求方案及量产时点风险，只标具体产品，不将厂房完成等同批量销售。",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "603009-original-20260919",
+        "source_kind": "official_filing",
+        "publisher": "北特科技",
+        "title": "2026年半年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=603009&id=12531828",
+        "published_at": null,
+        "assertions": [
+          "机器人关节和灵巧手用丝杠具备规模量产基本条件，需求和具体量产规模仍不确定，对业绩未形成明显影响。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "603010.SH",
+    "key": "phosphorus_chemicals",
+    "sector": "磷化工",
+    "chain": [
+      "磷系阻燃剂及五氯化磷等功能化学品"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富主营确认磷系阻燃剂生产供应，并有聚合物助剂、有机胺等功能化学品。",
+    "ths_fact": "同花顺磷化工解释列山东汉峰五氯化磷生产，PCB段另有阻燃剂及光刻胶树脂投产。",
+    "company_fact": "东方财富主营确认磷系阻燃剂生产供应，并有聚合物助剂、有机胺等功能化学品。",
+    "reason": "磷系阻燃材料及磷化工产品构成直接制造身份；合成生物中试、芯片少数投资及电解液建设不得混写成熟收入。",
+    "source_sector_name": "磷化工",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603011.SH",
+    "key": "nuclear_fusion",
+    "sector": "可控核聚变",
+    "chain": [
+      "BEST真空室扇区及聚变核心结构件"
+    ],
+    "stage": "delivery",
+    "fact": "东方财富主营已包括聚变堆核心零部件制造及高端成形机床。",
+    "ths_fact": "同花顺核聚变解释列真空室、偏滤器等制造预研，部分旧段仅预计交付。",
+    "company_fact": "东方财富主营已包括聚变堆核心零部件制造及高端成形机床。",
+    "reason": "2026半年报明确BEST真空室两套1/8扇区已交付，原预研已获得工程交付证据；新包层屏蔽块仍首件试制，不把全部储备项目算交付或规模收入。",
+    "source_sector_name": "可控核聚变",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "603011-original-20260919",
+        "source_kind": "official_filing",
+        "publisher": "合锻智能",
+        "title": "2026年半年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=603011&id=12559084",
+        "published_at": null,
+        "assertions": [
+          "BEST真空室1/8扇区两套已交付；新包层屏蔽块项目在首件试制阶段。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "603012.SH",
+    "key": "high_end_equipment",
+    "sector": "高端装备",
+    "chain": [
+      "智能采煤掘进成套设备与煤矿控制系统"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富主营确认采煤机、掘进装备、液压支架、输送和智能矿山成套装备制造服务。",
+    "ths_fact": "同花顺高端装备与工业互联网解释有超大采高装备及多个工作面无人操作应用。",
+    "company_fact": "东方财富主营确认采煤机、掘进装备、液压支架、输送和智能矿山成套装备制造服务。",
+    "reason": "煤矿专用装备与控制系统是实际产品身份，选择已有高端装备；为矿山供设备不等于自营煤炭开采，AI数据分析不强称生成式内容业务。",
+    "source_sector_name": "高端装备",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603013.SH",
+    "key": "sensors",
+    "sector": "传感器",
+    "chain": [
+      "赢双科技电驱位置转速传感用旋转变压器"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富主营将旋转变压器列为新能源核心部件，明确其位置转速反馈功能及研发制造销售。",
+    "ths_fact": "同花顺2025年投资者记录明确子公司赢双科技研发生产旋转变压器及特种电机，服务新能源电驱。",
+    "company_fact": "东方财富主营将旋转变压器列为新能源核心部件，明确其位置转速反馈功能及研发制造销售。",
+    "reason": "控股子公司与当前主营均确认旋转变压器经营，选择有实际制造的传感器新主线；燃油系统、热管理为并行业务，不把全部收入计入传感器。",
+    "source_sector_name": "传感器",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603014.SH",
+    "key": "medical_devices",
+    "sector": "医疗器械",
+    "chain": [
+      "血液透析器管路设备及净化配套耗材"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富主营明确血透器、管路、透析机、腹透液及相关耗材。",
+    "ths_fact": "同花顺医疗器械解释确认血液净化制品研发生产销售，威高普瑞段仍为收购筹划。",
+    "company_fact": "东方财富主营明确血透器、管路、透析机、腹透液及相关耗材。",
+    "reason": "完整血液净化产品群支撑医疗器械身份；药包材交易须以交割为复核点，不能将预案当现有并表业务。",
+    "source_sector_name": "医疗器械概念",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603015.SH",
+    "key": "nuclear_fusion",
+    "sector": "可控核聚变",
+    "chain": [
+      "控股EEI核聚变装置高动态磁体电源"
+    ],
+    "stage": "delivery",
+    "fact": "东方财富主营确认意大利EEI特种电源及新能源电力电子业务。",
+    "ths_fact": "同花顺核聚变及人造太阳解释有托卡马克电源及F4E供应商资格，但CERN粒子加速器不能直接等同聚变项目。",
+    "company_fact": "东方财富主营确认意大利EEI特种电源及新能源电力电子业务。",
+    "reason": "2025年报明确HDPS已用于RFX、JT-60SA并交付DTT相关电源项目，支持核聚变真实交付主线；严格区分核聚变与CERN加速器业务。",
+    "source_sector_name": "可控核聚变",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "603015-original-20260919",
+        "source_kind": "official_filing",
+        "publisher": "弘讯科技",
+        "title": "2025年年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=603015&id=12254807",
+        "published_at": null,
+        "assertions": [
+          "控股EEI高动态电源已用于RFX、JT-60SA，报告期交付DTT实验装置相关电源项目。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "603016.SH",
+    "key": "power_grid_equipment",
+    "sector": "电网设备",
+    "chain": [
+      "低压断路器、绝缘制品及操作机构"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富主营明确低压断路器、BMC/SMC绝缘件及断路器电机操作机构。",
+    "ths_fact": "同花顺特高压正文描述同类高低压断路器配套产品，未给特高压工程订单。",
+    "company_fact": "东方财富主营明确低压断路器、BMC/SMC绝缘件及断路器电机操作机构。",
+    "reason": "实际电网配电器件形成直接经营，选电网设备；不从特高压标签反推未披露电压等级与项目供货。",
+    "source_sector_name": "电网设备",
+    "source_sector_provider": "东方财富",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603017.SH",
+    "key": "commercial_space",
+    "sector": "商业航天",
+    "chain": [
+      "商业火箭生产与发射保障基地建筑设计"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富主营为工业建筑等工程设计咨询总包及监理，未量化商业航天。",
+    "ths_fact": "同花顺商业航天解释列基地设计合同及2024年已确认设计收入。",
+    "company_fact": "东方财富主营为工业建筑等工程设计咨询总包及监理，未量化商业航天。",
+    "reason": "2025年报原文列天兵、星际荣耀、箭元等基地设计项目和新增中标，支持商业航天专业服务身份；收入来自基地工程设计，不是造火箭或发动机，天使股权另作投资。",
+    "source_sector_name": "商业航天",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "603017-original-20260919",
+        "source_kind": "official_filing",
+        "publisher": "中衡设计",
+        "title": "2025年年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=603017&id=12154375",
+        "published_at": null,
+        "assertions": [
+          "报告列多家商业航天生产及发射服务基地设计合同，2025年至披露日新增中标3148.10万元。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "603018.SH",
+    "key": "low_altitude_economy",
+    "sector": "低空经济",
+    "chain": [
+      "低空交通规划、飞行服务和基础设施工程"
+    ],
+    "stage": "orders",
+    "fact": "东方财富主营明确低空经济全空间交通解决方案及工程服务。",
+    "ths_fact": "同花顺低空解释涉及政策空域规划、系统建设与运维，较早表述仍以拓展为主。",
+    "company_fact": "东方财富主营明确低空经济全空间交通解决方案及工程服务。",
+    "reason": "2025年报确认低空业务覆盖20多个省区、新签订单10682万元及巡查示范项目，支持已有低空主线；阶段按明确合同，不把全部规划和基地项目都当已交付收入。",
+    "source_sector_name": "低空经济",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "603018-original-20260919",
+        "source_kind": "official_filing",
+        "publisher": "华设集团",
+        "title": "2025年年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=603018&id=12114735",
+        "published_at": null,
+        "assertions": [
+          "低空业务覆盖20多个省市自治区，新签订单10682万元，已有桥梁无人机巡查示范项目。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "603019.SH",
+    "key": "computing_power",
+    "sector": "东数西算(算力)",
+    "chain": [
+      "高性能服务器、智算基础设施及算力服务"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富主营明确高端计算机、存储和数据中心制造及智能计算服务。",
+    "ths_fact": "同花顺东数西算解释确认国产处理器服务器规模销售，算力租赁段确认超算互联网及运营收入。",
+    "company_fact": "东方财富主营明确高端计算机、存储和数据中心制造及智能计算服务。",
+    "reason": "高性能硬件与实际算力服务共同构成国产算力身份，复用已有东数西算标签；GPU应用与参股芯片不等于上市本体独立制造全部芯片。",
+    "source_sector_name": "东数西算(算力)",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603020.SH",
+    "key": "food_feed_additives",
+    "sector": "食品及饲料添加剂",
+    "chain": [
+      "食品香精香料及食品配料生产贸易"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富主营为食用和日用香精、合成天然香料及工业巧克力等食品配料，并经营进口配料。",
+    "ths_fact": "同花顺烟草解释确认有烟用香精销售且占比不大。",
+    "company_fact": "东方财富主营为食用和日用香精、合成天然香料及工业巧克力等食品配料，并经营进口配料。",
+    "reason": "食用香精配料生产与供应支持已有添加剂行业身份；烟草香精是应用分支，不把香精供应商变为烟草制品企业。",
+    "source_sector_name": "食品及饲料添加剂",
+    "source_sector_provider": "东方财富",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603021.SH",
+    "key": "glass",
+    "sector": "玻璃",
+    "chain": [
+      "日用玻璃器皿与瓶罐"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富主营确认石岛玻璃等从事玻璃器皿及瓶罐研产销。",
+    "ths_fact": "同花顺玻璃解释明确日用玻璃且不生产钢化玻璃，烧碱来自拟收购赫邦化工文本。",
+    "company_fact": "东方财富主营确认石岛玻璃等从事玻璃器皿及瓶罐研产销。",
+    "reason": "当前玻璃产品经营已证实，赫邦收购未由本轮材料证实实际注入；以交割、主业重组及产销披露为再审触发，不按拟交易改为烧碱。",
+    "source_sector_name": "玻璃",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603022.SH",
+    "key": "packaging_materials",
+    "sector": "包装材料",
+    "chain": [
+      "瓦楞纸、木制及组合包装整体方案"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富主营明确轻重瓦楞、木制及组合包装产销和整体包装解决方案。",
+    "ths_fact": "同花顺绿色电力与BIPV解释仅为五个自有生产基地屋顶光伏并网投运。",
+    "company_fact": "东方财富主营明确轻重瓦楞、木制及组合包装产销和整体包装解决方案。",
+    "reason": "包装制造与客户解决方案有直接经营证据，选包装材料；自用屋顶电站不能自动转为以售电为主的市场身份。",
+    "source_sector_name": "包装材料",
+    "source_sector_provider": "东方财富",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603023.SH",
+    "key": "smart_cockpit",
+    "sector": "智能座舱",
+    "chain": [
+      "组合仪表、座舱系统及车身域控制"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富主营列智能座舱系统、全液晶仪表、车身域控制等汽车电子产品。",
+    "ths_fact": "同花顺智能座舱解释对应同类产品，汽车电子段确认客车厂配套。",
+    "company_fact": "东方财富主营列智能座舱系统、全液晶仪表、车身域控制等汽车电子产品。",
+    "reason": "座舱与车身电子系统为实际产品群，选已有智能座舱主题；玖星股权交易及已终止的旧重组不充当新业务已交割证据。",
+    "source_sector_name": "智能座舱",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603025.SH",
+    "key": "artificial_intelligence",
+    "sector": "人工智能",
+    "chain": [
+      "兴汉网际AI智算一体机及高阶智算网关"
+    ],
+    "stage": "delivery",
+    "fact": "东方财富主营确认控股兴汉网际网络硬件研发制造平台，传统业务为缝制设备电控。",
+    "ths_fact": "同花顺2025年半年报解释确认AI智算一体机批量出货，早期2月段则尚未批销。",
+    "company_fact": "东方财富主营确认控股兴汉网际网络硬件研发制造平台，传统业务为缝制设备电控。",
+    "reason": "2025年报原文确认AI一体机和高阶智算网关已批量出货，早期未销售提示已被后续交付事实更新；选择有实物产品的新AI主线，阶段交付，量子业务不与AI收入混合。",
+    "source_sector_name": "人工智能",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "603025-original-20260919",
+        "source_kind": "official_filing",
+        "publisher": "大豪科技",
+        "title": "2025年年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=603025&id=12015446",
+        "published_at": null,
+        "assertions": [
+          "控股兴汉网际成功开发AI智算一体机和电信高阶智算网关并批量出货。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "603026.SH",
+    "key": "electrolyte",
+    "sector": "电解液",
+    "chain": [
+      "碳酸酯溶剂、锂盐添加剂及电解液"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富主营列电解液、碳酸酯系列和MTBE，碳酸酯用于电解液生产。",
+    "ths_fact": "同花顺电解液解释确认五类溶剂及锂盐已投入市场，宁德时代段是预计采购框架。",
+    "company_fact": "东方财富主营列电解液、碳酸酯系列和MTBE，碳酸酯用于电解液生产。",
+    "reason": "已经营溶剂、锂盐和电解液链条支撑电解液身份；框架预计十万吨不等于已执行销量，不沿用过时唯一供应商称谓。",
+    "source_sector_name": "电解液",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603027.SH",
+    "key": "condiments",
+    "sector": "调味品",
+    "chain": [
+      "酱油、食醋、料酒及蚝油"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富主营确认酿造酱油、食醋、料酒、蚝油研发生产销售。",
+    "ths_fact": "同花顺调味品正文确认酱油食醋品牌经营，但产能收入数据来自旧年度。",
+    "company_fact": "东方财富主营确认酿造酱油、食醋、料酒、蚝油研发生产销售。",
+    "reason": "产品、工艺和品牌一致支持调味品；不以旧产能和收入描述现期规模。",
+    "source_sector_name": "调味品",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603028.SH",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "chain": [
+      "具身机器人腱绳及精密传动用绳"
+    ],
+    "stage": "product",
+    "fact": "东方财富主营为钢索、光伏和绿建，钢索具备精密传动制造基础，未单列人形收入。",
+    "ths_fact": "同花顺人形机器人解释有腱绳测试样品、送测及较小合同订单，并明确财务影响可忽略。",
+    "company_fact": "东方财富主营为钢索、光伏和绿建，钢索具备精密传动制造基础，未单列人形收入。",
+    "reason": "2025年报确认具身机器人适配用绳研发送样与卓益得合作，支持真实产品阶段的人形主线；按较保守产品阶段记录，不把仓储机器人约50万元订单当人形订单或量产收入。",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "603028-original-20260919",
+        "source_kind": "official_filing",
+        "publisher": "赛福天",
+        "title": "2025年年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=603028&id=12143072",
+        "published_at": null,
+        "assertions": [
+          "具身机器人适配超高分子钢丝绳及钨丝绳已研发送样，与卓益得签署合作；约50万元订单为仓储机器人，非人形收入。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "603029.SH",
+    "key": "agricultural_machinery",
+    "sector": "农机",
+    "chain": [
+      "棉花加工与采收及粮食收获机械"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富主营覆盖轧花等加工机械、采棉机、粮食收获及烘干打捆设备。",
+    "ths_fact": "同花顺农机解释确认棉机、收获及其他农机产品布局，供销社段无产业正文。",
+    "company_fact": "东方财富主营覆盖轧花等加工机械、采棉机、粮食收获及烘干打捆设备。",
+    "reason": "完整农机产品与服务链支撑农机身份，供销社和新疆为股东地域属性，不替代产品归属。",
+    "source_sector_name": "农机",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603030.SH",
+    "key": "prefabricated_buildings",
+    "sector": "装配式建筑",
+    "chain": [
+      "装配式装修与建筑设计施工服务"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富主营确认建筑设计、内外装饰施工、幕墙及智慧建筑解决方案。",
+    "ths_fact": "同花顺装配式建筑解释确认装配式租赁住房批量交付和装修体系，EUV及算力未见同等经营证据。",
+    "company_fact": "东方财富主营确认建筑设计、内外装饰施工、幕墙及智慧建筑解决方案。",
+    "reason": "设计施工与装配式交付形成已有板块的真实支撑；创新公司设立、边缘算力模式和EUV研发不等于设备收入，后续实际产品订单触发复核。",
+    "source_sector_name": "装配式建筑",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603031.SH",
+    "key": "cpo",
+    "sector": "共封装光学(CPO)",
+    "chain": [
+      "重要参股易缆微硅光异质集成薄膜铌酸锂芯片"
+    ],
+    "stage": "product",
+    "fact": "东方财富主营仍为南孚等消费电池，没有本体光芯片制造收入。",
+    "ths_fact": "同花顺CPO与数据中心解释确认易缆微投资，2026年6月持股8.51%，光子芯片面向高速互联与CPO。",
+    "company_fact": "东方财富主营仍为南孚等消费电池，没有本体光芯片制造收入。",
+    "reason": "原半年报确认已持易缆微8.51%及其400Gbps光芯片产品，持续加码使其构成重要产业投资主题，经人工复核选已有CPO；阶段属于被投企业具体芯片产品，不是上市本体并表收入，后续增资登记与客户批量导入须再核。",
+    "source_sector_name": "共封装光学(CPO)",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "relation": "investment",
+    "investment_reviewed": true,
+    "extra_evidence": [
+      {
+        "evidence_id": "603031-original-20260919",
+        "source_kind": "official_filing",
+        "publisher": "安孚科技",
+        "title": "2026年半年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=603031&id=12498021",
+        "published_at": null,
+        "assertions": [
+          "所持易缆微股权已从4.32%提升至8.51%；被投企业推出单波400Gbps硅光异质集成薄膜铌酸锂芯片，适配高速互联和CPO；进一步增资登记仍在办理。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "603032.SH",
+    "key": "reducers",
+    "sector": "减速器",
+    "chain": [
+      "控股汉普斯精密行星减速器及减速电机"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富主营已列控股安徽汉普斯减速器电机研发产销，另有锂电裁切模具及运输。",
+    "ths_fact": "同花顺较新机器人解释确认汉普斯为控股子公司，产品用于自动化及机器人；早年减速器段仍为拟收购。",
+    "company_fact": "东方财富主营已列控股安徽汉普斯减速器电机研发产销，另有锂电裁切模具及运输。",
+    "reason": "现行公司业务与后续控股经营说明共同确认减速器业务，选择实际精密传动新主线；固态电池业务是裁切模具供货，不能表述自主电池制造。",
+    "source_sector_name": "减速器",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603033.SH",
+    "key": "rail_transit",
+    "sector": "轨道交通",
+    "chain": [
+      "轨枕、轨道板、地铁管片及扣配件"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富主营确认多基地轨交混凝土制品与扣配件，兼有橡胶、化纤及BDO。",
+    "ths_fact": "同花顺轨交高铁解释有轨枕管片工厂及工程客户，可降解塑料说明仅项目备案。",
+    "company_fact": "东方财富主营确认多基地轨交混凝土制品与扣配件，兼有橡胶、化纤及BDO。",
+    "reason": "实际轨道产品及国内外铁路应用支撑轨交身份；BDO生产不等于PBAT项目已投产，降解塑料放量需另核。",
+    "source_sector_name": "轨道交通",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603035.SH",
+    "key": "smart_cockpit",
+    "sector": "智能座舱",
+    "chain": [
+      "座舱内饰集成方案及智能座舱研发"
+    ],
+    "stage": "product",
+    "fact": "东方财富主营为汽车仪表板、门板等内饰总成生产销售，未单列完整智能座舱系统收入。",
+    "ths_fact": "同花顺智能座舱解释有展示样车、技术团队及合作开发，触觉传感合作仍含待签约与计划措辞。",
+    "company_fact": "东方财富主营为汽车仪表板、门板等内饰总成生产销售，未单列完整智能座舱系统收入。",
+    "reason": "2026半年报确认ix-2024智能座舱方案获客户认可和向集成供应商转型，选有具体方案的智能座舱；阶段产品，不把普通内饰销售当完整智能座舱收入，也不把尚未出资合资公司当成熟产线。",
+    "source_sector_name": "智能座舱",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "603035-original-20260919",
+        "source_kind": "official_filing",
+        "publisher": "常熟汽饰",
+        "title": "2026年半年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=603035&id=12569272",
+        "published_at": null,
+        "assertions": [
+          "智能座舱ix-2024方案获客户认可；芜湖安通林合资公司截至6月底双方尚未出资，不作为已运营产品线证明。"
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,90 @@
+[
+  {
+    "id": "688530.SH",
+    "key": "semiconductor_materials",
+    "sector": "半导体材料",
+    "source_sector_name": "半导体材料",
+    "source_sector_provider": "东方财富",
+    "stage": "revenue",
+    "chain": [
+      "溅射靶材"
+    ],
+    "fact": "高性能靶材已覆盖显示集成电路等薄膜制造场景。",
+    "company_fact": "高性能靶材已覆盖显示集成电路等薄膜制造场景。",
+    "ths_fact": "铜铝钼及ITO靶已批量用于京东方华星惠科显示产品。",
+    "reason": "以靶材产业归属，核医疗订单不混同核聚变订单。"
+  },
+  {
+    "id": "688531.SH",
+    "key": "high_end_equipment",
+    "sector": "高端装备",
+    "source_sector_name": "高端装备",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "工业X射线检测设备"
+    ],
+    "fact": "工业X射线设备及核心部件销售，覆盖电子和新能源制造。",
+    "company_fact": "工业X射线设备及核心部件销售，覆盖电子和新能源制造。",
+    "ths_fact": "自主微焦点射线源和工业检测装备产品已实现应用。",
+    "reason": "菲莱测试收购原H1仍问询反馈，不将拟购标的CPO业务算入自身。",
+    "extra_evidence": [
+      {
+        "evidence_id": "official-688531-2026h1",
+        "source_kind": "official_filing",
+        "publisher": "日联科技",
+        "title": "2026年半年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12495756&stockid=688531",
+        "published_at": "2026-08-15",
+        "assertions": [
+          "菲莱测试收购尚在问询反馈阶段，未将标的业务作为已并表业务"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "688533.SH",
+    "key": "automotive_electronics",
+    "sector": "汽车电子",
+    "source_sector_name": "汽车电子",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "车载声学系统"
+    ],
+    "fact": "汽车声学系统和AVAS方案供应商，扬声器国产配套。",
+    "company_fact": "汽车声学系统和AVAS方案供应商，扬声器国产配套。",
+    "ths_fact": "扬声器车载功放AVAS实际产品且有客户交付。",
+    "reason": "汽车声学为主，ASIC芯片方案验证不等于芯片批量销售。"
+  },
+  {
+    "id": "688535.SH",
+    "key": "advanced_packaging",
+    "sector": "先进封装",
+    "source_sector_name": "先进封装",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "封装环氧塑封料"
+    ],
+    "fact": "半导体封装材料和电子胶黏剂研发量产。",
+    "company_fact": "半导体封装材料和电子胶黏剂研发量产。",
+    "ths_fact": "LQFP QFN BGA材料已通过头部客户验证并小批量销售。",
+    "reason": "属于封装材料环节，不将研发中的存储GMC写成HBM供货。"
+  },
+  {
+    "id": "688536.SH",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "信号链与电源模拟芯片"
+    ],
+    "fact": "信号链和电源管理模拟芯片覆盖多类电子设备。",
+    "company_fact": "信号链和电源管理模拟芯片覆盖多类电子设备。",
+    "ths_fact": "2025年8月IR部分产品在人形领域应用，部分客户小规模出货。",
+    "reason": "有明确人形出货，不以工业伺服或未来市场机会替代证据。"
+  }
+]

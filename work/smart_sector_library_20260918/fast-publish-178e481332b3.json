@@ -1,0 +1,83 @@
+[
+  {
+    "id": "300771.SZ",
+    "key": "smart_logistics",
+    "sector": "智能物流",
+    "source_sector_name": "智能物流",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "智能快件箱",
+      "末端交付设备"
+    ],
+    "fact": "智能箱柜及平台用于物流末端存取交付。",
+    "ths_fact": "同花顺智能物流解析明确快件箱储物终端和平台管理，实现存取监控信息服务。",
+    "company_fact": "主营涵盖智能保管交付售卖及自动化设备，面向智慧物流等行业提供软硬一体方案。",
+    "reason": "已有智能物流贴合核心终端产品和客户需求，医院配送AGV研发样机不当作已规模机器人业务。"
+  },
+  {
+    "id": "300772.SZ",
+    "key": "wind_power",
+    "sector": "风电",
+    "source_sector_name": "风电",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "风电整机",
+      "风场服务",
+      "新能源电站"
+    ],
+    "fact": "风机研发制造和全生命周期服务构成产业身份。",
+    "ths_fact": "同花顺风电解析明确核心控制策略研发与风电项目技术服务，海风系列为具体产品。",
+    "company_fact": "主营包括风机整机研制总装、风场改造运维及新能源电站开发，另有储能能源服务。",
+    "reason": "已有风电覆盖陆海机组核心能力，不将绿电算力探索直接认作算力运营，储能保留关联。"
+  },
+  {
+    "id": "300773.SZ",
+    "key": "cross_border_payments_cips",
+    "sector": "跨境支付(CIPS)",
+    "source_sector_name": "跨境支付(CIPS)",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "跨境支付结算",
+      "商户支付受理"
+    ],
+    "fact": "持跨境业务备案并开展跨境商户支付服务。",
+    "ths_fact": "同花顺跨境支付解析确认跨境外汇及人民币业务资质、国际网络以及商户和交易增长。",
+    "company_fact": "主营数字支付明确境内外B2C/B2B与外卡等场景，向商户提供综合支付解决方案。",
+    "reason": "选已有跨境支付(CIPS)体现金融支付主题，括号为供应商现有板块原名，不推定公司是CIPS运营商或所有支付均通过CIPS。"
+  },
+  {
+    "id": "300774.SZ",
+    "key": "salt_lake_lithium",
+    "sector": "盐湖提锂",
+    "source_sector_name": "盐湖提锂",
+    "source_sector_provider": "同花顺",
+    "stage": "pilot",
+    "chain": [
+      "锂吸附与膜集成",
+      "盐湖资源综合利用"
+    ],
+    "fact": "水处理技术延伸至盐湖提锂工艺研发应用。",
+    "ths_fact": "同花顺盐湖提锂解析确认西藏研发基地吸附剂膜集成及电提锂工艺突破。",
+    "company_fact": "主营明确工业水处理高盐废水资源化和盐湖提锂工艺技术服务。",
+    "reason": "已有盐湖提锂对应专业工艺，不把研发基地及技术突破写成大量锂盐产销，矿权勘探也不是矿山生产。"
+  },
+  {
+    "id": "300775.SZ",
+    "key": "military",
+    "sector": "军工",
+    "source_sector_name": "军工",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "航空结构锻件",
+      "发动机盘件"
+    ],
+    "fact": "为军民航空提供大型模锻与自由锻件。",
+    "ths_fact": "同花顺军工解析确认军工资质和国防企业科研院所客户。",
+    "company_fact": "主营明确航空航天船舶锻件研制生产销售，航空结构和发动机盘件为重点。",
+    "reason": "已有军工覆盖主要客户与专门锻件能力，不把航天适用范围当作商业火箭核心订单，不是发动机整机厂。"
+  }
+]

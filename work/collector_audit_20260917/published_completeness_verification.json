@@ -1,0 +1,448 @@
+[
+  {
+    "date": "2026-09-14",
+    "direction": "defense",
+    "expected_minutes": 240,
+    "series": 40,
+    "complete": 40,
+    "extra_times": {
+      "13:00": 40
+    },
+    "api_status": "partial",
+    "missing": []
+  },
+  {
+    "date": "2026-09-15",
+    "direction": "defense",
+    "expected_minutes": 240,
+    "series": 40,
+    "complete": 40,
+    "extra_times": {
+      "13:00": 40
+    },
+    "api_status": "partial",
+    "missing": []
+  },
+  {
+    "date": "2026-09-16",
+    "direction": "defense",
+    "expected_minutes": 240,
+    "series": 40,
+    "complete": 40,
+    "extra_times": {
+      "13:00": 40
+    },
+    "api_status": "partial",
+    "missing": []
+  },
+  {
+    "date": "2026-09-17",
+    "direction": "defense",
+    "expected_minutes": 119,
+    "series": 40,
+    "complete": 0,
+    "extra_times": {},
+    "api_status": "ready",
+    "missing": [
+      {
+        "key": "dairy",
+        "missing": 108
+      },
+      {
+        "key": "grain_concept",
+        "missing": 108
+      },
+      {
+        "key": "shipping",
+        "missing": 107
+      },
+      {
+        "key": "pharmaceutical_biology",
+        "missing": 107
+      },
+      {
+        "key": "chicken_concept",
+        "missing": 108
+      },
+      {
+        "key": "medical_devices",
+        "missing": 108
+      },
+      {
+        "key": "retail",
+        "missing": 107
+      },
+      {
+        "key": "traditional_chinese_medicine_concept",
+        "missing": 107
+      },
+      {
+        "key": "agriculture",
+        "missing": 107
+      },
+      {
+        "key": "highway",
+        "missing": 108
+      },
+      {
+        "key": "traditional_chinese_medicine",
+        "missing": 108
+      },
+      {
+        "key": "retail_concept",
+        "missing": 109
+      },
+      {
+        "key": "energy_conservation_environmental_protection",
+        "missing": 108
+      },
+      {
+        "key": "water_conservancy",
+        "missing": 108
+      },
+      {
+        "key": "water_utilities",
+        "missing": 107
+      },
+      {
+        "key": "environmental_protection",
+        "missing": 107
+      },
+      {
+        "key": "insurance",
+        "missing": 107
+      },
+      {
+        "key": "food_beverage",
+        "missing": 108
+      },
+      {
+        "key": "baijiu",
+        "missing": 108
+      },
+      {
+        "key": "white_goods",
+        "missing": 108
+      },
+      {
+        "key": "new_retail",
+        "missing": 108
+      },
+      {
+        "key": "natural_gas",
+        "missing": 108
+      },
+      {
+        "key": "medical_device_concept",
+        "missing": 108
+      },
+      {
+        "key": "nuclear_power",
+        "missing": 108
+      },
+      {
+        "key": "shale_gas",
+        "missing": 108
+      },
+      {
+        "key": "coal_chemical",
+        "missing": 108
+      },
+      {
+        "key": "oil_gas_resources",
+        "missing": 108
+      },
+      {
+        "key": "oil_gas_services",
+        "missing": 108
+      },
+      {
+        "key": "coal",
+        "missing": 107
+      },
+      {
+        "key": "gas",
+        "missing": 107
+      },
+      {
+        "key": "pork_concept",
+        "missing": 109
+      },
+      {
+        "key": "ports",
+        "missing": 108
+      },
+      {
+        "key": "green_power",
+        "missing": 108
+      },
+      {
+        "key": "electric_power",
+        "missing": 107
+      },
+      {
+        "key": "oil_gas",
+        "missing": 107
+      },
+      {
+        "key": "diversified_finance",
+        "missing": 107
+      },
+      {
+        "key": "duty_free",
+        "missing": 108
+      },
+      {
+        "key": "precious_metals",
+        "missing": 107
+      },
+      {
+        "key": "gold_concept",
+        "missing": 108
+      },
+      {
+        "key": "bank",
+        "missing": 107
+      }
+    ]
+  },
+  {
+    "date": "2026-09-14",
+    "direction": "offense",
+    "expected_minutes": 240,
+    "series": 48,
+    "complete": 48,
+    "extra_times": {
+      "13:00": 48
+    },
+    "api_status": "partial",
+    "missing": []
+  },
+  {
+    "date": "2026-09-15",
+    "direction": "offense",
+    "expected_minutes": 240,
+    "series": 48,
+    "complete": 48,
+    "extra_times": {
+      "13:00": 48
+    },
+    "api_status": "partial",
+    "missing": []
+  },
+  {
+    "date": "2026-09-16",
+    "direction": "offense",
+    "expected_minutes": 240,
+    "series": 48,
+    "complete": 48,
+    "extra_times": {
+      "13:00": 48
+    },
+    "api_status": "partial",
+    "missing": []
+  },
+  {
+    "date": "2026-09-17",
+    "direction": "offense",
+    "expected_minutes": 119,
+    "series": 48,
+    "complete": 0,
+    "extra_times": {},
+    "api_status": "ready",
+    "missing": [
+      {
+        "key": "reducer",
+        "missing": 107
+      },
+      {
+        "key": "robot_actuator",
+        "missing": 108
+      },
+      {
+        "key": "innovative_drugs",
+        "missing": 107
+      },
+      {
+        "key": "compute",
+        "missing": 108
+      },
+      {
+        "key": "topcon_battery",
+        "missing": 108
+      },
+      {
+        "key": "ai_application",
+        "missing": 96
+      },
+      {
+        "key": "humanoid_robot",
+        "missing": 107
+      },
+      {
+        "key": "apple_concept",
+        "missing": 5
+      },
+      {
+        "key": "advanced_packaging",
+        "missing": 107
+      },
+      {
+        "key": "multimodal_ai",
+        "missing": 107
+      },
+      {
+        "key": "lithography_machine",
+        "missing": 107
+      },
+      {
+        "key": "cpo",
+        "missing": 107
+      },
+      {
+        "key": "ai_agent",
+        "missing": 106
+      },
+      {
+        "key": "artificial_intelligence",
+        "missing": 4
+      },
+      {
+        "key": "communication_equipment",
+        "missing": 107
+      },
+      {
+        "key": "robotics",
+        "missing": 108
+      },
+      {
+        "key": "liquid_cooling_server",
+        "missing": 107
+      },
+      {
+        "key": "machine_vision",
+        "missing": 108
+      },
+      {
+        "key": "consumer_electronics",
+        "missing": 107
+      },
+      {
+        "key": "automation_equipment",
+        "missing": 3
+      },
+      {
+        "key": "smart_wearable",
+        "missing": 107
+      },
+      {
+        "key": "ai_glasses",
+        "missing": 25
+      },
+      {
+        "key": "semiconductor",
+        "missing": 107
+      },
+      {
+        "key": "consumer_electronics_concept",
+        "missing": 107
+      },
+      {
+        "key": "ai_phone",
+        "missing": 23
+      },
+      {
+        "key": "ai_chip",
+        "missing": 26
+      },
+      {
+        "key": "aigc",
+        "missing": 13
+      },
+      {
+        "key": "third_generation_semiconductor",
+        "missing": 107
+      },
+      {
+        "key": "photovoltaic_concept",
+        "missing": 108
+      },
+      {
+        "key": "energy_storage",
+        "missing": 108
+      },
+      {
+        "key": "photovoltaic_equipment",
+        "missing": 107
+      },
+      {
+        "key": "military",
+        "missing": 108
+      },
+      {
+        "key": "semiconductor_concept",
+        "missing": 107
+      },
+      {
+        "key": "solid_state_battery",
+        "missing": 107
+      },
+      {
+        "key": "lithium_battery",
+        "missing": 108
+      },
+      {
+        "key": "domestic_chip",
+        "missing": 107
+      },
+      {
+        "key": "data_center",
+        "missing": 107
+      },
+      {
+        "key": "commercial_spaceflight",
+        "missing": 107
+      },
+      {
+        "key": "hjt_battery",
+        "missing": 108
+      },
+      {
+        "key": "battery",
+        "missing": 107
+      },
+      {
+        "key": "software_development",
+        "missing": 107
+      },
+      {
+        "key": "photoresist",
+        "missing": 107
+      },
+      {
+        "key": "defense",
+        "missing": 107
+      },
+      {
+        "key": "satellite_internet",
+        "missing": 107
+      },
+      {
+        "key": "minor_metals",
+        "missing": 107
+      },
+      {
+        "key": "aerospace",
+        "missing": 107
+      },
+      {
+        "key": "storage_chip",
+        "missing": 107
+      },
+      {
+        "key": "rare_earth_permanent_magnet",
+        "missing": 107
+      }
+    ]
+  }
+]

@@ -1,0 +1,441 @@
+[
+  {
+    "id": "000967.SZ",
+    "key": "robotics",
+    "sector": "机器人",
+    "source_sector_name": "机器人概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "无人清洁机器人",
+      "智能环卫装备及服务"
+    ],
+    "stage": "delivery",
+    "fact": "提供清洁机器人、环卫车辆及城市环境服务。",
+    "ths_fact": "机器人正文确认智能清洁机器人集群已在长沙橘子洲、深圳福田等场景商业化应用；算力租赁段介绍服务器及运维服务模式。",
+    "company_fact": "主营列清洁机器人和智能环卫装备，智慧服务使用无人装备；核心竞争力确认智能无人清洁机器人集群和以清洁服务机器人为龙头的发展方向。",
+    "reason": "机器人已有具体产品和商业应用，两源与清洁场景相互印证，选已有机器人概念并限定为环卫机器人。阶段采用已应用交付，不推算单独收入；算力租赁不因模式描述推定签单收入。机器人规模交付和算力合同落实时复核。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "000968.SZ",
+    "key": "natural_gas",
+    "sector": "天然气",
+    "source_sector_name": "天然气",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "煤层气勘探开发",
+      "煤矿瓦斯治理及气体销售"
+    ],
+    "stage": "revenue",
+    "fact": "从煤层气开发及煤矿瓦斯治理形成气体销售。",
+    "ths_fact": "天然气正文说明向管网、燃气销售、液化企业及工业用户销售煤层气，煤炭相关描述为煤矿瓦斯治理。",
+    "company_fact": "主营为煤层气勘查开发利用及煤矿瓦斯治理，通过管输、压缩和液化等形式供应工业及居民。",
+    "reason": "煤层气属于实际供气业务，已有天然气比按煤矿用途归煤炭更准确；不将安全治理对象当煤炭开采主体。供气结构、矿权或瓦斯利用业务发生重大变化时复核。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "000969.SZ",
+    "key": "nuclear_fusion",
+    "sector": "可控核聚变",
+    "source_sector_name": "可控核聚变",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "钨铜偏滤器材料",
+      "核聚变装置部件"
+    ],
+    "stage": "delivery",
+    "fact": "控股子公司提供用于聚变装置的钨铜材料及偏滤器部件。",
+    "ths_fact": "可控核聚变段明确控股安泰中科钨铜偏滤器部件用于EAST及ITER；人造太阳段说明EAST上偏滤器批量供应及WEST合同交付。",
+    "company_fact": "主营包括钨钼深加工、粉末冶金和金属功能材料；核心竞争力明确面向核聚变能提供定制化金属材料及部件解决方案。",
+    "reason": "已有核聚变标签、专用部件与真实供货支撑这一材料增量方向，区别于普通金属加工用途概括。采用delivery，未将整个聚变市场或项目计划算成收入；后续聚变订单履约与业务贡献变化时复核。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "000970.SZ",
+    "key": "rare_earth_magnets",
+    "sector": "稀土永磁",
+    "source_sector_name": "稀土永磁",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "钕铁硼永磁材料",
+      "烧结及粘结磁体"
+    ],
+    "stage": "revenue",
+    "fact": "生产销售用于汽车、电机及电子产品的钕铁硼永磁材料。",
+    "ths_fact": "稀土永磁正文列磁性材料制造销售；机器人段为多年工业机器人用磁体，未证明人形整机制造。",
+    "company_fact": "主营明确烧结及粘结钕铁硼生产，应用涵盖新能源汽车、工业机器人等领域。",
+    "reason": "具体材料产品和客户应用共同支持已有稀土永磁。机器人是已存在下游用途，不能改写为人形机器人专用量产；磁体客户及新产品放量时复核。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "000972.SZ",
+    "key": "fruit_vegetable_processing",
+    "sector": "果蔬加工",
+    "source_sector_name": "果蔬加工",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "番茄制品加工",
+      "番茄酱及番茄红素"
+    ],
+    "stage": "revenue",
+    "fact": "加工销售大包装、小包装番茄制品及番茄红素产品。",
+    "ths_fact": "农业种植正文明确番茄种植、加工和贸易的业务联系。",
+    "company_fact": "主营确认番茄酱及番茄红素胶囊等产品生产销售。",
+    "reason": "已有果蔬加工直接对应加工产品和经营链条，较仅强调种植更完整；不是按地域或股票名称判断。原料种植与终端产品结构发生变化时复核。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "000973.SZ",
+    "key": "lithium_batteries",
+    "sector": "锂电池",
+    "source_sector_name": "锂电池概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "锂电池湿法隔膜",
+      "功能薄膜材料"
+    ],
+    "stage": "revenue",
+    "fact": "完成金力新能源收购后经营锂电池湿法隔膜，并保有原有功能薄膜业务。",
+    "ths_fact": "锂电池段列拟收购金力新能源及其湿法隔膜业务，固态电池段涉及布局；2025年拟收购措辞本身不证明完成。",
+    "company_fact": "主营列金力新能源湿法隔膜及原有光学膜、电工膜等产品，但交易完成后句式需要交割原文校验。",
+    "reason": "2026年1月23日原公告确认金力新能源100%股权已依据1月21日登记材料过户，上市公司直接持有100%；隔膜为实际经营业务，故可采用已有锂电池主线。不将后续股份手续当成产权未交割，也不把固态电池布局写成量产，整合及隔膜产品变化时复核。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "000973.SZ-jinli-transfer-official",
+        "source_kind": "official_filing",
+        "publisher": "佛塑科技",
+        "title": "发行股份及支付现金购买资产之标的资产过户完成公告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=11930233",
+        "published_at": "2026-01-23",
+        "assertions": [
+          "2026年1月23日公告依据1月21日营业执照及登记通知书确认金力新能源100%股权过户完成。",
+          "金力新能源已变更为有限责任公司，佛塑科技直接持有100%股权；后续新增股份手续不影响本项产权交割完成。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "000975.SZ",
+    "key": "gold",
+    "sector": "黄金",
+    "source_sector_name": "黄金概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "黄金采选冶",
+      "矿产金销售"
+    ],
+    "stage": "revenue",
+    "fact": "经营在产金矿并产销矿产金，同时有铅锌银业务及在建项目。",
+    "ths_fact": "黄金正文确认黄金为核心矿产品，另有银铅锌产品；小金属的旧描述不能替代当前矿山结构。",
+    "company_fact": "主营列黑河洛克、吉林板庙子、青海大柴旦等在产金矿，区分玉龙铅锌银、停产待恢复华盛及在建Osino。",
+    "reason": "矿山资产和矿产品销售支持已有黄金主线，不能把贸易额或在建项目当已产矿金。停产复产、海外项目投产及金矿资产改变时复核。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "000977.SZ",
+    "key": "data_centers",
+    "sector": "数据中心(AIDC)",
+    "source_sector_name": "数据中心(AIDC)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "AI服务器",
+      "计算存储及智算基础设施"
+    ],
+    "stage": "revenue",
+    "fact": "研发生产销售AI服务器、存储及互联等计算基础设施。",
+    "ths_fact": "数据中心及算力正文列服务器研发生产销售和云基础设施，液冷段涉及服务器散热能力。",
+    "company_fact": "主营明确元脑AI计算、存储、互联IT产品与解决方案。",
+    "reason": "数据中心标签对应真实服务器设备与系统供给，能够表达AI算力基础设施主线；不把设备销售写成算力租赁运营，不因液冷能力概括冷却液生产。AI产品交付或经营模式重大变化时复核。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "000978.SZ",
+    "key": "tourism_hotels",
+    "sector": "旅游酒店",
+    "source_sector_name": "旅游酒店",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "景区游船及旅游交通",
+      "酒店和景区运营"
+    ],
+    "stage": "revenue",
+    "fact": "经营景区、游船、旅游交通及酒店服务。",
+    "ths_fact": "旅游段确认景区和旅游交通经营；2026年短剧段说明两部AI短剧上线但尚无分成收入且预期影响较小，AI旅游节目仍内测。",
+    "company_fact": "主营分别列旅游景区、漓江游船、酒店及客运等实际经营。",
+    "reason": "当前可验证市场主线是旅游酒店；短剧与AIGC有实际进展，但上线不等于分成兑现，不能凭热点名称替代已确认服务链。短剧商业化或旅游数字产品形成实质经营时复核。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "000980.SZ",
+    "key": "automobiles",
+    "sector": "汽车整车",
+    "source_sector_name": "汽车整车",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "整车研发及复工复产",
+      "汽车零部件配套"
+    ],
+    "stage": "product",
+    "fact": "保有整车研发制造体系并处于复工复产阶段，当前收入主要由配件及防盗门等业务产生。",
+    "ths_fact": "整车段列品牌车型研发生产销售历史，海外及智能驾驶条目有合作安排，不能当当前整车交付证明。",
+    "company_fact": "主营明确整车仍处复工复产阶段，2025年收入主要来自汽车零部件和防盗门，相关子公司正常经营。",
+    "reason": "已有汽车整车仍对应明确产品体系和持续复产业务，选该主线但显式product；不把配件及门业收入移作整车revenue，也不写整车已恢复量产。实际恢复生产、订单交付及整车收入是阶段上调触发。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "000981.SZ",
+    "key": "automotive_parts",
+    "sector": "汽车零部件",
+    "source_sector_name": "汽车零部件",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "动力传动总成",
+      "汽车安全气囊及配套"
+    ],
+    "stage": "revenue",
+    "fact": "经营邦奇动力总成及ARC安全气囊等汽车零部件业务。",
+    "ths_fact": "汽车电子等段确认邦奇与ARC制造销售；减速器、问界等段对应动力总成配套，整车新车型仍有样车测试描述。",
+    "company_fact": "主营确认高端制造中邦奇、ARC实际经营，整车新项目仍处研发重要阶段并建立供应链。",
+    "reason": "直接零部件业务和客户产品一致，已有汽车零部件可作为确定主线。新整车研发不等于量产，先进封装条目待独立经营证据充分后重审；整车交付或业务资产显著变化时复核。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "000983.SZ",
+    "key": "coal",
+    "sector": "煤炭",
+    "source_sector_name": "煤炭概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "炼焦煤采洗",
+      "煤炭销售及电力配套"
+    ],
+    "stage": "revenue",
+    "fact": "生产洗选销售煤炭，重点提供炼焦煤，并经营电力。",
+    "ths_fact": "煤炭及焦煤段确认在产煤矿与产品；机器人为联合研发框架，镓为矿产伴生线索。",
+    "company_fact": "主营明确煤炭生产洗选销售及发电业务。",
+    "reason": "在产矿井和煤种市场支持已有煤炭主线，机器人研发及伴生资源不等于机器人销量或镓产量。新矿、资源综合利用及研发商业化出现实际贡献时复核。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "000985.SZ",
+    "key": "petrochemicals",
+    "sector": "石油石化",
+    "source_sector_name": "石油石化",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "C5及C9精细加工",
+      "石油树脂与聚丙烯"
+    ],
+    "stage": "revenue",
+    "fact": "生产销售石油树脂、聚丙烯及芳烃等石化产品。",
+    "ths_fact": "聚丙烯及油品相关正文列公司化工产品；两桶油段的集团炼化规模不直接属于上市公司。",
+    "company_fact": "主营列C5、C9分离及树脂、聚丙烯生产经营。",
+    "reason": "公司实际裂解副产物深加工形成石化产品链，已有石油石化可验证。剔除母公司资源规模移植和行业改革口号，装置产品与资产结构变化时复核。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "000987.SZ",
+    "key": "amc_debt_resolution",
+    "sector": "化债(AMC)",
+    "source_sector_name": "化债(AMC)概念",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "不良资产收购处置",
+      "企业纾困及资产经营"
+    ],
+    "stage": "revenue",
+    "fact": "通过广州资产等开展不良资产收购处置、纾困和资产经营，并有融资租赁等业务。",
+    "ths_fact": "化债正文确认不良资产管理及融资租赁等经营；绿色电力段另列新能源管理装机及收入，不能否认其实际业务。",
+    "company_fact": "主营构成明确包含不良资产管理；核心竞争力说明问题机构纾困、收购处置和房地产破产重整业务及广州资产品牌业绩。",
+    "reason": "选择已有化债(AMC)承接专门不良资产经营与区域风险化解的市场主线，两源经营内容一致，不把参股中信证券改成自营券商。绿色租赁及新能源同属真实业务，后续资产结构或经营重心改变时复核。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "000988.SZ",
+    "key": "optical_modules",
+    "sector": "光通信模块",
+    "source_sector_name": "光通信模块",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "高速光模块",
+      "硅光芯片及光互联"
+    ],
+    "stage": "revenue",
+    "fact": "提供高速光模块、光互联产品，并经营激光加工及传感器。",
+    "ths_fact": "CPO正文确认自研硅光芯片已用于400G、800G、1.6T模块并交付；3.2T CPO/NPO技术说明未直接证明该产品批量交付。",
+    "company_fact": "主营联接业务明确高速光及铜模块、从芯片到模块的垂直产品体系，服务AI算力和网络；激光及传感器单列。",
+    "reason": "已有光通信模块最准确覆盖获交付的高速光互联经营，也承接AI数据中心增量。未把硅光模块交付等同3.2T CPO交付；后续CPO/NPO真实订单及客户放量时复核。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "000989.SZ",
+    "key": "traditional_chinese_medicine",
+    "sector": "中药",
+    "source_sector_name": "中药概念",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "中成药研发制造",
+      "OTC及处方药销售"
+    ],
+    "stage": "revenue",
+    "fact": "生产销售中成药及处方药，并开展创新药和干细胞研发。",
+    "ths_fact": "中医药及医保产品段列已售药品；创新药段的YB209、YB211与美科干细胞项目为临床研发和入组，不是商业化收入。",
+    "company_fact": "主营确认OTC与处方药、疏血通等产品及大健康经营；核心竞争力确认中药产品营销网络，多肽原料药业务单列。",
+    "reason": "已有中药获得产品、销售渠道和经营信息充分交叉支持。创新药临床线索保留为后续复核方向，当前保存公司业务正文未充分对应其最新试验进度，不能把临床入组当药品销售；原临床披露及商业化进展触发重审。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "000990.SZ",
+    "key": "synthetic_biology",
+    "sector": "合成生物",
+    "source_sector_name": "合成生物",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "D-核糖等生物制造",
+      "功能营养原料"
+    ],
+    "stage": "revenue",
+    "fact": "经营D-核糖等生命科技产品，并推进合成生物工艺产业化。",
+    "ths_fact": "合成生物段说明D-核糖应用及D-甘露糖已量产、销量增长；新酶工艺仍处中试，不能合并表述为已量产。",
+    "company_fact": "主营确认D-核糖产品制造销售；核心竞争力列完整知识产权、工艺装置和产销增长，并与高校建设合成生物联合转化中心。",
+    "reason": "已有合成生物有商业化生物产品与产业化技术体系支撑，能够表达生命科技增量；revenue指已售产品，不指新酶中试收入。化工气体及液晶保留业务背景，新工艺放量或生命科技资产变化时复核。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "000993.SZ",
+    "key": "green_power",
+    "sector": "绿色电力",
+    "source_sector_name": "绿色电力",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "水力发电",
+      "风电及光伏运营"
+    ],
+    "stage": "revenue",
+    "fact": "经营水电、风电及光伏等清洁能源发电。",
+    "ths_fact": "绿色电力正文确认水电风电发电；污水处理题材实为在污水厂建设自用余电上网光伏，海上风电仍涉及前期论证。",
+    "company_fact": "主营为以水电、风电、光伏为主的电力生产开发。",
+    "reason": "已有绿色电力统一覆盖已经营清洁电源，污水厂是光伏场景而非公司主营污水治理；碳交易和船舶业务主要为参股，不迁移成直接主业。新电源投运和资产结构变化时复核。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "000995.SZ",
+    "key": "baijiu",
+    "sector": "白酒",
+    "source_sector_name": "白酒概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "白酒酿造",
+      "品牌酒销售"
+    ],
+    "stage": "revenue",
+    "fact": "酿造销售皇台系列白酒，另经营葡萄酒及酿酒葡萄种植。",
+    "ths_fact": "白酒正文确认恢复酿造生产并推出窖底原浆、六鼎等上市产品。",
+    "company_fact": "主营分别列白酒品牌产品价格带、葡萄酒系列及葡萄种植基地。",
+    "reason": "具体白酒产品与酿销业务交叉支持已有白酒主线；葡萄种植属于另一酒类的原料链，不能因种植标签顺序改变主归属。白酒产销与酒类产品结构重大变化时复核。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "000997.SZ",
+    "key": "mobile_payments",
+    "sector": "移动支付",
+    "source_sector_name": "移动支付",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "支付终端",
+      "商户收单及数字经营服务"
+    ],
+    "stage": "revenue",
+    "fact": "提供电子支付终端、商户收单及综合数字化经营服务。",
+    "ths_fact": "移动支付正文列终端产品与第三方支付；跨境支付段列2024年外卡交易，AI智能体现有三个主要用于内部增效。",
+    "company_fact": "主营为智能终端、数据处理与场景运营；核心竞争力明确电子支付、收单服务和商户支付牌照及运营能力。",
+    "reason": "已有移动支付把终端与收单业务连成已确认经营主线，跨境支付为真实扩展但美国MSB牌照本身不等于数字货币交易收入。内部AI应用不改写为对外销售；海外收单兑现或AI商户产品商业化后复核。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "000998.SZ",
+    "key": "transgenic",
+    "sector": "转基因",
+    "source_sector_name": "转基因",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "转基因玉米品种",
+      "生物育种及种子推广"
+    ],
+    "stage": "revenue",
+    "fact": "开展转基因育种并推广通过审定的种子品种，同时经营水稻等种业。",
+    "ths_fact": "转基因正文确认性状安全证书、自有品种转育审定和示范推广；2025年鸿蒙段亦说明产业化推广实际进展。",
+    "company_fact": "主营覆盖研育繁推服管种业链；核心竞争力明确19个次转基因品种通过审定、裕丰303D入选主导品种，产业化推广和市场表现。",
+    "reason": "已有转基因不只停留专利储备，已获审定品种与产业化市场推广支撑新种业方向。revenue限已经营推广种子，不把全部新性状证书视为销售许可；新品审定与推广经营变化时复核。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "000999.SZ",
+    "key": "traditional_chinese_medicine",
+    "sector": "中药",
+    "source_sector_name": "中药概念",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "中成药及配方颗粒",
+      "OTC和处方药"
+    ],
+    "stage": "revenue",
+    "fact": "经营健康消费药品、中成药处方药、中药配方颗粒及饮片。",
+    "ths_fact": "中医药段确认配方颗粒业务增长，医保及流感段列已售药品；创新药段为2019年项目受让安排，不能独自证明当前上市收入。",
+    "company_fact": "主营确认CHC健康消费产品、处方药，中药配方颗粒及饮片产品和医院渠道。",
+    "reason": "现有中药板块获得实际产品与终端经营交叉支持。配方颗粒及中成药主线不是按单一营收比确定；新药旧计划及2024年并购拟交易不直接当已完成证据，新药上市和并购经营整合变化时复核。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "001201.SZ",
+    "key": "pig_farming",
+    "sector": "猪肉",
+    "source_sector_name": "猪肉",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "生猪养殖",
+      "屠宰及猪肉加工"
+    ],
+    "stage": "revenue",
+    "fact": "养殖销售生猪，并经营饲料、屠宰及肉制品加工。",
+    "ths_fact": "猪肉正文确认商品猪、仔猪、种猪养销；饲料主要自用并有外售，光伏为养猪楼顶合作项目。",
+    "company_fact": "主营明确2025年深耕生猪，列生猪、饲料、白条肉及腊肉肉丸等产品。",
+    "reason": "已有猪肉覆盖直接养殖到屠宰加工经营，光伏是养殖设施上的配套合作，不因此改变农业主线。养殖产能、屠宰加工及独立能源经营改变时复核。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "001202.SZ",
+    "key": "logistics",
+    "sector": "物流",
+    "source_sector_name": "物流",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "大宗商品多式联运",
+      "仓储及期货交割服务"
+    ],
+    "stage": "revenue",
+    "fact": "为大宗商品提供运输、仓储、装卸及期货交割综合服务。",
+    "ths_fact": "统一大市场及新疆段说明有色金属多式联运和仓储；区块链是签章流程工具，海外航运段为设备投资安排。",
+    "company_fact": "主营完整列多式联运、代理和自营运输、几内亚物流、仓储和多交易所指定交割资质。",
+    "reason": "已确认运输仓储链条对应已有物流；运输有色金属不等于开采冶炼，内部区块链不等于对外技术营收。海外驳运已开展与新增拟投设备分别保留，国际物流规模和服务结构变化时复核。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "001203.SZ",
+    "key": "lithium_mining",
+    "sector": "锂矿",
+    "source_sector_name": "锂矿",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "锂矿采选",
+      "碳酸锂产业链"
+    ],
+    "stage": "revenue",
+    "fact": "经营铁矿并发展锂矿采选冶，保存公司资料确认2025年已有锂矿利润贡献。",
+    "ths_fact": "锂矿及锂电池段记录湖南含锂矿采选、碳酸锂项目投资和募资用途变更；固态电池为金属锂新材料项目，未证明量产。",
+    "company_fact": "主营列铁精粉及球团；核心竞争力进一步确认湖南鸡脚山和四川加达锂资源备案、2025年锂矿利润贡献，两个新矿规模投产仍为后续计划。",
+    "reason": "锂矿已有资源和经营贡献而非仅2022年意向，优先采用已有锂矿表达产业增量。revenue依据已发生经营贡献，不将两矿规划产能或未来投产写成已全部达产；利润来源口径、具体矿山投产及新增收入披露时复核。",
+    "basis": "crosschecked_sources"
+  }
+]

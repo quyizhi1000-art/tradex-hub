@@ -1,0 +1,402 @@
+[
+  {
+    "id": "600617.SH",
+    "key": "natural_gas",
+    "sector": "天然气",
+    "source_sector_name": "天然气",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "管道燃气输配销售"
+    ],
+    "stage": "revenue",
+    "fact": "从事天然气开发利用、储气设施及相关能源服务。",
+    "company_fact": "从事天然气开发利用、储气设施及相关能源服务。",
+    "ths_fact": "主营长输管网、城市燃气和燃气销售，已形成终端设施。",
+    "reason": "燃气管网运营与销售直接对应，新能源经营范围不等于全部已开展。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600618.SH",
+    "key": "caustic_soda",
+    "sector": "烧碱",
+    "source_sector_name": "烧碱",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "氯碱化工"
+    ],
+    "stage": "revenue",
+    "fact": "生产烧碱、氯制品和聚氯乙烯。",
+    "company_fact": "生产烧碱、氯制品和聚氯乙烯。",
+    "ths_fact": "烧碱解析明确离子膜产能及出口销售。",
+    "reason": "烧碱为直接产品板块；氟材料旧描述和4D打印泛化联系不足替代。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600619.SH",
+    "key": "lithography",
+    "sector": "光刻机",
+    "source_sector_name": "光刻机",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "光刻设备冷却系统配套"
+    ],
+    "stage": "delivery",
+    "fact": "主营冷暖解决方案和压缩机等核心部件及汽车热管理。",
+    "company_fact": "主营冷暖解决方案和压缩机等核心部件及汽车热管理。",
+    "ths_fact": "公司官网解析明确与微电子装备集团以封装光刻机冷却系统配套为起点开展供应合作。",
+    "reason": "制冷核心能力已延伸到光刻设备配套，支持装备国产化市场身份；仅指冷却系统，不指制造整台光刻机。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600620.SH",
+    "key": "energy_storage",
+    "sector": "储能",
+    "source_sector_name": "储能",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "户用工商业储能系统"
+    ],
+    "stage": "product",
+    "fact": "引入储能PACK生产线，建设储能制造基地及日本网侧项目。",
+    "company_fact": "引入储能PACK生产线，建设储能制造基地及日本网侧项目。",
+    "ths_fact": "展会展出RESS户用、ICESS工商业储能产品及方案。",
+    "reason": "已有产品及生产线支持储能转型，工厂和海外电站建设不能写成全部投运收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600621.SH",
+    "key": "securities",
+    "sector": "券商",
+    "source_sector_name": "券商概念",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "证券交易及投资服务"
+    ],
+    "stage": "revenue",
+    "fact": "开展证券经纪、自营、资管、投行及信用业务。",
+    "company_fact": "开展证券经纪、自营、资管、投行及信用业务。",
+    "ths_fact": "全资华鑫证券经营承销保荐，交易系统服务客户并扩大业务。",
+    "reason": "金融科技用于证券业务形成差异化，内部部署模型不等于独立AI服务主业。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600622.SH",
+    "key": "reits",
+    "sector": "REITs",
+    "source_sector_name": "REITs概念",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "不动产基金及资产管理"
+    ],
+    "stage": "revenue",
+    "fact": "光控安石以私募基金结构投资物业，提供改造招商运营及资产管理。",
+    "company_fact": "光控安石以私募基金结构投资物业，提供改造招商运营及资产管理。",
+    "ths_fact": "住房租赁解析明确房地产投资信托基金业务及主动不动产管理平台。",
+    "reason": "真实不动产基金管理匹配REITs主题；不把同集团光大金瓯不良资产经营算入上市公司。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600623.SH",
+    "key": "fluorochemicals",
+    "sector": "氟化工",
+    "source_sector_name": "氟化工概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "含氟聚合物及制冷剂"
+    ],
+    "stage": "revenue",
+    "fact": "先进材料业务含氟聚合物制冷剂，兼有能源化工轮胎等。",
+    "company_fact": "先进材料业务含氟聚合物制冷剂，兼有能源化工轮胎等。",
+    "ths_fact": "2026年6月明确控股三爱富氟材料平台，部分高附加值产品已向头部客户批量供货。",
+    "reason": "完整氟材料产品链和批供支持新材料主线，芯片合作意向不能写成芯片自产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600624.SH",
+    "key": "generic_drugs",
+    "sector": "仿制药",
+    "source_sector_name": "仿制药",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "特色化学药制剂"
+    ],
+    "stage": "revenue",
+    "fact": "研发销售消化神经抗肿瘤等领域药品，含谷胱甘肽及石杉碱甲等。",
+    "company_fact": "研发销售消化神经抗肿瘤等领域药品，含谷胱甘肽及石杉碱甲等。",
+    "ths_fact": "控股药业现有产品以仿制药为主，卡马西平已通过一致性评价。",
+    "reason": "产品与批准证据支持仿制药，量子仅战略合作意向，不能视为拥有量子计算机。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600626.SH",
+    "key": "automotive_parts",
+    "sector": "汽车零部件",
+    "source_sector_name": "汽车零部件",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "汽车内饰及声学元件"
+    ],
+    "stage": "revenue",
+    "fact": "供应汽车地毯、隔音件及舱内饰件，并经营纺织材料贸易。",
+    "company_fact": "供应汽车地毯、隔音件及舱内饰件，并经营纺织材料贸易。",
+    "ths_fact": "汽车内饰解析列示多家车企客户和新能源车型供货。",
+    "reason": "实际车内产品与客户供货支持汽车部件，国际贸易渠道不改变产品身份。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600628.SH",
+    "key": "ip_economy",
+    "sector": "IP经济(谷子经济)",
+    "source_sector_name": "IP经济(谷子经济)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "次元零售及潮玩场景"
+    ],
+    "stage": "revenue",
+    "fact": "运营新世界城百货及文旅娱乐消费。",
+    "company_fact": "运营新世界城百货及文旅娱乐消费。",
+    "ths_fact": "新世界城引进动漫游戏周边、桌游卡牌品牌，建设次元业态和Fun肆街区。",
+    "reason": "已有次元商业场景和品牌运营支撑谷子消费增量，不将商场自用光伏归为绿电主业。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600629.SH",
+    "key": "building_inspection",
+    "sector": "房屋检测",
+    "source_sector_name": "房屋检测",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "建筑检测及工程咨询"
+    ],
+    "stage": "revenue",
+    "fact": "提供建筑规划岩土等设计咨询及建设全过程服务。",
+    "company_fact": "提供建筑规划岩土等设计咨询及建设全过程服务。",
+    "ths_fact": "已完成上海房屋质量检测站收购，形成检测业务链。",
+    "reason": "已纳入的专业检测业务直接支撑房屋检测身份；内部AI设计工具不替代工程服务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600630.SH",
+    "key": "cross_border_ecommerce",
+    "sector": "跨境电商",
+    "source_sector_name": "跨境电商",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "服饰跨境线上销售"
+    ],
+    "stage": "revenue",
+    "fact": "经营三枪等服饰家纺品牌及国际贸易。",
+    "company_fact": "经营三枪等服饰家纺品牌及国际贸易。",
+    "ths_fact": "与亚马逊等跨境电商平台合作销售内衣家居服运动服装，已形成跨境销售。",
+    "reason": "有实际海外线上交易匹配市场主题；占比不高保留这一限制，不按收入最大机械归类。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600633.SH",
+    "key": "ai_applications",
+    "sector": "AI应用",
+    "source_sector_name": "AI应用",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "媒体垂类模型及数字文化应用"
+    ],
+    "stage": "product",
+    "fact": "数字文化、数智技术和数据运营业务结合AI内容应用发展。",
+    "company_fact": "数字文化、数智技术和数据运营业务结合AI内容应用发展。",
+    "ths_fact": "传播大脑已推出银龄视界、提分宝等AI产品，传播大模型集成百余项创作审校功能。",
+    "reason": "媒体技术能力形成可识别AI应用产品，不能将参股其他平台的收入全部并入，也不等同自研通用基座。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600635.SH",
+    "key": "venture_capital",
+    "sector": "创投",
+    "source_sector_name": "创投",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "科技股权投资与基金投资"
+    ],
+    "stage": "revenue",
+    "fact": "通过全资大众资本、参股平台及专项基金开展创投，另有燃气等公用事业。",
+    "company_fact": "通过全资大众资本、参股平台及专项基金开展创投，另有燃气等公用事业。",
+    "ths_fact": "创投解析明确公用事业及金融创投两大经营领域。",
+    "reason": "持续运营的创投平台支持金融创投市场身份；被投企业产品不当作上市公司直接生产收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600637.SH",
+    "key": "culture_media",
+    "sector": "文化传媒",
+    "source_sector_name": "文化传媒概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "融合媒体渠道及文化内容"
+    ],
+    "stage": "revenue",
+    "fact": "开展融合媒体、智慧广电5G及文化消费业务。",
+    "company_fact": "开展融合媒体、智慧广电5G及文化消费业务。",
+    "ths_fact": "拥有内容版权与多渠道视频分发平台，经营传媒相关服务。",
+    "reason": "内容渠道运营形成当前稳定身份，文旅智能体和数字人合作尚不足替代综合传媒生态。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600638.SH",
+    "key": "futures",
+    "sector": "期货",
+    "source_sector_name": "期货概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "期货交易及衍生品服务"
+    ],
+    "stage": "revenue",
+    "fact": "形成房地产及期货信托基金等金融业务。",
+    "company_fact": "形成房地产及期货信托基金等金融业务。",
+    "ths_fact": "全资华闻期货稳步发展，交易技术平台覆盖客户服务。",
+    "reason": "全资持牌期货业务已实际开展，支持金融市场身份；非仅小额参股标签。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600639.SH",
+    "key": "industrial_real_estate",
+    "sector": "产业地产",
+    "source_sector_name": "产业地产",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "开发区建设运营"
+    ],
+    "stage": "revenue",
+    "fact": "开展金桥开发区和碧云社区开发招商产业服务运营。",
+    "company_fact": "开展金桥开发区和碧云社区开发招商产业服务运营。",
+    "ths_fact": "物业解析明确园区开发、产业投资及租赁物业服务。",
+    "reason": "园区产业物业与运营形成主线，基金参投资格不自动替代产业地产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600640.SH",
+    "key": "ai_applications",
+    "sector": "AI应用",
+    "source_sector_name": "AI应用",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "AIGC内容及视觉模型应用"
+    ],
+    "stage": "product",
+    "fact": "数智业务开发天翼出行智能体及云生3D视觉大模型。",
+    "company_fact": "数智业务开发天翼出行智能体及云生3D视觉大模型。",
+    "ths_fact": "2025年9月明确自研实时2D转3D模型并产出AI短剧。",
+    "reason": "模型产品与内容实际产出支撑AI应用，智能体部分仍开发、不能全部当作规模收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600641.SH",
+    "key": "chips",
+    "sector": "芯片",
+    "source_sector_name": "芯片概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "集成电路离子注入设备"
+    ],
+    "stage": "revenue",
+    "fact": "凯世通生产销售离子注入设备与备件，兼有铋材料。",
+    "company_fact": "凯世通生产销售离子注入设备与备件，兼有铋材料。",
+    "ths_fact": "低能大束流和高能离子注入机已获验证验收，面向逻辑存储功率领域。",
+    "reason": "芯片制造设备形成实际供应链身份，铋收入快速增长不机械覆盖既有半导体装备认知。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600642.SH",
+    "key": "green_power",
+    "sector": "绿色电力",
+    "source_sector_name": "绿色电力",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "风光电站运营"
+    ],
+    "stage": "revenue",
+    "fact": "发展风光等清洁能源，控股新能源装机883.6万千瓦，另有煤气电。",
+    "company_fact": "发展风光等清洁能源，控股新能源装机883.6万千瓦，另有煤气电。",
+    "ths_fact": "发电经营包含风电和光伏，已有控股风电装机。",
+    "reason": "大规模真实风光运营支撑绿电，不把火电也称绿色电源，集团氢能协议不等于本公司经营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600643.SH",
+    "key": "trust",
+    "sector": "信托",
+    "source_sector_name": "信托概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "信托资产与财富管理"
+    ],
+    "stage": "revenue",
+    "fact": "开展信托、融资租赁和资产财富管理。",
+    "company_fact": "开展信托、融资租赁和资产财富管理。",
+    "ths_fact": "下属爱建信托实际管理信托资产并取得营业收入。",
+    "reason": "持牌信托服务构成直接金融产品主线，参股券商及互联网基金不自动改变归属。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600644.SH",
+    "key": "virtual_power_plant",
+    "sector": "虚拟电厂",
+    "source_sector_name": "虚拟电厂",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "分布式能源聚合调度"
+    ],
+    "stage": "delivery",
+    "fact": "拥有区域电网及发电，发展储能和综合能源服务。",
+    "company_fact": "拥有区域电网及发电，发展储能和综合能源服务。",
+    "ths_fact": "2024年虚拟电厂平台已落地，接入4座充电站和用户侧储能。",
+    "reason": "实际聚合平台及资源接入支持虚拟电厂，未将接入容量视为新增发电装机。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600645.SH",
+    "key": "stem_cells",
+    "sector": "干细胞",
+    "source_sector_name": "干细胞",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "干细胞制备存储及研发"
+    ],
+    "stage": "revenue",
+    "fact": "经营细胞检测制备存储，研发干细胞临床应用并经营诊断试剂。",
+    "company_fact": "经营细胞检测制备存储，研发干细胞临床应用并经营诊断试剂。",
+    "ths_fact": "已在多个地区建立干细胞库网络；全资药业有干细胞药物临床获批。",
+    "reason": "细胞存储为已有经营，药物仍区分临床阶段；参股CAR-T获批不能写成本公司药物收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600648.SH",
+    "key": "shanghai_free_trade_zone",
+    "sector": "上海自贸区",
+    "source_sector_name": "上海自贸区",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "保税园区及贸易服务"
+    ],
+    "stage": "revenue",
+    "fact": "开发运营外高桥保税园区，提供进出口及保税贸易综合服务。",
+    "company_fact": "开发运营外高桥保税园区，提供进出口及保税贸易综合服务。",
+    "ths_fact": "处于自贸区核心区域，直接经营园区开发物流贸易。",
+    "reason": "与单纯注册地址不同，保税功能和贸易运营直接承担自贸区业务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600649.SH",
+    "key": "equal_rental_purchase_rights",
+    "sector": "租售同权",
+    "source_sector_name": "租售同权",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "保障性租赁住房运营"
+    ],
+    "stage": "revenue",
+    "fact": "开展房地产开发、租赁住房建设运营等全生命周期业务。",
+    "company_fact": "开展房地产开发、租赁住房建设运营等全生命周期业务。",
+    "ths_fact": "保障房近年建设以保障性租赁房为主。",
+    "reason": "真实租赁住房建设运营对应租售同权；母集团电池循环合作不能当上市公司新能源主业。",
+    "basis": "crosschecked_sources"
+  }
+]

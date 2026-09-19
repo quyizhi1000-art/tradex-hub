@@ -1,0 +1,152 @@
+[
+  {
+    "id": "920374.BJ",
+    "key": "iot",
+    "sector": "物联网",
+    "source_sector_name": "物联网",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "蓝牙模组网关电子标签"
+    ],
+    "fact": "短距无线物联网硬件与云标签研发生产销售。",
+    "company_fact": "短距无线物联网硬件与云标签研发生产销售。",
+    "ths_fact": "蓝牙传感器模组网关标签用于仓储楼宇医疗零售。",
+    "reason": "整体物联网身份；机器人仅少量模组供货。"
+  },
+  {
+    "id": "920375.BJ",
+    "key": "virtual_power_plant",
+    "sector": "虚拟电厂",
+    "source_sector_name": "虚拟电厂",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "用户侧调度运营平台"
+    ],
+    "fact": "能源数字化产品中包含虚拟电厂运营管理平台。",
+    "company_fact": "能源数字化产品中包含虚拟电厂运营管理平台。",
+    "ths_fact": "平台提供响应监控交易支撑收益分析。",
+    "reason": "已成型软件产品，平台供应不直接等于售电调峰收益。"
+  },
+  {
+    "id": "920378.BJ",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "关节行星滚柱与精密轴承"
+    ],
+    "fact": "专用精密轴承设计制造，面向机器人等高端应用。",
+    "company_fact": "专用精密轴承设计制造，面向机器人等高端应用。",
+    "ths_fact": "行星滚柱已批量供国华智能人形关节，柔性轴承仍验证。",
+    "reason": "具体人形客户供货且收入影响小，区分两类产品阶段。"
+  },
+  {
+    "id": "920392.BJ",
+    "key": "paper_packaging",
+    "sector": "纸包装",
+    "source_sector_name": "纸包装",
+    "source_sector_provider": "东方财富",
+    "stage": "revenue",
+    "chain": [
+      "瓦楞彩印及展示包装"
+    ],
+    "fact": "纸质包装展示方案和彩印水印瓦楞纸板销售。",
+    "company_fact": "纸质包装展示方案和彩印水印瓦楞纸板销售。",
+    "ths_fact": "既有解析提越南包装工厂业务，主营仍纸包装。",
+    "reason": "选已有纸包装行业而非笼统海外政策。"
+  },
+  {
+    "id": "920394.BJ",
+    "key": "low_altitude_economy",
+    "sector": "低空经济",
+    "source_sector_name": "低空经济",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "芳纶纸蜂窝芯材上游"
+    ],
+    "fact": "芳纶纸阻燃绝缘轻量高强，长期研发制造。",
+    "company_fact": "芳纶纸阻燃绝缘轻量高强，长期研发制造。",
+    "ths_fact": "蜂窝芯材在低空电动飞行器头部企业已有应用，亦用于无人机。",
+    "reason": "航空轻量材料链，验证经下游芯材厂，非飞行器整机。"
+  },
+  {
+    "id": "920395.BJ",
+    "key": "security_surveillance",
+    "sector": "安防",
+    "source_sector_name": "安防",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "电子设备防盗展示"
+    ],
+    "fact": "手机穿戴等电子设备防盗展示产品研发产销。",
+    "company_fact": "手机穿戴等电子设备防盗展示产品研发产销。",
+    "ths_fact": "电子设备防盗展示属安防细分。",
+    "reason": "安防设备而非手机本体，仅客户名称不变更主归属。"
+  },
+  {
+    "id": "920396.BJ",
+    "key": "nuclear_fusion",
+    "sector": "可控核聚变",
+    "source_sector_name": "可控核聚变",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "阀门执行与驱动装置"
+    ],
+    "fact": "阀门执行机构覆盖核电等环境，有核电产品线。",
+    "company_fact": "阀门执行机构覆盖核电等环境，有核电产品线。",
+    "ths_fact": "明确向ITER提供相关产品。",
+    "reason": "ITER实际配套支持，核电销售不全部算聚变收入。"
+  },
+  {
+    "id": "920402.BJ",
+    "key": "hydrogen_energy",
+    "sector": "氢能源",
+    "source_sector_name": "氢能源",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "工业氢及高纯氢"
+    ],
+    "fact": "氢硅材料研发产销，氢气及电子硅烷为主要产品。",
+    "company_fact": "氢硅材料研发产销，氢气及电子硅烷为主要产品。",
+    "ths_fact": "工业氢高纯氢为实际产品。",
+    "reason": "气体制备供应环节，硅材料并行业务不等于芯片制造。"
+  },
+  {
+    "id": "920403.BJ",
+    "key": "corn",
+    "sector": "玉米",
+    "source_sector_name": "玉米",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "杂交玉米种子"
+    ],
+    "fact": "收入核心为杂交玉米种子研发生产销售。",
+    "company_fact": "收入核心为杂交玉米种子研发生产销售。",
+    "ths_fact": "持续专注杂交玉米种子。",
+    "reason": "种业而非粮食贸易；转基因初审和储备不混成已商业销售。"
+  },
+  {
+    "id": "920405.BJ",
+    "key": "energy_storage",
+    "sector": "储能",
+    "source_sector_name": "储能",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "储能模组PACK与系统"
+    ],
+    "fact": "新能源业务含储能专用模组PACK系统研发产销。",
+    "company_fact": "新能源业务含储能专用模组PACK系统研发产销。",
+    "ths_fact": "主要产品包括储能模组PACK系统。",
+    "reason": "现有储能产品可归属；固态项目规划投产时间不当落地证明。"
+  }
+]

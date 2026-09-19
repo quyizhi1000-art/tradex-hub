@@ -1,0 +1,152 @@
+[
+  {
+    "id": "920436.BJ",
+    "key": "autonomous_driving",
+    "sector": "无人驾驶",
+    "source_sector_name": "无人驾驶",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "无人配送车整车线束"
+    ],
+    "fact": "商乘车整车线束技术研发制造和方案服务。",
+    "company_fact": "商乘车整车线束技术研发制造和方案服务。",
+    "ths_fact": "美团无人配送车全车线束已生产430台套，另有百度项目配套。",
+    "reason": "无人车线束实际配套，非自动驾驶算法平台。"
+  },
+  {
+    "id": "920438.BJ",
+    "key": "glass_substrates",
+    "sector": "玻璃基板",
+    "source_sector_name": "玻璃基板",
+    "source_sector_provider": "同花顺",
+    "stage": "pilot",
+    "chain": [
+      "半导体封装玻璃材料"
+    ],
+    "fact": "光学及功能玻璃研发制造，具备材料配方规模生产能力。",
+    "company_fact": "光学及功能玻璃研发制造，具备材料配方规模生产能力。",
+    "ths_fact": "玻璃基板已开发并向半导体客户送样；载板另有确认收入。",
+    "reason": "明确TGV基板送样阶段，载板销售收入不混作基板商业化。"
+  },
+  {
+    "id": "920445.BJ",
+    "key": "cross_border_ecommerce",
+    "sector": "跨境电商",
+    "source_sector_name": "跨境电商",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "竹制家居海外电商"
+    ],
+    "fact": "竹基新材料与家居产品研发产销。",
+    "company_fact": "竹基新材料与家居产品研发产销。",
+    "ths_fact": "已建多国亚马逊及其他跨境平台并产生销售利润。",
+    "reason": "实际跨境渠道销售支撑，非仅海外设厂计划。"
+  },
+  {
+    "id": "920454.BJ",
+    "key": "chassis_engine_systems",
+    "sector": "底盘与发动机系统",
+    "source_sector_name": "底盘与发动机系统",
+    "source_sector_provider": "东方财富",
+    "stage": "revenue",
+    "chain": [
+      "非等速传动轴"
+    ],
+    "fact": "汽车工程车辆传动轴和零部件批量销售。",
+    "company_fact": "汽车工程车辆传动轴和零部件批量销售。",
+    "ths_fact": "既有机器人解析仅控股系统集成业务描述。",
+    "reason": "以明确传动轴现有行业归属，工业机器人不视为人形。"
+  },
+  {
+    "id": "920455.BJ",
+    "key": "other_special_equipment",
+    "sector": "其他专用设备",
+    "source_sector_name": "其他专用设备",
+    "source_sector_provider": "东方财富",
+    "stage": "revenue",
+    "chain": [
+      "柴油机活塞与缸套"
+    ],
+    "fact": "收入来自船用铁路天然气发动机活塞及缸套。",
+    "company_fact": "收入来自船用铁路天然气发动机活塞及缸套。",
+    "ths_fact": "仅专精特新资质标签，无更明确产业概念。",
+    "reason": "选择已有专用设备行业，不能自行创造船舶概念成员。"
+  },
+  {
+    "id": "920469.BJ",
+    "key": "modified_plastics",
+    "sector": "改性塑料",
+    "source_sector_name": "改性塑料",
+    "source_sector_provider": "东方财富",
+    "stage": "revenue",
+    "chain": [
+      "改性工程塑料"
+    ],
+    "fact": "自主研发生产销售改性塑料。",
+    "company_fact": "自主研发生产销售改性塑料。",
+    "ths_fact": "改性工程塑料实际用于新能源车灯内外饰。",
+    "reason": "已经营材料业务，PEEK小试及机器人试样不写量产。"
+  },
+  {
+    "id": "920471.BJ",
+    "key": "synthetic_biology",
+    "sector": "合成生物",
+    "source_sector_name": "合成生物",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "生物基材料及酶法工艺"
+    ],
+    "fact": "建立合成生物研发中心并开展生物材料营养原料业务。",
+    "company_fact": "建立合成生物研发中心并开展生物材料营养原料业务。",
+    "ths_fact": "开发尼龙56 PLP GSH等酶法制备工艺，NMN完成工艺验证。",
+    "reason": "真实合成生物产品工艺，不把使用基因编辑当基因测序服务。"
+  },
+  {
+    "id": "920475.BJ",
+    "key": "robots",
+    "sector": "机器人",
+    "source_sector_name": "机器人概念",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "工业重载机器人"
+    ],
+    "fact": "湿法冶金专用设备研制销售，推动智能改造。",
+    "company_fact": "湿法冶金专用设备研制销售，推动智能改造。",
+    "ths_fact": "室外重载机器人为现有产品，自动物料运载车已生产。",
+    "reason": "工业物流装备定位，不因铜矿合资计划算在产矿山。"
+  },
+  {
+    "id": "920476.BJ",
+    "key": "food_safety",
+    "sector": "食品安全",
+    "source_sector_name": "食品安全",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "食品营养质量分析仪器"
+    ],
+    "fact": "有机元素分析及色谱光谱仪器用于食品等检验。",
+    "company_fact": "有机元素分析及色谱光谱仪器用于食品等检验。",
+    "ths_fact": "持续提供食品营养质量安全检测仪器及方法。",
+    "reason": "科学仪器供应而非食品企业；给药企供仪器不等于自有创新药。"
+  },
+  {
+    "id": "920478.BJ",
+    "key": "apis",
+    "sector": "原料药",
+    "source_sector_name": "原料药",
+    "source_sector_provider": "东方财富",
+    "stage": "revenue",
+    "chain": [
+      "特色原料药与中间体"
+    ],
+    "fact": "高级中间体特色原料药研产销，布局制剂延伸。",
+    "company_fact": "高级中间体特色原料药研产销，布局制剂延伸。",
+    "ths_fact": "解析提CDMO培育及合资制剂建成后生产计划。",
+    "reason": "现有原料药行业归属；尚未证明自研创新药产品不强套创新药。"
+  }
+]

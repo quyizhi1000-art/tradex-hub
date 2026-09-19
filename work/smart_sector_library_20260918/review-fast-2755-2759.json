@@ -1,0 +1,105 @@
+[
+  {
+    "id": "301387.SZ",
+    "key": "carbon_fiber",
+    "sector": "碳纤维",
+    "source_sector_name": "碳纤维",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "消费电子碳纤维结构件"
+    ],
+    "company_fact": "碳纤维轻量化及功能材料为原业务，精密组装与供应链基础。",
+    "ths_fact": "碳纤维用于笔记本外壳，折叠屏手机产品已量产交付。",
+    "fact": "碳纤维轻量化及功能材料为原业务，精密组装与供应链基础。",
+    "reason": "碳纤维轻量化有完整研发销售及折叠屏量产交付证据；硅光合资已设但产线仍部署，尚不能确认产品或试制阶段，保留其建设证据并选择已落地碳纤维主归属。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "official-301387-2026h1",
+        "source_kind": "official_filing",
+        "publisher": "光大同创",
+        "title": "2026年半年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12527633&stockid=301387",
+        "published_at": "2026-08-25",
+        "assertions": [
+          "安徽光速同创53.57%已登记；公司主导产品规划质量人员，合资产线有序部署中，不能称已量产。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "301388.SZ",
+    "key": "grid_equipment",
+    "sector": "电网设备",
+    "source_sector_name": "电网设备",
+    "source_sector_provider": "东方财富",
+    "stage": "revenue",
+    "chain": [
+      "低压控制电器"
+    ],
+    "company_fact": "继电器配电控制传动仪表等低压电器研产销。",
+    "ths_fact": "继电器传感器等产品，直流继电器用于光伏储能等。",
+    "fact": "继电器配电控制传动仪表等低压电器研产销。",
+    "reason": "配电控制低压电器对应已有电网设备行业，充电桩40%参股及零件可用不足替代本体产业定位。"
+  },
+  {
+    "id": "301389.SZ",
+    "key": "consumer_electronics",
+    "sector": "消费电子",
+    "source_sector_name": "消费电子概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "电磁屏蔽及功能材料"
+    ],
+    "company_fact": "电磁屏蔽复合功能材料研产销，精密模切一体服务。",
+    "ths_fact": "屏蔽材料用于笔记本平板手机及穿戴等消费电子。",
+    "fact": "电磁屏蔽复合功能材料研产销，精密模切一体服务。",
+    "reason": "自有屏蔽材料供应链身份明确；原H1电子铜箔尚验证少量样品订单，不能把铜箔建设与HVLP样品泛写成PET量产。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "official-301389-2026h1",
+        "source_kind": "official_filing",
+        "publisher": "隆扬电子",
+        "title": "2026年半年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12553878&stockid=301389",
+        "published_at": "2026-08-27",
+        "assertions": [
+          "电子铜箔未规模量产销售，仍客户验证，HVLP5少量样品订单；复合铜箔基地仍建设计划。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "301390.SZ",
+    "key": "ai_data_centers",
+    "sector": "数据中心(AIDC)",
+    "source_sector_name": "数据中心(AIDC)",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "数据中心电力工程及运维"
+    ],
+    "company_fact": "电力规划设计建设运维与光储充综合能源，数字孪生平台。",
+    "ths_fact": "数据中心变配电设计建设运维已有落地项目，业务占比不大。",
+    "fact": "电力规划设计建设运维与光储充综合能源，数字孪生平台。",
+    "reason": "实际数据中心电力配套项目比仅虚拟电厂技术储备具体，归产业链服务而非运营算力。"
+  },
+  {
+    "id": "301391.SZ",
+    "key": "ai_applications",
+    "sector": "AI应用",
+    "source_sector_name": "AI应用",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "AI显示审核及运维"
+    ],
+    "company_fact": "LED控制视频处理与云播放产品，AI审核监测预警等功能。",
+    "ths_fact": "2026春晚AI内容审核及智能运维已使用。",
+    "fact": "LED控制视频处理与云播放产品，AI审核监测预警等功能。",
+    "reason": "自有显示控制AI功能有实际舞台应用，非仅泛AI计划，不声称算力中心建设。"
+  }
+]

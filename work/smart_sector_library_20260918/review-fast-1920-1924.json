@@ -1,0 +1,81 @@
+[
+  {
+    "id": "300466.SZ",
+    "key": "robotics",
+    "sector": "机器人",
+    "source_sector_name": "机器人概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "工业机器人",
+      "散料自动化及码垛"
+    ],
+    "fact": "主营智能装备自动化信息技术，以散料处理为基础整合机器人及智能物流能力。",
+    "ths_fact": "机器人条目包含采制样巡检和包装码垛，工业机器人条目已有国产码垛销售。",
+    "company_fact": "主营智能装备自动化信息技术，以散料处理为基础整合机器人及智能物流能力。",
+    "reason": "实际工业场景和产品支撑已有机器人归属，非人形整机；内部数据中心存储不当作对外算力服务。"
+  },
+  {
+    "id": "300467.SZ",
+    "key": "online_games",
+    "sector": "网络游戏",
+    "source_sector_name": "网络游戏",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "游戏网络加速"
+    ],
+    "fact": "主营为互联网实时交互提供网络加速和移动软件订阅广告。",
+    "ths_fact": "网络游戏明确迅游加速器及加速节点算法服务。",
+    "company_fact": "主营为互联网实时交互提供网络加速和移动软件订阅广告。",
+    "reason": "游戏玩家付费加速构成明确市场识别，链位是游戏网络服务，不冒称所有业务为游戏研发发行。"
+  },
+  {
+    "id": "300468.SZ",
+    "key": "digital_currency",
+    "sector": "数字货币",
+    "source_sector_name": "数字货币",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "数字货币金融基建",
+      "银行端支付系统"
+    ],
+    "fact": "公司金融软件开发维护，核心确认参与mBridge及香港Project Ensemble等基建。",
+    "ths_fact": "2026年6月条目确认mBridge代币化存款数字人民币项目持续产生小额收入。",
+    "company_fact": "公司金融软件开发维护，核心确认参与mBridge及香港Project Ensemble等基建。",
+    "reason": "已有数字货币由真实金融基础设施项目和收入支持，清楚是技术服务商而非发行稳定币或持币投资；小额收入不夸大权重。"
+  },
+  {
+    "id": "300469.SZ",
+    "key": "ai_applications",
+    "sector": "AI应用",
+    "source_sector_name": "AI应用",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "智慧档案AI",
+      "北斗交通数据平台"
+    ],
+    "fact": "主营智慧交通智慧政务，光典灵智已提供检索编研OCR审核等功能。",
+    "ths_fact": "AI应用条目确认灵智平台五大类二十余成果交付，交通智能体仍部分探索。",
+    "company_fact": "主营智慧交通智慧政务，光典灵智已提供检索编研OCR审核等功能。",
+    "reason": "垂直AI产品及交付与当前业务交叉成立，保留北斗交通链位，不把每项探索都写成已商业交付。"
+  },
+  {
+    "id": "300470.SZ",
+    "key": "nuclear_power",
+    "sector": "核电",
+    "source_sector_name": "核电",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "核泵机械密封",
+      "密封辅助系统"
+    ],
+    "fact": "主营工业机械密封及控制系统，明确核电是实际应用领域并有长年服务经验。",
+    "ths_fact": "核电解析确认核主泵机械密封业绩与核二三级及常规岛配套。",
+    "company_fact": "主营工业机械密封及控制系统，明确核电是实际应用领域并有长年服务经验。",
+    "reason": "核电密封国产化配套是已有清楚细分主线，商业航天口述供货与旧未有商业订单存在时间差，不借此虚构近期大额航天收入。"
+  }
+]

@@ -1,0 +1,84 @@
+[
+  {
+    "id": "300725.SZ",
+    "key": "cro",
+    "sector": "CRO",
+    "source_sector_name": "CRO概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "分子砌块",
+      "一体化CRDMO服务"
+    ],
+    "fact": "为新药研发提供分子砌块和研发生产服务。",
+    "ths_fact": "同花顺CRO解析记载自主分子砌块资源库及多客户药物研发服务。",
+    "company_fact": "主营确认分子砌块设计合成稳定供应及全生命周期CRDMO服务，拓展多肽偶联等分子实体。",
+    "reason": "已有CRO直接对应研发服务商业身份；不将客户创新药等同自研上市药，也不以内部AI技术替代研发服务主线。"
+  },
+  {
+    "id": "300726.SZ",
+    "key": "military",
+    "sector": "军工",
+    "source_sector_name": "军工",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "高可靠钽电容",
+      "军用电子元器件"
+    ],
+    "fact": "高可靠电子器件长期服务航空航天及武器装备。",
+    "ths_fact": "同花顺军工解析明确钽电容应用和军工科研生产资质；CPO仅异形陶瓷光模块供应商线索。",
+    "company_fact": "主营确认钽电容、电源模块、陶瓷电容和多类高可靠电路模块研发生产销售。",
+    "reason": "已有军工对应明确客户体系与核心产品；光模块配套陶瓷不直接等于CPO系统成熟业务。"
+  },
+  {
+    "id": "300727.SZ",
+    "key": "liquid_cooled_servers",
+    "sector": "液冷服务器",
+    "source_sector_name": "液冷服务器",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "浸没式冷却液",
+      "液冷算力一体机方案"
+    ],
+    "fact": "有机硅应用材料企业推出浸没式冷却与算力散热方案。",
+    "ths_fact": "同花顺引用公司官微已推出浸没式液冷分布式算力一体机解决方案。",
+    "company_fact": "主营确认有机硅深加工材料研发生产销售与应用服务，产品范围包括硅油硅橡胶等。",
+    "reason": "采用已有液冷服务器体现硅基应用材料向数据中心冷却延伸；阶段仅为推出产品方案，不声称液冷大批订单、收入或服务器制造。"
+  },
+  {
+    "id": "300729.SZ",
+    "key": "cross_border_ecommerce",
+    "sector": "跨境电商",
+    "source_sector_name": "跨境电商",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "自营海外仓",
+      "跨境物流履约",
+      "人体工学家居出海"
+    ],
+    "fact": "智能家居出海与第三方海外仓跨境履约构成市场身份。",
+    "ths_fact": "同花顺跨境电商解析记载全自营公共海外仓和端到端物流服务，TikTok对接仓为业务渠道。",
+    "company_fact": "主营确认智能家居智慧办公产品，以及乐仓面向中大件卖家的运输仓储履约配送服务。",
+    "reason": "已有跨境电商同时覆盖品牌出海与海外仓平台；内部自动化应用不等同机器人对外销售主线。"
+  },
+  {
+    "id": "300730.SZ",
+    "key": "ai_applications",
+    "sector": "AI应用",
+    "source_sector_name": "AI应用",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "政务行业AI",
+      "机器视觉缺陷检测",
+      "企业智能服务"
+    ],
+    "fact": "AI平台与模型嵌入政务企业具体应用。",
+    "ths_fact": "同花顺AI应用解析明确政务大模型智能填报核验分发及机器视觉、智能客服等应用。",
+    "company_fact": "主营确认数字政府业务产品AI化及政务数据财政场景，智慧企业以AI大数据服务制造金融和经营管理。",
+    "reason": "已有AI应用体现软件服务智能化主线，链条限定行业应用；不将参股AI芯片研发说成自营芯片或数据中心算力运营。"
+  }
+]

@@ -1,0 +1,402 @@
+[
+  {
+    "id": "600683.SH",
+    "key": "real_estate_development",
+    "sector": "房地产开发",
+    "source_sector_name": "房地产开发",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "轨道TOD物业开发"
+    ],
+    "stage": "revenue",
+    "fact": "聚焦轨道物业房地产开发销售及租赁。",
+    "company_fact": "聚焦轨道物业房地产开发销售及租赁。",
+    "ths_fact": "轨道交通解析明确轨交车辆基地综合开发项目，另有房地产开发说明。",
+    "reason": "TOD土地开发为实际经营，轨道扣件专利不等于轨交设备制造业务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600684.SH",
+    "key": "sports_industry",
+    "sector": "体育产业",
+    "source_sector_name": "体育产业",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "体育场馆及赛事运营"
+    ],
+    "stage": "revenue",
+    "fact": "珠江文体经营体育场馆、赛事保障、演艺及康体培训。",
+    "company_fact": "珠江文体经营体育场馆、赛事保障、演艺及康体培训。",
+    "ths_fact": "广州体育馆等承接全运会赛事，并提供赛事执行保障。",
+    "reason": "具体体育项目与专业运营能力支持体育主线，物业管理为并行业务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600685.SH",
+    "key": "shipbuilding",
+    "sector": "船舶制造",
+    "source_sector_name": "船舶制造",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "军用舰船及海工船舶"
+    ],
+    "stage": "revenue",
+    "fact": "生产军用舰船、海警公务船及集装箱船海工平台等。",
+    "company_fact": "生产军用舰船、海警公务船及集装箱船海工平台等。",
+    "ths_fact": "中船系和海工解析明确船舶设计建造与交付。",
+    "reason": "船舶防务和民船制造有完整产品经营；联营广船火箭回收平台是延伸，不能算本公司直接发射业务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600686.SH",
+    "key": "autonomous_driving",
+    "sector": "无人驾驶",
+    "source_sector_name": "无人驾驶",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "自动驾驶客车及场景车辆"
+    ],
+    "stage": "delivery",
+    "fact": "研发生产销售各类客车及专用车辆。",
+    "company_fact": "研发生产销售各类客车及专用车辆。",
+    "ths_fact": "L4开放道路公交线落地运营，多地智慧物流清扫车辆常态化运营。",
+    "reason": "车辆产品与实运营自动驾驶场景支撑主线，不将百度合作等同掌握全部算法。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600688.SH",
+    "key": "carbon_fiber",
+    "sector": "碳纤维",
+    "source_sector_name": "碳纤维",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "碳纤维及复合材料"
+    ],
+    "stage": "revenue",
+    "fact": "石化业务覆盖石油加工及合成纤维生产销售。",
+    "company_fact": "石化业务覆盖石油加工及合成纤维生产销售。",
+    "ths_fact": "碳纤维原丝产销、片材桥梁加固和连续抽油杆下井应用已有记录。",
+    "reason": "已有材料产品和实际应用支持碳纤维市场身份，炼油规模不能机械抹去特色材料业务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600689.SH",
+    "key": "security_surveillance",
+    "sector": "安防",
+    "source_sector_name": "安防",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "人力安保服务"
+    ],
+    "stage": "revenue",
+    "fact": "全资三毛保安为院校园区等客户提供人力安全保卫。",
+    "company_fact": "全资三毛保安为院校园区等客户提供人力安全保卫。",
+    "ths_fact": "安防解析明确通过长短期人力防范服务实现收入。",
+    "reason": "真实专业安保经营支持归属；限定人防，避免与安防摄像芯片制造混同。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600690.SH",
+    "key": "smart_home",
+    "sector": "智能家居",
+    "source_sector_name": "智能家居",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "互联家电及智慧家庭"
+    ],
+    "stage": "revenue",
+    "fact": "生产全套家电，提供厨房洗护空气用水智能场景。",
+    "company_fact": "生产全套家电，提供厨房洗护空气用水智能场景。",
+    "ths_fact": "智能家居解析明确成套方案，AI之眼套系已上市。",
+    "reason": "完整联网家电产品构成真实智能家居身份；集团无线充电和机器人远期研发不是主要现有产品。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600691.SH",
+    "key": "hydrogen_energy",
+    "sector": "氢能源",
+    "source_sector_name": "氢能源",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "工业制氢"
+    ],
+    "stage": "product",
+    "fact": "集煤化工精细化工与装备服务为一体。",
+    "company_fact": "集煤化工精细化工与装备服务为一体。",
+    "ths_fact": "2026年6月明确子公司正元氢能一期已建氢气产能2.16亿立方米每年。",
+    "reason": "实体制氢装置支持氢能主线；已建产能不等于全量产销，参股燃料电池研发不等于已量产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600692.SH",
+    "key": "green_power",
+    "sector": "绿色电力",
+    "source_sector_name": "绿色电力",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "光伏风电运营"
+    ],
+    "stage": "revenue",
+    "fact": "开展光伏风电建设运营及地产通信工程等业务。",
+    "company_fact": "开展光伏风电建设运营及地产通信工程等业务。",
+    "ths_fact": "28MW渔光互补已并网，分布式项目已有发电量。",
+    "reason": "实际电站发电支撑绿电转型，风电筹建不能全部视为投运。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600693.SH",
+    "key": "unified_market",
+    "sector": "统一大市场",
+    "source_sector_name": "统一大市场",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "零售及仓储物流基础设施"
+    ],
+    "stage": "revenue",
+    "fact": "经营商业零售与现代仓储平台，为客户提供供应链解决方案。",
+    "company_fact": "经营商业零售与现代仓储平台，为客户提供供应链解决方案。",
+    "ths_fact": "统一大市场解析明确物流网络，佛山基地为跨境平台提供高标仓及运营。",
+    "reason": "消费和物流基础设施协同支持统一市场主线；免税仍申请，文旅IP不直接等于动漫谷子。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600694.SH",
+    "key": "multi_format_retail",
+    "sector": "多业态零售",
+    "source_sector_name": "多业态零售",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "百货超市电器连锁"
+    ],
+    "stage": "revenue",
+    "fact": "运营百货超市电器及线上零售渠道。",
+    "company_fact": "运营百货超市电器及线上零售渠道。",
+    "ths_fact": "区域解析详细列示百货、超市、电器三业态。",
+    "reason": "零售网点和多业态业务清楚，免税资质申请不能当已获经营牌照。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600697.SH",
+    "key": "new_retail",
+    "sector": "新零售",
+    "source_sector_name": "新零售",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "线上线下即时零售"
+    ],
+    "stage": "revenue",
+    "fact": "运营百货综合体商超并开展小程序到家销售。",
+    "company_fact": "运营百货综合体商超并开展小程序到家销售。",
+    "ths_fact": "淘宝闪购合作与即时零售店仓履约体系已有开展。",
+    "reason": "实体网点及线上下单送达业务支持新零售；内部数智工具不等于AI对外产品。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600698.SH",
+    "key": "automotive_thermal",
+    "sector": "汽车热管理",
+    "source_sector_name": "汽车热管理",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "发动机增压及冷却部件"
+    ],
+    "stage": "revenue",
+    "fact": "生产发动机增压器、汽车热管理泵阀执行元件等。",
+    "company_fact": "生产发动机增压器、汽车热管理泵阀执行元件等。",
+    "ths_fact": "汽车热管理解析明确增压器气门冷却风扇。",
+    "reason": "已有流体与冷却部件对应直接产业链，新能源电动压缩项目仍区分应用开发阶段。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600699.SH",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "机器人控制器及能源管理部件"
+    ],
+    "stage": "product",
+    "fact": "汽车电子安全技术涵盖控制系统、能源管理及人机交互。",
+    "company_fact": "汽车电子安全技术涵盖控制系统、能源管理及人机交互。",
+    "ths_fact": "全资具身机器人公司已发布机器人能源管理、无线充电、轻量化机甲和传感器方案，并与厂商合作。",
+    "reason": "汽车技术实际延伸到具名机器人产品，支持人形机器人身份；未把合作协议当订单，AIDC9月计划样品不当已交付。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600702.SH",
+    "key": "baijiu",
+    "sector": "白酒",
+    "source_sector_name": "白酒概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "浓香白酒品牌"
+    ],
+    "stage": "revenue",
+    "fact": "生产销售舍得、沱牌等白酒。",
+    "company_fact": "生产销售舍得、沱牌等白酒。",
+    "ths_fact": "白酒解析明确两大品牌及系列酒。",
+    "reason": "酒类产品与销售直接吻合，酒旅及定制体验围绕白酒经营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600703.SH",
+    "key": "third_generation_semiconductors",
+    "sector": "第三代半导体",
+    "source_sector_name": "第三代半导体",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "碳化硅氮化镓材料及器件"
+    ],
+    "stage": "revenue",
+    "fact": "研发生产化合物半导体外延片芯片，涵盖SiC和GaN等。",
+    "company_fact": "研发生产化合物半导体外延片芯片，涵盖SiC和GaN等。",
+    "ths_fact": "SiC MOSFET已经量产并向充电桩光伏和数据中心客户批供。",
+    "reason": "化合物器件批量供货支撑第三代半导体，光芯片出货不直接证明全部采用CPO封装架构。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600704.SH",
+    "key": "unified_market",
+    "sector": "统一大市场",
+    "source_sector_name": "统一大市场",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "大宗供应链与物流"
+    ],
+    "stage": "revenue",
+    "fact": "提供大宗商品供应链集成服务。",
+    "company_fact": "提供大宗商品供应链集成服务。",
+    "ths_fact": "物产物流承载智慧供应链网络并服务商品流通。",
+    "reason": "全国商品资源配置和物流运营形成直接主线，内部AI部署及脑机合作不是已售平台。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600706.SH",
+    "key": "tourism",
+    "sector": "旅游",
+    "source_sector_name": "旅游概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "景区运营与文旅演艺"
+    ],
+    "stage": "revenue",
+    "fact": "经营大唐芙蓉园等景区、文旅演艺和酒店服务。",
+    "company_fact": "经营大唐芙蓉园等景区、文旅演艺和酒店服务。",
+    "ths_fact": "旅游解析列示景区酒店旅行及演艺业务。",
+    "reason": "景区客流服务和文化体验为直接经营，文创IP作为文旅产品延伸。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600707.SH",
+    "key": "glass_substrate",
+    "sector": "玻璃基板",
+    "source_sector_name": "玻璃基板",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "显示用玻璃基板"
+    ],
+    "stage": "revenue",
+    "fact": "研发生产液晶面板及G5至G8.5等基板玻璃，向面板客户供货。",
+    "company_fact": "研发生产液晶面板及G5至G8.5等基板玻璃，向面板客户供货。",
+    "ths_fact": "玻璃基板解析明确产研销和电子玻璃研究平台。",
+    "reason": "实际显示材料供货支撑玻璃基板，不能扩写成半导体TGV封装玻璃；旧全息手机已明确否认。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600708.SH",
+    "key": "real_estate_development",
+    "sector": "房地产开发",
+    "source_sector_name": "房地产开发",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "城市住宅及资产运营"
+    ],
+    "stage": "revenue",
+    "fact": "主营综合地产开发、商业运营物业和施工。",
+    "company_fact": "主营综合地产开发、商业运营物业和施工。",
+    "ths_fact": "新型城镇化及租售解析明确开发签约、存量资产及租金业务。",
+    "reason": "房地产开发运营为当前直接经营，母集团土地面积不能算上市公司可开发资产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600710.SH",
+    "key": "data_centers",
+    "sector": "数据中心(AIDC)",
+    "source_sector_name": "数据中心(AIDC)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "数据中心备用发电机"
+    ],
+    "stage": "delivery",
+    "fact": "生产柴油发电机组并经营产业链供应链。",
+    "company_fact": "生产柴油发电机组并经营产业链供应链。",
+    "ths_fact": "已为多个城市数据中心提供备用电源，年报列运营商及京东备用电源订单。",
+    "reason": "可靠电源是AIDC实际供应链环节，不能把设备供货写成自营算力机柜。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600711.SH",
+    "key": "small_metals",
+    "sector": "小金属",
+    "source_sector_name": "小金属概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "镍钴等能源金属"
+    ],
+    "stage": "revenue",
+    "fact": "开发铜镍钴等能源金属并经营金属贸易。",
+    "company_fact": "开发铜镍钴等能源金属并经营金属贸易。",
+    "ths_fact": "小金属与相关解析列钴镍产品及冶炼业务。",
+    "reason": "能源金属供应形成真实主线，规划磷酸铁产能不等于已投产正极材料。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600712.SH",
+    "key": "department_stores",
+    "sector": "百货",
+    "source_sector_name": "百货",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "百货及综合零售"
+    ],
+    "stage": "revenue",
+    "fact": "在广西经营百货家电超市等实体及电商业务。",
+    "company_fact": "在广西经营百货家电超市等实体及电商业务。",
+    "ths_fact": "东盟自贸解析明确百货门店，农村电商以既有商品销售渠道为基础。",
+    "reason": "门店零售双源吻合，免税仅申请，地理位置不直接证明跨境贸易。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600713.SH",
+    "key": "pharmaceutical_distribution",
+    "sector": "医药流通",
+    "source_sector_name": "医药流通",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "药械批发配送零售"
+    ],
+    "stage": "revenue",
+    "fact": "经营药品器械大健康供应链，批发配送及零售。",
+    "company_fact": "经营药品器械大健康供应链，批发配送及零售。",
+    "ths_fact": "医药电商解析明确药品配送批发零售和第三方物流。",
+    "reason": "药品供应链为完整业务，智慧仓储机器人是工具不等于机器人制造。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600714.SH",
+    "key": "glass_substrate",
+    "sector": "玻璃基板",
+    "source_sector_name": "玻璃基板",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "电子级碳酸锶原料"
+    ],
+    "stage": "revenue",
+    "fact": "开采天青石并生产碳酸锶及锶盐产品。",
+    "company_fact": "开采天青石并生产碳酸锶及锶盐产品。",
+    "ths_fact": "2026年6月明确高纯电子级碳酸锶主要应用于液晶玻璃基板。",
+    "reason": "实际显示基板上游材料支持已有玻璃基板概念；不是基板成品或TGV封装制造商。",
+    "basis": "crosschecked_sources"
+  }
+]

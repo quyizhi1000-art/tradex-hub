@@ -1,0 +1,81 @@
+[
+  {
+    "id": "301314.SZ",
+    "key": "new_industrialization",
+    "sector": "新型工业化",
+    "source_sector_name": "新型工业化",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "磁性元件自动绕线设备",
+      "电子装配线"
+    ],
+    "company_fact": "磁环绕线服务及电子元器件自动化设备，含汽车电感变压器马达装配线。",
+    "ths_fact": "全自动绕线用于网络变压器电源电感，提供汽车电子新能源自动装配。",
+    "fact": "磁环绕线服务及电子元器件自动化设备，含汽车电感变压器马达装配线。",
+    "reason": "自有电子自动化生产装备与新型工业化一致，不等同下游芯片制造。"
+  },
+  {
+    "id": "301315.SZ",
+    "key": "ai_agents",
+    "sector": "AI智能体",
+    "source_sector_name": "AI智能体",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "工业智能体",
+      "智能制造运营软件"
+    ],
+    "company_fact": "MOM及PLM融合自有AI引擎工业智能体，提供生产研发智能化。",
+    "ths_fact": "已发布威士顿工业智能体AI Agent通用行业大模型产品。",
+    "fact": "MOM及PLM融合自有AI引擎工业智能体，提供生产研发智能化。",
+    "reason": "已有明确智能体产品且业务场景交叉一致，不以传统软件收入替代AI收入。"
+  },
+  {
+    "id": "301316.SZ",
+    "key": "ai_agents",
+    "sector": "AI智能体",
+    "source_sector_name": "AI智能体",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "企业智能运营软件"
+    ],
+    "company_fact": "全栈软件技术和产品解决方案，服务TMT金融汽车等数字化。",
+    "ths_fact": "自有悦见增强型企业智能体作为生成式场景方案提供咨询运营功能。",
+    "fact": "全栈软件技术和产品解决方案，服务TMT金融汽车等数字化。",
+    "reason": "现有AI智能体题材有自有产品证据；归属依据悦见，不依赖宝德重组尚需单独核验的进程。"
+  },
+  {
+    "id": "301317.SZ",
+    "key": "aidc",
+    "sector": "数据中心(AIDC)",
+    "source_sector_name": "数据中心(AIDC)",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "数据中心温控",
+      "磁悬浮冷水热泵"
+    ],
+    "company_fact": "空气动力及磁悬浮冷水热泵产品研发制造销售。",
+    "ths_fact": "磁悬浮热泵产品面向数据中心供冷供热余热回收，推动市场应用。",
+    "fact": "空气动力及磁悬浮冷水热泵产品研发制造销售。",
+    "reason": "现有AIDC题材有特定温控产品，阶段product，不把传统压缩机销量推为数据中心供货。"
+  },
+  {
+    "id": "301318.SZ",
+    "key": "ai_applications",
+    "sector": "AI应用",
+    "source_sector_name": "AI应用",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "AI会议摄像机",
+      "教育录播自动跟踪"
+    ],
+    "company_fact": "音视频会议摄像机终端麦克风研发生产销售，服务会议及教学录播。",
+    "ths_fact": "AI跟踪声源定位框选及教育人形检测已普遍应用。",
+    "fact": "音视频会议摄像机终端麦克风研发生产销售，服务会议及教学录播。",
+    "reason": "AI功能进入自有终端的实际场景，记录delivery，不以人形检测算法误归人形机器人。"
+  }
+]

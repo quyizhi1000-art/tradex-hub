@@ -1,0 +1,67 @@
+{
+  "instrument_id": "002793.SZ",
+  "name": "罗欣药业",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "002793.SZ",
+    "name": "罗欣药业",
+    "memberships": [
+      "医药生物",
+      "化学制药",
+      "化学制剂",
+      "山东板块",
+      "2026中报预增",
+      "2025三季报扭亏",
+      "富时罗素",
+      "深股通",
+      "病原体防治",
+      "创新药",
+      "幽门螺杆菌概念",
+      "辅助生殖",
+      "流感",
+      "医疗器械概念",
+      "中药概念"
+    ],
+    "business_sections": [
+      {
+        "title": "化学制剂、原料药、中成药",
+        "kind": "主营业务",
+        "text": "报告期内，公司的主营业务未发生重大变化。公司主要从事医药产品的研发、生产与销售，核心产品覆盖化学制剂、原料药及中成药。化学制剂按产品生命周期进一步划分为专利期化学制剂与非专利期化学制剂。"
+      },
+      {
+        "title": "依托泰欣赞品牌优势，构筑差异化创新管线",
+        "kind": "核心竞争力",
+        "text": "公司具备国内领先的创新药全链条研发与产业化能力，是国内少数实现P-CAB类药物从IND到NDA自主研发、自主生产的企业。"
+      },
+      {
+        "title": "构建全渠道商业化平台，赋能产品价值高效转化",
+        "kind": "核心竞争力",
+        "text": "公司构建核心市场直营+其他市场代理的双轮驱动商务体系，搭建覆盖全国、穿透基层的专业化学术推广网络，医疗机构覆盖广度与终端渗透能力突出。集采重点品种入院勾选率保持行业较高水平，市场准入与渠道拓展效率领先。"
+      },
+      {
+        "title": "深化人才强企战略，激发企业活力",
+        "kind": "核心竞争力",
+        "text": "公司坚持人才强企战略，构建年轻化、专业化、职业化人才梯队，为高质量发展提供核心支撑。与山东大学、沈阳药科大学等多家高校校招；推行员工持股等长效激励机制，充分激发团队积极性与归属感，增强组织凝聚力与长期竞争力。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ002793",
+    "fetched_at": "2026-09-18T22:55:23.767480+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [
+    "医疗医药"
+  ],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "消化系统类"
+}

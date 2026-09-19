@@ -1,0 +1,56 @@
+{
+  "instrument_id": "300152.SZ",
+  "name": "*ST动力",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "300152.SZ",
+    "name": "*ST动力",
+    "memberships": [
+      "环保",
+      "环境治理",
+      "综合环境治理",
+      "河北板块",
+      "股权分散",
+      "破发股",
+      "低价股",
+      "ST股",
+      "电池技术",
+      "生物质能发电",
+      "净水概念",
+      "碳交易",
+      "氢能源",
+      "雄安新区",
+      "燃料电池概念",
+      "节能环保"
+    ],
+    "business_sections": [
+      {
+        "title": "节能点火、洁净燃烧、工业尾气治理",
+        "kind": "主营业务",
+        "text": "公司长期深耕于节能燃烧行业，在全球范围内为火力发电、石油、化工、冶金、建材、市政等工业燃烧、工业加热用户提供节能点火、洁净燃烧、工业尾气治理的整套解决方案和工程实施指导。"
+      },
+      {
+        "title": "技术研发与创新能力",
+        "kind": "核心竞争力",
+        "text": "公司是国家863计划、火炬计划科研课题的承担单位，截至本报告期末，公司拥有国家发明专利39项，曾荣获国家科技进步奖二等奖、国家技术发明奖二等奖。公司下设院士工作站、国家级博士后科研工作站，拥有一支经验丰富、技术过硬、专业齐全的设计、研发团队，具备很强的技术创新条件和自主研发能力。公司建有亚洲规模最大的燃烧试验室，包括油枪雾化测试试验台、油气燃烧试验台、加热炉燃烧测试台、煤粉节能点火试验台、燃料气配比混气系统等试验设施，能够在模拟真实工况下开展等离子煤粉点火试验、双强微油煤粉点火试验，燃油、燃气、水煤浆、工业废液等燃烧设备的燃烧试验与数据采集，为企业技术研发创造良好的试验测试条件，所以，技术研发与创新一直是构成公司发展优势的核心竞争力。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ300152",
+    "fetched_at": "2026-09-18T23:03:23.495375+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "建筑工程"
+}

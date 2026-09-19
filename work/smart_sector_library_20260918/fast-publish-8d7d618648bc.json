@@ -1,0 +1,91 @@
+[
+  {
+    "id": "603360.SH",
+    "key": "lithography",
+    "sector": "光刻机",
+    "source_sector_name": "光刻机",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "黄光设备再制造及国产模块"
+    ],
+    "fact": "芯慧联已形成黄光湿法自动化沉积等半导体设备业务。",
+    "company_fact": "芯慧联已形成黄光湿法自动化沉积等半导体设备业务。",
+    "ths_fact": "增资芯慧联并委托表决权控制，业务含涂胶显影及光刻黄光设备。",
+    "reason": "原H1确认实际控股与黄光再制造交付；明确翻新再制造及部件，不声称自产先进制程整机。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "603360-2026h1-yellow",
+        "source_kind": "official_filing",
+        "publisher": "百傲化学",
+        "title": "2026年半年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12534631&stockid=603360",
+        "published_at": "2026-08-26",
+        "assertions": [
+          "芯傲华持芯慧联46.6667%并控制54.6342%表决权；黄光国产激光对准与减震模块批量用于再制造设备，随翻新设备交晶圆厂产线。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "603363.SH",
+    "key": "pig_farming",
+    "sector": "猪肉",
+    "source_sector_name": "猪肉",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "生猪育种养殖与食品"
+    ],
+    "fact": "已有种猪仔猪育肥养殖销售体系，配套饲料。",
+    "company_fact": "已有种猪仔猪育肥养殖销售体系，配套饲料。",
+    "ths_fact": "主营饲料养猪食品贸易，产品仔猪商品猪种猪。",
+    "reason": "生猪周期与直接养殖经营一致，冷链是食品流通配套。"
+  },
+  {
+    "id": "603365.SH",
+    "key": "home_textiles",
+    "sector": "家纺",
+    "source_sector_name": "家纺",
+    "source_sector_provider": "东方财富",
+    "stage": "revenue",
+    "chain": [
+      "床上用品与被芯"
+    ],
+    "fact": "家纺产品研设产销，围绕床品被芯开展多品牌渠道经营。",
+    "company_fact": "家纺产品研设产销，围绕床品被芯开展多品牌渠道经营。",
+    "ths_fact": "网红解析实际是家纺婚庆系列推广，确认自有家纺产品。",
+    "reason": "产品本质家纺，借明星推广不使公司变为网红内容平台。"
+  },
+  {
+    "id": "603366.SH",
+    "key": "charging_piles",
+    "sector": "充电桩",
+    "source_sector_name": "充电桩",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "光储充热方案与超充站"
+    ],
+    "fact": "清洁热能与光伏储能系统研产销服务。",
+    "company_fact": "清洁热能与光伏储能系统研产销服务。",
+    "ths_fact": "光储充热形成综合方案，华为全液冷超充站已在连云港上线。",
+    "reason": "已落地超充站及综合能源应用构成充电概念市场身份；使用华为技术不等于自产液冷服务器或华为充电模块。"
+  },
+  {
+    "id": "603367.SH",
+    "key": "innovative_drugs",
+    "sector": "创新药",
+    "source_sector_name": "创新药",
+    "source_sector_provider": "同花顺",
+    "stage": "pilot",
+    "chain": [
+      "一类化药临床管线"
+    ],
+    "fact": "集药物研发生产销售，综合药品健康业务体系。",
+    "company_fact": "集药物研发生产销售，综合药品健康业务体系。",
+    "ths_fact": "一类抗耐药结核III期、双靶点抗肿瘤II期，其他一类新药完成II期。",
+    "reason": "有明确创新临床项目与研发经营交叉，不将普通一致性评价当创新批准。"
+  }
+]

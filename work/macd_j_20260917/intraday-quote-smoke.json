@@ -1,0 +1,66 @@
+{
+  "metadata": {
+    "contract": "intraday_scan_quotes.v1",
+    "schema_version": 1,
+    "provider": "tencent_http",
+    "provider_request_id": null,
+    "provider_as_of": "2026-09-17T16:14:59+08:00",
+    "fetched_at": "2026-09-17T18:21:50.219595+08:00",
+    "quality": "accepted",
+    "quality_flags": [
+      "per_instrument_freshness_required"
+    ]
+  },
+  "requested_count": 3,
+  "missing_instrument_ids": [],
+  "quotes": [
+    {
+      "instrument_id": "000001.SZ",
+      "name": "平安银行",
+      "observed_at": "2026-09-17T16:14:39+08:00",
+      "last": 11.61,
+      "change_pct": -0.77,
+      "amount_cny": 806150000.0,
+      "open": 11.68,
+      "high": 11.74,
+      "low": 11.57,
+      "previous_close": 11.7,
+      "turnover_pct": null,
+      "amplitude_pct": null,
+      "total_market_cap_cny": null,
+      "float_market_cap_cny": 225300000000.0
+    },
+    {
+      "instrument_id": "600000.SH",
+      "name": "浦发银行",
+      "observed_at": "2026-09-17T16:14:50+08:00",
+      "last": 9.06,
+      "change_pct": -0.44,
+      "amount_cny": 414890000.0,
+      "open": 9.1,
+      "high": 9.14,
+      "low": 9.03,
+      "previous_close": 9.1,
+      "turnover_pct": null,
+      "amplitude_pct": null,
+      "total_market_cap_cny": null,
+      "float_market_cap_cny": 301751000000.0
+    },
+    {
+      "instrument_id": "600519.SH",
+      "name": "贵州茅台",
+      "observed_at": "2026-09-17T16:14:59+08:00",
+      "last": 1266.98,
+      "change_pct": 0.71,
+      "amount_cny": 2217340000.0,
+      "open": 1257.98,
+      "high": 1267.6,
+      "low": 1254.0,
+      "previous_close": 1258.0,
+      "turnover_pct": null,
+      "amplitude_pct": null,
+      "total_market_cap_cny": null,
+      "float_market_cap_cny": 1583828000000.0
+    }
+  ]
+}

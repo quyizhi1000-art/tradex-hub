@@ -1,0 +1,426 @@
+[
+  {
+    "id": "601872.SH",
+    "key": "shipping",
+    "sector": "航运",
+    "source_sector_name": "航运概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "油气运输",
+      "干散货运输"
+    ],
+    "stage": "revenue",
+    "fact": "国际货运以油气干散双核心，辅以集装箱滚装。",
+    "company_fact": "国际货运以油气干散双核心，辅以集装箱滚装。",
+    "ths_fact": "航运解析明确油气干散及其他货物运输。",
+    "reason": "实际船舶运输与市场航运身份一致，不把运输货种当自有油矿。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601877.SH",
+    "key": "smart_grid",
+    "sector": "智能电网",
+    "source_sector_name": "智能电网",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "低压配电",
+      "电气控制"
+    ],
+    "stage": "revenue",
+    "fact": "配电终端控制电器及仪表自动化研发制造销售，光伏储能并行。",
+    "company_fact": "配电终端控制电器及仪表自动化研发制造销售，光伏储能并行。",
+    "ths_fact": "智能电网解析完整低压电器产品，数据中心应用是场景。",
+    "reason": "完整配电电气供给有市场辨识，数据中心虽实际适用不把全部电气收入等同算力。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601878.SH",
+    "key": "securities_industry",
+    "sector": "证券",
+    "source_sector_name": "证券Ⅱ",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "经纪投行",
+      "证券资管"
+    ],
+    "stage": "revenue",
+    "fact": "经纪投行自营信用财富资管期货等综合证券业务。",
+    "company_fact": "经纪投行自营信用财富资管期货等综合证券业务。",
+    "ths_fact": "控股浙商期货提供实际期货与衍生服务。",
+    "reason": "证券业务闭环和集团客户服务一致，附属期货不替代综合证券身份。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601880.SH",
+    "key": "ports",
+    "sector": "港口",
+    "source_sector_name": "港口",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "码头装卸",
+      "港口物流"
+    ],
+    "stage": "revenue",
+    "fact": "油品集装箱汽车散货等码头及港口支持服务。",
+    "company_fact": "油品集装箱汽车散货等码头及港口支持服务。",
+    "ths_fact": "航运港口解析货物装卸运输中转仓储。",
+    "reason": "经营核心为港口码头服务而非船队运费，选现有港口。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601881.SH",
+    "key": "securities_industry",
+    "sector": "证券",
+    "source_sector_name": "证券Ⅱ",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "经纪投行",
+      "证券交易"
+    ],
+    "stage": "revenue",
+    "fact": "财富管理投行机构国际投资交易母子金融服务。",
+    "company_fact": "财富管理投行机构国际投资交易母子金融服务。",
+    "ths_fact": "互联网券商解析证券经纪投顾与产品配置。",
+    "reason": "完整证券经营和经纪服务同向，互联网只是服务渠道。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601882.SH",
+    "key": "machine_tools",
+    "sector": "工业母机",
+    "source_sector_name": "工业母机",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "数控龙门",
+      "加工中心"
+    ],
+    "stage": "revenue",
+    "fact": "高端数控金属切削机床研发生产销售。",
+    "company_fact": "高端数控金属切削机床研发生产销售。",
+    "ths_fact": "工业母机明确数控龙门卧式加工中心产品。",
+    "reason": "实际机床产品和市场主题直接一致。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601886.SH",
+    "key": "bipv",
+    "sector": "光伏建筑一体化",
+    "source_sector_name": "光伏建筑一体化",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "光伏幕墙",
+      "异型组件"
+    ],
+    "stage": "revenue",
+    "fact": "自有江河幕墙光伏建筑及异型光伏组件平台，医疗另行经营。",
+    "company_fact": "自有江河幕墙光伏建筑及异型光伏组件平台，医疗另行经营。",
+    "ths_fact": "全资维业科技设计制造安装光伏幕墙门窗。",
+    "reason": "工程幕墙与光伏产品融合已有经营实证，眼科为并行平台不按收入机械归类。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601888.SH",
+    "key": "duty_free_shops",
+    "sector": "免税店",
+    "source_sector_name": "免税店",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "免税旅游零售"
+    ],
+    "stage": "revenue",
+    "fact": "依特许资质经营机场口岸市内海南免税商品。",
+    "company_fact": "依特许资质经营机场口岸市内海南免税商品。",
+    "ths_fact": "免税店解析烟酒香化精品等免税批零。",
+    "reason": "牌照渠道商品经营构成明确免税消费主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601890.SH",
+    "key": "offshore_wind_power",
+    "sector": "海上风电",
+    "source_sector_name": "海上风电",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "海上系泊链",
+      "浮式风电"
+    ],
+    "stage": "revenue",
+    "fact": "自营海洋系泊链锚链及附件制造销售，海工定位装置。",
+    "company_fact": "自营海洋系泊链锚链及附件制造销售，海工定位装置。",
+    "ths_fact": "系泊链产品已出口并用于欧洲东南亚海上风电平台。",
+    "reason": "自有海工链条在海上风电具体销售应用成立，非风机整机或整片风场运营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601898.SH",
+    "key": "coal",
+    "sector": "煤炭",
+    "source_sector_name": "煤炭概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "煤炭开采",
+      "煤化协同"
+    ],
+    "stage": "revenue",
+    "fact": "煤炭自产产销及煤化工装备发电实际经营。",
+    "company_fact": "煤炭自产产销及煤化工装备发电实际经营。",
+    "ths_fact": "煤炭解析动力焦煤与完整煤化产品。",
+    "reason": "矿产经营和煤炭周期市场身份明确，其他板块为协同。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601899.SH",
+    "key": "gold",
+    "sector": "黄金",
+    "source_sector_name": "黄金概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "金矿开采",
+      "多金属资源"
+    ],
+    "stage": "revenue",
+    "fact": "矿产金中国领先全球前五，铜锂锌银等并行。",
+    "company_fact": "矿产金中国领先全球前五，铜锂锌银等并行。",
+    "ths_fact": "黄金解析金铜等矿产勘探开发及金精矿金锭。",
+    "reason": "自主黄金矿山及长期黄金市场身份充分，铜产量大不单凭规模替换主线；矿产金与贸易金分开。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601900.SH",
+    "key": "ai_applications",
+    "sector": "AI应用",
+    "source_sector_name": "AI应用",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "数字教材",
+      "AI助教学"
+    ],
+    "stage": "product",
+    "fact": "教材教辅出版发行及教育内容服务。",
+    "company_fact": "教材教辅出版发行及教育内容服务。",
+    "ths_fact": "粤教翔云推出AI助教助学，已上线自研悦教AI学习助手。",
+    "reason": "实际教育内容与已上线AI产品相互支持，不把平台全部1589万用户当AI付费，谷子门店为另一场景。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601901.SH",
+    "key": "securities_industry",
+    "sector": "证券",
+    "source_sector_name": "证券Ⅱ",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "财富管理",
+      "证券投资资管"
+    ],
+    "stage": "revenue",
+    "fact": "财富投资交易资管投行研究服务。",
+    "company_fact": "财富投资交易资管投行研究服务。",
+    "ths_fact": "互联网券商解析证券客户服务探索，旧2014框架未据作已实现业务。",
+    "reason": "真实金融服务与证券行业一致，旧P2P合作不改主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601908.SH",
+    "key": "third_generation_semiconductors",
+    "sector": "第三代半导体",
+    "source_sector_name": "第三代半导体",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "碳化硅生长炉",
+      "晶体装备"
+    ],
+    "stage": "product",
+    "fact": "制造碳化硅晶体生长设备金刚石炉及区熔设备，另有光伏硅片电站。",
+    "company_fact": "制造碳化硅晶体生长设备金刚石炉及区熔设备，另有光伏硅片电站。",
+    "ths_fact": "三代解析对应半导体晶体生长设备研发制造销售。",
+    "reason": "具体三代半导体设备产品双源一致，阶段保守product不推断三代设备收入规模；光伏基本盘保留。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601916.SH",
+    "key": "bank",
+    "sector": "银行",
+    "source_sector_name": "银行",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "股份行",
+      "存贷结算"
+    ],
+    "stage": "revenue",
+    "fact": "存贷结算银行卡债券及融资租赁银行服务。",
+    "company_fact": "存贷结算银行卡债券及融资租赁银行服务。",
+    "ths_fact": "共富解析明确提供银行金融服务。",
+    "reason": "业务与现有银行成员吻合，地域不替代经营分类。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601918.SH",
+    "key": "coal",
+    "sector": "煤炭",
+    "source_sector_name": "煤炭概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "动力煤",
+      "煤电一体化"
+    ],
+    "stage": "revenue",
+    "fact": "五对生产矿井煤炭洗选销售及控股火电。",
+    "company_fact": "五对生产矿井煤炭洗选销售及控股火电。",
+    "ths_fact": "煤炭解析动力煤电力生产销售。",
+    "reason": "自主煤矿和煤电产业链明确，风电标签不替代实际主体。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601919.SH",
+    "key": "shipping",
+    "sector": "航运",
+    "source_sector_name": "航运概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "集装箱运输",
+      "全球航线"
+    ],
+    "stage": "revenue",
+    "fact": "中远集运及东方海外经营国际国内集运，港口支持。",
+    "company_fact": "中远集运及东方海外经营国际国内集运，港口支持。",
+    "ths_fact": "泛亚航运实际经营内贸干支航线网络。",
+    "reason": "班轮货运网络与海运市场身份直接一致，区别集装箱制造租赁。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601921.SH",
+    "key": "ip_economy",
+    "sector": "IP经济(谷子经济)",
+    "source_sector_name": "IP经济(谷子经济)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "出版IP",
+      "文创典藏礼盒"
+    ],
+    "stage": "product",
+    "fact": "出版集团正从纸书向IP运营等多媒体产出，发行自有内容。",
+    "company_fact": "出版集团正从纸书向IP运营等多媒体产出，发行自有内容。",
+    "ths_fact": "已推出剑来系列典藏版礼盒产品。",
+    "reason": "自有出版内容和具体IP衍生产品支持，短剧备案不写已播收入，AI编辑规划不视独立商业产品。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601928.SH",
+    "key": "data_centers",
+    "sector": "数据中心(AIDC)",
+    "source_sector_name": "数据中心(AIDC)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "机架租赁",
+      "带宽云服务"
+    ],
+    "stage": "revenue",
+    "fact": "数据业务明确实际机架租赁带宽云服务，出版教育并行。",
+    "company_fact": "数据业务明确实际机架租赁带宽云服务，出版教育并行。",
+    "ths_fact": "旗下凤凰新港数据中心有4kW3000和8.8kW2500机柜。",
+    "reason": "自有数据中心资源和收费业务双源成立，普通机柜不全部当GPU智算，创新智能体项目不直接称量产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601929.SH",
+    "key": "data_elements",
+    "sector": "数据要素",
+    "source_sector_name": "数据要素",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "数据资产服务",
+      "数据交易平台"
+    ],
+    "stage": "revenue",
+    "fact": "广电数智服务并打造大数据应用平台，整合数据资源和分析服务。",
+    "company_fact": "广电数智服务并打造大数据应用平台，整合数据资源和分析服务。",
+    "ths_fact": "吉林数据要素服务中心推出价值管理AI场景挖掘数字存证平台并按服务费收费。",
+    "reason": "具体数据市场化服务与自有数据基础交叉，IDC出租不等同GPU算力租赁，AI视频为并行内容场景。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601933.SH",
+    "key": "new_retail",
+    "sector": "新零售",
+    "source_sector_name": "新零售",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "线上线下超市",
+      "生鲜供应链"
+    ],
+    "stage": "revenue",
+    "fact": "线下门店与线上销售精选商品。",
+    "company_fact": "线下门店与线上销售精选商品。",
+    "ths_fact": "统一大市场解析生鲜供应链数字交易选品订货及全国商品流通。",
+    "reason": "实际全渠道零售与供应链经营对应，品牌吉祥物不自动成为谷子核心。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601939.SH",
+    "key": "bank",
+    "sector": "银行",
+    "source_sector_name": "银行",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "公司个人金融",
+      "跨境结算"
+    ],
+    "stage": "revenue",
+    "fact": "公司个人银行及资金业务，储蓄信贷外汇信用卡理财。",
+    "company_fact": "公司个人银行及资金业务，储蓄信贷外汇信用卡理财。",
+    "ths_fact": "CIPS首批直接参与行。",
+    "reason": "存贷金融服务与跨境银行能力一致，主身份为银行。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601949.SH",
+    "key": "data_elements",
+    "sector": "数据要素",
+    "source_sector_name": "数据要素",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "古籍数据资源",
+      "数字内容"
+    ],
+    "stage": "product",
+    "fact": "出版核心优势包括古籍工具书数字出版及内容版权资源。",
+    "company_fact": "出版核心优势包括古籍工具书数字出版及内容版权资源。",
+    "ths_fact": "国家古籍数字化资源总平台已初步建成，特色文库工具书数据化开发。",
+    "reason": "有具体古籍数据产品建设和自有内容来源，product不臆称AI训练授权收入或全部资源已交易。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601952.SH",
+    "key": "agricultural_planting",
+    "sector": "农业种植",
+    "source_sector_name": "农业种植",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "稻麦种植",
+      "粮种加工"
+    ],
+    "stage": "revenue",
+    "fact": "自主基地稻麦原粮种植加工种子大米麦芽及农服。",
+    "company_fact": "自主基地稻麦原粮种植加工种子大米麦芽及农服。",
+    "ths_fact": "农业种植解析自主稻麦基地及农产品销售。",
+    "reason": "直接规模种植经营最清楚，转基因团队科研攻关计划尚非获批品种商业化。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601956.SH",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "关节电机",
+      "电驱部件"
+    ],
+    "stage": "pilot",
+    "fact": "拥有压缩机及电机自营研发生产业务与产业链。",
+    "company_fact": "拥有压缩机及电机自营研发生产业务与产业链。",
+    "ths_fact": "公司官微明确人形关节电机已进入客户匹配测试。",
+    "reason": "直接自有电机产品进入人形客户测试，pilot而非订单量产；不把传统压缩机销量当人形。",
+    "basis": "crosschecked_sources"
+  }
+]

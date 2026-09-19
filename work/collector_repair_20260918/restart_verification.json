@@ -1,0 +1,19 @@
+{
+  "protected_complete_curves": 555,
+  "now_complete": 595,
+  "recovery": {
+    "contract": "sector_catalog_recovery.v1",
+    "trade_date": "2026-09-18",
+    "catalog_revision": "d0527e3b365c0bb53a53108793d18a9864dfecd1220a83e3e7b420d0bb764d51",
+    "checked_at": "2026-09-18T11:48:24.791746+08:00",
+    "coverage_as_of": "2026-09-18T11:30:00+08:00",
+    "state": "running",
+    "total_series": 1000,
+    "missing_series": 405,
+    "repairable_series": 405,
+    "attempt_count": 744,
+    "failed_targets": 0,
+    "next_retry_at": null,
+    "last_error": null
+  }
+}

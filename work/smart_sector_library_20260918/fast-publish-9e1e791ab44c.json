@@ -1,0 +1,79 @@
+[
+  {
+    "id": "301269.SZ",
+    "key": "eda",
+    "sector": "EDA设计软件",
+    "source_sector_name": "EDA设计软件",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "芯片设计EDA",
+      "制造封装EDA"
+    ],
+    "company_fact": "集成电路设计制造封装EDA软件开发销售服务，含模拟数字和3DIC工具。",
+    "ths_fact": "自主EDA工具电路仿真及版图分析产品与技术体系。",
+    "fact": "集成电路设计制造封装EDA软件开发销售服务，含模拟数字和3DIC工具。",
+    "reason": "核心自有EDA业务直接对应，芯片概念不等于晶圆制造。"
+  },
+  {
+    "id": "301270.SZ",
+    "key": "ai_video",
+    "sector": "AI视频",
+    "source_sector_name": "AI视频",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "视觉创意生成软件"
+    ],
+    "company_fact": "字体字库授权及互联网个性化内容授权业务。",
+    "ths_fact": "AI团队文生图文生视频完成备案并应用ARTIWAY产品，其他场景为后续规划。",
+    "fact": "字体字库授权及互联网个性化内容授权业务。",
+    "reason": "现有AI视频概念已有明确产品应用，取product；不把UPDF等参股项目及未来规划计成自有收入。"
+  },
+  {
+    "id": "301272.SZ",
+    "key": "air_source_heat_pumps",
+    "sector": "空气能热泵",
+    "source_sector_name": "空气能热泵",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "热泵涡旋压缩机"
+    ],
+    "company_fact": "涡旋压缩机研发制造销售，产品用于热泵商用空调及冷藏设备。",
+    "ths_fact": "招股书解释压缩机用于热泵等制冷制热设备。",
+    "fact": "涡旋压缩机研发制造销售，产品用于热泵商用空调及冷藏设备。",
+    "reason": "自有热泵核心压缩机供应链明确，非整机制造商。"
+  },
+  {
+    "id": "301273.SZ",
+    "key": "new_industrialization",
+    "sector": "新型工业化",
+    "source_sector_name": "新型工业化",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "工业节能风机水泵"
+    ],
+    "company_fact": "高效定制离心风机与循环水矿浆泵研发生产销售。",
+    "ths_fact": "流体输送永磁电机燃烧换热节能产品及技改服务。",
+    "fact": "高效定制离心风机与循环水矿浆泵研发生产销售。",
+    "reason": "实际节能装备主线优先；朗阳AI芯片仅参股，低空直驱机仍研发，不当成已量产主业。"
+  },
+  {
+    "id": "301275.SZ",
+    "key": "ai_applications",
+    "sector": "AI应用",
+    "source_sector_name": "AI应用",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "零售数字孪生",
+      "智能门店方案"
+    ],
+    "company_fact": "智能硬件及AI算法云平台组合，已有门店数字孪生All-Star SaaS及数据湖。",
+    "ths_fact": "数字孪生AI平台构建商品运营营销库存智能体，面向门店自主决策执行。",
+    "fact": "智能硬件及AI算法云平台组合，已有门店数字孪生All-Star SaaS及数据湖。",
+    "reason": "自有零售AI软硬件方案与主营资料交叉一致，已有AI应用主归属；不以电子价签收入代指AI平台单独收入。"
+  }
+]

@@ -1,0 +1,62 @@
+{
+  "instrument_id": "300126.SZ",
+  "name": "锐奇股份",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "300126.SZ",
+    "name": "锐奇股份",
+    "memberships": [
+      "机械设备",
+      "通用设备",
+      "其他通用设备",
+      "上海板块",
+      "破发股",
+      "创业板综",
+      "微盘股"
+    ],
+    "business_sections": [
+      {
+        "title": "电动工具的研发、生产和销售",
+        "kind": "主营业务",
+        "text": "公司作为主营电动工具业务的A股上市公司，始终专注致力于高等级、高效能专业电动工具的研发、生产和销售。"
+      },
+      {
+        "title": "品牌优势",
+        "kind": "核心竞争力",
+        "text": "公司始终坚持自主品牌战略，准确定位于“替代进口工具的品牌”，以产品品质和售后服务为依托，在消费者群体中建立了良好的品牌美誉度、信任度和忠诚度。公司上市后，企业影响力、品牌形象和产品的品牌附加值进一步得到提升。"
+      },
+      {
+        "title": "渠道优势",
+        "kind": "核心竞争力",
+        "text": "公司自有品牌产品销售渠道主要以经销模式为主导，国内市场经销商分布广泛，且经销商经营能力和资质信用度都较高。经销商更贴近并了解当地消费市场，对于市场变化更为敏锐，能够更好地为用户服务，及时向公司反映市场信息，有助于公司及时调整优化营销策略。现传统五金工具渠道竞争愈发激烈，公司通过持续加强销售体系管理来提升市场占有率；随着电子商务的日益发展，公司同时在不断优化和完善电商平台的销售模式。"
+      },
+      {
+        "title": "技术优势",
+        "kind": "核心竞争力",
+        "text": "作为中国电动工具行业高新技术企业，公司坚持自主创新，高度重视新技术、新产品的研发，拥有多项核心技术和众多授权专利。公司长期致力于专业电动工具相关技术的研究和开发，积累了丰富的研发经验，对各应用行业客户的需求有着深入的了解，能够紧密结合客户特点和市场特点研发产品。通过不断的技术创新，公司将不断满足客户对于高效能专业电动工具的需求。"
+      },
+      {
+        "title": "团队及管理优势",
+        "kind": "核心竞争力",
+        "text": "公司根据业务发展需要和规划，不断优化人才结构，吸引了大量高素质的各类技术研发人才及经营管理人才。产品研发、营销和管理等团队持续优化。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ300126",
+    "fetched_at": "2026-09-18T23:02:50.058451+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "电动工具"
+}

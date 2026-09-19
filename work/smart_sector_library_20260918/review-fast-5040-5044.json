@@ -1,0 +1,77 @@
+[
+  {
+    "id": "688561.SH",
+    "key": "ai_agents",
+    "sector": "AI智能体",
+    "source_sector_name": "AI智能体",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "安全运营智能体"
+    ],
+    "fact": "网络安全产品及全生命周期服务，覆盖安全运营。",
+    "company_fact": "网络安全产品及全生命周期服务，覆盖安全运营。",
+    "ths_fact": "AISOC已在豪华车企落地，并推出大模型防护产品。",
+    "reason": "实际安全智能体客户落地，量子战略合作另作标签。"
+  },
+  {
+    "id": "688562.SH",
+    "key": "military_it",
+    "sector": "军工信息化",
+    "source_sector_name": "军工信息化",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "航天数据库工业软件与集成"
+    ],
+    "fact": "神通数据库AVIDM支撑航天及党政军软件服务系统集成。",
+    "company_fact": "神通数据库AVIDM支撑航天及党政军软件服务系统集成。",
+    "ths_fact": "军工信息化解析对应三大实际主营。",
+    "reason": "军工软件而非卫星制造；大飞机运维是软件服务。"
+  },
+  {
+    "id": "688563.SH",
+    "key": "aero_engines",
+    "sector": "航空发动机",
+    "source_sector_name": "航空发动机",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "高温合金与航空材料"
+    ],
+    "fact": "航空航天材料部件含高温合金钛铸件橡胶密封。",
+    "company_fact": "航空航天材料部件含高温合金钛铸件橡胶密封。",
+    "ths_fact": "母合金覆盖国内绝大多数批产航空发动机产品。",
+    "reason": "发动机材料供应链，非整机也不凭航天二字等同商业火箭。"
+  },
+  {
+    "id": "688565.SH",
+    "key": "nuclear_power",
+    "sector": "核电",
+    "source_sector_name": "核电",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "核电凝结水精处理设备"
+    ],
+    "fact": "水处理系统包括凝结水精处理等工业电站设备。",
+    "company_fact": "水处理系统包括凝结水精处理等工业电站设备。",
+    "ths_fact": "2024年供应凝结水精处理系统的核电机组24台。",
+    "reason": "有核电设备实际供货，区分核岛核心部件和水处理链位。"
+  },
+  {
+    "id": "688566.SH",
+    "key": "innovative_drugs",
+    "sector": "创新药",
+    "source_sector_name": "创新药",
+    "source_sector_provider": "同花顺",
+    "stage": "pilot",
+    "chain": [
+      "脂质体抗肿瘤新药"
+    ],
+    "fact": "已有制剂业务并推进抗抑郁抗肿瘤等创新管线。",
+    "company_fact": "已有制剂业务并推进抗抑郁抗肿瘤等创新管线。",
+    "ths_fact": "JJH201601完成I期并开展IIa随访观察。",
+    "reason": "创新管线有真实临床阶段，明确不以全部传统药收入替代。"
+  }
+]

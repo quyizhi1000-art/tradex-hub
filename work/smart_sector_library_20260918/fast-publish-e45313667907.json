@@ -1,0 +1,77 @@
+[
+  {
+    "id": "600559.SH",
+    "key": "baijiu",
+    "sector": "白酒",
+    "source_sector_name": "白酒概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "白酒生产与渠道销售"
+    ],
+    "fact": "经营衡水老白干十八酒坊武陵等白酒系列并经销直销。",
+    "company_fact": "经营衡水老白干十八酒坊武陵等白酒系列并经销直销。",
+    "ths_fact": "主营白酒生产销售。",
+    "reason": "白酒产品品牌与市场一致，地域国企标签不替代。"
+  },
+  {
+    "id": "600560.SH",
+    "key": "new_industrialization",
+    "sector": "新型工业化",
+    "source_sector_name": "新型工业化",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "工业自动化控制与工程"
+    ],
+    "fact": "工业计算机控制电气传动仪表研产销与工程服务，服务冶金数字化。",
+    "company_fact": "工业计算机控制电气传动仪表研产销与工程服务，服务冶金数字化。",
+    "ths_fact": "三电自动化与数字工厂集控非标机器人等业务。",
+    "reason": "工业自动化完整业务为主线，机器人为零部件和集成，不是人形或整机厂。"
+  },
+  {
+    "id": "600561.SH",
+    "key": "ride_hailing",
+    "sector": "网约车",
+    "source_sector_name": "网约车",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "网约客运运营管理"
+    ],
+    "fact": "道路旅客运输和货运经营，客运为核心业务。",
+    "company_fact": "道路旅客运输和货运经营，客运为核心业务。",
+    "ths_fact": "黄山长运365线下管理项目已签约组队且网约车业务正式运营。",
+    "reason": "实际客运线上化运营构成市场概念归属，限定运营端，不把客运总收入写成网约车收入。"
+  },
+  {
+    "id": "600562.SH",
+    "key": "defense_informatization",
+    "sector": "军工信息化",
+    "source_sector_name": "军工信息化",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "军用雷达探测与系统"
+    ],
+    "fact": "雷达装备及系统覆盖军工电子空管气象等，兼营工业软件。",
+    "company_fact": "雷达装备及系统覆盖军工电子空管气象等，兼营工业软件。",
+    "ths_fact": "雷达产品覆盖军工电子及国防相关领域。",
+    "reason": "雷达电子系统形成军工信息化身份，低空气象为延伸应用，非单纯区域国企标签。"
+  },
+  {
+    "id": "600563.SH",
+    "key": "data_centers",
+    "sector": "数据中心(AIDC)",
+    "source_sector_name": "数据中心(AIDC)",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "服务器电源薄膜电容器"
+    ],
+    "fact": "薄膜电容器研发生产销售，提供全系列薄膜电容产品。",
+    "company_fact": "薄膜电容器研发生产销售，提供全系列薄膜电容产品。",
+    "ths_fact": "2026互动确认薄膜电容用于数据中心与服务器电源。",
+    "reason": "AIDC电源部件有直接实际应用，比泛人形电源用途更明确；不写整机服务器或IDC运营。"
+  }
+]

@@ -1,0 +1,22 @@
+{
+  "cutoff": "2026-09-16 close",
+  "names_user_confirmed": {
+    "鸿源电子": "鸿远电子 603267.SH",
+    "百大精工": "百达精工 603331.SH"
+  },
+  "candidate_count": 12,
+  "minute_count_each": 241,
+  "minute_full_average_count": 4,
+  "minute_daily_checks": "close/high/low absolute error < 0.011 CNY; volume relative error < 0.001",
+  "assistant_original_list_unchanged": true,
+  "assistant_frozen_sha256": "87d2e4565250222047b8649c16635cd11bb20997bfc10970a7852729e41e6b26",
+  "inference_scope": "price-volume structure; no calibrated limit-up probabilities; no future observations",
+  "files_sha256": {
+    "两组选股逻辑对照.md": "7a475e312cc684a2a17967532bc5e09d73be917d56de387019951e744a7ae2a9",
+    "用户12只日线与分时.pdf": "c931b43f29d7e523ed0c351f86a43394945f795de25ee78cb8b3af75d86c8394",
+    "用户12只证据明细.csv": "a17de94e602536f3f84a427588f208a8101d663c6ca56e7e71d9849e244dd509",
+    "走势对照-1.png": "556740af8ef4ddff4522d3268ac0ec5163f0d3704c86b991da151a160f24dc84",
+    "走势对照-2.png": "22777101d98f1bc3f834fb2a400180ea665d4259cbec7820c3356998f8ff2c55",
+    "走势对照-3.png": "6bc4a720a19621e6ad95097d795e31ee4f474047a697b56f56dbb33cf2f15ca8"
+  }
+}

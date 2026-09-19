@@ -1,0 +1,415 @@
+[
+  {
+    "id": "001278.SZ",
+    "key": "automotive_parts",
+    "sector": "汽车零部件",
+    "source_sector_name": "汽车零部件",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "内外饰金属塑料及电子件"
+    ],
+    "stage": "revenue",
+    "fact": "研产销内外饰塑料金属件汽车电子及新能源专用件。",
+    "company_fact": "研产销内外饰塑料金属件汽车电子及新能源专用件。",
+    "ths_fact": "汽车电子解析明确顶灯氛围灯，农机标签内容实际是比亚迪汽车零件合作。",
+    "reason": "多品类整车配套是直接经营，机器视觉除草样机不替代汽车主线，识别错配农机说明。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "001279.SZ",
+    "key": "packaging_printing",
+    "sector": "包装印刷",
+    "source_sector_name": "包装印刷",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "胶印柔印版材及数码设备"
+    ],
+    "stage": "revenue",
+    "fact": "生产胶印柔印版材，2025年新增控股数码印刷设备业务。",
+    "company_fact": "生产胶印柔印版材，2025年新增控股数码印刷设备业务。",
+    "ths_fact": "同花顺经营页记载主营胶印版材和柔性版材，产品包括CTP、CTCP、UVCTP及柔性树脂版；2025年两类销量分别为7296.37万和51.64万平方米。",
+    "reason": "现有包装印刷与直接产品匹配，2.9851%参股不能当固态电池主营；本条等待主控补原报告。",
+    "basis": "crosschecked_sources",
+    "extra_evidence": [
+      {
+        "evidence_id": "ths-operate-001279",
+        "source_kind": "web_secondary",
+        "publisher": "同花顺",
+        "title": "强邦新材经营分析",
+        "source_url": "https://basic.10jqka.com.cn/001279/operate.html",
+        "published_at": null,
+        "assertions": [
+          "同花顺经营页记载主营胶印版材和柔性版材，产品包括CTP、CTCP、UVCTP及柔性树脂版；2025年两类销量分别为7296.37万和51.64万平方米。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "001280.SZ",
+    "key": "nuclear_power",
+    "sector": "核电",
+    "source_sector_name": "核电",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "天然铀采冶供应"
+    ],
+    "stage": "revenue",
+    "fact": "天然铀采冶销售贸易产品用于核电及国防。",
+    "company_fact": "天然铀采冶销售贸易产品用于核电及国防。",
+    "ths_fact": "核电解析确认中核天然铀独家供应与稳定下游客户。",
+    "reason": "处于核电燃料上游，稀土共伴生不能替代天然铀核电主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "001282.SZ",
+    "key": "automotive_parts",
+    "sector": "汽车零部件",
+    "source_sector_name": "汽车零部件",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "动力传动及转向锻件"
+    ],
+    "stage": "revenue",
+    "fact": "生产汽车动力传动转向悬挂锻件并开发新能源配套。",
+    "company_fact": "生产汽车动力传动转向悬挂锻件并开发新能源配套。",
+    "ths_fact": "华为汽车明确问界拉杆供货，减速器为差速齿轮业务。",
+    "reason": "实际汽车锻件主线明确，设立分公司不证明机器人已经营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "001283.SZ",
+    "key": "data_centers",
+    "sector": "数据中心(AIDC)",
+    "source_sector_name": "数据中心(AIDC)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "服务器BBU电池系统"
+    ],
+    "stage": "delivery",
+    "fact": "公司客户优势明确AI服务器BBU供电协同及消费新能源解决方案。",
+    "company_fact": "公司客户优势明确AI服务器BBU供电协同及消费新能源解决方案。",
+    "ths_fact": "AIDC解析明确已向全球服务器客户出货BBU电池。",
+    "reason": "已交付AI备电产品支持真实算力产业链增量，不把人形供应链进入视为大规模机器人电池收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "001285.SZ",
+    "key": "automotive_electronics",
+    "sector": "汽车电子",
+    "source_sector_name": "汽车电子",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "主动安全电控制动及悬架"
+    ],
+    "stage": "revenue",
+    "fact": "生产电控制动ECAS及智能驾驶产品，另有汽车压铸。",
+    "company_fact": "生产电控制动ECAS及智能驾驶产品，另有汽车压铸。",
+    "ths_fact": "汽车电子解析列相同主动安全系统与研发生产销售。",
+    "reason": "核心电控制动直接构成汽车电子，飞行车定点仍需正式订单和交付。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "001286.SZ",
+    "key": "thermal_power",
+    "sector": "火力发电",
+    "source_sector_name": "火力发电",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "煤电一体化发电"
+    ],
+    "stage": "revenue",
+    "fact": "煤电在役1123万千瓦并配套已产煤矿。",
+    "company_fact": "煤电在役1123万千瓦并配套已产煤矿。",
+    "ths_fact": "煤炭及超超临界解析确认火电生产销售和在役机组。",
+    "reason": "煤电经营与市场火力发电身份相符，虚拟电厂资质不代表该新业务已取代发电。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "001287.SZ",
+    "key": "chips",
+    "sector": "芯片",
+    "source_sector_name": "芯片概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "授权元器件分销及设计服务"
+    ],
+    "stage": "revenue",
+    "fact": "拥有近140条分销授权，为约5000客户销售元件并提供设计链服务。",
+    "company_fact": "拥有近140条分销授权，为约5000客户销售元件并提供设计链服务。",
+    "ths_fact": "芯片解析明确分销处理器模拟存储等多个产品类型。",
+    "reason": "芯片分销链位明确，不能把代理产品说成自研制造，也不能由单品牌标签替代全线业务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "001288.SZ",
+    "key": "energy_heavy_equipment",
+    "sector": "能源及重型设备",
+    "source_sector_name": "能源及重型设备",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "散料带式输送系统"
+    ],
+    "stage": "revenue",
+    "fact": "制造多类带式输送机与永磁驱动设备，多个国内外工程已运行。",
+    "company_fact": "制造多类带式输送机与永磁驱动设备，多个国内外工程已运行。",
+    "ths_fact": "中俄贸易解析确认输送设备海外项目运行，机器人为矿山巡检新产品。",
+    "reason": "成套输送工程产品是确定业务，AI矿山系统尚需更细独立交付核验，不仅按合作签约替代产业。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "001289.SZ",
+    "key": "green_power",
+    "sector": "绿色电力",
+    "source_sector_name": "绿色电力",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "风电光伏开发运营"
+    ],
+    "stage": "revenue",
+    "fact": "控股风电光伏装机及发电量明确，光伏新增较快。",
+    "company_fact": "控股风电光伏装机及发电量明确，光伏新增较快。",
+    "ths_fact": "绿电解析明确风力光伏发电。",
+    "reason": "实际可再生电力运营支撑绿电，AI为运营工具。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "001296.SZ",
+    "key": "shale_gas",
+    "sector": "页岩气",
+    "source_sector_name": "页岩气",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "压裂支撑剂"
+    ],
+    "stage": "revenue",
+    "fact": "生产销售压裂支撑剂用于油气页岩气开采，另经营铸造砂。",
+    "company_fact": "生产销售压裂支撑剂用于油气页岩气开采，另经营铸造砂。",
+    "ths_fact": "页岩气解析明确覆膜石英砂支撑剂用于压裂增产。",
+    "reason": "选择有直接产品而非泛材料的油气增量主线，铸造砂及废砂再生保留背景。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "001298.SZ",
+    "key": "chips",
+    "sector": "芯片",
+    "source_sector_name": "芯片概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "SoC存储MCU等分销"
+    ],
+    "stage": "revenue",
+    "fact": "向消费工业汽车机器人等电子制造客户分销元器件和技术方案。",
+    "company_fact": "向消费工业汽车机器人等电子制造客户分销元器件和技术方案。",
+    "ths_fact": "芯片解析列SoC模拟存储等，机器人处于发展阶段。",
+    "reason": "跨场景芯片分销业务明确，不把代理供应当自产芯片，人形全栈布局需分清实际成交。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "001299.SZ",
+    "key": "natural_gas",
+    "sector": "天然气",
+    "source_sector_name": "天然气",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "城市燃气销售及管网"
+    ],
+    "stage": "revenue",
+    "fact": "通过1800公里以上管网销售天然气并提供安装运维。",
+    "company_fact": "通过1800公里以上管网销售天然气并提供安装运维。",
+    "ths_fact": "陕西自贸解析明确城市燃气销售加气站，天然气管道解析为管网运行。",
+    "reason": "真实城燃及管网服务共同支持天然气，不归储能规划。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "001300.SZ",
+    "key": "sports_industry",
+    "sector": "体育产业",
+    "source_sector_name": "体育产业",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "蹦床及健身器材"
+    ],
+    "stage": "revenue",
+    "fact": "生产销售蹦床及有氧力量健身器材，自有品牌与ODM并行。",
+    "company_fact": "生产销售蹦床及有氧力量健身器材，自有品牌与ODM并行。",
+    "ths_fact": "体育产业解析确认器材销售收入，体育用品列蹦床研发制造。",
+    "reason": "实体体育器材与既有产业成员对应，非足球赛事运营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "001301.SZ",
+    "key": "lithium_batteries",
+    "sector": "锂电池",
+    "source_sector_name": "锂电池概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "人造石墨负极"
+    ],
+    "stage": "revenue",
+    "fact": "研发生产销售人造石墨负极用于动力储能电池。",
+    "company_fact": "研发生产销售人造石墨负极用于动力储能电池。",
+    "ths_fact": "锂电解析列负极研产销，储能确认动力储能出货。",
+    "reason": "直接锂电上游材料主线清晰，石墨化焦为配套副产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "001306.SZ",
+    "key": "reducers",
+    "sector": "减速器",
+    "source_sector_name": "减速器",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "精密齿轮与机器人减速机"
+    ],
+    "stage": "revenue",
+    "fact": "实际生产销售减速机及核心精密齿轮并应用机器人。",
+    "company_fact": "实际生产销售减速机及核心精密齿轮并应用机器人。",
+    "ths_fact": "机器人解析确认减速机关键传动，人形解析只送样关节减速机。",
+    "reason": "减速器已有经营证据，明确区别人形送样与既有销售，不因规划7.2万套视为新增达产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "001308.SZ",
+    "key": "ai_applications",
+    "sector": "AI应用",
+    "source_sector_name": "AI应用",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "AI交互显示与智能终端"
+    ],
+    "stage": "product",
+    "fact": "产品体系覆盖AI办公教育医疗娱乐，具备自研AI算法及交互硬件。",
+    "company_fact": "产品体系覆盖AI办公教育医疗娱乐，具备自研AI算法及交互硬件。",
+    "ths_fact": "AI应用解析列随心屏眼镜美妆镜和医用AI一体机。",
+    "reason": "自有对客AI终端组合具备具体产品，选AI应用增量线；显示面板是统计背景，不声称所有AI产品已有独立收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "001309.SZ",
+    "key": "memory_chips",
+    "sector": "存储芯片",
+    "source_sector_name": "存储芯片",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "主控芯片固件与存储模组"
+    ],
+    "stage": "revenue",
+    "fact": "提供自主存储主控固件及产业化存储解决方案。",
+    "company_fact": "提供自主存储主控固件及产业化存储解决方案。",
+    "ths_fact": "存储芯片解析列SSD嵌入式内存移动存储。",
+    "reason": "核心技术产品与市场存储身份一致，数据中心是应用场景。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "001311.SZ",
+    "key": "integrated_die_casting",
+    "sector": "一体化压铸",
+    "source_sector_name": "一体化压铸",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "汽车大型一体化压铸件"
+    ],
+    "stage": "delivery",
+    "fact": "研产销汽车冲焊热成型及一体化压铸零件。",
+    "company_fact": "研产销汽车冲焊热成型及一体化压铸零件。",
+    "ths_fact": "压铸解析称2025年四季度起进入大规模量产周期。",
+    "reason": "真实压铸产品和量产支持增量主线；谐波收购尚交割不当已完成机器人转型。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "001312.SZ",
+    "key": "textile_manufacturing",
+    "sector": "纺织制造",
+    "source_sector_name": "纺织制造",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "再生环保面料"
+    ],
+    "stage": "revenue",
+    "fact": "纺纱织染整理一体化生产环保面料供品牌服装。",
+    "company_fact": "纺纱织染整理一体化生产环保面料供品牌服装。",
+    "ths_fact": "次新与一带一路解析均明确环保面料及生产基地。",
+    "reason": "直接面料制造清晰，海外布局不改变产业身份。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "001313.SZ",
+    "key": "animal_feed",
+    "sector": "饲料",
+    "source_sector_name": "饲料",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "虾鱼特种水产饲料"
+    ],
+    "stage": "revenue",
+    "fact": "专注水产饲料研产销并延伸种苗加工贸易。",
+    "company_fact": "专注水产饲料研产销并延伸种苗加工贸易。",
+    "ths_fact": "饲料及海洋经济解析确认虾海水鱼特种饲料。",
+    "reason": "实际饲料经营是主线，合成生物为配方制剂技术，不把数据登记当产业转型完成。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "001314.SZ",
+    "key": "ai_glasses",
+    "sector": "AI眼镜",
+    "source_sector_name": "AI眼镜",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "亿境XR及AI眼镜方案整机"
+    ],
+    "stage": "delivery",
+    "fact": "形成XR及AI穿戴设备产品矩阵与端侧整机能力。",
+    "company_fact": "形成XR及AI穿戴设备产品矩阵与端侧整机能力。",
+    "ths_fact": "AI眼镜解析确认多品牌认可并于2025年开始批量出货。",
+    "reason": "对客方案和批量交付使AI眼镜成为实质增量线，中试封装投资不算芯片量产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "001316.SZ",
+    "key": "large_aircraft",
+    "sector": "大飞机",
+    "source_sector_name": "大飞机",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "国产航材与航空材料分销"
+    ],
+    "stage": "revenue",
+    "fact": "自研航材并分销航空油料原材化学品等7000余料号。",
+    "company_fact": "自研航材并分销航空油料原材化学品等7000余料号。",
+    "ths_fact": "大飞机解析确认参与商飞选型认证，部分产品获工艺材料批准。",
+    "reason": "航空材料直接服务大飞机链，优于油品贸易泛统计标签；AI航检眼镜尚推广。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "001317.SZ",
+    "key": "unified_market",
+    "sector": "统一大市场",
+    "source_sector_name": "统一大市场",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "商品车及货物多式联运"
+    ],
+    "stage": "revenue",
+    "fact": "提供汽车及非汽车商品公铁水联运仓储综合服务。",
+    "company_fact": "提供汽车及非汽车商品公铁水联运仓储综合服务。",
+    "ths_fact": "统一大市场解析明确整车非车及仓储，跨境有新业务增长。",
+    "reason": "实际跨区域物流网络支持统一大市场；无人机战略和快递车意向未当已交付。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "001318.SZ",
+    "key": "dairy",
+    "sector": "乳业",
+    "source_sector_name": "乳业",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "低温乳及含乳饮料"
+    ],
+    "stage": "revenue",
+    "fact": "研发生产销售液态乳及乳饮料，以低温产品为核心。",
+    "company_fact": "研发生产销售液态乳及乳饮料，以低温产品为核心。",
+    "ths_fact": "乳业解析列低温常温乳制品饮料。",
+    "reason": "乳品生产销售明确，冷链为产品履约配套。",
+    "basis": "crosschecked_sources"
+  }
+]

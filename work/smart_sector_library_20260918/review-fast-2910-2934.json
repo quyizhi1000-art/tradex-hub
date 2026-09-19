@@ -1,0 +1,454 @@
+[
+  {
+    "id": "600011.SH",
+    "key": "green_power",
+    "sector": "绿色电力",
+    "source_sector_name": "绿色电力",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "风光发电与综合能源"
+    ],
+    "stage": "revenue",
+    "fact": "煤气电与新能源项目运营，2025低碳装机占41.01%。",
+    "company_fact": "煤气电与新能源项目运营，2025低碳装机占41.01%。",
+    "ths_fact": "风光水生物质为实际装机，风电20618兆瓦光伏25069兆瓦。",
+    "reason": "清洁发电为真实规模化转型主线，不把参股核电或集团碳捕集能力直接升级。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600012.SH",
+    "key": "highways",
+    "sector": "高速公路",
+    "source_sector_name": "高速公路",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "安徽收费公路运营"
+    ],
+    "stage": "revenue",
+    "fact": "投资建设经营安徽收费公路并收取通行费。",
+    "company_fact": "投资建设经营安徽收费公路并收取通行费。",
+    "ths_fact": "PPP解析对应宣广改扩建项目建造收入。",
+    "reason": "收费路产经营明确，PPP为项目模式，内部接入大模型不作AI主营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600015.SH",
+    "key": "bank",
+    "sector": "银行",
+    "source_sector_name": "银行",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "对公零售综合金融"
+    ],
+    "stage": "revenue",
+    "fact": "向企业机构个人提供存贷款、投行、结算及财富管理。",
+    "company_fact": "向企业机构个人提供存贷款、投行、结算及财富管理。",
+    "ths_fact": "补读公司页确认企业及个人存贷款和综合金融产品。",
+    "reason": "跨境支付为持牌银行业务能力，归银行而非独立支付科技。",
+    "basis": "crosschecked_sources",
+    "extra_evidence": [
+      {
+        "evidence_id": "ths-company-600015",
+        "source_kind": "web_secondary",
+        "publisher": "同花顺",
+        "title": "公司资料",
+        "source_url": "https://basic.10jqka.com.cn/600015/company.html",
+        "published_at": null,
+        "assertions": [
+          "补读公司页确认企业及个人存贷款和综合金融产品。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "600016.SH",
+    "key": "bank",
+    "sector": "银行",
+    "source_sector_name": "银行",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "公司个人银行与资金业务"
+    ],
+    "stage": "revenue",
+    "fact": "存贷款结算、银行卡、托管及金融服务。",
+    "company_fact": "存贷款结算、银行卡、托管及金融服务。",
+    "ths_fact": "补读公司页明确公司个人银行、资金、融资租赁与资管。",
+    "reason": "跨境结算不能替代综合银行身份。",
+    "basis": "crosschecked_sources",
+    "extra_evidence": [
+      {
+        "evidence_id": "ths-company-600016",
+        "source_kind": "web_secondary",
+        "publisher": "同花顺",
+        "title": "公司资料",
+        "source_url": "https://basic.10jqka.com.cn/600016/company.html",
+        "published_at": null,
+        "assertions": [
+          "补读公司页明确公司个人银行、资金、融资租赁与资管。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "600017.SH",
+    "key": "ports",
+    "sector": "港口",
+    "source_sector_name": "港口",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "散杂货装卸堆存与中转"
+    ],
+    "stage": "revenue",
+    "fact": "运营矿石煤炭集装箱粮木钢铁等港口装卸堆存物流。",
+    "company_fact": "运营矿石煤炭集装箱粮木钢铁等港口装卸堆存物流。",
+    "ths_fact": "航运解析确认货物装卸堆存港务服务。",
+    "reason": "实际港口运营支持归属，集团免税及自用AI不扩写为本体消费科技主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600018.SH",
+    "key": "ports",
+    "sector": "港口",
+    "source_sector_name": "港口",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "集装箱码头及港口物流"
+    ],
+    "stage": "revenue",
+    "fact": "上海港公共码头运营，集装箱散杂货港口服务物流。",
+    "company_fact": "上海港公共码头运营，集装箱散杂货港口服务物流。",
+    "ths_fact": "航运及黄金水道解析列装卸仓储拖带等服务。",
+    "reason": "港口基础服务为直接主线，足球和免税参股不取代港口。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600019.SH",
+    "key": "steel",
+    "sector": "钢铁",
+    "source_sector_name": "钢铁",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "汽车板硅钢与碳钢产品"
+    ],
+    "stage": "revenue",
+    "fact": "大型钢铁联合企业经营碳钢及相关加工配送。",
+    "company_fact": "大型钢铁联合企业经营碳钢及相关加工配送。",
+    "ths_fact": "新能源车解析证明无取向硅钢实际产量并用于驱动电机。",
+    "reason": "钢材品类和供应能力构成统一主线，排除涉及马钢的身份混入段，自用AI不作科技主营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600020.SH",
+    "key": "highways",
+    "sector": "高速公路",
+    "source_sector_name": "高速公路",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "路产运营及路域服务"
+    ],
+    "stage": "revenue",
+    "fact": "高速公路建设运营并进行相关资产投资。",
+    "company_fact": "高速公路建设运营并进行相关资产投资。",
+    "ths_fact": "创投解析明确核心为高速公路，全资投资公司另做股权投资。",
+    "reason": "不把少数AMC信托保险权益等同金融控股主业，收费运营证据最完整。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600021.SH",
+    "key": "green_power",
+    "sector": "绿色电力",
+    "source_sector_name": "绿色电力",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "风光发电和综合能源"
+    ],
+    "stage": "revenue",
+    "fact": "清洁新能源与现代电力热力供应服务。",
+    "company_fact": "清洁新能源与现代电力热力供应服务。",
+    "ths_fact": "绿色电力与风电解析确认风光电站建设运营。",
+    "reason": "已有可再生发电业务支撑绿电转型；虚拟电厂响应为进一步延伸。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600022.SH",
+    "key": "steel",
+    "sector": "钢铁",
+    "source_sector_name": "钢铁",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "板材型钢优特钢"
+    ],
+    "stage": "revenue",
+    "fact": "中厚板冷热轧型钢特钢螺纹钢生产销售。",
+    "company_fact": "中厚板冷热轧型钢特钢螺纹钢生产销售。",
+    "ths_fact": "特钢解析与全套钢材品类相符，风电钢及核电钢已供货。",
+    "reason": "多类钢材保持产业识别；控股软件机器人业务真实但不能仅以热门标签替代钢铁。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600023.SH",
+    "key": "ultra_supercritical_power",
+    "sector": "超超临界发电",
+    "source_sector_name": "超超临界发电",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "高效燃煤发电"
+    ],
+    "stage": "revenue",
+    "fact": "经营煤气电及热电联产综合能源，并有光伏业务。",
+    "company_fact": "经营煤气电及热电联产综合能源，并有光伏业务。",
+    "ths_fact": "超临界及超超临界约2000万千瓦，占煤机约三分之二。",
+    "reason": "现有高效火电技术形成直接业务，核聚变仅投资布局不等于设备技术经营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600025.SH",
+    "key": "green_power",
+    "sector": "绿色电力",
+    "source_sector_name": "绿色电力",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "梯级水电及风光发电"
+    ],
+    "stage": "revenue",
+    "fact": "澜沧江流域水电开发运营并发展风光。",
+    "company_fact": "澜沧江流域水电开发运营并发展风光。",
+    "ths_fact": "绿电解析明确水力风力及光伏发电产品。",
+    "reason": "清洁电站实际运营；风电解析装机数字明显超公司总量，排除该数字，不据其编造规模。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600026.SH",
+    "key": "shipping",
+    "sector": "航运",
+    "source_sector_name": "航运概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "油轮及LNG海运"
+    ],
+    "stage": "revenue",
+    "fact": "自有控制油轮与LNG船运营，油品及液化气运输。",
+    "company_fact": "自有控制油轮与LNG船运营，油品及液化气运输。",
+    "ths_fact": "航运和天然气解析均明确油轮LNG两大核心。",
+    "reason": "能源海运为实际服务，运天然气不等于开采生产天然气。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600027.SH",
+    "key": "thermal_power",
+    "sector": "火力发电",
+    "source_sector_name": "火力发电",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "高效煤气电与供热"
+    ],
+    "stage": "revenue",
+    "fact": "建设运营煤气电及水电，销售电热产品。",
+    "company_fact": "建设运营煤气电及水电，销售电热产品。",
+    "ths_fact": "超超临界解析证明煤机容量，绿色电力段也明确煤气电厂主营。",
+    "reason": "实际煤气电体系支撑火电归属；不将绿电名称直接当新能源发电证明。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600028.SH",
+    "key": "refining_chemicals",
+    "sector": "炼油化工",
+    "source_sector_name": "炼油化工",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "一体化炼化与油品经营"
+    ],
+    "stage": "revenue",
+    "fact": "勘探油气、炼油石化生产、储运销售及新能源业务。",
+    "company_fact": "勘探油气、炼油石化生产、储运销售及新能源业务。",
+    "ths_fact": "油气开采及管网解析共同确认炼油、化工和营销实际业务。",
+    "reason": "完整能源化工链中炼化品牌识别明确；充换电氢能为新增经营而非自动替代。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600029.SH",
+    "key": "aviation_transport",
+    "sector": "航空运输",
+    "source_sector_name": "航空运输",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "客货航空运输"
+    ],
+    "stage": "revenue",
+    "fact": "主营航空客运和货运。",
+    "company_fact": "主营航空客运和货运。",
+    "ths_fact": "航空租赁解析实际列国内外航空客货邮运输。",
+    "reason": "按真实航空承运归属，概念名航空租赁不改变运输业务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600030.SH",
+    "key": "securities_industry",
+    "sector": "证券",
+    "source_sector_name": "证券Ⅱ",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "证券投行经纪资管"
+    ],
+    "stage": "revenue",
+    "fact": "经营投行、财富管理、机构经纪、金融市场、资管。",
+    "company_fact": "经营投行、财富管理、机构经纪、金融市场、资管。",
+    "ths_fact": "补读公司页确认投资银行机构股票金融市场资管及证券承销。",
+    "reason": "综合券商业务完整，期货子业务不等于母公司唯一主线。",
+    "basis": "crosschecked_sources",
+    "extra_evidence": [
+      {
+        "evidence_id": "ths-company-600030",
+        "source_kind": "web_secondary",
+        "publisher": "同花顺",
+        "title": "公司资料",
+        "source_url": "https://basic.10jqka.com.cn/600030/company.html",
+        "published_at": null,
+        "assertions": [
+          "补读公司页确认投资银行机构股票金融市场资管及证券承销。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "600031.SH",
+    "key": "construction_machinery",
+    "sector": "工程机械",
+    "source_sector_name": "工程机械",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "挖掘起重混凝土装备"
+    ],
+    "stage": "revenue",
+    "fact": "生产挖掘、混凝土、起重、桩工和路面机械。",
+    "company_fact": "生产挖掘、混凝土、起重、桩工和路面机械。",
+    "ths_fact": "高端装备与机械装备解析证明成套工程机械经营。",
+    "reason": "实际整机装备覆盖多类基建场景，集团持有机器人公司不转化为上市公司业务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600032.SH",
+    "key": "green_power",
+    "sector": "绿色电力",
+    "source_sector_name": "绿色电力",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "风光水电开发运营"
+    ],
+    "stage": "revenue",
+    "fact": "投资运营风光水储新能源，已并网690.76万千瓦。",
+    "company_fact": "投资运营风光水储新能源，已并网690.76万千瓦。",
+    "ths_fact": "绿色电力解析确认水力光伏风力建设运营。",
+    "reason": "多能源互补实际经营对应绿电，前期抽蓄项目不作成熟抽蓄收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600033.SH",
+    "key": "highways",
+    "sector": "高速公路",
+    "source_sector_name": "高速公路",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "福建收费路段运营"
+    ],
+    "stage": "revenue",
+    "fact": "运营泉厦福泉罗宁等公路，收取通行费。",
+    "company_fact": "运营泉厦福泉罗宁等公路，收取通行费。",
+    "ths_fact": "海峡两岸解析明确公路投资建设收费经营及主要路段。",
+    "reason": "路产经营直接，保险银行投资仅财务业务补充。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600035.SH",
+    "key": "etc",
+    "sector": "ETC",
+    "source_sector_name": "ETC",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "智慧交通收费软硬件"
+    ],
+    "stage": "revenue",
+    "fact": "路桥运营之外研发集成交通软硬件并提供能源服务。",
+    "company_fact": "路桥运营之外研发集成交通软硬件并提供能源服务。",
+    "ths_fact": "ETC解析明确门架改造、ETC天线、收费机器人等已实施项目。",
+    "reason": "智慧收费已有产品和工程支撑增量主线，不采用三木智能旧收购链推论当前消费电子。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600036.SH",
+    "key": "bank",
+    "sector": "银行",
+    "source_sector_name": "银行",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "零售财富管理及批发银行"
+    ],
+    "stage": "revenue",
+    "fact": "提供零售批发金融服务、结算理财和自营代客资金。",
+    "company_fact": "提供零售批发金融服务、结算理财和自营代客资金。",
+    "ths_fact": "补读公司资料确认批发零售银行与资金业务。",
+    "reason": "银行服务证据明确，跨境支付仅其中功能。",
+    "basis": "crosschecked_sources",
+    "extra_evidence": [
+      {
+        "evidence_id": "ths-company-600036",
+        "source_kind": "web_secondary",
+        "publisher": "同花顺",
+        "title": "公司资料",
+        "source_url": "https://basic.10jqka.com.cn/600036/company.html",
+        "published_at": null,
+        "assertions": [
+          "补读公司资料确认批发零售银行与资金业务。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "600037.SH",
+    "key": "broadcasting",
+    "sector": "广播电视",
+    "source_sector_name": "广播电视",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "北京有线网络与视听服务"
+    ],
+    "stage": "revenue",
+    "fact": "经营北京广播电视网络节目传输及宽带增值。",
+    "company_fact": "经营北京广播电视网络节目传输及宽带增值。",
+    "ths_fact": "广播电视解析确认北京有线网络建设运营维护。",
+    "reason": "网络视听为持续经营，AI智能体仍试点，机房租赁作新增业务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600038.SH",
+    "key": "aviation_equipment",
+    "sector": "航空装备",
+    "source_sector_name": "航空装备Ⅱ",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "直升机与通用飞机制造"
+    ],
+    "stage": "revenue",
+    "fact": "研制直升机整机零件、运12及运12F并提供客户服务。",
+    "company_fact": "研制直升机整机零件、运12及运12F并提供客户服务。",
+    "ths_fact": "军工与大飞机解析列Z系列AC系列及Y12产品。",
+    "reason": "航空整机证据充分，eVTOL合作仍研发；核电风机段与主体不符予以排除。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600039.SH",
+    "key": "engineering_construction",
+    "sector": "工程建设",
+    "source_sector_name": "工程建设",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "公铁路桥市政建设"
+    ],
+    "stage": "revenue",
+    "fact": "投资设计建设运营养护公路铁路市政房建港航工程。",
+    "company_fact": "投资设计建设运营养护公路铁路市政房建港航工程。",
+    "ths_fact": "PPP和成渝解析确认路桥施工资质及境内外承包项目。",
+    "reason": "明确工程建设能力，雅下解析仅西藏子公司不视作项目中标，矿业和锂电另列。",
+    "basis": "crosschecked_sources"
+  }
+]

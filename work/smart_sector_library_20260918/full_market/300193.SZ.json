@@ -1,0 +1,66 @@
+{
+  "instrument_id": "300193.SZ",
+  "name": "佳士科技",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "300193.SZ",
+    "name": "佳士科技",
+    "memberships": [
+      "机械设备",
+      "通用设备",
+      "其他通用设备",
+      "广东板块",
+      "破发股",
+      "创业板综",
+      "股权激励",
+      "机器人概念",
+      "深圳特区"
+    ],
+    "business_sections": [
+      {
+        "title": "焊割设备制造",
+        "kind": "主营业务",
+        "text": "公司是国内焊割设备制造领域的领先企业，主营业务为焊割设备的研发、生产和销售以及焊割配件、焊接材料和焊接机器人的销售。公司主要产品为电焊机、焊割配件、焊接材料和焊接机器人，其中电焊机涵盖了气保焊系列、氩弧焊系列、手工焊系列、埋弧焊系列、手持激光焊系列和等离子切割系列。"
+      },
+      {
+        "title": "强大的自主研发与技术创新能力",
+        "kind": "核心竞争力",
+        "text": "强大的自主研发与技术创新能力。公司在国内外均设立了研发中心，通过持续的研发投入，驱动产品技术水平与性能不断突破，能够为客户提供创新可靠的焊割解决方案。"
+      },
+      {
+        "title": "全球化、高效协同的营销服务网络",
+        "kind": "核心竞争力",
+        "text": "全球化、高效协同的营销服务网络。公司建立了覆盖全球主要市场的经销商网络体系，确保信息高效传递，能够精准洞察市场趋势，为全球客户提供及时、高品质的产品与服务支持。"
+      },
+      {
+        "title": "高标准、全流程的质量管理体系",
+        "kind": "核心竞争力",
+        "text": "高标准、全流程的质量管理体系。公司秉持产品质量优先的经营理念，建立了覆盖产品全生命周期的品质管理流程，依托行业内领先的综合实验室，公司开展的测试项和达到的测试标准涵盖了焊割行业最权威最全面的测试与认证，能够为公司产品质量保驾护航。"
+      },
+      {
+        "title": "清晰的战略发展规划",
+        "kind": "核心竞争力",
+        "text": "清晰的战略发展规划。公司坚定落实国际化、专业化、多元化以及工业新势力、强基工程、电商新模式的战略规划，持续优化战略实施路径，强化资源统筹与协同推进，以清晰的战略引领保障公司长期稳健发展，不断提升综合竞争实力与可持续发展能力。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ300193",
+    "fetched_at": "2026-09-18T23:04:12.048592+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [
+    "机器人"
+  ],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "逆变电焊机与配件"
+}

@@ -4,8 +4,19 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>盘面刹车器 · Tradex</title>
+    <script>
+      // Restore appearance before paint; invalid or unavailable storage uses the soft default.
+      (() => {
+        let preference = {};
+        try { preference = JSON.parse(localStorage.getItem("tradex.marketWatch.appearance.v1")) || {}; } catch {}
+        document.documentElement.dataset.theme = ["porcelain", "sand", "ink", "paper", "mist", "sage", "graphite", "classic"].includes(preference.theme) ? preference.theme : "porcelain";
+        document.documentElement.dataset.layout = ["comfortable", "compact", "wide"].includes(preference.layout) ? preference.layout : "comfortable";
+        document.documentElement.dataset.font = ["noto", "deng", "yahei"].includes(preference.font) ? preference.font : "noto";
+      })();
+    </script>
     <link rel="stylesheet" href="/watch/styles.css">
     <link rel="stylesheet" href="/watch/sector-catalog.css">
+    <link rel="stylesheet" href="/watch/smart-sector-library.css">
   </head>
   <body>
     <div class="app-shell">
@@ -20,7 +31,11 @@
             <p>先看市场，再做动作 · 只约束决策节奏，不提供个股买卖指令</p>
           </div>
         </div>
+        <button class="button button-secondary appearance-trigger" id="appearance-button" type="button" popovertarget="appearance-panel" aria-haspopup="dialog" aria-expanded="false">
+          <span aria-hidden="true">◐</span> 外观 · <span id="appearance-current">瓷白钴蓝</span>
+        </button>
         <div class="toolbar" aria-label="刷新与提醒控制">
+          <button class="button button-secondary" id="smart-sector-open" type="button" aria-haspopup="dialog">聪明板块库</button>
           <span class="poll-status" id="poll-status">等待首份盘面</span>
           <button class="button button-secondary" id="notification-button" type="button">
             开启系统通知
@@ -39,6 +54,45 @@
           </button>
         </div>
       </header>
+
+      <div class="appearance-panel" id="appearance-panel" popover role="dialog" aria-labelledby="appearance-title">
+        <div class="appearance-heading">
+          <div><h2 id="appearance-title">让看盘轻松一点</h2><p>点击即切换，自动记住你的选择。</p></div>
+          <button class="button button-secondary" type="button" popovertarget="appearance-panel" popovertargetaction="hide" aria-label="关闭外观设置">×</button>
+        </div>
+        <fieldset class="appearance-fieldset"><legend>页面配色</legend>
+          <div class="appearance-themes appearance-themes--new">
+            <button type="button" class="appearance-choice" data-appearance-theme="porcelain" aria-pressed="true"><span class="appearance-swatch appearance-swatch--editorial" style="--sample-bg:#f3f4f6;--sample-panel:#ffffff;--sample-accent:#345bd6;--sample-text:#242a35" aria-hidden="true"><b>MARKET / 01</b><em>清晰，有序。</em><i></i><i></i></span><strong>瓷白钴蓝 <span class="appearance-recommended">推荐</span></strong><small>中性灰白 · 克制蓝色 · 轻盈卡片</small><span class="appearance-selected" aria-hidden="true">✓ 已选</span></button>
+            <button type="button" class="appearance-choice" data-appearance-theme="sand" aria-pressed="false"><span class="appearance-swatch appearance-swatch--editorial" style="--sample-bg:#f2efea;--sample-panel:#fcfaf7;--sample-accent:#9a503a;--sample-text:#332e2b" aria-hidden="true"><b>MARKET / 02</b><em>温和，从容。</em><i></i><i></i></span><strong>月砂赤陶</strong><small>暖白与墨色 · 赤陶点缀 · 平整分区</small><span class="appearance-selected" aria-hidden="true">✓ 已选</span></button>
+            <button type="button" class="appearance-choice" data-appearance-theme="ink" aria-pressed="false"><span class="appearance-swatch appearance-swatch--editorial" style="--sample-bg:#191b23;--sample-panel:#222530;--sample-accent:#b2a8f2;--sample-text:#e3e4ec" aria-hidden="true"><b>MARKET / 03</b><em>沉静，专注。</em><i></i><i></i></span><strong>墨夜鸢尾</strong><small>墨灰底色 · 柔和蓝紫 · 细线层次</small><span class="appearance-selected" aria-hidden="true">✓ 已选</span></button>
+          </div>
+          <details class="appearance-previous"><summary>之前的 5 套配色</summary>
+          <div class="appearance-themes">
+            <button type="button" class="appearance-choice" data-appearance-theme="paper" aria-pressed="false"><span class="appearance-swatch" style="--sample-bg:#f1eee6;--sample-panel:#faf8f2;--sample-accent:#826744" aria-hidden="true"><i></i><i></i><i></i></span><strong>暖纸米白</strong><small>柔和暖底 · 长时间阅读</small><span class="appearance-selected" aria-hidden="true">✓ 已选</span></button>
+            <button type="button" class="appearance-choice" data-appearance-theme="mist" aria-pressed="false"><span class="appearance-swatch" style="--sample-bg:#e8edf2;--sample-panel:#f5f7fa;--sample-accent:#486d94" aria-hidden="true"><i></i><i></i><i></i></span><strong>雾蓝浅灰</strong><small>清爽浅灰 · 层次分明</small><span class="appearance-selected" aria-hidden="true">✓ 已选</span></button>
+            <button type="button" class="appearance-choice" data-appearance-theme="sage" aria-pressed="false"><span class="appearance-swatch" style="--sample-bg:#e7ece4;--sample-panel:#f3f6ef;--sample-accent:#526e50" aria-hidden="true"><i></i><i></i><i></i></span><strong>鼠尾草绿</strong><small>低饱和绿 · 安静自然</small><span class="appearance-selected" aria-hidden="true">✓ 已选</span></button>
+            <button type="button" class="appearance-choice" data-appearance-theme="graphite" aria-pressed="false"><span class="appearance-swatch" style="--sample-bg:#25272b;--sample-panel:#303237;--sample-accent:#b4b9ca" aria-hidden="true"><i></i><i></i><i></i></span><strong>柔和石墨</strong><small>中性深灰 · 减少炫光</small><span class="appearance-selected" aria-hidden="true">✓ 已选</span></button>
+            <button type="button" class="appearance-choice" data-appearance-theme="classic" aria-pressed="false"><span class="appearance-swatch" style="--sample-bg:#071016;--sample-panel:#13232d;--sample-accent:#55c8d2" aria-hidden="true"><i></i><i></i><i></i></span><strong>经典深青</strong><small>保留原来的配色</small><span class="appearance-selected" aria-hidden="true">✓ 已选</span></button>
+          </div>
+          </details>
+        </fieldset>
+        <fieldset class="appearance-fieldset"><legend>中文字体 · 可与任意配色搭配</legend>
+          <div class="appearance-fonts">
+            <button class="appearance-choice" type="button" data-appearance-font="noto" aria-pressed="true"><span class="appearance-font-sample">盘面观察 <em>Aa 0123</em></span><strong>Noto 黑体</strong><small>清晰匀称 · 推荐</small></button>
+            <button class="appearance-choice" type="button" data-appearance-font="deng" aria-pressed="false"><span class="appearance-font-sample">盘面观察 <em>Aa 0123</em></span><strong>等线</strong><small>字形舒展 · 轻盈</small></button>
+            <button class="appearance-choice" type="button" data-appearance-font="yahei" aria-pressed="false"><span class="appearance-font-sample">盘面观察 <em>Aa 0123</em></span><strong>雅黑 UI</strong><small>紧凑清晰 · 熟悉</small></button>
+          </div>
+        </fieldset>
+        <fieldset class="appearance-fieldset"><legend>桌面布局</legend>
+          <div class="appearance-layouts">
+            <button class="appearance-choice" type="button" data-appearance-layout="comfortable" aria-pressed="true"><strong>舒展阅读</strong><small>留白更多，逐区查看</small></button>
+            <button class="appearance-choice" type="button" data-appearance-layout="compact" aria-pressed="false"><strong>紧凑看盘</strong><small>缩小间距，同屏更多</small></button>
+            <button class="appearance-choice" type="button" data-appearance-layout="wide" aria-pressed="false"><strong>宽屏工作台</strong><small>铺满窗口，展开图表</small></button>
+          </div>
+        </fieldset>
+        <p class="appearance-note">涨红跌绿和板块曲线颜色保持一致；曲线区保留深色底，方便分辨。</p>
+        <p class="appearance-status" id="appearance-status" role="status" aria-live="polite"></p>
+      </div>
 
       <aside class="risk-overlay is-visible" id="data-risk-overlay" role="alert" aria-live="assertive">
         <span class="risk-overlay__icon" aria-hidden="true">!</span>
@@ -145,7 +199,7 @@
             <div>
               <span class="section-kicker">LIMIT-UP STOCK CATALOG</span>
               <h2 id="limit-up-pool-dialog-title">涨停池</h2>
-              <p>按连板高度分组；股票归属和标签只按统一真实归属库匹配，不使用涨停原因、价格路径或板块资金轨迹推断。</p>
+              <p>按连板高度分组；股票市场主归属统一读取聪明板块库，未完成证据核验的股票明确标注待核验。</p>
             </div>
             <button class="limit-up-pool-dialog__close" id="limit-up-pool-close-button" type="button" aria-label="关闭涨停池">×</button>
           </header>
@@ -153,8 +207,8 @@
           <div class="limit-up-pool-summary" aria-label="涨停池实时状态与真实归属覆盖">
             <div><span>涨停</span><strong id="limit-up-pool-total">--</strong></div>
             <div><span>目录已匹配</span><strong id="limit-up-pool-matched">--</strong></div>
-            <div><span>主营已归类</span><strong id="limit-up-pool-classified">--</strong></div>
-            <div><span>待匹配</span><strong id="limit-up-pool-unmatched">--</strong></div>
+            <div><span>主归属已核验</span><strong id="limit-up-pool-classified">--</strong></div>
+            <div><span>归属待核验</span><strong id="limit-up-pool-unmatched">--</strong></div>
             <div class="limit-up-pool-summary__status">
               <span id="limit-up-pool-trade-date">交易日 --</span>
               <strong id="limit-up-pool-status" role="status" aria-live="polite">打开后读取实时涨停状态</strong>
@@ -171,39 +225,42 @@
 
           <footer class="limit-up-pool-method">
             <span>盘中每分钟刷新涨停名单、板数与首次封板时间。</span>
-            <span>主显示优先读取当日人工复核或“行情题材 + 直接业务证据”的交叉归因。</span>
-            <span>长期主营仍只读取统一真实归属库，不被当日题材改写。</span>
-            <span>只有题材而无直接业务证据时退回长期目录，不用供应商原因单独补齐。</span>
+            <span>市场主归属统一读取聪明板块库，每只股票只显示一个主归属。</span>
+            <span>证据不足显示待核验，不用主营行业或供应商概念补位。</span>
+            <span>概念标签、产业链细分和来源依据在聪明板块库中查看。</span>
           </footer>
         </div>
       </dialog>
 
       <main>
-        <div class="intraday-focus-grid" aria-label="盘中异动与持仓观察">
-          <section class="section-block sector-move-radar" id="sector-move-radar" aria-labelledby="sector-move-radar-heading">
-          <div class="section-heading sector-move-radar__heading">
-            <div>
-              <span class="section-kicker">INTRADAY SECTOR MOVE RADAR</span>
-              <h2 id="sector-move-radar-heading">盘中板块异动雷达 <small>15 秒扫描</small></h2>
-              <p>达到阈值立即置顶并绘制真实资金轨迹；连续两份新鲜快照确认后，发送系统通知或声音。</p>
+        <div class="intraday-focus-grid" aria-label="盘中选股与持仓观察">
+          <section class="section-block" id="intraday-macd-j-section" aria-labelledby="intraday-macd-j-heading">
+            <h2 id="intraday-macd-j-heading">双拐雷达</h2>
+            <p id="intraday-macd-j-status" role="status">等待后台扫描状态…</p>
+            <p>09:30～11:30、13:00～15:00 每 15 分钟扫描；午休仅 11:45 复核一次。命中即提示，每只股票每天提示一次。</p>
+            <p>与盘后选股使用同一条件：主板非ST，日线 MACD(12,26,9) 当日金叉（不限零轴位置）；KDJ(9,3,3) J 今日上升、当天或此前1～2个交易日拐头。距近60个交易日的前复权最高价严格低于-20%，价格≥当日MA5，量比≤1.5。另列待金叉预警：DIF上升、两线差距连续两天缩小，不算正式入选。每轮显示本轮符合条件且不在上一交易日同版本存档中的股票，开盘首次符合的也计入。盘中为未收盘日线预估；收盘确认展示完整股票池。</p>
+            <p id="intraday-macd-j-coverage"></p>
+            <button class="button button-primary" id="intraday-macd-j-history-open" type="button">查看每次扫描结果</button>
+          </section>
+
+          <section class="section-block stock-selection-block" id="stock-selection-section" aria-labelledby="stock-selection-heading">
+            <div class="stock-selection-launcher">
+              <div>
+                <span class="section-kicker">STOCK RESEARCH CENTER</span>
+                <h2 id="stock-selection-heading">选股中心 <small>收盘后归档</small></h2>
+                <p>在同一份全市场收盘证据上查看多因子候选池与可复现的条件筛选；候选池不是买入建议，收益从下一交易日开盘起验证。</p>
+              </div>
+              <div class="stock-selection-launcher__actions">
+                <span class="panel-state" id="stock-selection-launch-status">滚动到此处时读取存档</span>
+                <button class="button button-primary" id="stock-selection-open-button" type="button">打开选股中心</button>
+              </div>
             </div>
-            <div class="sector-move-radar__controls">
-              <label for="sector-move-radar-threshold">
-                <span>5 分钟异动阈值</span>
-                <select id="sector-move-radar-threshold" data-sector-flow-surge-threshold>
-                  <option value="0.3">±0.30 个百分点</option>
-                  <option value="0.5" selected>±0.50 个百分点</option>
-                  <option value="0.8">±0.80 个百分点</option>
-                  <option value="1.2">±1.20 个百分点</option>
-                </select>
-              </label>
-              <span class="panel-state" id="sector-move-radar-status">等待盘中轨迹</span>
+            <div class="stock-selection-launcher__summary" aria-label="选股中心功能">
+              <span>每日量化候选池</span>
+              <span>次日涨停机会 20 强</span>
+              <span>10 日长上影疑似试盘形态</span>
+              <span>主板 · 非 ST · 完整证据</span>
             </div>
-          </div>
-          <div class="sector-move-radar-list" id="sector-move-radar-list" aria-live="polite">
-            <p class="empty-state">尚未发现达到阈值的板块异动。</p>
-          </div>
-          <p class="definition-note sector-move-radar__note" id="sector-move-radar-note">异动按板块 5 分钟涨幅变化识别，卡片轨迹展示同一板块的真实 5 分钟资金变化；资金为估计 / 辅助，不构成买卖建议。</p>
           </section>
 
           <section class="section-block manual-portfolio-block" id="manual-portfolio-section" aria-labelledby="manual-portfolio-heading">
@@ -562,101 +619,26 @@
           </article>
         </section>
 
-        <section class="analysis-grid" aria-label="盘面分析与条件情景">
-          <article class="panel interpretation-panel">
-            <div class="panel-heading">
-              <div>
-                <span class="section-kicker">INTERPRETATION</span>
-                <h2>此刻盘面在做什么</h2>
-              </div>
-              <span class="evidence-strength" id="analysis-strength">证据强度：未确认</span>
-            </div>
-            <p class="interpretation-summary" id="what-is-happening">等待完整快照后再形成结论。</p>
-            <div class="evidence-columns">
-              <div>
-                <h3><span class="evidence-mark evidence-mark--support">+</span>支持证据</h3>
-                <ul id="supporting-evidence">
-                  <li class="muted-item">暂无已确认支持证据</li>
-                </ul>
-              </div>
-              <div>
-                <h3><span class="evidence-mark evidence-mark--counter">−</span>反证 / 保留意见</h3>
-                <ul id="counter-evidence">
-                  <li class="muted-item">暂无已确认反证</li>
-                </ul>
-              </div>
-            </div>
-          </article>
+        <aside class="intraday-macd-j-toast" id="intraday-macd-j-toast" role="status" hidden>
+          <p id="intraday-macd-j-toast-text"></p>
+          <button class="button button-secondary" id="intraday-macd-j-dismiss" type="button">知道了</button>
+        </aside>
 
-          <article class="panel scenarios-panel">
-            <div class="panel-heading">
-              <div>
-                <span class="section-kicker">NEXT 5–15 MIN</span>
-                <h2>接下来最值得盯的条件</h2>
-              </div>
-              <span class="panel-state">最多 2 条</span>
+        <dialog class="stock-selection-dialog" id="intraday-macd-j-history-dialog" aria-labelledby="intraday-macd-j-history-heading">
+          <div class="stock-selection-dialog__shell">
+            <header class="stock-selection-dialog__header">
+              <div><h2 id="intraday-macd-j-history-heading">MACD + J 线扫描记录</h2><p>每次扫描独立存档；盘中预估，收盘前可能失效。</p></div>
+              <button class="stock-selection-dialog__close" id="intraday-macd-j-history-close" type="button" aria-label="关闭扫描记录">×</button>
+            </header>
+            <div class="stock-selection-toolbar">
+              <label for="intraday-macd-j-history-date">扫描日期</label>
+              <select id="intraday-macd-j-history-date"></select>
+              <span id="intraday-macd-j-history-status" role="status"></span>
             </div>
-            <div class="scenario-list" id="scenario-list">
-              <p class="empty-state">等待条件证据。这里不展示精确概率，只展示 if / then 与失效条件。</p>
-            </div>
-          </article>
-        </section>
-
-        <section class="bottom-grid" aria-label="变化确认与提醒记录">
-          <article class="panel change-panel">
-            <div class="panel-heading">
-              <div>
-                <span class="section-kicker">CONFIRMED CHANGE</span>
-                <h2>最近确认变化</h2>
-              </div>
-              <span class="panel-state" id="change-as-of">尚无</span>
-            </div>
-            <div class="change-content" id="confirmed-change">
-              <span class="change-icon" aria-hidden="true">↔</span>
-              <div>
-                <strong>尚未确认状态切换</strong>
-                <p>需要连续快照支持，单次抖动不会作为变化提醒。</p>
-              </div>
-            </div>
-          </article>
-
-          <article class="panel alerts-panel">
-            <div class="panel-heading">
-              <div>
-                <span class="section-kicker">ALERTS</span>
-                <h2>盘面变化提醒</h2>
-              </div>
-              <button class="text-button" id="mark-read-button" type="button">全部已读</button>
-            </div>
-            <div class="alert-status-row">
-              <span id="alert-delivery-state">数据确认前不发送提醒</span>
-              <span id="unread-count">0 条未读</span>
-            </div>
-            <div class="alert-list" id="alert-list">
-              <p class="empty-state">后端确认变化后，提醒会出现在这里。</p>
-            </div>
-          </article>
-        </section>
-
-        <section class="section-block stock-selection-block" id="stock-selection-section" aria-labelledby="stock-selection-heading">
-          <div class="stock-selection-launcher">
-            <div>
-              <span class="section-kicker">STOCK RESEARCH CENTER</span>
-              <h2 id="stock-selection-heading">选股中心 <small>收盘后归档</small></h2>
-              <p>在同一份全市场收盘证据上查看多因子候选池与可复现的条件筛选；候选池不是买入建议，收益从下一交易日开盘起验证。</p>
-            </div>
-            <div class="stock-selection-launcher__actions">
-              <span class="panel-state" id="stock-selection-launch-status">滚动到此处时读取存档</span>
-              <button class="button button-primary" id="stock-selection-open-button" type="button">打开选股中心</button>
-            </div>
+            <div class="stock-selection-tabs" id="intraday-macd-j-history-tabs" role="tablist" aria-label="扫描时间"></div>
+            <div id="intraday-macd-j-history-result" role="tabpanel"></div>
           </div>
-          <div class="stock-selection-launcher__summary" aria-label="选股中心功能">
-            <span>每日量化候选池</span>
-            <span>次日涨停机会 20 强</span>
-            <span>10 日长上影疑似试盘形态</span>
-            <span>主板 · 非 ST · 完整证据</span>
-          </div>
-        </section>
+        </dialog>
 
         <dialog class="stock-selection-dialog" id="stock-selection-dialog" aria-labelledby="stock-selection-dialog-title">
           <div class="stock-selection-dialog__shell">
@@ -674,19 +656,24 @@
               <select id="stock-selection-date-select" aria-label="选择每日选股交易日">
                 <option value="">尚无存档</option>
               </select>
-              <button class="button button-primary" id="stock-selection-generate-button" type="button" disabled>18:00 后生成</button>
+              <button class="button button-primary" id="stock-selection-generate-button" type="button" disabled>手动生成今日结果</button>
               <span class="panel-state" id="stock-selection-status">正在读取存档…</span>
             </div>
 
+            <div class="stock-selection-schedule" id="stock-selection-schedule" role="status" aria-live="polite">18:00 后可手动生成今日结果；18:30 自动补齐，仍有缺失时可手动重试。</div>
             <div class="stock-selection-tabs" id="stock-selection-tabs" role="tablist" aria-label="选股策略"></div>
+            <div class="stock-selection-insights-toolbar" id="stock-selection-insights-toolbar" hidden>
+              <div class="stock-selection-industry-tags" id="stock-selection-change-tags" role="group" aria-label="按选股变化筛选"></div>
+              <button class="button" id="stock-selection-followup-open" type="button">近 5 日入档涨停回溯</button>
+              <p id="stock-selection-comparison-summary" role="status" aria-live="polite"></p>
+            </div>
             <div class="stock-selection-industry-filter" id="stock-selection-industry-filter" hidden>
-              <div class="stock-selection-industry-tags" id="stock-selection-industry-tags" role="group" aria-label="按行业板块筛选股票"></div>
+              <div class="stock-selection-industry-tags" id="stock-selection-industry-tags" role="group" aria-label="按市场主归属筛选股票"></div>
               <p id="stock-selection-industry-summary" role="status" aria-live="polite"></p>
             </div>
-            <p class="stock-selection-schedule"><span id="stock-selection-industry-basis">行业板块：同花顺。</span><br>显示排序：行业板块（拼音顺序，未分类置后） → 命中次数（从多到少）。同值保留原顺序；没有命中次数的策略，板块内保留原策略排名。</p>
+            <p class="stock-selection-schedule"><span id="stock-selection-industry-basis">市场主归属：聪明板块库。</span><br>显示排序：市场主归属（拼音顺序，待核验置后） → 命中次数（从多到少）。同值保留原顺序；没有命中次数的策略，板块内保留原策略排名。</p>
 
             <section id="stock-selection-panel-daily" role="tabpanel" data-stock-selection-result-contract="balanced_stock_selection_result.v1">
-              <div class="stock-selection-schedule" id="stock-selection-schedule" role="status" aria-live="polite">上海时间 18:00 后可手动生成；当日缺失时 18:30 自动生成。</div>
               <div class="stock-selection-empty" id="stock-selection-empty">尚无每日候选池存档。生成前会核验全市场覆盖、财务公告时点和下一交易日成交边界。</div>
               <div class="stock-selection-content" id="stock-selection-content" hidden>
                 <div class="stock-selection-metrics" aria-label="每日选股覆盖指标">
@@ -697,7 +684,7 @@
                 </div>
                 <div class="stock-selection-table-scroll" tabindex="0" aria-label="每日量化候选股票表">
                   <table class="stock-selection-table">
-                    <thead><tr><th scope="col">策略排名</th><th scope="col">股票</th><th scope="col">行业板块</th><th scope="col">综合分</th><th scope="col">因子覆盖</th><th scope="col">收盘价</th><th scope="col">成交额</th><th scope="col">总市值</th><th scope="col">主要依据 / 风险</th></tr></thead>
+                    <thead><tr><th scope="col">策略排名</th><th scope="col">股票</th><th scope="col">市场主归属</th><th scope="col">综合分</th><th scope="col">因子覆盖</th><th scope="col">收盘价</th><th scope="col">成交额</th><th scope="col">总市值</th><th scope="col">主要依据 / 风险</th></tr></thead>
                     <tbody id="stock-selection-table-body"><tr><td colspan="9" class="stock-selection-table-empty">尚无候选数据。</td></tr></tbody>
                   </table>
                 </div>
@@ -731,7 +718,7 @@
                 </div>
                 <div class="stock-selection-table-scroll" tabindex="0" aria-label="次日涨停机会候选股票表">
                   <table class="stock-selection-table stock-limit-up-tendency-table">
-                    <thead><tr><th scope="col">策略排名</th><th scope="col">股票 / 阶段</th><th scope="col">行业板块</th><th scope="col">机会分</th><th scope="col">当日 / 5 日</th><th scope="col">换手 / 量比</th><th scope="col">成交额放大</th><th scope="col">流通市值</th><th scope="col">机会结构 / 个股证据 / 风险</th></tr></thead>
+                    <thead><tr><th scope="col">策略排名</th><th scope="col">股票 / 阶段</th><th scope="col">市场主归属</th><th scope="col">机会分</th><th scope="col">当日 / 5 日</th><th scope="col">换手 / 量比</th><th scope="col">成交额放大</th><th scope="col">流通市值</th><th scope="col">机会结构 / 个股证据 / 风险</th></tr></thead>
                     <tbody id="stock-limit-up-tendency-table-body"><tr><td colspan="9" class="stock-selection-table-empty">尚无倾向候选数据。</td></tr></tbody>
                   </table>
                 </div>
@@ -752,21 +739,51 @@
 
             <section id="stock-selection-panel-volume-surge" role="tabpanel" data-stock-selection-result-contract="stock_volume_surge_screen.v1" hidden>
               <div class="stock-pattern-rule" aria-label="7 日向上放量筛选规则">
-                <strong>7 日向上放量 · v2</strong>
-                <span>主板非 ST</span><span>近 7 个交易日</span><span>至少 1 日上涨</span><span>当日成交量 ≥ 前 5 日均量 2 倍</span><span>同一 7 日窗口无收盘涨停</span><span>后续收盘不低于本轮起点最低价</span><span>跌破后重新命中可重启</span>
+                <strong>7 日向上放量 · v3</strong>
+                <span>主板非 ST</span><span>近 7 个交易日</span><span>至少 1 日上涨</span><span>当日成交量 ≥ 前 5 日均量 2 倍</span><span>次日成交量 ≤ 放量日的 66%</span><span>无次日数据暂不计命中</span><span>同一 7 日窗口无收盘涨停</span><span>后续收盘不低于本轮起点最低价</span><span>跌破后重新命中可重启</span>
               </div>
               <div class="stock-pattern-empty" id="stock-volume-surge-empty">该交易日尚无“7 日向上放量”策略档案；新生成的选股档案将包含此策略。</div>
               <div id="stock-volume-surge-content" hidden>
                 <p id="stock-volume-surge-summary" role="status"></p>
                 <div class="stock-selection-table-scroll stock-pattern-table-scroll" tabindex="0" aria-label="7 日向上放量股票表">
                   <table class="stock-selection-table stock-pattern-table">
-                    <thead><tr><th scope="col">股票</th><th scope="col">行业板块</th><th scope="col">收盘价</th><th scope="col">本轮命中次数</th><th scope="col">本轮底线与放量证据</th></tr></thead>
+                    <thead><tr><th scope="col">股票</th><th scope="col">市场主归属</th><th scope="col">收盘价</th><th scope="col">本轮命中次数</th><th scope="col">本轮底线与放量证据</th></tr></thead>
                     <tbody id="stock-volume-surge-table-body"></tbody>
                   </table>
                 </div>
                 <div class="stock-selection-detail-grid">
-                  <article class="panel"><div class="panel-heading"><h3>判定方法</h3><span class="panel-state">规则 v1</span></div><ul id="stock-volume-surge-methodology"></ul></article>
+                  <article class="panel"><div class="panel-heading"><h3>判定方法</h3><span class="panel-state">以所选存档版本为准</span></div><ul id="stock-volume-surge-methodology"></ul></article>
                   <article class="panel"><div class="panel-heading"><h3>证据边界与排除</h3><span class="panel-state">完整窗口</span></div><ul id="stock-volume-surge-limitations"></ul><dl class="stock-selection-exclusions" id="stock-volume-surge-exclusions"></dl></article>
+                </div>
+              </div>
+            </section>
+
+            <section id="stock-selection-panel-macd-j" role="tabpanel" data-stock-selection-result-contract="stock_macd_j_screen.v1" hidden>
+              <div class="stock-pattern-rule" aria-label="MACD 金叉与 J 线拐头规则">
+                <strong>MACD 金叉 + J 线拐头</strong>
+                <span>主板非 ST</span><span>日线前复权</span><span>MACD(12,26,9)</span><span>KDJ(9,3,3)</span><span id="stock-macd-j-rule">当日金叉 · J当天或提前1～2日 · 距60日高点&lt;-20% · 价格≥MA5 · 量比≤1.5</span><span>低位只做标签</span>
+              </div>
+              <div class="stock-pattern-empty" id="stock-macd-j-empty">该交易日尚无此策略档案；按收盘后规则生成，历史缺失不代表没有股票命中。</div>
+              <div id="stock-macd-j-content" hidden>
+                <p id="stock-macd-j-summary" role="status"></p>
+                <p id="stock-macd-j-source"></p>
+                <h3>正式入选</h3>
+                <label for="stock-macd-j-group">信号分组</label>
+                <select id="stock-macd-j-group" aria-label="MACD J 信号分组">
+                  <option value="all">全部命中</option>
+                  <option value="same_day">J 当日拐头</option>
+                  <option value="prior_3_sessions">J 此前1～2个交易日拐头</option>
+                </select>
+                <div class="stock-selection-table-scroll" tabindex="0" aria-label="MACD J 命中股票表">
+                  <table class="stock-selection-table">
+                    <thead><tr><th scope="col">股票</th><th scope="col">市场主归属</th><th scope="col">收盘价</th><th scope="col">信号分组</th><th scope="col">金叉位置</th><th scope="col">J 拐头与低位标签</th><th scope="col">指标证据</th></tr></thead>
+                    <tbody id="stock-macd-j-table-body"></tbody>
+                  </table>
+                </div>
+                <section id="stock-macd-j-pending" aria-label="待金叉预警"></section>
+                <div class="stock-selection-detail-grid">
+                  <article class="panel"><div class="panel-heading"><h3>判定方法</h3><span class="panel-state">以所选存档版本为准</span></div><ul id="stock-macd-j-methodology"></ul></article>
+                  <article class="panel"><div class="panel-heading"><h3>数据说明与排除</h3><span class="panel-state">研究版 · 未回测</span></div><ul id="stock-macd-j-limitations"></ul><dl class="stock-selection-exclusions" id="stock-macd-j-exclusions"></dl></article>
                 </div>
               </div>
             </section>
@@ -786,7 +803,7 @@
                 </div>
                 <div class="stock-selection-table-scroll stock-pattern-table-scroll" tabindex="0" aria-label="长上影疑似试盘形态股票表">
                   <table class="stock-selection-table stock-pattern-table">
-                    <thead><tr><th scope="col">股票</th><th scope="col">行业板块</th><th scope="col">命中次数</th><th scope="col">最近命中</th><th scope="col">收盘价</th><th scope="col">逐次证据</th></tr></thead>
+                    <thead><tr><th scope="col">股票</th><th scope="col">市场主归属</th><th scope="col">命中次数</th><th scope="col">最近命中</th><th scope="col">收盘价</th><th scope="col">逐次证据</th></tr></thead>
                     <tbody id="stock-pattern-table-body"><tr><td colspan="6" class="stock-selection-table-empty">尚无筛选数据。</td></tr></tbody>
                   </table>
                 </div>
@@ -1002,7 +1019,46 @@
       </footer>
     </div>
 
+    <dialog class="stock-selection-dialog stock-selection-followup-dialog" id="stock-selection-followup-dialog" aria-labelledby="stock-selection-followup-title">
+      <div class="stock-selection-dialog__shell">
+        <header class="stock-selection-dialog__header">
+          <div><h2 id="stock-selection-followup-title">近 5 日入档涨停回溯</h2><p id="stock-selection-followup-summary"></p></div>
+          <button class="stock-selection-dialog__close" id="stock-selection-followup-close" type="button" aria-label="返回选股策略">×</button>
+        </header>
+        <p class="stock-selection-schedule" id="stock-selection-followup-quality" role="status"></p>
+        <div class="stock-selection-table-scroll" tabindex="0" aria-label="逐次入档与涨停证据">
+          <table class="stock-selection-table stock-selection-followup-table">
+            <thead><tr><th scope="col">股票</th><th scope="col">市场主归属</th><th scope="col">入档次数</th><th scope="col">逐次入档证据</th><th scope="col">涨停次数</th><th scope="col">逐次收盘涨停证据</th></tr></thead>
+            <tbody id="stock-selection-followup-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </dialog>
+
     <script src="/watch/app.js" defer></script>
+    <dialog id="smart-sector-dialog" class="smart-sector-dialog" aria-labelledby="smart-sector-heading">
+      <header class="smart-sector-header">
+        <div><p class="smart-sector-eyebrow">市场主线 × 真实业务</p><h2 id="smart-sector-heading">聪明板块库</h2>
+          <p>每只股票一个市场主归属。查看产业链位置、其他标签和判断依据。</p></div>
+        <button type="button" class="button button-secondary" id="smart-sector-close" aria-label="关闭聪明板块库">关闭</button>
+      </header>
+      <div class="smart-sector-summary" id="smart-sector-summary" role="status" aria-live="polite">正在读取归属目录…</div>
+      <div class="smart-sector-controls">
+        <label>查找股票或概念<input id="smart-sector-search" type="search" placeholder="股票名称、代码、主归属或细分" autocomplete="off"></label>
+        <label>审阅状态<select id="smart-sector-status"><option value="all">全部股票</option><option value="verified">已归属</option><option value="pending">待审阅 / 复核</option></select></label>
+        <label>概念标签<select id="smart-sector-tag"><option value="">全部标签</option></select></label>
+        <button type="button" class="button button-secondary" id="smart-sector-refresh">刷新目录</button>
+      </div>
+      <div class="smart-sector-layout">
+        <nav class="smart-sector-nav" id="smart-sector-sectors" aria-label="按市场主归属浏览"></nav>
+        <section class="smart-sector-stocks" aria-label="股票归属列表">
+          <div class="smart-sector-table-wrap"><table><thead><tr><th>股票</th><th>市场主归属</th><th>产业链细分</th><th>其他标签</th><th>核验状态</th><th>依据</th></tr></thead><tbody id="smart-sector-rows"></tbody></table></div>
+          <div class="smart-sector-pagination"><button class="button button-secondary" id="smart-sector-prev" type="button">上一页</button><span id="smart-sector-page"></span><button class="button button-secondary" id="smart-sector-next" type="button">下一页</button></div>
+          <article id="smart-sector-detail" class="smart-sector-detail" aria-live="polite"><p>选择一只股票的“查看依据”，核对市场归属与公司业务的关系。</p></article>
+        </section>
+      </div>
+    </dialog>
+    <script src="/watch/smart-sector-library.js" defer></script>
     <script src="/watch/sector-catalog.js" defer></script>
   </body>
 </html>

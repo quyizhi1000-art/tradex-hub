@@ -1,0 +1,76 @@
+{
+  "instrument_id": "000788.SZ",
+  "name": "北大医药",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "000788.SZ",
+    "name": "北大医药",
+    "memberships": [
+      "医药生物",
+      "化学制药",
+      "化学制剂",
+      "重庆板块",
+      "病原体防治",
+      "流感",
+      "冷链物流",
+      "病毒防治",
+      "医疗器械概念",
+      "西部大开发",
+      "成渝特区"
+    ],
+    "business_sections": [
+      {
+        "title": "药品研发",
+        "kind": "主营业务",
+        "text": "药品研发：公司建立有研发全流程的组织架构与人员配置，拥有先进完备的研发设备和约10000平方米的小试、中试基地。采用自主开发和合作研发两种模式，并将逐渐形成以自主开发为主，同时重视合作研发。在研产品涵盖抗感染类、镇痛类、精神类等多个领域。"
+      },
+      {
+        "title": "制剂业务",
+        "kind": "主营业务",
+        "text": "制剂业务：目前制剂销售以国内市场为主，上市的制剂产品主要覆盖抗感染类、镇痛类、精神类、消化系统类、心血管类等；此外，公司拥有健全的营销网络和覆盖全国的营销渠道，并能够合法、有效开展药品销售活动。"
+      },
+      {
+        "title": "流通业务",
+        "kind": "主营业务",
+        "text": "流通业务：通过北京新优势医药、武汉叶开泰两家全资子公司从事第三方药品、器械和耗材的分销、零售、医院集采、药房托管等业务。"
+      },
+      {
+        "title": "医疗服务",
+        "kind": "主营业务",
+        "text": "医疗服务：主要是公司参股的肿瘤医院管理公司控股的迦南门诊从事的肿瘤筛查、健康管理及诊疗等服务。"
+      },
+      {
+        "title": "研发优势",
+        "kind": "核心竞争力",
+        "text": "公司设立有专门的研发机构，建立有研发全流程的组织架构与人员配置，拥有先进完备的研发设备和约10000平方米的小试、中试基地，可独立完成仿制药、一致性评价品种的研发全流程，也可开展创新药的药学部分研究工作。项目开发采用自主开发和合作研发两种模式，现已形成丰富的在研产品梯队，将有力保障后续产品供应，助力公司长远发展。"
+      },
+      {
+        "title": "营销优势",
+        "kind": "核心竞争力",
+        "text": "成熟的营销团队和营销网络是公司核心竞争力的重要组成部分。公司非常重视市场拓展和销售渠道的建设，制剂营销网络现已基本覆盖全国，并能在新政策形势下顺利进行合规运营。"
+      },
+      {
+        "title": "企业文化优势",
+        "kind": "核心竞争力",
+        "text": "“创新、责任、信任、努力”的企业文化已成为推动公司各项工作的核心导向，具有积极向上的引导作用，公司综合竞争力得到进一步提升。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ000788",
+    "fetched_at": "2026-09-18T22:35:53.589093+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "制剂药"
+}

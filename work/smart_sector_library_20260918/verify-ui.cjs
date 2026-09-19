@@ -1,0 +1,44 @@
+const {chromium} = require('C:/Users/Admin/AppData/Local/npm-cache/_npx/e41f203b7505f1fb/node_modules/playwright');
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+(async()=>{
+  const browser=await chromium.launch({headless:true});
+  try {
+    const page=await browser.newPage({viewport:{width:1500,height:1000}});
+    const errors=[];page.on('pageerror',error=>errors.push(error.message));
+    await page.goto('http://127.0.0.1:8765/',{waitUntil:'domcontentloaded'});
+    await page.getByRole('button',{name:'聪明板块库',exact:true}).click();
+    const dialog=page.locator('#smart-sector-dialog');
+    await dialog.waitFor({state:'visible'});
+    await page.locator('#smart-sector-summary').filter({hasText:'全市场 5567只'}).waitFor();
+    assert.match(await page.locator('#smart-sector-summary').innerText(),/同花顺资料读取已暂停/);
+    const catalog=await (await page.request.get('http://127.0.0.1:8765/api/smart-sector-library')).json();
+    await page.locator('#smart-sector-search').fill('三花智控');
+    await page.locator('#smart-sector-rows tr').filter({hasText:'002050.SZ'}).waitFor();
+    assert.match(await page.locator('#smart-sector-rows').innerText(),/人形机器人/);
+    await page.getByRole('button',{name:'查看依据',exact:true}).click();
+    assert.match(await page.locator('#smart-sector-detail').innerText(),/机电执行器/);
+    assert.ok(await page.locator('#smart-sector-detail a').count()>0);
+    await page.screenshot({path:'work/smart_sector_library_20260918/library-desktop.png',fullPage:false});
+    await page.locator('#smart-sector-search').fill('麦格米特');
+    assert.match(await page.locator('#smart-sector-rows').innerText(),/AI算力/);
+    await page.locator('#smart-sector-search').fill('中大力德');
+    assert.match(await page.locator('#smart-sector-rows').innerText(),/精密减速器/);
+    await page.locator('#smart-sector-search').fill('');
+    await page.locator('#smart-sector-status').selectOption('pending');
+    assert.ok(await page.locator('#smart-sector-rows tr').count()>1);
+    assert.ok(!(await page.locator('#smart-sector-rows').innerText()).includes('已核验'));
+    await page.locator('#smart-sector-next').click();
+    assert.match(await page.locator('#smart-sector-page').innerText(),/第2/);
+    await page.locator('#smart-sector-status').selectOption('all');
+    await page.locator('#smart-sector-tag').selectOption('source:英伟达概念');
+    assert.ok(await page.locator('#smart-sector-rows tr').count()>0);
+    await page.locator('#smart-sector-tag').selectOption('');
+    await page.locator('#smart-sector-sectors button').filter({hasText:'人形机器人'}).click();
+    assert.equal(await page.locator('#smart-sector-rows tr').count(),catalog.sectors.find(s=>s.name==='人形机器人').count);
+    await page.locator('#smart-sector-close').click();
+    assert.equal(await dialog.isVisible(),false);
+    fs.writeFileSync('work/smart_sector_library_20260918/ui-verification.json',JSON.stringify({status:'passed',checks:['open','search-three-examples','evidence-links','pending-filter','pagination','source-concept-filter','primary-sector-filter','close'],page_errors:errors},null,2));
+    console.log(JSON.stringify({status:'passed',page_errors:errors}));
+  } finally { await browser.close(); }
+})().catch(e=>{console.error(e);process.exitCode=1});

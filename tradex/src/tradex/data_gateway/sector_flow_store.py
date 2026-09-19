@@ -499,6 +499,21 @@ class SectorFundFlowStore:
         assert current is not None
         return self._repair_payload(current)
 
+    def get_required_curve_manifest(self, trading_date: date) -> tuple[tuple[str, ...], ...]:
+        """Cheap change detector for required curves; no payload decompression."""
+        with self._lock:
+            self._ensure_open()
+            rows = self._connection.execute(
+                """SELECT t.sector_key, t.provider_sector_code,
+                          COALESCE(c.provider, ''), COALESCE(c.payload_digest, '')
+                   FROM sector_flow_targets t LEFT JOIN sector_flow_curves c
+                     ON c.trade_date = t.trade_date AND c.sector_key = t.sector_key
+                   WHERE t.trade_date = ?
+                   ORDER BY t.sector_key, c.provider""",
+                (trading_date.isoformat(),),
+            ).fetchall()
+        return tuple(tuple(row) for row in rows)
+
     def get_best(
         self,
         trading_date: date,

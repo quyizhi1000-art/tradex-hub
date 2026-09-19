@@ -364,7 +364,7 @@ def test_manual_portfolio_desktop_ui_exposes_only_observation_scope():
 
     assert 'id="manual-portfolio-section"' in html
     assert 'class="intraday-focus-grid"' in html
-    assert html.index('id="sector-move-radar"') < html.index('id="manual-portfolio-section"')
+    assert html.index('id="intraday-macd-j-section"') < html.index('id="stock-selection-section"') < html.index('id="manual-portfolio-section"')
     assert 'id="manual-portfolio-dialog"' in html
     assert 'id="manual-portfolio-open-button"' in html
     assert 'id="manual-portfolio-preview"' in html
@@ -386,9 +386,9 @@ def test_manual_portfolio_desktop_ui_exposes_only_observation_scope():
     assert "function openManualPortfolioDialog()" in js
     assert 'byId("manual-portfolio-open-button").addEventListener("click", openManualPortfolioDialog)' in js
     assert ".intraday-focus-grid" in css
-    assert "grid-template-columns: minmax(0, 2.15fr) minmax(330px, 0.85fr)" in css
+    assert "grid-template-columns: minmax(0, 1.4fr) minmax(280px, 0.9fr) minmax(330px, 0.85fr)" in css
     assert "manual_portfolio_outlook.v1" in js
-    assert "本地关系库没有可用归属；不使用供应商板块名称补位。" in js
+    assert 'marketMembership?.status === "verified" ? marketMembership.primary_sector_name : "待核验"' in js
     assert "明早按这个顺序复核" in js
     assert "昨天有用的部分" in js
     assert "manual_portfolio_market_snapshot.v1" in js

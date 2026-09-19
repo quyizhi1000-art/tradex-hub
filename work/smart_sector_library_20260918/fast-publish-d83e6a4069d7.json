@@ -1,0 +1,91 @@
+[
+  {
+    "id": "688579.SH",
+    "key": "ai_agents",
+    "sector": "AI智能体",
+    "source_sector_name": "AI智能体",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "医保监管与政务智能体"
+    ],
+    "fact": "智慧人社及医保信息系统服务，融合AI业务。",
+    "company_fact": "智慧人社及医保信息系统服务，融合AI业务。",
+    "ths_fact": "基于DareWen开发感知决策执行记忆医保智能体，衔接5E监管。",
+    "reason": "已有业务智能体平台，不将区块链能力当稳定币经营。"
+  },
+  {
+    "id": "688580.SH",
+    "key": "brain_computer_interface",
+    "sector": "脑机接口",
+    "source_sector_name": "脑机接口",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "非侵入式脑电反馈与监测"
+    ],
+    "fact": "康复医学方案覆盖精神心理神经儿童康复等。",
+    "company_fact": "康复医学方案覆盖精神心理神经儿童康复等。",
+    "ths_fact": "拥有团体多参数反馈及新生儿脑电监测产品和脑电采集解析技术。",
+    "reason": "非侵入式采集反馈链，非植入式读写大脑；不把专利数量当营收。"
+  },
+  {
+    "id": "688581.SH",
+    "key": "medical_devices",
+    "sector": "医疗器械",
+    "source_sector_name": "医疗器械概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "内镜微创诊疗器械"
+    ],
+    "fact": "内镜诊疗器械设备研发生产销售，相关内窥镜注册。",
+    "company_fact": "内镜诊疗器械设备研发生产销售，相关内窥镜注册。",
+    "ths_fact": "止血夹圈套器黏膜切开刀等实际产品。",
+    "reason": "已有消化内镜器械业务；辅助机器人管线研发不当商业交付。"
+  },
+  {
+    "id": "688582.SH",
+    "key": "commercial_space",
+    "sector": "商业航天",
+    "source_sector_name": "商业航天",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "微纳卫星MEMS惯性器件"
+    ],
+    "fact": "高性能MEMS陀螺加速度计用于姿态运动感知。",
+    "company_fact": "高性能MEMS陀螺加速度计用于姿态运动感知。",
+    "ths_fact": "产品已在微纳卫星领域应用多年。",
+    "reason": "具体卫星器件应用支撑，未来星座发射数量不写作自身订单。"
+  },
+  {
+    "id": "688583.SH",
+    "key": "spatial_computing",
+    "sector": "空间计算",
+    "source_sector_name": "空间计算",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "三维扫描感知与建模系统"
+    ],
+    "fact": "高精度便携三维视觉数字化系统及工业专业应用设备。",
+    "company_fact": "高精度便携三维视觉数字化系统及工业专业应用设备。",
+    "ths_fact": "主营手持便携彩色跟踪3D产品和自动化视觉检测。",
+    "reason": "原H1确认3D感知建模；THS 3D打印条目金属打印设备材料描述与原报不符，不据此归属。",
+    "extra_evidence": [
+      {
+        "evidence_id": "official-688583-2026h1",
+        "source_kind": "official_filing",
+        "publisher": "思看科技",
+        "title": "2026年半年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12534643&stockid=688583",
+        "published_at": "2026-08-26",
+        "assertions": [
+          "主营三维视觉数字化产品及系统",
+          "3D感知与3D建模，不是金属打印材料生产商"
+        ]
+      }
+    ]
+  }
+]

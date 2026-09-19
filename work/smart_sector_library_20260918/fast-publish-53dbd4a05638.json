@@ -1,0 +1,77 @@
+[
+  {
+    "id": "600582.SH",
+    "key": "robotics",
+    "sector": "机器人",
+    "source_sector_name": "机器人概念",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "矿山采掘运输安控机器人"
+    ],
+    "fact": "智能矿山开采洗选装备及安全产品，具有采煤自动化全链条能力。",
+    "company_fact": "智能矿山开采洗选装备及安全产品，具有采煤自动化全链条能力。",
+    "ths_fact": "已开发安控运输掘进救援采煤等多类机器人。",
+    "reason": "矿山智能装备的具体机器人产品成立，链位限定矿山专用机器人，不是人形。"
+  },
+  {
+    "id": "600583.SH",
+    "key": "offshore_equipment",
+    "sector": "海工装备",
+    "source_sector_name": "海工装备",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "海洋油气开发工程总承包"
+    ],
+    "fact": "经营海洋油气工程设计采购建造安装调试维修，并有LNG风电工程。",
+    "company_fact": "经营海洋油气工程设计采购建造安装调试维修，并有LNG风电工程。",
+    "ths_fact": "主要产品海洋与非海洋工程，业务覆盖海洋开发全流程。",
+    "reason": "海洋工程装备及EPCI身份明确，服务油气客户不等同自有油气储量开采。"
+  },
+  {
+    "id": "600584.SH",
+    "key": "advanced_packaging",
+    "sector": "先进封装",
+    "source_sector_name": "先进封装",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "集成电路高端封装测试"
+    ],
+    "fact": "按客户订单提供集成电路生产制造封装测试与一站式方案。",
+    "company_fact": "按客户订单提供集成电路生产制造封装测试与一站式方案。",
+    "ths_fact": "已掌握2.5D3D晶圆级SiP倒装等完整高端封装技术。",
+    "reason": "先进封装为成熟核心经营，CPO目前样品交付测试，不将其放大为CPO量产营收。"
+  },
+  {
+    "id": "600585.SH",
+    "key": "cement",
+    "sector": "水泥",
+    "source_sector_name": "水泥概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "水泥熟料骨料混凝土"
+    ],
+    "fact": "主营水泥熟料骨料混凝土生产销售，覆盖基建及房地产。",
+    "company_fact": "主营水泥熟料骨料混凝土生产销售，覆盖基建及房地产。",
+    "ths_fact": "生产多等级水泥用于铁路公路水利等。",
+    "reason": "水泥周期品身份明确，仅有西藏工厂不足以推定已中标雅下工程。"
+  },
+  {
+    "id": "600586.SH",
+    "key": "perovskite_cells",
+    "sector": "钙钛矿电池",
+    "source_sector_name": "钙钛矿电池",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "TCO导电膜玻璃基材"
+    ],
+    "fact": "玻璃业务服务绿色建筑和绿色能源，同时经营纯碱配套销售。",
+    "company_fact": "玻璃业务服务绿色建筑和绿色能源，同时经营纯碱配套销售。",
+    "ths_fact": "TCO已下线并获得国内碲化镉钙钛矿客户认可开始供货。",
+    "reason": "钙钛矿上游TCO材料的实际供货支撑概念身份，明确不是自产钙钛矿电池。"
+  }
+]

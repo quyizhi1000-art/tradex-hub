@@ -1,0 +1,431 @@
+[
+  {
+    "id": "300182.SZ",
+    "key": "ai_applications",
+    "sector": "AI应用",
+    "source_sector_name": "AI应用",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "AI视频创作引擎"
+    ],
+    "stage": "delivery",
+    "fact": "公司AIGC技术与多模态算法研发应用结合影视版权经营。",
+    "company_fact": "公司AIGC技术与多模态算法研发应用结合影视版权经营。",
+    "ths_fact": "ChatPV视频引擎已在多家电视台影视公司应用。",
+    "reason": "自有产品实际客户应用支持AI，版权基础保留不把研发投入作收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300183.SZ",
+    "key": "smart_grid",
+    "sector": "智能电网",
+    "source_sector_name": "智能电网",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "载波通信",
+      "能源采集系统"
+    ],
+    "stage": "revenue",
+    "fact": "能源互联网芯片模组终端系统一体，自研电表采集通信。",
+    "company_fact": "能源互联网芯片模组终端系统一体，自研电表采集通信。",
+    "ths_fact": "解析智能电网能源产品及系统方案为主营。",
+    "reason": "完整电网技术产品支撑，MCU是自有基础器件但不以标签顺序选主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300184.SZ",
+    "key": "mcu_chips",
+    "sector": "MCU芯片",
+    "source_sector_name": "MCU芯片",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "自研微控制器",
+      "芯片分销"
+    ],
+    "stage": "revenue",
+    "fact": "公司实际研发测试销售MCU功率器件EEPROM，另分销。",
+    "company_fact": "公司实际研发测试销售MCU功率器件EEPROM，另分销。",
+    "ths_fact": "全资武汉芯源自研MCU用于电网新能源等。",
+    "reason": "自主芯片与产品产销交叉，代理其它芯片不当自研AI芯片。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300185.SZ",
+    "key": "wind_power",
+    "sector": "风电",
+    "source_sector_name": "风电",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "主轴",
+      "风机结构件"
+    ],
+    "stage": "revenue",
+    "fact": "风机锻铸主轴轮毂结构件批量生产交付。",
+    "company_fact": "风机锻铸主轴轮毂结构件批量生产交付。",
+    "ths_fact": "解析大型海风结构件2025批量交付，产能释放仍有限。",
+    "reason": "实有风电关键部件支持主题，拟投资产能不当全部达产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300187.SZ",
+    "key": "biomass_power",
+    "sector": "生物质能发电",
+    "source_sector_name": "生物质能发电",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "垃圾焚烧发电运营"
+    ],
+    "stage": "revenue",
+    "fact": "主营垃圾焚烧投资建设运营与综合能源。",
+    "company_fact": "主营垃圾焚烧投资建设运营与综合能源。",
+    "ths_fact": "解析两家全资垃圾电厂运营收入和参股另一厂收益。",
+    "reason": "实际自有运营成立，参股规模不并入全资发电量。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300188.SZ",
+    "key": "ai_applications",
+    "sector": "AI应用",
+    "source_sector_name": "AI应用",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "公共安全大模型",
+      "智能取证"
+    ],
+    "stage": "delivery",
+    "fact": "天擎模型已用于舆情预警应急等实战，取证产品AI全覆盖。",
+    "company_fact": "天擎模型已用于舆情预警应急等实战，取证产品AI全覆盖。",
+    "ths_fact": "解析天擎慧眼等已应用电子取证公共安全。",
+    "reason": "自有行业产品落地支持AI，不把战略合作当人形整机。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300189.SZ",
+    "key": "seeds",
+    "sector": "种子",
+    "source_sector_name": "种子",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "水稻油菜玉米育种制种"
+    ],
+    "stage": "revenue",
+    "fact": "主营种子选育繁育制种销售及技术服务。",
+    "company_fact": "主营种子选育繁育制种销售及技术服务。",
+    "ths_fact": "农业种植解析确认具体种子产销，转基因为实验室前期。",
+    "reason": "完整实营种业优于尚在研究的转基因标签。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300190.SZ",
+    "key": "natural_gas",
+    "sector": "天然气",
+    "source_sector_name": "天然气",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "生物天然气",
+      "有机废物资源化"
+    ],
+    "stage": "revenue",
+    "fact": "沼气提纯生产生物天然气经管网或CNG/LNG销售。",
+    "company_fact": "沼气提纯生产生物天然气经管网或CNG/LNG销售。",
+    "ths_fact": "天然气解析确认沼气生物天然气等业务。",
+    "reason": "自有可再生气生产销售直接，限定生物气非油气矿藏。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300191.SZ",
+    "key": "oil_gas_extraction",
+    "sector": "油气开采",
+    "source_sector_name": "油气开采",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "海陆油气勘探开发"
+    ],
+    "stage": "revenue",
+    "fact": "涠洲油田投产，新疆区块增储上产，其他区块勘探。",
+    "company_fact": "涠洲油田投产，新疆区块增储上产，其他区块勘探。",
+    "ths_fact": "解析自主找油技术及全资智慧石油开采权益。",
+    "reason": "实际开采与技术权益交叉，不将全部区块均视为生产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300192.SZ",
+    "key": "vocational_education",
+    "sector": "职业教育",
+    "source_sector_name": "职业教育",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "中职学校",
+      "技能培训"
+    ],
+    "stage": "revenue",
+    "fact": "主营中职全日制学校与职业培训，另油墨产销。",
+    "company_fact": "主营中职全日制学校与职业培训，另油墨产销。",
+    "ths_fact": "解析控股龙门教育运营学校培训。",
+    "reason": "自有教育经营明确，芯片及AI投资不自动替代。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300193.SZ",
+    "key": "industrial_robots",
+    "sector": "工业机器人",
+    "source_sector_name": "工业机器人",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "焊接机器人",
+      "焊割设备"
+    ],
+    "stage": "revenue",
+    "fact": "主营焊割设备及焊接机器人销售。",
+    "company_fact": "主营焊割设备及焊接机器人销售。",
+    "ths_fact": "解析成都佳士机器人小批投产用于客户现场。",
+    "reason": "直接工业焊接产品销售支持，不称人形。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300194.SZ",
+    "key": "chemical_formulations",
+    "sector": "化学制剂",
+    "source_sector_name": "化学制剂",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "化学药制剂",
+      "原料药"
+    ],
+    "stage": "revenue",
+    "fact": "化学药完整原料至制剂生产销售，含抗生素肿瘤专科药。",
+    "company_fact": "化学药完整原料至制剂生产销售，含抗生素肿瘤专科药。",
+    "ths_fact": "同股仿制药解析确认艾司奥美拉唑制剂；创新药为参股优诺金。",
+    "reason": "直接制剂经营有实证，参股生长激素研发不当自营创新药。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300195.SZ",
+    "key": "high_end_equipment",
+    "sector": "高端装备",
+    "source_sector_name": "高端装备",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "印刷包装智能设备"
+    ],
+    "stage": "revenue",
+    "fact": "主营印后高端装备制造及智慧工厂方案。",
+    "company_fact": "主营印后高端装备制造及智慧工厂方案。",
+    "ths_fact": "解析为印刷包装企业提供高端设备整体方案。",
+    "reason": "自身专用装备经营与已有主题一致，工业母机标签不能把印后机当机床。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300196.SZ",
+    "key": "glass_fiber",
+    "sector": "玻璃纤维",
+    "source_sector_name": "玻璃纤维",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "玻纤及复合材料"
+    ],
+    "stage": "revenue",
+    "fact": "玻纤及制品复材实际研发生产销售。",
+    "company_fact": "玻纤及制品复材实际研发生产销售。",
+    "ths_fact": "玻纤解析列短切毡薄毡等产品。",
+    "reason": "完整玻纤平台对应现有板块，旧新产品推广状态不套全部产品。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300197.SZ",
+    "key": "soil_remediation",
+    "sector": "土壤修复",
+    "source_sector_name": "土壤修复",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "生态修复",
+      "环境工程"
+    ],
+    "stage": "revenue",
+    "fact": "业务覆盖土壤水环境修复并已完成千余生态治理工程。",
+    "company_fact": "业务覆盖土壤水环境修复并已完成千余生态治理工程。",
+    "ths_fact": "解析具体采石场生态修复技术与工程项目。",
+    "reason": "自有修复工程支撑主题，碳业务探索不冒称收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300198.SZ",
+    "key": "underground_pipelines",
+    "sector": "地下管网",
+    "source_sector_name": "地下管网",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "给排水管材",
+      "管网运营修复"
+    ],
+    "stage": "revenue",
+    "fact": "主营给排水管材制造销售修复工程及运营。",
+    "company_fact": "主营给排水管材制造销售修复工程及运营。",
+    "ths_fact": "解析HDPE埋地排水管及核电石化等客户。",
+    "reason": "实际管网产品工程吻合，不因减速器标签推成人形。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300199.SZ",
+    "key": "weight_loss_drugs",
+    "sector": "减肥药",
+    "source_sector_name": "减肥药",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "GLP-1多肽原料及制剂"
+    ],
+    "stage": "delivery",
+    "fact": "多肽体系含利拉鲁肽司美替尔泊肽原料药产业化。",
+    "company_fact": "多肽体系含利拉鲁肽司美替尔泊肽原料药产业化。",
+    "ths_fact": "减肥解析利拉鲁肽制剂已向美国合作方发货。",
+    "reason": "具体多肽及交付支持主题，不把原料药经验认作所有制剂均获批。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300200.SZ",
+    "key": "new_energy_vehicles",
+    "sector": "新能源汽车",
+    "source_sector_name": "新能源汽车",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "动力电池胶",
+      "车用功能材料"
+    ],
+    "stage": "revenue",
+    "fact": "主营电池胶辅材及汽车NVH材料。",
+    "company_fact": "主营电池胶辅材及汽车NVH材料。",
+    "ths_fact": "解析部分头部车企电池厂大批供货，部分小批。",
+    "reason": "自有材料实际汽车客户支持，光刻胶仅少数参股不取代。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300201.SZ",
+    "key": "robotics",
+    "sector": "机器人",
+    "source_sector_name": "机器人概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "消防救援机器人"
+    ],
+    "stage": "revenue",
+    "fact": "格拉曼消防机器人和应急排水机器人为明确产品。",
+    "company_fact": "格拉曼消防机器人和应急排水机器人为明确产品。",
+    "ths_fact": "解析灭火救援50余台销售及洗消等已有销售。",
+    "reason": "自有应急机器人销售成立，限定特种机器人非人形。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300203.SZ",
+    "key": "ai_applications",
+    "sector": "AI应用",
+    "source_sector_name": "AI应用",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "AI检测仪器",
+      "实验室自动化"
+    ],
+    "stage": "delivery",
+    "fact": "公司高端分析仪器及智慧环境实验室方案，具有自动前处理平台与智能运维。",
+    "company_fact": "公司高端分析仪器及智慧环境实验室方案，具有自动前处理平台与智能运维。",
+    "ths_fact": "2026年7月解析数智水质环境超脑AI实验室已应用。",
+    "reason": "具体仪器AI应用与自有平台交叉，未推断独立AI收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300204.SZ",
+    "key": "innovative_drugs",
+    "sector": "创新药",
+    "source_sector_name": "创新药",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "创新生物药",
+      "治疗性蛋白"
+    ],
+    "stage": "revenue",
+    "fact": "公司研发生产销售蛋白单抗化学药，聚焦未满足治疗需求。",
+    "company_fact": "公司研发生产销售蛋白单抗化学药，聚焦未满足治疗需求。",
+    "ths_fact": "2026年公告解析明确已上市创新生物药与特色化药。",
+    "reason": "实际创新药研发上市销售一致，具体在研管线未全部算营收。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300205.SZ",
+    "key": "digital_currency",
+    "sector": "数字货币",
+    "source_sector_name": "数字货币",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "数字人民币硬钱包受理终端"
+    ],
+    "stage": "revenue",
+    "fact": "主营数字人民币钱包终端系统研发生产销售并列业绩驱动。",
+    "company_fact": "主营数字人民币钱包终端系统研发生产销售并列业绩驱动。",
+    "ths_fact": "解析持续开发交付数字货币产品。",
+    "reason": "具体受理软硬件业务支撑，非发行数字货币或虚拟币交易。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300206.SZ",
+    "key": "medical_devices",
+    "sector": "医疗器械",
+    "source_sector_name": "医疗器械概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "监护心电",
+      "超声及POCT"
+    ],
+    "stage": "revenue",
+    "fact": "自有监护心电超声妇幼及体外诊断设备销售。",
+    "company_fact": "自有监护心电超声妇幼及体外诊断设备销售。",
+    "ths_fact": "解析彩超心电胎监等医疗器械产品。",
+    "reason": "完整器械平台明确，AI辅助为功能不替代整个平台。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300207.SZ",
+    "key": "lithium_batteries",
+    "sector": "锂电池",
+    "source_sector_name": "锂电池概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "电芯模组",
+      "动力及消费电池"
+    ],
+    "stage": "revenue",
+    "fact": "实际锂离子电芯模组研发制造，消费动力储能应用。",
+    "company_fact": "实际锂离子电芯模组研发制造，消费动力储能应用。",
+    "ths_fact": "解析多年锂电经营及动力装车；固态仅研发顺利。",
+    "reason": "成熟电池产销支撑主线，固态无具体产品交付时不自动升级。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300209.SZ",
+    "key": "computing_power_leasing",
+    "sector": "算力租赁",
+    "source_sector_name": "算力租赁",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "GPU集群租赁",
+      "技术运维"
+    ],
+    "stage": "revenue",
+    "fact": "原9月IR明确V/VB/VC首批8月起租确认收入，原贸易软件为既有业务。",
+    "company_fact": "原9月IR明确V/VB/VC首批8月起租确认收入，原贸易软件为既有业务。",
+    "ths_fact": "3月公告解析全资长沙悦云树服务器租赁及安装运维。",
+    "reason": "原文最新履约收益补足旧主营资料，选择算力；五年框架额非当期收入，VD仍待交付。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "300209-20260911-ir-rental",
+        "source_kind": "official_filing",
+        "publisher": "行云科技",
+        "title": "投资者关系活动记录表2026-014",
+        "source_url": "https://file.finance.sina.com.cn/211.154.219.97:9494/MRGG/CNSESZ_STOCK/2026/2026-9/2026-09-11/12599093.PDF",
+        "published_at": "2026-09-11",
+        "assertions": [
+          "第2页Q1明确V/VB/VC首批8月起租并确认收入；VD尚待交付，160.04亿元为五年框架订单不能作为已实现收入。"
+        ]
+      }
+    ]
+  }
+]

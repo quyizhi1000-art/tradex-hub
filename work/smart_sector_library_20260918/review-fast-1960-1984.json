@@ -1,0 +1,402 @@
+[
+  {
+    "id": "300507.SZ",
+    "key": "evtols",
+    "sector": "飞行汽车(eVTOL)",
+    "source_sector_name": "飞行汽车(eVTOL)",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "电涡流传感器"
+    ],
+    "stage": "orders",
+    "fact": "汽车传感器及配件、燃油新能源部件研发生产销售。",
+    "company_fact": "汽车传感器及配件、燃油新能源部件研发生产销售。",
+    "ths_fact": "电涡流传感器已获国内一级供应商及飞行汽车头部客户技术认证和业务订单。",
+    "reason": "飞行汽车传感器有实际订单支撑增量主题；热管理仍为并行业务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300508.SZ",
+    "key": "machine_tools",
+    "sector": "工业母机",
+    "source_sector_name": "工业母机",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "数控运动控制系统"
+    ],
+    "stage": "revenue",
+    "fact": "运动控制、伺服和工业物联网研产销，主要服务数控机床。",
+    "company_fact": "运动控制、伺服和工业物联网研产销，主要服务数控机床。",
+    "ths_fact": "为雕刻雕铣切割和加工中心整机厂提供运动控制系统。",
+    "reason": "数控核心系统实业明确；人形关节电机收购表述不足证明终端批量供货，另行跟踪。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300509.SZ",
+    "key": "printing_packaging_machinery",
+    "sector": "印刷包装机械",
+    "source_sector_name": "印刷包装机械",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "液体食品吹灌旋包装设备"
+    ],
+    "stage": "revenue",
+    "fact": "提供液体食品前处理吹瓶灌装二次包装整线。",
+    "company_fact": "提供液体食品前处理吹瓶灌装二次包装整线。",
+    "ths_fact": "食品包装解析对应液体食品包装设备，机器人用于分拣装箱码垛。",
+    "reason": "完整包装设备业务归属明确，码垛机械手为包装自动化环节。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300510.SZ",
+    "key": "high_voltage_fast_charging",
+    "sector": "高压快充",
+    "source_sector_name": "高压快充",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "大功率直流液冷充电设备"
+    ],
+    "stage": "delivery",
+    "fact": "充电产品覆盖7至1440kW、V2G和重卡兆瓦液冷充电，另有配电储能。",
+    "company_fact": "充电产品覆盖7至1440kW、V2G和重卡兆瓦液冷充电，另有配电储能。",
+    "ths_fact": "唐山360kW和鄂尔多斯480kW重卡充电有实际应用案例。",
+    "reason": "快充产品与落地客户双源吻合，不将理论5分钟指标泛化乘用车。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300511.SZ",
+    "key": "edible_fungi",
+    "sector": "食用菌",
+    "source_sector_name": "食用菌",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "工厂化鲜食菌菇"
+    ],
+    "stage": "revenue",
+    "fact": "国内及泰国基地研发栽培销售鲜食用菌。",
+    "company_fact": "国内及泰国基地研发栽培销售鲜食用菌。",
+    "ths_fact": "农业种植解析披露金针菇等产能及2024年45.75万吨销量。",
+    "reason": "食用菌产品与市场身份一致；NMN为拟设子公司规划。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300512.SZ",
+    "key": "high_end_equipment",
+    "sector": "高端装备",
+    "source_sector_name": "高端装备",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "无菌灌装封口包装装备"
+    ],
+    "stage": "revenue",
+    "fact": "智能包装灌装封口后道包装吹塑及无人零售设备。",
+    "company_fact": "智能包装灌装封口后道包装吹塑及无人零售设备。",
+    "ths_fact": "自主研发高端包装机械并推动进口替代。",
+    "reason": "包装装备实际研发制造支撑高端装备，自动售卖是延伸应用。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300513.SZ",
+    "key": "virtual_power_plant",
+    "sector": "虚拟电厂",
+    "source_sector_name": "虚拟电厂",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "负荷聚合与电力交易"
+    ],
+    "stage": "revenue",
+    "fact": "数字能源覆盖电网虚拟电厂综合能源，另有通信和物联网。",
+    "company_fact": "数字能源覆盖电网虚拟电厂综合能源，另有通信和物联网。",
+    "ths_fact": "以聚合商和技术供应商身份开展电力交易、能源改造和技术服务。",
+    "reason": "已开展聚合交易与技术服务，虚拟电厂并非仅方案储备。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300514.SZ",
+    "key": "power_iot",
+    "sector": "电力物联网",
+    "source_sector_name": "电力物联网",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "采集终端及无线通信模块"
+    ],
+    "stage": "revenue",
+    "fact": "提供电力燃气水务公共事业物联网基础设施方案。",
+    "company_fact": "提供电力燃气水务公共事业物联网基础设施方案。",
+    "ths_fact": "集中器采集器、电力计量设备与无线传感网络模块研发生产销售。",
+    "reason": "电力采集通信为明确产品链；虚拟电厂仅技术储备。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300515.SZ",
+    "key": "instruments",
+    "sector": "仪器仪表",
+    "source_sector_name": "仪器仪表",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "煤质分析及自动制样"
+    ],
+    "stage": "revenue",
+    "fact": "分析仪器、无人化智能装备及技术维护服务能源化工等客户。",
+    "company_fact": "分析仪器、无人化智能装备及技术维护服务能源化工等客户。",
+    "ths_fact": "煤炭解析实际指煤质检测装备；机器人用于自动制样和采样。",
+    "reason": "属于分析测试装备，煤炭为客户行业而非采煤生产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300516.SZ",
+    "key": "commercial_space",
+    "sector": "商业航天",
+    "source_sector_name": "商业航天",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "星体跟踪器及激光通信光学"
+    ],
+    "stage": "orders",
+    "fact": "星体跟踪器广泛用于导航平台，低轨星间激光光纤放大器获采购订单。",
+    "company_fact": "星体跟踪器广泛用于导航平台，低轨星间激光光纤放大器获采购订单。",
+    "ths_fact": "星体跟踪聚焦国防航天和商业卫星应用。",
+    "reason": "实际星敏和激光通信订单支撑航天主线；激光新产品按订单阶段。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300517.SZ",
+    "key": "prefabricated_buildings",
+    "sector": "装配式建筑",
+    "source_sector_name": "装配式建筑",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "桥梁钢结构制造安装"
+    ],
+    "stage": "revenue",
+    "fact": "桥梁钢结构制作安装工艺设计维护完整业务。",
+    "company_fact": "桥梁钢结构制作安装工艺设计维护完整业务。",
+    "ths_fact": "钢结构工厂预制、现场装配，属于装配式钢结构。",
+    "reason": "双源直接对应装配式钢结构工程。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300518.SZ",
+    "key": "influencer_economy",
+    "sector": "网红经济",
+    "source_sector_name": "网红经济",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "直播电商招商运营"
+    ],
+    "stage": "revenue",
+    "fact": "休闲零食直播带货和电商直销；锂矿原矿报告期未销售，加工贸易不足百万。",
+    "company_fact": "休闲零食直播带货和电商直销；锂矿原矿报告期未销售，加工贸易不足百万。",
+    "ths_fact": "直播电商团队及盛讯云商运营业务支持网红电商。",
+    "reason": "真实直播运营明确，锂矿旧收入不能替代当前商业化核验。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300519.SZ",
+    "key": "chinese_medicine",
+    "sector": "中医药",
+    "source_sector_name": "中医药",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "黄芪生脉饮等中成药"
+    ],
+    "stage": "revenue",
+    "fact": "研发生产销售中成药化学药保健食品，治疗心脑血管等。",
+    "company_fact": "研发生产销售中成药化学药保健食品，治疗心脑血管等。",
+    "ths_fact": "主要产品黄芪生脉饮、伸筋丹胶囊和西洋参口服液。",
+    "reason": "核心中成药产品形成清晰医药主线，金融参股不改变归属。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300520.SZ",
+    "key": "ai_applications",
+    "sector": "AI应用",
+    "source_sector_name": "AI应用",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "行业数据智能与编程助手"
+    ],
+    "stage": "product",
+    "fact": "数据智能平台用于行业软件，另有BMS储能数字新能源产品。",
+    "company_fact": "数据智能平台用于行业软件，另有BMS储能数字新能源产品。",
+    "ths_fact": "国创星码编程AI助手提供代码生成补全解释和形式验证。",
+    "reason": "明确AI软件产品与行业应用一致；量子云仍研发探索，AI独立收入未单证。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300521.SZ",
+    "key": "three_d_printing",
+    "sector": "3D打印",
+    "source_sector_name": "3D打印",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "砂型增材打印设备"
+    ],
+    "stage": "revenue",
+    "fact": "工业打印研发生产销售，推出风暴S/T砂型3D打印及定制生产线。",
+    "company_fact": "工业打印研发生产销售，推出风暴S/T砂型3D打印及定制生产线。",
+    "ths_fact": "主营同时包括平面打印和3D打印。",
+    "reason": "直接3D打印设备产品支撑主线，传统CTP保留主营背景。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300522.SZ",
+    "key": "photoresist",
+    "sector": "光刻胶",
+    "source_sector_name": "光刻胶",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "光刻胶纳米颜料分散液"
+    ],
+    "stage": "product",
+    "fact": "纳米色浆、光刻胶颜料分散液和电子化学品研产销。",
+    "company_fact": "纳米色浆、光刻胶颜料分散液和电子化学品研产销。",
+    "ths_fact": "既有项目为光敏材料及光刻胶纳米颜料分散液，PCB上游树脂另有布局。",
+    "reason": "已有光刻胶上游分散液产品可对应主题，不称芯片光刻胶成品或固态电池量产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300523.SZ",
+    "key": "artificial_intelligence",
+    "sector": "人工智能",
+    "source_sector_name": "人工智能",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "公共安全行业模型"
+    ],
+    "stage": "product",
+    "fact": "星辰辰思大模型支撑公共安全应急软件装备服务。",
+    "company_fact": "星辰辰思大模型支撑公共安全应急软件装备服务。",
+    "ths_fact": "辰思模型提供灾害预测、灾损分析风险评估辅助决策。",
+    "reason": "行业模型嵌入安全场景形成产品，AI单独收入不作推定。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300525.SZ",
+    "key": "fiscal_tax_digitalization",
+    "sector": "财税数字化",
+    "source_sector_name": "财税数字化",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "电子票据与智慧财政"
+    ],
+    "stage": "revenue",
+    "fact": "电子凭证业财协同、数字票证、智慧财政和数字采购。",
+    "company_fact": "电子凭证业财协同、数字票证、智慧财政和数字采购。",
+    "ths_fact": "财政财务数智化服务叠加垂直大模型智能体；电子票据已有广泛客户。",
+    "reason": "AI强化财税核心场景，财税数字化市场身份更具体。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300527.SZ",
+    "key": "military",
+    "sector": "军工",
+    "source_sector_name": "军工",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "军用应急交通与舟桥装备"
+    ],
+    "stage": "revenue",
+    "fact": "舟桥浮箱和应急交通装备，兼水域救援及无人装备。",
+    "company_fact": "舟桥浮箱和应急交通装备，兼水域救援及无人装备。",
+    "ths_fact": "军用应急交通工程装备重要供应商。",
+    "reason": "军用交通保障真实供货支撑主线，消防机器人为装备分支。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300528.SZ",
+    "key": "ai_video",
+    "sector": "AI视频",
+    "source_sector_name": "AI视频",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "AI微短剧制作"
+    ],
+    "stage": "delivery",
+    "fact": "电视剧制作发行与电影制作院线放映全产业链。",
+    "company_fact": "电视剧制作发行与电影制作院线放映全产业链。",
+    "ths_fact": "主投主控AI微短剧苏小游之星河遨游录于2026年3月上线。",
+    "reason": "已有上线AI内容体现新增制作方向，按交付不推定AI收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300529.SZ",
+    "key": "medical_devices",
+    "sector": "医疗器械",
+    "source_sector_name": "医疗器械概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "血液灌流和吸附净化器械"
+    ],
+    "stage": "revenue",
+    "fact": "血液灌流器吸附器免疫柱及净化设备研发生产销售。",
+    "company_fact": "血液灌流器吸附器免疫柱及净化设备研发生产销售。",
+    "ths_fact": "HA灌流器和BS胆红素吸附器取得MDR认证，拥有医疗器械注册证。",
+    "reason": "血液净化器械不等于白蛋白等血液制品，医疗器械更准确。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300530.SZ",
+    "key": "energy_storage",
+    "sector": "储能",
+    "source_sector_name": "储能",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "储能电芯模组系统集成"
+    ],
+    "stage": "revenue",
+    "fact": "布局储能电芯模组系统和光储充EPC，另有表面化学品。",
+    "company_fact": "布局储能电芯模组系统和光储充EPC，另有表面化学品。",
+    "ths_fact": "产品已应用光储充一体化、屋顶光伏等储能配套项目。",
+    "reason": "储能实际产品和项目相互验证，钠电仍研发储备。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300531.SZ",
+    "key": "iot",
+    "sector": "物联网",
+    "source_sector_name": "物联网",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "数据采集终端及智能POS"
+    ],
+    "stage": "revenue",
+    "fact": "自动识别数据采集终端、POS、打印机及软件云服务。",
+    "company_fact": "自动识别数据采集终端、POS、打印机及软件云服务。",
+    "ths_fact": "智能移动终端提供实时信息采集传输追溯和业务管理。",
+    "reason": "多行业物联网终端为经营主线；这里AIDC指自动识别，不是算力中心。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300532.SZ",
+    "key": "smart_logistics",
+    "sector": "智能物流",
+    "source_sector_name": "智能物流",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "自动仓储搬运分拣系统"
+    ],
+    "stage": "revenue",
+    "fact": "自动化仓库搬运分拣与制造系统并提供运维。",
+    "company_fact": "自动化仓库搬运分拣与制造系统并提供运维。",
+    "ths_fact": "主营智慧物流和智能制造系统综合解决方案。",
+    "reason": "物流系统整体交付定位明确，机器人是系统组成。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300533.SZ",
+    "key": "online_games",
+    "sector": "网络游戏",
+    "source_sector_name": "网络游戏",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "客户端及移动游戏研发运营"
+    ],
+    "stage": "revenue",
+    "fact": "网络游戏研发发行运营。",
+    "company_fact": "网络游戏研发发行运营。",
+    "ths_fact": "客户端网络游戏和移动游戏产品。",
+    "reason": "双源直接确认游戏研发运营业务。",
+    "basis": "crosschecked_sources"
+  }
+]

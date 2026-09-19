@@ -1,0 +1,402 @@
+[
+  {
+    "id": "002601.SZ",
+    "key": "titanium_dioxide",
+    "sector": "钛白粉",
+    "source_sector_name": "钛白粉概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "钛矿钛白粉与海绵钛"
+    ],
+    "stage": "revenue",
+    "fact": "钛白粉海绵钛及锆锂电材料生产销售，钛产业完整。",
+    "company_fact": "钛白粉海绵钛及锆锂电材料生产销售，钛产业完整。",
+    "ths_fact": "钛白粉解析列明对应产品制造销售。",
+    "reason": "成熟钛产业链形成直接主题，锂电固态为并行标签。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002602.SZ",
+    "key": "online_games",
+    "sector": "网络游戏",
+    "source_sector_name": "网络游戏",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "全球游戏研发发行运营"
+    ],
+    "stage": "revenue",
+    "fact": "游戏研运发行生态完整，2025游戏收入362.37亿元，另有IDC运营。",
+    "company_fact": "游戏研运发行生态完整，2025游戏收入362.37亿元，另有IDC运营。",
+    "ths_fact": "网络游戏解析盛趣多款自研代理产品实际运营。",
+    "reason": "全球游戏产品兑现支持市场身份，IDC已有经营但不压过游戏主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002603.SZ",
+    "key": "innovative_drugs",
+    "sector": "创新药",
+    "source_sector_name": "创新药",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "专利中药与化药创新管线"
+    ],
+    "stage": "pilot",
+    "fact": "自主研发专利中药17个，并建立化药研发生产平台。",
+    "company_fact": "自主研发专利中药17个，并建立化药研发生产平台。",
+    "ths_fact": "创新药解析三品种注册受理，化药XY0206等处II/III期。",
+    "reason": "创新研发平台与具体后续管线吻合，按新管线临床阶段记录不混销售。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002605.SZ",
+    "key": "online_games",
+    "sector": "网络游戏",
+    "source_sector_name": "网络游戏",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "休闲手机游戏"
+    ],
+    "stage": "revenue",
+    "fact": "精品休闲手游研发运营，兼营扑克牌和互联网营销。",
+    "company_fact": "精品休闲手游研发运营，兼营扑克牌和互联网营销。",
+    "ths_fact": "网络游戏解析列明游戏开发运营收入。",
+    "reason": "自主研运闭环证据强，体育卡投资未补足直接规模经营证据。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002606.SZ",
+    "key": "uhv",
+    "sector": "特高压",
+    "source_sector_name": "特高压",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "输电绝缘子"
+    ],
+    "stage": "product",
+    "fact": "研发生产输电及电站瓷复合绝缘子与金具，客户为电网。",
+    "company_fact": "研发生产输电及电站瓷复合绝缘子与金具，客户为电网。",
+    "ths_fact": "特高压解析1100kV复合绝缘子研制及参与特高压工程。",
+    "reason": "有明确电压等级产品，虚拟电厂子公司仍运营准备。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002607.SZ",
+    "key": "vocational_education",
+    "sector": "职业教育",
+    "source_sector_name": "职业教育",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "招录考试与就业培训"
+    ],
+    "stage": "revenue",
+    "fact": "公共岗位招录、学历与职业资格能力培训百余品类。",
+    "company_fact": "公共岗位招录、学历与职业资格能力培训百余品类。",
+    "ths_fact": "职业教育解析非学历职业就业培训，AI课程已服务学员。",
+    "reason": "培训服务直接支撑职业教育，AI辅助教学作为次标签。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002608.SZ",
+    "key": "ultra_supercritical_power",
+    "sector": "超超临界发电",
+    "source_sector_name": "超超临界发电",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "高效煤电运营"
+    ],
+    "stage": "revenue",
+    "fact": "煤电燃机生产售电供热，另有信托金融业务。",
+    "company_fact": "煤电燃机生产售电供热，另有信托金融业务。",
+    "ths_fact": "超超临界明确已有796万千瓦投产机组，后续数值属预计。",
+    "reason": "已投运高效煤电支撑技术主题，不把预计扩容当既成。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002609.SZ",
+    "key": "smart_parking",
+    "sector": "智慧停车",
+    "source_sector_name": "智慧停车",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "停车硬件云托管及运营"
+    ],
+    "stage": "revenue",
+    "fact": "捷停车具车主用户1.5亿，停车结算代运营充电等收入模式。",
+    "company_fact": "捷停车具车主用户1.5亿，停车结算代运营充电等收入模式。",
+    "ths_fact": "智慧停车解析已有停车场车位和支付合作。",
+    "reason": "软硬件运营完整，AI机器人为规划建设不替代已成业务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002611.SZ",
+    "key": "high_end_equipment",
+    "sector": "高端装备",
+    "source_sector_name": "高端装备",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "智能包装装备与舷外机"
+    ],
+    "stage": "revenue",
+    "fact": "智能瓦楞包装数码印刷及舷外机为主营。",
+    "company_fact": "智能瓦楞包装数码印刷及舷外机为主营。",
+    "ths_fact": "高端装备解析同两大业务，人形为乐聚战略合作。",
+    "reason": "实业已有装备产品，机器人制造合作尚未明确订单交付，聚变为参股。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002612.SZ",
+    "key": "medical_aesthetics",
+    "sector": "医美",
+    "source_sector_name": "医美概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "连锁医疗美容机构"
+    ],
+    "stage": "revenue",
+    "fact": "女装医疗美容婴童三板块形成泛时尚生态。",
+    "company_fact": "女装医疗美容婴童三板块形成泛时尚生态。",
+    "ths_fact": "医美解析46家机构及米兰柏羽韩辰晶肤品牌运营。",
+    "reason": "医疗美容具有具体机构品牌，区别普通女装零售。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002613.SZ",
+    "key": "building_energy_efficiency",
+    "sector": "建筑节能",
+    "source_sector_name": "建筑节能",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "Low-E玻璃及生产装备"
+    ],
+    "stage": "revenue",
+    "fact": "节能镀膜玻璃产线及高端深加工玻璃双轮经营。",
+    "company_fact": "节能镀膜玻璃产线及高端深加工玻璃双轮经营。",
+    "ths_fact": "建筑节能解析Low-E中空夹层玻璃用于门窗幕墙降低能耗。",
+    "reason": "节能玻璃应用双源一致，钙钛矿为联合设备研发不称电池制造。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002614.SZ",
+    "key": "home_appliances",
+    "sector": "家用电器",
+    "source_sector_name": "家用电器",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "按摩椅及健康环境电器"
+    ],
+    "stage": "revenue",
+    "fact": "生产销售按摩椅小电器新风空气净化产品。",
+    "company_fact": "生产销售按摩椅小电器新风空气净化产品。",
+    "ths_fact": "家用电器解析按摩康复电器产品及品牌，具身健康服务机器人仍培育技术。",
+    "reason": "成熟健康家电支撑归属，研发合作不等于人形供货。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002615.SZ",
+    "key": "camping_economy",
+    "sector": "露营经济",
+    "source_sector_name": "露营经济",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "户外运动保温杯壶"
+    ],
+    "stage": "revenue",
+    "fact": "杯壶制造品牌运营，生产多材质保温杯壶与焖烧罐。",
+    "company_fact": "杯壶制造品牌运营，生产多材质保温杯壶与焖烧罐。",
+    "ths_fact": "露营经济明确SIGG及SANTECO户外杯壶饭盒产品已推出。",
+    "reason": "户外品牌与实物产品支持主题，数字藏品为营销次标签。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002616.SZ",
+    "key": "biomass_power",
+    "sector": "生物质能发电",
+    "source_sector_name": "生物质能发电",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "农林生物质热电联产"
+    ],
+    "stage": "revenue",
+    "fact": "主营生物质热电联产、园区供热与垃圾发电。",
+    "company_fact": "主营生物质热电联产、园区供热与垃圾发电。",
+    "ths_fact": "生物质解析列明多个投产项目，2024中期已投产491MW。",
+    "reason": "直接燃料和发电运营证据，保留细分主题。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002617.SZ",
+    "key": "third_generation_semiconductors",
+    "sector": "第三代半导体",
+    "source_sector_name": "第三代半导体",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "碳化硅晶体与衬底"
+    ],
+    "stage": "product",
+    "fact": "碳化硅材料产业化完成6到8英寸转化，合肥200余台长晶炉成熟产能。",
+    "company_fact": "碳化硅材料产业化完成6到8英寸转化，合肥200余台长晶炉成熟产能。",
+    "ths_fact": "碳化硅解释有长晶设备定制合同；第三代半导体来源标签存在。",
+    "reason": "材料技术与设备产业化真实，机器人合作和百万台计划不当销售。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002620.SZ",
+    "key": "bipv",
+    "sector": "光伏建筑一体化",
+    "source_sector_name": "光伏建筑一体化",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "建筑光伏EPC与运营"
+    ],
+    "stage": "delivery",
+    "fact": "建筑装饰及光伏电站运营、施工安装。",
+    "company_fact": "建筑装饰及光伏电站运营、施工安装。",
+    "ths_fact": "BIPV解析水贝壹号等项目已落地，具全链设计安装运营。",
+    "reason": "建筑光伏复合工程直接交付，区别仅普通装修。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002622.SZ",
+    "key": "dental_care",
+    "sector": "牙科医疗",
+    "source_sector_name": "牙科医疗",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "连锁口腔诊疗"
+    ],
+    "stage": "revenue",
+    "fact": "控股德伦经营口腔诊疗修复保健连锁，另有电气业务。",
+    "company_fact": "控股德伦经营口腔诊疗修复保健连锁，另有电气业务。",
+    "ths_fact": "牙科解析31家门诊与460余牙椅、种植正畸等专科。",
+    "reason": "直接医疗服务网络支持牙科主题，不按旧电气业务归属。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002623.SZ",
+    "key": "photovoltaic_glass",
+    "sector": "光伏玻璃",
+    "source_sector_name": "光伏玻璃",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "超薄镀膜太阳能玻璃"
+    ],
+    "stage": "revenue",
+    "fact": "研发生产太阳能玻璃及超薄双玻组件等。",
+    "company_fact": "研发生产太阳能玻璃及超薄双玻组件等。",
+    "ths_fact": "光伏玻璃解析减反玻璃TCO产品；钙钛矿ITO仍送样。",
+    "reason": "已销售光伏玻璃明确，送样能力不越级为钙钛矿电池量产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002624.SZ",
+    "key": "online_games",
+    "sector": "网络游戏",
+    "source_sector_name": "网络游戏",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "多平台游戏研发发行"
+    ],
+    "stage": "revenue",
+    "fact": "全平台研运发行及电竞影视，经典与创新游戏产品并行。",
+    "company_fact": "全平台研运发行及电竞影视，经典与创新游戏产品并行。",
+    "ths_fact": "网络游戏解析研发发行运营，AI智能体用于自有生产管线。",
+    "reason": "成熟游戏产品支撑主线，内部AI效率工具不等于独立AI对外业务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002625.SZ",
+    "key": "military",
+    "sector": "军工",
+    "source_sector_name": "军工",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "国防超材料功能结构件"
+    ],
+    "stage": "delivery",
+    "fact": "向航空航天等尖端装备交付电磁调制超材料功能结构件。",
+    "company_fact": "向航空航天等尖端装备交付电磁调制超材料功能结构件。",
+    "ths_fact": "军工解析新一代航空装备已经验证应用，商业航天为拓客计划。",
+    "reason": "已交付国防装备证据最强，人形合作开发和航天计划不夸大。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002626.SZ",
+    "key": "nmn",
+    "sector": "NMN",
+    "source_sector_name": "NMN概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "营养补充剂及NMN"
+    ],
+    "stage": "revenue",
+    "fact": "营养原料制剂品牌渠道全链布局。",
+    "company_fact": "营养原料制剂品牌渠道全链布局。",
+    "ths_fact": "NMN解析美国工厂已生产，DRB品牌已在天猫上市；维生素解析亦列NMN。",
+    "reason": "具体成品与品牌渠道有经营证据，不对健康功效作判断。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002627.SZ",
+    "key": "tourism",
+    "sector": "旅游",
+    "source_sector_name": "旅游概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "游轮港口及景区旅游"
+    ],
+    "stage": "revenue",
+    "fact": "经营游轮旅游交通港口旅行社与景区。",
+    "company_fact": "经营游轮旅游交通港口旅行社与景区。",
+    "ths_fact": "旅游解析同类旅游综合服务。",
+    "reason": "直接旅游服务产业链完整，交通为旅游体验组成。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002628.SZ",
+    "key": "engineering_construction",
+    "sector": "工程建设",
+    "source_sector_name": "工程建设",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "公路桥梁隧道市政"
+    ],
+    "stage": "revenue",
+    "fact": "公路桥隧市政施工为基本业务，已收购矿山尚无安全生产证。",
+    "company_fact": "公路桥隧市政施工为基本业务，已收购矿山尚无安全生产证。",
+    "ths_fact": "PPP解析实际承接建设项目；矿业仅合作意向且机器人为计划服务。",
+    "reason": "工程经营确定，矿权收购不等于合法开采，机器人计划不当交付。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002629.SZ",
+    "key": "oil_gas_equipment_services",
+    "sector": "油气设服",
+    "source_sector_name": "油气设服",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "钻井液井下及油田环保"
+    ],
+    "stage": "revenue",
+    "fact": "钻井井下技术、油田环保及钻具维修服务，另有光伏工程。",
+    "company_fact": "钻井井下技术、油田环保及钻具维修服务，另有光伏工程。",
+    "ths_fact": "油气开采解析实为钻井液一站式技术服务商。",
+    "reason": "按实际油服环节归属，不将供应商的开采概念误写自营油田。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002630.SZ",
+    "key": "thermal_power_equipment",
+    "sector": "火电设备",
+    "source_sector_name": "火电设备",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "电站锅炉与EPC"
+    ],
+    "stage": "revenue",
+    "fact": "制造洁净燃煤余热等锅炉并承接电厂EPC。",
+    "company_fact": "制造洁净燃煤余热等锅炉并承接电厂EPC。",
+    "ths_fact": "超超临界解释实际超临界锅炉和330MW订单。",
+    "reason": "确有锅炉设备，但来源将超临界称超超临界存在等级偏差，选择已有火电设备。",
+    "basis": "crosschecked_sources"
+  }
+]

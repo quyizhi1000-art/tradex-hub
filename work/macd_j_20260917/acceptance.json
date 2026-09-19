@@ -1,0 +1,6001 @@
+{
+  "job": {
+    "contract": "tradex_analysis_job.v1",
+    "schema_version": 1,
+    "job_id": "daily_stock_selection:d62adca568054a86805d338137b4d12e",
+    "capability": "daily_stock_selection",
+    "scope_key": "date:2026-09-16",
+    "trade_date": "2026-09-16",
+    "trigger": "user-requested-macd-j-v1",
+    "state": "succeeded",
+    "phase": "completed",
+    "requested_at": "2026-09-17T09:40:44.814566+00:00",
+    "started_at": "2026-09-17T09:40:44.814566+00:00",
+    "finished_at": "2026-09-17T09:40:48.484120+00:00",
+    "updated_at": "2026-09-17T09:40:48.484120+00:00",
+    "error": null,
+    "failure_code": null,
+    "failed_phase": null,
+    "result": {
+      "action": "existing",
+      "selection_id": "daily-stock-selection:e0999475b38660a99fba0514",
+      "trade_date": "2026-09-16"
+    }
+  },
+  "result": {
+    "contract": "stock_selection_strategy_result.v1",
+    "schema_version": 1,
+    "result_id": "stock-selection-strategy-result:403da88f1114db64cbb10da7",
+    "strategy_id": "macd-j-upturn-main-board",
+    "strategy_version": "v1",
+    "title": "MACD 金叉 + J 线拐头",
+    "result_contract": "stock_macd_j_screen.v1",
+    "trade_date": "2026-09-16",
+    "generated_at": "2026-09-17T17:40:44.816565+08:00",
+    "source_contract": "daily_stock_factor_snapshot.v1",
+    "source_snapshot_revision": "e79eeccc6609f03b679977d9832496b6c9088b1bc8c53f651b30ef94fc05612f",
+    "source_quality": "accepted",
+    "source_provider_as_of": "2026-09-16T18:00:00+08:00",
+    "quality": "degraded",
+    "payload": {
+      "contract": "stock_macd_j_screen.v1",
+      "schema_version": 1,
+      "screen_version": "macd-j-upturn-main-board.v1",
+      "title": "MACD 金叉 + J 线拐头",
+      "quality": "degraded",
+      "universe_count": 5564,
+      "board_eligible_count": 3051,
+      "evaluated_count": 3036,
+      "matched_count": 89,
+      "same_day_count": 38,
+      "prior_3_sessions_count": 51,
+      "candidates": [
+        {
+          "instrument_id": "000021.SZ",
+          "name": "深科技",
+          "industry": "消费电子零部件及组装",
+          "reference_close": 36.2,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "same_day",
+          "zero_axis_zone": "below_zero",
+          "j_turn_date": "2026-09-16",
+          "gap_sessions": 0,
+          "j_trough": 13.196,
+          "j_turn_value": 56.865,
+          "low_j_tags": [
+            "J<20"
+          ],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": -1.58,
+              "dea": -1.527,
+              "k": 22.18,
+              "d": 23.196,
+              "j": 20.15
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": -1.428,
+              "dea": -1.507,
+              "k": 35.853,
+              "d": 27.415,
+              "j": 52.729
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": -1.41,
+              "dea": -1.488,
+              "k": 32.531,
+              "d": 29.12,
+              "j": 39.354
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": -1.48,
+              "dea": -1.486,
+              "k": 24.825,
+              "d": 27.688,
+              "j": 19.098
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": -1.507,
+              "dea": -1.49,
+              "k": 21.477,
+              "d": 25.618,
+              "j": 13.196
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": -1.329,
+              "dea": -1.458,
+              "k": 39.01,
+              "d": 30.082,
+              "j": 56.865
+            }
+          ]
+        },
+        {
+          "instrument_id": "000055.SZ",
+          "name": "方大集团",
+          "industry": "其他建材",
+          "reference_close": 3.82,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "same_day",
+          "zero_axis_zone": "above_zero",
+          "j_turn_date": "2026-09-16",
+          "gap_sessions": 0,
+          "j_trough": 8.579,
+          "j_turn_value": 68.38,
+          "low_j_tags": [
+            "J<20"
+          ],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": 0.042,
+              "dea": 0.044,
+              "k": 60.687,
+              "d": 61.75,
+              "j": 58.56
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": 0.04,
+              "dea": 0.043,
+              "k": 59.506,
+              "d": 61.002,
+              "j": 56.513
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": 0.033,
+              "dea": 0.041,
+              "k": 47.514,
+              "d": 56.506,
+              "j": 29.529
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": 0.029,
+              "dea": 0.039,
+              "k": 46.259,
+              "d": 53.09,
+              "j": 32.597
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": 0.018,
+              "dea": 0.035,
+              "k": 34.014,
+              "d": 46.731,
+              "j": 8.579
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": 0.037,
+              "dea": 0.035,
+              "k": 56.009,
+              "d": 49.824,
+              "j": 68.38
+            }
+          ]
+        },
+        {
+          "instrument_id": "000066.SZ",
+          "name": "中国长城",
+          "industry": "其他计算机设备",
+          "reference_close": 14.15,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "same_day",
+          "zero_axis_zone": "below_zero",
+          "j_turn_date": "2026-09-16",
+          "gap_sessions": 0,
+          "j_trough": -7.306,
+          "j_turn_value": 14.088,
+          "low_j_tags": [
+            "J<20",
+            "J<0"
+          ],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": -0.165,
+              "dea": -0.264,
+              "k": 60.438,
+              "d": 61.629,
+              "j": 58.055
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": -0.183,
+              "dea": -0.248,
+              "k": 43.687,
+              "d": 55.648,
+              "j": 19.764
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": -0.213,
+              "dea": -0.241,
+              "k": 32.633,
+              "d": 47.977,
+              "j": 1.947
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": -0.232,
+              "dea": -0.239,
+              "k": 26.016,
+              "d": 40.657,
+              "j": -3.264
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": -0.248,
+              "dea": -0.241,
+              "k": 20.101,
+              "d": 33.805,
+              "j": -7.306
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": -0.235,
+              "dea": -0.24,
+              "k": 25.355,
+              "d": 30.988,
+              "j": 14.088
+            }
+          ]
+        },
+        {
+          "instrument_id": "000628.SZ",
+          "name": "高新发展",
+          "industry": "房屋建设Ⅲ",
+          "reference_close": 56.2,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "same_day",
+          "zero_axis_zone": "above_zero",
+          "j_turn_date": "2026-09-16",
+          "gap_sessions": 0,
+          "j_trough": 16.632,
+          "j_turn_value": 48.264,
+          "low_j_tags": [
+            "J<20"
+          ],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": 3.692,
+              "dea": 2.797,
+              "k": 77.565,
+              "d": 76.93,
+              "j": 78.833
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": 3.704,
+              "dea": 2.979,
+              "k": 75.787,
+              "d": 76.549,
+              "j": 74.263
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": 3.666,
+              "dea": 3.116,
+              "k": 73.512,
+              "d": 75.537,
+              "j": 69.463
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": 3.368,
+              "dea": 3.167,
+              "k": 59.616,
+              "d": 70.23,
+              "j": 38.388
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": 3.161,
+              "dea": 3.165,
+              "k": 47.259,
+              "d": 62.573,
+              "j": 16.632
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": 3.225,
+              "dea": 3.177,
+              "k": 56.441,
+              "d": 60.529,
+              "j": 48.264
+            }
+          ]
+        },
+        {
+          "instrument_id": "000720.SZ",
+          "name": "新能泰山",
+          "industry": "线缆部件及其他",
+          "reference_close": 4.17,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "same_day",
+          "zero_axis_zone": "above_zero",
+          "j_turn_date": "2026-09-16",
+          "gap_sessions": 0,
+          "j_trough": 12.983,
+          "j_turn_value": 69.477,
+          "low_j_tags": [
+            "J<20"
+          ],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": 0.048,
+              "dea": 0.053,
+              "k": 53.464,
+              "d": 58.197,
+              "j": 43.998
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": 0.047,
+              "dea": 0.052,
+              "k": 55.25,
+              "d": 57.215,
+              "j": 51.322
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": 0.056,
+              "dea": 0.053,
+              "k": 62.121,
+              "d": 58.85,
+              "j": 68.663
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": 0.055,
+              "dea": 0.053,
+              "k": 53.38,
+              "d": 57.027,
+              "j": 46.086
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": 0.045,
+              "dea": 0.052,
+              "k": 38.151,
+              "d": 50.735,
+              "j": 12.983
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": 0.067,
+              "dea": 0.055,
+              "k": 58.767,
+              "d": 53.412,
+              "j": 69.477
+            }
+          ]
+        },
+        {
+          "instrument_id": "001288.SZ",
+          "name": "运机集团",
+          "industry": "能源及重型设备",
+          "reference_close": 30.65,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "same_day",
+          "zero_axis_zone": "above_zero",
+          "j_turn_date": "2026-09-16",
+          "gap_sessions": 0,
+          "j_trough": -3.811,
+          "j_turn_value": 50.089,
+          "low_j_tags": [
+            "J<20",
+            "J<0"
+          ],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": 1.091,
+              "dea": 0.801,
+              "k": 84.958,
+              "d": 83.131,
+              "j": 88.61
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": 1.08,
+              "dea": 0.857,
+              "k": 73.111,
+              "d": 79.791,
+              "j": 59.749
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": 0.987,
+              "dea": 0.883,
+              "k": 54.064,
+              "d": 71.215,
+              "j": 19.76
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": 0.936,
+              "dea": 0.894,
+              "k": 48.366,
+              "d": 63.599,
+              "j": 17.901
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": 0.819,
+              "dea": 0.879,
+              "k": 34.709,
+              "d": 53.969,
+              "j": -3.811
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": 0.909,
+              "dea": 0.885,
+              "k": 52.306,
+              "d": 53.415,
+              "j": 50.089
+            }
+          ]
+        },
+        {
+          "instrument_id": "002056.SZ",
+          "name": "横店东磁",
+          "industry": "光伏电池组件",
+          "reference_close": 19.68,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "same_day",
+          "zero_axis_zone": "below_zero",
+          "j_turn_date": "2026-09-16",
+          "gap_sessions": 0,
+          "j_trough": 40.919,
+          "j_turn_value": 41.781,
+          "low_j_tags": [],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": -0.723,
+              "dea": -0.69,
+              "k": 19.467,
+              "d": 19.413,
+              "j": 19.576
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": -0.736,
+              "dea": -0.699,
+              "k": 14.95,
+              "d": 17.925,
+              "j": 9.001
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": -0.74,
+              "dea": -0.707,
+              "k": 20.068,
+              "d": 18.64,
+              "j": 22.925
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": -0.723,
+              "dea": -0.71,
+              "k": 28.53,
+              "d": 21.936,
+              "j": 41.718
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": -0.72,
+              "dea": -0.712,
+              "k": 30.072,
+              "d": 24.648,
+              "j": 40.919
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": -0.705,
+              "dea": -0.711,
+              "k": 31.991,
+              "d": 27.096,
+              "j": 41.781
+            }
+          ]
+        },
+        {
+          "instrument_id": "002095.SZ",
+          "name": "生意宝",
+          "industry": "门户网站",
+          "reference_close": 16.35,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "same_day",
+          "zero_axis_zone": "above_zero",
+          "j_turn_date": "2026-09-16",
+          "gap_sessions": 0,
+          "j_trough": -2.368,
+          "j_turn_value": 61.187,
+          "low_j_tags": [
+            "J<20",
+            "J<0"
+          ],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": 0.407,
+              "dea": 0.278,
+              "k": 79.999,
+              "d": 78.911,
+              "j": 82.174
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": 0.407,
+              "dea": 0.304,
+              "k": 71.666,
+              "d": 76.496,
+              "j": 62.006
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": 0.377,
+              "dea": 0.319,
+              "k": 57.134,
+              "d": 70.042,
+              "j": 31.318
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": 0.329,
+              "dea": 0.321,
+              "k": 42.573,
+              "d": 60.885,
+              "j": 5.947
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": 0.29,
+              "dea": 0.314,
+              "k": 33.777,
+              "d": 51.849,
+              "j": -2.368
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": 0.374,
+              "dea": 0.326,
+              "k": 55.851,
+              "d": 53.183,
+              "j": 61.187
+            }
+          ]
+        },
+        {
+          "instrument_id": "002137.SZ",
+          "name": "实益达",
+          "industry": "LED",
+          "reference_close": 8.2,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "same_day",
+          "zero_axis_zone": "below_zero",
+          "j_turn_date": "2026-09-16",
+          "gap_sessions": 0,
+          "j_trough": 16.063,
+          "j_turn_value": 75.159,
+          "low_j_tags": [
+            "J<20"
+          ],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": -0.096,
+              "dea": -0.134,
+              "k": 47.852,
+              "d": 57.007,
+              "j": 29.541
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": -0.104,
+              "dea": -0.128,
+              "k": 36.388,
+              "d": 50.134,
+              "j": 8.897
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": -0.117,
+              "dea": -0.126,
+              "k": 31.402,
+              "d": 43.89,
+              "j": 6.425
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": -0.119,
+              "dea": -0.124,
+              "k": 33.503,
+              "d": 40.428,
+              "j": 19.653
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": -0.127,
+              "dea": -0.125,
+              "k": 29.986,
+              "d": 36.947,
+              "j": 16.063
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": -0.072,
+              "dea": -0.114,
+              "k": 53.324,
+              "d": 42.406,
+              "j": 75.159
+            }
+          ]
+        },
+        {
+          "instrument_id": "002258.SZ",
+          "name": "利尔化学",
+          "industry": "农药",
+          "reference_close": 15.25,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "same_day",
+          "zero_axis_zone": "above_zero",
+          "j_turn_date": "2026-09-16",
+          "gap_sessions": 0,
+          "j_trough": 4.369,
+          "j_turn_value": 14.338,
+          "low_j_tags": [
+            "J<20"
+          ],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": 0.277,
+              "dea": 0.17,
+              "k": 69.933,
+              "d": 66.421,
+              "j": 76.957
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": 0.263,
+              "dea": 0.188,
+              "k": 55.818,
+              "d": 62.887,
+              "j": 41.679
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": 0.264,
+              "dea": 0.203,
+              "k": 47.745,
+              "d": 57.84,
+              "j": 27.556
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": 0.228,
+              "dea": 0.208,
+              "k": 36.763,
+              "d": 50.814,
+              "j": 8.662
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": 0.206,
+              "dea": 0.208,
+              "k": 30.909,
+              "d": 44.179,
+              "j": 4.369
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": 0.219,
+              "dea": 0.21,
+              "k": 31.39,
+              "d": 39.916,
+              "j": 14.338
+            }
+          ]
+        },
+        {
+          "instrument_id": "002442.SZ",
+          "name": "龙星科技",
+          "industry": "炭黑",
+          "reference_close": 5.68,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "same_day",
+          "zero_axis_zone": "above_zero",
+          "j_turn_date": "2026-09-16",
+          "gap_sessions": 0,
+          "j_trough": -4.661,
+          "j_turn_value": 60.128,
+          "low_j_tags": [
+            "J<20",
+            "J<0"
+          ],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": 0.118,
+              "dea": 0.086,
+              "k": 79.53,
+              "d": 74.703,
+              "j": 89.183
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": 0.121,
+              "dea": 0.093,
+              "k": 71.625,
+              "d": 73.677,
+              "j": 67.52
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": 0.109,
+              "dea": 0.096,
+              "k": 54.099,
+              "d": 67.151,
+              "j": 27.995
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": 0.104,
+              "dea": 0.098,
+              "k": 47.971,
+              "d": 60.758,
+              "j": 22.397
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": 0.086,
+              "dea": 0.095,
+              "k": 32.721,
+              "d": 51.412,
+              "j": -4.661
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": 0.112,
+              "dea": 0.099,
+              "k": 55.147,
+              "d": 52.657,
+              "j": 60.128
+            }
+          ]
+        },
+        {
+          "instrument_id": "002446.SZ",
+          "name": "盛路通信",
+          "industry": "军工电子Ⅲ",
+          "reference_close": 8.38,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "same_day",
+          "zero_axis_zone": "below_zero",
+          "j_turn_date": "2026-09-16",
+          "gap_sessions": 0,
+          "j_trough": 47.909,
+          "j_turn_value": 73.967,
+          "low_j_tags": [],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": -0.133,
+              "dea": -0.11,
+              "k": 27.376,
+              "d": 29.625,
+              "j": 22.876
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": -0.135,
+              "dea": -0.115,
+              "k": 29.362,
+              "d": 29.537,
+              "j": 29.01
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": -0.124,
+              "dea": -0.117,
+              "k": 39.945,
+              "d": 33.007,
+              "j": 53.821
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": -0.122,
+              "dea": -0.118,
+              "k": 40.466,
+              "d": 35.493,
+              "j": 50.413
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": -0.12,
+              "dea": -0.118,
+              "k": 40.814,
+              "d": 37.267,
+              "j": 47.909
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": -0.101,
+              "dea": -0.115,
+              "k": 52.996,
+              "d": 42.51,
+              "j": 73.967
+            }
+          ]
+        },
+        {
+          "instrument_id": "002489.SZ",
+          "name": "浙江永强",
+          "industry": "成品家居",
+          "reference_close": 3.04,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "same_day",
+          "zero_axis_zone": "above_zero",
+          "j_turn_date": "2026-09-16",
+          "gap_sessions": 0,
+          "j_trough": 21.275,
+          "j_turn_value": 72.498,
+          "low_j_tags": [],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": 0.021,
+              "dea": 0.013,
+              "k": 64.415,
+              "d": 63.025,
+              "j": 67.196
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": 0.022,
+              "dea": 0.015,
+              "k": 62.943,
+              "d": 62.998,
+              "j": 62.835
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": 0.019,
+              "dea": 0.016,
+              "k": 54.783,
+              "d": 60.259,
+              "j": 43.83
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": 0.019,
+              "dea": 0.016,
+              "k": 61.522,
+              "d": 60.68,
+              "j": 63.205
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": 0.013,
+              "dea": 0.016,
+              "k": 43.792,
+              "d": 55.051,
+              "j": 21.275
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": 0.03,
+              "dea": 0.019,
+              "k": 62.528,
+              "d": 57.543,
+              "j": 72.498
+            }
+          ]
+        },
+        {
+          "instrument_id": "002544.SZ",
+          "name": "普天科技",
+          "industry": "通信工程及服务",
+          "reference_close": 16.18,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "same_day",
+          "zero_axis_zone": "below_zero",
+          "j_turn_date": "2026-09-16",
+          "gap_sessions": 0,
+          "j_trough": 2.924,
+          "j_turn_value": 36.443,
+          "low_j_tags": [
+            "J<20"
+          ],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": -0.164,
+              "dea": -0.174,
+              "k": 39.205,
+              "d": 38.001,
+              "j": 41.611
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": -0.152,
+              "dea": -0.169,
+              "k": 41.363,
+              "d": 39.122,
+              "j": 45.844
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": -0.161,
+              "dea": -0.168,
+              "k": 36.44,
+              "d": 38.228,
+              "j": 32.865
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": -0.169,
+              "dea": -0.168,
+              "k": 31.74,
+              "d": 36.065,
+              "j": 23.09
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": -0.189,
+              "dea": -0.172,
+              "k": 21.862,
+              "d": 31.331,
+              "j": 2.924
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": -0.162,
+              "dea": -0.17,
+              "k": 33.522,
+              "d": 32.061,
+              "j": 36.443
+            }
+          ]
+        },
+        {
+          "instrument_id": "002705.SZ",
+          "name": "新宝股份",
+          "industry": "厨房小家电",
+          "reference_close": 11.19,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "same_day",
+          "zero_axis_zone": "below_zero",
+          "j_turn_date": "2026-09-16",
+          "gap_sessions": 0,
+          "j_trough": 16.323,
+          "j_turn_value": 34.052,
+          "low_j_tags": [
+            "J<20"
+          ],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": -0.091,
+              "dea": -0.105,
+              "k": 58.049,
+              "d": 49.058,
+              "j": 76.031
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": -0.089,
+              "dea": -0.102,
+              "k": 52.639,
+              "d": 50.251,
+              "j": 57.413
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": -0.095,
+              "dea": -0.1,
+              "k": 42.971,
+              "d": 47.825,
+              "j": 33.264
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": -0.096,
+              "dea": -0.1,
+              "k": 38.951,
+              "d": 44.867,
+              "j": 27.118
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": -0.1,
+              "dea": -0.1,
+              "k": 32.634,
+              "d": 40.789,
+              "j": 16.323
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": -0.093,
+              "dea": -0.098,
+              "k": 37.902,
+              "d": 39.827,
+              "j": 34.052
+            }
+          ]
+        },
+        {
+          "instrument_id": "002718.SZ",
+          "name": "友邦吊顶",
+          "industry": "其他建材",
+          "reference_close": 83.9,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "same_day",
+          "zero_axis_zone": "below_zero",
+          "j_turn_date": "2026-09-16",
+          "gap_sessions": 0,
+          "j_trough": 34.642,
+          "j_turn_value": 45.543,
+          "low_j_tags": [],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": -1.24,
+              "dea": -1.325,
+              "k": 32.201,
+              "d": 37.864,
+              "j": 20.874
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": -1.208,
+              "dea": -1.301,
+              "k": 33.786,
+              "d": 36.505,
+              "j": 28.349
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": -1.21,
+              "dea": -1.283,
+              "k": 35.073,
+              "d": 36.028,
+              "j": 33.165
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": -1.175,
+              "dea": -1.262,
+              "k": 40.234,
+              "d": 37.43,
+              "j": 45.842
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": -1.278,
+              "dea": -1.265,
+              "k": 36.235,
+              "d": 37.031,
+              "j": 34.642
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": -1.206,
+              "dea": -1.253,
+              "k": 40.679,
+              "d": 38.247,
+              "j": 45.543
+            }
+          ]
+        },
+        {
+          "instrument_id": "002795.SZ",
+          "name": "永和智控",
+          "industry": "金属制品",
+          "reference_close": 7.75,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "same_day",
+          "zero_axis_zone": "above_zero",
+          "j_turn_date": "2026-09-16",
+          "gap_sessions": 0,
+          "j_trough": 48.635,
+          "j_turn_value": 75.605,
+          "low_j_tags": [],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": 0.178,
+              "dea": 0.184,
+              "k": 56.418,
+              "d": 56.336,
+              "j": 56.582
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": 0.183,
+              "dea": 0.184,
+              "k": 60.0,
+              "d": 57.557,
+              "j": 64.886
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": 0.161,
+              "dea": 0.179,
+              "k": 49.91,
+              "d": 55.008,
+              "j": 39.714
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": 0.17,
+              "dea": 0.178,
+              "k": 59.399,
+              "d": 56.472,
+              "j": 65.255
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": 0.154,
+              "dea": 0.173,
+              "k": 53.113,
+              "d": 55.352,
+              "j": 48.635
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": 0.178,
+              "dea": 0.174,
+              "k": 64.032,
+              "d": 58.245,
+              "j": 75.605
+            }
+          ]
+        },
+        {
+          "instrument_id": "002806.SZ",
+          "name": "华锋股份",
+          "industry": "底盘与发动机系统",
+          "reference_close": 15.62,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "same_day",
+          "zero_axis_zone": "above_zero",
+          "j_turn_date": "2026-09-16",
+          "gap_sessions": 0,
+          "j_trough": 23.078,
+          "j_turn_value": 78.958,
+          "low_j_tags": [],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": 0.125,
+              "dea": 0.07,
+              "k": 41.673,
+              "d": 51.927,
+              "j": 21.164
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": 0.098,
+              "dea": 0.075,
+              "k": 31.853,
+              "d": 45.236,
+              "j": 5.088
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": 0.075,
+              "dea": 0.075,
+              "k": 31.354,
+              "d": 40.609,
+              "j": 12.846
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": 0.062,
+              "dea": 0.073,
+              "k": 34.656,
+              "d": 38.624,
+              "j": 26.719
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": 0.035,
+              "dea": 0.065,
+              "k": 31.962,
+              "d": 36.404,
+              "j": 23.078
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": 0.126,
+              "dea": 0.077,
+              "k": 54.641,
+              "d": 42.483,
+              "j": 78.958
+            }
+          ]
+        },
+        {
+          "instrument_id": "002935.SZ",
+          "name": "天奥电子",
+          "industry": "军工电子Ⅲ",
+          "reference_close": 16.19,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "same_day",
+          "zero_axis_zone": "below_zero",
+          "j_turn_date": "2026-09-16",
+          "gap_sessions": 0,
+          "j_trough": -4.054,
+          "j_turn_value": 54.021,
+          "low_j_tags": [
+            "J<20",
+            "J<0"
+          ],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": -0.262,
+              "dea": -0.321,
+              "k": 49.087,
+              "d": 50.556,
+              "j": 46.149
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": -0.257,
+              "dea": -0.308,
+              "k": 41.579,
+              "d": 47.564,
+              "j": 29.609
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": -0.258,
+              "dea": -0.298,
+              "k": 39.942,
+              "d": 45.023,
+              "j": 29.778
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": -0.274,
+              "dea": -0.293,
+              "k": 30.331,
+              "d": 40.126,
+              "j": 10.742
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": -0.299,
+              "dea": -0.294,
+              "k": 21.192,
+              "d": 33.815,
+              "j": -4.054
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": -0.234,
+              "dea": -0.282,
+              "k": 42.474,
+              "d": 36.701,
+              "j": 54.021
+            }
+          ]
+        },
+        {
+          "instrument_id": "002957.SZ",
+          "name": "科瑞技术",
+          "industry": "工控设备",
+          "reference_close": 42.65,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "same_day",
+          "zero_axis_zone": "below_zero",
+          "j_turn_date": "2026-09-16",
+          "gap_sessions": 0,
+          "j_trough": 29.181,
+          "j_turn_value": 76.45,
+          "low_j_tags": [],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": -0.051,
+              "dea": -0.141,
+              "k": 48.907,
+              "d": 39.749,
+              "j": 67.223
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": -0.077,
+              "dea": -0.128,
+              "k": 49.271,
+              "d": 42.923,
+              "j": 61.968
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": -0.16,
+              "dea": -0.135,
+              "k": 45.197,
+              "d": 43.681,
+              "j": 48.23
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": -0.263,
+              "dea": -0.16,
+              "k": 39.749,
+              "d": 42.37,
+              "j": 34.506
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": -0.331,
+              "dea": -0.194,
+              "k": 36.718,
+              "d": 40.486,
+              "j": 29.181
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": -0.072,
+              "dea": -0.17,
+              "k": 55.899,
+              "d": 45.624,
+              "j": 76.45
+            }
+          ]
+        },
+        {
+          "instrument_id": "002961.SZ",
+          "name": "瑞达期货",
+          "industry": "期货",
+          "reference_close": 20.97,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "same_day",
+          "zero_axis_zone": "above_zero",
+          "j_turn_date": "2026-09-16",
+          "gap_sessions": 0,
+          "j_trough": -10.39,
+          "j_turn_value": 62.838,
+          "low_j_tags": [
+            "J<20",
+            "J<0"
+          ],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": 0.246,
+              "dea": 0.162,
+              "k": 41.752,
+              "d": 51.74,
+              "j": 21.777
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": 0.275,
+              "dea": 0.185,
+              "k": 52.14,
+              "d": 51.873,
+              "j": 52.674
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": 0.201,
+              "dea": 0.188,
+              "k": 35.667,
+              "d": 46.471,
+              "j": 14.059
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": 0.119,
+              "dea": 0.174,
+              "k": 25.089,
+              "d": 39.344,
+              "j": -3.421
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": 0.052,
+              "dea": 0.15,
+              "k": 18.03,
+              "d": 32.239,
+              "j": -10.39
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": 0.152,
+              "dea": 0.15,
+              "k": 45.353,
+              "d": 36.61,
+              "j": 62.838
+            }
+          ]
+        },
+        {
+          "instrument_id": "002976.SZ",
+          "name": "瑞玛精密",
+          "industry": "其他汽车零部件",
+          "reference_close": 26.3,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "same_day",
+          "zero_axis_zone": "above_zero",
+          "j_turn_date": "2026-09-16",
+          "gap_sessions": 0,
+          "j_trough": 43.713,
+          "j_turn_value": 78.687,
+          "low_j_tags": [],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": 0.637,
+              "dea": 0.621,
+              "k": 57.975,
+              "d": 65.312,
+              "j": 43.3
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": 0.619,
+              "dea": 0.621,
+              "k": 57.426,
+              "d": 62.684,
+              "j": 46.91
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": 0.485,
+              "dea": 0.594,
+              "k": 45.036,
+              "d": 56.801,
+              "j": 21.506
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": 0.562,
+              "dea": 0.587,
+              "k": 63.357,
+              "d": 58.987,
+              "j": 72.099
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": 0.471,
+              "dea": 0.564,
+              "k": 52.441,
+              "d": 56.805,
+              "j": 43.713
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": 0.585,
+              "dea": 0.568,
+              "k": 66.183,
+              "d": 59.931,
+              "j": 78.687
+            }
+          ]
+        },
+        {
+          "instrument_id": "003022.SZ",
+          "name": "联泓新科",
+          "industry": "光伏辅材",
+          "reference_close": 19.93,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "same_day",
+          "zero_axis_zone": "below_zero",
+          "j_turn_date": "2026-09-16",
+          "gap_sessions": 0,
+          "j_trough": 38.852,
+          "j_turn_value": 86.824,
+          "low_j_tags": [],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": -0.244,
+              "dea": -0.222,
+              "k": 28.184,
+              "d": 22.861,
+              "j": 38.83
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": -0.255,
+              "dea": -0.228,
+              "k": 23.998,
+              "d": 23.24,
+              "j": 25.513
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": -0.286,
+              "dea": -0.24,
+              "k": 24.973,
+              "d": 23.818,
+              "j": 27.283
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": -0.295,
+              "dea": -0.251,
+              "k": 30.517,
+              "d": 26.051,
+              "j": 39.45
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": -0.308,
+              "dea": -0.262,
+              "k": 31.537,
+              "d": 27.88,
+              "j": 38.852
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": -0.246,
+              "dea": -0.259,
+              "k": 53.141,
+              "d": 36.3,
+              "j": 86.824
+            }
+          ]
+        },
+        {
+          "instrument_id": "600135.SH",
+          "name": "乐凯胶片",
+          "industry": "膜材料",
+          "reference_close": 8.09,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "same_day",
+          "zero_axis_zone": "above_zero",
+          "j_turn_date": "2026-09-16",
+          "gap_sessions": 0,
+          "j_trough": -0.492,
+          "j_turn_value": 61.979,
+          "low_j_tags": [
+            "J<20",
+            "J<0"
+          ],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": 0.06,
+              "dea": 0.029,
+              "k": 70.454,
+              "d": 70.23,
+              "j": 70.903
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": 0.072,
+              "dea": 0.038,
+              "k": 71.36,
+              "d": 70.606,
+              "j": 72.866
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": 0.069,
+              "dea": 0.044,
+              "k": 60.581,
+              "d": 67.265,
+              "j": 47.214
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": 0.062,
+              "dea": 0.047,
+              "k": 49.331,
+              "d": 61.287,
+              "j": 25.419
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": 0.041,
+              "dea": 0.046,
+              "k": 34.81,
+              "d": 52.461,
+              "j": -0.492
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": 0.082,
+              "dea": 0.053,
+              "k": 56.54,
+              "d": 53.821,
+              "j": 61.979
+            }
+          ]
+        },
+        {
+          "instrument_id": "600268.SH",
+          "name": "国电南自",
+          "industry": "电网自动化设备",
+          "reference_close": 10.45,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "same_day",
+          "zero_axis_zone": "below_zero",
+          "j_turn_date": "2026-09-16",
+          "gap_sessions": 0,
+          "j_trough": 10.578,
+          "j_turn_value": 21.471,
+          "low_j_tags": [
+            "J<20"
+          ],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": -0.139,
+              "dea": -0.156,
+              "k": 48.397,
+              "d": 42.196,
+              "j": 60.801
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": -0.129,
+              "dea": -0.151,
+              "k": 51.312,
+              "d": 45.235,
+              "j": 63.468
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": -0.137,
+              "dea": -0.148,
+              "k": 42.85,
+              "d": 44.44,
+              "j": 39.671
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": -0.14,
+              "dea": -0.146,
+              "k": 37.169,
+              "d": 42.016,
+              "j": 27.475
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": -0.148,
+              "dea": -0.147,
+              "k": 28.543,
+              "d": 37.525,
+              "j": 10.578
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": -0.143,
+              "dea": -0.146,
+              "k": 30.645,
+              "d": 35.232,
+              "j": 21.471
+            }
+          ]
+        },
+        {
+          "instrument_id": "600330.SH",
+          "name": "天通股份",
+          "industry": "电子化学品Ⅲ",
+          "reference_close": 30.85,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "same_day",
+          "zero_axis_zone": "above_zero",
+          "j_turn_date": "2026-09-16",
+          "gap_sessions": 0,
+          "j_trough": 69.673,
+          "j_turn_value": 94.281,
+          "low_j_tags": [],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": 1.379,
+              "dea": 1.284,
+              "k": 62.184,
+              "d": 54.577,
+              "j": 77.397
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": 1.311,
+              "dea": 1.29,
+              "k": 58.059,
+              "d": 55.738,
+              "j": 62.703
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": 1.175,
+              "dea": 1.267,
+              "k": 49.901,
+              "d": 53.792,
+              "j": 42.12
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": 1.274,
+              "dea": 1.268,
+              "k": 61.758,
+              "d": 56.447,
+              "j": 72.379
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": 1.241,
+              "dea": 1.263,
+              "k": 62.115,
+              "d": 58.337,
+              "j": 69.673
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": 1.347,
+              "dea": 1.279,
+              "k": 73.742,
+              "d": 63.472,
+              "j": 94.281
+            }
+          ]
+        },
+        {
+          "instrument_id": "600616.SH",
+          "name": "金枫酒业",
+          "industry": "其他酒类",
+          "reference_close": 4.88,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "same_day",
+          "zero_axis_zone": "above_zero",
+          "j_turn_date": "2026-09-16",
+          "gap_sessions": 0,
+          "j_trough": 8.824,
+          "j_turn_value": 68.17,
+          "low_j_tags": [
+            "J<20"
+          ],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": 0.122,
+              "dea": 0.093,
+              "k": 66.455,
+              "d": 64.097,
+              "j": 71.169
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": 0.124,
+              "dea": 0.099,
+              "k": 63.017,
+              "d": 63.737,
+              "j": 61.575
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": 0.112,
+              "dea": 0.102,
+              "k": 51.535,
+              "d": 59.67,
+              "j": 35.265
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": 0.103,
+              "dea": 0.102,
+              "k": 43.791,
+              "d": 54.377,
+              "j": 22.618
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": 0.09,
+              "dea": 0.1,
+              "k": 34.854,
+              "d": 47.869,
+              "j": 8.824
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": 0.114,
+              "dea": 0.102,
+              "k": 56.569,
+              "d": 50.769,
+              "j": 68.17
+            }
+          ]
+        },
+        {
+          "instrument_id": "600793.SH",
+          "name": "宜宾纸业",
+          "industry": "特种纸",
+          "reference_close": 16.36,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "same_day",
+          "zero_axis_zone": "above_zero",
+          "j_turn_date": "2026-09-16",
+          "gap_sessions": 0,
+          "j_trough": -6.798,
+          "j_turn_value": 57.451,
+          "low_j_tags": [
+            "J<20",
+            "J<0"
+          ],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": 0.357,
+              "dea": 0.251,
+              "k": 87.396,
+              "d": 80.238,
+              "j": 101.712
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": 0.375,
+              "dea": 0.276,
+              "k": 86.835,
+              "d": 82.437,
+              "j": 95.632
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": 0.33,
+              "dea": 0.287,
+              "k": 64.121,
+              "d": 76.332,
+              "j": 39.699
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": 0.298,
+              "dea": 0.289,
+              "k": 49.21,
+              "d": 67.291,
+              "j": 13.047
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": 0.243,
+              "dea": 0.28,
+              "k": 35.539,
+              "d": 56.707,
+              "j": -6.798
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": 0.316,
+              "dea": 0.287,
+              "k": 57.026,
+              "d": 56.813,
+              "j": 57.451
+            }
+          ]
+        },
+        {
+          "instrument_id": "600868.SH",
+          "name": "梅雁吉祥",
+          "industry": "水力发电",
+          "reference_close": 2.92,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "same_day",
+          "zero_axis_zone": "above_zero",
+          "j_turn_date": "2026-09-16",
+          "gap_sessions": 0,
+          "j_trough": 55.737,
+          "j_turn_value": 66.112,
+          "low_j_tags": [],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": 0.029,
+              "dea": 0.027,
+              "k": 47.441,
+              "d": 47.308,
+              "j": 47.708
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": 0.03,
+              "dea": 0.028,
+              "k": 56.072,
+              "d": 50.229,
+              "j": 67.757
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": 0.031,
+              "dea": 0.029,
+              "k": 64.048,
+              "d": 54.835,
+              "j": 82.473
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": 0.033,
+              "dea": 0.03,
+              "k": 66.032,
+              "d": 58.568,
+              "j": 80.961
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": 0.03,
+              "dea": 0.03,
+              "k": 57.355,
+              "d": 58.163,
+              "j": 55.737
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": 0.032,
+              "dea": 0.03,
+              "k": 61.57,
+              "d": 59.299,
+              "j": 66.112
+            }
+          ]
+        },
+        {
+          "instrument_id": "601126.SH",
+          "name": "四方股份",
+          "industry": "电网自动化设备",
+          "reference_close": 40.04,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "same_day",
+          "zero_axis_zone": "below_zero",
+          "j_turn_date": "2026-09-16",
+          "gap_sessions": 0,
+          "j_trough": 8.133,
+          "j_turn_value": 13.493,
+          "low_j_tags": [
+            "J<20"
+          ],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": -1.492,
+              "dea": -1.62,
+              "k": 33.76,
+              "d": 21.932,
+              "j": 57.416
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": -1.406,
+              "dea": -1.577,
+              "k": 36.594,
+              "d": 26.819,
+              "j": 56.145
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": -1.446,
+              "dea": -1.551,
+              "k": 31.479,
+              "d": 28.372,
+              "j": 37.691
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": -1.504,
+              "dea": -1.541,
+              "k": 24.56,
+              "d": 27.101,
+              "j": 19.476
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": -1.544,
+              "dea": -1.542,
+              "k": 18.972,
+              "d": 24.392,
+              "j": 8.133
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": -1.521,
+              "dea": -1.538,
+              "k": 19.721,
+              "d": 22.835,
+              "j": 13.493
+            }
+          ]
+        },
+        {
+          "instrument_id": "601231.SH",
+          "name": "环旭电子",
+          "industry": "消费电子零部件及组装",
+          "reference_close": 26.19,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "same_day",
+          "zero_axis_zone": "below_zero",
+          "j_turn_date": "2026-09-16",
+          "gap_sessions": 0,
+          "j_trough": 28.582,
+          "j_turn_value": 39.651,
+          "low_j_tags": [],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": -0.49,
+              "dea": -0.373,
+              "k": 21.704,
+              "d": 23.562,
+              "j": 17.988
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": -0.29,
+              "dea": -0.356,
+              "k": 47.803,
+              "d": 31.642,
+              "j": 80.124
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": -0.209,
+              "dea": -0.327,
+              "k": 54.52,
+              "d": 39.268,
+              "j": 85.025
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": -0.24,
+              "dea": -0.309,
+              "k": 47.857,
+              "d": 42.131,
+              "j": 59.309
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": -0.322,
+              "dea": -0.312,
+              "k": 36.325,
+              "d": 40.196,
+              "j": 28.582
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": -0.285,
+              "dea": -0.307,
+              "k": 39.962,
+              "d": 40.118,
+              "j": 39.651
+            }
+          ]
+        },
+        {
+          "instrument_id": "601908.SH",
+          "name": "京运通",
+          "industry": "光伏发电",
+          "reference_close": 3.03,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "same_day",
+          "zero_axis_zone": "below_zero",
+          "j_turn_date": "2026-09-16",
+          "gap_sessions": 0,
+          "j_trough": 24.839,
+          "j_turn_value": 60.506,
+          "low_j_tags": [],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": -0.024,
+              "dea": -0.024,
+              "k": 42.969,
+              "d": 41.667,
+              "j": 45.575
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": -0.022,
+              "dea": -0.024,
+              "k": 46.828,
+              "d": 43.387,
+              "j": 53.71
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": -0.023,
+              "dea": -0.023,
+              "k": 44.039,
+              "d": 43.604,
+              "j": 44.909
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": -0.023,
+              "dea": -0.023,
+              "k": 44.511,
+              "d": 43.907,
+              "j": 45.72
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": -0.025,
+              "dea": -0.024,
+              "k": 35.735,
+              "d": 41.183,
+              "j": 24.839
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": -0.02,
+              "dea": -0.023,
+              "k": 49.464,
+              "d": 43.943,
+              "j": 60.506
+            }
+          ]
+        },
+        {
+          "instrument_id": "603276.SH",
+          "name": "恒兴新材",
+          "industry": "其他化学制品",
+          "reference_close": 17.86,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "same_day",
+          "zero_axis_zone": "above_zero",
+          "j_turn_date": "2026-09-16",
+          "gap_sessions": 0,
+          "j_trough": 24.508,
+          "j_turn_value": 69.926,
+          "low_j_tags": [],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": 0.332,
+              "dea": 0.248,
+              "k": 84.516,
+              "d": 76.393,
+              "j": 100.761
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": 0.35,
+              "dea": 0.269,
+              "k": 86.139,
+              "d": 79.642,
+              "j": 99.134
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": 0.332,
+              "dea": 0.281,
+              "k": 78.995,
+              "d": 79.426,
+              "j": 78.132
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": 0.318,
+              "dea": 0.289,
+              "k": 71.751,
+              "d": 76.868,
+              "j": 61.519
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": 0.284,
+              "dea": 0.288,
+              "k": 54.428,
+              "d": 69.388,
+              "j": 24.508
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": 0.384,
+              "dea": 0.307,
+              "k": 69.618,
+              "d": 69.465,
+              "j": 69.926
+            }
+          ]
+        },
+        {
+          "instrument_id": "603416.SH",
+          "name": "信捷电气",
+          "industry": "机器人",
+          "reference_close": 46.42,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "same_day",
+          "zero_axis_zone": "below_zero",
+          "j_turn_date": "2026-09-16",
+          "gap_sessions": 0,
+          "j_trough": -1.167,
+          "j_turn_value": 14.685,
+          "low_j_tags": [
+            "J<20",
+            "J<0"
+          ],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": -0.489,
+              "dea": -0.791,
+              "k": 60.339,
+              "d": 68.193,
+              "j": 44.632
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": -0.57,
+              "dea": -0.747,
+              "k": 41.852,
+              "d": 59.412,
+              "j": 6.731
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": -0.665,
+              "dea": -0.731,
+              "k": 32.584,
+              "d": 50.47,
+              "j": -3.188
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": -0.7,
+              "dea": -0.725,
+              "k": 29.659,
+              "d": 43.533,
+              "j": 1.912
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": -0.753,
+              "dea": -0.73,
+              "k": 24.376,
+              "d": 37.147,
+              "j": -1.167
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": -0.718,
+              "dea": -0.728,
+              "k": 27.52,
+              "d": 33.938,
+              "j": 14.685
+            }
+          ]
+        },
+        {
+          "instrument_id": "603588.SH",
+          "name": "高能环境",
+          "industry": "固废治理",
+          "reference_close": 16.08,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "same_day",
+          "zero_axis_zone": "above_zero",
+          "j_turn_date": "2026-09-16",
+          "gap_sessions": 0,
+          "j_trough": 21.223,
+          "j_turn_value": 68.862,
+          "low_j_tags": [],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": 0.437,
+              "dea": 0.292,
+              "k": 79.724,
+              "d": 73.091,
+              "j": 92.99
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": 0.442,
+              "dea": 0.322,
+              "k": 76.287,
+              "d": 74.156,
+              "j": 80.548
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": 0.408,
+              "dea": 0.339,
+              "k": 65.76,
+              "d": 71.357,
+              "j": 54.564
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": 0.355,
+              "dea": 0.343,
+              "k": 53.448,
+              "d": 65.388,
+              "j": 29.568
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": 0.322,
+              "dea": 0.338,
+              "k": 46.46,
+              "d": 59.078,
+              "j": 21.223
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": 0.375,
+              "dea": 0.346,
+              "k": 63.271,
+              "d": 60.476,
+              "j": 68.862
+            }
+          ]
+        },
+        {
+          "instrument_id": "603607.SH",
+          "name": "京华激光",
+          "industry": "综合包装",
+          "reference_close": 24.41,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "same_day",
+          "zero_axis_zone": "above_zero",
+          "j_turn_date": "2026-09-16",
+          "gap_sessions": 0,
+          "j_trough": 37.24,
+          "j_turn_value": 80.895,
+          "low_j_tags": [],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": 0.25,
+              "dea": 0.173,
+              "k": 74.862,
+              "d": 69.474,
+              "j": 85.637
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": 0.238,
+              "dea": 0.186,
+              "k": 63.241,
+              "d": 67.396,
+              "j": 54.931
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": 0.148,
+              "dea": 0.179,
+              "k": 44.004,
+              "d": 59.599,
+              "j": 12.814
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": 0.192,
+              "dea": 0.181,
+              "k": 53.453,
+              "d": 57.55,
+              "j": 45.258
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": 0.168,
+              "dea": 0.179,
+              "k": 48.846,
+              "d": 54.649,
+              "j": 37.24
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": 0.324,
+              "dea": 0.208,
+              "k": 65.897,
+              "d": 58.398,
+              "j": 80.895
+            }
+          ]
+        },
+        {
+          "instrument_id": "605228.SH",
+          "name": "神通科技",
+          "industry": "车身附件及饰件",
+          "reference_close": 10.57,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "same_day",
+          "zero_axis_zone": "below_zero",
+          "j_turn_date": "2026-09-16",
+          "gap_sessions": 0,
+          "j_trough": 0.194,
+          "j_turn_value": 32.29,
+          "low_j_tags": [
+            "J<20"
+          ],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": -0.174,
+              "dea": -0.235,
+              "k": 44.464,
+              "d": 50.973,
+              "j": 31.446
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": -0.181,
+              "dea": -0.224,
+              "k": 33.347,
+              "d": 45.098,
+              "j": 9.844
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": -0.199,
+              "dea": -0.219,
+              "k": 27.31,
+              "d": 39.169,
+              "j": 3.594
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": -0.209,
+              "dea": -0.217,
+              "k": 24.38,
+              "d": 34.239,
+              "j": 4.661
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": -0.223,
+              "dea": -0.218,
+              "k": 19.648,
+              "d": 29.375,
+              "j": 0.194
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": -0.198,
+              "dea": -0.214,
+              "k": 30.625,
+              "d": 29.792,
+              "j": 32.29
+            }
+          ]
+        },
+        {
+          "instrument_id": "605399.SH",
+          "name": "晨光新材",
+          "industry": "有机硅",
+          "reference_close": 11.5,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "same_day",
+          "zero_axis_zone": "above_zero",
+          "j_turn_date": "2026-09-16",
+          "gap_sessions": 0,
+          "j_trough": -5.608,
+          "j_turn_value": 32.177,
+          "low_j_tags": [
+            "J<20",
+            "J<0"
+          ],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": 0.146,
+              "dea": 0.047,
+              "k": 76.518,
+              "d": 72.796,
+              "j": 83.961
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": 0.148,
+              "dea": 0.068,
+              "k": 69.663,
+              "d": 71.751,
+              "j": 65.485
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": 0.125,
+              "dea": 0.079,
+              "k": 53.981,
+              "d": 65.828,
+              "j": 30.288
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": 0.111,
+              "dea": 0.085,
+              "k": 45.908,
+              "d": 59.188,
+              "j": 19.348
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": 0.081,
+              "dea": 0.085,
+              "k": 31.418,
+              "d": 49.932,
+              "j": -5.608
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": 0.095,
+              "dea": 0.087,
+              "k": 42.322,
+              "d": 47.395,
+              "j": 32.177
+            }
+          ]
+        },
+        {
+          "instrument_id": "002324.SZ",
+          "name": "普利特",
+          "industry": "改性塑料",
+          "reference_close": 9.15,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "prior_3_sessions",
+          "zero_axis_zone": "below_zero",
+          "j_turn_date": "2026-09-15",
+          "gap_sessions": 1,
+          "j_trough": 13.824,
+          "j_turn_value": 20.988,
+          "low_j_tags": [
+            "J<20"
+          ],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": -0.03,
+              "dea": -0.108,
+              "k": 57.713,
+              "d": 52.899,
+              "j": 67.341
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": -0.041,
+              "dea": -0.095,
+              "k": 46.71,
+              "d": 50.836,
+              "j": 38.459
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": -0.07,
+              "dea": -0.09,
+              "k": 37.201,
+              "d": 46.291,
+              "j": 19.021
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": -0.088,
+              "dea": -0.089,
+              "k": 32.376,
+              "d": 41.653,
+              "j": 13.824
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": -0.091,
+              "dea": -0.09,
+              "k": 32.796,
+              "d": 38.701,
+              "j": 20.988
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": -0.087,
+              "dea": -0.089,
+              "k": 35.501,
+              "d": 37.634,
+              "j": 31.234
+            }
+          ]
+        },
+        {
+          "instrument_id": "002491.SZ",
+          "name": "通鼎互联",
+          "industry": "通信线缆及配套",
+          "reference_close": 24.45,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "prior_3_sessions",
+          "zero_axis_zone": "above_zero",
+          "j_turn_date": "2026-09-15",
+          "gap_sessions": 1,
+          "j_trough": 21.347,
+          "j_turn_value": 68.145,
+          "low_j_tags": [],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": 0.665,
+              "dea": 0.608,
+              "k": 42.165,
+              "d": 43.088,
+              "j": 40.319
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": 0.598,
+              "dea": 0.606,
+              "k": 39.643,
+              "d": 41.94,
+              "j": 35.05
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": 0.553,
+              "dea": 0.595,
+              "k": 41.139,
+              "d": 41.673,
+              "j": 40.07
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": 0.434,
+              "dea": 0.563,
+              "k": 32.962,
+              "d": 38.769,
+              "j": 21.347
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": 0.496,
+              "dea": 0.55,
+              "k": 51.359,
+              "d": 42.966,
+              "j": 68.145
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": 0.716,
+              "dea": 0.583,
+              "k": 67.573,
+              "d": 51.168,
+              "j": 100.382
+            }
+          ]
+        },
+        {
+          "instrument_id": "002625.SZ",
+          "name": "光启技术",
+          "industry": "航空装备Ⅲ",
+          "reference_close": 28.26,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "prior_3_sessions",
+          "zero_axis_zone": "below_zero",
+          "j_turn_date": "2026-09-15",
+          "gap_sessions": 1,
+          "j_trough": 3.54,
+          "j_turn_value": 6.973,
+          "low_j_tags": [
+            "J<20"
+          ],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": -0.578,
+              "dea": -0.592,
+              "k": 24.475,
+              "d": 32.121,
+              "j": 9.182
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": -0.615,
+              "dea": -0.596,
+              "k": 16.524,
+              "d": 26.922,
+              "j": -4.273
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": -0.666,
+              "dea": -0.61,
+              "k": 19.026,
+              "d": 24.29,
+              "j": 8.498
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": -0.73,
+              "dea": -0.634,
+              "k": 15.397,
+              "d": 21.326,
+              "j": 3.54
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": -0.759,
+              "dea": -0.659,
+              "k": 15.174,
+              "d": 19.275,
+              "j": 6.973
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": -0.647,
+              "dea": -0.657,
+              "k": 35.439,
+              "d": 24.663,
+              "j": 56.991
+            }
+          ]
+        },
+        {
+          "instrument_id": "002654.SZ",
+          "name": "万润科技",
+          "industry": "LED",
+          "reference_close": 14.15,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "prior_3_sessions",
+          "zero_axis_zone": "crossing_zero",
+          "j_turn_date": "2026-09-15",
+          "gap_sessions": 1,
+          "j_trough": 23.821,
+          "j_turn_value": 25.12,
+          "low_j_tags": [],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": 0.034,
+              "dea": -0.017,
+              "k": 37.995,
+              "d": 39.164,
+              "j": 35.657
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": 0.025,
+              "dea": -0.008,
+              "k": 34.219,
+              "d": 37.516,
+              "j": 27.625
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": 0.008,
+              "dea": -0.005,
+              "k": 34.055,
+              "d": 36.362,
+              "j": 29.441
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": -0.018,
+              "dea": -0.008,
+              "k": 30.988,
+              "d": 34.571,
+              "j": 23.821
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": -0.032,
+              "dea": -0.013,
+              "k": 30.52,
+              "d": 33.221,
+              "j": 25.12
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": 0.013,
+              "dea": -0.007,
+              "k": 43.818,
+              "d": 36.753,
+              "j": 57.948
+            }
+          ]
+        },
+        {
+          "instrument_id": "600094.SH",
+          "name": "大名城",
+          "industry": "住宅开发",
+          "reference_close": 4.11,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "prior_3_sessions",
+          "zero_axis_zone": "below_zero",
+          "j_turn_date": "2026-09-15",
+          "gap_sessions": 1,
+          "j_trough": 34.436,
+          "j_turn_value": 45.489,
+          "low_j_tags": [],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": -0.007,
+              "dea": -0.01,
+              "k": 54.079,
+              "d": 45.768,
+              "j": 70.702
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": -0.006,
+              "dea": -0.009,
+              "k": 54.68,
+              "d": 48.738,
+              "j": 66.563
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": -0.013,
+              "dea": -0.01,
+              "k": 45.277,
+              "d": 47.585,
+              "j": 40.662
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": -0.017,
+              "dea": -0.011,
+              "k": 41.949,
+              "d": 45.706,
+              "j": 34.436
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": -0.014,
+              "dea": -0.012,
+              "k": 45.613,
+              "d": 45.675,
+              "j": 45.489
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": -0.005,
+              "dea": -0.01,
+              "k": 56.879,
+              "d": 49.41,
+              "j": 71.818
+            }
+          ]
+        },
+        {
+          "instrument_id": "603082.SH",
+          "name": "北自科技",
+          "industry": "其他自动化设备",
+          "reference_close": 52.98,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "prior_3_sessions",
+          "zero_axis_zone": "above_zero",
+          "j_turn_date": "2026-09-15",
+          "gap_sessions": 1,
+          "j_trough": 5.684,
+          "j_turn_value": 50.823,
+          "low_j_tags": [
+            "J<20"
+          ],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": 2.196,
+              "dea": 1.837,
+              "k": 81.711,
+              "d": 78.374,
+              "j": 88.386
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": 2.115,
+              "dea": 1.893,
+              "k": 71.963,
+              "d": 76.237,
+              "j": 63.415
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": 1.938,
+              "dea": 1.902,
+              "k": 57.64,
+              "d": 70.038,
+              "j": 32.845
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": 1.683,
+              "dea": 1.858,
+              "k": 42.458,
+              "d": 60.845,
+              "j": 5.684
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": 1.814,
+              "dea": 1.849,
+              "k": 56.55,
+              "d": 59.413,
+              "j": 50.823
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": 2.281,
+              "dea": 1.936,
+              "k": 71.033,
+              "d": 63.286,
+              "j": 86.527
+            }
+          ]
+        },
+        {
+          "instrument_id": "603266.SH",
+          "name": "天龙股份",
+          "industry": "车身附件及饰件",
+          "reference_close": 16.67,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "prior_3_sessions",
+          "zero_axis_zone": "above_zero",
+          "j_turn_date": "2026-09-15",
+          "gap_sessions": 1,
+          "j_trough": -8.448,
+          "j_turn_value": 47.731,
+          "low_j_tags": [
+            "J<20",
+            "J<0"
+          ],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": 0.158,
+              "dea": 0.125,
+              "k": 58.338,
+              "d": 67.045,
+              "j": 40.923
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": 0.093,
+              "dea": 0.118,
+              "k": 42.528,
+              "d": 58.873,
+              "j": 9.839
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": 0.01,
+              "dea": 0.097,
+              "k": 32.162,
+              "d": 49.969,
+              "j": -3.453
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": -0.057,
+              "dea": 0.066,
+              "k": 24.933,
+              "d": 41.624,
+              "j": -8.448
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": 0.013,
+              "dea": 0.055,
+              "k": 44.241,
+              "d": 42.496,
+              "j": 47.731
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": 0.062,
+              "dea": 0.057,
+              "k": 51.805,
+              "d": 45.599,
+              "j": 64.216
+            }
+          ]
+        },
+        {
+          "instrument_id": "603507.SH",
+          "name": "振江股份",
+          "industry": "风电零部件",
+          "reference_close": 23.55,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "prior_3_sessions",
+          "zero_axis_zone": "below_zero",
+          "j_turn_date": "2026-09-15",
+          "gap_sessions": 1,
+          "j_trough": 11.254,
+          "j_turn_value": 49.499,
+          "low_j_tags": [
+            "J<20"
+          ],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": -0.431,
+              "dea": -0.347,
+              "k": 13.106,
+              "d": 19.063,
+              "j": 1.191
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": -0.452,
+              "dea": -0.368,
+              "k": 12.398,
+              "d": 16.842,
+              "j": 3.511
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": -0.467,
+              "dea": -0.388,
+              "k": 16.459,
+              "d": 16.714,
+              "j": 15.949
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": -0.497,
+              "dea": -0.41,
+              "k": 14.374,
+              "d": 15.934,
+              "j": 11.254
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": -0.451,
+              "dea": -0.418,
+              "k": 30.319,
+              "d": 20.729,
+              "j": 49.499
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": -0.34,
+              "dea": -0.403,
+              "k": 51.614,
+              "d": 31.024,
+              "j": 92.793
+            }
+          ]
+        },
+        {
+          "instrument_id": "000657.SZ",
+          "name": "中钨高新",
+          "industry": "钨",
+          "reference_close": 62.04,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "prior_3_sessions",
+          "zero_axis_zone": "below_zero",
+          "j_turn_date": "2026-09-14",
+          "gap_sessions": 2,
+          "j_trough": 26.826,
+          "j_turn_value": 49.531,
+          "low_j_tags": [],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": -1.623,
+              "dea": -1.09,
+              "k": 21.114,
+              "d": 18.84,
+              "j": 25.661
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": -1.695,
+              "dea": -1.211,
+              "k": 22.84,
+              "d": 20.173,
+              "j": 28.173
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": -1.803,
+              "dea": -1.329,
+              "k": 23.024,
+              "d": 21.124,
+              "j": 26.826
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": -1.815,
+              "dea": -1.427,
+              "k": 33.298,
+              "d": 25.182,
+              "j": 49.531
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": -1.56,
+              "dea": -1.453,
+              "k": 49.426,
+              "d": 33.263,
+              "j": 81.751
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": -1.358,
+              "dea": -1.434,
+              "k": 59.305,
+              "d": 41.944,
+              "j": 94.027
+            }
+          ]
+        },
+        {
+          "instrument_id": "000726.SZ",
+          "name": "鲁泰A",
+          "industry": "棉纺",
+          "reference_close": 6.16,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "prior_3_sessions",
+          "zero_axis_zone": "above_zero",
+          "j_turn_date": "2026-09-14",
+          "gap_sessions": 2,
+          "j_trough": 2.005,
+          "j_turn_value": 37.594,
+          "low_j_tags": [
+            "J<20"
+          ],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": 0.019,
+              "dea": 0.025,
+              "k": 39.076,
+              "d": 46.359,
+              "j": 24.508
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": 0.014,
+              "dea": 0.023,
+              "k": 29.559,
+              "d": 40.759,
+              "j": 7.159
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": 0.003,
+              "dea": 0.019,
+              "k": 24.151,
+              "d": 35.223,
+              "j": 2.005
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": 0.014,
+              "dea": 0.018,
+              "k": 36.239,
+              "d": 35.562,
+              "j": 37.594
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": 0.014,
+              "dea": 0.017,
+              "k": 37.354,
+              "d": 36.159,
+              "j": 39.743
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": 0.03,
+              "dea": 0.02,
+              "k": 51.986,
+              "d": 41.435,
+              "j": 73.088
+            }
+          ]
+        },
+        {
+          "instrument_id": "001312.SZ",
+          "name": "福恩股份",
+          "industry": "其他纺织",
+          "reference_close": 17.58,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "prior_3_sessions",
+          "zero_axis_zone": "below_zero",
+          "j_turn_date": "2026-09-14",
+          "gap_sessions": 2,
+          "j_trough": -5.857,
+          "j_turn_value": 36.397,
+          "low_j_tags": [
+            "J<20",
+            "J<0"
+          ],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": -0.086,
+              "dea": -0.105,
+              "k": 41.799,
+              "d": 50.357,
+              "j": 24.683
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": -0.112,
+              "dea": -0.107,
+              "k": 28.651,
+              "d": 43.122,
+              "j": -0.292
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": -0.153,
+              "dea": -0.116,
+              "k": 22.131,
+              "d": 36.125,
+              "j": -5.857
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": -0.13,
+              "dea": -0.119,
+              "k": 36.241,
+              "d": 36.164,
+              "j": 36.397
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": -0.129,
+              "dea": -0.121,
+              "k": 39.037,
+              "d": 37.121,
+              "j": 42.868
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": -0.112,
+              "dea": -0.119,
+              "k": 50.691,
+              "d": 41.645,
+              "j": 68.785
+            }
+          ]
+        },
+        {
+          "instrument_id": "002145.SZ",
+          "name": "钛能化学",
+          "industry": "钛白粉",
+          "reference_close": 4.42,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "prior_3_sessions",
+          "zero_axis_zone": "below_zero",
+          "j_turn_date": "2026-09-14",
+          "gap_sessions": 2,
+          "j_trough": 4.343,
+          "j_turn_value": 41.047,
+          "low_j_tags": [
+            "J<20"
+          ],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": -0.043,
+              "dea": -0.039,
+              "k": 27.247,
+              "d": 31.938,
+              "j": 17.866
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": -0.045,
+              "dea": -0.04,
+              "k": 20.126,
+              "d": 28.001,
+              "j": 4.376
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": -0.054,
+              "dea": -0.043,
+              "k": 17.862,
+              "d": 24.621,
+              "j": 4.343
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": -0.051,
+              "dea": -0.045,
+              "k": 31.661,
+              "d": 26.968,
+              "j": 41.047
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": -0.046,
+              "dea": -0.045,
+              "k": 47.194,
+              "d": 33.71,
+              "j": 74.163
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": -0.034,
+              "dea": -0.043,
+              "k": 59.894,
+              "d": 42.438,
+              "j": 94.807
+            }
+          ]
+        },
+        {
+          "instrument_id": "002169.SZ",
+          "name": "智光电气",
+          "industry": "电网自动化设备",
+          "reference_close": 12.92,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "prior_3_sessions",
+          "zero_axis_zone": "crossing_zero",
+          "j_turn_date": "2026-09-14",
+          "gap_sessions": 2,
+          "j_trough": 6.358,
+          "j_turn_value": 18.114,
+          "low_j_tags": [
+            "J<20"
+          ],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": -0.012,
+              "dea": 0.012,
+              "k": 28.863,
+              "d": 35.104,
+              "j": 16.381
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": -0.038,
+              "dea": 0.002,
+              "k": 23.806,
+              "d": 31.338,
+              "j": 8.74
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": -0.062,
+              "dea": -0.011,
+              "k": 20.632,
+              "d": 27.77,
+              "j": 6.358
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": -0.074,
+              "dea": -0.023,
+              "k": 23.631,
+              "d": 26.39,
+              "j": 18.114
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": -0.039,
+              "dea": -0.027,
+              "k": 45.346,
+              "d": 32.709,
+              "j": 70.621
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": 0.0,
+              "dea": -0.021,
+              "k": 61.712,
+              "d": 42.377,
+              "j": 100.383
+            }
+          ]
+        },
+        {
+          "instrument_id": "002172.SZ",
+          "name": "澳洋健康",
+          "industry": "医院",
+          "reference_close": 5.11,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "prior_3_sessions",
+          "zero_axis_zone": "above_zero",
+          "j_turn_date": "2026-09-14",
+          "gap_sessions": 2,
+          "j_trough": 33.439,
+          "j_turn_value": 49.227,
+          "low_j_tags": [],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": 0.302,
+              "dea": 0.302,
+              "k": 58.833,
+              "d": 55.722,
+              "j": 65.056
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": 0.294,
+              "dea": 0.301,
+              "k": 53.862,
+              "d": 55.102,
+              "j": 51.382
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": 0.268,
+              "dea": 0.294,
+              "k": 45.818,
+              "d": 52.007,
+              "j": 33.439
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": 0.281,
+              "dea": 0.292,
+              "k": 50.815,
+              "d": 51.61,
+              "j": 49.227
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": 0.278,
+              "dea": 0.289,
+              "k": 51.219,
+              "d": 51.48,
+              "j": 50.699
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": 0.29,
+              "dea": 0.289,
+              "k": 56.443,
+              "d": 53.134,
+              "j": 63.062
+            }
+          ]
+        },
+        {
+          "instrument_id": "002303.SZ",
+          "name": "美盈森",
+          "industry": "纸包装",
+          "reference_close": 5.79,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "prior_3_sessions",
+          "zero_axis_zone": "above_zero",
+          "j_turn_date": "2026-09-14",
+          "gap_sessions": 2,
+          "j_trough": 16.546,
+          "j_turn_value": 19.071,
+          "low_j_tags": [
+            "J<20"
+          ],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": 0.187,
+              "dea": 0.169,
+              "k": 64.743,
+              "d": 62.75,
+              "j": 68.73
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": 0.173,
+              "dea": 0.17,
+              "k": 52.686,
+              "d": 59.395,
+              "j": 39.267
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": 0.147,
+              "dea": 0.165,
+              "k": 41.031,
+              "d": 53.274,
+              "j": 16.546
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": 0.127,
+              "dea": 0.158,
+              "k": 38.615,
+              "d": 48.388,
+              "j": 19.071
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": 0.118,
+              "dea": 0.15,
+              "k": 41.059,
+              "d": 45.945,
+              "j": 31.287
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": 0.151,
+              "dea": 0.15,
+              "k": 60.706,
+              "d": 50.865,
+              "j": 80.387
+            }
+          ]
+        },
+        {
+          "instrument_id": "002645.SZ",
+          "name": "华宏科技",
+          "industry": "环保设备Ⅲ",
+          "reference_close": 18.43,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "prior_3_sessions",
+          "zero_axis_zone": "below_zero",
+          "j_turn_date": "2026-09-14",
+          "gap_sessions": 2,
+          "j_trough": 22.059,
+          "j_turn_value": 27.091,
+          "low_j_tags": [],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": -0.505,
+              "dea": -0.423,
+              "k": 24.196,
+              "d": 22.598,
+              "j": 27.392
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": -0.512,
+              "dea": -0.441,
+              "k": 24.959,
+              "d": 23.385,
+              "j": 28.106
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": -0.552,
+              "dea": -0.463,
+              "k": 22.817,
+              "d": 23.196,
+              "j": 22.059
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": -0.572,
+              "dea": -0.485,
+              "k": 24.865,
+              "d": 23.752,
+              "j": 27.091
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": -0.524,
+              "dea": -0.493,
+              "k": 39.345,
+              "d": 28.95,
+              "j": 60.136
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": -0.458,
+              "dea": -0.486,
+              "k": 54.099,
+              "d": 37.333,
+              "j": 87.631
+            }
+          ]
+        },
+        {
+          "instrument_id": "003031.SZ",
+          "name": "中瓷电子",
+          "industry": "通信终端及配件",
+          "reference_close": 137.72,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "prior_3_sessions",
+          "zero_axis_zone": "crossing_zero",
+          "j_turn_date": "2026-09-14",
+          "gap_sessions": 2,
+          "j_trough": 47.667,
+          "j_turn_value": 77.618,
+          "low_j_tags": [],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": -1.159,
+              "dea": -0.091,
+              "k": 29.157,
+              "d": 23.767,
+              "j": 39.936
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": -1.229,
+              "dea": -0.318,
+              "k": 35.933,
+              "d": 27.822,
+              "j": 52.155
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": -1.434,
+              "dea": -0.542,
+              "k": 36.327,
+              "d": 30.657,
+              "j": 47.667
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": -1.194,
+              "dea": -0.672,
+              "k": 50.783,
+              "d": 37.366,
+              "j": 77.618
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": -0.807,
+              "dea": -0.699,
+              "k": 58.909,
+              "d": 44.547,
+              "j": 87.634
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": 0.504,
+              "dea": -0.459,
+              "k": 72.606,
+              "d": 53.9,
+              "j": 110.018
+            }
+          ]
+        },
+        {
+          "instrument_id": "600259.SH",
+          "name": "中稀有色",
+          "industry": "稀土",
+          "reference_close": 82.9,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "prior_3_sessions",
+          "zero_axis_zone": "below_zero",
+          "j_turn_date": "2026-09-14",
+          "gap_sessions": 2,
+          "j_trough": 16.886,
+          "j_turn_value": 20.682,
+          "low_j_tags": [
+            "J<20"
+          ],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": -1.701,
+              "dea": -0.965,
+              "k": 18.431,
+              "d": 18.507,
+              "j": 18.278
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": -1.742,
+              "dea": -1.12,
+              "k": 20.802,
+              "d": 19.272,
+              "j": 23.862
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": -1.921,
+              "dea": -1.28,
+              "k": 18.249,
+              "d": 18.931,
+              "j": 16.886
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": -2.052,
+              "dea": -1.435,
+              "k": 19.682,
+              "d": 19.181,
+              "j": 20.682
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": -1.864,
+              "dea": -1.52,
+              "k": 38.423,
+              "d": 25.595,
+              "j": 64.078
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": -1.392,
+              "dea": -1.495,
+              "k": 56.346,
+              "d": 35.845,
+              "j": 97.347
+            }
+          ]
+        },
+        {
+          "instrument_id": "600378.SH",
+          "name": "昊华科技",
+          "industry": "氟化工",
+          "reference_close": 48.44,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "prior_3_sessions",
+          "zero_axis_zone": "below_zero",
+          "j_turn_date": "2026-09-14",
+          "gap_sessions": 2,
+          "j_trough": 9.889,
+          "j_turn_value": 13.158,
+          "low_j_tags": [
+            "J<20"
+          ],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": -0.201,
+              "dea": -0.223,
+              "k": 30.727,
+              "d": 41.88,
+              "j": 8.422
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": -0.149,
+              "dea": -0.208,
+              "k": 30.647,
+              "d": 38.136,
+              "j": 15.67
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": -0.332,
+              "dea": -0.233,
+              "k": 26.03,
+              "d": 34.101,
+              "j": 9.889
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": -0.458,
+              "dea": -0.278,
+              "k": 25.125,
+              "d": 31.109,
+              "j": 13.158
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": -0.443,
+              "dea": -0.311,
+              "k": 29.769,
+              "d": 30.662,
+              "j": 27.983
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": -0.305,
+              "dea": -0.31,
+              "k": 44.859,
+              "d": 35.394,
+              "j": 63.787
+            }
+          ]
+        },
+        {
+          "instrument_id": "603000.SH",
+          "name": "人民网",
+          "industry": "门户网站",
+          "reference_close": 17.05,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "prior_3_sessions",
+          "zero_axis_zone": "above_zero",
+          "j_turn_date": "2026-09-14",
+          "gap_sessions": 2,
+          "j_trough": 6.169,
+          "j_turn_value": 7.52,
+          "low_j_tags": [
+            "J<20"
+          ],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": 0.209,
+              "dea": 0.154,
+              "k": 58.707,
+              "d": 64.411,
+              "j": 47.298
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": 0.173,
+              "dea": 0.158,
+              "k": 44.508,
+              "d": 57.777,
+              "j": 17.971
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": 0.129,
+              "dea": 0.152,
+              "k": 35.659,
+              "d": 50.404,
+              "j": 6.169
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": 0.104,
+              "dea": 0.142,
+              "k": 32.025,
+              "d": 44.278,
+              "j": 7.52
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": 0.135,
+              "dea": 0.141,
+              "k": 39.323,
+              "d": 42.626,
+              "j": 32.715
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": 0.144,
+              "dea": 0.142,
+              "k": 41.422,
+              "d": 42.225,
+              "j": 39.817
+            }
+          ]
+        },
+        {
+          "instrument_id": "603262.SH",
+          "name": "技源集团",
+          "industry": "保健品",
+          "reference_close": 18.35,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "prior_3_sessions",
+          "zero_axis_zone": "below_zero",
+          "j_turn_date": "2026-09-14",
+          "gap_sessions": 2,
+          "j_trough": -18.429,
+          "j_turn_value": -3.402,
+          "low_j_tags": [
+            "J<20",
+            "J<0"
+          ],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": -0.441,
+              "dea": -0.57,
+              "k": 28.292,
+              "d": 47.011,
+              "j": -9.146
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": -0.535,
+              "dea": -0.563,
+              "k": 19.181,
+              "d": 37.735,
+              "j": -17.926
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": -0.649,
+              "dea": -0.58,
+              "k": 13.665,
+              "d": 29.711,
+              "j": -18.429
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": -0.684,
+              "dea": -0.601,
+              "k": 15.52,
+              "d": 24.981,
+              "j": -3.402
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": -0.633,
+              "dea": -0.607,
+              "k": 25.612,
+              "d": 25.191,
+              "j": 26.454
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": -0.576,
+              "dea": -0.601,
+              "k": 34.832,
+              "d": 28.405,
+              "j": 47.686
+            }
+          ]
+        },
+        {
+          "instrument_id": "603281.SH",
+          "name": "江瀚新材",
+          "industry": "有机硅",
+          "reference_close": 18.55,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "prior_3_sessions",
+          "zero_axis_zone": "below_zero",
+          "j_turn_date": "2026-09-14",
+          "gap_sessions": 2,
+          "j_trough": 1.15,
+          "j_turn_value": 1.641,
+          "low_j_tags": [
+            "J<20"
+          ],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": -0.501,
+              "dea": -0.558,
+              "k": 32.619,
+              "d": 35.507,
+              "j": 26.841
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": -0.511,
+              "dea": -0.549,
+              "k": 23.372,
+              "d": 31.462,
+              "j": 7.191
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": -0.549,
+              "dea": -0.549,
+              "k": 18.471,
+              "d": 27.132,
+              "j": 1.15
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": -0.575,
+              "dea": -0.554,
+              "k": 16.207,
+              "d": 23.49,
+              "j": 1.641
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": -0.581,
+              "dea": -0.559,
+              "k": 17.177,
+              "d": 21.386,
+              "j": 8.76
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": -0.557,
+              "dea": -0.559,
+              "k": 24.687,
+              "d": 22.486,
+              "j": 29.088
+            }
+          ]
+        },
+        {
+          "instrument_id": "603283.SH",
+          "name": "赛腾股份",
+          "industry": "工控设备",
+          "reference_close": 46.49,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "prior_3_sessions",
+          "zero_axis_zone": "below_zero",
+          "j_turn_date": "2026-09-14",
+          "gap_sessions": 2,
+          "j_trough": 20.742,
+          "j_turn_value": 30.124,
+          "low_j_tags": [],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": -0.684,
+              "dea": -0.63,
+              "k": 31.048,
+              "d": 33.288,
+              "j": 26.568
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": -0.72,
+              "dea": -0.648,
+              "k": 29.673,
+              "d": 32.083,
+              "j": 24.853
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": -0.833,
+              "dea": -0.685,
+              "k": 27.222,
+              "d": 30.463,
+              "j": 20.742
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": -0.891,
+              "dea": -0.726,
+              "k": 30.318,
+              "d": 30.414,
+              "j": 30.124
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": -0.851,
+              "dea": -0.751,
+              "k": 37.907,
+              "d": 32.912,
+              "j": 47.898
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": -0.695,
+              "dea": -0.74,
+              "k": 54.586,
+              "d": 40.137,
+              "j": 83.485
+            }
+          ]
+        },
+        {
+          "instrument_id": "603303.SH",
+          "name": "得邦照明",
+          "industry": "照明设备Ⅲ",
+          "reference_close": 26.6,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "prior_3_sessions",
+          "zero_axis_zone": "above_zero",
+          "j_turn_date": "2026-09-14",
+          "gap_sessions": 2,
+          "j_trough": 25.57,
+          "j_turn_value": 29.147,
+          "low_j_tags": [],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": 0.894,
+              "dea": 0.754,
+              "k": 76.111,
+              "d": 73.858,
+              "j": 80.616
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": 0.888,
+              "dea": 0.781,
+              "k": 72.318,
+              "d": 73.344,
+              "j": 70.264
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": 0.778,
+              "dea": 0.78,
+              "k": 52.87,
+              "d": 66.52,
+              "j": 25.57
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": 0.728,
+              "dea": 0.77,
+              "k": 50.503,
+              "d": 61.181,
+              "j": 29.147
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": 0.709,
+              "dea": 0.758,
+              "k": 53.412,
+              "d": 58.591,
+              "j": 43.054
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": 0.799,
+              "dea": 0.766,
+              "k": 67.852,
+              "d": 61.678,
+              "j": 80.2
+            }
+          ]
+        },
+        {
+          "instrument_id": "603380.SH",
+          "name": "易德龙",
+          "industry": "消费电子零部件及组装",
+          "reference_close": 34.22,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "prior_3_sessions",
+          "zero_axis_zone": "below_zero",
+          "j_turn_date": "2026-09-14",
+          "gap_sessions": 2,
+          "j_trough": 5.08,
+          "j_turn_value": 34.604,
+          "low_j_tags": [
+            "J<20"
+          ],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": -0.122,
+              "dea": -0.217,
+              "k": 41.694,
+              "d": 47.025,
+              "j": 31.032
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": -0.235,
+              "dea": -0.22,
+              "k": 30.338,
+              "d": 41.463,
+              "j": 8.09
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": -0.358,
+              "dea": -0.248,
+              "k": 25.87,
+              "d": 36.265,
+              "j": 5.08
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": -0.318,
+              "dea": -0.262,
+              "k": 35.553,
+              "d": 36.028,
+              "j": 34.604
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": -0.327,
+              "dea": -0.275,
+              "k": 37.737,
+              "d": 36.598,
+              "j": 40.017
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": -0.262,
+              "dea": -0.272,
+              "k": 45.753,
+              "d": 39.65,
+              "j": 57.96
+            }
+          ]
+        },
+        {
+          "instrument_id": "603501.SH",
+          "name": "豪威集团",
+          "industry": "数字芯片设计",
+          "reference_close": 78.4,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "prior_3_sessions",
+          "zero_axis_zone": "below_zero",
+          "j_turn_date": "2026-09-14",
+          "gap_sessions": 2,
+          "j_trough": 6.67,
+          "j_turn_value": 22.106,
+          "low_j_tags": [
+            "J<20"
+          ],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": -3.205,
+              "dea": -3.137,
+              "k": 24.129,
+              "d": 24.027,
+              "j": 24.333
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": -3.222,
+              "dea": -3.154,
+              "k": 17.724,
+              "d": 21.926,
+              "j": 9.32
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": -3.361,
+              "dea": -3.195,
+              "k": 15.387,
+              "d": 19.746,
+              "j": 6.67
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": -3.35,
+              "dea": -3.226,
+              "k": 20.758,
+              "d": 20.083,
+              "j": 22.106
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": -3.334,
+              "dea": -3.248,
+              "k": 22.536,
+              "d": 20.901,
+              "j": 25.807
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": -3.214,
+              "dea": -3.241,
+              "k": 28.306,
+              "d": 23.369,
+              "j": 38.178
+            }
+          ]
+        },
+        {
+          "instrument_id": "603667.SH",
+          "name": "五洲新春",
+          "industry": "金属制品",
+          "reference_close": 48.73,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "prior_3_sessions",
+          "zero_axis_zone": "below_zero",
+          "j_turn_date": "2026-09-14",
+          "gap_sessions": 2,
+          "j_trough": 7.15,
+          "j_turn_value": 29.041,
+          "low_j_tags": [
+            "J<20"
+          ],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": -1.375,
+              "dea": -1.474,
+              "k": 37.577,
+              "d": 37.953,
+              "j": 36.826
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": -1.5,
+              "dea": -1.479,
+              "k": 25.299,
+              "d": 33.735,
+              "j": 8.427
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": -1.663,
+              "dea": -1.516,
+              "k": 22.341,
+              "d": 29.937,
+              "j": 7.15
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": -1.629,
+              "dea": -1.539,
+              "k": 29.553,
+              "d": 29.809,
+              "j": 29.041
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": -1.57,
+              "dea": -1.545,
+              "k": 35.183,
+              "d": 31.6,
+              "j": 42.349
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": -1.535,
+              "dea": -1.543,
+              "k": 37.195,
+              "d": 33.465,
+              "j": 44.655
+            }
+          ]
+        },
+        {
+          "instrument_id": "603669.SH",
+          "name": "灵康药业",
+          "industry": "化学制剂",
+          "reference_close": 5.48,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "prior_3_sessions",
+          "zero_axis_zone": "below_zero",
+          "j_turn_date": "2026-09-14",
+          "gap_sessions": 2,
+          "j_trough": 28.05,
+          "j_turn_value": 42.581,
+          "low_j_tags": [],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": -0.144,
+              "dea": -0.108,
+              "k": 24.157,
+              "d": 21.186,
+              "j": 30.099
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": -0.144,
+              "dea": -0.115,
+              "k": 25.861,
+              "d": 22.745,
+              "j": 32.094
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": -0.156,
+              "dea": -0.123,
+              "k": 25.018,
+              "d": 23.502,
+              "j": 28.05
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": -0.153,
+              "dea": -0.129,
+              "k": 31.679,
+              "d": 26.228,
+              "j": 42.581
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": -0.147,
+              "dea": -0.133,
+              "k": 37.23,
+              "d": 29.895,
+              "j": 51.9
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": -0.124,
+              "dea": -0.131,
+              "k": 52.598,
+              "d": 37.463,
+              "j": 82.868
+            }
+          ]
+        },
+        {
+          "instrument_id": "603773.SH",
+          "name": "沃格光电",
+          "industry": "面板",
+          "reference_close": 92.6,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "prior_3_sessions",
+          "zero_axis_zone": "below_zero",
+          "j_turn_date": "2026-09-14",
+          "gap_sessions": 2,
+          "j_trough": 26.34,
+          "j_turn_value": 60.58,
+          "low_j_tags": [],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": -2.668,
+              "dea": -1.803,
+              "k": 18.342,
+              "d": 18.551,
+              "j": 17.924
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": -2.713,
+              "dea": -1.985,
+              "k": 22.488,
+              "d": 19.863,
+              "j": 27.738
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": -2.949,
+              "dea": -2.178,
+              "k": 22.639,
+              "d": 20.788,
+              "j": 26.34
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": -2.726,
+              "dea": -2.287,
+              "k": 37.842,
+              "d": 26.473,
+              "j": 60.58
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": -2.402,
+              "dea": -2.31,
+              "k": 52.154,
+              "d": 35.033,
+              "j": 86.396
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": -1.944,
+              "dea": -2.237,
+              "k": 66.079,
+              "d": 45.382,
+              "j": 107.474
+            }
+          ]
+        },
+        {
+          "instrument_id": "603800.SH",
+          "name": "洪田股份",
+          "industry": "能源及重型设备",
+          "reference_close": 59.52,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "prior_3_sessions",
+          "zero_axis_zone": "below_zero",
+          "j_turn_date": "2026-09-14",
+          "gap_sessions": 2,
+          "j_trough": 18.494,
+          "j_turn_value": 48.213,
+          "low_j_tags": [
+            "J<20"
+          ],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": -2.212,
+              "dea": -1.605,
+              "k": 17.141,
+              "d": 15.946,
+              "j": 19.53
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": -2.241,
+              "dea": -1.732,
+              "k": 19.041,
+              "d": 16.978,
+              "j": 23.168
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": -2.355,
+              "dea": -1.857,
+              "k": 17.627,
+              "d": 17.194,
+              "j": 18.494
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": -2.223,
+              "dea": -1.93,
+              "k": 30.488,
+              "d": 21.625,
+              "j": 48.213
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": -2.117,
+              "dea": -1.967,
+              "k": 41.1,
+              "d": 28.117,
+              "j": 67.067
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": -1.907,
+              "dea": -1.955,
+              "k": 54.842,
+              "d": 37.025,
+              "j": 90.476
+            }
+          ]
+        },
+        {
+          "instrument_id": "000571.SZ",
+          "name": "新大洲A",
+          "industry": "动力煤",
+          "reference_close": 6.14,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "prior_3_sessions",
+          "zero_axis_zone": "below_zero",
+          "j_turn_date": "2026-09-11",
+          "gap_sessions": 3,
+          "j_trough": -4.468,
+          "j_turn_value": 7.627,
+          "low_j_tags": [
+            "J<20",
+            "J<0"
+          ],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": -0.104,
+              "dea": -0.071,
+              "k": 16.365,
+              "d": 24.644,
+              "j": -0.195
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": -0.119,
+              "dea": -0.081,
+              "k": 12.168,
+              "d": 20.485,
+              "j": -4.468
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": -0.135,
+              "dea": -0.092,
+              "k": 14.974,
+              "d": 18.648,
+              "j": 7.627
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": -0.137,
+              "dea": -0.101,
+              "k": 24.925,
+              "d": 20.741,
+              "j": 33.295
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": -0.128,
+              "dea": -0.106,
+              "k": 38.641,
+              "d": 26.707,
+              "j": 62.508
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": -0.101,
+              "dea": -0.105,
+              "k": 52.701,
+              "d": 35.372,
+              "j": 87.359
+            }
+          ]
+        },
+        {
+          "instrument_id": "001308.SZ",
+          "name": "康冠科技",
+          "industry": "面板",
+          "reference_close": 17.82,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "prior_3_sessions",
+          "zero_axis_zone": "below_zero",
+          "j_turn_date": "2026-09-11",
+          "gap_sessions": 3,
+          "j_trough": 1.647,
+          "j_turn_value": 5.534,
+          "low_j_tags": [
+            "J<20"
+          ],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": -0.047,
+              "dea": -0.067,
+              "k": 35.145,
+              "d": 48.302,
+              "j": 8.832
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": -0.062,
+              "dea": -0.066,
+              "k": 28.307,
+              "d": 41.637,
+              "j": 1.647
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": -0.076,
+              "dea": -0.068,
+              "k": 26.164,
+              "d": 36.479,
+              "j": 5.534
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": -0.08,
+              "dea": -0.071,
+              "k": 29.267,
+              "d": 34.075,
+              "j": 19.649
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": -0.087,
+              "dea": -0.074,
+              "k": 29.407,
+              "d": 32.519,
+              "j": 23.182
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": -0.071,
+              "dea": -0.073,
+              "k": 43.21,
+              "d": 36.082,
+              "j": 57.464
+            }
+          ]
+        },
+        {
+          "instrument_id": "001378.SZ",
+          "name": "德冠新材",
+          "industry": "膜材料",
+          "reference_close": 22.55,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "prior_3_sessions",
+          "zero_axis_zone": "above_zero",
+          "j_turn_date": "2026-09-11",
+          "gap_sessions": 3,
+          "j_trough": -2.53,
+          "j_turn_value": 3.926,
+          "low_j_tags": [
+            "J<20",
+            "J<0"
+          ],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": 0.185,
+              "dea": 0.32,
+              "k": 25.242,
+              "d": 33.393,
+              "j": 8.939
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": 0.12,
+              "dea": 0.28,
+              "k": 17.997,
+              "d": 28.261,
+              "j": -2.53
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": 0.024,
+              "dea": 0.229,
+              "k": 17.832,
+              "d": 24.785,
+              "j": 3.926
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": 0.038,
+              "dea": 0.191,
+              "k": 37.058,
+              "d": 28.876,
+              "j": 53.422
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": 0.084,
+              "dea": 0.169,
+              "k": 52.411,
+              "d": 36.721,
+              "j": 83.791
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": 0.283,
+              "dea": 0.192,
+              "k": 68.274,
+              "d": 47.238,
+              "j": 110.345
+            }
+          ]
+        },
+        {
+          "instrument_id": "002005.SZ",
+          "name": "德豪润达",
+          "industry": "厨房小家电",
+          "reference_close": 2.46,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "prior_3_sessions",
+          "zero_axis_zone": "above_zero",
+          "j_turn_date": "2026-09-11",
+          "gap_sessions": 3,
+          "j_trough": 4.475,
+          "j_turn_value": 15.637,
+          "low_j_tags": [
+            "J<20"
+          ],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": 0.007,
+              "dea": 0.011,
+              "k": 28.546,
+              "d": 38.697,
+              "j": 8.243
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": 0.002,
+              "dea": 0.009,
+              "k": 24.03,
+              "d": 33.808,
+              "j": 4.475
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": 0.0,
+              "dea": 0.007,
+              "k": 26.02,
+              "d": 31.212,
+              "j": 15.637
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": 0.001,
+              "dea": 0.006,
+              "k": 34.891,
+              "d": 32.438,
+              "j": 39.796
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": 0.003,
+              "dea": 0.006,
+              "k": 40.804,
+              "d": 35.227,
+              "j": 51.959
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": 0.007,
+              "dea": 0.006,
+              "k": 56.37,
+              "d": 42.274,
+              "j": 84.56
+            }
+          ]
+        },
+        {
+          "instrument_id": "002049.SZ",
+          "name": "紫光国微",
+          "industry": "数字芯片设计",
+          "reference_close": 60.41,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "prior_3_sessions",
+          "zero_axis_zone": "below_zero",
+          "j_turn_date": "2026-09-11",
+          "gap_sessions": 3,
+          "j_trough": -10.084,
+          "j_turn_value": -6.003,
+          "low_j_tags": [
+            "J<20",
+            "J<0"
+          ],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": -1.655,
+              "dea": -1.803,
+              "k": 25.875,
+              "d": 39.08,
+              "j": -0.535
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": -1.691,
+              "dea": -1.781,
+              "k": 18.01,
+              "d": 32.057,
+              "j": -10.084
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": -1.813,
+              "dea": -1.787,
+              "k": 15.745,
+              "d": 26.62,
+              "j": -6.003
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": -1.866,
+              "dea": -1.803,
+              "k": 16.583,
+              "d": 23.274,
+              "j": 3.201
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": -1.899,
+              "dea": -1.822,
+              "k": 15.939,
+              "d": 20.829,
+              "j": 6.158
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": -1.807,
+              "dea": -1.819,
+              "k": 24.143,
+              "d": 21.934,
+              "j": 28.562
+            }
+          ]
+        },
+        {
+          "instrument_id": "002167.SZ",
+          "name": "东方锆业",
+          "industry": "其他小金属",
+          "reference_close": 16.34,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "prior_3_sessions",
+          "zero_axis_zone": "below_zero",
+          "j_turn_date": "2026-09-11",
+          "gap_sessions": 3,
+          "j_trough": 13.209,
+          "j_turn_value": 15.227,
+          "low_j_tags": [
+            "J<20"
+          ],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": -0.4,
+              "dea": -0.271,
+              "k": 19.063,
+              "d": 21.439,
+              "j": 14.311
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": -0.425,
+              "dea": -0.302,
+              "k": 17.912,
+              "d": 20.263,
+              "j": 13.209
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": -0.474,
+              "dea": -0.336,
+              "k": 18.105,
+              "d": 19.544,
+              "j": 15.227
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": -0.482,
+              "dea": -0.365,
+              "k": 26.885,
+              "d": 21.991,
+              "j": 36.672
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": -0.466,
+              "dea": -0.385,
+              "k": 36.627,
+              "d": 26.869,
+              "j": 56.142
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": -0.378,
+              "dea": -0.384,
+              "k": 55.452,
+              "d": 36.397,
+              "j": 93.563
+            }
+          ]
+        },
+        {
+          "instrument_id": "002338.SZ",
+          "name": "奥普光电",
+          "industry": "军工电子Ⅲ",
+          "reference_close": 41.84,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "prior_3_sessions",
+          "zero_axis_zone": "below_zero",
+          "j_turn_date": "2026-09-11",
+          "gap_sessions": 3,
+          "j_trough": -1.561,
+          "j_turn_value": 7.575,
+          "low_j_tags": [
+            "J<20",
+            "J<0"
+          ],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": -0.941,
+              "dea": -0.776,
+              "k": 13.87,
+              "d": 19.275,
+              "j": 3.06
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": -1.007,
+              "dea": -0.822,
+              "k": 10.346,
+              "d": 16.299,
+              "j": -1.561
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": -1.087,
+              "dea": -0.875,
+              "k": 12.56,
+              "d": 15.053,
+              "j": 7.575
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": -1.114,
+              "dea": -0.923,
+              "k": 18.659,
+              "d": 16.255,
+              "j": 23.468
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": -1.102,
+              "dea": -0.959,
+              "k": 25.201,
+              "d": 19.237,
+              "j": 37.13
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": -0.937,
+              "dea": -0.954,
+              "k": 47.308,
+              "d": 28.594,
+              "j": 84.735
+            }
+          ]
+        },
+        {
+          "instrument_id": "002378.SZ",
+          "name": "章源钨业",
+          "industry": "钨",
+          "reference_close": 24.13,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "prior_3_sessions",
+          "zero_axis_zone": "below_zero",
+          "j_turn_date": "2026-09-11",
+          "gap_sessions": 3,
+          "j_trough": 1.029,
+          "j_turn_value": 10.495,
+          "low_j_tags": [
+            "J<20"
+          ],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": -0.559,
+              "dea": -0.42,
+              "k": 16.069,
+              "d": 20.362,
+              "j": 7.484
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": -0.594,
+              "dea": -0.455,
+              "k": 12.077,
+              "d": 17.6,
+              "j": 1.029
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": -0.657,
+              "dea": -0.495,
+              "k": 14.555,
+              "d": 16.585,
+              "j": 10.495
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": -0.67,
+              "dea": -0.53,
+              "k": 24.801,
+              "d": 19.324,
+              "j": 35.754
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": -0.565,
+              "dea": -0.537,
+              "k": 42.998,
+              "d": 27.215,
+              "j": 74.563
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": -0.525,
+              "dea": -0.535,
+              "k": 48.26,
+              "d": 34.23,
+              "j": 76.319
+            }
+          ]
+        },
+        {
+          "instrument_id": "002824.SZ",
+          "name": "和胜股份",
+          "industry": "铝",
+          "reference_close": 28.09,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "prior_3_sessions",
+          "zero_axis_zone": "above_zero",
+          "j_turn_date": "2026-09-11",
+          "gap_sessions": 3,
+          "j_trough": -5.562,
+          "j_turn_value": -0.958,
+          "low_j_tags": [
+            "J<20",
+            "J<0"
+          ],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": 0.411,
+              "dea": 0.336,
+              "k": 42.347,
+              "d": 54.823,
+              "j": 17.393
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": 0.272,
+              "dea": 0.323,
+              "k": 28.944,
+              "d": 46.197,
+              "j": -5.562
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": 0.11,
+              "dea": 0.28,
+              "k": 25.988,
+              "d": 39.46,
+              "j": -0.958
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": 0.001,
+              "dea": 0.225,
+              "k": 25.565,
+              "d": 34.829,
+              "j": 7.039
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": 0.053,
+              "dea": 0.19,
+              "k": 35.941,
+              "d": 35.199,
+              "j": 37.423
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": 0.297,
+              "dea": 0.212,
+              "k": 57.294,
+              "d": 42.564,
+              "j": 86.753
+            }
+          ]
+        },
+        {
+          "instrument_id": "002866.SZ",
+          "name": "传艺科技",
+          "industry": "消费电子零部件及组装",
+          "reference_close": 14.63,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "prior_3_sessions",
+          "zero_axis_zone": "below_zero",
+          "j_turn_date": "2026-09-11",
+          "gap_sessions": 3,
+          "j_trough": -1.375,
+          "j_turn_value": 7.34,
+          "low_j_tags": [
+            "J<20",
+            "J<0"
+          ],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": -0.222,
+              "dea": -0.177,
+              "k": 22.382,
+              "d": 29.771,
+              "j": 7.603
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": -0.25,
+              "dea": -0.191,
+              "k": 16.423,
+              "d": 25.322,
+              "j": -1.375
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": -0.281,
+              "dea": -0.209,
+              "k": 17.615,
+              "d": 22.753,
+              "j": 7.34
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": -0.265,
+              "dea": -0.22,
+              "k": 31.231,
+              "d": 25.579,
+              "j": 42.534
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": -0.248,
+              "dea": -0.226,
+              "k": 40.82,
+              "d": 30.659,
+              "j": 61.143
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": -0.218,
+              "dea": -0.224,
+              "k": 53.602,
+              "d": 38.307,
+              "j": 84.193
+            }
+          ]
+        },
+        {
+          "instrument_id": "600171.SH",
+          "name": "上海贝岭",
+          "industry": "模拟芯片设计",
+          "reference_close": 22.67,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "prior_3_sessions",
+          "zero_axis_zone": "below_zero",
+          "j_turn_date": "2026-09-11",
+          "gap_sessions": 3,
+          "j_trough": -12.983,
+          "j_turn_value": -2.396,
+          "low_j_tags": [
+            "J<20",
+            "J<0"
+          ],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": -0.362,
+              "dea": -0.423,
+              "k": 29.053,
+              "d": 46.004,
+              "j": -4.849
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": -0.383,
+              "dea": -0.415,
+              "k": 20.724,
+              "d": 37.577,
+              "j": -12.983
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": -0.417,
+              "dea": -0.415,
+              "k": 20.446,
+              "d": 31.867,
+              "j": -2.396
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": -0.424,
+              "dea": -0.417,
+              "k": 24.281,
+              "d": 29.338,
+              "j": 14.168
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": -0.43,
+              "dea": -0.419,
+              "k": 25.768,
+              "d": 28.148,
+              "j": 21.009
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": -0.377,
+              "dea": -0.411,
+              "k": 39.734,
+              "d": 32.01,
+              "j": 55.181
+            }
+          ]
+        },
+        {
+          "instrument_id": "600520.SH",
+          "name": "三佳科技",
+          "industry": "其他专用设备",
+          "reference_close": 25.01,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "prior_3_sessions",
+          "zero_axis_zone": "below_zero",
+          "j_turn_date": "2026-09-11",
+          "gap_sessions": 3,
+          "j_trough": -4.558,
+          "j_turn_value": 0.163,
+          "low_j_tags": [
+            "J<20",
+            "J<0"
+          ],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": -0.274,
+              "dea": -0.352,
+              "k": 28.659,
+              "d": 41.854,
+              "j": 2.269
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": -0.322,
+              "dea": -0.346,
+              "k": 21.963,
+              "d": 35.224,
+              "j": -4.558
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": -0.407,
+              "dea": -0.358,
+              "k": 20.198,
+              "d": 30.215,
+              "j": 0.163
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": -0.451,
+              "dea": -0.377,
+              "k": 22.802,
+              "d": 27.744,
+              "j": 12.918
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": -0.428,
+              "dea": -0.387,
+              "k": 30.701,
+              "d": 28.73,
+              "j": 34.643
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": -0.345,
+              "dea": -0.379,
+              "k": 44.235,
+              "d": 33.898,
+              "j": 64.908
+            }
+          ]
+        },
+        {
+          "instrument_id": "600552.SH",
+          "name": "凯盛科技",
+          "industry": "面板",
+          "reference_close": 17.55,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "prior_3_sessions",
+          "zero_axis_zone": "below_zero",
+          "j_turn_date": "2026-09-11",
+          "gap_sessions": 3,
+          "j_trough": 12.664,
+          "j_turn_value": 17.366,
+          "low_j_tags": [
+            "J<20"
+          ],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": -0.343,
+              "dea": -0.277,
+              "k": 24.744,
+              "d": 29.378,
+              "j": 15.475
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": -0.359,
+              "dea": -0.294,
+              "k": 22.215,
+              "d": 26.99,
+              "j": 12.664
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": -0.384,
+              "dea": -0.312,
+              "k": 22.865,
+              "d": 25.615,
+              "j": 17.366
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": -0.353,
+              "dea": -0.32,
+              "k": 38.336,
+              "d": 29.855,
+              "j": 55.297
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": -0.334,
+              "dea": -0.323,
+              "k": 46.441,
+              "d": 35.384,
+              "j": 68.555
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": -0.276,
+              "dea": -0.313,
+              "k": 60.764,
+              "d": 43.844,
+              "j": 94.605
+            }
+          ]
+        },
+        {
+          "instrument_id": "600641.SH",
+          "name": "先导基电",
+          "industry": "半导体材料",
+          "reference_close": 33.45,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "prior_3_sessions",
+          "zero_axis_zone": "below_zero",
+          "j_turn_date": "2026-09-11",
+          "gap_sessions": 3,
+          "j_trough": 4.814,
+          "j_turn_value": 9.773,
+          "low_j_tags": [
+            "J<20"
+          ],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": -0.449,
+              "dea": -0.134,
+              "k": 18.68,
+              "d": 25.362,
+              "j": 5.315
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": -0.542,
+              "dea": -0.215,
+              "k": 16.556,
+              "d": 22.427,
+              "j": 4.814
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": -0.668,
+              "dea": -0.306,
+              "k": 17.004,
+              "d": 20.619,
+              "j": 9.773
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": -0.552,
+              "dea": -0.355,
+              "k": 39.61,
+              "d": 26.949,
+              "j": 64.93
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": -0.501,
+              "dea": -0.384,
+              "k": 51.081,
+              "d": 34.993,
+              "j": 83.256
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": -0.286,
+              "dea": -0.365,
+              "k": 63.776,
+              "d": 44.587,
+              "j": 102.153
+            }
+          ]
+        },
+        {
+          "instrument_id": "600962.SH",
+          "name": "国投中鲁",
+          "industry": "果蔬加工",
+          "reference_close": 25.95,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "prior_3_sessions",
+          "zero_axis_zone": "below_zero",
+          "j_turn_date": "2026-09-11",
+          "gap_sessions": 3,
+          "j_trough": 33.79,
+          "j_turn_value": 36.499,
+          "low_j_tags": [],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": -0.057,
+              "dea": 0.014,
+              "k": 38.67,
+              "d": 34.935,
+              "j": 46.142
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": -0.09,
+              "dea": -0.007,
+              "k": 34.444,
+              "d": 34.771,
+              "j": 33.79
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": -0.105,
+              "dea": -0.026,
+              "k": 35.512,
+              "d": 35.018,
+              "j": 36.499
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": -0.089,
+              "dea": -0.039,
+              "k": 42.89,
+              "d": 37.642,
+              "j": 53.386
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": -0.08,
+              "dea": -0.047,
+              "k": 46.633,
+              "d": 40.639,
+              "j": 58.62
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": -0.037,
+              "dea": -0.045,
+              "k": 57.559,
+              "d": 46.279,
+              "j": 80.119
+            }
+          ]
+        },
+        {
+          "instrument_id": "601133.SH",
+          "name": "柏诚股份",
+          "industry": "其他专业工程",
+          "reference_close": 23.84,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "prior_3_sessions",
+          "zero_axis_zone": "below_zero",
+          "j_turn_date": "2026-09-11",
+          "gap_sessions": 3,
+          "j_trough": 10.756,
+          "j_turn_value": 16.853,
+          "low_j_tags": [
+            "J<20"
+          ],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": -1.027,
+              "dea": -1.001,
+              "k": 17.461,
+              "d": 18.691,
+              "j": 15.0
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": -1.04,
+              "dea": -1.008,
+              "k": 15.29,
+              "d": 17.557,
+              "j": 10.756
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": -1.081,
+              "dea": -1.023,
+              "k": 17.255,
+              "d": 17.457,
+              "j": 16.853
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": -1.098,
+              "dea": -1.038,
+              "k": 20.469,
+              "d": 18.461,
+              "j": 24.486
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": -1.08,
+              "dea": -1.046,
+              "k": 25.37,
+              "d": 20.764,
+              "j": 34.583
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": -0.994,
+              "dea": -1.036,
+              "k": 37.143,
+              "d": 26.224,
+              "j": 58.983
+            }
+          ]
+        },
+        {
+          "instrument_id": "603019.SH",
+          "name": "中科曙光",
+          "industry": "其他计算机设备",
+          "reference_close": 83.3,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "prior_3_sessions",
+          "zero_axis_zone": "below_zero",
+          "j_turn_date": "2026-09-11",
+          "gap_sessions": 3,
+          "j_trough": -4.624,
+          "j_turn_value": 5.961,
+          "low_j_tags": [
+            "J<20",
+            "J<0"
+          ],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": -1.684,
+              "dea": -1.595,
+              "k": 21.055,
+              "d": 33.456,
+              "j": -3.748
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": -1.716,
+              "dea": -1.619,
+              "k": 17.136,
+              "d": 28.016,
+              "j": -4.624
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": -1.73,
+              "dea": -1.641,
+              "k": 18.564,
+              "d": 24.865,
+              "j": 5.961
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": -1.743,
+              "dea": -1.661,
+              "k": 20.027,
+              "d": 23.252,
+              "j": 13.576
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": -1.726,
+              "dea": -1.674,
+              "k": 21.536,
+              "d": 22.68,
+              "j": 19.248
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": -1.595,
+              "dea": -1.658,
+              "k": 33.059,
+              "d": 26.14,
+              "j": 46.896
+            }
+          ]
+        },
+        {
+          "instrument_id": "603052.SH",
+          "name": "可川科技",
+          "industry": "消费电子零部件及组装",
+          "reference_close": 60.24,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "prior_3_sessions",
+          "zero_axis_zone": "below_zero",
+          "j_turn_date": "2026-09-11",
+          "gap_sessions": 3,
+          "j_trough": 6.257,
+          "j_turn_value": 10.657,
+          "low_j_tags": [
+            "J<20"
+          ],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": -0.32,
+              "dea": -0.433,
+              "k": 37.675,
+              "d": 45.095,
+              "j": 22.835
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": -0.462,
+              "dea": -0.439,
+              "k": 28.45,
+              "d": 39.547,
+              "j": 6.257
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": -0.621,
+              "dea": -0.475,
+              "k": 27.165,
+              "d": 35.42,
+              "j": 10.657
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": -0.752,
+              "dea": -0.531,
+              "k": 27.3,
+              "d": 32.713,
+              "j": 16.474
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": -0.81,
+              "dea": -0.587,
+              "k": 29.244,
+              "d": 31.557,
+              "j": 24.619
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": -0.409,
+              "dea": -0.551,
+              "k": 52.628,
+              "d": 38.58,
+              "j": 80.723
+            }
+          ]
+        },
+        {
+          "instrument_id": "603435.SH",
+          "name": "嘉德利",
+          "industry": "膜材料",
+          "reference_close": 48.77,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "prior_3_sessions",
+          "zero_axis_zone": "below_zero",
+          "j_turn_date": "2026-09-11",
+          "gap_sessions": 3,
+          "j_trough": -8.576,
+          "j_turn_value": -2.491,
+          "low_j_tags": [
+            "J<20",
+            "J<0"
+          ],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": -1.367,
+              "dea": -1.044,
+              "k": 14.31,
+              "d": 25.719,
+              "j": -8.506
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": -1.534,
+              "dea": -1.142,
+              "k": 11.021,
+              "d": 20.819,
+              "j": -8.576
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": -1.662,
+              "dea": -1.246,
+              "k": 10.829,
+              "d": 17.489,
+              "j": -2.491
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": -1.607,
+              "dea": -1.318,
+              "k": 21.44,
+              "d": 18.806,
+              "j": 26.708
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": -1.499,
+              "dea": -1.354,
+              "k": 31.49,
+              "d": 23.034,
+              "j": 48.401
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": -1.336,
+              "dea": -1.351,
+              "k": 42.746,
+              "d": 29.605,
+              "j": 69.028
+            }
+          ]
+        },
+        {
+          "instrument_id": "603496.SH",
+          "name": "恒为科技",
+          "industry": "其他计算机设备",
+          "reference_close": 22.96,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "prior_3_sessions",
+          "zero_axis_zone": "below_zero",
+          "j_turn_date": "2026-09-11",
+          "gap_sessions": 3,
+          "j_trough": 17.324,
+          "j_turn_value": 20.284,
+          "low_j_tags": [
+            "J<20"
+          ],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": -0.614,
+              "dea": -0.493,
+              "k": 23.087,
+              "d": 19.776,
+              "j": 29.711
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": -0.634,
+              "dea": -0.521,
+              "k": 18.725,
+              "d": 19.425,
+              "j": 17.324
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": -0.669,
+              "dea": -0.551,
+              "k": 19.793,
+              "d": 19.548,
+              "j": 20.284
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": -0.669,
+              "dea": -0.574,
+              "k": 27.32,
+              "d": 22.139,
+              "j": 37.682
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": -0.608,
+              "dea": -0.581,
+              "k": 39.631,
+              "d": 27.969,
+              "j": 62.954
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": -0.556,
+              "dea": -0.576,
+              "k": 47.386,
+              "d": 34.442,
+              "j": 73.275
+            }
+          ]
+        },
+        {
+          "instrument_id": "603928.SH",
+          "name": "兴业股份",
+          "industry": "合成树脂",
+          "reference_close": 12.25,
+          "signal_trade_date": "2026-09-16",
+          "signal_group": "prior_3_sessions",
+          "zero_axis_zone": "below_zero",
+          "j_turn_date": "2026-09-11",
+          "gap_sessions": 3,
+          "j_trough": 12.907,
+          "j_turn_value": 16.517,
+          "low_j_tags": [
+            "J<20"
+          ],
+          "evidence": [
+            {
+              "trade_date": "2026-09-09",
+              "dif": -0.255,
+              "dea": -0.171,
+              "k": 22.044,
+              "d": 18.303,
+              "j": 29.525
+            },
+            {
+              "trade_date": "2026-09-10",
+              "dif": -0.279,
+              "dea": -0.193,
+              "k": 15.99,
+              "d": 17.532,
+              "j": 12.907
+            },
+            {
+              "trade_date": "2026-09-11",
+              "dif": -0.31,
+              "dea": -0.216,
+              "k": 17.097,
+              "d": 17.387,
+              "j": 16.517
+            },
+            {
+              "trade_date": "2026-09-14",
+              "dif": -0.312,
+              "dea": -0.235,
+              "k": 24.375,
+              "d": 19.716,
+              "j": 33.693
+            },
+            {
+              "trade_date": "2026-09-15",
+              "dif": -0.284,
+              "dea": -0.245,
+              "k": 37.624,
+              "d": 25.686,
+              "j": 61.501
+            },
+            {
+              "trade_date": "2026-09-16",
+              "dif": -0.213,
+              "dea": -0.238,
+              "k": 56.416,
+              "d": 35.929,
+              "j": 97.39
+            }
+          ]
+        }
+      ],
+      "excluded_counts": {
+        "incomplete_indicator_window": 15,
+        "j_not_rising": 1,
+        "no_fresh_macd_cross": 2944,
+        "no_recent_j_turn": 2,
+        "not_main_board": 2369,
+        "special_treatment": 144
+      },
+      "source_metadata": [
+        {
+          "contract": "stock_technical_day.v1",
+          "schema_version": 1,
+          "provider": "tushare",
+          "provider_request_id": null,
+          "provider_as_of": null,
+          "fetched_at": "2026-09-17T17:35:49.763280+08:00",
+          "quality": "degraded",
+          "quality_flags": [
+            "provider_timestamp_unavailable",
+            "invalid_indicator_rows:9"
+          ]
+        },
+        {
+          "contract": "stock_technical_day.v1",
+          "schema_version": 1,
+          "provider": "tushare",
+          "provider_request_id": null,
+          "provider_as_of": null,
+          "fetched_at": "2026-09-17T17:35:49.763280+08:00",
+          "quality": "degraded",
+          "quality_flags": [
+            "provider_timestamp_unavailable",
+            "invalid_indicator_rows:10"
+          ]
+        },
+        {
+          "contract": "stock_technical_day.v1",
+          "schema_version": 1,
+          "provider": "tushare",
+          "provider_request_id": null,
+          "provider_as_of": null,
+          "fetched_at": "2026-09-17T17:35:49.763280+08:00",
+          "quality": "degraded",
+          "quality_flags": [
+            "provider_timestamp_unavailable",
+            "invalid_indicator_rows:9"
+          ]
+        },
+        {
+          "contract": "stock_technical_day.v1",
+          "schema_version": 1,
+          "provider": "tushare",
+          "provider_request_id": null,
+          "provider_as_of": null,
+          "fetched_at": "2026-09-17T17:35:49.763280+08:00",
+          "quality": "degraded",
+          "quality_flags": [
+            "provider_timestamp_unavailable",
+            "invalid_indicator_rows:8"
+          ]
+        },
+        {
+          "contract": "stock_technical_day.v1",
+          "schema_version": 1,
+          "provider": "tushare",
+          "provider_request_id": null,
+          "provider_as_of": null,
+          "fetched_at": "2026-09-17T17:35:49.763280+08:00",
+          "quality": "degraded",
+          "quality_flags": [
+            "provider_timestamp_unavailable",
+            "invalid_indicator_rows:7"
+          ]
+        },
+        {
+          "contract": "stock_technical_day.v1",
+          "schema_version": 1,
+          "provider": "tushare",
+          "provider_request_id": null,
+          "provider_as_of": null,
+          "fetched_at": "2026-09-17T17:35:49.763280+08:00",
+          "quality": "degraded",
+          "quality_flags": [
+            "provider_timestamp_unavailable",
+            "invalid_indicator_rows:6"
+          ]
+        }
+      ],
+      "methodology": [
+        "仅沪深主板非 ST、非退市股票；以信号日 ST 名单和证券名称交叉排除。",
+        "收盘日线、前复权 MACD(12,26,9) 与 KDJ(9,3,3)，采用数据源已发布的历史指标。",
+        "新金叉：昨天 DIF ≤ DEA，今天 DIF > DEA；今天双线均正标上方、均负标下方，其余标零轴附近。",
+        "J 刚拐头：前天 J > 昨天 J，今天 J > 昨天 J；平走不算下降。",
+        "对照两组：同日拐头；此前 1～3 个交易日内拐头且金叉当天 J 仍高于昨天。取最近一次拐头，两组互斥。",
+        "低位标签按拐头前一日的 J 谷值标注 J<20、J<0，只做标签，不过滤；不要求穿过 20 或 0。",
+        "核验最近 6 个交易日指标与成交状态；缺失、停牌和指标源收盘价不一致时明确排除。"
+      ],
+      "limitations": [
+        "J 先拐头组只要求金叉当天仍上行，不要求中间每天连续上涨；3 日是研究参数。",
+        "指标来自数据源全历史计算，初始化与历史修订由数据源定义；不是用最近 6 日重新计算指标。",
+        "数据源未提供精确发布时间，质量标为降级；保留交易日期、获取时间与请求标识，不伪造发布时间。",
+        "金叉和 J 拐头不证明趋势反转或超额收益；第一版没有经过收益回测。"
+      ]
+    }
+  },
+  "existing_archives_unchanged": true
+}

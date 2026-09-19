@@ -1,0 +1,97 @@
+[
+  {
+    "id": "300755.SZ",
+    "key": "specialty_retail_chain",
+    "sector": "专业连锁",
+    "source_sector_name": "专业连锁Ⅱ",
+    "source_sector_provider": "东方财富",
+    "stage": "revenue",
+    "chain": [
+      "酒类连锁流通",
+      "精品酒水营销"
+    ],
+    "fact": "酒类经销连锁及消费服务，不是酿酒生产。",
+    "ths_fact": "同花顺跨境电商条目确认酒类销售平台；地域条目不能作为产业主归属。",
+    "company_fact": "主营确认精品酒水营销服务、全国全渠道网络、与上游酒企合作供应白酒进口葡萄酒烈性酒。",
+    "reason": "已有专业连锁准确覆盖酒类渠道商业模式，不凭销售白酒直接写为白酒生产板块，也不自建酒类零售概念。"
+  },
+  {
+    "id": "300756.SZ",
+    "key": "humanoid_robot",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "文旅服务型人形机器人",
+      "景区交互导览"
+    ],
+    "fact": "文旅人形机器人已有发布产品。",
+    "ths_fact": "同花顺人形及机器人条目明确小马1号2025年11月发布，用于主题公园景区商综交互和多语言服务。",
+    "company_fact": "主营资料已列文旅具身智能机器人板块，涵盖导览人物仿真等文旅应用。",
+    "reason": "已有的人形机器人对应具体产品及应用定位，不将战略投资矩阵视为全资，也不将发布产品当规模化售出。"
+  },
+  {
+    "id": "300757.SZ",
+    "key": "co_packaged_optics",
+    "sector": "共封装光学(CPO)",
+    "source_sector_name": "共封装光学(CPO)",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "光电子封装测试设备",
+      "硅光耦合自动化"
+    ],
+    "fact": "收购ficonTEC后光电子封测设备已纳入经营并有合同收入。",
+    "ths_fact": "同花顺CPO解析明确ficonTEC光芯片器件模块自动化组装耦合测试设备。",
+    "company_fact": "主营及核心确认光互联设备与CPO客户设备供应，原2026H1第24页确认收购完成，第35–36页列ficonTEC重大合同及确认销售收入。",
+    "reason": "采用已有CPO体现光互联产业链设备身份；不是CPO交换机或光模块整机，早期参股描述以完成收购原文更新。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "300757-2026h1-acquisition",
+        "source_kind": "official_filing",
+        "publisher": "深交所",
+        "title": "2026年半年度报告",
+        "source_url": "https://disc.static.szse.cn/disc/disk03/finalpage/2026-08-26/9069b573-22f7-4d09-817f-1bf01c6cd5e1.PDF",
+        "published_at": "2026-08-26",
+        "assertions": [
+          "第24页确认2025年上半年收购完成；第35–36页列ficonTEC重大合同及销售收入。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "300758.SZ",
+    "key": "dyes",
+    "sector": "染料",
+    "source_sector_name": "染料",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "高性能有机颜料",
+      "染料材料"
+    ],
+    "fact": "高性能有机颜料和染料为现有生产经营业务。",
+    "ths_fact": "同花顺染料条目明确研发生产销售；光刻胶技改条目仅设备安装，钠电为参股公司生产。",
+    "company_fact": "主营确认高性能有机颜料，应用油墨涂料塑料。",
+    "reason": "已有染料概念覆盖实际色彩化学材料；不把参股正极材料当自营钠电，不把安装中光刻胶项目写成已投产。"
+  },
+  {
+    "id": "300759.SZ",
+    "key": "cro",
+    "sector": "CRO",
+    "source_sector_name": "CRO概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "实验室研发服务",
+      "临床研究",
+      "CDMO工艺生产"
+    ],
+    "fact": "提供从药物发现到临床及生产的一体化服务。",
+    "ths_fact": "同花顺CRO条目明确全流程一体化药物研究开发生产服务。",
+    "company_fact": "主营列实验室服务、小分子CMC、临床研究及大分子细胞基因服务。",
+    "reason": "已有CRO直接对应外包研发服务身份，支持客户创新药并不等同自身新药获批销售，AI是研发工具和能力。"
+  }
+]

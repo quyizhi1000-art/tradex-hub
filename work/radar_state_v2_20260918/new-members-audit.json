@@ -1,0 +1,4377 @@
+{
+  "summary": {
+    "scan_generated_at": "2026-09-18T12:17:52.404506+08:00",
+    "new_count": 229,
+    "categories": {
+      "already_bullish_yesterday": 157,
+      "fresh_macd_cross_today": 72
+    },
+    "previous_exclusion_breakdown": [
+      {
+        "category": "already_bullish_yesterday",
+        "reason": "j_not_rising",
+        "count": 157
+      },
+      {
+        "category": "fresh_macd_cross_today",
+        "reason": "macd_not_bullish",
+        "count": 72
+      }
+    ],
+    "j_turned_today": 176,
+    "flat_or_down_price_but_included": 0
+  },
+  "rows": [
+    {
+      "instrument_id": "000055.SZ",
+      "name": "方大集团",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.04,
+      "previous_dea": 0.036,
+      "current_dif": 0.04747863247863246,
+      "current_dea": 0.03829572649572649,
+      "j_two_days_ago": 68.38,
+      "j_yesterday": 53.821,
+      "j_now": 56.185209876543155,
+      "previous_close": 3.68,
+      "price": 3.75,
+      "change_pct": 1.9021739130434812
+    },
+    {
+      "instrument_id": "000066.SZ",
+      "name": "中国长城",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.245,
+      "previous_dea": -0.241,
+      "current_dif": -0.22611111111111107,
+      "current_dea": -0.23802222222222222,
+      "j_two_days_ago": 14.088,
+      "j_yesterday": 10.997,
+      "j_now": 26.331739463601494,
+      "previous_close": 13.87,
+      "price": 14.17,
+      "change_pct": 2.1629416005767954
+    },
+    {
+      "instrument_id": "000510.SZ",
+      "name": "新金路",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.218,
+      "previous_dea": 0.115,
+      "current_dif": 0.2859572649572649,
+      "current_dea": 0.149191452991453,
+      "j_two_days_ago": 92.027,
+      "j_yesterday": 89.074,
+      "j_now": 90.06879835390947,
+      "previous_close": 17.82,
+      "price": 18.32,
+      "change_pct": 2.805836139169471
+    },
+    {
+      "instrument_id": "000532.SZ",
+      "name": "华金资本",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.251,
+      "previous_dea": 0.232,
+      "current_dif": 0.3313019943019944,
+      "current_dea": 0.2518603988603989,
+      "j_two_days_ago": 66.055,
+      "j_yesterday": 53.819,
+      "j_now": 89.06866666666667,
+      "previous_close": 11.78,
+      "price": 12.96,
+      "change_pct": 10.016977928692716
+    },
+    {
+      "instrument_id": "000534.SZ",
+      "name": "万泽股份",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.721,
+      "previous_dea": -0.745,
+      "current_dif": -0.6913304843304843,
+      "current_dea": -0.7342660968660968,
+      "j_two_days_ago": 15.689,
+      "j_yesterday": 12.759,
+      "j_now": 17.63187530477188,
+      "previous_close": 23.48,
+      "price": 23.69,
+      "change_pct": 0.8943781942078344
+    },
+    {
+      "instrument_id": "000547.SZ",
+      "name": "航天发展",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.11,
+      "previous_dea": -0.189,
+      "current_dif": -0.07443019943019946,
+      "current_dea": -0.1660860398860399,
+      "j_two_days_ago": 39.924,
+      "j_yesterday": 26.253,
+      "j_now": 52.918501650164984,
+      "previous_close": 14.49,
+      "price": 14.93,
+      "change_pct": 3.0365769496204287
+    },
+    {
+      "instrument_id": "000551.SZ",
+      "name": "创元科技",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.382,
+      "previous_dea": -0.429,
+      "current_dif": -0.3363076923076923,
+      "current_dea": -0.4104615384615385,
+      "j_two_days_ago": 69.951,
+      "j_yesterday": 57.958,
+      "j_now": 95.04287581699347,
+      "previous_close": 11.99,
+      "price": 12.41,
+      "change_pct": 3.5029190992493797
+    },
+    {
+      "instrument_id": "000559.SZ",
+      "name": "万向钱潮",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-17",
+      "previous_dif": -0.266,
+      "previous_dea": -0.234,
+      "current_dif": -0.22259829059829056,
+      "current_dea": -0.23171965811965814,
+      "j_two_days_ago": 1.401,
+      "j_yesterday": 37.149,
+      "j_now": 55.072286738351245,
+      "previous_close": 10.7,
+      "price": 10.99,
+      "change_pct": 2.710280373831786
+    },
+    {
+      "instrument_id": "000591.SZ",
+      "name": "太阳能",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.019,
+      "previous_dea": -0.028,
+      "current_dif": -0.01713105413105409,
+      "current_dea": -0.02582621082621082,
+      "j_two_days_ago": 58.606,
+      "j_yesterday": 25.158,
+      "j_now": 31.834370370370237,
+      "previous_close": 4.27,
+      "price": 4.33,
+      "change_pct": 1.4051522248243575
+    },
+    {
+      "instrument_id": "000600.SZ",
+      "name": "建投能源",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.261,
+      "previous_dea": -0.27,
+      "current_dif": -0.2547492877492878,
+      "current_dea": -0.26694985754985756,
+      "j_two_days_ago": 26.894,
+      "j_yesterday": 13.312,
+      "j_now": 24.735595959595898,
+      "previous_close": 7.21,
+      "price": 7.31,
+      "change_pct": 1.386962552011095
+    },
+    {
+      "instrument_id": "000601.SZ",
+      "name": "韶能股份",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.025,
+      "previous_dea": -0.04,
+      "current_dif": -0.023774928774928816,
+      "current_dea": -0.036754985754985765,
+      "j_two_days_ago": 39.734,
+      "j_yesterday": 16.821,
+      "j_now": 23.286257080609943,
+      "previous_close": 6.15,
+      "price": 6.26,
+      "change_pct": 1.788617886178856
+    },
+    {
+      "instrument_id": "000607.SZ",
+      "name": "华媒控股",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-16",
+      "previous_dif": 0.083,
+      "previous_dea": 0.084,
+      "current_dif": 0.09864957264957265,
+      "current_dea": 0.08692991452991454,
+      "j_two_days_ago": 25.716,
+      "j_yesterday": 65.348,
+      "j_now": 86.13706318082782,
+      "previous_close": 4.04,
+      "price": 4.14,
+      "change_pct": 2.4752475247524774
+    },
+    {
+      "instrument_id": "000657.SZ",
+      "name": "中钨高新",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -1.274,
+      "previous_dea": -1.402,
+      "current_dif": -1.1298518518518517,
+      "current_dea": -1.3475703703703703,
+      "j_two_days_ago": 94.027,
+      "j_yesterday": 85.608,
+      "j_now": 87.96523966942149,
+      "previous_close": 60.9,
+      "price": 61.7,
+      "change_pct": 1.3136288998357948
+    },
+    {
+      "instrument_id": "000670.SZ",
+      "name": "盈方微",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.149,
+      "previous_dea": 0.089,
+      "current_dif": 0.17023646723646726,
+      "current_dea": 0.10524729344729344,
+      "j_two_days_ago": 93.979,
+      "j_yesterday": 85.059,
+      "j_now": 90.78491309130916,
+      "previous_close": 7.64,
+      "price": 7.79,
+      "change_pct": 1.963350785340312
+    },
+    {
+      "instrument_id": "000690.SZ",
+      "name": "宝新能源",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.107,
+      "previous_dea": 0.087,
+      "current_dif": 0.11145014245014243,
+      "current_dea": 0.09189002849002847,
+      "j_two_days_ago": 61.162,
+      "j_yesterday": 48.154,
+      "j_now": 59.40925925925919,
+      "previous_close": 5.18,
+      "price": 5.31,
+      "change_pct": 2.5096525096525157
+    },
+    {
+      "instrument_id": "000719.SZ",
+      "name": "中原传媒",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.009,
+      "previous_dea": 0.009,
+      "current_dif": 0.01623361823361832,
+      "current_dea": 0.010446723646723664,
+      "j_two_days_ago": 36.684,
+      "j_yesterday": 22.79,
+      "j_now": 37.63888888888897,
+      "previous_close": 12.04,
+      "price": 12.24,
+      "change_pct": 1.661129568106312
+    },
+    {
+      "instrument_id": "000720.SZ",
+      "name": "新能泰山",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.069,
+      "previous_dea": 0.058,
+      "current_dif": 0.07536467236467236,
+      "current_dea": 0.061472934472934476,
+      "j_two_days_ago": 69.477,
+      "j_yesterday": 65.851,
+      "j_now": 75.28058937198065,
+      "previous_close": 3.98,
+      "price": 4.05,
+      "change_pct": 1.7587939698492372
+    },
+    {
+      "instrument_id": "000733.SZ",
+      "name": "振华科技",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.231,
+      "previous_dea": -0.383,
+      "current_dif": -0.19068945868945858,
+      "current_dea": -0.34453789173789173,
+      "j_two_days_ago": 91.105,
+      "j_yesterday": 62.848,
+      "j_now": 71.68140170940163,
+      "previous_close": 40.41,
+      "price": 41.01,
+      "change_pct": 1.4847809948032697
+    },
+    {
+      "instrument_id": "000753.SZ",
+      "name": "漳州发展",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.121,
+      "previous_dea": 0.106,
+      "current_dif": 0.13006267806267818,
+      "current_dea": 0.11081253561253564,
+      "j_two_days_ago": 73.658,
+      "j_yesterday": 51.26,
+      "j_now": 55.578771241830225,
+      "previous_close": 5.17,
+      "price": 5.350000000000001,
+      "change_pct": 3.481624758220536
+    },
+    {
+      "instrument_id": "000791.SZ",
+      "name": "甘肃能源",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.061,
+      "previous_dea": -0.082,
+      "current_dif": -0.05454985754985759,
+      "current_dea": -0.07650997150997152,
+      "j_two_days_ago": 33.665,
+      "j_yesterday": 9.12,
+      "j_now": 21.330611111111097,
+      "previous_close": 7.15,
+      "price": 7.34,
+      "change_pct": 2.657342657342654
+    },
+    {
+      "instrument_id": "000862.SZ",
+      "name": "银星能源",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.057,
+      "previous_dea": 0.023,
+      "current_dif": 0.06437037037037037,
+      "current_dea": 0.03127407407407407,
+      "j_two_days_ago": 54.467,
+      "j_yesterday": 38.818,
+      "j_now": 44.99454726368157,
+      "previous_close": 5.51,
+      "price": 5.64,
+      "change_pct": 2.3593466424682408
+    },
+    {
+      "instrument_id": "000901.SZ",
+      "name": "航天科技",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.086,
+      "previous_dea": -0.131,
+      "current_dif": -0.06261253561253557,
+      "current_dea": -0.11732250712250712,
+      "j_two_days_ago": 15.992,
+      "j_yesterday": 7.828,
+      "j_now": 37.49577777777776,
+      "previous_close": 14.1,
+      "price": 14.43,
+      "change_pct": 2.3404255319148914
+    },
+    {
+      "instrument_id": "000905.SZ",
+      "name": "厦门港务",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.179,
+      "previous_dea": 0.184,
+      "current_dif": 0.19473789173789163,
+      "current_dea": 0.18614757834757834,
+      "j_two_days_ago": 44.072,
+      "j_yesterday": 31.783,
+      "j_now": 56.831442080378224,
+      "previous_close": 9.06,
+      "price": 9.44,
+      "change_pct": 4.194260485651213
+    },
+    {
+      "instrument_id": "000962.SZ",
+      "name": "东方钽业",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.551,
+      "previous_dea": -0.075,
+      "current_dif": 0.9455754985754985,
+      "current_dea": 0.1291150997150997,
+      "j_two_days_ago": 114.866,
+      "j_yesterday": 109.331,
+      "j_now": 113.1550968218773,
+      "previous_close": 57.95,
+      "price": 60.5,
+      "change_pct": 4.400345125107852
+    },
+    {
+      "instrument_id": "001206.SZ",
+      "name": "依依股份",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-16",
+      "previous_dif": -0.221,
+      "previous_dea": -0.218,
+      "current_dif": -0.1747635327635326,
+      "current_dea": -0.20935270655270652,
+      "j_two_days_ago": -1.861,
+      "j_yesterday": 14.827,
+      "j_now": 48.335417249417276,
+      "previous_close": 16.23,
+      "price": 16.67,
+      "change_pct": 2.71102895871842
+    },
+    {
+      "instrument_id": "001211.SZ",
+      "name": "双枪科技",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-16",
+      "previous_dif": 0.175,
+      "previous_dea": 0.287,
+      "current_dif": 0.3463675213675212,
+      "current_dea": 0.29887350427350423,
+      "j_two_days_ago": 41.423,
+      "j_yesterday": 45.898,
+      "j_now": 89.4397777777778,
+      "previous_close": 23.53,
+      "price": 25.88,
+      "change_pct": 9.987250318742014
+    },
+    {
+      "instrument_id": "001212.SZ",
+      "name": "中旗新材",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.087,
+      "previous_dea": -0.423,
+      "current_dif": 0.21897720797720768,
+      "current_dea": -0.2946045584045585,
+      "j_two_days_ago": 107.954,
+      "j_yesterday": 89.627,
+      "j_now": 106.71422222222219,
+      "previous_close": 34.53,
+      "price": 37.98,
+      "change_pct": 9.99131190269329
+    },
+    {
+      "instrument_id": "001238.SZ",
+      "name": "浙江正特",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-16",
+      "previous_dif": -0.379,
+      "previous_dea": -0.28,
+      "current_dif": -0.18245868945868965,
+      "current_dea": -0.26049173789173796,
+      "j_two_days_ago": 5.139,
+      "j_yesterday": 22.569,
+      "j_now": 80.92800000000003,
+      "previous_close": 23.92,
+      "price": 26.31,
+      "change_pct": 9.991638795986614
+    },
+    {
+      "instrument_id": "001248.SZ",
+      "name": "华润新能",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.46,
+      "previous_dea": -0.529,
+      "current_dif": -0.42764957264957265,
+      "current_dea": -0.5087299145299146,
+      "j_two_days_ago": 11.42,
+      "j_yesterday": 0.866,
+      "j_now": 38.15516939890703,
+      "previous_close": 11.61,
+      "price": 11.94,
+      "change_pct": 2.84237726098191
+    },
+    {
+      "instrument_id": "001270.SZ",
+      "name": "铖昌科技",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -3.219,
+      "previous_dea": -3.906,
+      "current_dif": -2.835792022792023,
+      "current_dea": -3.691958404558405,
+      "j_two_days_ago": 94.444,
+      "j_yesterday": 76.253,
+      "j_now": 94.88599129677982,
+      "previous_close": 97.54,
+      "price": 100.45,
+      "change_pct": 2.983391429157267
+    },
+    {
+      "instrument_id": "001287.SZ",
+      "name": "中电港",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.023,
+      "previous_dea": -0.227,
+      "current_dif": 0.08676353276353291,
+      "current_dea": -0.16424729344729344,
+      "j_two_days_ago": 106.855,
+      "j_yesterday": 101.138,
+      "j_now": 108.21240901771344,
+      "previous_close": 23.93,
+      "price": 24.35,
+      "change_pct": 1.7551190973673192
+    },
+    {
+      "instrument_id": "001289.SZ",
+      "name": "龙源电力",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.211,
+      "previous_dea": -0.218,
+      "current_dif": -0.20836752136752132,
+      "current_dea": -0.21607350427350427,
+      "j_two_days_ago": 65.225,
+      "j_yesterday": 23.229,
+      "j_now": 27.015251028806546,
+      "previous_close": 14.87,
+      "price": 15.03,
+      "change_pct": 1.0759919300605159
+    },
+    {
+      "instrument_id": "001324.SZ",
+      "name": "长青科技",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.242,
+      "previous_dea": 0.284,
+      "current_dif": 0.295068376068376,
+      "current_dea": 0.2862136752136752,
+      "j_two_days_ago": 17.513,
+      "j_yesterday": 5.679,
+      "j_now": 37.53035881753313,
+      "previous_close": 19.5,
+      "price": 20.74,
+      "change_pct": 6.358974358974345
+    },
+    {
+      "instrument_id": "001360.SZ",
+      "name": "南矿集团",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-17",
+      "previous_dif": 0.576,
+      "previous_dea": 0.67,
+      "current_dif": 0.69202849002849,
+      "current_dea": 0.674405698005698,
+      "j_two_days_ago": 9.628,
+      "j_yesterday": 34.74,
+      "j_now": 71.1211590153027,
+      "previous_close": 19.38,
+      "price": 20.74,
+      "change_pct": 7.017543859649122
+    },
+    {
+      "instrument_id": "001368.SZ",
+      "name": "通达创智",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 2.064,
+      "previous_dea": 1.421,
+      "current_dif": 2.327572649572649,
+      "current_dea": 1.6023145299145298,
+      "j_two_days_ago": 103.327,
+      "j_yesterday": 96.326,
+      "j_now": 98.82023315118397,
+      "previous_close": 31.52,
+      "price": 32.86,
+      "change_pct": 4.25126903553299
+    },
+    {
+      "instrument_id": "001376.SZ",
+      "name": "百通能源",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.177,
+      "previous_dea": 0.174,
+      "current_dif": 0.25183475783475784,
+      "current_dea": 0.18956695156695155,
+      "j_two_days_ago": 27.694,
+      "j_yesterday": 16.245,
+      "j_now": 70.67933333333333,
+      "previous_close": 11.51,
+      "price": 12.66,
+      "change_pct": 9.991311902693312
+    },
+    {
+      "instrument_id": "002001.SZ",
+      "name": "新 和 成",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.574,
+      "previous_dea": -0.633,
+      "current_dif": -0.55802849002849,
+      "current_dea": -0.618005698005698,
+      "j_two_days_ago": 34.821,
+      "j_yesterday": 32.929,
+      "j_now": 33.33130718954246,
+      "previous_close": 26.41,
+      "price": 26.43,
+      "change_pct": 0.07572889057174681
+    },
+    {
+      "instrument_id": "002005.SZ",
+      "name": "德豪润达",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.007,
+      "previous_dea": 0.006,
+      "current_dif": 0.02606552706552709,
+      "current_dea": 0.01001310541310542,
+      "j_two_days_ago": 84.56,
+      "j_yesterday": 79.931,
+      "j_now": 105.1037777777778,
+      "previous_close": 2.42,
+      "price": 2.66,
+      "change_pct": 9.917355371900838
+    },
+    {
+      "instrument_id": "002008.SZ",
+      "name": "大族激光",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.644,
+      "previous_dea": -1.477,
+      "current_dif": -0.3335698005698001,
+      "current_dea": -1.2483139601139603,
+      "j_two_days_ago": 74.652,
+      "j_yesterday": 69.744,
+      "j_now": 83.82378328173374,
+      "previous_close": 94.81,
+      "price": 96.93,
+      "change_pct": 2.236051049467358
+    },
+    {
+      "instrument_id": "002025.SZ",
+      "name": "航天电器",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 1.055,
+      "previous_dea": 0.113,
+      "current_dif": 1.6368803418803417,
+      "current_dea": 0.4177760683760684,
+      "j_two_days_ago": 95.603,
+      "j_yesterday": 92.948,
+      "j_now": 101.07690741893103,
+      "previous_close": 73.16,
+      "price": 75.38,
+      "change_pct": 3.0344450519409483
+    },
+    {
+      "instrument_id": "002050.SZ",
+      "name": "三花智控",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-16",
+      "previous_dif": -0.987,
+      "previous_dea": -0.909,
+      "current_dif": -0.8932022792022792,
+      "current_dea": -0.9058404558404559,
+      "j_two_days_ago": -1.474,
+      "j_yesterday": 22.846,
+      "j_now": 51.68772113289759,
+      "previous_close": 34.64,
+      "price": 35.39,
+      "change_pct": 2.165127020785218
+    },
+    {
+      "instrument_id": "002053.SZ",
+      "name": "云南能投",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.066,
+      "previous_dea": 0.051,
+      "current_dif": 0.0598347578347579,
+      "current_dea": 0.05276695156695158,
+      "j_two_days_ago": 18.098,
+      "j_yesterday": 8.963,
+      "j_now": 10.409134751773067,
+      "previous_close": 9.6,
+      "price": 9.65,
+      "change_pct": 0.5208333333333481
+    },
+    {
+      "instrument_id": "002056.SZ",
+      "name": "横店东磁",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.696,
+      "previous_dea": -0.708,
+      "current_dif": -0.6443219373219371,
+      "current_dea": -0.6952643874643875,
+      "j_two_days_ago": 41.781,
+      "j_yesterday": 35.68,
+      "j_now": 61.787407904548814,
+      "previous_close": 19.54,
+      "price": 20.0,
+      "change_pct": 2.3541453428863823
+    },
+    {
+      "instrument_id": "002077.SZ",
+      "name": "大港股份",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.255,
+      "previous_dea": 0.046,
+      "current_dif": 0.3140883190883191,
+      "current_dea": 0.09961766381766382,
+      "j_two_days_ago": 94.333,
+      "j_yesterday": 81.302,
+      "j_now": 92.30740740740737,
+      "previous_close": 13.82,
+      "price": 14.44,
+      "change_pct": 4.486251808972508
+    },
+    {
+      "instrument_id": "002079.SZ",
+      "name": "苏州固锝",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.229,
+      "previous_dea": -0.267,
+      "current_dif": -0.19629059829059828,
+      "current_dea": -0.25285811965811966,
+      "j_two_days_ago": 86.608,
+      "j_yesterday": 85.974,
+      "j_now": 108.59473224043717,
+      "previous_close": 8.99,
+      "price": 9.22,
+      "change_pct": 2.5583982202447286
+    },
+    {
+      "instrument_id": "002119.SZ",
+      "name": "康强电子",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.009,
+      "previous_dea": -0.281,
+      "current_dif": 0.11219943019943045,
+      "current_dea": -0.20236011396011394,
+      "j_two_days_ago": 102.165,
+      "j_yesterday": 94.658,
+      "j_now": 101.81838687712786,
+      "previous_close": 24.24,
+      "price": 25.1,
+      "change_pct": 3.547854785478566
+    },
+    {
+      "instrument_id": "002120.SZ",
+      "name": "韵达股份",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-16",
+      "previous_dif": 0.012,
+      "previous_dea": 0.019,
+      "current_dif": 0.025353276353276364,
+      "current_dea": 0.020270655270655275,
+      "j_two_days_ago": 8.776,
+      "j_yesterday": 55.835,
+      "j_now": 83.87866666666662,
+      "previous_close": 6.84,
+      "price": 6.96,
+      "change_pct": 1.7543859649122862
+    },
+    {
+      "instrument_id": "002138.SZ",
+      "name": "顺络电子",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.254,
+      "previous_dea": -0.163,
+      "current_dif": 0.5513048433048436,
+      "current_dea": -0.020139031339031277,
+      "j_two_days_ago": 100.782,
+      "j_yesterday": 89.688,
+      "j_now": 103.1053772959952,
+      "previous_close": 49.93,
+      "price": 52.77,
+      "change_pct": 5.687963148407782
+    },
+    {
+      "instrument_id": "002149.SZ",
+      "name": "西部材料",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -1.369,
+      "previous_dea": -1.361,
+      "current_dif": -1.2802079772079769,
+      "current_dea": -1.3448415954415953,
+      "j_two_days_ago": 44.357,
+      "j_yesterday": 37.666,
+      "j_now": 61.62972016460904,
+      "previous_close": 33.11,
+      "price": 33.89,
+      "change_pct": 2.3557837511325896
+    },
+    {
+      "instrument_id": "002150.SZ",
+      "name": "正泰电源",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-16",
+      "previous_dif": -0.568,
+      "previous_dea": -0.529,
+      "current_dif": -0.5163988603988603,
+      "current_dea": -0.526479772079772,
+      "j_two_days_ago": 36.31,
+      "j_yesterday": 42.957,
+      "j_now": 72.33296194824963,
+      "previous_close": 20.46,
+      "price": 20.79,
+      "change_pct": 1.6129032258064502
+    },
+    {
+      "instrument_id": "002151.SZ",
+      "name": "北斗星通",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.197,
+      "previous_dea": -0.18,
+      "current_dif": -0.15677777777777788,
+      "current_dea": -0.17535555555555557,
+      "j_two_days_ago": 31.565,
+      "j_yesterday": 9.373,
+      "j_now": 46.311459369817385,
+      "previous_close": 28.02,
+      "price": 28.83,
+      "change_pct": 2.8907922912205564
+    },
+    {
+      "instrument_id": "002158.SZ",
+      "name": "汉钟精机",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-16",
+      "previous_dif": -0.394,
+      "previous_dea": -0.365,
+      "current_dif": -0.24852706552706544,
+      "current_dea": -0.3417054131054131,
+      "j_two_days_ago": 14.962,
+      "j_yesterday": 55.332,
+      "j_now": 94.90791397849458,
+      "previous_close": 27.06,
+      "price": 28.13,
+      "change_pct": 3.9541759053954184
+    },
+    {
+      "instrument_id": "002167.SZ",
+      "name": "东方锆业",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.348,
+      "previous_dea": -0.377,
+      "current_dif": -0.29260968660968656,
+      "current_dea": -0.36012193732193737,
+      "j_two_days_ago": 93.563,
+      "j_yesterday": 89.837,
+      "j_now": 99.05368582375479,
+      "previous_close": 15.81,
+      "price": 16.16,
+      "change_pct": 2.21378874130298
+    },
+    {
+      "instrument_id": "002169.SZ",
+      "name": "智光电气",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.055,
+      "previous_dea": -0.006,
+      "current_dif": 0.12458689458689458,
+      "current_dea": 0.020117378917378914,
+      "j_two_days_ago": 100.383,
+      "j_yesterday": 97.717,
+      "j_now": 109.1035555555556,
+      "previous_close": 13.21,
+      "price": 13.55,
+      "change_pct": 2.5738077214231714
+    },
+    {
+      "instrument_id": "002185.SZ",
+      "name": "华天科技",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.349,
+      "previous_dea": -0.449,
+      "current_dif": -0.19304273504273498,
+      "current_dea": -0.397808547008547,
+      "j_two_days_ago": 104.286,
+      "j_yesterday": 85.025,
+      "j_now": 105.19577777777779,
+      "previous_close": 16.39,
+      "price": 18.03,
+      "change_pct": 10.006101281269064
+    },
+    {
+      "instrument_id": "002199.SZ",
+      "name": "东晶电子",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-16",
+      "previous_dif": -0.089,
+      "previous_dea": -0.088,
+      "current_dif": -0.0674159544159545,
+      "current_dea": -0.0838831908831909,
+      "j_two_days_ago": 60.058,
+      "j_yesterday": 73.128,
+      "j_now": 81.8900359147026,
+      "previous_close": 12.3,
+      "price": 12.44,
+      "change_pct": 1.1382113821138073
+    },
+    {
+      "instrument_id": "002208.SZ",
+      "name": "合肥城建",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.607,
+      "previous_dea": -0.644,
+      "current_dif": -0.5786296296296297,
+      "current_dea": -0.6309259259259259,
+      "j_two_days_ago": 13.539,
+      "j_yesterday": 11.263,
+      "j_now": 24.49750877192973,
+      "previous_close": 9.58,
+      "price": 9.79,
+      "change_pct": 2.192066805845494
+    },
+    {
+      "instrument_id": "002213.SZ",
+      "name": "大为股份",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.418,
+      "previous_dea": -0.442,
+      "current_dif": -0.30672649572649563,
+      "current_dea": -0.41494529914529915,
+      "j_two_days_ago": 106.563,
+      "j_yesterday": 93.419,
+      "j_now": 105.25748448956571,
+      "previous_close": 28.47,
+      "price": 29.54,
+      "change_pct": 3.7583421145064966
+    },
+    {
+      "instrument_id": "002245.SZ",
+      "name": "蔚蓝锂芯",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.033,
+      "previous_dea": -0.014,
+      "current_dif": 0.05568660968660985,
+      "current_dea": -6.267806267803121e-05,
+      "j_two_days_ago": 90.656,
+      "j_yesterday": 79.042,
+      "j_now": 81.49413213213217,
+      "previous_close": 17.95,
+      "price": 18.19,
+      "change_pct": 1.3370473537604566
+    },
+    {
+      "instrument_id": "002264.SZ",
+      "name": "新 华 都",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.191,
+      "previous_dea": 0.187,
+      "current_dif": 0.20252706552706556,
+      "current_dea": 0.19010541310541312,
+      "j_two_days_ago": 45.861,
+      "j_yesterday": 37.239,
+      "j_now": 57.046666666666724,
+      "previous_close": 7.17,
+      "price": 7.44,
+      "change_pct": 3.765690376569042
+    },
+    {
+      "instrument_id": "002266.SZ",
+      "name": "浙富控股",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-16",
+      "previous_dif": -0.016,
+      "previous_dea": -0.014,
+      "current_dif": -0.005589743589743571,
+      "current_dea": -0.012317948717948717,
+      "j_two_days_ago": 23.02,
+      "j_yesterday": 47.951,
+      "j_now": 66.20377777777782,
+      "previous_close": 4.92,
+      "price": 4.95,
+      "change_pct": 0.6097560975609762
+    },
+    {
+      "instrument_id": "002272.SZ",
+      "name": "川润股份",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.135,
+      "previous_dea": 0.097,
+      "current_dif": 0.14290598290598278,
+      "current_dea": 0.10618119658119655,
+      "j_two_days_ago": 74.635,
+      "j_yesterday": 47.917,
+      "j_now": 48.6556586782861,
+      "previous_close": 16.28,
+      "price": 16.86,
+      "change_pct": 3.5626535626535505
+    },
+    {
+      "instrument_id": "002290.SZ",
+      "name": "禾盛新材",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-16",
+      "previous_dif": 0.191,
+      "previous_dea": 0.216,
+      "current_dif": 0.41627350427350446,
+      "current_dea": 0.2560547008547009,
+      "j_two_days_ago": 26.38,
+      "j_yesterday": 32.498,
+      "j_now": 62.94754297693923,
+      "previous_close": 64.5,
+      "price": 67.42,
+      "change_pct": 4.527131782945748
+    },
+    {
+      "instrument_id": "002296.SZ",
+      "name": "辉煌科技",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.048,
+      "previous_dea": 0.053,
+      "current_dif": 0.05873504273504279,
+      "current_dea": 0.05414700854700856,
+      "j_two_days_ago": 9.066,
+      "j_yesterday": 8.782,
+      "j_now": 39.318738229755354,
+      "previous_close": 9.09,
+      "price": 9.31,
+      "change_pct": 2.4202420242024347
+    },
+    {
+      "instrument_id": "002298.SZ",
+      "name": "中电鑫龙",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.021,
+      "previous_dea": 0.028,
+      "current_dif": 0.07050427350427355,
+      "current_dea": 0.036500854700854714,
+      "j_two_days_ago": 53.86,
+      "j_yesterday": 29.079,
+      "j_now": 78.53733333333335,
+      "previous_close": 8.18,
+      "price": 9.0,
+      "change_pct": 10.02444987775062
+    },
+    {
+      "instrument_id": "002300.SZ",
+      "name": "太阳电缆",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.27,
+      "previous_dea": 0.248,
+      "current_dif": 0.31349002849002855,
+      "current_dea": 0.26109800569800573,
+      "j_two_days_ago": 38.19,
+      "j_yesterday": 21.026,
+      "j_now": 64.85718518518513,
+      "previous_close": 7.88,
+      "price": 8.67,
+      "change_pct": 10.025380710659903
+    },
+    {
+      "instrument_id": "002342.SZ",
+      "name": "巨力索具",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.045,
+      "previous_dea": -0.07,
+      "current_dif": -0.04270655270655267,
+      "current_dea": -0.06454131054131054,
+      "j_two_days_ago": 25.596,
+      "j_yesterday": 5.984,
+      "j_now": 14.637600644122458,
+      "previous_close": 7.75,
+      "price": 7.9,
+      "change_pct": 1.9354838709677358
+    },
+    {
+      "instrument_id": "002361.SZ",
+      "name": "神剑股份",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-16",
+      "previous_dif": -0.264,
+      "previous_dea": -0.259,
+      "current_dif": -0.237017094017094,
+      "current_dea": -0.25460341880341886,
+      "j_two_days_ago": 27.68,
+      "j_yesterday": 28.032,
+      "j_now": 62.407333333333426,
+      "previous_close": 10.05,
+      "price": 10.38,
+      "change_pct": 3.2835820895522394
+    },
+    {
+      "instrument_id": "002364.SZ",
+      "name": "中恒电气",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-15",
+      "previous_dif": -1.415,
+      "previous_dea": -1.409,
+      "current_dif": -1.333247863247863,
+      "current_dea": -1.3938495726495725,
+      "j_two_days_ago": 34.555,
+      "j_yesterday": 38.407,
+      "j_now": 49.68741118188257,
+      "previous_close": 35.54,
+      "price": 35.96,
+      "change_pct": 1.1817670230725996
+    },
+    {
+      "instrument_id": "002377.SZ",
+      "name": "国创高新",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.133,
+      "previous_dea": 0.105,
+      "current_dif": 0.1330797720797721,
+      "current_dea": 0.11061595441595443,
+      "j_two_days_ago": 53.63,
+      "j_yesterday": 52.064,
+      "j_now": 53.384350877192986,
+      "previous_close": 3.16,
+      "price": 3.18,
+      "change_pct": 0.6329113924050667
+    },
+    {
+      "instrument_id": "002383.SZ",
+      "name": "合众思壮",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.248,
+      "previous_dea": 0.199,
+      "current_dif": 0.25158404558404557,
+      "current_dea": 0.20951680911680912,
+      "j_two_days_ago": 65.148,
+      "j_yesterday": 62.653,
+      "j_now": 67.37675420875422,
+      "previous_close": 7.86,
+      "price": 7.96,
+      "change_pct": 1.2722646310432628
+    },
+    {
+      "instrument_id": "002388.SZ",
+      "name": "新亚制程",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-16",
+      "previous_dif": 0.252,
+      "previous_dea": 0.26,
+      "current_dif": 0.29885754985754986,
+      "current_dea": 0.26777150997151,
+      "j_two_days_ago": 76.186,
+      "j_yesterday": 87.561,
+      "j_now": 103.79642424242428,
+      "previous_close": 7.03,
+      "price": 7.29,
+      "change_pct": 3.69843527738265
+    },
+    {
+      "instrument_id": "002409.SZ",
+      "name": "雅克科技",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -3.743,
+      "previous_dea": -4.64,
+      "current_dif": -2.998264957264958,
+      "current_dea": -4.311652991452991,
+      "j_two_days_ago": 94.933,
+      "j_yesterday": 91.61,
+      "j_now": 109.55339631610215,
+      "previous_close": 134.69,
+      "price": 139.7,
+      "change_pct": 3.7196525354517673
+    },
+    {
+      "instrument_id": "002413.SZ",
+      "name": "雷科防务",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.022,
+      "previous_dea": -0.055,
+      "current_dif": -0.01370085470085481,
+      "current_dea": -0.046740170940170966,
+      "j_two_days_ago": 35.898,
+      "j_yesterday": 16.431,
+      "j_now": 27.986775894538553,
+      "previous_close": 8.13,
+      "price": 8.28,
+      "change_pct": 1.8450184501844769
+    },
+    {
+      "instrument_id": "002429.SZ",
+      "name": "兆驰股份",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.098,
+      "previous_dea": -0.126,
+      "current_dif": -0.07788034188034183,
+      "current_dea": -0.11637606837606837,
+      "j_two_days_ago": 90.935,
+      "j_yesterday": 82.294,
+      "j_now": 94.54492655367233,
+      "previous_close": 8.04,
+      "price": 8.18,
+      "change_pct": 1.7412935323383172
+    },
+    {
+      "instrument_id": "002439.SZ",
+      "name": "启明星辰",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.018,
+      "previous_dea": -0.056,
+      "current_dif": 0.025153846153846103,
+      "current_dea": -0.039769230769230786,
+      "j_two_days_ago": 41.459,
+      "j_yesterday": 38.687,
+      "j_now": 62.54400644122377,
+      "previous_close": 13.59,
+      "price": 14.04,
+      "change_pct": 3.31125827814569
+    },
+    {
+      "instrument_id": "002446.SZ",
+      "name": "盛路通信",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.109,
+      "previous_dea": -0.114,
+      "current_dif": -0.1044529914529915,
+      "current_dea": -0.11209059829059831,
+      "j_two_days_ago": 73.967,
+      "j_yesterday": 41.9,
+      "j_now": 42.909287211739965,
+      "previous_close": 8.08,
+      "price": 8.2,
+      "change_pct": 1.4851485148514865
+    },
+    {
+      "instrument_id": "002452.SZ",
+      "name": "长高电气",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-16",
+      "previous_dif": 0.137,
+      "previous_dea": 0.148,
+      "current_dif": 0.15767521367521362,
+      "current_dea": 0.14993504273504274,
+      "j_two_days_ago": 16.388,
+      "j_yesterday": 36.649,
+      "j_now": 64.36516049382712,
+      "previous_close": 11.98,
+      "price": 12.19,
+      "change_pct": 1.7529215358931483
+    },
+    {
+      "instrument_id": "002465.SZ",
+      "name": "海格通信",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.102,
+      "previous_dea": -0.14,
+      "current_dif": -0.08568091168091158,
+      "current_dea": -0.12913618233618232,
+      "j_two_days_ago": 52.718,
+      "j_yesterday": 32.666,
+      "j_now": 56.206232558139675,
+      "previous_close": 10.04,
+      "price": 10.23,
+      "change_pct": 1.8924302788844827
+    },
+    {
+      "instrument_id": "002471.SZ",
+      "name": "中超控股",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.004,
+      "previous_dea": 0.014,
+      "current_dif": 0.025803418803418816,
+      "current_dea": 0.016360683760683767,
+      "j_two_days_ago": 2.138,
+      "j_yesterday": -2.512,
+      "j_now": 61.93955555555554,
+      "previous_close": 5.42,
+      "price": 5.96,
+      "change_pct": 9.963099630996307
+    },
+    {
+      "instrument_id": "002519.SZ",
+      "name": "银河电子",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.159,
+      "previous_dea": 0.12,
+      "current_dif": 0.1644529914529914,
+      "current_dea": 0.1288905982905983,
+      "j_two_days_ago": 48.259,
+      "j_yesterday": 36.173,
+      "j_now": 42.94468686868689,
+      "previous_close": 5.98,
+      "price": 6.13,
+      "change_pct": 2.508361204013365
+    },
+    {
+      "instrument_id": "002522.SZ",
+      "name": "浙江众成",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.137,
+      "previous_dea": 0.055,
+      "current_dif": 0.1708518518518519,
+      "current_dea": 0.07817037037037039,
+      "j_two_days_ago": 96.56,
+      "j_yesterday": 95.851,
+      "j_now": 101.40448967551623,
+      "previous_close": 5.93,
+      "price": 6.04,
+      "change_pct": 1.8549747048903997
+    },
+    {
+      "instrument_id": "002544.SZ",
+      "name": "普天科技",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.173,
+      "previous_dea": -0.171,
+      "current_dif": -0.14135612535612527,
+      "current_dea": -0.16507122507122507,
+      "j_two_days_ago": 36.443,
+      "j_yesterday": 18.403,
+      "j_now": 48.925426900584824,
+      "previous_close": 15.75,
+      "price": 16.23,
+      "change_pct": 3.0476190476190546
+    },
+    {
+      "instrument_id": "002565.SZ",
+      "name": "顺灏股份",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.172,
+      "previous_dea": -0.238,
+      "current_dif": -0.14617948717948714,
+      "current_dea": -0.21963589743589745,
+      "j_two_days_ago": 34.076,
+      "j_yesterday": 22.446,
+      "j_now": 36.8948888888889,
+      "previous_close": 8.57,
+      "price": 8.82,
+      "change_pct": 2.9171528588098017
+    },
+    {
+      "instrument_id": "002568.SZ",
+      "name": "百润股份",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-16",
+      "previous_dif": -0.218,
+      "previous_dea": -0.217,
+      "current_dif": -0.18544444444444436,
+      "current_dea": -0.21068888888888887,
+      "j_two_days_ago": 26.254,
+      "j_yesterday": 33.047,
+      "j_now": 45.22871063576952,
+      "previous_close": 17.77,
+      "price": 17.98,
+      "change_pct": 1.1817670230725996
+    },
+    {
+      "instrument_id": "002584.SZ",
+      "name": "西陇科学",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.214,
+      "previous_dea": 0.074,
+      "current_dif": 0.3076866096866097,
+      "current_dea": 0.12073732193732195,
+      "j_two_days_ago": 106.729,
+      "j_yesterday": 92.399,
+      "j_now": 93.18687830687836,
+      "previous_close": 9.52,
+      "price": 9.9,
+      "change_pct": 3.99159663865547
+    },
+    {
+      "instrument_id": "002597.SZ",
+      "name": "金禾实业",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.388,
+      "previous_dea": 0.361,
+      "current_dif": 0.37691168091168087,
+      "current_dea": 0.3641823361823362,
+      "j_two_days_ago": 45.826,
+      "j_yesterday": 26.148,
+      "j_now": 27.476461538461606,
+      "previous_close": 21.37,
+      "price": 21.64,
+      "change_pct": 1.2634534394010188
+    },
+    {
+      "instrument_id": "002617.SZ",
+      "name": "露笑科技",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.066,
+      "previous_dea": -0.038,
+      "current_dif": 0.09989173789173784,
+      "current_dea": -0.010421652421652428,
+      "j_two_days_ago": 90.126,
+      "j_yesterday": 82.51,
+      "j_now": 86.37313113113106,
+      "previous_close": 6.9,
+      "price": 7.02,
+      "change_pct": 1.7391304347825987
+    },
+    {
+      "instrument_id": "002623.SZ",
+      "name": "亚玛顿",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.219,
+      "previous_dea": 0.139,
+      "current_dif": 0.3826438746438746,
+      "current_dea": 0.18772877492877493,
+      "j_two_days_ago": 80.064,
+      "j_yesterday": 79.528,
+      "j_now": 98.81177777777779,
+      "previous_close": 16.84,
+      "price": 18.52,
+      "change_pct": 9.976247030878849
+    },
+    {
+      "instrument_id": "002643.SZ",
+      "name": "万润股份",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.237,
+      "previous_dea": -0.34,
+      "current_dif": -0.18687749287749275,
+      "current_dea": -0.30937549857549856,
+      "j_two_days_ago": 90.833,
+      "j_yesterday": 86.804,
+      "j_now": 105.10730718954252,
+      "previous_close": 13.2,
+      "price": 13.49,
+      "change_pct": 2.1969696969696972
+    },
+    {
+      "instrument_id": "002645.SZ",
+      "name": "华宏科技",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.447,
+      "previous_dea": -0.478,
+      "current_dif": -0.4013789173789172,
+      "current_dea": -0.4626757834757835,
+      "j_two_days_ago": 87.631,
+      "j_yesterday": 74.093,
+      "j_now": 82.06588652482276,
+      "previous_close": 17.86,
+      "price": 18.26,
+      "change_pct": 2.2396416573348343
+    },
+    {
+      "instrument_id": "002655.SZ",
+      "name": "共达电声",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-16",
+      "previous_dif": 0.915,
+      "previous_dea": 1.093,
+      "current_dif": 1.161766381766382,
+      "current_dea": 1.1067532763532766,
+      "j_two_days_ago": 41.999,
+      "j_yesterday": 89.059,
+      "j_now": 99.07078018847253,
+      "previous_close": 40.77,
+      "price": 40.92,
+      "change_pct": 0.3679175864606199
+    },
+    {
+      "instrument_id": "002685.SZ",
+      "name": "华东重机",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-16",
+      "previous_dif": -0.088,
+      "previous_dea": -0.073,
+      "current_dif": -0.05273789173789169,
+      "current_dea": -0.06894757834757834,
+      "j_two_days_ago": 20.442,
+      "j_yesterday": 46.74,
+      "j_now": 80.40677621283255,
+      "previous_close": 5.31,
+      "price": 5.71,
+      "change_pct": 7.53295668549907
+    },
+    {
+      "instrument_id": "002729.SZ",
+      "name": "好利科技",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-16",
+      "previous_dif": -0.108,
+      "previous_dea": -0.089,
+      "current_dif": -0.07575783475783471,
+      "current_dea": -0.08635156695156694,
+      "j_two_days_ago": 26.869,
+      "j_yesterday": 47.054,
+      "j_now": 82.00150762527227,
+      "previous_close": 13.7,
+      "price": 14.02,
+      "change_pct": 2.335766423357666
+    },
+    {
+      "instrument_id": "002735.SZ",
+      "name": "王子新材",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.168,
+      "previous_dea": 0.113,
+      "current_dif": 0.20726780626780628,
+      "current_dea": 0.13185356125356126,
+      "j_two_days_ago": 39.657,
+      "j_yesterday": 20.53,
+      "j_now": 44.477463231347286,
+      "previous_close": 12.06,
+      "price": 12.92,
+      "change_pct": 7.13101160862355
+    },
+    {
+      "instrument_id": "002739.SZ",
+      "name": "儒意电影",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.09,
+      "previous_dea": -0.102,
+      "current_dif": -0.08488603988603992,
+      "current_dea": -0.098577207977208,
+      "j_two_days_ago": 15.923,
+      "j_yesterday": 3.034,
+      "j_now": 12.55719402985082,
+      "previous_close": 8.47,
+      "price": 8.59,
+      "change_pct": 1.416765053128688
+    },
+    {
+      "instrument_id": "002741.SZ",
+      "name": "光华科技",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.144,
+      "previous_dea": -0.325,
+      "current_dif": -0.0578433048433048,
+      "current_dea": -0.27156866096866095,
+      "j_two_days_ago": 87.689,
+      "j_yesterday": 79.026,
+      "j_now": 82.1525641025641,
+      "previous_close": 25.04,
+      "price": 25.52,
+      "change_pct": 1.9169329073482455
+    },
+    {
+      "instrument_id": "002747.SZ",
+      "name": "埃斯顿",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-16",
+      "previous_dif": -1.235,
+      "previous_dea": -1.199,
+      "current_dif": -1.1493162393162395,
+      "current_dea": -1.189063247863248,
+      "j_two_days_ago": 24.038,
+      "j_yesterday": 40.453,
+      "j_now": 53.389202368512684,
+      "previous_close": 29.57,
+      "price": 29.79,
+      "change_pct": 0.7439972945552986
+    },
+    {
+      "instrument_id": "002755.SZ",
+      "name": "奥赛康",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.471,
+      "previous_dea": -0.463,
+      "current_dif": -0.44578917378917365,
+      "current_dea": -0.4595578347578348,
+      "j_two_days_ago": 20.547,
+      "j_yesterday": 19.481,
+      "j_now": 30.776524590163987,
+      "previous_close": 11.29,
+      "price": 11.47,
+      "change_pct": 1.5943312666076404
+    },
+    {
+      "instrument_id": "002803.SZ",
+      "name": "吉宏股份",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-16",
+      "previous_dif": 0.065,
+      "previous_dea": 0.097,
+      "current_dif": 0.10854700854700855,
+      "current_dea": 0.09930940170940171,
+      "j_two_days_ago": -9.298,
+      "j_yesterday": -0.646,
+      "j_now": 48.29610602759621,
+      "previous_close": 19.64,
+      "price": 20.48,
+      "change_pct": 4.276985743380846
+    },
+    {
+      "instrument_id": "002806.SZ",
+      "name": "华锋股份",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.132,
+      "previous_dea": 0.088,
+      "current_dif": 0.16630769230769238,
+      "current_dea": 0.10366153846153847,
+      "j_two_days_ago": 78.958,
+      "j_yesterday": 71.564,
+      "j_now": 83.01878453038674,
+      "previous_close": 14.82,
+      "price": 15.21,
+      "change_pct": 2.6315789473684292
+    },
+    {
+      "instrument_id": "002836.SZ",
+      "name": "新宏泽",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-16",
+      "previous_dif": 0.115,
+      "previous_dea": 0.123,
+      "current_dif": 0.2507692307692308,
+      "current_dea": 0.14855384615384615,
+      "j_two_days_ago": 24.924,
+      "j_yesterday": 75.501,
+      "j_now": 100.70133333333335,
+      "previous_close": 10.84,
+      "price": 11.92,
+      "change_pct": 9.963099630996307
+    },
+    {
+      "instrument_id": "002845.SZ",
+      "name": "同兴达",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.146,
+      "previous_dea": 0.099,
+      "current_dif": 0.16571794871794873,
+      "current_dea": 0.11234358974358975,
+      "j_two_days_ago": 96.35,
+      "j_yesterday": 91.348,
+      "j_now": 98.63975417895773,
+      "previous_close": 13.9,
+      "price": 14.06,
+      "change_pct": 1.151079136690658
+    },
+    {
+      "instrument_id": "002848.SZ",
+      "name": "高斯贝尔",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.469,
+      "previous_dea": 0.348,
+      "current_dif": 0.4928148148148147,
+      "current_dea": 0.37696296296296294,
+      "j_two_days_ago": 48.134,
+      "j_yesterday": 48.131,
+      "j_now": 51.19522928709053,
+      "previous_close": 15.08,
+      "price": 15.2,
+      "change_pct": 0.7957559681697646
+    },
+    {
+      "instrument_id": "002896.SZ",
+      "name": "中大力德",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-16",
+      "previous_dif": -2.775,
+      "previous_dea": -2.667,
+      "current_dif": -2.652749287749287,
+      "current_dea": -2.6641498575498574,
+      "j_two_days_ago": 14.564,
+      "j_yesterday": 26.237,
+      "j_now": 39.91161554192232,
+      "previous_close": 60.88,
+      "price": 61.25,
+      "change_pct": 0.6077529566359985
+    },
+    {
+      "instrument_id": "002899.SZ",
+      "name": "英派斯",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.031,
+      "previous_dea": -0.003,
+      "current_dif": 0.03745584045584038,
+      "current_dea": 0.005091168091168077,
+      "j_two_days_ago": 40.915,
+      "j_yesterday": 27.665,
+      "j_now": 31.742871267743425,
+      "previous_close": 19.48,
+      "price": 19.86,
+      "change_pct": 1.9507186858316095
+    },
+    {
+      "instrument_id": "002902.SZ",
+      "name": "铭普光磁",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 1.222,
+      "previous_dea": 0.912,
+      "current_dif": 1.37408547008547,
+      "current_dea": 1.004417094017094,
+      "j_two_days_ago": 87.865,
+      "j_yesterday": 77.989,
+      "j_now": 84.67124882629113,
+      "previous_close": 29.16,
+      "price": 31.3,
+      "change_pct": 7.338820301783278
+    },
+    {
+      "instrument_id": "002925.SZ",
+      "name": "盈趣科技",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.4,
+      "previous_dea": 0.279,
+      "current_dif": 0.4412535612535614,
+      "current_dea": 0.3114507122507123,
+      "j_two_days_ago": 100.653,
+      "j_yesterday": 98.749,
+      "j_now": 102.92067559125388,
+      "previous_close": 24.43,
+      "price": 24.69,
+      "change_pct": 1.0642652476463343
+    },
+    {
+      "instrument_id": "002962.SZ",
+      "name": "五方光电",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.015,
+      "previous_dea": -0.067,
+      "current_dif": 0.04796296296296297,
+      "current_dea": -0.04400740740740741,
+      "j_two_days_ago": 85.928,
+      "j_yesterday": 84.924,
+      "j_now": 93.78099435028255,
+      "previous_close": 13.39,
+      "price": 13.55,
+      "change_pct": 1.1949215832711024
+    },
+    {
+      "instrument_id": "002975.SZ",
+      "name": "博杰股份",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.694,
+      "previous_dea": 0.478,
+      "current_dif": 1.0036552706552708,
+      "current_dea": 0.5831310541310541,
+      "j_two_days_ago": 79.847,
+      "j_yesterday": 79.606,
+      "j_now": 83.53760743622999,
+      "previous_close": 104.7,
+      "price": 105.98,
+      "change_pct": 1.2225405921681087
+    },
+    {
+      "instrument_id": "002981.SZ",
+      "name": "朝阳科技",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-17",
+      "previous_dif": 0.292,
+      "previous_dea": 0.32,
+      "current_dif": 0.39153561253561264,
+      "current_dea": 0.3343071225071225,
+      "j_two_days_ago": 3.353,
+      "j_yesterday": 54.446,
+      "j_now": 80.30788111568356,
+      "previous_close": 24.9,
+      "price": 25.61,
+      "change_pct": 2.8514056224899553
+    },
+    {
+      "instrument_id": "002992.SZ",
+      "name": "宝明科技",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.494,
+      "previous_dea": -0.564,
+      "current_dif": -0.4364900284900289,
+      "current_dea": -0.5384980056980058,
+      "j_two_days_ago": 38.616,
+      "j_yesterday": 28.255,
+      "j_now": 40.748182149362364,
+      "previous_close": 33.2,
+      "price": 33.87,
+      "change_pct": 2.0180722891566027
+    },
+    {
+      "instrument_id": "003009.SZ",
+      "name": "中天火箭",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.548,
+      "previous_dea": -0.692,
+      "current_dif": -0.4663133903133905,
+      "current_dea": -0.646862678062678,
+      "j_two_days_ago": 5.251,
+      "j_yesterday": -0.377,
+      "j_now": 20.511339339339344,
+      "previous_close": 47.02,
+      "price": 48.28,
+      "change_pct": 2.67971076137814
+    },
+    {
+      "instrument_id": "003021.SZ",
+      "name": "兆威机电",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-16",
+      "previous_dif": -2.587,
+      "previous_dea": -2.454,
+      "current_dif": -2.424826210826211,
+      "current_dea": -2.4481652421652425,
+      "j_two_days_ago": -1.689,
+      "j_yesterday": 18.566,
+      "j_now": 40.15342690058489,
+      "previous_close": 68.43,
+      "price": 69.18,
+      "change_pct": 1.0960105217010074
+    },
+    {
+      "instrument_id": "600105.SH",
+      "name": "永鼎股份",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.911,
+      "previous_dea": 0.2,
+      "current_dif": 1.2404188034188037,
+      "current_dea": 0.4080837606837608,
+      "j_two_days_ago": 99.793,
+      "j_yesterday": 94.682,
+      "j_now": 97.86533333333338,
+      "previous_close": 45.14,
+      "price": 46.63,
+      "change_pct": 3.3008418254319993
+    },
+    {
+      "instrument_id": "600110.SH",
+      "name": "诺德股份",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.282,
+      "previous_dea": 0.23,
+      "current_dif": 0.31529629629629624,
+      "current_dea": 0.24705925925925926,
+      "j_two_days_ago": 104.761,
+      "j_yesterday": 99.407,
+      "j_now": 106.69229003651537,
+      "previous_close": 11.87,
+      "price": 12.2,
+      "change_pct": 2.780117944397631
+    },
+    {
+      "instrument_id": "600118.SH",
+      "name": "中国卫星",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -1.854,
+      "previous_dea": -2.028,
+      "current_dif": -1.6716467236467238,
+      "current_dea": -1.9567293447293448,
+      "j_two_days_ago": 55.575,
+      "j_yesterday": 41.928,
+      "j_now": 72.23581381381388,
+      "previous_close": 57.39,
+      "price": 58.92,
+      "change_pct": 2.66596968112911
+    },
+    {
+      "instrument_id": "600150.SH",
+      "name": "中国船舶",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 1.28,
+      "previous_dea": 1.096,
+      "current_dif": 1.3132905982905982,
+      "current_dea": 1.1394581196581197,
+      "j_two_days_ago": 45.824,
+      "j_yesterday": 33.474,
+      "j_now": 41.41744532861779,
+      "previous_close": 38.96,
+      "price": 39.57,
+      "change_pct": 1.5657084188911652
+    },
+    {
+      "instrument_id": "600163.SH",
+      "name": "中闽能源",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.222,
+      "previous_dea": 0.113,
+      "current_dif": 0.24566666666666673,
+      "current_dea": 0.13953333333333334,
+      "j_two_days_ago": 94.313,
+      "j_yesterday": 69.349,
+      "j_now": 69.48427983539094,
+      "previous_close": 5.93,
+      "price": 6.17,
+      "change_pct": 4.04721753794266
+    },
+    {
+      "instrument_id": "600192.SH",
+      "name": "长城电工",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.225,
+      "previous_dea": 0.206,
+      "current_dif": 0.21404558404558408,
+      "current_dea": 0.2076091168091168,
+      "j_two_days_ago": 36.231,
+      "j_yesterday": 23.431,
+      "j_now": 26.389811533052068,
+      "previous_close": 7.58,
+      "price": 7.74,
+      "change_pct": 2.110817941952514
+    },
+    {
+      "instrument_id": "600226.SH",
+      "name": "亨通股份",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.076,
+      "previous_dea": -0.104,
+      "current_dif": -0.060076923076923125,
+      "current_dea": -0.09521538461538462,
+      "j_two_days_ago": 104.683,
+      "j_yesterday": 89.752,
+      "j_now": 96.73004288499021,
+      "previous_close": 5.94,
+      "price": 6.06,
+      "change_pct": 2.020202020202011
+    },
+    {
+      "instrument_id": "600228.SH",
+      "name": "返利科技",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.772,
+      "previous_dea": 0.649,
+      "current_dif": 0.8104672364672365,
+      "current_dea": 0.6812934472934473,
+      "j_two_days_ago": 97.82,
+      "j_yesterday": 92.706,
+      "j_now": 94.38757651991617,
+      "previous_close": 11.26,
+      "price": 11.44,
+      "change_pct": 1.5985790408525657
+    },
+    {
+      "instrument_id": "600276.SH",
+      "name": "恒瑞医药",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -2.128,
+      "previous_dea": -2.085,
+      "current_dif": -2.0174814814814814,
+      "current_dea": -2.0714962962962966,
+      "j_two_days_ago": 37.675,
+      "j_yesterday": 36.991,
+      "j_now": 47.64614849187939,
+      "previous_close": 43.23,
+      "price": 43.84,
+      "change_pct": 1.411057136247984
+    },
+    {
+      "instrument_id": "600285.SH",
+      "name": "羚锐制药",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.444,
+      "previous_dea": -0.477,
+      "current_dif": -0.4303076923076925,
+      "current_dea": -0.4676615384615385,
+      "j_two_days_ago": 39.003,
+      "j_yesterday": 35.603,
+      "j_now": 37.78850082918737,
+      "previous_close": 19.12,
+      "price": 19.13,
+      "change_pct": 0.052301255230124966
+    },
+    {
+      "instrument_id": "600310.SH",
+      "name": "广西能源",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.115,
+      "previous_dea": 0.085,
+      "current_dif": 0.11542735042735044,
+      "current_dea": 0.09108547008547009,
+      "j_two_days_ago": 39.823,
+      "j_yesterday": 20.24,
+      "j_now": 24.100888888888875,
+      "previous_close": 4.63,
+      "price": 4.75,
+      "change_pct": 2.591792656587466
+    },
+    {
+      "instrument_id": "600343.SH",
+      "name": "航天动力",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.1,
+      "previous_dea": -0.145,
+      "current_dif": 0.2771652421652424,
+      "current_dea": -0.06056695156695151,
+      "j_two_days_ago": 77.102,
+      "j_yesterday": 69.616,
+      "j_now": 95.30555555555554,
+      "previous_close": 19.7,
+      "price": 21.67,
+      "change_pct": 10.000000000000009
+    },
+    {
+      "instrument_id": "600360.SH",
+      "name": "华微电子",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.062,
+      "previous_dea": -0.194,
+      "current_dif": -0.006621082621082637,
+      "current_dea": -0.15652421652421653,
+      "j_two_days_ago": 113.021,
+      "j_yesterday": 92.44,
+      "j_now": 99.72775438596491,
+      "previous_close": 10.59,
+      "price": 11.02,
+      "change_pct": 4.060434372049104
+    },
+    {
+      "instrument_id": "600380.SH",
+      "name": "健康元",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.18,
+      "previous_dea": -0.189,
+      "current_dif": -0.17396011396011388,
+      "current_dea": -0.1859920227920228,
+      "j_two_days_ago": 10.529,
+      "j_yesterday": 1.879,
+      "j_now": 4.879456790123626,
+      "previous_close": 9.16,
+      "price": 9.21,
+      "change_pct": 0.5458515283842891
+    },
+    {
+      "instrument_id": "600448.SH",
+      "name": "华纺股份",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-16",
+      "previous_dif": 0.052,
+      "previous_dea": 0.061,
+      "current_dif": 0.08947008547008546,
+      "current_dea": 0.0666940170940171,
+      "j_two_days_ago": 18.453,
+      "j_yesterday": 73.642,
+      "j_now": 101.0988888888889,
+      "previous_close": 3.22,
+      "price": 3.54,
+      "change_pct": 9.937888198757761
+    },
+    {
+      "instrument_id": "600488.SH",
+      "name": "津药药业",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.092,
+      "previous_dea": 0.014,
+      "current_dif": 0.1161794871794873,
+      "current_dea": 0.034435897435897464,
+      "j_two_days_ago": 84.153,
+      "j_yesterday": 76.55,
+      "j_now": 77.40542760942769,
+      "previous_close": 5.99,
+      "price": 6.100000000000001,
+      "change_pct": 1.8363939899833204
+    },
+    {
+      "instrument_id": "600500.SH",
+      "name": "中化国际",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.097,
+      "previous_dea": 0.067,
+      "current_dif": 0.102988603988604,
+      "current_dea": 0.07419772079772081,
+      "j_two_days_ago": 67.715,
+      "j_yesterday": 65.207,
+      "j_now": 66.99219323671502,
+      "previous_close": 5.83,
+      "price": 5.86,
+      "change_pct": 0.5145797598627766
+    },
+    {
+      "instrument_id": "600549.SH",
+      "name": "厦门钨业",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -1.384,
+      "previous_dea": -1.474,
+      "current_dif": -1.2856353276353272,
+      "current_dea": -1.4363270655270655,
+      "j_two_days_ago": 84.047,
+      "j_yesterday": 70.335,
+      "j_now": 74.85850746268653,
+      "previous_close": 49.72,
+      "price": 50.5,
+      "change_pct": 1.5687851971037725
+    },
+    {
+      "instrument_id": "600552.SH",
+      "name": "凯盛科技",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.225,
+      "previous_dea": -0.296,
+      "current_dif": -0.164928774928775,
+      "current_dea": -0.269785754985755,
+      "j_two_days_ago": 94.605,
+      "j_yesterday": 90.23,
+      "j_now": 93.63711111111107,
+      "previous_close": 17.59,
+      "price": 17.81,
+      "change_pct": 1.2507106310403637
+    },
+    {
+      "instrument_id": "600563.SH",
+      "name": "法拉电子",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -2.814,
+      "previous_dea": -3.185,
+      "current_dif": -2.528356125356125,
+      "current_dea": -3.0536712250712252,
+      "j_two_days_ago": 79.036,
+      "j_yesterday": 64.716,
+      "j_now": 92.83584551396314,
+      "previous_close": 122.6,
+      "price": 125.71,
+      "change_pct": 2.5367047308319846
+    },
+    {
+      "instrument_id": "600577.SH",
+      "name": "精达股份",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.094,
+      "previous_dea": -0.072,
+      "current_dif": -0.06650427350427349,
+      "current_dea": -0.07090085470085469,
+      "j_two_days_ago": 28.997,
+      "j_yesterday": 20.199,
+      "j_now": 67.74903703703708,
+      "previous_close": 7.93,
+      "price": 8.33,
+      "change_pct": 5.044136191677184
+    },
+    {
+      "instrument_id": "600579.SH",
+      "name": "中化装备",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.013,
+      "previous_dea": -0.005,
+      "current_dif": 0.015330484330484319,
+      "current_dea": -0.0009339031339031362,
+      "j_two_days_ago": 56.461,
+      "j_yesterday": 42.025,
+      "j_now": 46.422856102003635,
+      "previous_close": 7.08,
+      "price": 7.17,
+      "change_pct": 1.2711864406779627
+    },
+    {
+      "instrument_id": "600584.SH",
+      "name": "长电科技",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-15",
+      "previous_dif": -2.738,
+      "previous_dea": -2.692,
+      "current_dif": -2.162182336182336,
+      "current_dea": -2.5860364672364677,
+      "j_two_days_ago": 53.05,
+      "j_yesterday": 57.381,
+      "j_now": 98.33312418300656,
+      "previous_close": 67.75,
+      "price": 73.87,
+      "change_pct": 9.033210332103337
+    },
+    {
+      "instrument_id": "600593.SH",
+      "name": "大连圣亚",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-16",
+      "previous_dif": 0.184,
+      "previous_dea": 0.251,
+      "current_dif": 0.4548233618233614,
+      "current_dea": 0.2917646723646723,
+      "j_two_days_ago": 25.656,
+      "j_yesterday": 82.527,
+      "j_now": 89.72630119375575,
+      "previous_close": 43.31,
+      "price": 44.05,
+      "change_pct": 1.7086123297159972
+    },
+    {
+      "instrument_id": "600606.SH",
+      "name": "绿地控股",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-16",
+      "previous_dif": 0.002,
+      "previous_dea": 0.005,
+      "current_dif": 0.010737891737891728,
+      "current_dea": 0.006147578347578345,
+      "j_two_days_ago": 13.014,
+      "j_yesterday": 43.303,
+      "j_now": 79.17577777777777,
+      "previous_close": 1.32,
+      "price": 1.42,
+      "change_pct": 7.575757575757569
+    },
+    {
+      "instrument_id": "600616.SH",
+      "name": "金枫酒业",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.115,
+      "previous_dea": 0.105,
+      "current_dif": 0.14000000000000004,
+      "current_dea": 0.11200000000000002,
+      "j_two_days_ago": 68.17,
+      "j_yesterday": 67.265,
+      "j_now": 84.63418713450292,
+      "previous_close": 4.67,
+      "price": 4.99,
+      "change_pct": 6.85224839400429
+    },
+    {
+      "instrument_id": "600621.SH",
+      "name": "华鑫股份",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-16",
+      "previous_dif": -0.076,
+      "previous_dea": 0.003,
+      "current_dif": 0.009737891737891705,
+      "current_dea": 0.0043475783475783415,
+      "j_two_days_ago": -1.572,
+      "j_yesterday": 4.769,
+      "j_now": 73.55444444444446,
+      "previous_close": 12.82,
+      "price": 14.1,
+      "change_pct": 9.98439937597504
+    },
+    {
+      "instrument_id": "600640.SH",
+      "name": "国脉文化",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-16",
+      "previous_dif": 0.023,
+      "previous_dea": 0.073,
+      "current_dif": 0.11597150997150996,
+      "current_dea": 0.081594301994302,
+      "j_two_days_ago": -2.362,
+      "j_yesterday": 29.235,
+      "j_now": 83.00000000000003,
+      "previous_close": 10.96,
+      "price": 12.06,
+      "change_pct": 10.036496350364965
+    },
+    {
+      "instrument_id": "600642.SH",
+      "name": "申能股份",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.046,
+      "previous_dea": 0.035,
+      "current_dif": 0.04712820512820517,
+      "current_dea": 0.03742564102564104,
+      "j_two_days_ago": 79.941,
+      "j_yesterday": 60.216,
+      "j_now": 62.5371111111113,
+      "previous_close": 8.61,
+      "price": 8.67,
+      "change_pct": 0.6968641114982743
+    },
+    {
+      "instrument_id": "600666.SH",
+      "name": "奥瑞德",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.038,
+      "previous_dea": -0.039,
+      "current_dif": -0.030316239316239335,
+      "current_dea": -0.03726324786324787,
+      "j_two_days_ago": 50.17,
+      "j_yesterday": 31.83,
+      "j_now": 43.432495726495716,
+      "previous_close": 3.43,
+      "price": 3.57,
+      "change_pct": 4.081632653061207
+    },
+    {
+      "instrument_id": "600710.SH",
+      "name": "苏美达",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.222,
+      "previous_dea": 0.166,
+      "current_dif": 0.23397150997151006,
+      "current_dea": 0.179594301994302,
+      "j_two_days_ago": 55.772,
+      "j_yesterday": 43.193,
+      "j_now": 53.12896296296296,
+      "previous_close": 11.2,
+      "price": 11.48,
+      "change_pct": 2.5000000000000133
+    },
+    {
+      "instrument_id": "600719.SH",
+      "name": "大连热电",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.094,
+      "previous_dea": 0.053,
+      "current_dif": 0.12164672364672362,
+      "current_dea": 0.06672934472934472,
+      "j_two_days_ago": 58.517,
+      "j_yesterday": 50.571,
+      "j_now": 60.936439450686635,
+      "previous_close": 7.65,
+      "price": 8.01,
+      "change_pct": 4.70588235294116
+    },
+    {
+      "instrument_id": "600764.SH",
+      "name": "中国海防",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.227,
+      "previous_dea": 0.203,
+      "current_dif": 0.21365811965811954,
+      "current_dea": 0.20513162393162393,
+      "j_two_days_ago": 17.139,
+      "j_yesterday": 10.73,
+      "j_now": 15.200498644986368,
+      "previous_close": 18.66,
+      "price": 18.81,
+      "change_pct": 0.8038585209003246
+    },
+    {
+      "instrument_id": "600770.SH",
+      "name": "综艺股份",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.11,
+      "previous_dea": 0.063,
+      "current_dif": 0.12393162393162392,
+      "current_dea": 0.07518632478632478,
+      "j_two_days_ago": 57.955,
+      "j_yesterday": 50.434,
+      "j_now": 51.60674074074066,
+      "previous_close": 5.6,
+      "price": 5.81,
+      "change_pct": 3.750000000000009
+    },
+    {
+      "instrument_id": "600790.SH",
+      "name": "轻纺城",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-16",
+      "previous_dif": 0.017,
+      "previous_dea": 0.023,
+      "current_dif": 0.03354415954415953,
+      "current_dea": 0.025108831908831904,
+      "j_two_days_ago": 23.928,
+      "j_yesterday": 48.648,
+      "j_now": 81.56266666666667,
+      "previous_close": 3.43,
+      "price": 3.63,
+      "change_pct": 5.8309037900874605
+    },
+    {
+      "instrument_id": "600821.SH",
+      "name": "金开新能",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.026,
+      "previous_dea": -0.047,
+      "current_dif": -0.023182336182336172,
+      "current_dea": -0.042236467236467234,
+      "j_two_days_ago": 49.47,
+      "j_yesterday": 17.528,
+      "j_now": 20.10380676328505,
+      "previous_close": 6.09,
+      "price": 6.21,
+      "change_pct": 1.9704433497536922
+    },
+    {
+      "instrument_id": "600835.SH",
+      "name": "上海机电",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-16",
+      "previous_dif": -0.274,
+      "previous_dea": -0.272,
+      "current_dif": -0.26607692307692304,
+      "current_dea": -0.2708153846153846,
+      "j_two_days_ago": 7.389,
+      "j_yesterday": 8.832,
+      "j_now": 16.580575163398755,
+      "previous_close": 17.73,
+      "price": 17.8,
+      "change_pct": 0.3948110547095318
+    },
+    {
+      "instrument_id": "600845.SH",
+      "name": "宝信软件",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.316,
+      "previous_dea": -0.298,
+      "current_dif": -0.2533105413105414,
+      "current_dea": -0.2890621082621083,
+      "j_two_days_ago": 24.325,
+      "j_yesterday": 20.999,
+      "j_now": 67.64752542372874,
+      "previous_close": 16.8,
+      "price": 17.58,
+      "change_pct": 4.642857142857126
+    },
+    {
+      "instrument_id": "600847.SH",
+      "name": "万里股份",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-16",
+      "previous_dif": -0.07,
+      "previous_dea": 0.02,
+      "current_dif": 0.05404558404558403,
+      "current_dea": 0.02680911680911681,
+      "j_two_days_ago": 15.515,
+      "j_yesterday": 53.654,
+      "j_now": 95.79333333333332,
+      "previous_close": 12.65,
+      "price": 13.92,
+      "change_pct": 10.039525691699591
+    },
+    {
+      "instrument_id": "600855.SH",
+      "name": "航天长峰",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.231,
+      "previous_dea": 0.205,
+      "current_dif": 0.2248205128205128,
+      "current_dea": 0.20896410256410258,
+      "j_two_days_ago": 16.243,
+      "j_yesterday": 6.823,
+      "j_now": 15.209818181818179,
+      "previous_close": 13.08,
+      "price": 13.34,
+      "change_pct": 1.987767584097866
+    },
+    {
+      "instrument_id": "600879.SH",
+      "name": "航天电子",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.352,
+      "previous_dea": -0.441,
+      "current_dif": -0.3050398860398859,
+      "current_dea": -0.4138079772079772,
+      "j_two_days_ago": 63.861,
+      "j_yesterday": 39.908,
+      "j_now": 64.23610457516354,
+      "previous_close": 14.26,
+      "price": 14.71,
+      "change_pct": 3.155680224403934
+    },
+    {
+      "instrument_id": "600930.SH",
+      "name": "华电新能",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.066,
+      "previous_dea": -0.089,
+      "current_dif": -0.058082621082621085,
+      "current_dea": -0.08281652421652422,
+      "j_two_days_ago": 100.615,
+      "j_yesterday": 46.49,
+      "j_now": 75.85395959595948,
+      "previous_close": 3.9,
+      "price": 3.98,
+      "change_pct": 2.051282051282044
+    },
+    {
+      "instrument_id": "600933.SH",
+      "name": "爱柯迪",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-16",
+      "previous_dif": -0.253,
+      "previous_dea": -0.195,
+      "current_dif": -0.1461424501424502,
+      "current_dea": -0.18522849002849007,
+      "j_two_days_ago": 3.127,
+      "j_yesterday": 52.21,
+      "j_now": 92.26744186046513,
+      "previous_close": 13.25,
+      "price": 14.19,
+      "change_pct": 7.094339622641499
+    },
+    {
+      "instrument_id": "600982.SH",
+      "name": "宁波能源",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.053,
+      "previous_dea": 0.017,
+      "current_dif": 0.061199430199430256,
+      "current_dea": 0.025839886039886052,
+      "j_two_days_ago": 77.847,
+      "j_yesterday": 60.62,
+      "j_now": 70.59349266247392,
+      "previous_close": 5.1,
+      "price": 5.23,
+      "change_pct": 2.5490196078431504
+    },
+    {
+      "instrument_id": "601086.SH",
+      "name": "国芳集团",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 2.079,
+      "previous_dea": 1.852,
+      "current_dif": 2.0738404558404557,
+      "current_dea": 1.8963680911680914,
+      "j_two_days_ago": 55.072,
+      "j_yesterday": 28.118,
+      "j_now": 37.052702372562834,
+      "previous_close": 14.6,
+      "price": 16.06,
+      "change_pct": 9.999999999999986
+    },
+    {
+      "instrument_id": "601111.SH",
+      "name": "中国国航",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-17",
+      "previous_dif": -0.052,
+      "previous_dea": -0.051,
+      "current_dif": -0.0458233618233618,
+      "current_dea": -0.04996467236467236,
+      "j_two_days_ago": 28.67,
+      "j_yesterday": 31.081,
+      "j_now": 56.7178357487922,
+      "previous_close": 5.77,
+      "price": 5.84,
+      "change_pct": 1.2131715771230622
+    },
+    {
+      "instrument_id": "601126.SH",
+      "name": "四方股份",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -1.513,
+      "previous_dea": -1.533,
+      "current_dif": -1.4416267806267808,
+      "current_dea": -1.5147253561253562,
+      "j_two_days_ago": 13.493,
+      "j_yesterday": 12.299,
+      "j_now": 21.06671775223495,
+      "previous_close": 39.7,
+      "price": 40.3,
+      "change_pct": 1.5113350125944391
+    },
+    {
+      "instrument_id": "601615.SH",
+      "name": "明阳智能",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.412,
+      "previous_dea": -0.425,
+      "current_dif": -0.3859230769230769,
+      "current_dea": -0.41718461538461543,
+      "j_two_days_ago": 65.486,
+      "j_yesterday": 53.364,
+      "j_now": 60.47859259259272,
+      "previous_close": 9.56,
+      "price": 9.72,
+      "change_pct": 1.673640167364021
+    },
+    {
+      "instrument_id": "601698.SH",
+      "name": "中国卫通",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.565,
+      "previous_dea": -0.623,
+      "current_dif": -0.5162250712250712,
+      "current_dea": -0.6016450142450143,
+      "j_two_days_ago": 21.825,
+      "j_yesterday": -0.522,
+      "j_now": 37.39301553166085,
+      "previous_close": 23.53,
+      "price": 24.1,
+      "change_pct": 2.4224394390140347
+    },
+    {
+      "instrument_id": "601799.SH",
+      "name": "星宇股份",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -5.056,
+      "previous_dea": -4.9,
+      "current_dif": -4.878025641025641,
+      "current_dea": -4.895605128205128,
+      "j_two_days_ago": 9.794,
+      "j_yesterday": 8.121,
+      "j_now": 16.250416225749568,
+      "previous_close": 71.33,
+      "price": 72.22,
+      "change_pct": 1.24772185616151
+    },
+    {
+      "instrument_id": "601801.SH",
+      "name": "皖新传媒",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.017,
+      "previous_dea": -0.013,
+      "current_dif": -0.00479772079772082,
+      "current_dea": -0.011359544159544164,
+      "j_two_days_ago": 19.969,
+      "j_yesterday": 13.184,
+      "j_now": 42.793717171717134,
+      "previous_close": 5.28,
+      "price": 5.46,
+      "change_pct": 3.409090909090895
+    },
+    {
+      "instrument_id": "601890.SH",
+      "name": "亚星锚链",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.338,
+      "previous_dea": 0.295,
+      "current_dif": 0.3320398860398861,
+      "current_dea": 0.3024079772079772,
+      "j_two_days_ago": 33.024,
+      "j_yesterday": 26.861,
+      "j_now": 31.808875687568744,
+      "previous_close": 9.67,
+      "price": 9.84,
+      "change_pct": 1.7580144777662898
+    },
+    {
+      "instrument_id": "603001.SH",
+      "name": "奥康国际",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-15",
+      "previous_dif": 0.339,
+      "previous_dea": 0.339,
+      "current_dif": 0.43129059829059824,
+      "current_dea": 0.3574581196581197,
+      "j_two_days_ago": 25.459,
+      "j_yesterday": 72.191,
+      "j_now": 101.72533333333334,
+      "previous_close": 9.48,
+      "price": 10.43,
+      "change_pct": 10.021097046413496
+    },
+    {
+      "instrument_id": "603031.SH",
+      "name": "安孚科技",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.502,
+      "previous_dea": 0.189,
+      "current_dif": 0.5213219373219373,
+      "current_dea": 0.2554643874643875,
+      "j_two_days_ago": 75.055,
+      "j_yesterday": 62.441,
+      "j_now": 63.044148148148196,
+      "previous_close": 42.14,
+      "price": 42.67,
+      "change_pct": 1.2577123872804963
+    },
+    {
+      "instrument_id": "603033.SH",
+      "name": "三维股份",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-16",
+      "previous_dif": -0.178,
+      "previous_dea": -0.177,
+      "current_dif": -0.15944729344729341,
+      "current_dea": -0.1734894586894587,
+      "j_two_days_ago": 31.205,
+      "j_yesterday": 62.842,
+      "j_now": 82.62412345679016,
+      "previous_close": 7.28,
+      "price": 7.33,
+      "change_pct": 0.6868131868131844
+    },
+    {
+      "instrument_id": "603045.SH",
+      "name": "福达合金",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-16",
+      "previous_dif": -1.839,
+      "previous_dea": -1.658,
+      "current_dif": -1.5789116809116808,
+      "current_dea": -1.6421823361823362,
+      "j_two_days_ago": 19.81,
+      "j_yesterday": 54.24,
+      "j_now": 78.41768986568988,
+      "previous_close": 50.61,
+      "price": 52.38,
+      "change_pct": 3.4973325429757063
+    },
+    {
+      "instrument_id": "603050.SH",
+      "name": "科林电气",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-17",
+      "previous_dif": -0.093,
+      "previous_dea": -0.093,
+      "current_dif": -0.08084330484330485,
+      "current_dea": -0.09056866096866098,
+      "j_two_days_ago": 13.167,
+      "j_yesterday": 28.05,
+      "j_now": 56.41822222222237,
+      "previous_close": 18.07,
+      "price": 18.16,
+      "change_pct": 0.49806308799114074
+    },
+    {
+      "instrument_id": "603051.SH",
+      "name": "鹿山新材",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.758,
+      "previous_dea": 0.521,
+      "current_dif": 0.9535783475783475,
+      "current_dea": 0.6075156695156696,
+      "j_two_days_ago": 96.343,
+      "j_yesterday": 95.338,
+      "j_now": 100.4275180722891,
+      "previous_close": 23.8,
+      "price": 25.81,
+      "change_pct": 8.445378151260496
+    },
+    {
+      "instrument_id": "603075.SH",
+      "name": "热威股份",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.055,
+      "previous_dea": 0.011,
+      "current_dif": 0.04839031339031332,
+      "current_dea": 0.018478062678062665,
+      "j_two_days_ago": 36.836,
+      "j_yesterday": 23.676,
+      "j_now": 25.664016460905415,
+      "previous_close": 19.51,
+      "price": 19.71,
+      "change_pct": 1.025115325474113
+    },
+    {
+      "instrument_id": "603120.SH",
+      "name": "肯特催化",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 1.307,
+      "previous_dea": 0.568,
+      "current_dif": 1.90382905982906,
+      "current_dea": 0.835165811965812,
+      "j_two_days_ago": 90.552,
+      "j_yesterday": 81.847,
+      "j_now": 99.93622222222223,
+      "previous_close": 53.83,
+      "price": 59.21,
+      "change_pct": 9.994426899498432
+    },
+    {
+      "instrument_id": "603124.SH",
+      "name": "江南新材",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.284,
+      "previous_dea": -1.219,
+      "current_dif": 0.2241794871794855,
+      "current_dea": -0.930364102564103,
+      "j_two_days_ago": 74.845,
+      "j_yesterday": 71.105,
+      "j_now": 81.45112191684277,
+      "previous_close": 130.77,
+      "price": 134.89,
+      "change_pct": 3.1505697025311363
+    },
+    {
+      "instrument_id": "603125.SH",
+      "name": "常青科技",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.05,
+      "previous_dea": -0.035,
+      "current_dif": 0.11441595441595438,
+      "current_dea": -0.005116809116809125,
+      "j_two_days_ago": 92.166,
+      "j_yesterday": 89.876,
+      "j_now": 103.89460194174751,
+      "previous_close": 23.52,
+      "price": 24.04,
+      "change_pct": 2.2108843537415046
+    },
+    {
+      "instrument_id": "603138.SH",
+      "name": "海量数据",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.347,
+      "previous_dea": 0.314,
+      "current_dif": 0.43046723646723645,
+      "current_dea": 0.33729344729344735,
+      "j_two_days_ago": 33.197,
+      "j_yesterday": 24.964,
+      "j_now": 76.41466666666668,
+      "previous_close": 14.15,
+      "price": 15.57,
+      "change_pct": 10.035335689045933
+    },
+    {
+      "instrument_id": "603150.SH",
+      "name": "万朗磁塑",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 4.008,
+      "previous_dea": 3.474,
+      "current_dif": 3.9899743589743593,
+      "current_dea": 3.5771948717948723,
+      "j_two_days_ago": 57.304,
+      "j_yesterday": 24.313,
+      "j_now": 42.171259259259244,
+      "previous_close": 67.28,
+      "price": 69.64,
+      "change_pct": 3.5077288941736118
+    },
+    {
+      "instrument_id": "603179.SH",
+      "name": "新泉股份",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-17",
+      "previous_dif": -0.534,
+      "previous_dea": -0.462,
+      "current_dif": -0.4114472934472935,
+      "current_dea": -0.45188945868945873,
+      "j_two_days_ago": -8.146,
+      "j_yesterday": 24.436,
+      "j_now": 51.0319284369115,
+      "previous_close": 39.42,
+      "price": 39.78,
+      "change_pct": 0.9132420091324089
+    },
+    {
+      "instrument_id": "603203.SH",
+      "name": "快克智能",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.081,
+      "previous_dea": -0.437,
+      "current_dif": 0.16237321937321933,
+      "current_dea": -0.31712535612535614,
+      "j_two_days_ago": 90.791,
+      "j_yesterday": 89.61,
+      "j_now": 104.66515627822943,
+      "previous_close": 44.93,
+      "price": 46.83,
+      "change_pct": 4.228800356109508
+    },
+    {
+      "instrument_id": "603218.SH",
+      "name": "日月股份",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.111,
+      "previous_dea": -0.125,
+      "current_dif": -0.10175783475783465,
+      "current_dea": -0.12035156695156693,
+      "j_two_days_ago": 66.96,
+      "j_yesterday": 47.799,
+      "j_now": 50.365810564663164,
+      "previous_close": 9.29,
+      "price": 9.39,
+      "change_pct": 1.0764262648008671
+    },
+    {
+      "instrument_id": "603232.SH",
+      "name": "格尔软件",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.05,
+      "previous_dea": 0.004,
+      "current_dif": 0.038076923076922994,
+      "current_dea": 0.0108153846153846,
+      "j_two_days_ago": 23.814,
+      "j_yesterday": 7.901,
+      "j_now": 57.078363143631435,
+      "previous_close": 14.83,
+      "price": 16.31,
+      "change_pct": 9.97977073499663
+    },
+    {
+      "instrument_id": "603235.SH",
+      "name": "天新药业",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.404,
+      "previous_dea": 0.37,
+      "current_dif": 0.39485185185185184,
+      "current_dea": 0.37497037037037034,
+      "j_two_days_ago": 27.574,
+      "j_yesterday": 22.756,
+      "j_now": 28.96387840670866,
+      "previous_close": 25.01,
+      "price": 25.12,
+      "change_pct": 0.43982407037184146
+    },
+    {
+      "instrument_id": "603255.SH",
+      "name": "鼎际得",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-16",
+      "previous_dif": 0.487,
+      "previous_dea": 0.514,
+      "current_dif": 0.6224045584045583,
+      "current_dea": 0.5356809116809117,
+      "j_two_days_ago": 57.998,
+      "j_yesterday": 80.953,
+      "j_now": 93.85737193179685,
+      "previous_close": 32.48,
+      "price": 32.98,
+      "change_pct": 1.5394088669950845
+    },
+    {
+      "instrument_id": "603267.SH",
+      "name": "鸿远电子",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.253,
+      "previous_dea": -0.787,
+      "current_dif": -0.12530199430199432,
+      "current_dea": -0.654660398860399,
+      "j_two_days_ago": 97.548,
+      "j_yesterday": 81.198,
+      "j_now": 82.61141242937853,
+      "previous_close": 50.24,
+      "price": 50.96,
+      "change_pct": 1.4331210191082855
+    },
+    {
+      "instrument_id": "603279.SH",
+      "name": "景津装备",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.34,
+      "previous_dea": -0.342,
+      "current_dif": -0.3328347578347578,
+      "current_dea": -0.3401669515669516,
+      "j_two_days_ago": 24.644,
+      "j_yesterday": 6.325,
+      "j_now": 12.416950819672152,
+      "previous_close": 11.03,
+      "price": 11.14,
+      "change_pct": 0.9972801450589319
+    },
+    {
+      "instrument_id": "603281.SH",
+      "name": "江瀚新材",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.561,
+      "previous_dea": -0.559,
+      "current_dif": -0.5186524216524215,
+      "current_dea": -0.5509304843304843,
+      "j_two_days_ago": 29.088,
+      "j_yesterday": 18.142,
+      "j_now": 40.67376470588238,
+      "previous_close": 18.18,
+      "price": 18.67,
+      "change_pct": 2.695269526952715
+    },
+    {
+      "instrument_id": "603288.SH",
+      "name": "海天味业",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.44,
+      "previous_dea": -0.455,
+      "current_dif": -0.41911680911680904,
+      "current_dea": -0.44782336182336185,
+      "j_two_days_ago": 52.87,
+      "j_yesterday": 46.184,
+      "j_now": 56.37580530973452,
+      "previous_close": 33.89,
+      "price": 34.03,
+      "change_pct": 0.4131012097964071
+    },
+    {
+      "instrument_id": "603306.SH",
+      "name": "华懋科技",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 1.191,
+      "previous_dea": 0.595,
+      "current_dif": 1.5588376068376075,
+      "current_dea": 0.7877675213675215,
+      "j_two_days_ago": 90.919,
+      "j_yesterday": 87.148,
+      "j_now": 101.7298534709573,
+      "previous_close": 80.41,
+      "price": 83.06,
+      "change_pct": 3.295609998756377
+    },
+    {
+      "instrument_id": "603310.SH",
+      "name": "巍华新材",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.014,
+      "previous_dea": -0.01,
+      "current_dif": 0.024182336182336138,
+      "current_dea": -0.003163532763532772,
+      "j_two_days_ago": 55.463,
+      "j_yesterday": 52.0,
+      "j_now": 60.89377777777764,
+      "previous_close": 14.74,
+      "price": 14.85,
+      "change_pct": 0.746268656716409
+    },
+    {
+      "instrument_id": "603316.SH",
+      "name": "诚邦股份",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.26,
+      "previous_dea": 0.042,
+      "current_dif": 0.3845584045584046,
+      "current_dea": 0.11051168091168094,
+      "j_two_days_ago": 101.247,
+      "j_yesterday": 83.732,
+      "j_now": 98.94400000000002,
+      "previous_close": 15.17,
+      "price": 16.69,
+      "change_pct": 10.019775873434412
+    },
+    {
+      "instrument_id": "603322.SH",
+      "name": "超讯科技",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 1.419,
+      "previous_dea": 0.865,
+      "current_dif": 1.535763532763533,
+      "current_dea": 0.9991527065527067,
+      "j_two_days_ago": 100.356,
+      "j_yesterday": 94.54,
+      "j_now": 98.36198050682256,
+      "previous_close": 31.9,
+      "price": 32.82,
+      "change_pct": 2.8840125391849547
+    },
+    {
+      "instrument_id": "603336.SH",
+      "name": "宏辉果蔬",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.21,
+      "previous_dea": 0.161,
+      "current_dif": 0.22668091168091165,
+      "current_dea": 0.17413618233618233,
+      "j_two_days_ago": 50.115,
+      "j_yesterday": 47.574,
+      "j_now": 53.49911111111109,
+      "previous_close": 10.0,
+      "price": 10.19,
+      "change_pct": 1.8999999999999906
+    },
+    {
+      "instrument_id": "603345.SH",
+      "name": "安井食品",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -2.035,
+      "previous_dea": -2.207,
+      "current_dif": -1.5880626780626792,
+      "current_dea": -2.083212535612536,
+      "j_two_days_ago": 48.193,
+      "j_yesterday": 35.386,
+      "j_now": 73.13594250194251,
+      "previous_close": 74.43,
+      "price": 79.3,
+      "change_pct": 6.54306059384655
+    },
+    {
+      "instrument_id": "603375.SH",
+      "name": "盛景微",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 2.052,
+      "previous_dea": 1.688,
+      "current_dif": 2.4135299145299145,
+      "current_dea": 1.833105982905983,
+      "j_two_days_ago": 69.842,
+      "j_yesterday": 66.543,
+      "j_now": 85.60054140974492,
+      "previous_close": 46.99,
+      "price": 51.0,
+      "change_pct": 8.533730580974662
+    },
+    {
+      "instrument_id": "603407.SH",
+      "name": "长裕集团",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -1.896,
+      "previous_dea": -2.474,
+      "current_dif": -1.5185669515669509,
+      "current_dea": -2.2829133903133902,
+      "j_two_days_ago": 90.314,
+      "j_yesterday": 87.659,
+      "j_now": 98.97234557023984,
+      "previous_close": 56.19,
+      "price": 57.93,
+      "change_pct": 3.096636412172993
+    },
+    {
+      "instrument_id": "603459.SH",
+      "name": "红板科技",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.4,
+      "previous_dea": -0.605,
+      "current_dif": -0.3320940170940165,
+      "current_dea": -0.5504188034188033,
+      "j_two_days_ago": 84.696,
+      "j_yesterday": 64.402,
+      "j_now": 65.51522875816994,
+      "previous_close": 88.08,
+      "price": 89.65,
+      "change_pct": 1.7824704813805825
+    },
+    {
+      "instrument_id": "603505.SH",
+      "name": "金石资源",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-15",
+      "previous_dif": -0.366,
+      "previous_dea": -0.341,
+      "current_dif": -0.3149344729344729,
+      "current_dea": -0.33578689458689465,
+      "j_two_days_ago": 23.475,
+      "j_yesterday": 39.932,
+      "j_now": 77.692466302368,
+      "previous_close": 15.01,
+      "price": 15.48,
+      "change_pct": 3.1312458361092643
+    },
+    {
+      "instrument_id": "603583.SH",
+      "name": "捷昌驱动",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-16",
+      "previous_dif": 0.481,
+      "previous_dea": 0.499,
+      "current_dif": 0.5046495726495727,
+      "current_dea": 0.5001299145299145,
+      "j_two_days_ago": 1.069,
+      "j_yesterday": 27.905,
+      "j_now": 45.42941156887228,
+      "previous_close": 26.61,
+      "price": 26.71,
+      "change_pct": 0.37579857196543553
+    },
+    {
+      "instrument_id": "603588.SH",
+      "name": "高能环境",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.378,
+      "previous_dea": 0.352,
+      "current_dif": 0.41114245014245,
+      "current_dea": 0.36382849002849005,
+      "j_two_days_ago": 68.862,
+      "j_yesterday": 64.364,
+      "j_now": 81.76353488372092,
+      "previous_close": 15.64,
+      "price": 16.08,
+      "change_pct": 2.813299232736566
+    },
+    {
+      "instrument_id": "603601.SH",
+      "name": "再升科技",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.222,
+      "previous_dea": 0.075,
+      "current_dif": 0.23701994301994309,
+      "current_dea": 0.10740398860398861,
+      "j_two_days_ago": 75.157,
+      "j_yesterday": 60.781,
+      "j_now": 62.00270460704607,
+      "previous_close": 10.02,
+      "price": 10.24,
+      "change_pct": 2.1956087824351433
+    },
+    {
+      "instrument_id": "603615.SH",
+      "name": "茶花股份",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.572,
+      "previous_dea": 0.575,
+      "current_dif": 0.6045413105413103,
+      "current_dea": 0.5809082621082621,
+      "j_two_days_ago": 92.221,
+      "j_yesterday": 50.663,
+      "j_now": 63.93314150047482,
+      "previous_close": 18.68,
+      "price": 19.7,
+      "change_pct": 5.4603854389721596
+    },
+    {
+      "instrument_id": "603626.SH",
+      "name": "科森科技",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-16",
+      "previous_dif": 0.736,
+      "previous_dea": 0.788,
+      "current_dif": 0.9860598290598294,
+      "current_dea": 0.8276119658119659,
+      "j_two_days_ago": 28.808,
+      "j_yesterday": 71.465,
+      "j_now": 100.70600000000002,
+      "previous_close": 21.29,
+      "price": 23.42,
+      "change_pct": 10.004697040864263
+    },
+    {
+      "instrument_id": "603638.SH",
+      "name": "艾迪精密",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.469,
+      "previous_dea": -0.478,
+      "current_dif": -0.4388547008547005,
+      "current_dea": -0.47017094017094013,
+      "j_two_days_ago": 52.305,
+      "j_yesterday": 41.099,
+      "j_now": 52.30686373165629,
+      "previous_close": 17.9,
+      "price": 18.26,
+      "change_pct": 2.011173184357551
+    },
+    {
+      "instrument_id": "603659.SH",
+      "name": "璞泰来",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.578,
+      "previous_dea": -0.59,
+      "current_dif": -0.5477521367521367,
+      "current_dea": -0.5815504273504273,
+      "j_two_days_ago": 84.108,
+      "j_yesterday": 81.107,
+      "j_now": 81.87279955332215,
+      "previous_close": 22.14,
+      "price": 22.25,
+      "change_pct": 0.49683830171634025
+    },
+    {
+      "instrument_id": "603661.SH",
+      "name": "恒林股份",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.119,
+      "previous_dea": -0.125,
+      "current_dif": 0.002128205128205038,
+      "current_dea": -0.099574358974359,
+      "j_two_days_ago": 39.165,
+      "j_yesterday": 36.376,
+      "j_now": 66.23067236467227,
+      "previous_close": 31.33,
+      "price": 32.91,
+      "change_pct": 5.043089690392599
+    },
+    {
+      "instrument_id": "603663.SH",
+      "name": "三祥新材",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.304,
+      "previous_dea": -0.145,
+      "current_dif": 0.4836552706552707,
+      "current_dea": -0.01926894586894584,
+      "j_two_days_ago": 107.165,
+      "j_yesterday": 95.152,
+      "j_now": 103.55693560020609,
+      "previous_close": 43.62,
+      "price": 45.12,
+      "change_pct": 3.43878954607979
+    },
+    {
+      "instrument_id": "603677.SH",
+      "name": "奇精机械",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-17",
+      "previous_dif": -0.004,
+      "previous_dea": 0.023,
+      "current_dif": 0.04739886039886046,
+      "current_dea": 0.027879772079772092,
+      "j_two_days_ago": 7.066,
+      "j_yesterday": 42.345,
+      "j_now": 75.98937061894111,
+      "previous_close": 13.95,
+      "price": 14.25,
+      "change_pct": 2.1505376344086002
+    },
+    {
+      "instrument_id": "603678.SH",
+      "name": "火炬电子",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.171,
+      "previous_dea": -0.539,
+      "current_dif": 0.35989173789173773,
+      "current_dea": -0.3592216524216525,
+      "j_two_days_ago": 100.128,
+      "j_yesterday": 92.686,
+      "j_now": 94.63216707218166,
+      "previous_close": 50.0,
+      "price": 50.87,
+      "change_pct": 1.739999999999986
+    },
+    {
+      "instrument_id": "603680.SH",
+      "name": "今创集团",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-16",
+      "previous_dif": -0.091,
+      "previous_dea": -0.062,
+      "current_dif": -0.025589743589743655,
+      "current_dea": -0.05471794871794874,
+      "j_two_days_ago": 24.858,
+      "j_yesterday": 65.185,
+      "j_now": 94.10900262467192,
+      "previous_close": 10.06,
+      "price": 10.7,
+      "change_pct": 6.361829025844923
+    },
+    {
+      "instrument_id": "603685.SH",
+      "name": "晨丰科技",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.401,
+      "previous_dea": 0.341,
+      "current_dif": 0.35742735042735024,
+      "current_dea": 0.3442854700854701,
+      "j_two_days_ago": 12.728,
+      "j_yesterday": 5.007,
+      "j_now": 7.509771177117614,
+      "previous_close": 27.1,
+      "price": 27.22,
+      "change_pct": 0.44280442804427445
+    },
+    {
+      "instrument_id": "603688.SH",
+      "name": "石英股份",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.583,
+      "previous_dea": -0.917,
+      "current_dif": -0.4403589743589743,
+      "current_dea": -0.8216717948717949,
+      "j_two_days_ago": 89.467,
+      "j_yesterday": 84.188,
+      "j_now": 92.76529914529911,
+      "previous_close": 48.35,
+      "price": 49.22,
+      "change_pct": 1.7993795243019584
+    },
+    {
+      "instrument_id": "603725.SH",
+      "name": "天安新材",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-16",
+      "previous_dif": -0.307,
+      "previous_dea": -0.272,
+      "current_dif": -0.19150712250712237,
+      "current_dea": -0.2559014245014245,
+      "j_two_days_ago": 29.934,
+      "j_yesterday": 52.503,
+      "j_now": 98.11466666666668,
+      "previous_close": 10.68,
+      "price": 11.75,
+      "change_pct": 10.018726591760307
+    },
+    {
+      "instrument_id": "603738.SH",
+      "name": "泰晶科技",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.44,
+      "previous_dea": -0.505,
+      "current_dif": -0.28361823361823346,
+      "current_dea": -0.46072364672364674,
+      "j_two_days_ago": 95.814,
+      "j_yesterday": 94.722,
+      "j_now": 102.16819908316967,
+      "previous_close": 36.63,
+      "price": 37.84,
+      "change_pct": 3.3033033033033066
+    },
+    {
+      "instrument_id": "603800.SH",
+      "name": "洪田股份",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -1.853,
+      "previous_dea": -1.935,
+      "current_dif": -1.6818831908831908,
+      "current_dea": -1.8843766381766383,
+      "j_two_days_ago": 90.476,
+      "j_yesterday": 79.836,
+      "j_now": 88.78670973298887,
+      "previous_close": 57.85,
+      "price": 59.2,
+      "change_pct": 2.3336214347450257
+    },
+    {
+      "instrument_id": "603803.SH",
+      "name": "瑞斯康达",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.185,
+      "previous_dea": 0.168,
+      "current_dif": 0.2083760683760683,
+      "current_dea": 0.17607521367521367,
+      "j_two_days_ago": 72.359,
+      "j_yesterday": 65.829,
+      "j_now": 83.02323809523804,
+      "previous_close": 11.5,
+      "price": 11.79,
+      "change_pct": 2.521739130434786
+    },
+    {
+      "instrument_id": "603859.SH",
+      "name": "能科科技",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -0.499,
+      "previous_dea": -0.655,
+      "current_dif": -0.4025726495726495,
+      "current_dea": -0.6045145299145299,
+      "j_two_days_ago": 58.928,
+      "j_yesterday": 49.073,
+      "j_now": 64.02467357512953,
+      "previous_close": 37.96,
+      "price": 38.96,
+      "change_pct": 2.6343519494204326
+    },
+    {
+      "instrument_id": "603893.SH",
+      "name": "瑞芯微",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-16",
+      "previous_dif": -3.709,
+      "previous_dea": -3.056,
+      "current_dif": -2.858455840455842,
+      "current_dea": -3.016491168091169,
+      "j_two_days_ago": 7.14,
+      "j_yesterday": 19.272,
+      "j_now": 64.06563324299904,
+      "previous_close": 181.21,
+      "price": 190.92,
+      "change_pct": 5.358423928039291
+    },
+    {
+      "instrument_id": "603956.SH",
+      "name": "威派格",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.062,
+      "previous_dea": -0.005,
+      "current_dif": 0.10397150997150996,
+      "current_dea": 0.016794301994301992,
+      "j_two_days_ago": 99.553,
+      "j_yesterday": 93.938,
+      "j_now": 98.8380037986704,
+      "previous_close": 6.83,
+      "price": 7.09,
+      "change_pct": 3.8067349926793614
+    },
+    {
+      "instrument_id": "605167.SH",
+      "name": "利柏特",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.497,
+      "previous_dea": 0.441,
+      "current_dif": 0.508230769230769,
+      "current_dea": 0.45444615384615383,
+      "j_two_days_ago": 21.282,
+      "j_yesterday": 15.832,
+      "j_now": 25.31056224899598,
+      "previous_close": 16.48,
+      "price": 16.79,
+      "change_pct": 1.8810679611650505
+    },
+    {
+      "instrument_id": "605198.SH",
+      "name": "安德利",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 4.793,
+      "previous_dea": 3.675,
+      "current_dif": 5.108094017094018,
+      "current_dea": 3.9616188034188036,
+      "j_two_days_ago": 78.64,
+      "j_yesterday": 69.853,
+      "j_now": 80.63674045349276,
+      "previous_close": 79.85,
+      "price": 84.19,
+      "change_pct": 5.435190983093308
+    },
+    {
+      "instrument_id": "605222.SH",
+      "name": "起帆电缆",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.698,
+      "previous_dea": 0.587,
+      "current_dif": 0.6831794871794874,
+      "current_dea": 0.6062358974358975,
+      "j_two_days_ago": 57.43,
+      "j_yesterday": 53.149,
+      "j_now": 54.754995500173095,
+      "previous_close": 22.56,
+      "price": 22.69,
+      "change_pct": 0.5762411347517871
+    },
+    {
+      "instrument_id": "605277.SH",
+      "name": "新亚电子",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.543,
+      "previous_dea": 0.511,
+      "current_dif": 0.5331082621082625,
+      "current_dea": 0.5154216524216526,
+      "j_two_days_ago": 73.821,
+      "j_yesterday": 70.639,
+      "j_now": 74.7324340817502,
+      "previous_close": 17.54,
+      "price": 17.69,
+      "change_pct": 0.8551881413911167
+    },
+    {
+      "instrument_id": "605288.SH",
+      "name": "凯迪股份",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-16",
+      "previous_dif": 0.21,
+      "previous_dea": 0.352,
+      "current_dif": 0.5966239316239315,
+      "current_dea": 0.40092478632478634,
+      "j_two_days_ago": -2.35,
+      "j_yesterday": 38.602,
+      "j_now": 80.22583002016705,
+      "previous_close": 67.25,
+      "price": 69.19,
+      "change_pct": 2.8847583643122565
+    },
+    {
+      "instrument_id": "605366.SH",
+      "name": "宏柏新材",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.012,
+      "previous_dea": -0.064,
+      "current_dif": 0.03075213675213665,
+      "current_dea": -0.04504957264957267,
+      "j_two_days_ago": 78.808,
+      "j_yesterday": 73.088,
+      "j_now": 73.64256410256414,
+      "previous_close": 8.38,
+      "price": 8.44,
+      "change_pct": 0.7159904534606021
+    },
+    {
+      "instrument_id": "605376.SH",
+      "name": "博迁新材",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": -6.344,
+      "previous_dea": -6.882,
+      "current_dif": -5.8433846153846165,
+      "current_dea": -6.674276923076924,
+      "j_two_days_ago": 80.047,
+      "j_yesterday": 74.26,
+      "j_now": 86.63615766604599,
+      "previous_close": 135.27,
+      "price": 138.4,
+      "change_pct": 2.3138907370444217
+    },
+    {
+      "instrument_id": "605378.SH",
+      "name": "野马电池",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.06,
+      "previous_dea": 0.038,
+      "current_dif": 0.09952991452991451,
+      "current_dea": 0.0503059829059829,
+      "j_two_days_ago": 80.87,
+      "j_yesterday": 75.327,
+      "j_now": 76.46221860885274,
+      "previous_close": 14.66,
+      "price": 14.84,
+      "change_pct": 1.2278308321964415
+    },
+    {
+      "instrument_id": "605488.SH",
+      "name": "福莱新材",
+      "category": "fresh_macd_cross_today",
+      "previous_exclusions": {
+        "macd_not_bullish": 1
+      },
+      "j_turn_date": "2026-09-16",
+      "previous_dif": 0.141,
+      "previous_dea": 0.144,
+      "current_dif": 0.22651566951566945,
+      "current_dea": 0.1605031339031339,
+      "j_two_days_ago": 45.501,
+      "j_yesterday": 71.93,
+      "j_now": 86.85325925925925,
+      "previous_close": 30.13,
+      "price": 30.24,
+      "change_pct": 0.36508463325588547
+    },
+    {
+      "instrument_id": "605507.SH",
+      "name": "国邦医药",
+      "category": "already_bullish_yesterday",
+      "previous_exclusions": {
+        "j_not_rising": 1
+      },
+      "j_turn_date": "2026-09-18",
+      "previous_dif": 0.381,
+      "previous_dea": 0.131,
+      "current_dif": 0.48113105413105395,
+      "current_dea": 0.2010262108262108,
+      "j_two_days_ago": 93.919,
+      "j_yesterday": 76.333,
+      "j_now": 84.64545219638245,
+      "previous_close": 17.3,
+      "price": 18.04,
+      "change_pct": 4.277456647398825
+    }
+  ]
+}

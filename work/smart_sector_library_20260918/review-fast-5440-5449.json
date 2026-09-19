@@ -1,0 +1,152 @@
+[
+  {
+    "id": "920489.BJ",
+    "key": "photoresist",
+    "sector": "光刻胶",
+    "source_sector_name": "光刻胶",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "光刻胶单体"
+    ],
+    "fact": "主营含光刻胶单体及PVC稳定剂紫外吸收剂研产销。",
+    "company_fact": "主营含光刻胶单体及PVC稳定剂紫外吸收剂研产销。",
+    "ths_fact": "解析明确光刻胶单体生产销售业务。",
+    "reason": "单体上游材料链，非高端成品胶全面替代。"
+  },
+  {
+    "id": "920491.BJ",
+    "key": "liquid_cooling",
+    "sector": "液冷服务器",
+    "source_sector_name": "液冷服务器",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "液冷流量传感器"
+    ],
+    "fact": "传感器执行器服务智能终端制造等多场景。",
+    "company_fact": "传感器执行器服务智能终端制造等多场景。",
+    "ths_fact": "已推出AI服务器液冷散热专用超声及涡街流量传感器。",
+    "reason": "实际专用新品支持，未推为量产收入；人形功能适用不自动当供货。"
+  },
+  {
+    "id": "920493.BJ",
+    "key": "compute_leasing",
+    "sector": "算力租赁",
+    "source_sector_name": "算力租赁",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "超算智算云资源运营"
+    ],
+    "fact": "为科研企业提供超算智算服务和运营。",
+    "company_fact": "为科研企业提供超算智算服务和运营。",
+    "ths_fact": "外购及共建自有资源组成算力池，服务在手客户。",
+    "reason": "实际算力运营而非仅机房建设；量子化学软件不等于量子计算机。"
+  },
+  {
+    "id": "920496.BJ",
+    "key": "smart_grid",
+    "sector": "智能电网",
+    "source_sector_name": "智能电网",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "智能配用电装备系统"
+    ],
+    "fact": "智能配用电产品系统及电力工程总承包。",
+    "company_fact": "智能配用电产品系统及电力工程总承包。",
+    "ths_fact": "已推出智能线路在线监测装置。",
+    "reason": "实际配电监测装备，虚拟电厂研发平台不当运营收入。"
+  },
+  {
+    "id": "920504.BJ",
+    "key": "medical_devices",
+    "sector": "医疗器械",
+    "source_sector_name": "医疗器械概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "灭菌培养与生命科学设备"
+    ],
+    "fact": "实验室及生命科学仪器研发产销，培养箱灭菌器等。",
+    "company_fact": "实验室及生命科学仪器研发产销，培养箱灭菌器等。",
+    "ths_fact": "实验设备及获许可一二类器械生产销售。",
+    "reason": "真实器械仪器环节，非生物药生产。"
+  },
+  {
+    "id": "920505.BJ",
+    "key": "rare_earth_magnets",
+    "sector": "稀土永磁",
+    "source_sector_name": "稀土永磁",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "钕铁硼及磁性材料"
+    ],
+    "fact": "粉末冶金与永磁材料产品用于汽车家电。",
+    "company_fact": "粉末冶金与永磁材料产品用于汽车家电。",
+    "ths_fact": "已有钕铁硼产品及风电磁钢。",
+    "reason": "磁材制造不等于拥有稀土矿。"
+  },
+  {
+    "id": "920508.BJ",
+    "key": "smart_grid",
+    "sector": "智能电网",
+    "source_sector_name": "智能电网",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "变电站智能辅助监控"
+    ],
+    "fact": "电网辅助监控系统方案软件集成和运维。",
+    "company_fact": "电网辅助监控系统方案软件集成和运维。",
+    "ths_fact": "智能变电站开闭所配电房场景实际产品服务。",
+    "reason": "电网智能化核心明确，少数投资建线不等于固态电池销售。"
+  },
+  {
+    "id": "920509.BJ",
+    "key": "third_generation_semiconductors",
+    "sector": "第三代半导体",
+    "source_sector_name": "第三代半导体",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "SiC功率器件测试仪"
+    ],
+    "fact": "电子测量仪器拓展半导体测试。",
+    "company_fact": "电子测量仪器拓展半导体测试。",
+    "ths_fact": "TH51X已导入国内头部SiC产线并批量使用。",
+    "reason": "半导体测试设备供应，不制造SiC晶圆；人形触觉测试方案非机器人量产。"
+  },
+  {
+    "id": "920510.BJ",
+    "key": "humanoid_robots",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "stage": "orders",
+    "chain": [
+      "谐波减速器与精密部件"
+    ],
+    "fact": "精密机械压铸件，已研发全系列谐波减速器。",
+    "company_fact": "精密机械压铸件，已研发全系列谐波减速器。",
+    "ths_fact": "明确已取得人形等多个领域订单。",
+    "reason": "人形订单支持，尚未将谐波产业化推进等同规模收入。"
+  },
+  {
+    "id": "920519.BJ",
+    "key": "other_chemical_products",
+    "sector": "其他化学制品",
+    "source_sector_name": "其他化学制品",
+    "source_sector_provider": "东方财富",
+    "stage": "revenue",
+    "chain": [
+      "油品添加剂及炼油助剂"
+    ],
+    "fact": "微通道工艺产业化生产油品添加剂等精细化学品。",
+    "company_fact": "微通道工艺产业化生产油品添加剂等精细化学品。",
+    "ths_fact": "军工解析为提供工程化技术开发服务。",
+    "reason": "现有化学品行业归属；军工工艺服务不等同武器产品制造。"
+  }
+]

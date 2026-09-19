@@ -1,0 +1,61 @@
+{
+  "instrument_id": "000929.SZ",
+  "name": "兰州黄河",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "000929.SZ",
+    "name": "兰州黄河",
+    "memberships": [
+      "食品饮料",
+      "非白酒",
+      "啤酒",
+      "甘肃板块",
+      "近期摘帽",
+      "味蕾经济",
+      "微盘股",
+      "啤酒概念",
+      "酿酒概念",
+      "地摊经济",
+      "西部大开发"
+    ],
+    "business_sections": [
+      {
+        "title": "啤酒业务",
+        "kind": "主营业务",
+        "text": "公司主要从事“黄河”“青海湖”双品牌系列啤酒的生产与销售，啤酒业务占公司主营业务收入的81.94%，同比增长80.43%。"
+      },
+      {
+        "title": "果汁及饮料业务",
+        "kind": "主营业务",
+        "text": "2025年，果汁业务和饮料业务占公司主营业务收入的11.63%，公司非酒精类饮料业务收入同比增长56.10%。"
+      },
+      {
+        "title": "麦芽业务",
+        "kind": "主营业务",
+        "text": "麦芽业务是公司产业链的重要支点，2025年占公司主营业务收入的6.44%，同比增长189.98%。报告期内，麦芽业务聚焦产能突破、市场深耕与管理提效，与国内重要啤酒集团的合作持续深化，客户认可度进一步提升，全年产量与销量较去年同期均实现显著增长。"
+      },
+      {
+        "title": "啤酒与果汁业务协同发展的双轮布局",
+        "kind": "核心竞争力",
+        "text": "公司稳步推进果汁业务产能建设和布局，有效实现公司啤酒与果汁业务协同发展的“双轮布局”，持续丰富公司业务结构和产品矩阵，共同构成公司核心竞争力的重要支撑。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ000929",
+    "fetched_at": "2026-09-18T22:36:08.126210+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "啤酒"
+}

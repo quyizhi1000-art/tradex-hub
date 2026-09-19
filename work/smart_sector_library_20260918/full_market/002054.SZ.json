@@ -1,0 +1,70 @@
+{
+  "instrument_id": "002054.SZ",
+  "name": "德美化工",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "002054.SZ",
+    "name": "德美化工",
+    "memberships": [
+      "基础化工",
+      "化学制品",
+      "纺织化学制品",
+      "广东板块",
+      "2026中报预增",
+      "融资融券",
+      "有机硅概念",
+      "参股银行",
+      "参股券商",
+      "创投"
+    ],
+    "business_sections": [
+      {
+        "title": "纺织化学品、皮革化学品 、塔拉生物基产品",
+        "kind": "主营业务",
+        "text": "公司为印染助剂行业领军企业，纺织化学品中无氟防水剂、莱赛尔整理剂市场份额领先；皮革化学品为行业一流品牌；塔拉生物产品占据重要市场地位。"
+      },
+      {
+        "title": "技术研发能力",
+        "kind": "核心竞争力",
+        "text": "公司拥有国家级企业技术中心等多个高端创新平台，2025年新增5项技术突破，获评国家专精特新小巨人企业，研发团队稳定，产学研合作深化，专利及非专利技术储备丰富，无氟防水、塔拉深加工等核心技术处于行业领先水平，技术创新为业务增长提供核心支撑。"
+      },
+      {
+        "title": "核心管理及技术团队",
+        "kind": "核心竞争力",
+        "text": "管理团队具备丰富行业经验及战略眼光，核心技术人员稳定，无重大离职情况。2025年启动部门履职检核机制，聚焦营销、应用及工艺人才个性化培养，推进中长期激励计划，团队凝聚力及专业能力持续提升。"
+      },
+      {
+        "title": "资源布局优势",
+        "kind": "核心竞争力",
+        "text": "秘鲁塔拉种植园及与浙石化的原料合作关系构成核心资源壁垒，报告期内未发生变化。塔拉种植园保障原料充足，浙石化稳定供应石油原料，为业务持续运营提供坚实基础。"
+      },
+      {
+        "title": "品牌与渠道优势",
+        "kind": "核心竞争力",
+        "text": "“德美助剂”“亭江皮化”“美龙环戊烷”等品牌知名度及美誉度持续提升，2025年发布行业白皮书进一步巩固品牌影响力；国内全覆盖、国际逐步拓展的渠道网络持续完善，服务能力及市场响应速度行业领先，渠道与品牌协同形成强大竞争优势。"
+      },
+      {
+        "title": "经营模式与管理体系",
+        "kind": "核心竞争力",
+        "text": "“研发-生产-销售-服务”一体化经营模式成熟，2025年数字化转型加速，CRM、WMS等系统优化升级，管理流程持续完善，运营效率及成本管控能力提升，成为核心竞争力的重要组成部分。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ002054",
+    "fetched_at": "2026-09-18T22:40:39.018978+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "纺织助剂"
+}

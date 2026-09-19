@@ -90,7 +90,7 @@ logger = logging.getLogger(__name__)
 def _get_html() -> str:
     """Read the desktop market-watch shell without caching it in-process."""
     html_path = Path(__file__).parent / "watch" / "index.html"
-    return html_path.read_text(encoding="utf-8")
+    return html_path.read_bytes().decode("utf-8")
 
 
 def _get_watch_asset(name: str) -> tuple[bytes, str]:
@@ -101,6 +101,8 @@ def _get_watch_asset(name: str) -> tuple[bytes, str]:
         "app.js": "text/javascript; charset=utf-8",
         "sector-catalog.js": "text/javascript; charset=utf-8",
         "sector-catalog.css": "text/css; charset=utf-8",
+        "smart-sector-library.js": "text/javascript; charset=utf-8",
+        "smart-sector-library.css": "text/css; charset=utf-8",
     }
     if name not in content_types:
         raise FileNotFoundError(name)
@@ -936,11 +938,17 @@ def get_stock_relationships(symbol: str | None = None) -> dict:
             profile = reader.get(instrument_id)
             if profile is None:
                 raise LookupError(f"{instrument_id} 尚未进入证券关系目录")
+    from tradex.smart_sector_library.catalog import SmartSectorCatalog
+    with SmartSectorCatalog() as sectors:
+        membership = sectors.get(profile.instrument_id) if profile else None
+        sector_revision = sectors.revision
     return {
         "contract": "stock_relationship_read.v1",
         "schema_version": 1,
         "catalog_status": status.model_dump(mode="json"),
         "profile": profile.model_dump(mode="json") if profile is not None else None,
+        "market_membership": membership.model_dump(mode="json") if membership else None,
+        "market_sector_revision": sector_revision,
     }
 
 
@@ -1152,6 +1160,14 @@ def get_manual_portfolio_outlook() -> dict:
         raise LookupError("持仓列表已变化，请重新生成条件式前瞻")
     payload["artifact_revision"] = artifact["payload_digest"]
     payload["artifact_generated_at"] = artifact["generated_at"]
+    from tradex.smart_sector_library import SmartSectorCatalog
+    with SmartSectorCatalog() as sectors:
+        payload["market_memberships"] = {
+            key: item.model_dump(mode="json") for key, item in sectors.get_many(
+                item["instrument_id"] for item in payload.get("items", [])
+            ).items()
+        }
+        payload["market_sector_revision"] = sectors.revision
     return payload
 
 
@@ -1227,12 +1243,17 @@ def get_manual_portfolio_analysis_history(
         source_date = payload.get("source_trading_date")
         if item is not None and source_date and source_date not in outlook_dates:
             outlook_dates.add(source_date)
+            from datetime import date
+            from tradex.smart_sector_library import SmartSectorCatalog
+            with SmartSectorCatalog(as_of=date.fromisoformat(source_date)) as sectors:
+                market_membership = sectors.get(normalized).model_dump(mode="json")
             outlook_pages.append(
                 {
                     "source_trading_date": payload.get("source_trading_date"),
                     "generated_at": payload.get("generated_at"),
                     "market_context": payload.get("market_context"),
                     "analysis": item,
+                    "market_membership": market_membership,
                     "artifact_revision": artifact["payload_digest"],
                 }
             )
@@ -1413,6 +1434,13 @@ class DashboardHandler(BaseHTTPRequestHandler):
             self._handle_latest_limit_up_pool_api(
                 not_after=query.get("not_after", [None])[0],
             )
+        elif request.path == "/api/smart-sector-library":
+            from tradex.smart_sector_library.catalog import SmartSectorCatalog
+            try:
+                with SmartSectorCatalog() as sectors:
+                    self._send_json(200, sectors.browse())
+            except (ValueError, RuntimeError) as exc:
+                self._send_json(503, {"error": str(exc)})
         elif request.path == "/api/stock-relationships":
             query = parse_qs(request.query)
             self._handle_stock_relationships_api(
@@ -1481,6 +1509,15 @@ class DashboardHandler(BaseHTTPRequestHandler):
                 strategy_id=query.get("strategy_id", [None])[0],
                 limit=query.get("limit", [None])[0],
             )
+        elif request.path == "/api/stock-selection/intraday-macd-j":
+            from tradex.stock_selection.intraday_macd_j import read_watch
+            self._send_json(200, read_watch())
+        elif request.path == "/api/stock-selection/intraday-macd-j/history":
+            from tradex.stock_selection.intraday_macd_j import read_scan_history
+            try:
+                self._send_json(200, read_scan_history(trade_date=parse_qs(request.query).get("trade_date", [None])[0]))
+            except ValueError as exc:
+                self._send_json(400, {"error": str(exc)})
         elif request.path == "/api/market":
             query = parse_qs(request.query)
             self._handle_market_api(force=query.get("refresh") == ["1"])
@@ -1494,7 +1531,7 @@ class DashboardHandler(BaseHTTPRequestHandler):
             self._handle_api()
         elif request.path in ("/", "/index.html"):
             self._handle_html()
-        elif request.path in ("/watch/styles.css", "/watch/app.js", "/watch/sector-catalog.js", "/watch/sector-catalog.css"):
+        elif request.path in ("/watch/styles.css", "/watch/app.js", "/watch/sector-catalog.js", "/watch/sector-catalog.css", "/watch/smart-sector-library.js", "/watch/smart-sector-library.css"):
             self._handle_watch_asset(request.path.rsplit("/", 1)[-1])
         else:
             self.send_error(404)
@@ -1544,6 +1581,8 @@ class DashboardHandler(BaseHTTPRequestHandler):
                         self._send_json(503, {"error": "全量板块目录尚未生成"})
                         return
                     result = catalog.model_dump(mode="json")
+                    recovery = reader.recovery(catalog.trade_date)
+                    result["recovery"] = recovery if recovery and recovery["catalog_revision"] == catalog.catalog_revision else None
             self._send_json(200, result)
         except ValueError as exc:
             self._send_json(400, {"error": str(exc)})

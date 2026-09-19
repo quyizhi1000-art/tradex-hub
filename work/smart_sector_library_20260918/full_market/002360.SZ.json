@@ -1,0 +1,65 @@
+{
+  "instrument_id": "002360.SZ",
+  "name": "ST同德",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "002360.SZ",
+    "name": "ST同德",
+    "memberships": [
+      "基础化工",
+      "化学制品",
+      "民爆制品",
+      "山西板块",
+      "2026中报首亏",
+      "ST股",
+      "民爆概念",
+      "降解塑料",
+      "光伏概念",
+      "参股银行"
+    ],
+    "business_sections": [
+      {
+        "title": "民用炸药的研发、生产、销售（流通）",
+        "kind": "主营业务",
+        "text": "公司从事的主要业务是民用炸药的研发、生产、销售（流通），以及为客户提供爆破工程的整体解决方案等相关服务。公司民用炸药的主导产品有:乳化铵油炸药、乳化炸药、现场混装炸药等,其产品主要应用于煤矿及非煤矿山的开采、基础设施建设公路铁路等,民用炸药为公司的盈利核心支柱产业。目前,公司是国内民爆行业中优势骨干企业，也是国内民爆行业一体化产业链较全的企业之一。"
+      },
+      {
+        "title": "区位优势",
+        "kind": "核心竞争力",
+        "text": "同德化工地处晋、陕、蒙三省交界处，有着得天独厚的地理位置，该区域是国内矿产资源较为丰富的地区，未来对民爆产品及工程爆破服务市场的需求潜力巨大。"
+      },
+      {
+        "title": "安全优势",
+        "kind": "核心竞争力",
+        "text": "同德化工夯实基础管理，始终坚持“以人为本、安全发展、科学发展”的理念，实现30多年生产、经营无事故。并多次受到山西省安全生产委员会及山西省国防科工局的表彰，连年被评为“山西省安全生产先进单位”。"
+      },
+      {
+        "title": "创新的民爆一体化盈利模式优势",
+        "kind": "核心竞争力",
+        "text": "同德化工的产业链贯穿研发、生产、销售、配送、爆破、贸易等，可为客户提供全方位的服务，同时，全资子公司同德爆破拥有山西省公安厅核发的一级爆破作业单位许可证等资质和一整套高端爆破设备，从初步勘测到完成最后起爆，先进的硬件爆破设备，完全可以保证爆破业务每一个环节的安全顺利运行。"
+      },
+      {
+        "title": "运营管理优势",
+        "kind": "核心竞争力",
+        "text": "同德化工在长期的生产经营中培养了一批在公司工作多年并拥有丰富行业管理经验的管理团队，其对公司的技术、生产、经营管理熟悉、经验丰富，具有很好的沟通协作效应。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ002360",
+    "fetched_at": "2026-09-18T22:46:51.183388+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "工程爆破"
+}

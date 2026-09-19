@@ -1,0 +1,91 @@
+[
+  {
+    "id": "300813.SZ",
+    "key": "cell_immunotherapy",
+    "sector": "细胞免疫治疗",
+    "source_sector_name": "细胞免疫治疗",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "细胞药物制备装备"
+    ],
+    "company_fact": "微生物检测、无菌生产设备系列，明确有细胞治疗产业化装备代表产品。",
+    "ths_fact": "GMP细胞制备装备覆盖分离、活化、培养、换液和收集。",
+    "fact": "微生物检测、无菌生产设备系列，明确有细胞治疗产业化装备代表产品。",
+    "reason": "既有细胞治疗题材对应真实制备装备；不把设备企业写成获批细胞药物持有人。"
+  },
+  {
+    "id": "300814.SZ",
+    "key": "cpo",
+    "sector": "共封装光学(CPO)",
+    "source_sector_name": "共封装光学(CPO)",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "800G光模块PCB"
+    ],
+    "company_fact": "PCB研发制造销售覆盖高频高速板HDI封装基板，应用通信和数据中心。",
+    "ths_fact": "年报解析明确开发800G光模块相关新产品，下一代光模块为后续研发方向。",
+    "fact": "PCB研发制造销售覆盖高频高速板HDI封装基板，应用通信和数据中心。",
+    "reason": "已有CPO成员对应光模块电路板，取已开发产品阶段，不把计划扩大为下一代CPO批量交付。"
+  },
+  {
+    "id": "300815.SZ",
+    "key": "autonomous_driving",
+    "sector": "无人驾驶",
+    "source_sector_name": "无人驾驶",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "无人环卫清扫场景"
+    ],
+    "company_fact": "城市环境运营和物业服务实际经营，覆盖环境治理和数智管理。",
+    "ths_fact": "具备无人清扫车田田，为舜泰结合公司需求研发的环卫产品。",
+    "fact": "城市环境运营和物业服务实际经营，覆盖环境治理和数智管理。",
+    "reason": "市场无人环卫题材有具体车辆与自有城市运营场景；公司为应用场景方，不冒充整车自主制造，人形合作尚未落地不优先。"
+  },
+  {
+    "id": "300816.SZ",
+    "key": "ai_applications",
+    "sector": "AI应用",
+    "source_sector_name": "AI应用",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "医疗AI智能服务"
+    ],
+    "company_fact": "现有东方财富主要描述尾气后处理研发制造，新医疗业务以原半年报股权和同花顺解释补核。",
+    "ths_fact": "2026年1月30日上海燚健医嗅AI agent平台已搭建投放且产生收入。",
+    "fact": "现有东方财富主要描述尾气后处理研发制造，新医疗业务以原半年报股权和同花顺解释补核。",
+    "reason": "原半年报确认燚健属全资羲和超智控股子公司，医疗AI实际营收支持已有AI应用归属；不将联营燚智算力租赁冒作直接主营。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "official-300816-2026h1-control",
+        "source_kind": "official_filing",
+        "publisher": "艾可蓝",
+        "title": "2026年半年度报告",
+        "source_url": "https://static.cninfo.com.cn/finalpage/2026-08-26/1225503171.PDF",
+        "published_at": "2026-08-26",
+        "assertions": [
+          "第5页释义确认羲和超智全资、上海燚健为其控股子公司。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "300817.SZ",
+    "key": "reducers",
+    "sector": "减速器",
+    "source_sector_name": "减速器",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "减速器自润滑轴承"
+    ],
+    "company_fact": "滑动轴承及复合材料铜粉研发制造销售，提供多工业领域方案。",
+    "ths_fact": "自润滑轴承用于汽车工程机械工业自动化减速器，机器人应用在关节。",
+    "fact": "滑动轴承及复合材料铜粉研发制造销售，提供多工业领域方案。",
+    "reason": "已有减速器题材准确表达上游轴承，不等同整套减速器或人形机器人量产。"
+  }
+]

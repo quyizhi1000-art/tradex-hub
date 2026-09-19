@@ -13,7 +13,7 @@ import json
 import re
 import sqlite3
 import zlib
-from datetime import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Literal
 
@@ -78,6 +78,7 @@ class SectorCatalogV1(ContractModel):
     trade_date: str
     as_of: datetime
     quote_as_of: datetime | None = None
+    coverage_as_of: datetime | None = None
     generated_at: datetime
     source_revision: str = Field(pattern=r"^[0-9a-f]{64}$")
     catalog_revision: str = Field(pattern=r"^[0-9a-f]{64}$")
@@ -92,6 +93,10 @@ class SectorCatalogV1(ContractModel):
             raise ValueError("catalog timestamps require timezone")
         if self.as_of.date().isoformat() != self.trade_date:
             raise ValueError("catalog as_of must identify trading day")
+        if self.coverage_as_of is not None and (self.coverage_as_of.tzinfo is None
+                or self.coverage_as_of.date().isoformat() != self.trade_date
+                or self.coverage_as_of < self.as_of):
+            raise ValueError("coverage cutoff must cover actual data in the same trading day")
         keys = [entry.sector_key for entry in self.entries]
         if len(keys) != len(set(keys)) or self.counts != catalog_counts(self.entries):
             raise ValueError("catalog entries/counts mismatch")
@@ -101,6 +106,32 @@ class SectorCatalogV1(ContractModel):
             original = self.model_dump(mode="json", exclude={"catalog_revision"}, exclude_unset=True)
             if stable_sha256(original) != self.catalog_revision:
                 raise ValueError("catalog digest mismatch")
+        return self
+
+
+class SectorCatalogRecoveryV1(ContractModel):
+    contract: Literal["sector_catalog_recovery.v1"] = "sector_catalog_recovery.v1"
+    trade_date: str
+    catalog_revision: str = Field(pattern=r"^[0-9a-f]{64}$")
+    checked_at: datetime
+    coverage_as_of: datetime
+    state: Literal["pending", "running", "backoff", "complete", "unavailable", "failed"]
+    total_series: int = Field(ge=0)
+    missing_series: int = Field(ge=0)
+    repairable_series: int = Field(ge=0)
+    attempt_count: int = Field(ge=0)
+    failed_targets: int = Field(ge=0)
+    next_retry_at: datetime | None = None
+    last_error: str | None = None
+
+    @model_validator(mode="after")
+    def validate_recovery(self):
+        if not 0 <= self.repairable_series <= self.missing_series <= self.total_series:
+            raise ValueError("recovery coverage counts mismatch")
+        if self.state == "complete" and self.missing_series:
+            raise ValueError("recovery cannot complete with unpublished minutes")
+        if any(t.tzinfo is None for t in (self.checked_at, self.coverage_as_of, self.next_retry_at) if t is not None):
+            raise ValueError("recovery timestamps require timezone")
         return self
 
 
@@ -128,10 +159,10 @@ def expected_minutes(as_of: datetime) -> tuple[str, ...]:
 
 
 def build_catalog(*, identities, curves, hot_evidence, previous, source_revision,
-                  as_of: datetime, generated_at: datetime, quote_as_of=None) -> SectorCatalogV1:
+                  as_of: datetime, generated_at: datetime, quote_as_of=None, coverage_as_of=None) -> SectorCatalogV1:
     previous_entries = {e.sector_key: e for e in previous.entries} if previous else {}
     same_day = previous is not None and previous.trade_date == as_of.date().isoformat()
-    required = expected_minutes(as_of)
+    required = expected_minutes(coverage_as_of or as_of)
     entries = []
     for identity in identities:
         identity = dict(identity)
@@ -170,6 +201,7 @@ def build_catalog(*, identities, curves, hot_evidence, previous, source_revision
     body = dict(contract="sector_catalog.v1", schema_version=1,
                 trade_date=as_of.date().isoformat(), as_of=as_of,
                 quote_as_of=quote_as_of or as_of,
+                coverage_as_of=coverage_as_of or as_of,
                 generated_at=generated_at, source_revision=source_revision,
                 coverage_basis="observed_provider_snapshots", market_coverage="unverified",
                 entries=tuple(entries), counts=catalog_counts(entries))
@@ -199,6 +231,14 @@ class SectorCatalogStore:
                     trade_date TEXT NOT NULL, sector_key TEXT NOT NULL,
                     revision TEXT NOT NULL, payload BLOB NOT NULL,
                     PRIMARY KEY(trade_date, sector_key));
+                CREATE TABLE IF NOT EXISTS sector_catalog_repair_attempts (
+                    trade_date TEXT NOT NULL, sector_key TEXT NOT NULL,
+                    attempt_count INTEGER NOT NULL, failures INTEGER NOT NULL,
+                    last_attempt_at TEXT NOT NULL, next_retry_at TEXT NOT NULL,
+                    outcome TEXT NOT NULL, error TEXT,
+                    PRIMARY KEY(trade_date, sector_key));
+                CREATE TABLE IF NOT EXISTS sector_catalog_recovery (
+                    trade_date TEXT PRIMARY KEY, payload TEXT NOT NULL);
             """)
 
     def __enter__(self):
@@ -207,6 +247,75 @@ class SectorCatalogStore:
     def __exit__(self, *args):
         if self.connection:
             self.connection.close()
+
+    def repair_attempts(self, day):
+        if self.connection is None or not self.connection.execute(
+                "SELECT 1 FROM sqlite_master WHERE name='sector_catalog_repair_attempts'").fetchone():
+            return {}
+        cursor = self.connection.execute("SELECT * FROM sector_catalog_repair_attempts WHERE trade_date=?", (day,))
+        columns = [c[0] for c in cursor.description]
+        return {row[1]: dict(zip(columns, row)) for row in cursor}
+
+    def begin_repair(self, day, key, observed):
+        """Commit a short retry lease before I/O, so crashes cannot spin on restart."""
+        with self.connection:
+            self.connection.execute("""INSERT INTO sector_catalog_repair_attempts
+                VALUES (?,?,1,0,?,?,'running',NULL) ON CONFLICT(trade_date,sector_key)
+                DO UPDATE SET attempt_count=attempt_count+1, last_attempt_at=excluded.last_attempt_at,
+                next_retry_at=excluded.next_retry_at, outcome='running', error=NULL""",
+                (day, key, observed.isoformat(), (observed + timedelta(seconds=30)).isoformat()))
+
+    def finish_repair(self, day, key, observed, *, gained, error=None):
+        previous = self.repair_attempts(day)[key]
+        failures = 0 if gained else previous["failures"] + 1
+        delay = min(1800, 30 * 2 ** min(failures - 1, 6)) if failures else 30
+        with self.connection:
+            self.connection.execute("""UPDATE sector_catalog_repair_attempts
+                SET failures=?,next_retry_at=?,outcome=?,error=? WHERE trade_date=? AND sector_key=?""",
+                (failures, (observed + timedelta(seconds=delay)).isoformat(),
+                 "downloaded" if gained else "no_progress", error, day, key))
+
+    def defer_repair(self, day, key, observed):
+        """Admission rejection is not a failed source request; preserve the audit count."""
+        with self.connection:
+            self.connection.execute("""UPDATE sector_catalog_repair_attempts SET
+                failures=0,next_retry_at=?,outcome='deferred',error=NULL
+                WHERE trade_date=? AND sector_key=?""", (observed.isoformat(), day, key))
+
+    def recovery(self, day):
+        if self.connection is None or not self.connection.execute(
+                "SELECT 1 FROM sqlite_master WHERE name='sector_catalog_recovery'").fetchone():
+            return None
+        row = self.connection.execute("SELECT payload FROM sector_catalog_recovery WHERE trade_date=?", (day,)).fetchone()
+        return SectorCatalogRecoveryV1.model_validate_json(row[0]).model_dump(mode="json") if row else None
+
+    def record_recovery(self, catalog, observed, *, state=None, error=None):
+        """Completion is bound to published coverage, never a successful download."""
+        missing = [e for e in catalog.entries if e.missing_minutes]
+        missing_keys = {e.sector_key for e in missing}
+        supported = [e for e in missing if e.observed_today and e.curve_support == "same_source"]
+        attempts = self.repair_attempts(catalog.trade_date)
+        due = [e for e in supported if e.sector_key not in attempts or
+               datetime.fromisoformat(attempts[e.sector_key]["next_retry_at"]) <= observed]
+        same_day = catalog.trade_date == observed.date().isoformat()
+        deadlines = [attempts[e.sector_key]["next_retry_at"] for e in supported if e.sector_key in attempts]
+        if state is None:
+            state = ("complete" if not missing else "unavailable" if not same_day or not supported
+                     else "pending" if due else "backoff")
+        value = dict(contract="sector_catalog_recovery.v1", trade_date=catalog.trade_date,
+                     catalog_revision=catalog.catalog_revision, checked_at=observed.isoformat(),
+                     coverage_as_of=(catalog.coverage_as_of or catalog.as_of).isoformat(), state=state,
+                     total_series=len(catalog.entries), missing_series=len(missing),
+                     repairable_series=len(supported) if same_day else 0,
+                     attempt_count=sum(a["attempt_count"] for a in attempts.values()),
+                     failed_targets=sum(a["failures"] > 0 for key, a in attempts.items() if key in missing_keys),
+                     next_retry_at=min(deadlines) if deadlines and not due and same_day else None,
+                     last_error=error)
+        value = SectorCatalogRecoveryV1.model_validate(value).model_dump(mode="json")
+        with self.connection:
+            self.connection.execute("INSERT OR REPLACE INTO sector_catalog_recovery VALUES (?,?)",
+                                    (catalog.trade_date, json.dumps(value, ensure_ascii=False)))
+        return value
 
     def latest(self) -> SectorCatalogV1 | None:
         if self.connection is None:

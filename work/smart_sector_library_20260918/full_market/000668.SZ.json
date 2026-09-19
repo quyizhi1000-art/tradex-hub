@@ -1,0 +1,55 @@
+{
+  "instrument_id": "000668.SZ",
+  "name": "荣丰控股",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "000668.SZ",
+    "name": "荣丰控股",
+    "memberships": [
+      "房地产",
+      "房地产开发",
+      "住宅开发",
+      "山东板块",
+      "近期摘帽",
+      "破发股",
+      "网红经济",
+      "电商概念"
+    ],
+    "business_sections": [
+      {
+        "title": "房地产业务",
+        "kind": "主营业务",
+        "text": "报告期内，公司主要推进长春国际金融中心（写字楼）销售及北京荣丰嘉园（住宅）项目销售。公司综合考虑政府政策及市场情况，适时调整经营及销售策略，降价促销，提高投资回报，同时加大项目宣传推介力度，采取全员销售、以老带新、以价换量等多种措施，加快存量资产处置。"
+      },
+      {
+        "title": "跨境物流业务",
+        "kind": "主营业务",
+        "text": "报告期内，公司通过控股子公司荣控伟华开展跨境物流业务。公司聚焦于跨境电商平台客户的国际空运出口全程物流服务，为跨境电商平台客户提供“门到港”及“港到港”的空运物流服务。"
+      },
+      {
+        "title": "丰富的技术、管理和开发经验",
+        "kind": "核心竞争力",
+        "text": "公司有完善的治理结构，“三会”运作规范，内部管理制度较为系统完整，内部控制程序覆盖经营活动的各个环节，起到了良好的监督促进作用，为公司经营活动的有序开展提供了有力保障。\n房地产业务方面，经过二十多年的发展，公司积累了丰富的技术、管理和开发经验，有较强的创新能力，体现在个性化的设计、个性化的管理、个性化的服务等方面，产品设计、规划理念超前，曾引领全国小户型风潮。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ000668",
+    "fetched_at": "2026-09-18T22:35:42.163473+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [
+    "房地产"
+  ],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "物流"
+}

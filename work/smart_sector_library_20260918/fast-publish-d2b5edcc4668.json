@@ -1,0 +1,552 @@
+[
+  {
+    "id": "920436.BJ",
+    "key": "autonomous_driving",
+    "sector": "无人驾驶",
+    "source_sector_name": "无人驾驶",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "无人配送车整车线束"
+    ],
+    "fact": "商乘车整车线束技术研发制造和方案服务。",
+    "company_fact": "商乘车整车线束技术研发制造和方案服务。",
+    "ths_fact": "美团无人配送车全车线束已生产430台套，另有百度项目配套。",
+    "reason": "无人车线束实际配套，非自动驾驶算法平台。"
+  },
+  {
+    "id": "920438.BJ",
+    "key": "glass_substrate",
+    "sector": "玻璃基板",
+    "source_sector_name": "玻璃基板",
+    "source_sector_provider": "同花顺",
+    "stage": "pilot",
+    "chain": [
+      "半导体封装玻璃材料"
+    ],
+    "fact": "光学及功能玻璃研发制造，具备材料配方规模生产能力。",
+    "company_fact": "光学及功能玻璃研发制造，具备材料配方规模生产能力。",
+    "ths_fact": "玻璃基板已开发并向半导体客户送样；载板另有确认收入。",
+    "reason": "明确TGV基板送样阶段，载板销售收入不混作基板商业化。"
+  },
+  {
+    "id": "920445.BJ",
+    "key": "cross_border_ecommerce",
+    "sector": "跨境电商",
+    "source_sector_name": "跨境电商",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "竹制家居海外电商"
+    ],
+    "fact": "竹基新材料与家居产品研发产销。",
+    "company_fact": "竹基新材料与家居产品研发产销。",
+    "ths_fact": "已建多国亚马逊及其他跨境平台并产生销售利润。",
+    "reason": "实际跨境渠道销售支撑，非仅海外设厂计划。"
+  },
+  {
+    "id": "920454.BJ",
+    "key": "chassis_engine_systems",
+    "sector": "底盘与发动机系统",
+    "source_sector_name": "底盘与发动机系统",
+    "source_sector_provider": "东方财富",
+    "stage": "revenue",
+    "chain": [
+      "非等速传动轴"
+    ],
+    "fact": "汽车工程车辆传动轴和零部件批量销售。",
+    "company_fact": "汽车工程车辆传动轴和零部件批量销售。",
+    "ths_fact": "既有机器人解析仅控股系统集成业务描述。",
+    "reason": "以明确传动轴现有行业归属，工业机器人不视为人形。"
+  },
+  {
+    "id": "920455.BJ",
+    "key": "other_special_equipment",
+    "sector": "其他专用设备",
+    "source_sector_name": "其他专用设备",
+    "source_sector_provider": "东方财富",
+    "stage": "revenue",
+    "chain": [
+      "柴油机活塞与缸套"
+    ],
+    "fact": "收入来自船用铁路天然气发动机活塞及缸套。",
+    "company_fact": "收入来自船用铁路天然气发动机活塞及缸套。",
+    "ths_fact": "仅专精特新资质标签，无更明确产业概念。",
+    "reason": "选择已有专用设备行业，不能自行创造船舶概念成员。"
+  },
+  {
+    "id": "920469.BJ",
+    "key": "modified_plastics",
+    "sector": "改性塑料",
+    "source_sector_name": "改性塑料",
+    "source_sector_provider": "东方财富",
+    "stage": "revenue",
+    "chain": [
+      "改性工程塑料"
+    ],
+    "fact": "自主研发生产销售改性塑料。",
+    "company_fact": "自主研发生产销售改性塑料。",
+    "ths_fact": "改性工程塑料实际用于新能源车灯内外饰。",
+    "reason": "已经营材料业务，PEEK小试及机器人试样不写量产。"
+  },
+  {
+    "id": "920471.BJ",
+    "key": "synthetic_biology",
+    "sector": "合成生物",
+    "source_sector_name": "合成生物",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "生物基材料及酶法工艺"
+    ],
+    "fact": "建立合成生物研发中心并开展生物材料营养原料业务。",
+    "company_fact": "建立合成生物研发中心并开展生物材料营养原料业务。",
+    "ths_fact": "开发尼龙56 PLP GSH等酶法制备工艺，NMN完成工艺验证。",
+    "reason": "真实合成生物产品工艺，不把使用基因编辑当基因测序服务。"
+  },
+  {
+    "id": "920475.BJ",
+    "key": "robotics",
+    "sector": "机器人",
+    "source_sector_name": "机器人概念",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "工业重载机器人"
+    ],
+    "fact": "湿法冶金专用设备研制销售，推动智能改造。",
+    "company_fact": "湿法冶金专用设备研制销售，推动智能改造。",
+    "ths_fact": "室外重载机器人为现有产品，自动物料运载车已生产。",
+    "reason": "工业物流装备定位，不因铜矿合资计划算在产矿山。"
+  },
+  {
+    "id": "920476.BJ",
+    "key": "food_safety",
+    "sector": "食品安全",
+    "source_sector_name": "食品安全",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "食品营养质量分析仪器"
+    ],
+    "fact": "有机元素分析及色谱光谱仪器用于食品等检验。",
+    "company_fact": "有机元素分析及色谱光谱仪器用于食品等检验。",
+    "ths_fact": "持续提供食品营养质量安全检测仪器及方法。",
+    "reason": "科学仪器供应而非食品企业；给药企供仪器不等于自有创新药。"
+  },
+  {
+    "id": "920478.BJ",
+    "key": "api_pharmaceuticals",
+    "sector": "原料药",
+    "source_sector_name": "原料药",
+    "source_sector_provider": "东方财富",
+    "stage": "revenue",
+    "chain": [
+      "特色原料药与中间体"
+    ],
+    "fact": "高级中间体特色原料药研产销，布局制剂延伸。",
+    "company_fact": "高级中间体特色原料药研产销，布局制剂延伸。",
+    "ths_fact": "解析提CDMO培育及合资制剂建成后生产计划。",
+    "reason": "现有原料药行业归属；尚未证明自研创新药产品不强套创新药。"
+  },
+  {
+    "id": "920125.BJ",
+    "key": "advanced_packaging",
+    "sector": "先进封装",
+    "source_sector_name": "先进封装",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "芯片植散热片设备"
+    ],
+    "stage": "product",
+    "fact": "智能装备服务消费电子新能源泛半导体。",
+    "company_fact": "智能装备服务消费电子新能源泛半导体。",
+    "ths_fact": "推出先进封装全自动芯片植散热片机。",
+    "reason": "具体封装设备已推出，未在缺销售额时写收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920126.BJ",
+    "key": "coal_chemicals",
+    "sector": "煤化工",
+    "source_sector_name": "煤化工概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "煤化工压力容器"
+    ],
+    "stage": "revenue",
+    "fact": "煤化工石化非标反应换热分离储存容器。",
+    "company_fact": "煤化工石化非标反应换热分离储存容器。",
+    "ths_fact": "煤化工压力容器研发设计产销服务。",
+    "reason": "煤制甲醇烯烃等实营设备与主题对应。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920128.BJ",
+    "key": "uhv",
+    "sector": "特高压",
+    "source_sector_name": "特高压",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "柔直换流阀电容器"
+    ],
+    "stage": "delivery",
+    "fact": "薄膜电容及电能质量治理产品。",
+    "company_fact": "薄膜电容及电能质量治理产品。",
+    "ths_fact": "国产柔直干式电容已在昆柳龙龙门换流站带电运行。",
+    "reason": "具体特高压工程验证交付支撑，其他样机仍挂网推进独立区分。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920130.BJ",
+    "key": "ai_applications",
+    "sector": "AI应用",
+    "source_sector_name": "AI应用",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "语音叫车智能体"
+    ],
+    "stage": "delivery",
+    "fact": "停车门禁安全等智慧物联方案。",
+    "company_fact": "停车门禁安全等智慧物联方案。",
+    "ths_fact": "行呗AI语音叫车已在景德镇黄山上线。",
+    "reason": "对外真实AI出行应用，PCB研发仅自用硬件设计。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920132.BJ",
+    "key": "camping_economy",
+    "sector": "露营经济",
+    "source_sector_name": "露营经济",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "庭院帐篷休闲家具"
+    ],
+    "stage": "revenue",
+    "fact": "庭院帐篷及户外家具设计制造。",
+    "company_fact": "庭院帐篷及户外家具设计制造。",
+    "ths_fact": "硬顶软顶PC顶帐篷等产品。",
+    "reason": "直接户外消费品，跨境渠道作为次级信息。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920136.BJ",
+    "key": "new_energy_vehicles",
+    "sector": "新能源汽车",
+    "source_sector_name": "新能源汽车",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "汽车减震器精密管件"
+    ],
+    "stage": "revenue",
+    "fact": "精密管件用于底盘转向发动机及电控减震器。",
+    "company_fact": "精密管件用于底盘转向发动机及电控减震器。",
+    "ths_fact": "新能源品牌应用快速提升且覆盖多一线车型。",
+    "reason": "现有新能源配套产品实际量产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920138.BJ",
+    "key": "chips",
+    "sector": "芯片",
+    "source_sector_name": "芯片概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "蓝牙音视频及穿戴SoC"
+    ],
+    "stage": "revenue",
+    "fact": "系统级芯片设计服务音视频穿戴物联。",
+    "company_fact": "系统级芯片设计服务音视频穿戴物联。",
+    "ths_fact": "蓝牙耳机音箱及穿戴芯片大规模销售。",
+    "reason": "芯片设计为直接产品，小米持股不等同小米产品独供。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920139.BJ",
+    "key": "advanced_packaging",
+    "sector": "先进封装",
+    "source_sector_name": "先进封装",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "高端芯片测试服务"
+    ],
+    "stage": "revenue",
+    "fact": "晶圆成品系统级测试及可靠性服务。",
+    "company_fact": "晶圆成品系统级测试及可靠性服务。",
+    "ths_fact": "先进封装测试与高速KGD硬件方案及高端芯片测试。",
+    "reason": "封测产业测试环节明确，不宣称自制存储芯片。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920145.BJ",
+    "key": "sensors",
+    "sector": "传感器",
+    "source_sector_name": "传感器",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "陶瓷压力传感芯体"
+    ],
+    "stage": "product",
+    "fact": "VOCs监测业务拓展陶瓷压力传感器及芯体。",
+    "company_fact": "VOCs监测业务拓展陶瓷压力传感器及芯体。",
+    "ths_fact": "控股芯智感完成试制测试客户样品认可。",
+    "reason": "具体压力传感产品支撑新主线，未推定规模量产收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920146.BJ",
+    "key": "new_energy_vehicles",
+    "sector": "新能源汽车",
+    "source_sector_name": "新能源汽车",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "新能源电控箱电机壳"
+    ],
+    "stage": "product",
+    "fact": "变速及新能源电控箱电机壳铝合金件。",
+    "company_fact": "变速及新能源电控箱电机壳铝合金件。",
+    "ths_fact": "新能源电控箱电机壳研发突破，相关新品尚未贡献利润。",
+    "reason": "现有新能源零件明确，利润与收入不同但保守按具体产品记录。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920149.BJ",
+    "key": "bipv",
+    "sector": "光伏建筑一体化",
+    "source_sector_name": "光伏建筑一体化",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "分布式屋顶光伏EPC"
+    ],
+    "stage": "revenue",
+    "fact": "分布式光伏系统集成和建筑装配化。",
+    "company_fact": "分布式光伏系统集成和建筑装配化。",
+    "ths_fact": "建筑光伏正式项目合同实施及新能源事业部开展服务。",
+    "reason": "已有EPC经营足以支撑，不依赖待核实收购完成或电站自持收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920152.BJ",
+    "key": "energy_storage",
+    "sector": "储能",
+    "source_sector_name": "储能",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "铝基铅炭电池系统"
+    ],
+    "stage": "product",
+    "fact": "铝基铅炭规模线已投产。",
+    "company_fact": "铝基铅炭规模线已投产。",
+    "ths_fact": "储能材料电池系统为产品，IDC有供货合同。",
+    "reason": "储能产线及产品有据，旧合同不直接视为已交货回款。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920156.BJ",
+    "key": "high_end_equipment",
+    "sector": "高端装备",
+    "source_sector_name": "高端装备",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "线束制造智能设备"
+    ],
+    "stage": "revenue",
+    "fact": "线束设备模具系统服务汽车通讯储能。",
+    "company_fact": "线束设备模具系统服务汽车通讯储能。",
+    "ths_fact": "高性能线束设备研发产销并服务比亚迪等。",
+    "reason": "实际线束智能装备更完整，物流机器人具体产品作为次级。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920158.BJ",
+    "key": "offshore_equipment",
+    "sector": "海工装备",
+    "source_sector_name": "海工装备",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "海洋油气处理模块"
+    ],
+    "stage": "orders",
+    "fact": "能源化工电脱分离换热及氢能装备。",
+    "company_fact": "能源化工电脱分离换热及氢能装备。",
+    "ths_fact": "海洋原油及天然气模块有已取得订单，募投扩大产能。",
+    "reason": "真实油气模块订单支撑海工链，募投吨数不当已产量。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920159.BJ",
+    "key": "fertilizer",
+    "sector": "化肥",
+    "source_sector_name": "化肥",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "腐植酸及控释新型肥料"
+    ],
+    "stage": "revenue",
+    "fact": "新型肥料及中间体研发产销服务。",
+    "company_fact": "新型肥料及中间体研发产销服务。",
+    "ths_fact": "腐植酸增效控释水溶微生物肥成熟产品。",
+    "reason": "真实肥料产业线明确，化学合成流程不等于合成生物产业。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920160.BJ",
+    "key": "testing_services",
+    "sector": "检测服务",
+    "source_sector_name": "检测服务",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "有色矿产检验检测"
+    ],
+    "stage": "revenue",
+    "fact": "矿产冶炼再生资源检测技术与仪器。",
+    "company_fact": "矿产冶炼再生资源检测技术与仪器。",
+    "ths_fact": "上市主营有色资源检测研发技术服务仪器研发。",
+    "reason": "直接第三方检测身份，不以央企标签替代产业。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920161.BJ",
+    "key": "film_materials",
+    "sector": "膜材料",
+    "source_sector_name": "膜材料",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "电容器BOPP基膜金属化膜"
+    ],
+    "stage": "revenue",
+    "fact": "电容器用BOPP基膜和金属化膜产销。",
+    "company_fact": "电容器用BOPP基膜和金属化膜产销。",
+    "ths_fact": "上市明确薄膜电容专用电子薄膜。",
+    "reason": "成熟薄膜产品，柔直送样尚待验证。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920163.BJ",
+    "key": "biodegradable_plastics",
+    "sector": "可降解塑料",
+    "source_sector_name": "可降解塑料",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "可降解包装防水袋"
+    ],
+    "stage": "revenue",
+    "fact": "不干胶标签背胶袋及复合材料制造。",
+    "company_fact": "不干胶标签背胶袋及复合材料制造。",
+    "ths_fact": "防水袋采用光生物降解薄膜技术。",
+    "reason": "已有降解包装制品支持主题，不扩大为自产所有降解树脂。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920165.BJ",
+    "key": "cosmetics",
+    "sector": "化妆品",
+    "source_sector_name": "化妆品",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "功效原料"
+    ],
+    "stage": "revenue",
+    "fact": "舒缓美白保湿修护抗皱等化妆品原料。",
+    "company_fact": "舒缓美白保湿修护抗皱等化妆品原料。",
+    "ths_fact": "上市主营化妆品功效原料研发产销。",
+    "reason": "美容材料实际制造身份明确。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920166.BJ",
+    "key": "medical_devices",
+    "sector": "医疗器械",
+    "source_sector_name": "医疗器械概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "麻醉监护耗材"
+    ],
+    "stage": "revenue",
+    "fact": "麻醉监护医疗器械用于ICU急诊等。",
+    "company_fact": "麻醉监护医疗器械用于ICU急诊等。",
+    "ths_fact": "麻醉监护手术护理器械产品。",
+    "reason": "成熟医用耗材直接对应。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920167.BJ",
+    "key": "bc_battery",
+    "sector": "BC电池",
+    "source_sector_name": "BC电池",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "BC组件互连焊带"
+    ],
+    "stage": "revenue",
+    "fact": "光伏汇流互连焊带产销。",
+    "company_fact": "光伏汇流互连焊带产销。",
+    "ths_fact": "BC扁线焊带每月向隆基多基地批量供货。",
+    "reason": "BC路线实供明确，不将其他路线新增产能当全部投产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920168.BJ",
+    "key": "automotive_electronics",
+    "sector": "汽车电子",
+    "source_sector_name": "汽车电子",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "车灯电子控制和能源管理"
+    ],
+    "stage": "revenue",
+    "fact": "汽车照明电子控制能源管理系统。",
+    "company_fact": "汽车照明电子控制能源管理系统。",
+    "ths_fact": "车灯业务及已量产充配电总成。",
+    "reason": "覆盖汽车电子实际产品，车载CDU并非数据中心冷却CDU。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920169.BJ",
+    "key": "commercial_space",
+    "sector": "商业航天",
+    "source_sector_name": "商业航天",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "航空航天高端紧固件"
+    ],
+    "stage": "product",
+    "fact": "非标中高端紧固件设计制造。",
+    "company_fact": "非标中高端紧固件设计制造。",
+    "ths_fact": "进入蓝箭合格供应商名录并持续开拓。",
+    "reason": "航天紧固产品与供应商认证支撑主线，认证不直接写订单收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920171.BJ",
+    "key": "ai_applications",
+    "sector": "AI应用",
+    "source_sector_name": "AI应用",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "政务金融AI信贷顾问"
+    ],
+    "stage": "delivery",
+    "fact": "智慧城市集成运营服务覆盖政务产业民生。",
+    "company_fact": "智慧城市集成运营服务覆盖政务产业民生。",
+    "ths_fact": "金融平台上线AI信贷顾问提供全天候政策智能问答。",
+    "reason": "客户平台实际上线AI服务，非仅内部使用模型。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920174.BJ",
+    "key": "yarlung_hydropower",
+    "sector": "雅下水电",
+    "source_sector_name": "雅下水电概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "水电前期工程施工装备"
+    ],
+    "stage": "delivery",
+    "fact": "隧道矿山桥梁港口施工装备业务。",
+    "company_fact": "隧道矿山桥梁港口施工装备业务。",
+    "ths_fact": "已有产品介入墨脱水电前期工程。",
+    "reason": "已有前期项目产品支持主题，旧日期前期表述不用于判断当前主体开工状态。",
+    "basis": "crosschecked_sources"
+  }
+]

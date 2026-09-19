@@ -1,0 +1,39 @@
+--- 
+
++++ 
+
+@@ -5,6 +5,7 @@
+
+   const panel = document.getElementById("appearance-panel");
+   if (!panel) return;
+-  const themeNames = { paper: "暖纸米白", mist: "雾蓝浅灰", sage: "鼠尾草绿", graphite: "柔和石墨", classic: "经典深青" };
++  const themeNames = { porcelain: "瓷白钴蓝", sand: "月砂赤陶", ink: "墨夜鸢尾", paper: "暖纸米白", mist: "雾蓝浅灰", sage: "鼠尾草绿", graphite: "柔和石墨", classic: "经典深青" };
+   const layouts = ["comfortable", "compact", "wide"];
++  const fonts = ["noto", "deng", "yahei"];
+   const storageKey = "tradex.marketWatch.appearance.v1";
+   function renderAppearance() {
+@@ -16,16 +17,20 @@
+
+       button.setAttribute("aria-pressed", String(button.dataset.appearanceLayout === root.dataset.layout));
+     });
++    panel.querySelectorAll("[data-appearance-font]").forEach(button => {
++      button.setAttribute("aria-pressed", String(button.dataset.appearanceFont === root.dataset.font));
++    });
+   }
+   panel.addEventListener("click", event => {
+-    const button = event.target.closest("[data-appearance-theme], [data-appearance-layout]");
++    const button = event.target.closest("[data-appearance-theme], [data-appearance-layout], [data-appearance-font]");
+     if (!button || !panel.contains(button)) return;
+-    const { appearanceTheme: theme, appearanceLayout: layout } = button.dataset;
++    const { appearanceTheme: theme, appearanceLayout: layout, appearanceFont: font } = button.dataset;
+     if (Object.hasOwn(themeNames, theme)) root.dataset.theme = theme;
+     else if (layouts.includes(layout)) root.dataset.layout = layout;
++    else if (fonts.includes(font)) root.dataset.font = font;
+     else return;
+     renderAppearance();
+     const status = document.getElementById("appearance-status");
+     try {
+-      localStorage.setItem(storageKey, JSON.stringify({ theme: root.dataset.theme, layout: root.dataset.layout }));
++      localStorage.setItem(storageKey, JSON.stringify({ theme: root.dataset.theme, layout: root.dataset.layout, font: root.dataset.font }));
+       status.textContent = "已应用并记住，下次打开仍使用这套外观。";
+     } catch {

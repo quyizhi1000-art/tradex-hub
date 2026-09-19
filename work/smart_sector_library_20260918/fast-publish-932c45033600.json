@@ -1,0 +1,152 @@
+[
+  {
+    "id": "920779.BJ",
+    "key": "solid_state_batteries",
+    "sector": "固态电池",
+    "source_sector_name": "固态电池",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "电池测试系统"
+    ],
+    "fact": "电池设备采集分析充放电性能，用于电芯材料检测。",
+    "company_fact": "电池设备采集分析充放电性能，用于电芯材料检测。",
+    "ths_fact": "明确二次电池包括固态电池的测试系统服务。",
+    "reason": "测试设备产品链位，不将所有锂电测试收入当固态收入。"
+  },
+  {
+    "id": "920781.BJ",
+    "key": "nuclear_fusion",
+    "sector": "可控核聚变",
+    "source_sector_name": "可控核聚变",
+    "source_sector_provider": "同花顺",
+    "stage": "orders",
+    "chain": [
+      "包层冷却与传热系统"
+    ],
+    "fact": "高端过程装备含压力容器智能装置及核能安装工程。",
+    "company_fact": "高端过程装备含压力容器智能装置及核能安装工程。",
+    "ths_fact": "已中标包层水氦冷及COOL TBM锂铅传热项目。",
+    "reason": "具体聚变订单支撑，合同金额不等于已确认收入。"
+  },
+  {
+    "id": "920786.BJ",
+    "key": "dairy",
+    "sector": "乳业",
+    "source_sector_name": "乳业",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "生鲜乳与乳制品"
+    ],
+    "fact": "生鲜乳供蒙牛等，奶制品经销形成主要业务。",
+    "company_fact": "生鲜乳供蒙牛等，奶制品经销形成主要业务。",
+    "ths_fact": "牧场乳制品乳饮料研产销完整链。",
+    "reason": "乳业身份，玉米牧草多自供不优先视为种业。"
+  },
+  {
+    "id": "920790.BJ",
+    "key": "ai_applications",
+    "sector": "AI应用",
+    "source_sector_name": "AI应用",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "AI代码辅助工具"
+    ],
+    "fact": "行业软件开发及信息技术服务。",
+    "company_fact": "行业软件开发及信息技术服务。",
+    "ths_fact": "自研LiandiCode AI帮助编写调试优化代码。",
+    "reason": "已有产品支持AI应用，不仅接入模型的计划。"
+  },
+  {
+    "id": "920792.BJ",
+    "key": "refractory_materials",
+    "sector": "耐火材料",
+    "source_sector_name": "耐火材料",
+    "source_sector_provider": "东方财富",
+    "stage": "revenue",
+    "chain": [
+      "镁质耐火材料"
+    ],
+    "fact": "菱镁选矿氧化镁及耐火制品生产销售。",
+    "company_fact": "菱镁选矿氧化镁及耐火制品生产销售。",
+    "ths_fact": "菱镁矿综合利用形成镁砂产品。",
+    "reason": "耐火材料真实产业，氧化镁不是金属镁，未以收购计划推算矿产量。"
+  },
+  {
+    "id": "920799.BJ",
+    "key": "ai_applications",
+    "sector": "AI应用",
+    "source_sector_name": "AI应用",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "金融AI软件实施"
+    ],
+    "fact": "金融软件开发平台定制系统与技术服务。",
+    "company_fact": "金融软件开发平台定制系统与技术服务。",
+    "ths_fact": "2026年8月披露AI在7家金融机构39项目落地。",
+    "reason": "自有落地项目支持；客户全行智能体数量不算全部公司交付。"
+  },
+  {
+    "id": "920802.BJ",
+    "key": "air_pollution_control",
+    "sector": "大气治理",
+    "source_sector_name": "大气治理",
+    "source_sector_provider": "东方财富",
+    "stage": "revenue",
+    "chain": [
+      "静电油烟废气净化"
+    ],
+    "fact": "商业与工业油烟废气治理设备研产销。",
+    "company_fact": "商业与工业油烟废气治理设备研产销。",
+    "ths_fact": "静电空气净化消毒产品已有场所应用。",
+    "reason": "治理设备核心行业，海外渠道不主归一带一路。"
+  },
+  {
+    "id": "920806.BJ",
+    "key": "vehicle_road_coordination",
+    "sector": "车联网(车路协同)",
+    "source_sector_name": "车联网(车路协同)",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "智慧交通系统集成"
+    ],
+    "fact": "高速公路智慧交通系统及技术服务覆盖全国。",
+    "company_fact": "高速公路智慧交通系统及技术服务覆盖全国。",
+    "ths_fact": "智慧交通系统与ETC车载标签天线实际销售。",
+    "reason": "交通路侧基础设施链位；低空通用技术储备不作已落地。"
+  },
+  {
+    "id": "920807.BJ",
+    "key": "rare_earth_magnets",
+    "sector": "稀土永磁",
+    "source_sector_name": "稀土永磁",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "稀土永磁元器件"
+    ],
+    "fact": "以金刚石工具研产销为基础发展新材料业务。",
+    "company_fact": "以金刚石工具研产销为基础发展新材料业务。",
+    "ths_fact": "2025稀土永磁元器件收入10454.05万元已实际实现。",
+    "reason": "新业务有明确营收，非仅金刚石加工可用于磁材。"
+  },
+  {
+    "id": "920808.BJ",
+    "key": "liquid_cooled_servers",
+    "sector": "液冷服务器",
+    "source_sector_name": "液冷服务器",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "数据中心浸没与冷板液冷"
+    ],
+    "fact": "浸没冷板液冷及模块化数据中心基础设施整体供应。",
+    "company_fact": "浸没冷板液冷及模块化数据中心基础设施整体供应。",
+    "ths_fact": "自主液冷基础设施产品设计制造。",
+    "reason": "明确液冷核心业务及系统服务，非普通空调题材。"
+  }
+]

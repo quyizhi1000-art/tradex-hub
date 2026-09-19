@@ -1,0 +1,66 @@
+{
+  "watch": {
+    "status": "partial",
+    "message": "扫描不完整：已核验 240 / 3043 只；已核验范围内命中 2 只，不代表全量结果。仅提示已核验信号，盘中预估，收盘前可能失效。",
+    "requested_count": 3043,
+    "evaluated_count": 240,
+    "missing_quote_count": 2803,
+    "last_scan_slot": "2026-09-18T11:15:00+08:00",
+    "next_scan_at": "2026-09-18T11:30:00+08:00"
+  },
+  "history_statuses": [
+    {
+      "slot": "2026-09-18T11:15:00+08:00",
+      "status": "partial"
+    },
+    {
+      "slot": "2026-09-18T11:00:00+08:00",
+      "status": "partial"
+    },
+    {
+      "slot": "2026-09-18T10:45:00+08:00",
+      "status": "partial"
+    },
+    {
+      "slot": "2026-09-18T10:30:00+08:00",
+      "status": "partial"
+    },
+    {
+      "slot": "2026-09-18T10:15:00+08:00",
+      "status": "partial"
+    },
+    {
+      "slot": "2026-09-18T10:00:00+08:00",
+      "status": "partial"
+    },
+    {
+      "slot": "2026-09-18T09:45:00+08:00",
+      "status": "partial"
+    },
+    {
+      "slot": "2026-09-18T09:30:00+08:00",
+      "status": "unavailable"
+    }
+  ],
+  "served_html_equals_source": true,
+  "served_js_equals_source": true,
+  "collector": {
+    "name": "collector",
+    "process_pid": 14464,
+    "process_start_utc": "2026-09-18T03:19:05.3716501Z",
+    "started_at": "2026-09-18T11:19:10.1706639+08:00",
+    "stdout_log": "G:\\money\\.tradex-run\\collector.out.log",
+    "stderr_log": "G:\\money\\.tradex-run\\collector.err.log"
+  },
+  "dashboard": {
+    "name": "dashboard",
+    "port": 8765,
+    "process_pid": 56636,
+    "process_start_utc": "2026-09-18T03:20:08.9091234Z",
+    "launcher_pid": 56808,
+    "launcher_start_utc": "2026-09-18T03:20:08.8170752Z",
+    "started_at": "2026-09-18T11:20:11.2656975+08:00",
+    "stdout_log": "G:\\money\\.tradex-run\\dashboard.out.log",
+    "stderr_log": "G:\\money\\.tradex-run\\dashboard.err.log"
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "instrument_id": "000518.SZ",
+  "name": "四环生物",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "000518.SZ",
+    "name": "四环生物",
+    "memberships": [
+      "医药生物",
+      "生物制品",
+      "其他生物制品",
+      "江苏板块",
+      "近期摘帽",
+      "QFII重仓",
+      "并购重组概念",
+      "人造肉",
+      "免疫治疗",
+      "病毒防治",
+      "长江三角"
+    ],
+    "business_sections": [
+      {
+        "title": "生物医药制品的生产和销售、苗木的种植、销售及绿化工程业务",
+        "kind": "主营业务",
+        "text": "报告期内，公司主要从事生物医药制品的生产和销售；苗木的种植、销售及绿化工程业务。"
+      },
+      {
+        "title": "技术水平先进，产品质量较高",
+        "kind": "核心竞争力",
+        "text": "公司控股子公司北京四环生物系国内最早从事生物医药研发、生产和销售的企业之一，为国家高新技术企业，北京市“专精特新”中小企业，北京市“创新型”中小企业，技术水平先进，产品质量较高，在市场中享有一定知名度，主要产品德路生（注射用人白介素-2），新德路生（人白介素-2注射液）分别为西林瓶和预充式水针（国内独家），环尔博（人促红素注射液），欣粒生（人粒细胞刺激因子注射液）的市场认可度高。目前北京四环生物拥有12项发明专利，4项新药证书。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ000518",
+    "fetched_at": "2026-09-18T22:35:27.581344+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "苗木"
+}

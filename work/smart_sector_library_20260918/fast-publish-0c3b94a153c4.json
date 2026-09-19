@@ -1,0 +1,94 @@
+[
+  {
+    "id": "301319.SZ",
+    "key": "cpo",
+    "sector": "共封装光学(CPO)",
+    "source_sector_name": "共封装光学(CPO)",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "光模块超细锡膏",
+      "清洗剂"
+    ],
+    "company_fact": "微电子焊接及辅助焊材研发生产销售。",
+    "ths_fact": "6月8日公告解析明确1.6T光模块T7锡膏清洗剂销售，2026前5月134.36万元。",
+    "fact": "微电子焊接及辅助焊材研发生产销售。",
+    "reason": "现有CPO题材有实际小规模收入，链位只焊接材料，不夸大收入占比或CPO器件产能。"
+  },
+  {
+    "id": "301320.SZ",
+    "key": "smart_home",
+    "sector": "智能家居",
+    "source_sector_name": "智能家居",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "线性驱动系统",
+      "家居控制器"
+    ],
+    "company_fact": "智能驱动及电子控制制造销售，覆盖家居办公医养等。",
+    "ths_fact": "自有家居医养办公线性驱动；机器人方案仍送样，供应资格不确定。",
+    "fact": "智能驱动及电子控制制造销售，覆盖家居办公医养等。",
+    "reason": "已有智能家居对应成熟核心产品，机器人送样不等于入供应链量产。"
+  },
+  {
+    "id": "301321.SZ",
+    "key": "mini_led",
+    "sector": "MiniLED",
+    "source_sector_name": "MiniLED",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "MiniLED背光模组"
+    ],
+    "company_fact": "背光模组及导光板光学结构零件设计制造。",
+    "ths_fact": "MicroLED标签解析实际描述MiniLED灯板背光光学技术及车用MiniLED背光产品。",
+    "fact": "背光模组及导光板光学结构零件设计制造。",
+    "reason": "选其已有MiniLED而不误采MicroLED标题；另MiniLED解析是行业概述，不能当公司所有量产证明。"
+  },
+  {
+    "id": "301322.SZ",
+    "key": "chips",
+    "sector": "芯片",
+    "source_sector_name": "芯片概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "半导体量检测设备",
+      "设备修复维保"
+    ],
+    "company_fact": "公司业务资料已列半导体前道量检测设备和技术服务，另有场地电动车。",
+    "ths_fact": "旧芯片解析仍写拟收购大摩，先进封装磨边机为测试阶段。",
+    "fact": "公司业务资料已列半导体前道量检测设备和技术服务，另有场地电动车。",
+    "reason": "已核H1大摩51%控股并有1.81亿元收入，芯片主线成立；不沿用过期拟收购，先进封装新机不能当已量产。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "official-301322-2026h1-damo",
+        "source_kind": "official_filing",
+        "publisher": "绿通科技",
+        "title": "2026年半年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12533472&stockid=301322",
+        "published_at": "2026-08-26",
+        "assertions": [
+          "江苏大摩列51%子公司，量检测设备维保业务收入181012499.27元。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "301323.SZ",
+    "key": "rare_earth_magnets",
+    "sector": "稀土永磁",
+    "source_sector_name": "稀土永磁",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "钐铁氮磁性材料"
+    ],
+    "company_fact": "磁胶等吸附功能材料及电子陶瓷元件研发生产。",
+    "ths_fact": "自研钐铁氮稀土磁材以氧化钐为原料，可制高性能粘接磁体。",
+    "fact": "磁胶等吸附功能材料及电子陶瓷元件研发生产。",
+    "reason": "已有稀土永磁题材有自有磁材产品，产品阶段；不依赖金南待核交易与其机器人零件收入。"
+  }
+]

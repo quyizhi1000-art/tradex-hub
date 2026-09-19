@@ -275,6 +275,7 @@ def test_worker_materializes_strategy_archive_from_the_single_selection_owner(tm
             ],
         )
         runtime.selection_service = SimpleNamespace(
+            refresh_limit_up_memberships=lambda: "membership-revision",
             strategy_history=lambda **_kwargs: strategy_archive,
             history=lambda **_kwargs: history,
         )

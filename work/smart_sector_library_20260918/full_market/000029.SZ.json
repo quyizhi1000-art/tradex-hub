@@ -1,0 +1,67 @@
+{
+  "instrument_id": "000029.SZ",
+  "name": "深深房A",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "000029.SZ",
+    "name": "深深房A",
+    "memberships": [
+      "房地产",
+      "房地产开发",
+      "住宅开发",
+      "广东板块",
+      "2026中报首亏",
+      "金融地产风格",
+      "小盘成长",
+      "小盘股",
+      "深股通",
+      "融资融券",
+      "深成500",
+      "AB股",
+      "央国企改革",
+      "粤港自贸",
+      "深圳特区"
+    ],
+    "business_sections": [
+      {
+        "title": "住宅地产开发",
+        "kind": "主营业务",
+        "text": "公司专注于住宅地产开发，在售项目主要分布在深圳和汕头两地，分别为深圳地区的深房翠林苑和汕头地区的天悦湾。"
+      },
+      {
+        "title": "行业先行者地位",
+        "kind": "核心竞争力",
+        "text": "作为深圳经济特区最早成立的房地产开发企业，公司筑造了深圳早期的城市雏形，并在中国房地产开发史上创造了多个“第一”，包括：第一个有偿使用国有土地；第一个引入外资合作开发土地；第一个采用楼宇预售手段筹集开发资金；第一个按国际惯例实行建设工程公开招标；第一个成立物业管理公司对开发的楼宇、住宅进行全方位管理；在深圳经济特区举行的新中国第一次土地使用权拍卖会上夺标。"
+      },
+      {
+        "title": "多元化经营能力",
+        "kind": "核心竞争力",
+        "text": "经过四十余年发展，公司已成长为以房地产开发与经营为主业，集工程施工、项目监理、资产经营等多元化经营于一体的企业集团。未来，公司将积极培育与弘扬遵章守纪的制度文化、廉洁从业的清风文化、精益求精的卓越文化，坚持以精品回馈社会、以品质铸就口碑，致力于成为受人尊重、值得信赖的上市公司。"
+      },
+      {
+        "title": "ESG治理与绿色发展优势",
+        "kind": "核心竞争力",
+        "text": "报告期，公司荣获“2025大湾区上市公司绿色治理TOP20”“2025年度上市公司ESG价值传递奖”“2025年A股上市公司房地产行业ESG绩效TOP20”等奖项，深房广场项目荣获“2024年度杰出租赁项目奖”。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ000029",
+    "fetched_at": "2026-09-18T22:35:15.681333+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [
+    "房地产"
+  ],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "其他主营"
+}

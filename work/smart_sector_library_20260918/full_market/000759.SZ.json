@@ -1,0 +1,58 @@
+{
+  "instrument_id": "000759.SZ",
+  "name": "中百集团",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "000759.SZ",
+    "name": "中百集团",
+    "memberships": [
+      "商贸零售",
+      "一般零售",
+      "超市",
+      "湖北板块",
+      "昨日高振幅",
+      "昨日高换手",
+      "内贸流通",
+      "深股通",
+      "机构重仓",
+      "QFII重仓",
+      "社区团购",
+      "湖北自贸",
+      "降解塑料",
+      "新零售",
+      "一带一路",
+      "央国企改革"
+    ],
+    "business_sections": [
+      {
+        "title": "商业零售",
+        "kind": "主营业务",
+        "text": "公司是以商业零售为主业的大型连锁企业，拥有大卖场、社区超市、24H便利店、购物中心、电器专卖店、智慧物流、食品工厂、零售科技、塑料制品生产等多种业态。依托“连锁经营、物流运营、鲜食加工”三大核心产业，形成以武汉为核心、辐射华中区域的密集网点布局，打造“邻里生活综合服务商”核心定位，为消费者提供全场景、全渠道的零售服务与民生保障，构建了“实体门店+线上平台+即时配送”的现代化商业生态体系。"
+      },
+      {
+        "title": "以武汉为核心、辐射华中的零售网络优势",
+        "kind": "核心竞争力",
+        "text": "公司保持以武汉为核心、辐射华中的零售网络优势，民生保供能力与社区服务潜能较强。公司积极构建多元协同的业态体系，一方面试点硬折扣店、前置仓等创新业态，另一方面同步推进各主力业态提质调改，全面适配市场消费需求。形成“直营+直采+基地直供+自有品牌”的多渠道采购体系，持续优化供应链结构，着力采购模式创新，自有品牌建设成效明显。同时，公司数字化赋能能力持续提升，数字化工具落地见效，实现线上线下深度融合，为公司稳健发展提供有力支撑。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ000759",
+    "fetched_at": "2026-09-18T22:35:51.205754+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [
+    "消费"
+  ],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "超市"
+}

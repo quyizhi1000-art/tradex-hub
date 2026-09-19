@@ -1,0 +1,81 @@
+[
+  {
+    "id": "300803.SZ",
+    "key": "internet_finance",
+    "sector": "互联网金融",
+    "stage": "revenue",
+    "chain": [
+      "证券信息软件",
+      "互联网证券服务"
+    ],
+    "company_fact": "自主证券工具软件、金融信息服务及全资麦高证券共同经营。",
+    "ths_fact": "解析将金融信息、证券及广告服务列为主要业务。",
+    "fact": "自主证券工具软件、金融信息服务及全资麦高证券共同经营。",
+    "reason": "互联网金融覆盖软件获客及证券经营全链条，不把全资证券公司误写普通参股。",
+    "source_sector_name": "互联网金融",
+    "source_sector_provider": "同花顺"
+  },
+  {
+    "id": "300804.SZ",
+    "key": "pesticides",
+    "sector": "农药",
+    "stage": "revenue",
+    "chain": [
+      "农药原药",
+      "中间体及制剂"
+    ],
+    "company_fact": "农药原药中间体和制剂研发生产销售。",
+    "ths_fact": "同花顺概念解析仅粤港澳地域，但其业务列灭菌丹克菌丹等农药产品。",
+    "fact": "农药原药中间体和制剂研发生产销售。",
+    "reason": "东方财富已有农药行业成员，主归属取真实产品行业，地域不作为主线。",
+    "source_sector_name": "农药",
+    "source_sector_provider": "东方财富"
+  },
+  {
+    "id": "300805.SZ",
+    "key": "ai_agents",
+    "sector": "AI智能体",
+    "stage": "product",
+    "chain": [
+      "营销AI工作流"
+    ],
+    "company_fact": "体验营销与数字零售服务，跨界技术用于品牌营销策划执行反馈。",
+    "ths_fact": "RunMax.AI Toolkit采用智能体工作流，含创意生成、视频剪辑、客服训练、文案审核。",
+    "fact": "体验营销与数字零售服务，跨界技术用于品牌营销策划执行反馈。",
+    "reason": "自有营销工具已有具体产品，选AI智能体作为市场新主线；工具提升内部效率不等于已确认AI产品单独收入。",
+    "source_sector_name": "AI智能体",
+    "source_sector_provider": "同花顺"
+  },
+  {
+    "id": "300806.SZ",
+    "key": "foldable_displays",
+    "sector": "柔性屏(折叠屏)",
+    "stage": "delivery",
+    "chain": [
+      "OCA光学胶",
+      "折叠显示叠层材料"
+    ],
+    "company_fact": "胶粘剂和功能涂层复合材料研发制造销售，应用光学及消费电子。",
+    "ths_fact": "折叠叠层OCA及TPU解决方案、卷对卷贴合，AR减反层已主流机型量产。",
+    "fact": "胶粘剂和功能涂层复合材料研发制造销售，应用光学及消费电子。",
+    "reason": "自有材料进入折叠显示量产项目，较通用消费电子更具体；不将PCB干膜扩大为高端晶圆光刻胶。",
+    "source_sector_name": "柔性屏(折叠屏)",
+    "source_sector_provider": "同花顺"
+  },
+  {
+    "id": "300807.SZ",
+    "key": "vehicle_road_coordination",
+    "sector": "车联网(车路协同)",
+    "stage": "revenue",
+    "chain": [
+      "公交智能调度",
+      "车载终端与运营平台"
+    ],
+    "company_fact": "实际公交调度、收费、安全管理等平台与车载终端构成城市公交解决方案。",
+    "ths_fact": "主营基于车联网技术提供城市公交运营管理和服务综合方案。",
+    "fact": "实际公交调度、收费、安全管理等平台与车载终端构成城市公交解决方案。",
+    "reason": "车联网为自有业务主线；辅助驾驶不是全无人驾驶，云中心不机械归租赁算力。",
+    "source_sector_name": "车联网(车路协同)",
+    "source_sector_provider": "同花顺"
+  }
+]

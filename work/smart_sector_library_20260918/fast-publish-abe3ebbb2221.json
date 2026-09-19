@@ -1,0 +1,493 @@
+[
+  {
+    "id": "920679.BJ",
+    "key": "general_equipment",
+    "sector": "通用设备",
+    "chain": [
+      "冷凝式燃气设备铝合金换热器"
+    ],
+    "stage": "revenue",
+    "fact": "铝合金冷凝换热器已持续交付销售。",
+    "ths_fact": "仅有汇率受益标签及出口比例，不能据此形成产业归属。",
+    "company_fact": "研发生产铝合金冷凝式热交换器。",
+    "reason": "原报确认壁挂炉核心换热部件制造，与现有通用设备行业相符；以产业产品判断，不把汇率风格当主板块。",
+    "source_sector_name": "通用设备",
+    "source_sector_provider": "东方财富",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "official-920679-2026h1",
+        "source_kind": "official_filing",
+        "publisher": "前进科技",
+        "title": "2026年半年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=920679&id=12568767",
+        "published_at": null,
+        "assertions": [
+          "主要制造家用商用铝合金冷凝换热器，为冷凝燃气壁挂炉核心部件，已有交付。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "920682.BJ",
+    "key": "uhv",
+    "sector": "特高压",
+    "chain": [
+      "高压电缆及特高压输电裸导线"
+    ],
+    "stage": "revenue",
+    "fact": "输配电电缆和长距离输电裸导线已正常供货。",
+    "ths_fact": "裸导线用于超高压、特高压长距离输电，电缆用于输配电。",
+    "company_fact": "500kV以下电缆、电气装备用线及裸电线，服务两大电网。",
+    "reason": "既有电网线缆经营与特高压材料链一致；区分裸导线和电缆用途，充电枪试用与海工试制不写为规模营收。",
+    "source_sector_name": "特高压",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920685.BJ",
+    "key": "synthetic_biology",
+    "sector": "合成生物",
+    "chain": [
+      "并行生物反应器及发酵实验设备"
+    ],
+    "stage": "product",
+    "fact": "MPB平行生物反应器已有具体型号产品。",
+    "ths_fact": "官网解析列出三种MPB型号支持合成生物发酵工艺开发。",
+    "company_fact": "生物样品处理、分子生物研究及实验室设备。",
+    "reason": "具体反应器产品与生物实验仪器能力支撑合成生物链；product不称合成生物原料生产或全部仪器收入，新拟收购清博华不当已完成。",
+    "source_sector_name": "合成生物",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920689.BJ",
+    "key": "data_centers",
+    "sector": "数据中心(AIDC)",
+    "chain": [
+      "数据中心风冷通风与冷却塔设备"
+    ],
+    "stage": "delivery",
+    "fact": "专用风机、冷却塔和精密空调已有IDC应用。",
+    "ths_fact": "ECL630-1节能产品及多款IDC应用明确。",
+    "company_fact": "通风冷却设备服务轨道、能源及数据中心等。",
+    "reason": "已应用的热管理装备支持新增数据中心身份；不因节能目录认定产生特定收入，也不把风机写作液冷冷板。",
+    "source_sector_name": "数据中心(AIDC)",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920690.BJ",
+    "key": "lithography",
+    "sector": "光刻机",
+    "chain": [
+      "超洁净流控磁悬浮泵及传感器注塑件"
+    ],
+    "stage": "delivery",
+    "fact": "光刻流控系统精密注塑件已小批量供货。",
+    "ths_fact": "2026年4月向启尔供应线圈骨架、流量传感器壳体，收入尚不大。",
+    "company_fact": "精密传动、车身电子热管理等精密零部件制造。",
+    "reason": "具体光刻配套供货比人形联合研发更充分，选择真实新增产业链；不称制造光刻整机，也不将云深处开发协议当机器人销售订单。",
+    "source_sector_name": "光刻机",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920693.BJ",
+    "key": "liquid_cooled_servers",
+    "sector": "液冷服务器",
+    "chain": [
+      "液冷服务器精密机械零部件"
+    ],
+    "stage": "revenue",
+    "fact": "液冷精密部件销量和交付规模已增长。",
+    "ths_fact": "2024年下半年以来液冷产品开发有进展、业务增长较快。",
+    "company_fact": "精密机械零件制造覆盖液冷服务器和医疗科学仪器等。",
+    "reason": "半年报确认液冷产品销售增加及设备扩充，支持真实新增主线；半导体送样和部分批供保留背景，不混用各市场收入。",
+    "source_sector_name": "液冷服务器",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "official-920693-2026h1",
+        "source_kind": "official_filing",
+        "publisher": "阿为特",
+        "title": "2026年半年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=920693&id=12534359",
+        "published_at": null,
+        "assertions": [
+          "液冷服务器相关销量提升，订单充足、交付规模扩大；为液冷业务批购精密机床。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "920694.BJ",
+    "key": "shale_gas",
+    "sector": "页岩气",
+    "chain": [
+      "页岩油气压裂供水高压软管"
+    ],
+    "stage": "revenue",
+    "fact": "页岩油气压裂供水软管已有持续销售。",
+    "ths_fact": "压裂供水软管为主要细分产品，有历史营收证据。",
+    "company_fact": "耐高压流体软管和复合管道生产销售。",
+    "reason": "实际压裂输送材料与页岩气链一致；选择源于产品应用而非单独营收排名，不称公司自营采气。",
+    "source_sector_name": "页岩气",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920699.BJ",
+    "key": "computing_power",
+    "sector": "东数西算(算力)",
+    "chain": [
+      "服务器机柜精密滑轨"
+    ],
+    "stage": "revenue",
+    "fact": "服务器滑轨向主流服务器企业销售。",
+    "ths_fact": "列明新华三、超聚变、曙光及浪潮客户和业务增长。",
+    "company_fact": "定制精密滑轨制造直销，客户认证后长期合作。",
+    "reason": "实际服务器结构配套形成算力基础设施身份；不把所有家电滑轨收入算服务器，也不称服务器整机制造。",
+    "source_sector_name": "东数西算(算力)",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920701.BJ",
+    "key": "consumer_electronics",
+    "sector": "消费电子",
+    "chain": [
+      "微型扬声器受话器及声学模组"
+    ],
+    "stage": "revenue",
+    "fact": "消费终端电声元件和模组持续销售。",
+    "ths_fact": "电声方案服务消费电子，应用手机平板及智能穿戴。",
+    "company_fact": "微型扬声器、受话器、模组及音响产品。",
+    "reason": "实际声学产品与多终端市场共同支撑消费电子；品牌客户及穿戴应用不单独替代产业主线。",
+    "source_sector_name": "消费电子概念",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920703.BJ",
+    "key": "oil_gas_equipment_services",
+    "sector": "油气设服",
+    "chain": [
+      "炼化及油气装置高效换热设备"
+    ],
+    "stage": "revenue",
+    "fact": "高效换热器服务炼油石化及化工装置。",
+    "ths_fact": "核电解析为联合研制协议，尚不足确认交付。",
+    "company_fact": "高通量、高冷凝及降膜设备用于乙烯、催化等装置。",
+    "reason": "原报确认持续换热装备经营，选择已有油气设服；核电仍联合研发且存在失败条款，待具体产品或订单再复核，不把协议当核电销售。",
+    "source_sector_name": "油气设服",
+    "source_sector_provider": "东方财富",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "official-920703-2026h1",
+        "source_kind": "official_filing",
+        "publisher": "广厦环能",
+        "title": "2025年年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=920703&id=12197978",
+        "published_at": null,
+        "assertions": [
+          "公司经营高效换热器设计制造销售；联合高通量研发含技术失败风险，非确定交付合同。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "920706.BJ",
+    "key": "construction_machinery",
+    "sector": "工程机械",
+    "chain": [
+      "沥青混合料搅拌及路面再生设备"
+    ],
+    "stage": "revenue",
+    "fact": "道路施工搅拌和再生装备已向全球客户销售。",
+    "ths_fact": "一带一路及对俄业务解析确认沥青设备实际出口；五轴新公司表述为拟经营。",
+    "company_fact": "沥青搅拌、厂拌再生、破碎筛分等工程装备。",
+    "reason": "真实道路施工设备和销售支持工程机械；拟五轴机床尚缺实际产品落地，不能凭半导体应用规划改归芯片。",
+    "source_sector_name": "工程机械",
+    "source_sector_provider": "东方财富",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920717.BJ",
+    "key": "natural_gas",
+    "sector": "天然气",
+    "chain": [
+      "燃气输配调压设备"
+    ],
+    "stage": "revenue",
+    "fact": "燃气调压器、调压装置和压力容器已生产销售。",
+    "ths_fact": "城市门站和长输分输站调压产品明确。",
+    "company_fact": "长输、门站及城市燃气输配调压系统研发制造。",
+    "reason": "归属天然气设备链，明确为调压装备而非气源开采或燃气零售。",
+    "source_sector_name": "天然气",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920718.BJ",
+    "key": "home_appliances",
+    "sector": "家用电器",
+    "chain": [
+      "家电金属结构件面板及模具"
+    ],
+    "stage": "revenue",
+    "fact": "家电专用配件和模具持续供货。",
+    "ths_fact": "钣金、彩晶玻璃、模具和注塑件制造一致。",
+    "company_fact": "家电配件模块化服务，覆盖冰箱空调洗衣机等。",
+    "reason": "家电配套是明确产品身份；充电桩子业务与新能源供应商资格保留背景，不把取得资格直接等同汽车规模收入。",
+    "source_sector_name": "家用电器",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920719.BJ",
+    "key": "solid_state_batteries",
+    "sector": "固态电池",
+    "chain": [
+      "固态电解质制造相关高纯石墨材料"
+    ],
+    "stage": "orders",
+    "fact": "高纯石墨有固态电池客户合同线索。",
+    "ths_fact": "2025年5月回复高纯石墨应用于固态电解质，并称客户合同含保密要求。",
+    "company_fact": "特种石墨材料及制品一体化研发生产销售。",
+    "reason": "具体材料与客户合同支持固态制造材料链，orders不声称电芯量产或对应收入；不将石墨直接写成固态电解质成分，氢能双极板仍试验待中试。",
+    "source_sector_name": "固态电池",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920720.BJ",
+    "key": "new_energy_vehicles",
+    "sector": "新能源汽车",
+    "chain": [
+      "新能源汽车锌铝精密压铸部件"
+    ],
+    "stage": "revenue",
+    "fact": "车用电机结构、阀体及热管理部件已批量销售。",
+    "ths_fact": "多家新能源车型配套，问界M5/M7二级供货及比亚迪量产。",
+    "company_fact": "精密锌铝合金零件用于新能源车及电子电器。",
+    "reason": "明确车型和批量产品支撑新能源汽车；减速器壳体不推断人形机器人，M9定点与既有量产分开。",
+    "source_sector_name": "新能源汽车",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920725.BJ",
+    "key": "third_generation_semiconductors",
+    "sector": "第三代半导体",
+    "chain": [
+      "SiC等材料切磨抛金刚石微粉"
+    ],
+    "stage": "revenue",
+    "fact": "应用于第三代半导体加工的金刚石微粉已有销售。",
+    "ths_fact": "2023年相关微粉销售约27%，并非仅科研。",
+    "company_fact": "金刚石微粉、延伸应用和CVD材料研发销售。",
+    "reason": "真实半导体加工耗材支持该市场身份，非SiC器件制造；6G导热联合研究和中试预期不当量产收入。",
+    "source_sector_name": "第三代半导体",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920726.BJ",
+    "key": "condiment_fermented_products",
+    "sector": "调味发酵品",
+    "chain": [
+      "腐乳料酒及酸菜等发酵调味食品"
+    ],
+    "stage": "revenue",
+    "fact": "腐乳、料酒和酸菜等产品已生产销售。",
+    "ths_fact": "品牌解析说明腐乳酸菜生物发酵品实际经营。",
+    "company_fact": "东北特色调味品研发生产销售。",
+    "reason": "已有调味发酵品行业最贴切，去除分级后缀；品牌荣誉与乡村帮扶不是产业归属依据。",
+    "source_sector_name": "调味发酵品Ⅲ",
+    "source_sector_provider": "东方财富",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920729.BJ",
+    "key": "animal_vaccines",
+    "sector": "动物疫苗",
+    "chain": [
+      "猪禽用兽用生物疫苗"
+    ],
+    "stage": "revenue",
+    "fact": "猪禽用活疫苗和灭活疫苗形成商业业务。",
+    "ths_fact": "动物疫苗产品明确，多联苗及水产新品仍研发。",
+    "company_fact": "30余种猪禽疫苗研发生产销售技术服务。",
+    "reason": "持续兽用疫苗经营支持既有动物疫苗板块；不把在研五联苗自动列为批准销售，也非人用疫苗。",
+    "source_sector_name": "动物疫苗",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920735.BJ",
+    "key": "weight_loss_drugs",
+    "sector": "减肥药",
+    "chain": [
+      "DYX116减重创新药临床"
+    ],
+    "stage": "pilot",
+    "fact": "DYX116减重适应症已开展II期临床。",
+    "ths_fact": "旧解析为I期及减重获准临床，需新披露更新。",
+    "company_fact": "代谢紊乱慢性病药物研发生产销售。",
+    "reason": "半年报明确减重和降糖均进入II期，真实临床支持减肥药主线；pilot指临床，既有降糖药收入不计入未上市DYX116。",
+    "source_sector_name": "减肥药",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "official-920735-2026h1",
+        "source_kind": "official_filing",
+        "publisher": "德源药业",
+        "title": "2026年半年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=920735&id=12540141",
+        "published_at": null,
+        "assertions": [
+          "DYX116于2025年12月完成I期，期末降糖及减重两适应症均开展II期。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "920748.BJ",
+    "key": "ai_applications",
+    "sector": "AI应用",
+    "chain": [
+      "交通安全告警及工程监管AI平台"
+    ],
+    "stage": "product",
+    "fact": "OneCAS支撑端边云AI交通告警平台及监管方案。",
+    "ths_fact": "安全生产、车辆通行和路面病害告警能力已形成。",
+    "company_fact": "轨交、停车、公路城市交通及智慧工地软件服务。",
+    "reason": "选择具体行业AI平台形成的应用主线；product不将全部信息化收入算AI，低空联合实验室仍非已销售低空业务。",
+    "source_sector_name": "AI应用",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920751.BJ",
+    "key": "hydrogen_energy",
+    "sector": "氢能源",
+    "chain": [
+      "PEM电解制氢用钛纤维多孔材料"
+    ],
+    "stage": "product",
+    "fact": "钛纤维毡形成PEM制氢配套材料产品。",
+    "ths_fact": "高性能钛纤维毡用于PEM水电解阳极扩散层。",
+    "company_fact": "金属纤维和制品研发生产销售。",
+    "reason": "实际纤维材料产品支撑氢能链，product不将一般金属纤维收入算制氢收入；原报已确认三源51%于7月交割，但并购本身不代表氢能产品销售。",
+    "source_sector_name": "氢能源",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "official-920751-2026h1",
+        "source_kind": "official_filing",
+        "publisher": "惠同新材",
+        "title": "2026年半年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=920751&id=12486819",
+        "published_at": null,
+        "assertions": [
+          "三源51%于2026年7月9日完成工商变更，公司成为控股股东并纳入合并范围。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "920753.BJ",
+    "key": "food_safety",
+    "sector": "食品安全",
+    "chain": [
+      "乳品及食品第三方检验监测"
+    ],
+    "stage": "revenue",
+    "fact": "全资食品检测机构已提供检测服务并产生收入。",
+    "ths_fact": "2024年收购乳品食品监测中心100%，从事监督抽检和风险监测。",
+    "company_fact": "原经营消费品质量检测及技术咨询。",
+    "reason": "原报确认全资合并与食品检测929.03万元收入，支持新增食品安全身份；不是食品生产，原纺织检测仍为业务背景。",
+    "source_sector_name": "食品安全",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "official-920753-2026h1",
+        "source_kind": "official_filing",
+        "publisher": "天纺标",
+        "title": "2026年半年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=920753&id=12559324",
+        "published_at": null,
+        "assertions": [
+          "合并子公司乳品食品监测中心持股100%；本期食品检测收入9290270.16元。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "920765.BJ",
+    "key": "cross_border_ecommerce",
+    "sector": "跨境电商",
+    "chain": [
+      "收纳用品跨境电商销售"
+    ],
+    "stage": "revenue",
+    "fact": "空间收纳产品跨境电商已形成增长收入。",
+    "ths_fact": "2024三季报已开展跨境电商并有海外库存。",
+    "company_fact": "金属收纳架研发制造销售及定制空间方案。",
+    "reason": "半年报确认跨境收入增长78%，选择实际新渠道市场身份；不以海外营收或汇率标签单独推导电商业务。",
+    "source_sector_name": "跨境电商",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "official-920765-2026h1",
+        "source_kind": "official_filing",
+        "publisher": "美之高",
+        "title": "2026年半年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=920765&id=12569709",
+        "published_at": null,
+        "assertions": [
+          "上半年跨境电商收入增长78%，该收入以平台/仓库发货及客户签收确认。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "920768.BJ",
+    "key": "home_appliances",
+    "sector": "家用电器",
+    "chain": [
+      "家电外观金属复合板材"
+    ],
+    "stage": "revenue",
+    "fact": "PCM、VCM外观材料向家电生产商销售。",
+    "ths_fact": "金属外观复材直接用于家电外观部件。",
+    "company_fact": "外观复合材料研发制造，收入来自产品销售。",
+    "reason": "实际家电材料配套支撑主线；华为小米多经OEM关系，不表述为必然直接供货。",
+    "source_sector_name": "家用电器",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920770.BJ",
+    "key": "photovoltaics",
+    "sector": "光伏",
+    "chain": [
+      "分布式光伏电站投资运营及开发服务"
+    ],
+    "stage": "revenue",
+    "fact": "分布式光伏电站运营开发已形成持续业务。",
+    "ths_fact": "光伏解析确认电站投资运营；太阳能旧文侧重多晶电池片。",
+    "company_fact": "以光伏电站为核心，兼有石英制品制造。",
+    "reason": "光伏主线同时得到两源支持；按最新业务说明写电站链，不沿用旧文把电池片生产作为当前全部经营。",
+    "source_sector_name": "光伏概念",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  }
+]

@@ -653,9 +653,8 @@ def finalize_sector_intraday_fund_flow_backfill(
     """Refresh every persisted target once before replaying close gaps.
 
     This is deliberately separate from the intraday rotating refresher, whose
-    one-target request budget remains unchanged.  The report is an optimization
-    preflight only; exact requested minutes are still checked by
-    ``prepare_sector_intraday_fund_flow_backfill`` before a snapshot is accepted.
+    one-target request budget remains unchanged. Completeness requires every
+    historical-capability minute through the cutoff, including the session start.
     """
 
     requested_date = (
@@ -696,6 +695,8 @@ def finalize_sector_intraday_fund_flow_backfill(
                 return False
             if provider.tzinfo is None:
                 return False
+            if provider.astimezone(_SHANGHAI).date() != requested_date:
+                return False
             provider_times.append(provider.astimezone(_SHANGHAI))
         if not provider_times or provider_times[-1] < cutoff:
             return False
@@ -711,7 +712,9 @@ def finalize_sector_intraday_fund_flow_backfill(
             )
             if same_segment and (current - previous).total_seconds() > 5 * 60:
                 return False
-        return True
+        actual = {value.replace(second=0, microsecond=0) for value in provider_times}
+        expected = expected_sector_intraday_minutes(cutoff)
+        return bool(expected) and expected.issubset(actual)
 
     refreshed_count = 0
     for completed, target in enumerate(targets, start=1):
@@ -770,7 +773,10 @@ def finalize_sector_intraday_fund_flow_backfill(
 _SECTOR_FLOW_BACKFILL_REFRESHER = SectorFundFlowBackfillRefresher()
 
 
-def _expected_intraday_minutes(cutoff: datetime) -> set[datetime]:
+def expected_sector_intraday_minutes(cutoff: datetime) -> set[datetime]:
+    """Exact minutes published by the canonical historical flow capability."""
+    if cutoff.tzinfo is None or cutoff.utcoffset() is None:
+        raise ValueError("sector flow cutoff must include a timezone")
     local = cutoff.astimezone(_SHANGHAI).replace(second=0, microsecond=0)
     morning_start = local.replace(hour=9, minute=31)
     morning_end = min(local, local.replace(hour=11, minute=30))
@@ -794,7 +800,7 @@ def _curve_missing_count(
     series: SectorFundFlowIntradayV1 | None,
     cutoff: datetime,
 ) -> int:
-    expected = _expected_intraday_minutes(cutoff)
+    expected = expected_sector_intraday_minutes(cutoff)
     if series is None:
         return len(expected)
     actual = {
@@ -981,10 +987,11 @@ class SectorFundFlowIntradayRepairWorker:
                 )
                 store.update_intraday_repair(
                     trading_date,
-                    status="complete" if remaining == 0 else "partial",
+                    # Only Collector's publication readback may declare complete.
+                    status="partial",
                     observed_at=self._clock(),
                     remaining_targets=remaining,
-                    last_error=(None if remaining == 0 else "部分板块的精确分钟仍未由上游返回"),
+                    last_error=("历史曲线已补齐，等待采集器发布验收" if remaining == 0 else "部分板块的精确分钟仍未由上游返回"),
                 )
         except Exception as error:
             try:
@@ -1055,6 +1062,11 @@ def schedule_requested_sector_intraday_fund_flow_repair(
     if repair is None or repair["status"] not in {"pending", "running"}:
         return False
     return _SECTOR_FLOW_INTRADAY_REPAIR_WORKER.request(local.date())
+
+
+def sector_intraday_repair_window_open(observed_at: datetime) -> bool:
+    """Public admission check; a closed window is scheduling, not source failure."""
+    return _intraday_repair_window_open(observed_at)
 
 
 def refresh_optional_sector_intraday_fund_flow(
@@ -1128,4 +1140,5 @@ __all__ = [
     "schedule_requested_sector_intraday_fund_flow_repair",
     "schedule_sector_intraday_fund_flow_backfill",
     "refresh_optional_sector_intraday_fund_flow",
+    "sector_intraday_repair_window_open",
 ]

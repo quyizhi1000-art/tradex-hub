@@ -1,0 +1,77 @@
+[
+  {
+    "id": "688480.SH",
+    "key": "wastewater_treatment",
+    "sector": "污水处理",
+    "source_sector_name": "污水处理",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "矿冶重金属废水治理"
+    ],
+    "fact": "采选冶全流程矿冶污染治理和资源回收。",
+    "company_fact": "采选冶全流程矿冶污染治理和资源回收。",
+    "ths_fact": "污酸重金属废水含砷危废治理运营。",
+    "reason": "工业废水治理实际业务；新钼铼加工不直接当已完成收入。"
+  },
+  {
+    "id": "688484.SH",
+    "key": "ai_glasses",
+    "sector": "AI眼镜",
+    "source_sector_name": "AI眼镜",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "眼镜电池管理芯片"
+    ],
+    "fact": "平台模拟嵌入式芯片，消费电子及端侧AI布局。",
+    "company_fact": "平台模拟嵌入式芯片，消费电子及端侧AI布局。",
+    "ths_fact": "为夸克AI眼镜供电芯片和双电池均衡限流方案。",
+    "reason": "具体终端产品供应有证据；液冷驱动客户验证不称量产。"
+  },
+  {
+    "id": "688485.SH",
+    "key": "optical_fiber",
+    "sector": "光纤",
+    "source_sector_name": "光纤概念",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "分布式光纤声纹监测"
+    ],
+    "fact": "声纹数字状态监测形成智慧运维结构安全业务。",
+    "company_fact": "声纹数字状态监测形成智慧运维结构安全业务。",
+    "ths_fact": "已突破分布式传感研发并完成自主采集卡，后续FPGA ARM集成拟布局。",
+    "reason": "具体光纤传感产品技术链位，不称光通信器件；半导体拟布局不当批量封装。"
+  },
+  {
+    "id": "688486.SH",
+    "key": "chips",
+    "sector": "芯片",
+    "source_sector_name": "芯片概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "高速混合信号与互连芯片"
+    ],
+    "fact": "高速混合信号研发销售，SerDes等平台智能视频互连产品。",
+    "company_fact": "高速混合信号研发销售，SerDes等平台智能视频互连产品。",
+    "ths_fact": "高清视频处理桥接高速信号传输芯片。",
+    "reason": "高速芯片直接身份，英伟达参考设计合作不代表所有客户收入。"
+  },
+  {
+    "id": "688488.SH",
+    "key": "innovative_drugs",
+    "sector": "创新药",
+    "source_sector_name": "创新药",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "抗HIV创新药"
+    ],
+    "fact": "抗HIV创新药商业化及艾诺米替海外获批。",
+    "company_fact": "抗HIV创新药商业化及艾诺米替海外获批。",
+    "ths_fact": "两款创新药已上市，继续HIV多靶点开发。",
+    "reason": "已商业化创新药身份，内部DeepSeek不当AI医药对外产品。"
+  }
+]

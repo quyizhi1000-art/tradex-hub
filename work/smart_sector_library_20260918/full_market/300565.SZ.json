@@ -1,0 +1,69 @@
+{
+  "instrument_id": "300565.SZ",
+  "name": "科信技术",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "300565.SZ",
+    "name": "科信技术",
+    "memberships": [
+      "通信",
+      "通信设备",
+      "通信网络设备及器件",
+      "广东板块",
+      "破增发价股",
+      "创业板综",
+      "机构重仓",
+      "通信技术",
+      "电池技术",
+      "微盘股",
+      "智慧灯杆",
+      "储能概念",
+      "数据中心",
+      "5G概念",
+      "锂电池概念",
+      "物联网",
+      "深圳特区"
+    ],
+    "business_sections": [
+      {
+        "title": "一站式网络能源解决方案提供商",
+        "kind": "主营业务",
+        "text": "公司专注于ICT能源领域，定位为全球卓越的一站式网络能源解决方案提供商。上市后公司依托自研创新与产业链外延拓展，完成产品与市场双转型，已具备整机、电池、电源、温控、监控等网络能源核心软硬件自主研发、设计和交付能力，可以面向通信基站、数据中心、家庭终端、工商业储能等场景，提供完善的能源解决方案。当前公司核心产品（含解决方案）分为三大类：无线网络能源产品、数据中心能源产品、固定及传输网络传统产品。"
+      },
+      {
+        "title": "技术研发优势",
+        "kind": "核心竞争力",
+        "text": "公司一直把技术研发作为战略重心之一，在做好营销支撑的同时，结合公司的发展战略和规划，积极提升公司的综合研发能力及基础技术能力建设。"
+      },
+      {
+        "title": "市场营销优势",
+        "kind": "核心竞争力",
+        "text": "公司拥有较为完善的销售渠道和服务网络，覆盖国内通信运营商、海外运营商、ICT设备商等客户群体。公司在国内设立三十多个省级销售联络处，覆盖全部国内运营商市场，已基本建成较为完备的多层次直接营销和技术服务体系，具备通信运营商的分级营销和快速响应能力。在立足于国内市场的同时，公司坚持走国际化的道路，以缓解国内运营商的投资周期带来的经营风险。公司持续推进国际化进程，积极把握海外市场广阔的发展空间与多元机遇，重点对接高价值客户群体，加强与国际知名ICT设备商的深度业务合作，逐渐了解发达国家的产品规则，全球一体化营销网络加速成长。"
+      },
+      {
+        "title": "产品交付能力",
+        "kind": "核心竞争力",
+        "text": "公司依托泰国、芬兰等全球交付中心，能够为国际客户提供更加快捷、高效、高品质、成本可控的产品制造、交付及配套服务。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ300565",
+    "fetched_at": "2026-09-18T23:11:43.419720+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [
+    "储能"
+  ],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "通信设备"
+}

@@ -1,0 +1,62 @@
+{
+  "instrument_id": "002242.SZ",
+  "name": "九阳股份",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "002242.SZ",
+    "name": "九阳股份",
+    "memberships": [
+      "家用电器",
+      "小家电",
+      "厨房小家电",
+      "山东板块",
+      "昨日高振幅",
+      "标准普尔",
+      "富时罗素",
+      "深股通",
+      "融资融券",
+      "净水概念",
+      "智能家居",
+      "电商概念"
+    ],
+    "business_sections": [
+      {
+        "title": "小家电系列产品的研发、生产和销售",
+        "kind": "主营业务",
+        "text": "报告期内，公司继续从事小家电系列产品的研发、生产和销售。公司的主要经营模式为自主研发、设计、销售及自有品牌运营。"
+      },
+      {
+        "title": "太空科技赋能产品创新",
+        "kind": "核心竞争力",
+        "text": "公司坚持发挥放大“太空科技”技术路径，将“太空科技”积累应用于民用产品创新。目前已推出应用太空同源技术的九阳天净加热净水器，有钛不粘0涂层电饭煲以及不用手洗低嘌呤豆浆机，持续以太空科技赋能健康生活，提升产品竞争力与品牌价值。"
+      },
+      {
+        "title": "全域运营能力",
+        "kind": "核心竞争力",
+        "text": "为精准响应新时代消费者需求，公司着力加强定向产品开发与内容营销，重点布局小红书、抖音、视频号等内容平台，持续完善用户研究、数据分析、内容创作及直播运营等专业能力，构建以自播为核心的直播矩阵，打通“种草—购买—分享”的用户闭环。该体系有效提升了品牌NPS（净推荐值），在持续积累新用户、新客群的同时，也提高了全链路转化效率，推动智能健康产品进入更多家庭。"
+      },
+      {
+        "title": "持续的技术创新能力",
+        "kind": "核心竞争力",
+        "text": "三十二年来，九阳持续深耕技术创新，已积累15,070项专利技术，其中发明专利超过1,150项。每一次技术突破与产品创新，都源自对健康品质生活的深刻洞察与匠心雕琢。作为国内小家电行业的领军品牌，公司对未来发展充满信心，持续提升专业化、高效率、与时俱进的运营能力。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ002242",
+    "fetched_at": "2026-09-18T22:44:29.398204+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "营养煲系列"
+}

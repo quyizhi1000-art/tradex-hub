@@ -1,0 +1,60 @@
+{
+  "instrument_id": "002693.SZ",
+  "name": "双成药业",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "002693.SZ",
+    "name": "双成药业",
+    "memberships": [
+      "医药生物",
+      "化学制药",
+      "化学制剂",
+      "海南板块",
+      "近期摘帽",
+      "2026中报扭亏",
+      "海南自贸",
+      "合成生物"
+    ],
+    "business_sections": [
+      {
+        "title": "医药制造",
+        "kind": "主营业务",
+        "text": "公司所属行业为医药制造业，公司主营业务涵盖药品注射剂、固体制剂、原料药的研发、生产、销售等。"
+      },
+      {
+        "title": "核心产品优势",
+        "kind": "核心竞争力",
+        "text": "原料药方面，公司的胸腺法新已通过意大利AIFA技术审核、生长抑素原料药获得CEP（欧洲药典适用性）证书。\n制剂方面，公司研发的复杂制剂：注射用紫杉醇（白蛋白结合型）获得美国FDA的上市许可批准并已上市销售；\n公司的产品注射用胸腺法新获得经意大利AIFA核准ANDA批文；注射用比伐芦定、依替巴肽注射液、醋酸奥曲肽注射液、注射用硼替佐米已通过美国FDA上市许可，其中，注射用比伐芦定、依替巴肽注射液均已出口美国；注射用比伐芦定、依替巴肽注射液、注射用硼替佐米、精氨加压素注射液获得澳大利亚TGA上市许可批准；注射用胸腺法新、注射用比伐芦定、注射用生长抑素等一致性评价获批。"
+      },
+      {
+        "title": "研发、生产的技术优势",
+        "kind": "核心竞争力",
+        "text": "多年来，公司始终坚持国际化路线，公司已分别通过美国FDA和欧盟EMA的GMP检查、菲律宾FDA GMP检查及沙特SFDA GMP检查，检查内容包括多肽原料药和复杂制剂；公司有仿制药研发、注册以及对专利事务处理的全面综合能力；在研发项目上储备丰富的产品管线，公司拟定在未来不断地向美国和欧盟国家申报原料药DMF和ANDA，进一步加快公司国际化进程。"
+      },
+      {
+        "title": "人才优势",
+        "kind": "核心竞争力",
+        "text": "公司建立具有多年国际经验的专业技术人员的研发团队，提高和完善了公司GMP的体系，其研发和GMP均能满足国际要求，具备开发成份复杂、工艺特殊、科技含量高的原料药和制剂的科研能力。公司现拥有高水平、高效率的符合国际、国内法规的注册团队。另外，公司多年来努力贯彻国际化方针和全面深入开展各方面工作，建立了可靠的质量管理体系，拥有具有GMP概念的质量、生产队伍，取得了显著成果。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ002693",
+    "fetched_at": "2026-09-18T22:53:31.922801+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [
+    "医疗医药"
+  ],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "复杂制剂"
+}

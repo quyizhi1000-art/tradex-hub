@@ -1,0 +1,5175 @@
+{
+  "contract": "stock_macd_j_screen.v1",
+  "schema_version": 1,
+  "screen_version": "macd-j-upturn-main-board.v4",
+  "title": "MACD 金叉 + J 线拐头",
+  "quality": "degraded",
+  "universe_count": 5565,
+  "board_eligible_count": 3052,
+  "evaluated_count": 3034,
+  "matched_count": 7,
+  "same_day_count": 1,
+  "prior_3_sessions_count": 6,
+  "candidates": [
+    {
+      "signal_rule": "strict_cross_v4",
+      "macd_cross_date": "2026-09-17",
+      "macd_cross_age_sessions": 0,
+      "instrument_id": "600418.SH",
+      "name": "江淮汽车",
+      "industry": "商用载货车",
+      "reference_close": 19.38,
+      "signal_trade_date": "2026-09-17",
+      "signal_group": "same_day",
+      "zero_axis_zone": "below_zero",
+      "j_turn_date": "2026-09-17",
+      "gap_sessions": 0,
+      "j_trough": 11.974,
+      "j_turn_value": 19.085,
+      "low_j_tags": [
+        "J<20"
+      ],
+      "high_60": 29.8,
+      "high_60_date": "2026-06-26",
+      "drawdown_60_pct": -34.966442953020135,
+      "ma5": 19.148,
+      "volume_ratio": 1.08,
+      "price_window_start": "2026-06-26",
+      "price_window_end": "2026-09-17",
+      "evidence": [
+        {
+          "trade_date": "2026-09-10",
+          "dif": -0.932,
+          "dea": -0.927,
+          "k": 17.583,
+          "d": 25.839,
+          "j": 1.072
+        },
+        {
+          "trade_date": "2026-09-11",
+          "dif": -1.005,
+          "dea": -0.943,
+          "k": 13.793,
+          "d": 21.823,
+          "j": -2.267
+        },
+        {
+          "trade_date": "2026-09-14",
+          "dif": -1.015,
+          "dea": -0.957,
+          "k": 15.704,
+          "d": 19.784,
+          "j": 7.545
+        },
+        {
+          "trade_date": "2026-09-15",
+          "dif": -1.01,
+          "dea": -0.968,
+          "k": 17.077,
+          "d": 18.881,
+          "j": 13.468
+        },
+        {
+          "trade_date": "2026-09-16",
+          "dif": -1.012,
+          "dea": -0.977,
+          "k": 15.921,
+          "d": 17.895,
+          "j": 11.974
+        },
+        {
+          "trade_date": "2026-09-17",
+          "dif": -0.975,
+          "dea": -0.976,
+          "k": 18.405,
+          "d": 18.065,
+          "j": 19.085
+        }
+      ]
+    },
+    {
+      "signal_rule": "strict_cross_v4",
+      "macd_cross_date": "2026-09-17",
+      "macd_cross_age_sessions": 0,
+      "instrument_id": "001215.SZ",
+      "name": "千味央厨",
+      "industry": "预加工食品",
+      "reference_close": 30.1,
+      "signal_trade_date": "2026-09-17",
+      "signal_group": "prior_1_session",
+      "zero_axis_zone": "below_zero",
+      "j_turn_date": "2026-09-16",
+      "gap_sessions": 1,
+      "j_trough": 8.123,
+      "j_turn_value": 36.822,
+      "low_j_tags": [
+        "J<20"
+      ],
+      "high_60": 39.85,
+      "high_60_date": "2026-07-03",
+      "drawdown_60_pct": -24.466750313676286,
+      "ma5": 29.71,
+      "volume_ratio": 0.48,
+      "price_window_start": "2026-06-26",
+      "price_window_end": "2026-09-17",
+      "evidence": [
+        {
+          "trade_date": "2026-09-10",
+          "dif": -0.584,
+          "dea": -0.662,
+          "k": 42.955,
+          "d": 32.84,
+          "j": 63.184
+        },
+        {
+          "trade_date": "2026-09-11",
+          "dif": -0.639,
+          "dea": -0.658,
+          "k": 30.391,
+          "d": 32.024,
+          "j": 27.125
+        },
+        {
+          "trade_date": "2026-09-14",
+          "dif": -0.679,
+          "dea": -0.662,
+          "k": 29.025,
+          "d": 31.024,
+          "j": 25.028
+        },
+        {
+          "trade_date": "2026-09-15",
+          "dif": -0.745,
+          "dea": -0.679,
+          "k": 21.21,
+          "d": 27.753,
+          "j": 8.123
+        },
+        {
+          "trade_date": "2026-09-16",
+          "dif": -0.704,
+          "dea": -0.684,
+          "k": 31.64,
+          "d": 29.048,
+          "j": 36.822
+        },
+        {
+          "trade_date": "2026-09-17",
+          "dif": -0.666,
+          "dea": -0.68,
+          "k": 38.355,
+          "d": 32.151,
+          "j": 50.764
+        }
+      ]
+    },
+    {
+      "signal_rule": "strict_cross_v4",
+      "macd_cross_date": "2026-09-17",
+      "macd_cross_age_sessions": 0,
+      "instrument_id": "002792.SZ",
+      "name": "通宇通讯",
+      "industry": "通信网络设备及器件",
+      "reference_close": 31.18,
+      "signal_trade_date": "2026-09-17",
+      "signal_group": "prior_1_session",
+      "zero_axis_zone": "below_zero",
+      "j_turn_date": "2026-09-16",
+      "gap_sessions": 1,
+      "j_trough": 13.127,
+      "j_turn_value": 31.213,
+      "low_j_tags": [
+        "J<20"
+      ],
+      "high_60": 40.52,
+      "high_60_date": "2026-08-13",
+      "drawdown_60_pct": -23.05034550839092,
+      "ma5": 30.244,
+      "volume_ratio": 1.14,
+      "price_window_start": "2026-06-26",
+      "price_window_end": "2026-09-17",
+      "evidence": [
+        {
+          "trade_date": "2026-09-10",
+          "dif": -0.314,
+          "dea": -0.211,
+          "k": 36.416,
+          "d": 33.89,
+          "j": 41.469
+        },
+        {
+          "trade_date": "2026-09-11",
+          "dif": -0.342,
+          "dea": -0.237,
+          "k": 32.202,
+          "d": 33.327,
+          "j": 29.951
+        },
+        {
+          "trade_date": "2026-09-14",
+          "dif": -0.386,
+          "dea": -0.267,
+          "k": 28.787,
+          "d": 31.814,
+          "j": 22.733
+        },
+        {
+          "trade_date": "2026-09-15",
+          "dif": -0.443,
+          "dea": -0.302,
+          "k": 23.805,
+          "d": 29.144,
+          "j": 13.127
+        },
+        {
+          "trade_date": "2026-09-16",
+          "dif": -0.387,
+          "dea": -0.319,
+          "k": 30.031,
+          "d": 29.44,
+          "j": 31.213
+        },
+        {
+          "trade_date": "2026-09-17",
+          "dif": -0.297,
+          "dea": -0.315,
+          "k": 38.318,
+          "d": 32.399,
+          "j": 50.156
+        }
+      ]
+    },
+    {
+      "signal_rule": "strict_cross_v4",
+      "macd_cross_date": "2026-09-17",
+      "macd_cross_age_sessions": 0,
+      "instrument_id": "600703.SH",
+      "name": "三安光电",
+      "industry": "LED",
+      "reference_close": 12.84,
+      "signal_trade_date": "2026-09-17",
+      "signal_group": "prior_1_session",
+      "zero_axis_zone": "below_zero",
+      "j_turn_date": "2026-09-16",
+      "gap_sessions": 1,
+      "j_trough": 13.305,
+      "j_turn_value": 28.634,
+      "low_j_tags": [
+        "J<20"
+      ],
+      "high_60": 23.18,
+      "high_60_date": "2026-06-26",
+      "drawdown_60_pct": -44.60742018981881,
+      "ma5": 12.618,
+      "volume_ratio": 1.27,
+      "price_window_start": "2026-06-26",
+      "price_window_end": "2026-09-17",
+      "evidence": [
+        {
+          "trade_date": "2026-09-10",
+          "dif": -0.265,
+          "dea": -0.252,
+          "k": 22.436,
+          "d": 31.48,
+          "j": 4.349
+        },
+        {
+          "trade_date": "2026-09-11",
+          "dif": -0.295,
+          "dea": -0.261,
+          "k": 20.481,
+          "d": 27.813,
+          "j": 5.816
+        },
+        {
+          "trade_date": "2026-09-14",
+          "dif": -0.302,
+          "dea": -0.269,
+          "k": 22.225,
+          "d": 25.951,
+          "j": 14.775
+        },
+        {
+          "trade_date": "2026-09-15",
+          "dif": -0.317,
+          "dea": -0.279,
+          "k": 20.531,
+          "d": 24.144,
+          "j": 13.305
+        },
+        {
+          "trade_date": "2026-09-16",
+          "dif": -0.296,
+          "dea": -0.282,
+          "k": 26.068,
+          "d": 24.786,
+          "j": 28.634
+        },
+        {
+          "trade_date": "2026-09-17",
+          "dif": -0.273,
+          "dea": -0.28,
+          "k": 36.987,
+          "d": 28.853,
+          "j": 53.255
+        }
+      ]
+    },
+    {
+      "signal_rule": "strict_cross_v4",
+      "macd_cross_date": "2026-09-17",
+      "macd_cross_age_sessions": 0,
+      "instrument_id": "601127.SH",
+      "name": "赛力斯",
+      "industry": "电动乘用车",
+      "reference_close": 47.12,
+      "signal_trade_date": "2026-09-17",
+      "signal_group": "prior_1_session",
+      "zero_axis_zone": "below_zero",
+      "j_turn_date": "2026-09-16",
+      "gap_sessions": 1,
+      "j_trough": 19.51,
+      "j_turn_value": 24.617,
+      "low_j_tags": [
+        "J<20"
+      ],
+      "high_60": 63.36,
+      "high_60_date": "2026-07-31",
+      "drawdown_60_pct": -25.63131313131313,
+      "ma5": 46.476,
+      "volume_ratio": 1.27,
+      "price_window_start": "2026-06-26",
+      "price_window_end": "2026-09-17",
+      "evidence": [
+        {
+          "trade_date": "2026-09-10",
+          "dif": -2.064,
+          "dea": -2.106,
+          "k": 11.123,
+          "d": 16.933,
+          "j": -0.498
+        },
+        {
+          "trade_date": "2026-09-11",
+          "dif": -2.154,
+          "dea": -2.115,
+          "k": 9.994,
+          "d": 14.62,
+          "j": 0.741
+        },
+        {
+          "trade_date": "2026-09-14",
+          "dif": -2.079,
+          "dea": -2.108,
+          "k": 18.801,
+          "d": 16.014,
+          "j": 24.375
+        },
+        {
+          "trade_date": "2026-09-15",
+          "dif": -2.19,
+          "dea": -2.125,
+          "k": 17.512,
+          "d": 16.513,
+          "j": 19.51
+        },
+        {
+          "trade_date": "2026-09-16",
+          "dif": -2.248,
+          "dea": -2.149,
+          "k": 19.986,
+          "d": 17.671,
+          "j": 24.617
+        },
+        {
+          "trade_date": "2026-09-17",
+          "dif": -2.14,
+          "dea": -2.147,
+          "k": 31.296,
+          "d": 22.213,
+          "j": 49.464
+        }
+      ]
+    },
+    {
+      "signal_rule": "strict_cross_v4",
+      "macd_cross_date": "2026-09-17",
+      "macd_cross_age_sessions": 0,
+      "instrument_id": "603867.SH",
+      "name": "新化股份",
+      "industry": "其他化学制品",
+      "reference_close": 30.54,
+      "signal_trade_date": "2026-09-17",
+      "signal_group": "prior_1_session",
+      "zero_axis_zone": "above_zero",
+      "j_turn_date": "2026-09-16",
+      "gap_sessions": 1,
+      "j_trough": 10.922,
+      "j_turn_value": 46.808,
+      "low_j_tags": [
+        "J<20"
+      ],
+      "high_60": 40.5,
+      "high_60_date": "2026-06-26",
+      "drawdown_60_pct": -24.59259259259259,
+      "ma5": 29.502,
+      "volume_ratio": 1.15,
+      "price_window_start": "2026-06-26",
+      "price_window_end": "2026-09-17",
+      "evidence": [
+        {
+          "trade_date": "2026-09-10",
+          "dif": 0.239,
+          "dea": 0.101,
+          "k": 62.515,
+          "d": 64.989,
+          "j": 57.568
+        },
+        {
+          "trade_date": "2026-09-11",
+          "dif": 0.14,
+          "dea": 0.109,
+          "k": 46.776,
+          "d": 58.918,
+          "j": 22.493
+        },
+        {
+          "trade_date": "2026-09-14",
+          "dif": 0.06,
+          "dea": 0.099,
+          "k": 38.816,
+          "d": 52.217,
+          "j": 12.014
+        },
+        {
+          "trade_date": "2026-09-15",
+          "dif": 0.004,
+          "dea": 0.08,
+          "k": 34.519,
+          "d": 46.318,
+          "j": 10.922
+        },
+        {
+          "trade_date": "2026-09-16",
+          "dif": 0.053,
+          "dea": 0.075,
+          "k": 46.528,
+          "d": 46.388,
+          "j": 46.808
+        },
+        {
+          "trade_date": "2026-09-17",
+          "dif": 0.121,
+          "dea": 0.084,
+          "k": 57.778,
+          "d": 50.185,
+          "j": 72.964
+        }
+      ]
+    },
+    {
+      "signal_rule": "strict_cross_v4",
+      "macd_cross_date": "2026-09-17",
+      "macd_cross_age_sessions": 0,
+      "instrument_id": "605318.SH",
+      "name": "法狮龙",
+      "industry": "其他建材",
+      "reference_close": 76.12,
+      "signal_trade_date": "2026-09-17",
+      "signal_group": "prior_1_session",
+      "zero_axis_zone": "below_zero",
+      "j_turn_date": "2026-09-16",
+      "gap_sessions": 1,
+      "j_trough": -4.097,
+      "j_turn_value": 6.931,
+      "low_j_tags": [
+        "J<20",
+        "J<0"
+      ],
+      "high_60": 140.95,
+      "high_60_date": "2026-06-26",
+      "drawdown_60_pct": -45.99503369989358,
+      "ma5": 74.962,
+      "volume_ratio": 1.28,
+      "price_window_start": "2026-06-26",
+      "price_window_end": "2026-09-17",
+      "evidence": [
+        {
+          "trade_date": "2026-09-10",
+          "dif": -0.859,
+          "dea": -1.324,
+          "k": 52.625,
+          "d": 57.3,
+          "j": 43.274
+        },
+        {
+          "trade_date": "2026-09-11",
+          "dif": -0.932,
+          "dea": -1.246,
+          "k": 45.106,
+          "d": 53.235,
+          "j": 28.847
+        },
+        {
+          "trade_date": "2026-09-14",
+          "dif": -1.107,
+          "dea": -1.218,
+          "k": 33.954,
+          "d": 46.808,
+          "j": 8.245
+        },
+        {
+          "trade_date": "2026-09-15",
+          "dif": -1.26,
+          "dea": -1.226,
+          "k": 24.992,
+          "d": 39.536,
+          "j": -4.097
+        },
+        {
+          "trade_date": "2026-09-16",
+          "dif": -1.255,
+          "dea": -1.232,
+          "k": 25.562,
+          "d": 34.878,
+          "j": 6.931
+        },
+        {
+          "trade_date": "2026-09-17",
+          "dif": -1.157,
+          "dea": -1.217,
+          "k": 31.327,
+          "d": 33.695,
+          "j": 26.593
+        }
+      ]
+    }
+  ],
+  "pending_candidates": [
+    {
+      "signal_rule": "pending_cross_v4",
+      "macd_cross_date": null,
+      "macd_cross_age_sessions": null,
+      "instrument_id": "000661.SZ",
+      "name": "长春高新",
+      "industry": "其他生物制品",
+      "reference_close": 72.33,
+      "signal_trade_date": "2026-09-17",
+      "signal_group": "same_day",
+      "zero_axis_zone": "below_zero",
+      "j_turn_date": "2026-09-17",
+      "gap_sessions": 0,
+      "j_trough": 14.884,
+      "j_turn_value": 25.883,
+      "low_j_tags": [
+        "J<20"
+      ],
+      "high_60": 91.0,
+      "high_60_date": "2026-08-11",
+      "drawdown_60_pct": -20.516483516483518,
+      "ma5": 71.822,
+      "volume_ratio": 1.29,
+      "price_window_start": "2026-06-26",
+      "price_window_end": "2026-09-17",
+      "evidence": [
+        {
+          "trade_date": "2026-09-10",
+          "dif": -1.287,
+          "dea": -0.737,
+          "k": 30.998,
+          "d": 27.472,
+          "j": 38.051
+        },
+        {
+          "trade_date": "2026-09-11",
+          "dif": -1.499,
+          "dea": -0.889,
+          "k": 25.041,
+          "d": 26.662,
+          "j": 21.799
+        },
+        {
+          "trade_date": "2026-09-14",
+          "dif": -1.585,
+          "dea": -1.029,
+          "k": 25.737,
+          "d": 26.354,
+          "j": 24.505
+        },
+        {
+          "trade_date": "2026-09-15",
+          "dif": -1.678,
+          "dea": -1.158,
+          "k": 22.965,
+          "d": 25.224,
+          "j": 18.448
+        },
+        {
+          "trade_date": "2026-09-16",
+          "dif": -1.759,
+          "dea": -1.279,
+          "k": 20.793,
+          "d": 23.747,
+          "j": 14.884
+        },
+        {
+          "trade_date": "2026-09-17",
+          "dif": -1.726,
+          "dea": -1.368,
+          "k": 24.662,
+          "d": 24.052,
+          "j": 25.883
+        }
+      ]
+    },
+    {
+      "signal_rule": "pending_cross_v4",
+      "macd_cross_date": null,
+      "macd_cross_age_sessions": null,
+      "instrument_id": "002289.SZ",
+      "name": "宇顺电子",
+      "industry": "面板",
+      "reference_close": 36.36,
+      "signal_trade_date": "2026-09-17",
+      "signal_group": "same_day",
+      "zero_axis_zone": "below_zero",
+      "j_turn_date": "2026-09-17",
+      "gap_sessions": 0,
+      "j_trough": 42.719,
+      "j_turn_value": 53.547,
+      "low_j_tags": [],
+      "high_60": 51.0,
+      "high_60_date": "2026-06-26",
+      "drawdown_60_pct": -28.705882352941178,
+      "ma5": 35.894,
+      "volume_ratio": 0.89,
+      "price_window_start": "2026-06-26",
+      "price_window_end": "2026-09-17",
+      "evidence": [
+        {
+          "trade_date": "2026-09-10",
+          "dif": -0.307,
+          "dea": -0.002,
+          "k": 23.968,
+          "d": 19.671,
+          "j": 32.563
+        },
+        {
+          "trade_date": "2026-09-11",
+          "dif": -0.444,
+          "dea": -0.09,
+          "k": 22.376,
+          "d": 20.573,
+          "j": 25.983
+        },
+        {
+          "trade_date": "2026-09-14",
+          "dif": -0.395,
+          "dea": -0.151,
+          "k": 37.016,
+          "d": 26.054,
+          "j": 58.939
+        },
+        {
+          "trade_date": "2026-09-15",
+          "dif": -0.472,
+          "dea": -0.215,
+          "k": 35.54,
+          "d": 29.216,
+          "j": 48.189
+        },
+        {
+          "trade_date": "2026-09-16",
+          "dif": -0.522,
+          "dea": -0.277,
+          "k": 35.003,
+          "d": 31.145,
+          "j": 42.719
+        },
+        {
+          "trade_date": "2026-09-17",
+          "dif": -0.491,
+          "dea": -0.319,
+          "k": 40.746,
+          "d": 34.345,
+          "j": 53.547
+        }
+      ]
+    },
+    {
+      "signal_rule": "pending_cross_v4",
+      "macd_cross_date": null,
+      "macd_cross_age_sessions": null,
+      "instrument_id": "603337.SH",
+      "name": "杰克科技",
+      "industry": "纺织服装设备",
+      "reference_close": 36.1,
+      "signal_trade_date": "2026-09-17",
+      "signal_group": "same_day",
+      "zero_axis_zone": "below_zero",
+      "j_turn_date": "2026-09-17",
+      "gap_sessions": 0,
+      "j_trough": 9.255,
+      "j_turn_value": 16.534,
+      "low_j_tags": [
+        "J<20"
+      ],
+      "high_60": 47.42,
+      "high_60_date": "2026-08-03",
+      "drawdown_60_pct": -23.871784057359765,
+      "ma5": 36.044,
+      "volume_ratio": 0.96,
+      "price_window_start": "2026-06-26",
+      "price_window_end": "2026-09-17",
+      "evidence": [
+        {
+          "trade_date": "2026-09-10",
+          "dif": -0.859,
+          "dea": -0.719,
+          "k": 15.703,
+          "d": 27.275,
+          "j": -7.443
+        },
+        {
+          "trade_date": "2026-09-11",
+          "dif": -0.941,
+          "dea": -0.763,
+          "k": 14.983,
+          "d": 23.178,
+          "j": -1.406
+        },
+        {
+          "trade_date": "2026-09-14",
+          "dif": -0.99,
+          "dea": -0.809,
+          "k": 14.984,
+          "d": 20.447,
+          "j": 4.059
+        },
+        {
+          "trade_date": "2026-09-15",
+          "dif": -1.003,
+          "dea": -0.848,
+          "k": 16.618,
+          "d": 19.17,
+          "j": 11.512
+        },
+        {
+          "trade_date": "2026-09-16",
+          "dif": -1.026,
+          "dea": -0.883,
+          "k": 14.921,
+          "d": 17.754,
+          "j": 9.255
+        },
+        {
+          "trade_date": "2026-09-17",
+          "dif": -1.017,
+          "dea": -0.91,
+          "k": 17.231,
+          "d": 17.58,
+          "j": 16.534
+        }
+      ]
+    },
+    {
+      "signal_rule": "pending_cross_v4",
+      "macd_cross_date": null,
+      "macd_cross_age_sessions": null,
+      "instrument_id": "000036.SZ",
+      "name": "华联控股",
+      "industry": "住宅开发",
+      "reference_close": 3.83,
+      "signal_trade_date": "2026-09-17",
+      "signal_group": "prior_1_session",
+      "zero_axis_zone": "below_zero",
+      "j_turn_date": "2026-09-16",
+      "gap_sessions": 1,
+      "j_trough": 9.198,
+      "j_turn_value": 23.36,
+      "low_j_tags": [
+        "J<20"
+      ],
+      "high_60": 4.97,
+      "high_60_date": "2026-07-15",
+      "drawdown_60_pct": -22.93762575452716,
+      "ma5": 3.802,
+      "volume_ratio": 0.73,
+      "price_window_start": "2026-06-26",
+      "price_window_end": "2026-09-17",
+      "evidence": [
+        {
+          "trade_date": "2026-09-10",
+          "dif": -0.062,
+          "dea": -0.062,
+          "k": 16.971,
+          "d": 22.259,
+          "j": 6.396
+        },
+        {
+          "trade_date": "2026-09-11",
+          "dif": -0.069,
+          "dea": -0.063,
+          "k": 20.323,
+          "d": 21.614,
+          "j": 17.742
+        },
+        {
+          "trade_date": "2026-09-14",
+          "dif": -0.076,
+          "dea": -0.066,
+          "k": 21.326,
+          "d": 21.518,
+          "j": 20.944
+        },
+        {
+          "trade_date": "2026-09-15",
+          "dif": -0.086,
+          "dea": -0.07,
+          "k": 16.238,
+          "d": 19.758,
+          "j": 9.198
+        },
+        {
+          "trade_date": "2026-09-16",
+          "dif": -0.088,
+          "dea": -0.073,
+          "k": 21.301,
+          "d": 20.272,
+          "j": 23.36
+        },
+        {
+          "trade_date": "2026-09-17",
+          "dif": -0.086,
+          "dea": -0.076,
+          "k": 29.757,
+          "d": 23.434,
+          "j": 42.402
+        }
+      ]
+    },
+    {
+      "signal_rule": "pending_cross_v4",
+      "macd_cross_date": null,
+      "macd_cross_age_sessions": null,
+      "instrument_id": "000593.SZ",
+      "name": "德龙汇能",
+      "industry": "燃气Ⅲ",
+      "reference_close": 21.57,
+      "signal_trade_date": "2026-09-17",
+      "signal_group": "prior_1_session",
+      "zero_axis_zone": "below_zero",
+      "j_turn_date": "2026-09-16",
+      "gap_sessions": 1,
+      "j_trough": 27.069,
+      "j_turn_value": 28.562,
+      "low_j_tags": [],
+      "high_60": 27.8,
+      "high_60_date": "2026-08-13",
+      "drawdown_60_pct": -22.41007194244604,
+      "ma5": 21.268,
+      "volume_ratio": 0.82,
+      "price_window_start": "2026-06-26",
+      "price_window_end": "2026-09-17",
+      "evidence": [
+        {
+          "trade_date": "2026-09-10",
+          "dif": -0.201,
+          "dea": 0.055,
+          "k": 27.57,
+          "d": 25.331,
+          "j": 32.05
+        },
+        {
+          "trade_date": "2026-09-11",
+          "dif": -0.295,
+          "dea": -0.015,
+          "k": 21.739,
+          "d": 24.133,
+          "j": 16.951
+        },
+        {
+          "trade_date": "2026-09-14",
+          "dif": -0.311,
+          "dea": -0.074,
+          "k": 27.654,
+          "d": 25.307,
+          "j": 32.348
+        },
+        {
+          "trade_date": "2026-09-15",
+          "dif": -0.356,
+          "dea": -0.131,
+          "k": 26.062,
+          "d": 25.559,
+          "j": 27.069
+        },
+        {
+          "trade_date": "2026-09-16",
+          "dif": -0.375,
+          "dea": -0.179,
+          "k": 26.846,
+          "d": 25.988,
+          "j": 28.562
+        },
+        {
+          "trade_date": "2026-09-17",
+          "dif": -0.36,
+          "dea": -0.216,
+          "k": 35.974,
+          "d": 29.316,
+          "j": 49.288
+        }
+      ]
+    },
+    {
+      "signal_rule": "pending_cross_v4",
+      "macd_cross_date": null,
+      "macd_cross_age_sessions": null,
+      "instrument_id": "000973.SZ",
+      "name": "佛塑科技",
+      "industry": "膜材料",
+      "reference_close": 12.0,
+      "signal_trade_date": "2026-09-17",
+      "signal_group": "prior_1_session",
+      "zero_axis_zone": "below_zero",
+      "j_turn_date": "2026-09-16",
+      "gap_sessions": 1,
+      "j_trough": 22.488,
+      "j_turn_value": 34.256,
+      "low_j_tags": [],
+      "high_60": 15.25,
+      "high_60_date": "2026-07-08",
+      "drawdown_60_pct": -21.311475409836067,
+      "ma5": 11.824,
+      "volume_ratio": 1.37,
+      "price_window_start": "2026-06-26",
+      "price_window_end": "2026-09-17",
+      "evidence": [
+        {
+          "trade_date": "2026-09-10",
+          "dif": -0.342,
+          "dea": -0.138,
+          "k": 9.232,
+          "d": 11.276,
+          "j": 5.145
+        },
+        {
+          "trade_date": "2026-09-11",
+          "dif": -0.387,
+          "dea": -0.187,
+          "k": 9.583,
+          "d": 10.711,
+          "j": 7.327
+        },
+        {
+          "trade_date": "2026-09-14",
+          "dif": -0.404,
+          "dea": -0.231,
+          "k": 15.952,
+          "d": 12.458,
+          "j": 22.939
+        },
+        {
+          "trade_date": "2026-09-15",
+          "dif": -0.426,
+          "dea": -0.27,
+          "k": 16.757,
+          "d": 13.891,
+          "j": 22.488
+        },
+        {
+          "trade_date": "2026-09-16",
+          "dif": -0.427,
+          "dea": -0.301,
+          "k": 22.619,
+          "d": 16.8,
+          "j": 34.256
+        },
+        {
+          "trade_date": "2026-09-17",
+          "dif": -0.41,
+          "dea": -0.323,
+          "k": 33.64,
+          "d": 22.414,
+          "j": 56.093
+        }
+      ]
+    },
+    {
+      "signal_rule": "pending_cross_v4",
+      "macd_cross_date": null,
+      "macd_cross_age_sessions": null,
+      "instrument_id": "001267.SZ",
+      "name": "汇绿生态",
+      "industry": "通信网络设备及器件",
+      "reference_close": 36.55,
+      "signal_trade_date": "2026-09-17",
+      "signal_group": "prior_1_session",
+      "zero_axis_zone": "below_zero",
+      "j_turn_date": "2026-09-16",
+      "gap_sessions": 1,
+      "j_trough": 22.72,
+      "j_turn_value": 48.451,
+      "low_j_tags": [],
+      "high_60": 61.77433009521977,
+      "high_60_date": "2026-06-26",
+      "drawdown_60_pct": -40.83302895610305,
+      "ma5": 35.744,
+      "volume_ratio": 0.92,
+      "price_window_start": "2026-06-26",
+      "price_window_end": "2026-09-17",
+      "evidence": [
+        {
+          "trade_date": "2026-09-10",
+          "dif": -0.502,
+          "dea": -0.397,
+          "k": 31.433,
+          "d": 30.282,
+          "j": 33.736
+        },
+        {
+          "trade_date": "2026-09-11",
+          "dif": -0.639,
+          "dea": -0.446,
+          "k": 29.077,
+          "d": 29.88,
+          "j": 27.471
+        },
+        {
+          "trade_date": "2026-09-14",
+          "dif": -0.755,
+          "dea": -0.508,
+          "k": 27.786,
+          "d": 29.182,
+          "j": 24.994
+        },
+        {
+          "trade_date": "2026-09-15",
+          "dif": -0.843,
+          "dea": -0.575,
+          "k": 26.413,
+          "d": 28.259,
+          "j": 22.72
+        },
+        {
+          "trade_date": "2026-09-16",
+          "dif": -0.76,
+          "dea": -0.612,
+          "k": 36.913,
+          "d": 31.143,
+          "j": 48.451
+        },
+        {
+          "trade_date": "2026-09-17",
+          "dif": -0.706,
+          "dea": -0.631,
+          "k": 42.373,
+          "d": 34.887,
+          "j": 57.346
+        }
+      ]
+    },
+    {
+      "signal_rule": "pending_cross_v4",
+      "macd_cross_date": null,
+      "macd_cross_age_sessions": null,
+      "instrument_id": "002009.SZ",
+      "name": "天奇股份",
+      "industry": "其他专用设备",
+      "reference_close": 15.52,
+      "signal_trade_date": "2026-09-17",
+      "signal_group": "prior_1_session",
+      "zero_axis_zone": "below_zero",
+      "j_turn_date": "2026-09-16",
+      "gap_sessions": 1,
+      "j_trough": -1.766,
+      "j_turn_value": 13.254,
+      "low_j_tags": [
+        "J<20",
+        "J<0"
+      ],
+      "high_60": 22.375009315796273,
+      "high_60_date": "2026-07-03",
+      "drawdown_60_pct": -30.636900387597983,
+      "ma5": 15.402,
+      "volume_ratio": 1.17,
+      "price_window_start": "2026-06-26",
+      "price_window_end": "2026-09-17",
+      "evidence": [
+        {
+          "trade_date": "2026-09-10",
+          "dif": -0.379,
+          "dea": -0.35,
+          "k": 12.752,
+          "d": 22.725,
+          "j": -7.195
+        },
+        {
+          "trade_date": "2026-09-11",
+          "dif": -0.425,
+          "dea": -0.365,
+          "k": 13.183,
+          "d": 19.545,
+          "j": 0.46
+        },
+        {
+          "trade_date": "2026-09-14",
+          "dif": -0.455,
+          "dea": -0.383,
+          "k": 13.658,
+          "d": 17.582,
+          "j": 5.808
+        },
+        {
+          "trade_date": "2026-09-15",
+          "dif": -0.495,
+          "dea": -0.405,
+          "k": 9.29,
+          "d": 14.818,
+          "j": -1.766
+        },
+        {
+          "trade_date": "2026-09-16",
+          "dif": -0.498,
+          "dea": -0.424,
+          "k": 14.148,
+          "d": 14.595,
+          "j": 13.254
+        },
+        {
+          "trade_date": "2026-09-17",
+          "dif": -0.489,
+          "dea": -0.437,
+          "k": 19.705,
+          "d": 16.298,
+          "j": 26.517
+        }
+      ]
+    },
+    {
+      "signal_rule": "pending_cross_v4",
+      "macd_cross_date": null,
+      "macd_cross_age_sessions": null,
+      "instrument_id": "002150.SZ",
+      "name": "正泰电源",
+      "industry": "逆变器",
+      "reference_close": 20.46,
+      "signal_trade_date": "2026-09-17",
+      "signal_group": "prior_1_session",
+      "zero_axis_zone": "below_zero",
+      "j_turn_date": "2026-09-16",
+      "gap_sessions": 1,
+      "j_trough": 5.054,
+      "j_turn_value": 36.31,
+      "low_j_tags": [
+        "J<20"
+      ],
+      "high_60": 28.25,
+      "high_60_date": "2026-07-06",
+      "drawdown_60_pct": -27.575221238938052,
+      "ma5": 20.222,
+      "volume_ratio": 1.06,
+      "price_window_start": "2026-06-26",
+      "price_window_end": "2026-09-17",
+      "evidence": [
+        {
+          "trade_date": "2026-09-10",
+          "dif": -0.525,
+          "dea": -0.392,
+          "k": 11.895,
+          "d": 15.939,
+          "j": 3.807
+        },
+        {
+          "trade_date": "2026-09-11",
+          "dif": -0.588,
+          "dea": -0.431,
+          "k": 9.899,
+          "d": 13.926,
+          "j": 1.846
+        },
+        {
+          "trade_date": "2026-09-14",
+          "dif": -0.606,
+          "dea": -0.466,
+          "k": 13.709,
+          "d": 13.853,
+          "j": 13.419
+        },
+        {
+          "trade_date": "2026-09-15",
+          "dif": -0.645,
+          "dea": -0.502,
+          "k": 10.082,
+          "d": 12.596,
+          "j": 5.054
+        },
+        {
+          "trade_date": "2026-09-16",
+          "dif": -0.592,
+          "dea": -0.52,
+          "k": 22.759,
+          "d": 15.984,
+          "j": 36.31
+        },
+        {
+          "trade_date": "2026-09-17",
+          "dif": -0.568,
+          "dea": -0.529,
+          "k": 27.544,
+          "d": 19.837,
+          "j": 42.957
+        }
+      ]
+    },
+    {
+      "signal_rule": "pending_cross_v4",
+      "macd_cross_date": null,
+      "macd_cross_age_sessions": null,
+      "instrument_id": "002273.SZ",
+      "name": "水晶光电",
+      "industry": "光学元件",
+      "reference_close": 24.57,
+      "signal_trade_date": "2026-09-17",
+      "signal_group": "prior_1_session",
+      "zero_axis_zone": "below_zero",
+      "j_turn_date": "2026-09-16",
+      "gap_sessions": 1,
+      "j_trough": -0.54,
+      "j_turn_value": 22.613,
+      "low_j_tags": [
+        "J<20",
+        "J<0"
+      ],
+      "high_60": 42.016335358413336,
+      "high_60_date": "2026-07-02",
+      "drawdown_60_pct": -41.52274397467148,
+      "ma5": 24.458,
+      "volume_ratio": 0.99,
+      "price_window_start": "2026-06-26",
+      "price_window_end": "2026-09-17",
+      "evidence": [
+        {
+          "trade_date": "2026-09-10",
+          "dif": -0.706,
+          "dea": -0.727,
+          "k": 31.784,
+          "d": 35.983,
+          "j": 23.387
+        },
+        {
+          "trade_date": "2026-09-11",
+          "dif": -0.734,
+          "dea": -0.729,
+          "k": 28.044,
+          "d": 33.337,
+          "j": 17.46
+        },
+        {
+          "trade_date": "2026-09-14",
+          "dif": -0.764,
+          "dea": -0.736,
+          "k": 24.34,
+          "d": 30.338,
+          "j": 12.344
+        },
+        {
+          "trade_date": "2026-09-15",
+          "dif": -0.822,
+          "dea": -0.753,
+          "k": 17.104,
+          "d": 25.927,
+          "j": -0.54
+        },
+        {
+          "trade_date": "2026-09-16",
+          "dif": -0.798,
+          "dea": -0.762,
+          "k": 24.507,
+          "d": 25.453,
+          "j": 22.613
+        },
+        {
+          "trade_date": "2026-09-17",
+          "dif": -0.778,
+          "dea": -0.765,
+          "k": 27.855,
+          "d": 26.254,
+          "j": 31.056
+        }
+      ]
+    },
+    {
+      "signal_rule": "pending_cross_v4",
+      "macd_cross_date": null,
+      "macd_cross_age_sessions": null,
+      "instrument_id": "002294.SZ",
+      "name": "信立泰",
+      "industry": "化学制剂",
+      "reference_close": 30.19,
+      "signal_trade_date": "2026-09-17",
+      "signal_group": "prior_1_session",
+      "zero_axis_zone": "below_zero",
+      "j_turn_date": "2026-09-16",
+      "gap_sessions": 1,
+      "j_trough": 0.251,
+      "j_turn_value": 8.448,
+      "low_j_tags": [
+        "J<20"
+      ],
+      "high_60": 44.0,
+      "high_60_date": "2026-07-06",
+      "drawdown_60_pct": -31.386363636363637,
+      "ma5": 29.978,
+      "volume_ratio": 0.83,
+      "price_window_start": "2026-06-26",
+      "price_window_end": "2026-09-17",
+      "evidence": [
+        {
+          "trade_date": "2026-09-10",
+          "dif": -0.872,
+          "dea": -0.815,
+          "k": 22.127,
+          "d": 19.87,
+          "j": 26.641
+        },
+        {
+          "trade_date": "2026-09-11",
+          "dif": -0.94,
+          "dea": -0.84,
+          "k": 15.574,
+          "d": 18.438,
+          "j": 9.847
+        },
+        {
+          "trade_date": "2026-09-14",
+          "dif": -0.969,
+          "dea": -0.866,
+          "k": 14.976,
+          "d": 17.284,
+          "j": 10.36
+        },
+        {
+          "trade_date": "2026-09-15",
+          "dif": -1.033,
+          "dea": -0.899,
+          "k": 9.984,
+          "d": 14.851,
+          "j": 0.251
+        },
+        {
+          "trade_date": "2026-09-16",
+          "dif": -1.056,
+          "dea": -0.931,
+          "k": 12.107,
+          "d": 13.936,
+          "j": 8.448
+        },
+        {
+          "trade_date": "2026-09-17",
+          "dif": -1.03,
+          "dea": -0.95,
+          "k": 17.82,
+          "d": 15.231,
+          "j": 22.998
+        }
+      ]
+    },
+    {
+      "signal_rule": "pending_cross_v4",
+      "macd_cross_date": null,
+      "macd_cross_age_sessions": null,
+      "instrument_id": "002335.SZ",
+      "name": "科华数据",
+      "industry": "其他电源设备Ⅲ",
+      "reference_close": 29.1,
+      "signal_trade_date": "2026-09-17",
+      "signal_group": "prior_1_session",
+      "zero_axis_zone": "below_zero",
+      "j_turn_date": "2026-09-16",
+      "gap_sessions": 1,
+      "j_trough": 17.664,
+      "j_turn_value": 27.696,
+      "low_j_tags": [
+        "J<20"
+      ],
+      "high_60": 44.87,
+      "high_60_date": "2026-06-26",
+      "drawdown_60_pct": -35.14597726766213,
+      "ma5": 29.052,
+      "volume_ratio": 0.93,
+      "price_window_start": "2026-06-26",
+      "price_window_end": "2026-09-17",
+      "evidence": [
+        {
+          "trade_date": "2026-09-10",
+          "dif": -0.496,
+          "dea": -0.522,
+          "k": 27.428,
+          "d": 36.08,
+          "j": 10.125
+        },
+        {
+          "trade_date": "2026-09-11",
+          "dif": -0.563,
+          "dea": -0.53,
+          "k": 26.895,
+          "d": 33.018,
+          "j": 14.648
+        },
+        {
+          "trade_date": "2026-09-14",
+          "dif": -0.593,
+          "dea": -0.543,
+          "k": 28.636,
+          "d": 31.557,
+          "j": 22.794
+        },
+        {
+          "trade_date": "2026-09-15",
+          "dif": -0.641,
+          "dea": -0.562,
+          "k": 25.603,
+          "d": 29.573,
+          "j": 17.664
+        },
+        {
+          "trade_date": "2026-09-16",
+          "dif": -0.633,
+          "dea": -0.576,
+          "k": 28.768,
+          "d": 29.304,
+          "j": 27.696
+        },
+        {
+          "trade_date": "2026-09-17",
+          "dif": -0.632,
+          "dea": -0.588,
+          "k": 30.169,
+          "d": 29.593,
+          "j": 31.322
+        }
+      ]
+    },
+    {
+      "signal_rule": "pending_cross_v4",
+      "macd_cross_date": null,
+      "macd_cross_age_sessions": null,
+      "instrument_id": "002348.SZ",
+      "name": "高乐股份",
+      "industry": "娱乐用品",
+      "reference_close": 10.54,
+      "signal_trade_date": "2026-09-17",
+      "signal_group": "prior_1_session",
+      "zero_axis_zone": "below_zero",
+      "j_turn_date": "2026-09-16",
+      "gap_sessions": 1,
+      "j_trough": 14.824,
+      "j_turn_value": 41.404,
+      "low_j_tags": [
+        "J<20"
+      ],
+      "high_60": 13.29,
+      "high_60_date": "2026-08-13",
+      "drawdown_60_pct": -20.692249811888637,
+      "ma5": 10.456,
+      "volume_ratio": 0.82,
+      "price_window_start": "2026-06-26",
+      "price_window_end": "2026-09-17",
+      "evidence": [
+        {
+          "trade_date": "2026-09-10",
+          "dif": -0.143,
+          "dea": -0.058,
+          "k": 19.305,
+          "d": 20.519,
+          "j": 16.878
+        },
+        {
+          "trade_date": "2026-09-11",
+          "dif": -0.172,
+          "dea": -0.081,
+          "k": 21.062,
+          "d": 20.7,
+          "j": 21.787
+        },
+        {
+          "trade_date": "2026-09-14",
+          "dif": -0.193,
+          "dea": -0.103,
+          "k": 24.257,
+          "d": 21.886,
+          "j": 28.998
+        },
+        {
+          "trade_date": "2026-09-15",
+          "dif": -0.231,
+          "dea": -0.129,
+          "k": 18.859,
+          "d": 20.877,
+          "j": 14.824
+        },
+        {
+          "trade_date": "2026-09-16",
+          "dif": -0.218,
+          "dea": -0.147,
+          "k": 29.674,
+          "d": 23.809,
+          "j": 41.404
+        },
+        {
+          "trade_date": "2026-09-17",
+          "dif": -0.215,
+          "dea": -0.16,
+          "k": 36.45,
+          "d": 28.023,
+          "j": 53.303
+        }
+      ]
+    },
+    {
+      "signal_rule": "pending_cross_v4",
+      "macd_cross_date": null,
+      "macd_cross_age_sessions": null,
+      "instrument_id": "002655.SZ",
+      "name": "共达电声",
+      "industry": "消费电子零部件及组装",
+      "reference_close": 40.77,
+      "signal_trade_date": "2026-09-17",
+      "signal_group": "prior_1_session",
+      "zero_axis_zone": "above_zero",
+      "j_turn_date": "2026-09-16",
+      "gap_sessions": 1,
+      "j_trough": 9.294,
+      "j_turn_value": 41.999,
+      "low_j_tags": [
+        "J<20"
+      ],
+      "high_60": 52.72,
+      "high_60_date": "2026-06-26",
+      "drawdown_60_pct": -22.66691957511381,
+      "ma5": 36.154,
+      "volume_ratio": 1.44,
+      "price_window_start": "2026-06-26",
+      "price_window_end": "2026-09-17",
+      "evidence": [
+        {
+          "trade_date": "2026-09-10",
+          "dif": 1.456,
+          "dea": 1.715,
+          "k": 33.155,
+          "d": 49.635,
+          "j": 0.195
+        },
+        {
+          "trade_date": "2026-09-11",
+          "dif": 1.1,
+          "dea": 1.592,
+          "k": 28.446,
+          "d": 42.572,
+          "j": 0.193
+        },
+        {
+          "trade_date": "2026-09-14",
+          "dif": 0.868,
+          "dea": 1.447,
+          "k": 30.363,
+          "d": 38.503,
+          "j": 14.084
+        },
+        {
+          "trade_date": "2026-09-15",
+          "dif": 0.572,
+          "dea": 1.272,
+          "k": 25.985,
+          "d": 34.33,
+          "j": 9.294
+        },
+        {
+          "trade_date": "2026-09-16",
+          "dif": 0.602,
+          "dea": 1.138,
+          "k": 37.617,
+          "d": 35.425,
+          "j": 41.999
+        },
+        {
+          "trade_date": "2026-09-17",
+          "dif": 0.915,
+          "dea": 1.093,
+          "k": 58.411,
+          "d": 43.087,
+          "j": 89.059
+        }
+      ]
+    },
+    {
+      "signal_rule": "pending_cross_v4",
+      "macd_cross_date": null,
+      "macd_cross_age_sessions": null,
+      "instrument_id": "002674.SZ",
+      "name": "兴业科技",
+      "industry": "辅料",
+      "reference_close": 19.29,
+      "signal_trade_date": "2026-09-17",
+      "signal_group": "prior_1_session",
+      "zero_axis_zone": "below_zero",
+      "j_turn_date": "2026-09-16",
+      "gap_sessions": 1,
+      "j_trough": 2.992,
+      "j_turn_value": 13.368,
+      "low_j_tags": [
+        "J<20"
+      ],
+      "high_60": 33.88,
+      "high_60_date": "2026-07-13",
+      "drawdown_60_pct": -43.06375442739079,
+      "ma5": 18.856,
+      "volume_ratio": 0.94,
+      "price_window_start": "2026-06-26",
+      "price_window_end": "2026-09-17",
+      "evidence": [
+        {
+          "trade_date": "2026-09-10",
+          "dif": -1.593,
+          "dea": -0.72,
+          "k": 4.08,
+          "d": 7.981,
+          "j": -3.722
+        },
+        {
+          "trade_date": "2026-09-11",
+          "dif": -1.799,
+          "dea": -0.936,
+          "k": 4.859,
+          "d": 6.94,
+          "j": 0.697
+        },
+        {
+          "trade_date": "2026-09-14",
+          "dif": -1.936,
+          "dea": -1.136,
+          "k": 5.578,
+          "d": 6.486,
+          "j": 3.761
+        },
+        {
+          "trade_date": "2026-09-15",
+          "dif": -2.039,
+          "dea": -1.317,
+          "k": 4.989,
+          "d": 5.987,
+          "j": 2.992
+        },
+        {
+          "trade_date": "2026-09-16",
+          "dif": -2.028,
+          "dea": -1.459,
+          "k": 9.15,
+          "d": 7.041,
+          "j": 13.368
+        },
+        {
+          "trade_date": "2026-09-17",
+          "dif": -1.996,
+          "dea": -1.566,
+          "k": 17.178,
+          "d": 10.42,
+          "j": 30.693
+        }
+      ]
+    },
+    {
+      "signal_rule": "pending_cross_v4",
+      "macd_cross_date": null,
+      "macd_cross_age_sessions": null,
+      "instrument_id": "002729.SZ",
+      "name": "好利科技",
+      "industry": "其他电子Ⅲ",
+      "reference_close": 13.7,
+      "signal_trade_date": "2026-09-17",
+      "signal_group": "prior_1_session",
+      "zero_axis_zone": "below_zero",
+      "j_turn_date": "2026-09-16",
+      "gap_sessions": 1,
+      "j_trough": 11.577,
+      "j_turn_value": 26.869,
+      "low_j_tags": [
+        "J<20"
+      ],
+      "high_60": 19.58,
+      "high_60_date": "2026-07-06",
+      "drawdown_60_pct": -30.03064351378958,
+      "ma5": 13.576,
+      "volume_ratio": 1.19,
+      "price_window_start": "2026-06-26",
+      "price_window_end": "2026-09-17",
+      "evidence": [
+        {
+          "trade_date": "2026-09-10",
+          "dif": -0.048,
+          "dea": -0.064,
+          "k": 26.268,
+          "d": 39.0,
+          "j": 0.805
+        },
+        {
+          "trade_date": "2026-09-11",
+          "dif": -0.072,
+          "dea": -0.065,
+          "k": 25.684,
+          "d": 34.561,
+          "j": 7.93
+        },
+        {
+          "trade_date": "2026-09-14",
+          "dif": -0.076,
+          "dea": -0.067,
+          "k": 30.125,
+          "d": 33.083,
+          "j": 24.21
+        },
+        {
+          "trade_date": "2026-09-15",
+          "dif": -0.11,
+          "dea": -0.076,
+          "k": 23.866,
+          "d": 30.01,
+          "j": 11.577
+        },
+        {
+          "trade_date": "2026-09-16",
+          "dif": -0.115,
+          "dea": -0.084,
+          "k": 28.664,
+          "d": 29.562,
+          "j": 26.869
+        },
+        {
+          "trade_date": "2026-09-17",
+          "dif": -0.108,
+          "dea": -0.089,
+          "k": 37.058,
+          "d": 32.06,
+          "j": 47.054
+        }
+      ]
+    },
+    {
+      "signal_rule": "pending_cross_v4",
+      "macd_cross_date": null,
+      "macd_cross_age_sessions": null,
+      "instrument_id": "002861.SZ",
+      "name": "瀛通通讯",
+      "industry": "消费电子零部件及组装",
+      "reference_close": 14.68,
+      "signal_trade_date": "2026-09-17",
+      "signal_group": "prior_1_session",
+      "zero_axis_zone": "below_zero",
+      "j_turn_date": "2026-09-16",
+      "gap_sessions": 1,
+      "j_trough": -6.252,
+      "j_turn_value": -3.091,
+      "low_j_tags": [
+        "J<20",
+        "J<0"
+      ],
+      "high_60": 23.7,
+      "high_60_date": "2026-07-01",
+      "drawdown_60_pct": -38.05907172995781,
+      "ma5": 14.42,
+      "volume_ratio": 1.32,
+      "price_window_start": "2026-06-26",
+      "price_window_end": "2026-09-17",
+      "evidence": [
+        {
+          "trade_date": "2026-09-10",
+          "dif": -0.294,
+          "dea": -0.239,
+          "k": 20.579,
+          "d": 38.402,
+          "j": -15.068
+        },
+        {
+          "trade_date": "2026-09-11",
+          "dif": -0.38,
+          "dea": -0.267,
+          "k": 17.662,
+          "d": 31.489,
+          "j": -9.992
+        },
+        {
+          "trade_date": "2026-09-14",
+          "dif": -0.437,
+          "dea": -0.301,
+          "k": 16.554,
+          "d": 26.51,
+          "j": -3.36
+        },
+        {
+          "trade_date": "2026-09-15",
+          "dif": -0.499,
+          "dea": -0.341,
+          "k": 12.469,
+          "d": 21.83,
+          "j": -6.252
+        },
+        {
+          "trade_date": "2026-09-16",
+          "dif": -0.534,
+          "dea": -0.379,
+          "k": 11.15,
+          "d": 18.27,
+          "j": -3.091
+        },
+        {
+          "trade_date": "2026-09-17",
+          "dif": -0.526,
+          "dea": -0.409,
+          "k": 16.957,
+          "d": 17.832,
+          "j": 15.206
+        }
+      ]
+    },
+    {
+      "signal_rule": "pending_cross_v4",
+      "macd_cross_date": null,
+      "macd_cross_age_sessions": null,
+      "instrument_id": "002922.SZ",
+      "name": "伊戈尔",
+      "industry": "其他电子Ⅲ",
+      "reference_close": 23.16,
+      "signal_trade_date": "2026-09-17",
+      "signal_group": "prior_1_session",
+      "zero_axis_zone": "below_zero",
+      "j_turn_date": "2026-09-16",
+      "gap_sessions": 1,
+      "j_trough": -0.212,
+      "j_turn_value": 3.587,
+      "low_j_tags": [
+        "J<20",
+        "J<0"
+      ],
+      "high_60": 34.97,
+      "high_60_date": "2026-06-26",
+      "drawdown_60_pct": -33.77180440377467,
+      "ma5": 22.932,
+      "volume_ratio": 0.83,
+      "price_window_start": "2026-06-26",
+      "price_window_end": "2026-09-17",
+      "evidence": [
+        {
+          "trade_date": "2026-09-10",
+          "dif": -0.465,
+          "dea": -0.514,
+          "k": 31.402,
+          "d": 36.479,
+          "j": 21.25
+        },
+        {
+          "trade_date": "2026-09-11",
+          "dif": -0.553,
+          "dea": -0.522,
+          "k": 27.476,
+          "d": 33.478,
+          "j": 15.473
+        },
+        {
+          "trade_date": "2026-09-14",
+          "dif": -0.645,
+          "dea": -0.547,
+          "k": 22.354,
+          "d": 29.77,
+          "j": 7.522
+        },
+        {
+          "trade_date": "2026-09-15",
+          "dif": -0.733,
+          "dea": -0.584,
+          "k": 16.921,
+          "d": 25.487,
+          "j": -0.212
+        },
+        {
+          "trade_date": "2026-09-16",
+          "dif": -0.764,
+          "dea": -0.62,
+          "k": 16.101,
+          "d": 22.358,
+          "j": 3.587
+        },
+        {
+          "trade_date": "2026-09-17",
+          "dif": -0.76,
+          "dea": -0.648,
+          "k": 18.981,
+          "d": 21.232,
+          "j": 14.477
+        }
+      ]
+    },
+    {
+      "signal_rule": "pending_cross_v4",
+      "macd_cross_date": null,
+      "macd_cross_age_sessions": null,
+      "instrument_id": "002931.SZ",
+      "name": "锋龙股份",
+      "industry": "金属制品",
+      "reference_close": 41.0,
+      "signal_trade_date": "2026-09-17",
+      "signal_group": "prior_1_session",
+      "zero_axis_zone": "below_zero",
+      "j_turn_date": "2026-09-16",
+      "gap_sessions": 1,
+      "j_trough": 9.839,
+      "j_turn_value": 14.439,
+      "low_j_tags": [
+        "J<20"
+      ],
+      "high_60": 81.84397126731658,
+      "high_60_date": "2026-07-06",
+      "drawdown_60_pct": -49.90467915335278,
+      "ma5": 40.892,
+      "volume_ratio": 1.12,
+      "price_window_start": "2026-06-26",
+      "price_window_end": "2026-09-17",
+      "evidence": [
+        {
+          "trade_date": "2026-09-10",
+          "dif": -1.998,
+          "dea": -1.781,
+          "k": 13.069,
+          "d": 16.613,
+          "j": 5.979
+        },
+        {
+          "trade_date": "2026-09-11",
+          "dif": -2.17,
+          "dea": -1.859,
+          "k": 12.757,
+          "d": 15.328,
+          "j": 7.616
+        },
+        {
+          "trade_date": "2026-09-14",
+          "dif": -2.248,
+          "dea": -1.936,
+          "k": 15.553,
+          "d": 15.403,
+          "j": 15.853
+        },
+        {
+          "trade_date": "2026-09-15",
+          "dif": -2.349,
+          "dea": -2.019,
+          "k": 13.018,
+          "d": 14.608,
+          "j": 9.839
+        },
+        {
+          "trade_date": "2026-09-16",
+          "dif": -2.357,
+          "dea": -2.087,
+          "k": 14.536,
+          "d": 14.584,
+          "j": 14.439
+        },
+        {
+          "trade_date": "2026-09-17",
+          "dif": -2.334,
+          "dea": -2.136,
+          "k": 15.656,
+          "d": 14.941,
+          "j": 17.086
+        }
+      ]
+    },
+    {
+      "signal_rule": "pending_cross_v4",
+      "macd_cross_date": null,
+      "macd_cross_age_sessions": null,
+      "instrument_id": "600143.SH",
+      "name": "金发科技",
+      "industry": "改性塑料",
+      "reference_close": 13.1,
+      "signal_trade_date": "2026-09-17",
+      "signal_group": "prior_1_session",
+      "zero_axis_zone": "below_zero",
+      "j_turn_date": "2026-09-16",
+      "gap_sessions": 1,
+      "j_trough": 4.193,
+      "j_turn_value": 15.353,
+      "low_j_tags": [
+        "J<20"
+      ],
+      "high_60": 17.4,
+      "high_60_date": "2026-07-06",
+      "drawdown_60_pct": -24.71264367816092,
+      "ma5": 13.088,
+      "volume_ratio": 1.17,
+      "price_window_start": "2026-06-26",
+      "price_window_end": "2026-09-17",
+      "evidence": [
+        {
+          "trade_date": "2026-09-10",
+          "dif": -0.414,
+          "dea": -0.357,
+          "k": 8.445,
+          "d": 10.969,
+          "j": 3.397
+        },
+        {
+          "trade_date": "2026-09-11",
+          "dif": -0.436,
+          "dea": -0.373,
+          "k": 10.808,
+          "d": 10.915,
+          "j": 10.593
+        },
+        {
+          "trade_date": "2026-09-14",
+          "dif": -0.454,
+          "dea": -0.389,
+          "k": 9.983,
+          "d": 10.605,
+          "j": 8.74
+        },
+        {
+          "trade_date": "2026-09-15",
+          "dif": -0.478,
+          "dea": -0.407,
+          "k": 7.857,
+          "d": 9.689,
+          "j": 4.193
+        },
+        {
+          "trade_date": "2026-09-16",
+          "dif": -0.489,
+          "dea": -0.423,
+          "k": 12.116,
+          "d": 10.498,
+          "j": 15.353
+        },
+        {
+          "trade_date": "2026-09-17",
+          "dif": -0.484,
+          "dea": -0.435,
+          "k": 18.697,
+          "d": 13.231,
+          "j": 29.629
+        }
+      ]
+    },
+    {
+      "signal_rule": "pending_cross_v4",
+      "macd_cross_date": null,
+      "macd_cross_age_sessions": null,
+      "instrument_id": "600513.SH",
+      "name": "联环药业",
+      "industry": "化学制剂",
+      "reference_close": 14.79,
+      "signal_trade_date": "2026-09-17",
+      "signal_group": "prior_1_session",
+      "zero_axis_zone": "below_zero",
+      "j_turn_date": "2026-09-16",
+      "gap_sessions": 1,
+      "j_trough": 7.273,
+      "j_turn_value": 9.675,
+      "low_j_tags": [
+        "J<20"
+      ],
+      "high_60": 19.5,
+      "high_60_date": "2026-07-15",
+      "drawdown_60_pct": -24.153846153846153,
+      "ma5": 14.736,
+      "volume_ratio": 1.12,
+      "price_window_start": "2026-06-26",
+      "price_window_end": "2026-09-17",
+      "evidence": [
+        {
+          "trade_date": "2026-09-10",
+          "dif": -0.434,
+          "dea": -0.289,
+          "k": 12.282,
+          "d": 16.68,
+          "j": 3.485
+        },
+        {
+          "trade_date": "2026-09-11",
+          "dif": -0.484,
+          "dea": -0.328,
+          "k": 12.146,
+          "d": 15.169,
+          "j": 6.101
+        },
+        {
+          "trade_date": "2026-09-14",
+          "dif": -0.506,
+          "dea": -0.364,
+          "k": 15.181,
+          "d": 15.173,
+          "j": 15.197
+        },
+        {
+          "trade_date": "2026-09-15",
+          "dif": -0.538,
+          "dea": -0.399,
+          "k": 11.787,
+          "d": 14.044,
+          "j": 7.273
+        },
+        {
+          "trade_date": "2026-09-16",
+          "dif": -0.554,
+          "dea": -0.43,
+          "k": 12.172,
+          "d": 13.42,
+          "j": 9.675
+        },
+        {
+          "trade_date": "2026-09-17",
+          "dif": -0.55,
+          "dea": -0.454,
+          "k": 17.159,
+          "d": 14.666,
+          "j": 22.143
+        }
+      ]
+    },
+    {
+      "signal_rule": "pending_cross_v4",
+      "macd_cross_date": null,
+      "macd_cross_age_sessions": null,
+      "instrument_id": "600539.SH",
+      "name": "狮头股份",
+      "industry": "电商服务",
+      "reference_close": 13.27,
+      "signal_trade_date": "2026-09-17",
+      "signal_group": "prior_1_session",
+      "zero_axis_zone": "below_zero",
+      "j_turn_date": "2026-09-16",
+      "gap_sessions": 1,
+      "j_trough": -4.956,
+      "j_turn_value": 5.927,
+      "low_j_tags": [
+        "J<20",
+        "J<0"
+      ],
+      "high_60": 20.36,
+      "high_60_date": "2026-07-27",
+      "drawdown_60_pct": -34.82318271119843,
+      "ma5": 13.128,
+      "volume_ratio": 0.8,
+      "price_window_start": "2026-06-26",
+      "price_window_end": "2026-09-17",
+      "evidence": [
+        {
+          "trade_date": "2026-09-10",
+          "dif": -0.368,
+          "dea": -0.258,
+          "k": 12.752,
+          "d": 21.319,
+          "j": -4.382
+        },
+        {
+          "trade_date": "2026-09-11",
+          "dif": -0.412,
+          "dea": -0.289,
+          "k": 12.887,
+          "d": 18.509,
+          "j": 1.645
+        },
+        {
+          "trade_date": "2026-09-14",
+          "dif": -0.456,
+          "dea": -0.322,
+          "k": 10.346,
+          "d": 15.788,
+          "j": -0.537
+        },
+        {
+          "trade_date": "2026-09-15",
+          "dif": -0.51,
+          "dea": -0.36,
+          "k": 6.897,
+          "d": 12.824,
+          "j": -4.956
+        },
+        {
+          "trade_date": "2026-09-16",
+          "dif": -0.519,
+          "dea": -0.392,
+          "k": 9.868,
+          "d": 11.839,
+          "j": 5.927
+        },
+        {
+          "trade_date": "2026-09-17",
+          "dif": -0.511,
+          "dea": -0.416,
+          "k": 18.212,
+          "d": 13.963,
+          "j": 26.709
+        }
+      ]
+    },
+    {
+      "signal_rule": "pending_cross_v4",
+      "macd_cross_date": null,
+      "macd_cross_age_sessions": null,
+      "instrument_id": "600580.SH",
+      "name": "卧龙电驱",
+      "industry": "电机Ⅲ",
+      "reference_close": 27.09,
+      "signal_trade_date": "2026-09-17",
+      "signal_group": "prior_1_session",
+      "zero_axis_zone": "below_zero",
+      "j_turn_date": "2026-09-16",
+      "gap_sessions": 1,
+      "j_trough": -1.165,
+      "j_turn_value": 11.028,
+      "low_j_tags": [
+        "J<20",
+        "J<0"
+      ],
+      "high_60": 39.49,
+      "high_60_date": "2026-07-06",
+      "drawdown_60_pct": -31.40035452013168,
+      "ma5": 26.756,
+      "volume_ratio": 1.34,
+      "price_window_start": "2026-06-26",
+      "price_window_end": "2026-09-17",
+      "evidence": [
+        {
+          "trade_date": "2026-09-10",
+          "dif": -1.35,
+          "dea": -1.137,
+          "k": 10.63,
+          "d": 15.921,
+          "j": 0.048
+        },
+        {
+          "trade_date": "2026-09-11",
+          "dif": -1.438,
+          "dea": -1.197,
+          "k": 10.836,
+          "d": 14.226,
+          "j": 4.058
+        },
+        {
+          "trade_date": "2026-09-14",
+          "dif": -1.496,
+          "dea": -1.257,
+          "k": 10.333,
+          "d": 12.928,
+          "j": 5.141
+        },
+        {
+          "trade_date": "2026-09-15",
+          "dif": -1.559,
+          "dea": -1.317,
+          "k": 6.888,
+          "d": 10.915,
+          "j": -1.165
+        },
+        {
+          "trade_date": "2026-09-16",
+          "dif": -1.565,
+          "dea": -1.367,
+          "k": 10.963,
+          "d": 10.931,
+          "j": 11.028
+        },
+        {
+          "trade_date": "2026-09-17",
+          "dif": -1.519,
+          "dea": -1.397,
+          "k": 18.839,
+          "d": 13.567,
+          "j": 29.384
+        }
+      ]
+    },
+    {
+      "signal_rule": "pending_cross_v4",
+      "macd_cross_date": null,
+      "macd_cross_age_sessions": null,
+      "instrument_id": "600721.SH",
+      "name": "百花医药",
+      "industry": "医疗研发外包",
+      "reference_close": 11.87,
+      "signal_trade_date": "2026-09-17",
+      "signal_group": "prior_1_session",
+      "zero_axis_zone": "crossing_zero",
+      "j_turn_date": "2026-09-16",
+      "gap_sessions": 1,
+      "j_trough": 5.474,
+      "j_turn_value": 12.624,
+      "low_j_tags": [
+        "J<20"
+      ],
+      "high_60": 16.68,
+      "high_60_date": "2026-08-27",
+      "drawdown_60_pct": -28.836930455635493,
+      "ma5": 11.096,
+      "volume_ratio": 1.12,
+      "price_window_start": "2026-06-26",
+      "price_window_end": "2026-09-17",
+      "evidence": [
+        {
+          "trade_date": "2026-09-10",
+          "dif": 0.301,
+          "dea": 0.851,
+          "k": 18.52,
+          "d": 22.519,
+          "j": 10.521
+        },
+        {
+          "trade_date": "2026-09-11",
+          "dif": 0.15,
+          "dea": 0.711,
+          "k": 15.825,
+          "d": 20.287,
+          "j": 6.899
+        },
+        {
+          "trade_date": "2026-09-14",
+          "dif": 0.056,
+          "dea": 0.58,
+          "k": 18.251,
+          "d": 19.608,
+          "j": 15.535
+        },
+        {
+          "trade_date": "2026-09-15",
+          "dif": -0.064,
+          "dea": 0.451,
+          "k": 13.551,
+          "d": 17.589,
+          "j": 5.474
+        },
+        {
+          "trade_date": "2026-09-16",
+          "dif": -0.148,
+          "dea": 0.331,
+          "k": 15.461,
+          "d": 16.88,
+          "j": 12.624
+        },
+        {
+          "trade_date": "2026-09-17",
+          "dif": -0.126,
+          "dea": 0.24,
+          "k": 32.879,
+          "d": 22.213,
+          "j": 54.21
+        }
+      ]
+    },
+    {
+      "signal_rule": "pending_cross_v4",
+      "macd_cross_date": null,
+      "macd_cross_age_sessions": null,
+      "instrument_id": "603033.SH",
+      "name": "三维股份",
+      "industry": "其他橡胶制品",
+      "reference_close": 7.28,
+      "signal_trade_date": "2026-09-17",
+      "signal_group": "prior_1_session",
+      "zero_axis_zone": "below_zero",
+      "j_turn_date": "2026-09-16",
+      "gap_sessions": 1,
+      "j_trough": 1.054,
+      "j_turn_value": 31.205,
+      "low_j_tags": [
+        "J<20"
+      ],
+      "high_60": 10.99,
+      "high_60_date": "2026-07-02",
+      "drawdown_60_pct": -33.75796178343949,
+      "ma5": 7.112,
+      "volume_ratio": 0.84,
+      "price_window_start": "2026-06-26",
+      "price_window_end": "2026-09-17",
+      "evidence": [
+        {
+          "trade_date": "2026-09-10",
+          "dif": -0.157,
+          "dea": -0.156,
+          "k": 16.265,
+          "d": 18.377,
+          "j": 12.039
+        },
+        {
+          "trade_date": "2026-09-11",
+          "dif": -0.179,
+          "dea": -0.161,
+          "k": 12.621,
+          "d": 16.459,
+          "j": 4.945
+        },
+        {
+          "trade_date": "2026-09-14",
+          "dif": -0.187,
+          "dea": -0.166,
+          "k": 14.116,
+          "d": 15.678,
+          "j": 10.992
+        },
+        {
+          "trade_date": "2026-09-15",
+          "dif": -0.203,
+          "dea": -0.173,
+          "k": 9.41,
+          "d": 13.589,
+          "j": 1.054
+        },
+        {
+          "trade_date": "2026-09-16",
+          "dif": -0.194,
+          "dea": -0.177,
+          "k": 21.138,
+          "d": 16.105,
+          "j": 31.205
+        },
+        {
+          "trade_date": "2026-09-17",
+          "dif": -0.178,
+          "dea": -0.177,
+          "k": 36.135,
+          "d": 22.782,
+          "j": 62.842
+        }
+      ]
+    },
+    {
+      "signal_rule": "pending_cross_v4",
+      "macd_cross_date": null,
+      "macd_cross_age_sessions": null,
+      "instrument_id": "603040.SH",
+      "name": "新坐标",
+      "industry": "底盘与发动机系统",
+      "reference_close": 47.75,
+      "signal_trade_date": "2026-09-17",
+      "signal_group": "prior_1_session",
+      "zero_axis_zone": "below_zero",
+      "j_turn_date": "2026-09-16",
+      "gap_sessions": 1,
+      "j_trough": 7.54,
+      "j_turn_value": 17.825,
+      "low_j_tags": [
+        "J<20"
+      ],
+      "high_60": 74.78373594680481,
+      "high_60_date": "2026-07-06",
+      "drawdown_60_pct": -36.1492182819463,
+      "ma5": 46.765354821481026,
+      "volume_ratio": 1.18,
+      "price_window_start": "2026-06-26",
+      "price_window_end": "2026-09-17",
+      "evidence": [
+        {
+          "trade_date": "2026-09-10",
+          "dif": -1.877,
+          "dea": -1.702,
+          "k": 27.072,
+          "d": 28.543,
+          "j": 24.13
+        },
+        {
+          "trade_date": "2026-09-11",
+          "dif": -2.04,
+          "dea": -1.769,
+          "k": 20.002,
+          "d": 25.696,
+          "j": 8.615
+        },
+        {
+          "trade_date": "2026-09-14",
+          "dif": -2.12,
+          "dea": -1.839,
+          "k": 18.882,
+          "d": 23.424,
+          "j": 9.796
+        },
+        {
+          "trade_date": "2026-09-15",
+          "dif": -2.181,
+          "dea": -1.908,
+          "k": 16.617,
+          "d": 21.155,
+          "j": 7.54
+        },
+        {
+          "trade_date": "2026-09-16",
+          "dif": -2.135,
+          "dea": -1.949,
+          "k": 19.728,
+          "d": 20.68,
+          "j": 17.825
+        },
+        {
+          "trade_date": "2026-09-17",
+          "dif": -2.023,
+          "dea": -1.964,
+          "k": 27.227,
+          "d": 22.862,
+          "j": 35.957
+        }
+      ]
+    },
+    {
+      "signal_rule": "pending_cross_v4",
+      "macd_cross_date": null,
+      "macd_cross_age_sessions": null,
+      "instrument_id": "603135.SH",
+      "name": "中重科技",
+      "industry": "能源及重型设备",
+      "reference_close": 8.63,
+      "signal_trade_date": "2026-09-17",
+      "signal_group": "prior_1_session",
+      "zero_axis_zone": "below_zero",
+      "j_turn_date": "2026-09-16",
+      "gap_sessions": 1,
+      "j_trough": 4.818,
+      "j_turn_value": 18.227,
+      "low_j_tags": [
+        "J<20"
+      ],
+      "high_60": 15.2,
+      "high_60_date": "2026-07-06",
+      "drawdown_60_pct": -43.223684210526315,
+      "ma5": 8.53,
+      "volume_ratio": 0.96,
+      "price_window_start": "2026-06-26",
+      "price_window_end": "2026-09-17",
+      "evidence": [
+        {
+          "trade_date": "2026-09-10",
+          "dif": -0.19,
+          "dea": -0.207,
+          "k": 18.313,
+          "d": 26.508,
+          "j": 1.921
+        },
+        {
+          "trade_date": "2026-09-11",
+          "dif": -0.223,
+          "dea": -0.21,
+          "k": 15.208,
+          "d": 22.742,
+          "j": 0.141
+        },
+        {
+          "trade_date": "2026-09-14",
+          "dif": -0.242,
+          "dea": -0.216,
+          "k": 16.873,
+          "d": 20.785,
+          "j": 9.048
+        },
+        {
+          "trade_date": "2026-09-15",
+          "dif": -0.263,
+          "dea": -0.226,
+          "k": 13.942,
+          "d": 18.504,
+          "j": 4.818
+        },
+        {
+          "trade_date": "2026-09-16",
+          "dif": -0.262,
+          "dea": -0.233,
+          "k": 18.386,
+          "d": 18.465,
+          "j": 18.227
+        },
+        {
+          "trade_date": "2026-09-17",
+          "dif": -0.256,
+          "dea": -0.237,
+          "k": 24.022,
+          "d": 20.317,
+          "j": 31.431
+        }
+      ]
+    },
+    {
+      "signal_rule": "pending_cross_v4",
+      "macd_cross_date": null,
+      "macd_cross_age_sessions": null,
+      "instrument_id": "603219.SH",
+      "name": "富佳股份",
+      "industry": "清洁小家电",
+      "reference_close": 12.83,
+      "signal_trade_date": "2026-09-17",
+      "signal_group": "prior_1_session",
+      "zero_axis_zone": "below_zero",
+      "j_turn_date": "2026-09-16",
+      "gap_sessions": 1,
+      "j_trough": 9.047,
+      "j_turn_value": 12.265,
+      "low_j_tags": [
+        "J<20"
+      ],
+      "high_60": 17.2,
+      "high_60_date": "2026-07-06",
+      "drawdown_60_pct": -25.406976744186046,
+      "ma5": 12.72,
+      "volume_ratio": 1.03,
+      "price_window_start": "2026-06-26",
+      "price_window_end": "2026-09-17",
+      "evidence": [
+        {
+          "trade_date": "2026-09-10",
+          "dif": -0.266,
+          "dea": -0.195,
+          "k": 14.637,
+          "d": 18.569,
+          "j": 6.774
+        },
+        {
+          "trade_date": "2026-09-11",
+          "dif": -0.293,
+          "dea": -0.214,
+          "k": 16.262,
+          "d": 17.8,
+          "j": 13.187
+        },
+        {
+          "trade_date": "2026-09-14",
+          "dif": -0.315,
+          "dea": -0.235,
+          "k": 17.76,
+          "d": 17.787,
+          "j": 17.706
+        },
+        {
+          "trade_date": "2026-09-15",
+          "dif": -0.341,
+          "dea": -0.256,
+          "k": 14.041,
+          "d": 16.538,
+          "j": 9.047
+        },
+        {
+          "trade_date": "2026-09-16",
+          "dif": -0.349,
+          "dea": -0.275,
+          "k": 14.707,
+          "d": 15.928,
+          "j": 12.265
+        },
+        {
+          "trade_date": "2026-09-17",
+          "dif": -0.34,
+          "dea": -0.288,
+          "k": 19.867,
+          "d": 17.241,
+          "j": 25.12
+        }
+      ]
+    },
+    {
+      "signal_rule": "pending_cross_v4",
+      "macd_cross_date": null,
+      "macd_cross_age_sessions": null,
+      "instrument_id": "603220.SH",
+      "name": "中贝通信",
+      "industry": "通信工程及服务",
+      "reference_close": 17.93,
+      "signal_trade_date": "2026-09-17",
+      "signal_group": "prior_1_session",
+      "zero_axis_zone": "below_zero",
+      "j_turn_date": "2026-09-16",
+      "gap_sessions": 1,
+      "j_trough": -1.942,
+      "j_turn_value": 23.806,
+      "low_j_tags": [
+        "J<20",
+        "J<0"
+      ],
+      "high_60": 22.90637493639602,
+      "high_60_date": "2026-06-26",
+      "drawdown_60_pct": -21.72484712318683,
+      "ma5": 17.862,
+      "volume_ratio": 0.57,
+      "price_window_start": "2026-06-26",
+      "price_window_end": "2026-09-17",
+      "evidence": [
+        {
+          "trade_date": "2026-09-10",
+          "dif": -0.24,
+          "dea": -0.261,
+          "k": 39.61,
+          "d": 44.229,
+          "j": 30.373
+        },
+        {
+          "trade_date": "2026-09-11",
+          "dif": -0.275,
+          "dea": -0.264,
+          "k": 31.927,
+          "d": 40.128,
+          "j": 15.525
+        },
+        {
+          "trade_date": "2026-09-14",
+          "dif": -0.292,
+          "dea": -0.27,
+          "k": 29.564,
+          "d": 36.607,
+          "j": 15.477
+        },
+        {
+          "trade_date": "2026-09-15",
+          "dif": -0.35,
+          "dea": -0.286,
+          "k": 20.086,
+          "d": 31.1,
+          "j": -1.942
+        },
+        {
+          "trade_date": "2026-09-16",
+          "dif": -0.338,
+          "dea": -0.296,
+          "k": 27.974,
+          "d": 30.058,
+          "j": 23.806
+        },
+        {
+          "trade_date": "2026-09-17",
+          "dif": -0.335,
+          "dea": -0.304,
+          "k": 31.33,
+          "d": 30.482,
+          "j": 33.027
+        }
+      ]
+    },
+    {
+      "signal_rule": "pending_cross_v4",
+      "macd_cross_date": null,
+      "macd_cross_age_sessions": null,
+      "instrument_id": "603222.SH",
+      "name": "济民健康",
+      "industry": "医疗耗材",
+      "reference_close": 7.8,
+      "signal_trade_date": "2026-09-17",
+      "signal_group": "prior_1_session",
+      "zero_axis_zone": "below_zero",
+      "j_turn_date": "2026-09-16",
+      "gap_sessions": 1,
+      "j_trough": -4.891,
+      "j_turn_value": 6.05,
+      "low_j_tags": [
+        "J<20",
+        "J<0"
+      ],
+      "high_60": 10.9,
+      "high_60_date": "2026-07-10",
+      "drawdown_60_pct": -28.440366972477065,
+      "ma5": 7.754,
+      "volume_ratio": 1.28,
+      "price_window_start": "2026-06-26",
+      "price_window_end": "2026-09-17",
+      "evidence": [
+        {
+          "trade_date": "2026-09-10",
+          "dif": -0.12,
+          "dea": -0.098,
+          "k": 21.574,
+          "d": 28.02,
+          "j": 8.682
+        },
+        {
+          "trade_date": "2026-09-11",
+          "dif": -0.141,
+          "dea": -0.106,
+          "k": 16.813,
+          "d": 24.284,
+          "j": 1.871
+        },
+        {
+          "trade_date": "2026-09-14",
+          "dif": -0.156,
+          "dea": -0.116,
+          "k": 13.639,
+          "d": 20.736,
+          "j": -0.554
+        },
+        {
+          "trade_date": "2026-09-15",
+          "dif": -0.174,
+          "dea": -0.128,
+          "k": 9.753,
+          "d": 17.075,
+          "j": -4.891
+        },
+        {
+          "trade_date": "2026-09-16",
+          "dif": -0.182,
+          "dea": -0.139,
+          "k": 12.35,
+          "d": 15.5,
+          "j": 6.05
+        },
+        {
+          "trade_date": "2026-09-17",
+          "dif": -0.181,
+          "dea": -0.147,
+          "k": 17.512,
+          "d": 16.171,
+          "j": 20.194
+        }
+      ]
+    },
+    {
+      "signal_rule": "pending_cross_v4",
+      "macd_cross_date": null,
+      "macd_cross_age_sessions": null,
+      "instrument_id": "603538.SH",
+      "name": "美诺华",
+      "industry": "原料药",
+      "reference_close": 25.95,
+      "signal_trade_date": "2026-09-17",
+      "signal_group": "prior_1_session",
+      "zero_axis_zone": "below_zero",
+      "j_turn_date": "2026-09-16",
+      "gap_sessions": 1,
+      "j_trough": -0.69,
+      "j_turn_value": 3.235,
+      "low_j_tags": [
+        "J<20",
+        "J<0"
+      ],
+      "high_60": 42.79,
+      "high_60_date": "2026-07-16",
+      "drawdown_60_pct": -39.354989483524186,
+      "ma5": 25.598,
+      "volume_ratio": 1.1,
+      "price_window_start": "2026-06-26",
+      "price_window_end": "2026-09-17",
+      "evidence": [
+        {
+          "trade_date": "2026-09-10",
+          "dif": -0.518,
+          "dea": -0.485,
+          "k": 38.947,
+          "d": 42.255,
+          "j": 32.331
+        },
+        {
+          "trade_date": "2026-09-11",
+          "dif": -0.636,
+          "dea": -0.515,
+          "k": 28.716,
+          "d": 37.742,
+          "j": 10.663
+        },
+        {
+          "trade_date": "2026-09-14",
+          "dif": -0.69,
+          "dea": -0.55,
+          "k": 25.572,
+          "d": 33.686,
+          "j": 9.346
+        },
+        {
+          "trade_date": "2026-09-15",
+          "dif": -0.77,
+          "dea": -0.594,
+          "k": 18.953,
+          "d": 28.775,
+          "j": -0.69
+        },
+        {
+          "trade_date": "2026-09-16",
+          "dif": -0.798,
+          "dea": -0.635,
+          "k": 17.829,
+          "d": 25.126,
+          "j": 3.235
+        },
+        {
+          "trade_date": "2026-09-17",
+          "dif": -0.78,
+          "dea": -0.664,
+          "k": 21.886,
+          "d": 24.046,
+          "j": 17.566
+        }
+      ]
+    },
+    {
+      "signal_rule": "pending_cross_v4",
+      "macd_cross_date": null,
+      "macd_cross_age_sessions": null,
+      "instrument_id": "603567.SH",
+      "name": "珍宝岛",
+      "industry": "中药Ⅲ",
+      "reference_close": 5.31,
+      "signal_trade_date": "2026-09-17",
+      "signal_group": "prior_1_session",
+      "zero_axis_zone": "below_zero",
+      "j_turn_date": "2026-09-16",
+      "gap_sessions": 1,
+      "j_trough": 11.338,
+      "j_turn_value": 16.867,
+      "low_j_tags": [
+        "J<20"
+      ],
+      "high_60": 7.4,
+      "high_60_date": "2026-08-10",
+      "drawdown_60_pct": -28.243243243243242,
+      "ma5": 5.276,
+      "volume_ratio": 0.77,
+      "price_window_start": "2026-06-26",
+      "price_window_end": "2026-09-17",
+      "evidence": [
+        {
+          "trade_date": "2026-09-10",
+          "dif": -0.169,
+          "dea": -0.126,
+          "k": 18.558,
+          "d": 28.938,
+          "j": -2.203
+        },
+        {
+          "trade_date": "2026-09-11",
+          "dif": -0.189,
+          "dea": -0.139,
+          "k": 17.134,
+          "d": 25.003,
+          "j": 1.395
+        },
+        {
+          "trade_date": "2026-09-14",
+          "dif": -0.192,
+          "dea": -0.149,
+          "k": 24.066,
+          "d": 24.691,
+          "j": 22.817
+        },
+        {
+          "trade_date": "2026-09-15",
+          "dif": -0.206,
+          "dea": -0.161,
+          "k": 18.968,
+          "d": 22.783,
+          "j": 11.338
+        },
+        {
+          "trade_date": "2026-09-16",
+          "dif": -0.21,
+          "dea": -0.171,
+          "k": 20.248,
+          "d": 21.938,
+          "j": 16.867
+        },
+        {
+          "trade_date": "2026-09-17",
+          "dif": -0.207,
+          "dea": -0.178,
+          "k": 24.025,
+          "d": 22.634,
+          "j": 26.807
+        }
+      ]
+    },
+    {
+      "signal_rule": "pending_cross_v4",
+      "macd_cross_date": null,
+      "macd_cross_age_sessions": null,
+      "instrument_id": "603823.SH",
+      "name": "百合花",
+      "industry": "涂料油墨",
+      "reference_close": 57.6,
+      "signal_trade_date": "2026-09-17",
+      "signal_group": "prior_1_session",
+      "zero_axis_zone": "below_zero",
+      "j_turn_date": "2026-09-16",
+      "gap_sessions": 1,
+      "j_trough": 13.112,
+      "j_turn_value": 17.299,
+      "low_j_tags": [
+        "J<20"
+      ],
+      "high_60": 92.85,
+      "high_60_date": "2026-08-19",
+      "drawdown_60_pct": -37.964458804523424,
+      "ma5": 55.252,
+      "volume_ratio": 1.48,
+      "price_window_start": "2026-06-26",
+      "price_window_end": "2026-09-17",
+      "evidence": [
+        {
+          "trade_date": "2026-09-10",
+          "dif": -2.841,
+          "dea": -1.423,
+          "k": 28.029,
+          "d": 23.256,
+          "j": 37.574
+        },
+        {
+          "trade_date": "2026-09-11",
+          "dif": -3.183,
+          "dea": -1.775,
+          "k": 23.396,
+          "d": 23.303,
+          "j": 23.583
+        },
+        {
+          "trade_date": "2026-09-14",
+          "dif": -3.369,
+          "dea": -2.094,
+          "k": 21.592,
+          "d": 22.733,
+          "j": 19.312
+        },
+        {
+          "trade_date": "2026-09-15",
+          "dif": -3.54,
+          "dea": -2.383,
+          "k": 18.61,
+          "d": 21.358,
+          "j": 13.112
+        },
+        {
+          "trade_date": "2026-09-16",
+          "dif": -3.527,
+          "dea": -2.612,
+          "k": 19.618,
+          "d": 20.778,
+          "j": 17.299
+        },
+        {
+          "trade_date": "2026-09-17",
+          "dif": -3.302,
+          "dea": -2.75,
+          "k": 23.74,
+          "d": 21.766,
+          "j": 27.689
+        }
+      ]
+    },
+    {
+      "signal_rule": "pending_cross_v4",
+      "macd_cross_date": null,
+      "macd_cross_age_sessions": null,
+      "instrument_id": "603881.SH",
+      "name": "数据港",
+      "industry": "通信应用增值服务",
+      "reference_close": 23.8,
+      "signal_trade_date": "2026-09-17",
+      "signal_group": "prior_1_session",
+      "zero_axis_zone": "below_zero",
+      "j_turn_date": "2026-09-16",
+      "gap_sessions": 1,
+      "j_trough": 9.173,
+      "j_turn_value": 19.246,
+      "low_j_tags": [
+        "J<20"
+      ],
+      "high_60": 30.58,
+      "high_60_date": "2026-08-20",
+      "drawdown_60_pct": -22.171353826030085,
+      "ma5": 23.62,
+      "volume_ratio": 1.01,
+      "price_window_start": "2026-06-26",
+      "price_window_end": "2026-09-17",
+      "evidence": [
+        {
+          "trade_date": "2026-09-10",
+          "dif": -0.479,
+          "dea": -0.27,
+          "k": 17.766,
+          "d": 24.561,
+          "j": 4.176
+        },
+        {
+          "trade_date": "2026-09-11",
+          "dif": -0.568,
+          "dea": -0.33,
+          "k": 15.426,
+          "d": 21.516,
+          "j": 3.244
+        },
+        {
+          "trade_date": "2026-09-14",
+          "dif": -0.613,
+          "dea": -0.386,
+          "k": 17.691,
+          "d": 20.241,
+          "j": 12.591
+        },
+        {
+          "trade_date": "2026-09-15",
+          "dif": -0.661,
+          "dea": -0.441,
+          "k": 15.498,
+          "d": 18.66,
+          "j": 9.173
+        },
+        {
+          "trade_date": "2026-09-16",
+          "dif": -0.671,
+          "dea": -0.487,
+          "k": 18.911,
+          "d": 18.744,
+          "j": 19.246
+        },
+        {
+          "trade_date": "2026-09-17",
+          "dif": -0.664,
+          "dea": -0.522,
+          "k": 23.566,
+          "d": 20.351,
+          "j": 29.997
+        }
+      ]
+    },
+    {
+      "signal_rule": "pending_cross_v4",
+      "macd_cross_date": null,
+      "macd_cross_age_sessions": null,
+      "instrument_id": "603893.SH",
+      "name": "瑞芯微",
+      "industry": "数字芯片设计",
+      "reference_close": 181.21,
+      "signal_trade_date": "2026-09-17",
+      "signal_group": "prior_1_session",
+      "zero_axis_zone": "below_zero",
+      "j_turn_date": "2026-09-16",
+      "gap_sessions": 1,
+      "j_trough": -5.337,
+      "j_turn_value": 7.14,
+      "low_j_tags": [
+        "J<20",
+        "J<0"
+      ],
+      "high_60": 232.5283529185128,
+      "high_60_date": "2026-07-23",
+      "drawdown_60_pct": -22.06971849858533,
+      "ma5": 179.558,
+      "volume_ratio": 1.11,
+      "price_window_start": "2026-06-26",
+      "price_window_end": "2026-09-17",
+      "evidence": [
+        {
+          "trade_date": "2026-09-10",
+          "dif": -2.134,
+          "dea": -2.14,
+          "k": 28.605,
+          "d": 41.157,
+          "j": 3.5
+        },
+        {
+          "trade_date": "2026-09-11",
+          "dif": -2.665,
+          "dea": -2.245,
+          "k": 23.503,
+          "d": 35.273,
+          "j": -0.036
+        },
+        {
+          "trade_date": "2026-09-14",
+          "dif": -3.175,
+          "dea": -2.431,
+          "k": 18.93,
+          "d": 29.825,
+          "j": -2.861
+        },
+        {
+          "trade_date": "2026-09-15",
+          "dif": -3.662,
+          "dea": -2.677,
+          "k": 14.756,
+          "d": 24.802,
+          "j": -5.337
+        },
+        {
+          "trade_date": "2026-09-16",
+          "dif": -3.752,
+          "dea": -2.892,
+          "k": 17.232,
+          "d": 22.279,
+          "j": 7.14
+        },
+        {
+          "trade_date": "2026-09-17",
+          "dif": -3.709,
+          "dea": -3.056,
+          "k": 20.99,
+          "d": 21.849,
+          "j": 19.272
+        }
+      ]
+    },
+    {
+      "signal_rule": "pending_cross_v4",
+      "macd_cross_date": null,
+      "macd_cross_age_sessions": null,
+      "instrument_id": "603897.SH",
+      "name": "长城科技",
+      "industry": "线缆部件及其他",
+      "reference_close": 30.09,
+      "signal_trade_date": "2026-09-17",
+      "signal_group": "prior_1_session",
+      "zero_axis_zone": "above_zero",
+      "j_turn_date": "2026-09-16",
+      "gap_sessions": 1,
+      "j_trough": 18.008,
+      "j_turn_value": 27.612,
+      "low_j_tags": [
+        "J<20"
+      ],
+      "high_60": 38.57,
+      "high_60_date": "2026-07-03",
+      "drawdown_60_pct": -21.985999481462276,
+      "ma5": 29.58,
+      "volume_ratio": 0.79,
+      "price_window_start": "2026-06-26",
+      "price_window_end": "2026-09-17",
+      "evidence": [
+        {
+          "trade_date": "2026-09-10",
+          "dif": 0.245,
+          "dea": 0.408,
+          "k": 26.224,
+          "d": 37.712,
+          "j": 3.249
+        },
+        {
+          "trade_date": "2026-09-11",
+          "dif": 0.121,
+          "dea": 0.351,
+          "k": 21.607,
+          "d": 32.344,
+          "j": 0.135
+        },
+        {
+          "trade_date": "2026-09-14",
+          "dif": 0.116,
+          "dea": 0.304,
+          "k": 28.294,
+          "d": 30.994,
+          "j": 22.894
+        },
+        {
+          "trade_date": "2026-09-15",
+          "dif": 0.041,
+          "dea": 0.251,
+          "k": 25.428,
+          "d": 29.139,
+          "j": 18.008
+        },
+        {
+          "trade_date": "2026-09-16",
+          "dif": 0.028,
+          "dea": 0.207,
+          "k": 28.484,
+          "d": 28.92,
+          "j": 27.612
+        },
+        {
+          "trade_date": "2026-09-17",
+          "dif": 0.046,
+          "dea": 0.174,
+          "k": 34.395,
+          "d": 30.745,
+          "j": 41.694
+        }
+      ]
+    },
+    {
+      "signal_rule": "pending_cross_v4",
+      "macd_cross_date": null,
+      "macd_cross_age_sessions": null,
+      "instrument_id": "603948.SH",
+      "name": "建业股份",
+      "industry": "其他化学制品",
+      "reference_close": 19.21,
+      "signal_trade_date": "2026-09-17",
+      "signal_group": "prior_1_session",
+      "zero_axis_zone": "below_zero",
+      "j_turn_date": "2026-09-16",
+      "gap_sessions": 1,
+      "j_trough": -3.032,
+      "j_turn_value": 15.868,
+      "low_j_tags": [
+        "J<20",
+        "J<0"
+      ],
+      "high_60": 27.48,
+      "high_60_date": "2026-07-02",
+      "drawdown_60_pct": -30.09461426491994,
+      "ma5": 18.916,
+      "volume_ratio": 1.09,
+      "price_window_start": "2026-06-26",
+      "price_window_end": "2026-09-17",
+      "evidence": [
+        {
+          "trade_date": "2026-09-10",
+          "dif": -0.258,
+          "dea": -0.244,
+          "k": 30.62,
+          "d": 36.363,
+          "j": 19.136
+        },
+        {
+          "trade_date": "2026-09-11",
+          "dif": -0.317,
+          "dea": -0.259,
+          "k": 26.544,
+          "d": 33.09,
+          "j": 13.452
+        },
+        {
+          "trade_date": "2026-09-14",
+          "dif": -0.365,
+          "dea": -0.28,
+          "k": 23.324,
+          "d": 29.834,
+          "j": 10.302
+        },
+        {
+          "trade_date": "2026-09-15",
+          "dif": -0.429,
+          "dea": -0.31,
+          "k": 15.749,
+          "d": 25.139,
+          "j": -3.032
+        },
+        {
+          "trade_date": "2026-09-16",
+          "dif": -0.436,
+          "dea": -0.335,
+          "k": 21.166,
+          "d": 23.815,
+          "j": 15.868
+        },
+        {
+          "trade_date": "2026-09-17",
+          "dif": -0.419,
+          "dea": -0.352,
+          "k": 28.968,
+          "d": 25.532,
+          "j": 35.838
+        }
+      ]
+    },
+    {
+      "signal_rule": "pending_cross_v4",
+      "macd_cross_date": null,
+      "macd_cross_age_sessions": null,
+      "instrument_id": "605218.SH",
+      "name": "伟时电子",
+      "industry": "面板",
+      "reference_close": 14.09,
+      "signal_trade_date": "2026-09-17",
+      "signal_group": "prior_1_session",
+      "zero_axis_zone": "below_zero",
+      "j_turn_date": "2026-09-16",
+      "gap_sessions": 1,
+      "j_trough": -0.613,
+      "j_turn_value": 5.531,
+      "low_j_tags": [
+        "J<20",
+        "J<0"
+      ],
+      "high_60": 17.68,
+      "high_60_date": "2026-07-01",
+      "drawdown_60_pct": -20.305429864253394,
+      "ma5": 13.762,
+      "volume_ratio": 1.25,
+      "price_window_start": "2026-06-26",
+      "price_window_end": "2026-09-17",
+      "evidence": [
+        {
+          "trade_date": "2026-09-10",
+          "dif": 0.038,
+          "dea": 0.122,
+          "k": 30.399,
+          "d": 39.315,
+          "j": 12.567
+        },
+        {
+          "trade_date": "2026-09-11",
+          "dif": -0.026,
+          "dea": 0.092,
+          "k": 25.105,
+          "d": 34.579,
+          "j": 6.157
+        },
+        {
+          "trade_date": "2026-09-14",
+          "dif": -0.077,
+          "dea": 0.059,
+          "k": 21.605,
+          "d": 30.254,
+          "j": 4.308
+        },
+        {
+          "trade_date": "2026-09-15",
+          "dif": -0.125,
+          "dea": 0.022,
+          "k": 17.025,
+          "d": 25.845,
+          "j": -0.613
+        },
+        {
+          "trade_date": "2026-09-16",
+          "dif": -0.152,
+          "dea": -0.013,
+          "k": 17.139,
+          "d": 22.943,
+          "j": 5.531
+        },
+        {
+          "trade_date": "2026-09-17",
+          "dif": -0.141,
+          "dea": -0.039,
+          "k": 24.999,
+          "d": 23.628,
+          "j": 27.74
+        }
+      ]
+    },
+    {
+      "signal_rule": "pending_cross_v4",
+      "macd_cross_date": null,
+      "macd_cross_age_sessions": null,
+      "instrument_id": "605289.SH",
+      "name": "罗曼股份",
+      "industry": "其他专业工程",
+      "reference_close": 98.34,
+      "signal_trade_date": "2026-09-17",
+      "signal_group": "prior_1_session",
+      "zero_axis_zone": "below_zero",
+      "j_turn_date": "2026-09-16",
+      "gap_sessions": 1,
+      "j_trough": 16.772,
+      "j_turn_value": 22.623,
+      "low_j_tags": [
+        "J<20"
+      ],
+      "high_60": 160.0,
+      "high_60_date": "2026-07-02",
+      "drawdown_60_pct": -38.5375,
+      "ma5": 97.486,
+      "volume_ratio": 1.06,
+      "price_window_start": "2026-06-26",
+      "price_window_end": "2026-09-17",
+      "evidence": [
+        {
+          "trade_date": "2026-09-10",
+          "dif": -1.362,
+          "dea": -0.58,
+          "k": 14.039,
+          "d": 20.686,
+          "j": 0.744
+        },
+        {
+          "trade_date": "2026-09-11",
+          "dif": -1.667,
+          "dea": -0.798,
+          "k": 17.488,
+          "d": 19.62,
+          "j": 13.225
+        },
+        {
+          "trade_date": "2026-09-14",
+          "dif": -1.91,
+          "dea": -1.02,
+          "k": 19.273,
+          "d": 19.505,
+          "j": 18.811
+        },
+        {
+          "trade_date": "2026-09-15",
+          "dif": -2.174,
+          "dea": -1.251,
+          "k": 18.334,
+          "d": 19.114,
+          "j": 16.772
+        },
+        {
+          "trade_date": "2026-09-16",
+          "dif": -2.225,
+          "dea": -1.446,
+          "k": 20.618,
+          "d": 19.615,
+          "j": 22.623
+        },
+        {
+          "trade_date": "2026-09-17",
+          "dif": -2.199,
+          "dea": -1.596,
+          "k": 26.928,
+          "d": 22.053,
+          "j": 36.677
+        }
+      ]
+    }
+  ],
+  "pending_count": 39,
+  "excluded_counts": {
+    "drawdown_not_below_minus_20": 55,
+    "incomplete_indicator_window": 16,
+    "no_v4_signal": 2878,
+    "not_main_board": 2369,
+    "price_below_ma5": 2,
+    "price_history_unavailable": 2,
+    "special_treatment": 144,
+    "volume_ratio_above_1_5": 53
+  },
+  "source_metadata": [
+    {
+      "contract": "stock_technical_day.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": null,
+      "fetched_at": "2026-09-17T19:52:48.703170+08:00",
+      "quality": "degraded",
+      "quality_flags": [
+        "provider_timestamp_unavailable"
+      ]
+    },
+    {
+      "contract": "stock_technical_day.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": null,
+      "fetched_at": "2026-09-17T19:53:00.960644+08:00",
+      "quality": "degraded",
+      "quality_flags": [
+        "provider_timestamp_unavailable"
+      ]
+    },
+    {
+      "contract": "stock_technical_day.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": null,
+      "fetched_at": "2026-09-17T19:53:11.686652+08:00",
+      "quality": "degraded",
+      "quality_flags": [
+        "provider_timestamp_unavailable"
+      ]
+    },
+    {
+      "contract": "stock_technical_day.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": null,
+      "fetched_at": "2026-09-17T19:53:20.335832+08:00",
+      "quality": "degraded",
+      "quality_flags": [
+        "provider_timestamp_unavailable"
+      ]
+    },
+    {
+      "contract": "stock_technical_day.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": null,
+      "fetched_at": "2026-09-18T09:20:21.537683+08:00",
+      "quality": "degraded",
+      "quality_flags": [
+        "provider_timestamp_unavailable"
+      ]
+    },
+    {
+      "contract": "stock_technical_day.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": null,
+      "fetched_at": "2026-09-18T09:42:21.507016+08:00",
+      "quality": "degraded",
+      "quality_flags": [
+        "provider_timestamp_unavailable"
+      ]
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:26.090720+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:26.091719+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:26.091719+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:26.092722+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:28.629640+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:28.630351+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:28.864587+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:29.676014+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:29.944088+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:30.116927+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:30.140002+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:31.041990+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:31.120668+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:31.401252+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:31.707040+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:32.163947+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:32.422633+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:32.526844+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:32.779860+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:33.221132+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:33.552407+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:34.066631+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:34.704726+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:34.804990+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:35.133527+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:35.778988+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:36.536497+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:36.733414+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "biying",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T00:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:36.867153+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:37.457217+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:37.717500+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:38.539406+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:38.885239+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:38.885239+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:39.179009+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:40.008530+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:40.019213+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:40.478077+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:40.804887+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:41.233170+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:41.276903+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:41.973620+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:42.500806+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:42.579370+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:43.477327+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:43.899322+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:43.930656+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:44.144820+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:44.850040+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:45.037345+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:45.117597+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:45.210736+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:45.836330+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:46.142881+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:46.452954+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:46.797726+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:47.113342+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:47.436499+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:47.572946+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:48.244735+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:48.562201+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:48.691569+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "biying",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T00:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:48.769709+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:49.469200+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:49.691293+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:49.829316+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:50.718274+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:50.794441+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:51.027378+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:51.465101+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:51.884448+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:52.069806+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:52.176590+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:53.209170+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:53.298408+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:53.359419+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:54.092290+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:54.229464+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:54.328154+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:54.400153+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:55.184355+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "biying",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T00:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:55.382175+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:55.440200+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:56.254766+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:56.572994+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:56.602002+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:57.309464+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:57.527006+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:57.541008+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:57.676987+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:58.303751+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:58.723413+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:58.723413+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:58.897771+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:59.677381+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:08:59.912973+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:09:00.016980+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:09:00.127252+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:09:00.762259+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:09:01.063189+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:09:01.082264+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:09:01.941686+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:09:02.091724+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:09:02.142351+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:09:02.233413+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:09:03.041759+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:09:03.200773+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:09:03.276681+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:09:03.597939+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:09:04.274152+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:09:04.288740+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:09:04.380424+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:09:04.595322+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:09:05.476416+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:09:05.536794+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:09:05.882466+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:09:06.690188+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:09:06.853125+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:09:07.013200+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:09:07.126448+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:09:07.817836+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:09:08.038719+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:09:08.138473+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:09:08.499151+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:09:09.096991+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:09:09.205954+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:09:09.314476+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:09:09.501717+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:09:10.284681+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:09:10.343798+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:09:10.601644+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:09:10.671620+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:09:11.337384+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:09:11.433746+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:09:11.611957+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:09:11.668034+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:09:12.354282+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:09:12.574723+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:09:12.789263+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:09:12.839374+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:09:13.577592+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:09:13.771923+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:09:13.997541+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:09:14.651138+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:09:14.773111+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:09:15.082850+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "tushare",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T15:00:00+08:00",
+      "fetched_at": "2026-09-18T17:09:15.204353+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "biying",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T00:00:00+08:00",
+      "fetched_at": "2026-09-18T17:09:15.919545+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "biying",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T00:00:00+08:00",
+      "fetched_at": "2026-09-18T17:09:16.195828+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "biying",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T00:00:00+08:00",
+      "fetched_at": "2026-09-18T17:09:16.562675+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "biying",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T00:00:00+08:00",
+      "fetched_at": "2026-09-18T17:09:16.684617+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "biying",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T00:00:00+08:00",
+      "fetched_at": "2026-09-18T17:09:17.213155+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "biying",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T00:00:00+08:00",
+      "fetched_at": "2026-09-18T17:09:17.286194+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "biying",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T00:00:00+08:00",
+      "fetched_at": "2026-09-18T17:09:17.743313+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "biying",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T00:00:00+08:00",
+      "fetched_at": "2026-09-18T17:09:17.872413+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    },
+    {
+      "contract": "ohlcv_bar.v1",
+      "schema_version": 1,
+      "provider": "biying",
+      "provider_request_id": null,
+      "provider_as_of": "2026-09-17T00:00:00+08:00",
+      "fetched_at": "2026-09-18T17:09:17.973028+08:00",
+      "quality": "accepted",
+      "quality_flags": []
+    }
+  ],
+  "methodology": [
+    "主板非 ST；MACD(12,26,9)、KDJ(9,3,3)，不限制金叉在零轴上方或下方。",
+    "正式入选：昨天 DIF≤DEA，今天 DIF>DEA；J 当天或前一交易日由下降/走平转为上升，今天仍上升。",
+    "待金叉预警单独列出：DIF≤DEA，DIF 今天上升，两线差距连续两个交易日缩小；J 条件相同。",
+    "含筛选日最近60个交易日的前复权最高价；当前价/最高价−1 严格小于−20%，当前价≥含当天的MA5，量比≤1.5。",
+    "不额外要求 K>D；J<20、J<0 仅作标签；缺失历史、量比或复权口径不一致时不入选。"
+  ],
+  "limitations": [
+    "预警不是金叉，不保证未来金叉；正式入选与预警分别计数。",
+    "仅使用筛选日及之前证据；60日高点、MA5使用同一前复权窗口，量比使用当日数据源指标。",
+    "数据缺失保持未核验，不填旧值；未进行收益回测。"
+  ]
+}

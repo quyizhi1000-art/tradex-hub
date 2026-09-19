@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import time as time_module
 from collections.abc import Callable, Iterable, Mapping
-from concurrent.futures import ThreadPoolExecutor, as_completed
+from concurrent.futures import FIRST_COMPLETED, ThreadPoolExecutor, wait
 from dataclasses import dataclass
 from datetime import date, datetime, time, timedelta
 from threading import Lock
@@ -294,6 +294,7 @@ class SameDayPostCloseReconstructor:
         self._index_points: dict[str, dict[time, Any]] = {}
         self._index_previous_close: dict[str, tuple[str, float]] = {}
         self._partial_trade_date: date | None = None
+        self._partial_provider_as_of: datetime | None = None
         self._partial_previous_close: dict[str, float] = {}
         self._partial_stock_prices: dict[time, dict[str, float]] = {}
         self._prepared_rotation_date: date | None = None
@@ -681,20 +682,30 @@ class SameDayPostCloseReconstructor:
                         "已复用进程重启前保存的同日精确分钟源",
                     )
                     return
-            universe = fetch_a_share_universe_snapshot(
-                now=observed,
-                trade_date=target.date(),
-            )
-            provider_as_of = universe.metadata.provider_as_of
-            if provider_as_of is None or provider_as_of.astimezone(SHANGHAI).date() != target.date() or provider_as_of.astimezone(SHANGHAI).time() < time(15, 0):
-                raise RuntimeError("A-share universe does not prove the same-day close")
-            previous_close = {
-                item.instrument_id: item.previous_close
-                for item in universe.quotes
-                if item.previous_close is not None
-            }
-            if len(previous_close) != len(universe.quotes) or universe.excluded_row_count:
-                raise RuntimeError("A-share universe lacks complete previous-close coverage")
+            if self._partial_trade_date != target.date() and self._source_cache is not None:
+                checkpoint = self._source_cache.read_checkpoint(target.date())
+                if checkpoint is not None:
+                    self._partial_trade_date = target.date()
+                    self._partial_provider_as_of = datetime.fromisoformat(checkpoint["provider_as_of"])
+                    self._partial_previous_close = dict(checkpoint["previous_close"])
+                    self._partial_stock_prices = {
+                        time.fromisoformat(minute): dict(values)
+                        for minute, values in checkpoint["stock_prices"].items()
+                    }
+            if self._partial_trade_date == target.date() and self._partial_provider_as_of is not None:
+                provider_as_of = self._partial_provider_as_of
+                previous_close = self._partial_previous_close
+            else:
+                universe = fetch_a_share_universe_snapshot(now=observed, trade_date=target.date())
+                provider_as_of = universe.metadata.provider_as_of
+                if provider_as_of is None or provider_as_of.astimezone(SHANGHAI).date() != target.date() or provider_as_of.astimezone(SHANGHAI).time() < time(15, 0):
+                    raise RuntimeError("A-share universe does not prove the same-day close")
+                previous_close = {
+                    item.instrument_id: item.previous_close
+                    for item in universe.quotes if item.previous_close is not None
+                }
+                if len(previous_close) != len(universe.quotes) or universe.excluded_row_count:
+                    raise RuntimeError("A-share universe lacks complete previous-close coverage")
             if (
                 self._partial_trade_date == target.date()
                 and self._partial_previous_close == previous_close
@@ -706,8 +717,18 @@ class SameDayPostCloseReconstructor:
             else:
                 stock_prices = {minute: {} for minute in requested_times}
             self._partial_trade_date = target.date()
+            self._partial_provider_as_of = provider_as_of
             self._partial_previous_close = previous_close
             self._partial_stock_prices = stock_prices
+
+            def checkpoint_sources() -> None:
+                if self._source_cache is not None:
+                    self._source_cache.record_checkpoint(
+                        trade_date=target.date(), provider_as_of=provider_as_of,
+                        previous_close=previous_close, stock_prices=stock_prices,
+                    )
+
+            checkpoint_sources()
             codes = tuple(
                 instrument_id
                 for instrument_id in previous_close
@@ -735,6 +756,7 @@ class SameDayPostCloseReconstructor:
                             stock_prices[minute][instrument_id] = exact[minute]
                 completed_batches += 1
                 loaded_instruments += len(batch)
+                checkpoint_sources()
                 progress(
                     completed_batches,
                     len(batches),
@@ -742,42 +764,7 @@ class SameDayPostCloseReconstructor:
                     f"已加载 {loaded_instruments}/{len(previous_close)} 只，逐只回退 {omitted_count} 只",
                 )
 
-            worker_count = (
-                1 if self._batch_pause_seconds > 0 else self._batch_concurrency
-            )
-            if worker_count == 1:
-                for number, batch in enumerate(batches, start=1):
-                    loaded, omitted_count = self._load_stock_batch(
-                        batch,
-                        observed,
-                        target.date(),
-                    )
-                    accept_batch(batch, loaded, omitted_count)
-                    if number < len(batches) and self._batch_pause_seconds > 0:
-                        self._sleep(self._batch_pause_seconds)
-            else:
-                with ThreadPoolExecutor(
-                    max_workers=worker_count,
-                    thread_name_prefix="tradex-recovery-minute",
-                ) as executor:
-                    futures = {
-                        executor.submit(
-                            self._load_stock_batch,
-                            batch,
-                            observed,
-                            target.date(),
-                        ): batch
-                        for batch in batches
-                    }
-                    try:
-                        for future in as_completed(futures):
-                            batch = futures[future]
-                            loaded, omitted_count = future.result()
-                            accept_batch(batch, loaded, omitted_count)
-                    except Exception:
-                        for future in futures:
-                            future.cancel()
-                        raise
+            self._load_source_batches(batches, observed, target.date(), tuple(sorted(requested_times)), accept_batch)
 
             overview = fetch_market_overview(now=observed)
             identities = {
@@ -829,6 +816,7 @@ class SameDayPostCloseReconstructor:
             self._index_points = index_points
             self._index_previous_close = identities
             self._partial_trade_date = None
+            self._partial_provider_as_of = None
             self._partial_previous_close = {}
             self._partial_stock_prices = {}
 
@@ -865,23 +853,69 @@ class SameDayPostCloseReconstructor:
         self._index_points = index_points
         self._index_previous_close = index_previous_close
         self._partial_trade_date = None
+        self._partial_provider_as_of = None
         self._partial_previous_close = {}
         self._partial_stock_prices = {}
+
+    def _load_source_batches(self, batches, observed, trading_date, required_minutes, accept_batch):
+        worker_count = 1 if self._batch_pause_seconds > 0 else self._batch_concurrency
+        if worker_count == 1:
+            for number, batch in enumerate(batches, start=1):
+                loaded, omitted = self._load_stock_batch(batch, observed, trading_date, required_minutes)
+                accept_batch(batch, loaded, omitted)
+                if number < len(batches) and self._batch_pause_seconds > 0:
+                    self._sleep(self._batch_pause_seconds)
+            return
+        # Keep only the actual worker window queued. On failure, drain and save
+        # other running results before returning; later retries load only gaps.
+        remaining = iter(batches)
+        error = None
+        with ThreadPoolExecutor(max_workers=worker_count, thread_name_prefix="tradex-recovery-minute") as executor:
+            pending = {}
+            def fill():
+                while len(pending) < worker_count:
+                    batch = next(remaining, None)
+                    if batch is None:
+                        break
+                    pending[executor.submit(self._load_stock_batch, batch, observed, trading_date, required_minutes)] = batch
+            fill()
+            while pending:
+                completed, _ = wait(pending, return_when=FIRST_COMPLETED)
+                for future in completed:
+                    batch = pending.pop(future)
+                    try:
+                        loaded, omitted = future.result()
+                        accept_batch(batch, loaded, omitted)
+                    except Exception as exc:
+                        if error is None:
+                            error = exc
+                if error is None:
+                    fill()
+        if error is not None:
+            raise error
 
     def _load_stock_batch(
         self,
         batch: tuple[str, ...],
         observed: datetime,
         trading_date: date,
+        required_minutes: tuple[time, ...],
     ) -> tuple[dict[str, Any], int]:
         loaded = self._load_batch_with_backoff(batch, observed)
-        omitted = [item for item in batch if item not in loaded]
+        required = set(required_minutes)
+        omitted = [
+            item for item in batch
+            if item not in loaded
+            or loaded[item].trading_date != trading_date
+            or not required.issubset(point.minute for point in loaded[item].points)
+        ]
         for instrument_id in omitted:
             loaded[instrument_id] = fetch_intraday_minute_series(
                 instrument_id,
                 now=observed,
                 use_cache=False,
                 expected_trading_date=trading_date,
+                required_minutes=required_minutes,
             )
         return loaded, len(omitted)
 
@@ -892,10 +926,17 @@ class SameDayPostCloseReconstructor:
                 return fetch_intraday_minute_series_batch_partial(
                     batch,
                     now=observed,
+                    allow_empty=True,
                 )
             except Exception as exc:  # noqa: BLE001 - bounded provider backoff
                 last = exc
-                if "429" not in str(exc) or attempt == 2:
+                # The router currently aggregates provider failures as text.
+                # Retry only transient capacity/deadline failures, within the
+                # existing three-attempt budget; payload errors still fail.
+                retryable = any(token in str(exc).lower() for token in (
+                    "429", "deadline", "request capacity is busy", "rate budget is full",
+                ))
+                if not retryable or attempt == 2:
                     raise
                 self._sleep(20.0 * (attempt + 1))
         raise RuntimeError("minute batch retry exhausted") from last
@@ -911,15 +952,21 @@ class SameDayPostCloseReconstructor:
                 for row in records
                 if row.get("record_kind") == "accepted_real"
             }
-            if target.time() not in accepted:
+            record = accepted.get(target.time())
+            if record is None:
                 continue
-            for row in self._history.get_timeline(candidate_date):
-                if datetime.fromisoformat(row["minute_bucket"]).time() != target.time():
-                    continue
-                turnover = row["payload"].get("turnover") or {}
-                amount = turnover.get("today_amount_cny")
-                if turnover.get("available") and turnover.get("today_date") == candidate_date.isoformat() and turnover.get("as_of") == target.strftime("%H:%M") and isinstance(amount, (int, float)) and amount > 0:
-                    return candidate_date, float(amount)
+            row = self._history.get_snapshot_by_pointer(
+                trade_date=candidate_date,
+                minute_bucket=record["minute_bucket"],
+                snapshot_id=record["snapshot_id"],
+                payload_digest=record["payload_digest"],
+            )
+            if row is None:
+                continue
+            turnover = row["payload"].get("turnover") or {}
+            amount = turnover.get("today_amount_cny")
+            if turnover.get("available") and turnover.get("today_date") == candidate_date.isoformat() and turnover.get("as_of") == target.strftime("%H:%M") and isinstance(amount, (int, float)) and amount > 0:
+                return candidate_date, float(amount)
         raise RuntimeError("no accepted previous-trading-day same-minute turnover baseline")
 
     @staticmethod

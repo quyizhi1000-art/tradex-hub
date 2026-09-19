@@ -1,0 +1,69 @@
+{
+  "instrument_id": "002826.SZ",
+  "name": "易明医药",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "002826.SZ",
+    "name": "易明医药",
+    "memberships": [
+      "医药生物",
+      "化学制药",
+      "化学制剂",
+      "西藏板块",
+      "2026中报预增",
+      "中药概念",
+      "西部大开发"
+    ],
+    "business_sections": [
+      {
+        "title": "自主生产药品业务",
+        "kind": "主营业务",
+        "text": "自主生产药品由维奥制药生产销售。自主生产药品主要有以下5种，多为填补国内市场空白或竞品较少的特色药。"
+      },
+      {
+        "title": "药品推广服务业务",
+        "kind": "主营业务",
+        "text": "第三方合作药品注射用多种维生素（12）（卫美佳）、多种微量元素注射液（卫衡素）等产品由子公司博斯泰接受上游生产/销售企业的委托在内蒙古区域进行推广。"
+      },
+      {
+        "title": "产品优势",
+        "kind": "核心竞争力",
+        "text": "公司重点经营的产品均在品质、资质上具有突出特点，全部列入《国家基本医疗保险、工伤保险和生育保险药品目录》（2025年版），部分产品列入国家基本药物目录，具备全国首家仿制等优势，在细分市场上均具有较强的竞争力和较好的成长空间。"
+      },
+      {
+        "title": "技术优势",
+        "kind": "核心竞争力",
+        "text": "公司积极响应国务院办公厅《关于开展仿制药质量和疗效一致性评价的意见》的号召，致力于对现有产品品质提升，确定仿制药质量一致性评价为主要研究方向之一。截至报告期末，已通过一致性评价的有蒙脱石散、多潘立酮片、米格列醇片，其中多潘立酮片、米格列醇片均在国家集采中中标。"
+      },
+      {
+        "title": "原料药及制剂生产一体化优势",
+        "kind": "核心竞争力",
+        "text": "公司自产米格列醇、醋氯芬酸等原料药，通过“原料药+制剂”一体化模式，确保原料药的稳定供应，提高制剂的生产效率；同时从原料到制剂全程控制，能充分保证制剂的产品质量且成本可控，使得公司具有较强的成本优势和市场竞争力。"
+      },
+      {
+        "title": "管理层优势",
+        "kind": "核心竞争力",
+        "text": "公司加强管理团队的梯队建设，促进人才的引进和培养。核心管理团队成员拥有多年医药行业的生产、销售、管理等方面的扎实经验，团队成员配合默契，优势互补，对公司未来发展及行业前景有着共同愿景，形成一支稳健、高效、务实的经营管理团队，推动公司可持续发展。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ002826",
+    "fetched_at": "2026-09-18T22:56:01.926050+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [
+    "医疗医药"
+  ],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "化学药"
+}

@@ -110,6 +110,55 @@ def _snapshot(observed_at: datetime, *, snapshot_id: str, sequence: int = 1):
     )
 
 
+@pytest.mark.parametrize("status", ["stale", "unavailable"])
+def test_collector_rejects_bad_quality_before_history_and_after_restart(tmp_path, status):
+    from tradex.market_watch.contracts import MarketWatchSnapshotV1
+
+    now = datetime(2026, 8, 24, 10, 30, tzinfo=SHANGHAI)
+    payload = _snapshot(now, snapshot_id="mw-bad-quality").model_dump(mode="json")
+    payload["freshness"]["status"] = status
+    for component in payload["freshness"]["components"]:
+        component["status"] = status
+        if status == "unavailable":
+            component["quality"] = "unavailable"
+    payload["guardrail"].update(regime="uncertain", severity="stop", conclusion_strength="abstain")
+    snapshot = MarketWatchSnapshotV1.model_validate(payload)
+    path = tmp_path / "quality.sqlite3"
+    with MarketWatchHistoryStore(path, clock=lambda: now) as history, MarketWatchCollectionStore(path, clock=lambda: now) as ledger:
+        collector = MarketWatchCollector(
+            store=ledger, capture_current=lambda slot: snapshot,
+            repair_historical=lambda slot: snapshot, persist_snapshot=history.record,
+            clock=lambda: now,
+        )
+        result = collector.run_once()
+        assert result["action"] == "failed"
+        assert ledger.get_slot(now).source_snapshot_revision is None
+        assert history.get_collection_records(now.date()) == []
+
+        # A misleading record_kind must not override actual canonical quality.
+        stored = history.record(snapshot)
+        record = {**history.get_collection_records(now.date())[0], "record_kind": "accepted_real", "payload": payload}
+        assert ledger.reconcile_history_record(record)["action"] == "skipped"
+        unproven = {k: v for k, v in record.items() if k not in {"freshness_status", "payload"}}
+        assert ledger.reconcile_history_record(unproven)["action"] == "skipped"
+        # Reproduce the old bug in the ledger, then check restart correction is
+        # exact-revision scoped and preserves original attempts and payload.
+        with sqlite3.connect(path) as connection:
+            connection.execute("UPDATE market_watch_collection_slots SET status='repaired', accepted_at=?, source_snapshot_id=?, source_snapshot_revision=?, gap_heartbeat=0, next_retry_at=NULL WHERE minute_bucket=?",
+                               (now.isoformat(), snapshot.snapshot_id, stored["payload_digest"], now.isoformat()))
+        attempts = ledger.list_attempts(now)
+        stale_record = history.get_collection_records(now.date())[0]
+        mismatched = {**stale_record, "payload_digest": "f" * 64}
+        assert ledger.reconcile_history_record(mismatched)["action"] == "skipped"
+        assert ledger.get_slot(now).source_snapshot_revision == stored["payload_digest"]
+        assert ledger.reconcile_history_record(stale_record)["action"] == "invalidated"
+        assert ledger.get_slot(now).status is CollectionSlotStatus.UNRESOLVED
+        assert ledger.get_slot(now).source_snapshot_revision is None
+        assert ledger.list_attempts(now) == attempts
+        assert history.get_collection_records(now.date())[0] == stale_record
+        assert ledger.reconcile_history_record(stale_record)["action"] == "skipped"
+
+
 def test_expected_session_minutes_are_phase_aware_with_one_final_close() -> None:
     minutes = expected_session_minutes(date(2026, 8, 24))
 
@@ -262,9 +311,10 @@ def test_post_close_recovery_is_idempotent_audited_and_manual_retryable(
         )
 
     assert slot.minute_bucket == expected_session_minutes(trade_date)[0]
-    assert finished.status is DailyRecoveryStatus.NEEDS_ATTENTION
+    assert finished.status is DailyRecoveryStatus.RETRYING
     assert finished.remaining_gaps == 239
-    assert finished.manual_action_required is True
+    assert finished.manual_action_required is False
+    assert finished.next_retry_at == closed_at + timedelta(seconds=3)
     assert manual["action"] == "queued"
     assert manual["recovery"].run_id != finished.run_id
 
@@ -435,13 +485,114 @@ def test_post_close_recovery_cannot_be_queued_before_close(tmp_path: Path) -> No
             )
 
 
+def test_automatic_recovery_survives_prepare_failure_restart_and_mixed_gaps(tmp_path, monkeypatch):
+    from tradex.market_watch import collection_store
+    from tradex.market_watch.reconstruction import HistoricalTrajectoryNotPublished
+
+    start = datetime(2026, 9, 18, 15, 6, tzinfo=SHANGHAI)
+    minutes = tuple(start.replace(hour=10, minute=value) for value in (10, 11, 12))
+    monkeypatch.setattr(collection_store, "expected_session_minutes", lambda day: minutes)
+    current = [start]
+    repairs, preparations = [], []
+    path = tmp_path / "automatic-lifecycle.sqlite3"
+
+    def prepare(*args):
+        preparations.append(current[0])
+        if len(preparations) == 1:
+            raise TimeoutError("fixture preparation deadline")
+
+    def repair(slot):
+        repairs.append(slot.minute_bucket)
+        if slot.minute_bucket == minutes[0]:
+            raise HistoricalTrajectoryNotPublished("fixture terminal minute")
+        if slot.minute_bucket == minutes[1] and repairs.count(minutes[1]) == 1:
+            raise TimeoutError("fixture provider deadline")
+        return _snapshot(slot.minute_bucket, snapshot_id=f"recovered-{slot.minute_bucket:%H%M}")
+
+    def cycle(ledger, history):
+        collector = MarketWatchCollector(store=ledger, capture_current=lambda slot: pytest.fail("closed session"), repair_historical=repair, prepare_daily_recovery=prepare, persist_snapshot=history.record, clock=lambda: current[0])
+        collector.start()
+        collector._queue_automatic_recovery_if_due(current[0])
+        return collector.run_once()
+
+    with MarketWatchCollectionStore(path) as ledger, MarketWatchHistoryStore(path) as history:
+        assert cycle(ledger, history)["status"] == "failed"
+        failed = ledger.read_latest_daily_recovery(start.date(), as_of=current[0])
+        assert failed.next_retry_at == start + timedelta(seconds=60)
+        assert failed.manual_action_required is False
+        current[0] += timedelta(seconds=59)
+        assert ledger.request_daily_recovery(start.date(), trigger=DailyRecoveryTrigger.AUTOMATIC, requested_at=current[0])["action"] == "existing"
+
+    # A new persistence owner simulates process restart; no manual queue request.
+    current[0] += timedelta(seconds=1)
+    with MarketWatchCollectionStore(path) as ledger, MarketWatchHistoryStore(path) as history:
+        assert cycle(ledger, history)["status"] == "retrying"
+        mixed = ledger.read_latest_daily_recovery(start.date(), as_of=current[0])
+        assert mixed.unavailable_gaps == 1 and mixed.remaining_gaps == 2
+        assert mixed.manual_action_required is False
+        current[0] += timedelta(seconds=10)
+        assert cycle(ledger, history)["status"] == "needs_attention"
+        final = ledger.read_latest_daily_recovery(start.date(), as_of=current[0])
+        assert final.accepted_after == 2 and final.remaining_gaps == final.unavailable_gaps == 1
+        assert final.next_retry_at is None and final.manual_action_required is False
+        assert final.failed_attempts == 0
+        assert repairs.count(minutes[0]) == 1
+        assert repairs.count(minutes[1]) == 2
+        assert repairs.count(minutes[2]) == 1
+        current[0] += timedelta(minutes=10)
+        assert ledger.request_daily_recovery(start.date(), trigger=DailyRecoveryTrigger.AUTOMATIC, requested_at=current[0])["action"] == "existing"
+
+
+@pytest.mark.parametrize("preserve", [False, True])
+def test_daily_recovery_can_preserve_later_slot_backoff(tmp_path, preserve):
+    now = datetime(2026, 9, 18, 16, tzinfo=SHANGHAI)
+    with MarketWatchCollectionStore(tmp_path / "backoff.sqlite3") as store:
+        attempt, slot = store.claim_due(now)
+        retry_at = now + timedelta(minutes=10)
+        store.mark_failed(attempt, error=TimeoutError("fixture"), completed_at=now, next_retry_at=retry_at)
+        store.requeue_daily_recovery_gaps(now.date(), requested_at=now, preserve_retry_schedule=preserve)
+        assert store.get_slot(slot.minute_bucket).next_retry_at == (retry_at if preserve else now)
+
+
+def test_legacy_needs_attention_does_not_block_retryable_slots(tmp_path):
+    now = datetime(2026, 9, 18, 16, tzinfo=SHANGHAI)
+    with MarketWatchCollectionStore(tmp_path / "legacy.sqlite3") as store:
+        queued = store.request_daily_recovery(now.date(), trigger=DailyRecoveryTrigger.AUTOMATIC, requested_at=now)
+        store.claim_daily_recovery(started_at=now)
+        store.finish_daily_recovery(queued["recovery"].run_id, completed_at=now, reconciled_slots=0, attempted_slots=0)
+        store._connection.execute("UPDATE market_watch_daily_recovery_runs SET status='needs_attention'")
+        store._connection.commit()
+        result = store.request_daily_recovery(now.date(), trigger=DailyRecoveryTrigger.AUTOMATIC, requested_at=now + timedelta(seconds=1))
+        assert result["action"] == "queued"
+
+
+def test_repaired_failure_is_removed_from_active_error_projection(tmp_path):
+    now = datetime(2026, 9, 18, 16, tzinfo=SHANGHAI)
+    with MarketWatchCollectionStore(tmp_path / "resolved.sqlite3") as store:
+        queued = store.request_daily_recovery(now.date(), trigger=DailyRecoveryTrigger.AUTOMATIC, requested_at=now)
+        run = store.claim_daily_recovery(started_at=now)
+        attempt, slot = store.claim_due(now)
+        store.record_daily_recovery_attempt_started(run.run_id, slot, started_at=now)
+        failed = store.mark_failed(attempt, error=TimeoutError("fixture"), completed_at=now, next_retry_at=now)
+        store.record_daily_recovery_attempt_finished(run.run_id, failed, completed_at=now)
+        assert store.read_latest_daily_recovery(now.date(), as_of=now).latest_failure_error_code == "TimeoutError"
+        attempt, slot = store.claim_due(now)
+        store.mark_accepted(attempt, _snapshot(slot.minute_bucket, snapshot_id="repaired"), source_snapshot_revision="a" * 64, completed_at=now)
+        projected = store.read_latest_daily_recovery(now.date(), as_of=now)
+        assert projected.latest_failure_error_code is None
+        assert projected.latest_failure_next_retry_at is None
+        assert store._connection.execute("SELECT COUNT(*) FROM market_watch_collection_attempts WHERE error_code='TimeoutError'").fetchone()[0] == 1
+
+
+@pytest.mark.parametrize("prestarted", [False, True])
 def test_collector_runs_one_automatic_post_close_recovery_batch(
-    tmp_path: Path,
+    tmp_path: Path, prestarted: bool,
 ) -> None:
     closed_at = datetime(2026, 8, 24, 15, 6, tzinfo=SHANGHAI)
     db_path = tmp_path / "automatic-recovery.sqlite3"
     repair_calls: list[datetime] = []
     preparation_calls: list[date] = []
+    reconciliation_passes = []
     stop_event = threading.Event()
 
     def repair(slot):
@@ -465,7 +616,7 @@ def test_collector_runs_one_automatic_post_close_recovery_batch(
             repair_historical=repair,
             repair_historical_with_progress=repair_with_progress,
             persist_snapshot=history.record,
-            history_records=lambda: (),
+            history_records=lambda: reconciliation_passes.append(1) or (),
             prepare_daily_recovery=lambda trade_date, _observed, heartbeat: (
                 heartbeat(),
                 preparation_calls.append(trade_date),
@@ -474,11 +625,14 @@ def test_collector_runs_one_automatic_post_close_recovery_batch(
             recovery_batch_limit=1,
         )
 
+        if prestarted:
+            collector.start()
         collector.run_forever(stop_event)
         envelope = ledger.read_envelope(as_of=closed_at)
 
     assert repair_calls == [expected_session_minutes(closed_at.date())[0]]
     assert preparation_calls == [closed_at.date()]
+    assert len(reconciliation_passes) == 2  # Startup once, then daily recovery once.
     assert envelope.daily_recovery is not None
     assert envelope.daily_recovery.trigger is DailyRecoveryTrigger.AUTOMATIC
     assert envelope.daily_recovery.status is DailyRecoveryStatus.RETRYING
@@ -781,14 +935,15 @@ def test_inflight_attempt_is_recovered_as_retryable_after_restart(tmp_path: Path
     assert attempts[0]["outcome"] == "interrupted"
 
 
-def test_restart_requeues_the_interrupted_daily_recovery_run(tmp_path: Path) -> None:
+@pytest.mark.parametrize("trigger", list(DailyRecoveryTrigger))
+def test_restart_requeues_the_interrupted_daily_recovery_run(tmp_path: Path, trigger) -> None:
     started_at = datetime(2026, 8, 24, 15, 6, tzinfo=SHANGHAI)
     restarted_at = started_at + timedelta(minutes=4)
     db_path = tmp_path / "interrupted-daily-recovery.sqlite3"
     with MarketWatchCollectionStore(db_path, clock=lambda: started_at) as first:
         first.request_daily_recovery(
             started_at.date(),
-            trigger=DailyRecoveryTrigger.AUTOMATIC,
+            trigger=trigger,
             requested_at=started_at,
         )
         claimed = first.claim_daily_recovery(started_at=started_at)
@@ -801,6 +956,12 @@ def test_restart_requeues_the_interrupted_daily_recovery_run(tmp_path: Path) -> 
             started_at.date(),
             as_of=restarted_at,
         )
+        continued = second.request_daily_recovery(
+            started_at.date(), trigger=DailyRecoveryTrigger.AUTOMATIC,
+            requested_at=restarted_at,
+        )
+        assert continued["action"] == "queued"
+        assert continued["recovery"].run_id != recovered.run_id
 
     assert recovered is not None
     assert recovered.status is DailyRecoveryStatus.RETRYING

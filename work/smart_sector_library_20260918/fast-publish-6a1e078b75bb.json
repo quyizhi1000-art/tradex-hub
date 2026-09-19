@@ -1,0 +1,77 @@
+[
+  {
+    "id": "600546.SH",
+    "key": "coal",
+    "sector": "煤炭",
+    "source_sector_name": "煤炭概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "煤炭生产与销售物流"
+    ],
+    "fact": "自产及洗精煤供钢厂电厂，并有煤炭销售运输体系。",
+    "company_fact": "自产及洗精煤供钢厂电厂，并有煤炭销售运输体系。",
+    "ths_fact": "主营煤炭生产销售物流。",
+    "reason": "煤炭生产经营身份明确，海运仅运销配套。"
+  },
+  {
+    "id": "600547.SH",
+    "key": "gold",
+    "sector": "黄金",
+    "source_sector_name": "黄金概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "黄金开采选冶销售"
+    ],
+    "fact": "从事黄金勘查开采选冶销售，产品包括金锭金条等。",
+    "company_fact": "从事黄金勘查开采选冶销售，产品包括金锭金条等。",
+    "ths_fact": "黄金概念解析对应黄金矿业经营。",
+    "reason": "直接黄金矿业全链条与市场主线一致；数字化矿山不构成独立数字经济主业。"
+  },
+  {
+    "id": "600548.SH",
+    "key": "highways",
+    "sector": "高速公路",
+    "source_sector_name": "高速公路",
+    "source_sector_provider": "东方财富",
+    "stage": "revenue",
+    "chain": [
+      "收费公路投资运营"
+    ],
+    "fact": "主要投资建设经营收费公路，同时有清洁能源及固废环保。",
+    "company_fact": "主要投资建设经营收费公路，同时有清洁能源及固废环保。",
+    "ths_fact": "粤港澳解析确认主营收费公路投资建设经营。",
+    "reason": "收费公路特许经营身份稳定，新能源及金融参股保留辅助标签。"
+  },
+  {
+    "id": "600549.SH",
+    "key": "tungsten",
+    "sector": "钨",
+    "source_sector_name": "钨",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "钨矿冶炼及深加工"
+    ],
+    "fact": "钨产业含在产矿山冶炼粉末钨丝硬质合金和聚变用钨部件。",
+    "company_fact": "钨产业含在产矿山冶炼粉末钨丝硬质合金和聚变用钨部件。",
+    "ths_fact": "从钨钼矿山到冶炼深加工回收形成完整链条。",
+    "reason": "钨资源材料完整链条最能表达市场身份，稀土电池和核聚变为并行业务与应用。"
+  },
+  {
+    "id": "600550.SH",
+    "key": "uhv",
+    "sector": "特高压",
+    "source_sector_name": "特高压",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "特高压交直流变压器"
+    ],
+    "fact": "主营110kV至1000kV变压器，在特高压交直流领域具备竞争力。",
+    "company_fact": "主营110kV至1000kV变压器，在特高压交直流领域具备竞争力。",
+    "ths_fact": "国家电网南方电网特高压变压器主要供应商之一。",
+    "reason": "特高压对应自主核心输变电装备，虚拟电厂项目供货不意味着经营虚拟电厂平台。"
+  }
+]

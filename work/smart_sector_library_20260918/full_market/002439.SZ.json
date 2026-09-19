@@ -1,0 +1,81 @@
+{
+  "instrument_id": "002439.SZ",
+  "name": "启明星辰",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "002439.SZ",
+    "name": "启明星辰",
+    "memberships": [
+      "计算机",
+      "软件开发",
+      "横向通用软件",
+      "北京板块",
+      "2026中报扭亏",
+      "2026一季报预增",
+      "破增发价股",
+      "小盘股",
+      "标准普尔",
+      "富时罗素",
+      "深股通",
+      "融资融券",
+      "深成500",
+      "DeepSeek概念",
+      "低空经济",
+      "数据要素",
+      "信创",
+      "电子身份证",
+      "跨境支付",
+      "数据安全",
+      "鸿蒙概念",
+      "VPN",
+      "华为概念",
+      "工业互联网",
+      "小米概念",
+      "军民融合",
+      "车联网(车路云)",
+      "人工智能",
+      "量子科技",
+      "国产软件",
+      "央国企改革",
+      "网络安全",
+      "大数据",
+      "智慧城市",
+      "云计算",
+      "物联网"
+    ],
+    "business_sections": [
+      {
+        "title": "网络安全",
+        "kind": "主营业务",
+        "text": "启明星辰创立于1996年，是国内极具影响力的网络安全产业领军企业。公司以科技创新为核心驱动力，坚持“技术原生化、创新场景化、交付运营化、服务数智化”，为政府及运营商、金融、能源等企业级客户提供覆盖全生命周期、智能化、场景化的安全产品、专业服务及行业解决方案，帮助客户构建坚实、智能的网络安全保障体系。"
+      },
+      {
+        "title": "技术硬实力，持续保持行业领先",
+        "kind": "核心竞争力",
+        "text": "公司以前沿的AI技术深度融合并革新传统的攻防、检测与信任体系，形成了“攻防研究领先、智能对抗威胁、身份信任融合”的三角支撑结构，从而在快速演进的安全环境中构建了独特且可持续的技术护城河。"
+      },
+      {
+        "title": "组织驱动力，迸发人才创新活力",
+        "kind": "核心竞争力",
+        "text": "公司建立“双通道”职业发展体系（管理序列与技术专家序列并行），通过股权激励等机制绑定关键人才。构建“三横三纵”人才矩阵：横向覆盖基础研究、产品开发、工程实施三大能力域；纵向打通网络安全、数据安全、行业安全三大专业赛道。通过星星学堂课程、大咖技术分享、研发创新大赛等方式，在公司内部形成知识共享氛围。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ002439",
+    "fetched_at": "2026-09-18T22:48:28.502369+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "网络安全"
+}

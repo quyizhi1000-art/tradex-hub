@@ -1,0 +1,74 @@
+{
+  "instrument_id": "002108.SZ",
+  "name": "沧州明珠",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "002108.SZ",
+    "name": "沧州明珠",
+    "memberships": [
+      "基础化工",
+      "塑料",
+      "其他塑料制品",
+      "河北板块",
+      "2026中报预增",
+      "标准普尔",
+      "富时罗素",
+      "深股通",
+      "股权转让",
+      "融资融券",
+      "电池技术",
+      "新型城镇化",
+      "地下管网",
+      "钠离子电池",
+      "工业互联网",
+      "雄安新区",
+      "海绵城市",
+      "一带一路",
+      "央国企改革",
+      "水利建设",
+      "锂电池概念",
+      "物联网",
+      "参股银行",
+      "新材料"
+    ],
+    "business_sections": [
+      {
+        "title": "橡胶和塑电池隔膜",
+        "kind": "主营业务",
+        "text": "公司主营业务为PE管道、BOPA薄膜以及锂离子电池隔膜产品。"
+      },
+      {
+        "title": "市场优势",
+        "kind": "核心竞争力",
+        "text": "公司通过规模的不断扩大，通过全方位的提高和优化管理、研发、技术、质量、售后服务的能力和水平，PE管道和BOPA薄膜产品已成为行业细分市场的领军企业，锂离子电池隔膜产品随着生产技术和生产工艺不断提高和完善，生产规模不断扩大，产能有效释放，行业地位将逐步凸显。公司能够根据市场情况变化而随时调整政策，能保证企业的活力和抵抗市场风险的能力。产品销售网络体系遍布全国各地，形成稳定的供销状态。国际市场销售网络构建日臻完善和成熟。"
+      },
+      {
+        "title": "技术优势",
+        "kind": "核心竞争力",
+        "text": "公司从事PE管道生产和经营20余年，目前管道事业部统管生产中心和销售中心，管理团队稳定，且经验丰富，管理思路与时俱进，管理高效，执行能力强。公司拥有一支高学历的技术团队，多次参与国际标准的制定及国家重大科研项目，为公司产品的升级换代提供技术保障。"
+      },
+      {
+        "title": "品牌优势",
+        "kind": "核心竞争力",
+        "text": "经过多年的发展，公司以优质的产品及完善的售后服务赢得了广大客户的信赖。公司“陆通”、“东鸿”商标品牌在行业内拥有较高的知名度，2017年“陆通”商标被评为中国驰名商标。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ002108",
+    "fetched_at": "2026-09-18T22:41:44.229604+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "尼龙薄膜"
+}

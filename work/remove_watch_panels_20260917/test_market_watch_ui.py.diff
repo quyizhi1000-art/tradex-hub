@@ -1,0 +1,65 @@
+--- before/test_market_watch_ui.py
++++ tradex/tests/test_market_watch_ui.py
+@@ -271,21 +271,12 @@
+         'id="sector-flow-offense-observation-list"',
+         'id="breadth-up-ratio"',
+         'id="rotation-summary"',
+-        'id="what-is-happening"',
+-        'id="supporting-evidence"',
+-        'id="counter-evidence"',
+-        'id="scenario-list"',
+-        'id="confirmed-change"',
+-        'id="alert-list"',
+     ]
+ 
+     positions = [HTML.index(anchor) for anchor in anchors]
+     assert positions == sorted(positions)
+     assert "资金仍是估计 / 辅助" in JS
+     assert "主力资金" not in HTML + JS
+-    assert "slice(0, 2)" in JS
+-    assert "scenario.invalidation" in JS
+-    assert "change.available === true" in JS
+     assert "change.confirmed" not in JS
+     assert "return parsed * 100" in JS
+     assert 'id="breadth-bar-unclassified"' in HTML
+@@ -869,7 +860,7 @@
+     assert "latest_accepted_real" in JS
+ 
+ 
+-def test_watch_page_reads_only_canonical_v1_fields_and_event_reads_are_scoped():
++def test_watch_page_reads_only_canonical_v1_fields():
+     legacy_aliases = (
+         "quality_status",
+         "is_fresh",
+@@ -889,7 +880,6 @@
+     assert 'normalized === "weakening"' in JS
+     assert 'abstain: "暂不判断"' in JS
+     assert "REGIME_LABELS" in JS
+-    assert "alertReadKey(alert, snapshot)" in JS
+     assert "snapshot.snapshot_id" in JS
+ 
+ 
+@@ -970,3 +960,23 @@
+     assert 'displayLabel ? `主显示 · ${displayLabel}`' in JS
+     assert "长期目录 ·" in JS
+     assert "@media" not in CSS
++
++
++def test_removed_analysis_cards_leave_no_dom_accesses_and_keep_neighbor_panels():
++    removed_ids = (
++        "analysis-strength", "what-is-happening", "supporting-evidence",
++        "counter-evidence", "scenario-list", "change-as-of", "confirmed-change",
++        "mark-read-button", "alert-delivery-state", "unread-count", "alert-list",
++    )
++    for element_id in removed_ids:
++        assert f'id="{element_id}"' not in HTML
++        assert f'byId("{element_id}")' not in JS
++    for title in ("此刻盘面在做什么", "接下来最值得盯的条件", "最近确认变化", "<h2>盘面变化提醒</h2>"):
++        assert title not in HTML
++    assert 'class="analysis-grid"' not in HTML
++    assert 'class="bottom-grid"' not in HTML
++    anchors = ('id="breadth-up-ratio"', 'id="rotation-summary"', 'id="stock-selection-section"')
++    positions = [HTML.index(anchor) for anchor in anchors]
++    assert positions == sorted(positions)
++    assert "state.alerts = alertListFromSnapshot(snapshot);" in JS
++    assert "function processBackendAlerts(snapshot)" in JS

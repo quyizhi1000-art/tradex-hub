@@ -1,0 +1,71 @@
+{
+  "instrument_id": "300209.SZ",
+  "name": "行云科技",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "300209.SZ",
+    "name": "行云科技",
+    "memberships": [
+      "计算机",
+      "软件开发",
+      "垂直应用软件",
+      "湖南板块",
+      "高市净率",
+      "密集调研",
+      "股权分散",
+      "2026中报预增",
+      "小盘价值",
+      "小盘股",
+      "内贸流通",
+      "创业板综",
+      "深股通",
+      "液冷服务器",
+      "算力概念",
+      "跨境电商",
+      "互联网服务",
+      "纳米银",
+      "人工智能",
+      "国产软件",
+      "电商概念"
+    ],
+    "business_sections": [
+      {
+        "title": "B2B业务",
+        "kind": "主营业务",
+        "text": "报告期内，公司新开展供应链贸易业务，主要围绕出口、内贸两方面。公司直接向国内品牌方和工厂采购商品，通过海内外销售渠道对客户进行销售，并提供实现路径所需的品牌营销等增值服务，主要面向主流电商平台的代理商等客户进行线下销售。报告期，供应链跨境电商业务实现营业收入6,557.26万元，占总营业收入的45.29%。"
+      },
+      {
+        "title": "B2C业务",
+        "kind": "主营业务",
+        "text": "报告期，公司开展部分传统电商业务，该电商业务模式主要为B2C模式。公司依托Amazon、AliExpress、Shopee等第三方综合性电商平台，通过注册卖家账号、开设网店方式，向境外个人消费者售卖中国制造的高性价比产品。报告期，传统跨境电商业务实现营业收入556.29万元，占总营业收入的3.84%。"
+      },
+      {
+        "title": "软件开发和运维服务",
+        "kind": "主营业务",
+        "text": "报告期内，公司开展部分软件开发业务及后续运维服务。公司通过IT信息技术手段助力企业实现服务智能化、产品数字化及数据平台化，依托大数据、物联网、人工智能及云计算等关键技术为客户提供综合服务。报告期，软件开发业务及运维服务实现营业收入7,123.59万元，占总营业收入的49.21%。"
+      },
+      {
+        "title": "多年丰富的运营经验和独特的渠道优势",
+        "kind": "核心竞争力",
+        "text": "报告期内，公司受破产重整过渡期影响，原有业务开展相对不顺，但公司根据《重整计划》安排，依托产业投资人的支持，提前完成第七届董事会换届选举，更换了新一届经营管理层，相关关键技术人员重新选聘，公司新开展的B2B业务已具备较强的市场竞争力。公司在运维管理、人才储备以及技术积累等方面在跨境电商行业内具备较高的知名度和美誉度，有着多年丰富的运营经验和独特的渠道优势。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ300209",
+    "fetched_at": "2026-09-18T23:04:31.083683+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "B2C"
+}

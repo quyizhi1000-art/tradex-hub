@@ -1,0 +1,77 @@
+[
+  {
+    "id": "600587.SH",
+    "key": "medical_devices",
+    "sector": "医疗器械",
+    "source_sector_name": "医疗器械概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "感染控制放疗手术与诊疗设备"
+    ],
+    "fact": "感染控制放疗影像手术口腔IVD等九大产品线，另有制药装备。",
+    "company_fact": "感染控制放疗影像手术口腔IVD等九大产品线，另有制药装备。",
+    "ths_fact": "主营医疗器械与制药装备制造销售及服务。",
+    "reason": "完整器械产品经营最能反映现有市场身份；脑机初代研发、人形动物中心试用尚为早期应用，不推作成熟主业务。"
+  },
+  {
+    "id": "600588.SH",
+    "key": "ai_agents",
+    "sector": "AI智能体",
+    "source_sector_name": "AI智能体",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "企业管理与流程智能体"
+    ],
+    "fact": "BIP以AI数据流程一体覆盖财务人力供应链制造，向企业提供软件智能服务。",
+    "company_fact": "BIP以AI数据流程一体覆盖财务人力供应链制造，向企业提供软件智能服务。",
+    "ths_fact": "YonGPT2.0已发布智能助理数智员工及100多个场景服务。",
+    "reason": "原生企业AI与已发布智能体产品相互印证，保留ERP为底层业务标签，不把全部订阅收入标成智能体收入。"
+  },
+  {
+    "id": "600589.SH",
+    "key": "computing_power_leasing",
+    "sector": "算力租赁",
+    "source_sector_name": "算力租赁",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "算力与云服务"
+    ],
+    "fact": "经营IDC与算力综合服务，提供数据中心与智能计算方案。",
+    "company_fact": "经营IDC与算力综合服务，提供数据中心与智能计算方案。",
+    "ths_fact": "自采租赁服务器AI芯片形成实际算力服务，2025算力云收入1516.48万元但占比仅3.50%。",
+    "reason": "具体租赁经营及算力收入支持市场主线，明确规模小、IDC机柜收入不等于算力租赁。"
+  },
+  {
+    "id": "600590.SH",
+    "key": "aidc",
+    "sector": "数据中心(AIDC)",
+    "source_sector_name": "数据中心(AIDC)",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "数据中心应急发电保障"
+    ],
+    "fact": "军用电源技术民用化形成应急电源特种车辆与系统方案。",
+    "company_fact": "军用电源技术民用化形成应急电源特种车辆与系统方案。",
+    "ths_fact": "2025年12月自研高压柴油发电机组在美国数据中心安装调试并正式运行。",
+    "reason": "实际数据中心备用电源交付形成AI基础设施身份；军工保留辅助，不是自行经营IDC。"
+  },
+  {
+    "id": "600592.SH",
+    "key": "humanoid_robots",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "stage": "pilot",
+    "chain": [
+      "人形机器人关节轴承"
+    ],
+    "fact": "主营关节轴承等零部件，列明人形机器人未来产业应用。",
+    "company_fact": "主营关节轴承等零部件，列明人形机器人未来产业应用。",
+    "ths_fact": "异常波动公告明确人形配套关节轴承仍研制小批送样试验。",
+    "reason": "人形关节轴承符合已有市场概念及实际送样，阶段限定试验，传统轴承销量不当人形量产收入。"
+  }
+]

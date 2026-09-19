@@ -1,0 +1,112 @@
+[
+  {
+    "id": "300715.SZ",
+    "key": "oled",
+    "sector": "OLED",
+    "source_sector_name": "OLED",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "OLED面板检测",
+      "De-mura补偿设备"
+    ],
+    "fact": "控股佳智彩开展OLED面板检测及补偿设备业务。",
+    "ths_fact": "同花顺OLED解析引用2026年4月公告，2025年交付G8.6代线De-mura设备。",
+    "company_fact": "主营资料已经包括新型显示面板信号检测及补偿修复，原半年报确认佳智彩69%为合并子公司。",
+    "reason": "采用已有OLED对应新显示设备业务，不把检测设备称为面板生产；传统防水业务仍存在。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "300715.SZ-2026h1-control",
+        "source_kind": "official_filing",
+        "publisher": "公司公告（新浪转载）",
+        "title": "2026年半年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12534184&stockid=300715",
+        "published_at": null,
+        "assertions": [
+          "主营资料已经包括新型显示面板信号检测及补偿修复，原半年报确认佳智彩69%为合并子公司。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "300716.SZ",
+    "key": "hjt_battery",
+    "sector": "HJT电池",
+    "source_sector_name": "HJT电池",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "异质结光伏组件",
+      "光伏系统服务"
+    ],
+    "fact": "已转向异质结电池组件业务，并有实物产品及生产基地。",
+    "ths_fact": "同花顺HJT解析记载山东泉为业务，旧15GW只是规划不能当产量。",
+    "company_fact": "业务资料确认HJT组件主业，泉耀及虎鲸产品、枣庄泗县基地；原半年报确认山东泉为35%纳入子公司。",
+    "reason": "已有HJT电池更贴合转型后的业务身份；持股比例低于50%不机械否认控制，按正式合并范围核验，阶段保守采用产品而非笼统宣称经营收入。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "300716.SZ-2026h1-control",
+        "source_kind": "official_filing",
+        "publisher": "公司公告（新浪转载）",
+        "title": "2026年半年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12573187&stockid=300716",
+        "published_at": null,
+        "assertions": [
+          "业务资料确认HJT组件主业，泉耀及虎鲸产品、枣庄泗县基地；原半年报确认山东泉为35%纳入子公司。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "300717.SZ",
+    "key": "electronic_identity",
+    "sector": "电子身份证",
+    "source_sector_name": "电子身份证",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "证件卡基材",
+      "电子证件防伪元件层"
+    ],
+    "fact": "证件卡功能膜材料延伸至电子证件安全防伪层。",
+    "ths_fact": "同花顺电子身份证解析引用公告，控股孙公司信证安全布局防伪元件层。",
+    "company_fact": "主营确认PETG/PVC/PC膜材用于证件卡，核心优势确认第二代居民身份证全套材料生产资质及成熟证件卡产品。",
+    "reason": "选已有电子身份证对应核心证件材料链；不是电子身份政务平台或芯片制造商，防伪层不推定批量收入。"
+  },
+  {
+    "id": "300718.SZ",
+    "key": "humanoid_robot",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "自润滑关节轴承",
+      "直线执行器部件",
+      "灵巧手部件"
+    ],
+    "fact": "人形机器人核心摩擦部件有部分批量销售，规模仍小。",
+    "ths_fact": "同花顺引用2026年5月12日调研，具身零部件部分批量销售、收入不足主营1%，部分仍送样试验。",
+    "company_fact": "主营确认自润滑轴承及高性能聚合物研发生产销售，具有低摩擦材料和整套配套开发能力。",
+    "reason": "已有的人形机器人体现市场核心题材；收入阶段仅限已销售部件，不将部分验证产品写成全线量产或机器人整机收入。"
+  },
+  {
+    "id": "300719.SZ",
+    "key": "low_altitude_economy",
+    "sector": "低空经济",
+    "source_sector_name": "低空经济",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "航空座椅与内饰",
+      "直升机导航安全",
+      "机载设备维修"
+    ],
+    "fact": "通用直升机配套及机载系统对应低空产业链。",
+    "ths_fact": "同花顺低空经济解析明确座椅导航内饰已配套通用直升机；eVTOL相关另处研制合同或意向。",
+    "company_fact": "公司业务资料列航空座椅导航复材构件用于直升机、低空飞行器及无人机，兼有维修测控业务。",
+    "reason": "采用已有低空经济覆盖可交付直升机产品；不是飞行器整机厂，不将eVTOL意向当作批量商业运营。"
+  }
+]

@@ -1,0 +1,547 @@
+[
+  {
+    "id": "688381.SH",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "chain": [
+      "人形机器人USB高速信号芯片"
+    ],
+    "stage": "revenue",
+    "fact": "低功耗USB Redriver已向机器人客户销售。",
+    "ths_fact": "2025年6月明确产品主要应用人形机器人，2月宇树销量占比小。",
+    "company_fact": "从事信号链和电源管理模拟芯片。",
+    "reason": "人形机器人已有具体器件应用与小额销售；半年报确认宇树客户及机器人覆盖，非仅规划。AI眼镜和新光模块型号各有验证阶段，不合并为已量产。",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "official-688381-2026h1",
+        "source_kind": "official_filing",
+        "publisher": "帝奥微",
+        "title": "2026年半年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=688381&id=12517794",
+        "published_at": null,
+        "assertions": [
+          "宇树属于已建立合作的终端客户，产品市场覆盖机器人；新高速互联继续研发。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "688382.SH",
+    "key": "innovative_drugs",
+    "sector": "创新药",
+    "chain": [
+      "肿瘤创新药研发及对外授权"
+    ],
+    "stage": "revenue",
+    "fact": "已有两款上市授权药物，授权合作产生收入。",
+    "ths_fact": "贝福替尼、格索雷塞属授权产品，其他为临床管线。",
+    "company_fact": "研发EGFR、KRAS等创新药并对外授权。",
+    "reason": "原报确认收入主要源于授权合作，revenue不表示所有在研产品销售，也不表示公司自行生产销售授权药品。",
+    "source_sector_name": "创新药",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "official-688382-2026h1",
+        "source_kind": "official_filing",
+        "publisher": "益方生物",
+        "title": "2026年半年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=688382&id=12511434",
+        "published_at": null,
+        "assertions": [
+          "上半年收入5331.92万元，主要源于授权合作；两款授权产品已上市，其余临床在研。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "688383.SH",
+    "key": "advanced_packaging",
+    "sector": "先进封装",
+    "chain": [
+      "半导体高精度固晶及封装装备"
+    ],
+    "stage": "delivery",
+    "fact": "先进封装定制设备已向客户交付。",
+    "ths_fact": "为华为提供先进封装设备并已交付；人形产品原为预计发布。",
+    "company_fact": "半导体、新型显示等智能制造装备，核心运动控制部件自研。",
+    "reason": "选择交付明确的先进封装装备市场身份；人形研发与预期发布日期不能自动确认产品上市，后续实际发布及订单再复核。",
+    "source_sector_name": "先进封装",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688385.SH",
+    "key": "chips",
+    "sector": "芯片",
+    "chain": [
+      "FPGA及可编程系统芯片设计"
+    ],
+    "stage": "revenue",
+    "fact": "FPGA芯片已向客户销售，拥有多条芯片产品线。",
+    "ths_fact": "亿门级FPGA已销售；商业航天2026年发布系统方案。",
+    "company_fact": "FPGA、安全识别、非挥发存储器及电表芯片。",
+    "reason": "FPGA是稳定且鲜明的技术市场身份，已有芯片板块覆盖；新航天方案保持产品发布事实，不将所有FPGA销售改成航天收入。",
+    "source_sector_name": "芯片概念",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688386.SH",
+    "key": "commercial_space",
+    "sector": "商业航天",
+    "chain": [
+      "航天特种膜材及电缆线束"
+    ],
+    "stage": "revenue",
+    "fact": "航天高性能电缆及特种膜材已形成经营业务。",
+    "ths_fact": "2025年7月凌天达并表，高性能航空航天电缆贡献收入。",
+    "company_fact": "ePTFE、气凝胶、气体管理及高性能线束产品。",
+    "reason": "原报确认凌天达现为控股子公司及商业航天配套，原参股关系已更新；新航天产业链真实，核聚变不凭参股标签扩展为自营收入。",
+    "source_sector_name": "商业航天",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "official-688386-2026h1",
+        "source_kind": "official_filing",
+        "publisher": "泛亚微透",
+        "title": "2026年半年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=688386&id=12566665",
+        "published_at": null,
+        "assertions": [
+          "凌天达为控股子公司，2025年控股形成商誉；特种膜用于卫星线缆，航空线束批量交付。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "688387.SH",
+    "key": "satellite_internet",
+    "sector": "卫星互联网",
+    "chain": [
+      "星载通信载荷及星地融合系统"
+    ],
+    "stage": "delivery",
+    "fact": "卫星通信载荷已在轨运行并参与组网。",
+    "ths_fact": "商业航天解析列明通信载荷和端到端验证，5G为既有基础。",
+    "company_fact": "空天地一体移动通信技术、产品与服务。",
+    "reason": "原报确认在轨载荷全部正常，选择真实卫星互联网新增身份；二代样机仍为在轨验证，不将全线称规模收入，6G标准研究也非商用6G。",
+    "source_sector_name": "卫星互联网",
+    "source_sector_provider": "东方财富",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "official-688387-2026h1",
+        "source_kind": "official_filing",
+        "publisher": "信科移动",
+        "title": "2026年半年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=688387&id=12546118",
+        "published_at": null,
+        "assertions": [
+          "卫星互联网业务参与在轨验证和组网；在轨通信载荷正常，二代样机为批量产品化积累。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "688388.SH",
+    "key": "cpo",
+    "sector": "共封装光学(CPO)",
+    "chain": [
+      "重要参股恩达通高速光模块"
+    ],
+    "stage": "revenue",
+    "fact": "持有恩达通13.5870%，被投企业400G/800G光模块已有收入。",
+    "ths_fact": "光模块投资及甲骨文客户形成市场线索，铜箔本业持续经营。",
+    "company_fact": "锂电、电子电路铜箔和精密铜线经营。",
+    "reason": "原报确认重要AI光模块投资及被投企业现有收入，人工复核后选此市场主线；属于投资关联非控股并表，stage属于恩达通，不将被投收入算上市本体，也不把高速光模块全部称CPO封装产品。",
+    "source_sector_name": "共封装光学(CPO)",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "official-688388-2026h1",
+        "source_kind": "official_filing",
+        "publisher": "嘉元科技",
+        "title": "2026年半年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=688388&id=12527754",
+        "published_at": null,
+        "assertions": [
+          "持恩达通13.5870%；其主要收入来自400G/800G光模块，具备1.6T量产能力；投资为切入AI光模块的战略布局。"
+        ]
+      }
+    ],
+    "relation": "investment",
+    "investment_reviewed": true
+  },
+  {
+    "id": "688389.SH",
+    "key": "smart_medical",
+    "sector": "智能医疗",
+    "chain": [
+      "VTE血栓风险AI辅助评估平台"
+    ],
+    "stage": "product",
+    "fact": "智普e诊及e评形成明确AI辅助诊疗软件产品。",
+    "ths_fact": "平台已取得软件著作权，分析患者数据并风险预警。",
+    "company_fact": "临床医疗产品包含智慧化VTE管理软件及防治系统。",
+    "reason": "选择真实医疗AI产品主线，product不夸成获医疗注册或单独收入；企业内部智能体用于行政研发，不自动成为对外销售业务。",
+    "source_sector_name": "智能医疗",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688390.SH",
+    "key": "inverters",
+    "sector": "逆变器",
+    "chain": [
+      "光伏并网及储能逆变器"
+    ],
+    "stage": "revenue",
+    "fact": "并网及储能逆变器为持续销售产品。",
+    "ths_fact": "光伏、储能解析均明确逆变器及能源管理方案。",
+    "company_fact": "并网逆变器、储能逆变器、电池及户用系统。",
+    "reason": "成熟技术与市场身份集中于逆变器；虚拟电厂平台和BIPV为延伸，尚不据平台能力替换主线。",
+    "source_sector_name": "逆变器",
+    "source_sector_provider": "东方财富",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688391.SH",
+    "key": "smart_grid",
+    "sector": "智能电网",
+    "chain": [
+      "电能计量与电表控制通信芯片"
+    ],
+    "stage": "revenue",
+    "fact": "智能电网计量、MCU及载波通信芯片持续销售。",
+    "ths_fact": "电网终端芯片实际应用于电表、采集器和集中器。",
+    "company_fact": "智能电网核心芯片及BMS产品研发设计销售。",
+    "reason": "实际电网芯片产品体系与市场认识一致；车规AFE流片不当成整条汽车业务量产。",
+    "source_sector_name": "智能电网",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688392.SH",
+    "key": "advanced_packaging",
+    "sector": "先进封装",
+    "chain": [
+      "封装超声扫描检测及键合设备"
+    ],
+    "stage": "delivery",
+    "fact": "先进封装超声扫描显微镜已交付并获得复购。",
+    "ths_fact": "国内客户正式订单及交付明确，固晶机亦有订单。",
+    "company_fact": "超声设备向新能源、半导体先进封装等应用延伸。",
+    "reason": "原报确认头部存储客户小批量复购，足以支持新增封装装备身份；各新代产品仍有验证阶段，人形感知联合研究不等于机器人产品。",
+    "source_sector_name": "先进封装",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "official-688392-2026h1",
+        "source_kind": "official_filing",
+        "publisher": "骄成超声",
+        "title": "2026年半年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=688392&id=12568554",
+        "published_at": null,
+        "assertions": [
+          "先进扫描显微镜获头部存储厂商小批量复购；MEMS/MicroLED导入验证，新代固晶机仍验证。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "688393.SH",
+    "key": "smart_medical",
+    "sector": "智能医疗",
+    "chain": [
+      "AI宫颈细胞病理辅助诊断软件"
+    ],
+    "stage": "product",
+    "fact": "自研AI病理软件已取得三类医疗器械注册证。",
+    "ths_fact": "AI宫颈细胞学产品已有研究评价，旧记录为待注册。",
+    "company_fact": "病理试剂、设备及AI辅助诊断全链条经营。",
+    "reason": "2026年3月获三类证替代早期待申报状态；记录注册产品阶段，不把全部试剂收入算AI收入，乙肝检测试剂也非治疗药物。",
+    "source_sector_name": "智能医疗",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "official-688393-2026h1",
+        "source_kind": "official_filing",
+        "publisher": "安必平",
+        "title": "2026年半年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=688393&id=12558420",
+        "published_at": null,
+        "assertions": [
+          "宫颈细胞数字病理图像辅助诊断软件2026年3月获三类医疗器械注册证。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "688395.SH",
+    "key": "new_industrialization",
+    "sector": "新型工业化",
+    "chain": [
+      "工业电机驱动变频及伺服系统"
+    ],
+    "stage": "revenue",
+    "fact": "工业变频器、一体专机及伺服系统持续经营。",
+    "ths_fact": "新型工业化对应产品制造，城市服务机器人表述仍侧重研发。",
+    "company_fact": "工业自动化电机驱动控制产品，服务多种机械设备。",
+    "reason": "真实工业自动化装备支撑已有新型工业化归属；储能及机器人研发不凭用途直接写成熟收入。",
+    "source_sector_name": "新型工业化",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688396.SH",
+    "key": "third_generation_semiconductors",
+    "sector": "第三代半导体",
+    "chain": [
+      "SiC/GaN功率器件及模块"
+    ],
+    "stage": "revenue",
+    "fact": "SiC和GaN系列已实现产业化供货收入。",
+    "ths_fact": "SiC与GaN产品真实，车规和充电桩有批量应用。",
+    "company_fact": "功率半导体产品及开放式制造封测服务。",
+    "reason": "原报确认宽禁带器件供货和营收，具鲜明国产功率器件身份；光模块电源研发与AI电源送样不冒充全量商业化，排除THS工业互联网串入发电场站段落。",
+    "source_sector_name": "第三代半导体",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "official-688396-2026h1",
+        "source_kind": "official_filing",
+        "publisher": "华润微",
+        "title": "2026年半年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=688396&id=12525224",
+        "published_at": null,
+        "assertions": [
+          "SiC营收提升、MOSG4充电桩批量交付；AI算力电源定制SiC仅评估送样。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "688398.SH",
+    "key": "new_energy_vehicles",
+    "sector": "新能源汽车",
+    "chain": [
+      "动力电池超薄真空绝热板"
+    ],
+    "stage": "delivery",
+    "fact": "车规超薄VIP通过认证并稳定供货。",
+    "ths_fact": "动力电池保温隔热产品已小批量供应。",
+    "company_fact": "真空绝热板及保温箱制造。",
+    "reason": "原报确认新能源车企及电池客户稳定供货，支持真实新增市场身份；仍处销售爬坡，不将家电收入归作新能源汽车。",
+    "source_sector_name": "新能源汽车",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "official-688398-2026h1",
+        "source_kind": "official_filing",
+        "publisher": "赛特新材",
+        "title": "2026年半年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=688398&id=12516133",
+        "published_at": null,
+        "assertions": [
+          "车规超薄VIP通过多家电池及车企认证，实现稳定供货，处订单交付与销售爬坡。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "688399.SH",
+    "key": "in_vitro_diagnostics",
+    "sector": "体外诊断",
+    "chain": [
+      "核酸诊断试剂仪器及检测服务"
+    ],
+    "stage": "revenue",
+    "fact": "诊断试剂、仪器和服务形成持续业务。",
+    "ths_fact": "体外诊断解析与产品一致；流感部分试剂仍科研使用。",
+    "company_fact": "700多个诊断产品及核酸、NGS、POCT、质谱平台。",
+    "reason": "已有诊断产业身份覆盖核心经营，不以单病原标签代替平台；科研试剂与注册检验产品阶段分开。",
+    "source_sector_name": "体外诊断",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688400.SH",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "chain": [
+      "机器人动捕数据采集及性能评估"
+    ],
+    "stage": "revenue",
+    "fact": "FZMotion动捕和机器人训练评估已形成业务。",
+    "ths_fact": "联合宇树方案用于人体映射、人形动作真值和训练采集。",
+    "company_fact": "视觉AI与光通信，子公司动捕产品覆盖具身智能。",
+    "reason": "半年报确认具身三大解决方案和FZMotion收入增长80%以上，支持新增机器人链；FZMotion也用于影视等场景，不将其全部收入等同人形业务。",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "official-688400-2026h1",
+        "source_kind": "official_filing",
+        "publisher": "凌云光",
+        "title": "2026年半年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=688400&id=12560117",
+        "published_at": null,
+        "assertions": [
+          "具身业务覆盖多模态数据采集、机器人性能评估、小脑训练；FZMotion上半年收入增长80%以上。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "688401.SH",
+    "key": "lithography",
+    "sector": "光刻机",
+    "chain": [
+      "光刻图形转移用掩膜版"
+    ],
+    "stage": "revenue",
+    "fact": "显示与半导体光刻用掩膜版已正常供货。",
+    "ths_fact": "光刻解析准确为图形转移母版；PCB样板快件段与身份冲突。",
+    "company_fact": "专业第三方掩膜版厂商，服务显示、晶圆及先进封装。",
+    "reason": "原报确认掩膜版与光刻强绑定，选择材料链而非声称整机制造；排除串入的PCB制造段，玻璃基板与先进封装为应用延伸。",
+    "source_sector_name": "光刻机",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "official-688401-2026h1",
+        "source_kind": "official_filing",
+        "publisher": "路维光电",
+        "title": "2026年半年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=688401&id=12537427",
+        "published_at": null,
+        "assertions": [
+          "掩膜版为光刻图形母版，用于硅片、玻璃及有机基板图形转移。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "688403.SH",
+    "key": "advanced_packaging",
+    "sector": "先进封装",
+    "chain": [
+      "显示驱动芯片凸块及覆晶封测"
+    ],
+    "stage": "revenue",
+    "fact": "Bumping、COG、COF先进封测形成加工服务收入。",
+    "ths_fact": "先进封装说明凸块制造能力，Fan-out等仍布局；存储包含鑫丰投资。",
+    "company_fact": "显示驱动芯片先进封测，向存储领域拓展。",
+    "reason": "以自身已经营凸块和覆晶封测确定归属；不将27.5445%投资直接等同控股存储制造或规划技术已量产。",
+    "source_sector_name": "先进封装",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688408.SH",
+    "key": "photovoltaics",
+    "sector": "光伏",
+    "chain": [
+      "光伏跟踪支架及固定支架系统"
+    ],
+    "stage": "revenue",
+    "fact": "光伏支架系统已在全球项目交付销售。",
+    "ths_fact": "跟踪与固定支架经营明确；清洗机器人虽有交付仍为光伏运维延伸。",
+    "company_fact": "全球光伏支架方案制造服务及绿电智慧能源。",
+    "reason": "主线由光伏装备技术、项目与市场共同支撑；清洗机器人不改变服务光伏电站的产业定位。",
+    "source_sector_name": "光伏概念",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688409.SH",
+    "key": "lithography",
+    "sector": "光刻机",
+    "chain": [
+      "光刻及涂胶显影设备精密结构部件"
+    ],
+    "stage": "revenue",
+    "fact": "基板、冷却板等精密件用于光刻相关设备。",
+    "ths_fact": "列示光刻、涂胶显影设备应用及上海微电子、芯源微客户。",
+    "company_fact": "半导体设备零组件和气体传输系统，客户验证后量产。",
+    "reason": "光刻链结构件是实际配套身份，不称公司制造光刻机；其他半导体设备零部件保留业务背景。",
+    "source_sector_name": "光刻机",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688410.SH",
+    "key": "medical_devices",
+    "sector": "医疗器械",
+    "chain": [
+      "血液透析净化设备及耗材"
+    ],
+    "stage": "revenue",
+    "fact": "血透、CRRT及净化耗材持续生产销售。",
+    "ths_fact": "器械解析一致；血液制品标签内容实际为血液净化设备。",
+    "company_fact": "血液净化设备耗材及连锁血液透析医疗服务。",
+    "reason": "选真实器械身份；不能因用于血液治疗就误写血浆制品生产，智能管理为配套系统。",
+    "source_sector_name": "医疗器械概念",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688411.SH",
+    "key": "energy_storage",
+    "sector": "储能",
+    "chain": [
+      "电化学储能系统集成及技术服务"
+    ],
+    "stage": "revenue",
+    "fact": "源网荷储能系统形成持续经营。",
+    "ths_fact": "储能系统产品明确，固态为合作开发、钠电为战略合作。",
+    "company_fact": "电化学储能系统研发生产销售及一站式方案。",
+    "reason": "现有储能主线覆盖实际产品市场；不能把钠电合作或固态研究当已销售电芯，AI云为系统运营能力。",
+    "source_sector_name": "储能",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688416.SH",
+    "key": "aigc",
+    "sector": "AIGC",
+    "chain": [
+      "端侧AI语音算法及智能玩具方案"
+    ],
+    "stage": "delivery",
+    "fact": "端侧AI语音方案已在玩具和家居终端批量出货。",
+    "ths_fact": "2025年报解析确认玩具、3C夜灯和按摩产品出货；CiNOR旧文仍研发。",
+    "company_fact": "NOR、MCU及通用AI SoC、算法模型、模组板卡。",
+    "reason": "已出货的端侧交互应用支持AIGC市场主线，delivery仅指对应方案；不将旧CiNOR存算一体研发当量产或全部存储收入改作AI收入。",
+    "source_sector_name": "AIGC概念",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688418.SH",
+    "key": "satellite_internet",
+    "sector": "卫星互联网",
+    "chain": [
+      "卫星地面核心网及星地融合系统"
+    ],
+    "stage": "delivery",
+    "fact": "卫星核心网建设部署与NTN验证项目已有验收。",
+    "ths_fact": "天通核心网、低轨地面核心网及手机直连模拟系统已建设验收。",
+    "company_fact": "通信网络设备体系含卫星地面与星载核心网。",
+    "reason": "实际核心网产品与项目支撑卫星互联网身份；5G NTN模拟系统验收不等于全部手机直连商用，低空eVTOL发布与联营智能体不混作本体成熟收入。",
+    "source_sector_name": "卫星互联网",
+    "source_sector_provider": "东方财富",
+    "basis": "crosschecked_sources"
+  }
+]

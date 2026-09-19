@@ -33,10 +33,22 @@ from .integrity import stable_sha256
 COLLECTION_LEDGER_CONTRACT = "market_watch_collection_ledger.v1"
 COLLECTION_LEDGER_SCHEMA_VERSION = 1
 SHANGHAI = ZoneInfo("Asia/Shanghai")
+DAILY_RECOVERY_FAILURE_RETRY_SECONDS = 60
 _ACCEPTED_STATUSES = (
     CollectionSlotStatus.ACCEPTED_REAL.value,
     CollectionSlotStatus.REPAIRED.value,
 )
+
+
+def snapshot_quality_is_acceptable(status: str | FreshnessStatus | None) -> bool:
+    return status in {FreshnessStatus.FRESH, FreshnessStatus.DEGRADED}
+
+
+def validate_snapshot_for_collection(snapshot: MarketWatchSnapshotV1) -> MarketWatchSnapshotV1:
+    canonical = MarketWatchSnapshotV1.model_validate(snapshot)
+    if not snapshot_quality_is_acceptable(canonical.freshness.status):
+        raise ValueError("stale or unavailable snapshot cannot be accepted as real")
+    return canonical
 
 
 def _aware_shanghai(value: datetime, *, name: str) -> datetime:
@@ -507,41 +519,13 @@ class MarketWatchCollectionStore:
                         ):
                             return {"action": "existing", "recovery": recovery}
                 if existing is None and trigger is DailyRecoveryTrigger.AUTOMATIC:
-                    latest_automatic = self._connection.execute(
-                        """
-                        SELECT * FROM market_watch_daily_recovery_runs
-                        WHERE config_version = ? AND trade_date = ? AND trigger = ?
-                        ORDER BY id DESC LIMIT 1
-                        """,
-                        (
-                            self.config_version,
-                            trade_date.isoformat(),
-                            DailyRecoveryTrigger.AUTOMATIC.value,
-                        ),
-                    ).fetchone()
-                    existing = latest_automatic
-                    if (
-                        latest_automatic is not None
-                        and latest_automatic["status"]
-                        == DailyRecoveryStatus.RETRYING.value
-                    ):
-                        due_retry = self._connection.execute(
-                            """
-                            SELECT 1 FROM market_watch_collection_slots
-                            WHERE config_version = ? AND trade_date = ?
-                                AND status IN (?, ?)
-                                AND (next_retry_at IS NULL OR next_retry_at <= ?)
-                            LIMIT 1
-                            """,
-                            (
-                                self.config_version,
-                                trade_date.isoformat(),
-                                CollectionSlotStatus.EXPECTED.value,
-                                CollectionSlotStatus.RETRYING.value,
-                                requested_iso,
-                            ),
-                        ).fetchone()
-                        if due_retry is not None:
+                    # Continue the latest run, including interrupted/manual
+                    # work. A terminal minute must not veto other owned retries.
+                    existing = latest
+                    if latest is not None:
+                        completeness = self._read_completeness_locked(trade_date, observed)
+                        recovery = self._recovery(latest, completeness)
+                        if recovery.next_retry_at is not None and recovery.next_retry_at <= observed:
                             existing = None
                 if existing is not None:
                     completeness = self._read_completeness_locked(trade_date, observed)
@@ -653,6 +637,7 @@ class MarketWatchCollectionStore:
         trade_date: date,
         *,
         requested_at: datetime,
+        preserve_retry_schedule: bool = False,
     ) -> int:
         """Requeue gaps except terminal unpublished minutes; preserve their evidence."""
 
@@ -687,7 +672,10 @@ class MarketWatchCollectionStore:
                     UPDATE market_watch_collection_slots
                     SET status = CASE
                             WHEN attempt_count = 0 THEN ? ELSE ? END,
-                        next_retry_at = ?, ledger_revision = ?, updated_at = ?
+                        next_retry_at = CASE
+                            WHEN ? AND next_retry_at > ? THEN next_retry_at
+                            ELSE ? END,
+                        ledger_revision = ?, updated_at = ?
                     WHERE config_version = ? AND trade_date = ?
                         AND status NOT IN (?, ?, ?, ?)
                         AND NOT (status = 'unresolved'
@@ -696,6 +684,8 @@ class MarketWatchCollectionStore:
                     (
                         CollectionSlotStatus.EXPECTED.value,
                         CollectionSlotStatus.RETRYING.value,
+                        int(preserve_retry_schedule),
+                        requested_iso,
                         requested_iso,
                         revision,
                         requested_iso,
@@ -921,6 +911,10 @@ class MarketWatchCollectionStore:
                     error_message = str(error)[:1000] or error_code
                 elif not remaining:
                     status = DailyRecoveryStatus.COMPLETE
+                    error_code = None
+                    error_message = None
+                elif completeness.pending or completeness.retrying:
+                    status = DailyRecoveryStatus.RETRYING
                     error_code = None
                     error_message = None
                 elif completeness.unresolved:
@@ -1170,12 +1164,7 @@ class MarketWatchCollectionStore:
         completed_at: datetime,
     ) -> CollectionSlotV1:
         self._ensure_writable()
-        canonical = MarketWatchSnapshotV1.model_validate(snapshot)
-        if canonical.freshness.status in {
-            FreshnessStatus.STALE,
-            FreshnessStatus.UNAVAILABLE,
-        }:
-            raise ValueError("stale or unavailable snapshot cannot be accepted as real")
+        canonical = validate_snapshot_for_collection(snapshot)
         revision_digest = str(source_snapshot_revision).strip().lower()
         if len(revision_digest) != 64 or any(
             character not in "0123456789abcdef" for character in revision_digest
@@ -1383,14 +1372,39 @@ class MarketWatchCollectionStore:
                 ),
             )
             return {"action": "heartbeat", "slot": slot}
+        quality_status = (
+            payload.freshness.status if payload is not None
+            else item.get("freshness_status")
+        )
         accepted_real = (
-            record_kind == "accepted_real"
-            if record_kind
-            else payload is not None
-            and payload.freshness.status
-            not in {FreshnessStatus.STALE, FreshnessStatus.UNAVAILABLE}
+            (not record_kind or record_kind == "accepted_real")
+            and snapshot_quality_is_acceptable(quality_status)
         )
         if not accepted_real:
+            # Old collectors could reconcile a rejected persisted snapshot as
+            # accepted. Correct only that exact pointer; retain raw history and
+            # every attempt as evidence, and never invalidate a newer revision.
+            if quality_status in {FreshnessStatus.STALE, FreshnessStatus.UNAVAILABLE}:
+                with self._lock, self._connection:
+                    row = self._slot_row_locked(minute)
+                    if (
+                        row["status"] in _ACCEPTED_STATUSES
+                        and row["source_snapshot_revision"] == item.get("payload_digest")
+                        and row["source_snapshot_id"] == item.get("snapshot_id")
+                    ):
+                        revision = self._bump_revision_locked()
+                        self._connection.execute(
+                            """UPDATE market_watch_collection_slots
+                            SET status = 'unresolved', accepted_at = NULL,
+                                source_snapshot_id = NULL, source_snapshot_revision = NULL,
+                                next_retry_at = NULL, gap_heartbeat = 1,
+                                last_error_code = 'SnapshotQualityRejected',
+                                last_error_message = ?, ledger_revision = ?, updated_at = ?
+                            WHERE id = ?""",
+                            (f"Persisted {quality_status} snapshot was incorrectly accepted",
+                             revision, _aware_shanghai(self._clock(), name="clock").isoformat(timespec="seconds"), row["id"]),
+                        )
+                        return {"action": "invalidated", "slot": self._slot_by_id_locked(row["id"])}
             return {"action": "skipped", "reason": "not_accepted_real"}
         digest = str(item.get("payload_digest") or "").strip().lower()
         if len(digest) != 64 or any(
@@ -1414,7 +1428,9 @@ class MarketWatchCollectionStore:
                 ):
                     return {"action": "unchanged", "slot": self._slot(row)}
                 status = (
-                    CollectionSlotStatus.REPAIRED
+                    CollectionSlotStatus(row["status"])
+                    if row["status"] in _ACCEPTED_STATUSES
+                    else CollectionSlotStatus.REPAIRED
                     if int(row["attempt_count"]) > 0 or bool(row["gap_heartbeat"])
                     else CollectionSlotStatus.ACCEPTED_REAL
                 )
@@ -1443,7 +1459,7 @@ class MarketWatchCollectionStore:
                         row["id"],
                     ),
                 )
-                if status is CollectionSlotStatus.REPAIRED:
+                if status is CollectionSlotStatus.REPAIRED and row["status"] not in _ACCEPTED_STATUSES:
                     self._connection.execute(
                         """
                         UPDATE market_watch_collection_attempts
@@ -1899,10 +1915,40 @@ class MarketWatchCollectionStore:
                 status = DailyRecoveryStatus.FAILED
             elif not remaining:
                 status = DailyRecoveryStatus.COMPLETE
+            elif completeness.pending or completeness.retrying:
+                status = DailyRecoveryStatus.RETRYING
             elif completeness.unresolved:
                 status = DailyRecoveryStatus.NEEDS_ATTENTION
             else:
                 status = DailyRecoveryStatus.RETRYING
+        completed_at = datetime.fromisoformat(row["completed_at"]) if row["completed_at"] else None
+        next_retry_at = None
+        if completed_at is not None and completeness.as_of.date() == completeness.trade_date:
+            if status is DailyRecoveryStatus.FAILED:
+                next_retry_at = completed_at + timedelta(seconds=DAILY_RECOVERY_FAILURE_RETRY_SECONDS)
+            elif status is DailyRecoveryStatus.RETRYING:
+                due = self._connection.execute(
+                    """SELECT MIN(COALESCE(next_retry_at, ?)) FROM market_watch_collection_slots
+                    WHERE config_version=? AND trade_date=? AND status IN ('expected','retrying')""",
+                    (completed_at.isoformat(timespec="seconds"), self.config_version, row["trade_date"]),
+                ).fetchone()[0]
+                if due is not None:
+                    next_retry_at = max(completed_at, datetime.fromisoformat(due))
+            if next_retry_at is not None and next_retry_at.date() != completeness.trade_date:
+                next_retry_at = None
+
+        failure_resolved = False
+        if optional("latest_failure_minute_bucket"):
+            failure_slot = self._connection.execute(
+                """SELECT status FROM market_watch_collection_slots
+                WHERE config_version=? AND trade_date=? AND minute_bucket=?""",
+                (self.config_version, row["trade_date"], optional("latest_failure_minute_bucket")),
+            ).fetchone()
+            failure_resolved = failure_slot is not None and failure_slot[0] in _ACCEPTED_STATUSES
+
+        def failure_detail(name):
+            return None if failure_resolved else optional(name)
+
         return DailyCollectionRecoveryV1(
             run_id=int(row["id"]),
             trade_date=date.fromisoformat(row["trade_date"]),
@@ -1919,6 +1965,7 @@ class MarketWatchCollectionStore:
                 if row["completed_at"]
                 else None
             ),
+            next_retry_at=next_retry_at,
             expected_minute_buckets=completeness.expected_minute_buckets,
             accepted_before=int(row["accepted_before"]),
             accepted_after=accepted_after,
@@ -1927,7 +1974,7 @@ class MarketWatchCollectionStore:
             failed_attempts=int(optional("failed_attempts", 0) or 0),
             remaining_gaps=remaining,
             unavailable_gaps=unavailable,
-            manual_action_required=(status is DailyRecoveryStatus.FAILED or (
+            manual_action_required=((status is DailyRecoveryStatus.FAILED and next_retry_at is None) or (
                 status is DailyRecoveryStatus.NEEDS_ATTENTION and remaining > unavailable
             )),
             latest_attempt_minute_bucket=(
@@ -1950,22 +1997,22 @@ class MarketWatchCollectionStore:
             latest_attempt_progress_stage=optional("latest_attempt_progress_stage"),
             latest_attempt_progress_message=optional("latest_attempt_progress_message"),
             latest_failure_minute_bucket=(
-                datetime.fromisoformat(optional("latest_failure_minute_bucket"))
-                if optional("latest_failure_minute_bucket")
+                datetime.fromisoformat(failure_detail("latest_failure_minute_bucket"))
+                if failure_detail("latest_failure_minute_bucket")
                 else None
             ),
             latest_failure_at=(
-                datetime.fromisoformat(optional("latest_failure_at"))
-                if optional("latest_failure_at")
+                datetime.fromisoformat(failure_detail("latest_failure_at"))
+                if failure_detail("latest_failure_at")
                 else None
             ),
             latest_failure_next_retry_at=(
-                datetime.fromisoformat(optional("latest_failure_next_retry_at"))
-                if optional("latest_failure_next_retry_at")
+                datetime.fromisoformat(failure_detail("latest_failure_next_retry_at"))
+                if failure_detail("latest_failure_next_retry_at")
                 else None
             ),
-            latest_failure_error_code=optional("latest_failure_error_code"),
-            latest_failure_error_message=optional("latest_failure_error_message"),
+            latest_failure_error_code=failure_detail("latest_failure_error_code"),
+            latest_failure_error_message=failure_detail("latest_failure_error_message"),
             last_error_code=(
                 row["last_error_code"]
                 if status is DailyRecoveryStatus.FAILED

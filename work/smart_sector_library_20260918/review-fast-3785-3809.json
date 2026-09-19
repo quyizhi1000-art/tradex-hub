@@ -1,0 +1,427 @@
+[
+  {
+    "id": "601615.SH",
+    "key": "offshore_wind_power",
+    "sector": "海上风电",
+    "source_sector_name": "海上风电",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "海上风机",
+      "核心部件"
+    ],
+    "stage": "revenue",
+    "fact": "自主整机叶片齿轮箱及海陆风机制造销售，兼有新能源电站。",
+    "company_fact": "自主整机叶片齿轮箱及海陆风机制造销售，兼有新能源电站。",
+    "ths_fact": "半直驱路线及成熟海上风机谱系，风电解析确认整机销售。",
+    "reason": "海上风电具备产品集群和市场辨识，氢能光伏为延伸。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601616.SH",
+    "key": "data_centers",
+    "sector": "数据中心(AIDC)",
+    "source_sector_name": "数据中心(AIDC)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "算力中心配电",
+      "变压器"
+    ],
+    "stage": "orders",
+    "fact": "制造干式油浸变压器精密配电柜及中低压成套设备。",
+    "company_fact": "制造干式油浸变压器精密配电柜及中低压成套设备。",
+    "ths_fact": "旗下安奕极电气签约嘉兴算力中心机电配套变压器项目。",
+    "reason": "具体算力中心订单和自有配电制造交叉，阶段为订单，不将普通电网收入全作数据中心。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601618.SH",
+    "key": "infrastructure_construction",
+    "sector": "基建工程",
+    "source_sector_name": "基建工程",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "冶金工程",
+      "矿山工程"
+    ],
+    "stage": "revenue",
+    "fact": "提供冶金矿山及工业建筑全生命周期设计建设运营。",
+    "company_fact": "提供冶金矿山及工业建筑全生命周期设计建设运营。",
+    "ths_fact": "基建工程解析明确海外工程承包与MCC品牌。",
+    "reason": "冶金工程优势和完整承包链支撑既有基建工程主线；不把所有资源标签当本体矿产产量。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601619.SH",
+    "key": "green_power",
+    "sector": "绿色电力",
+    "source_sector_name": "绿色电力",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "风光电站",
+      "运营售电"
+    ],
+    "stage": "revenue",
+    "fact": "新能源电站开发建设运营出售及发电售电，配套运维。",
+    "company_fact": "新能源电站开发建设运营出售及发电售电，配套运维。",
+    "ths_fact": "已拥有13座风电场2座光伏电场和微电网项目。",
+    "reason": "实际风光电站运营与市场主线一致，储能装备园区不等于自制电池。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601628.SH",
+    "key": "insurance_industry",
+    "sector": "保险",
+    "source_sector_name": "保险Ⅱ",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "寿险",
+      "健康险"
+    ],
+    "stage": "revenue",
+    "fact": "经营人寿健康意外保险及保险资金运用。",
+    "company_fact": "经营人寿健康意外保险及保险资金运用。",
+    "ths_fact": "互联网保险解析明确公司保险业务线上集中运营。",
+    "reason": "人身保险承保核心身份，数字渠道不改变保险主归属。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601633.SH",
+    "key": "new_energy_vehicles",
+    "sector": "新能源汽车",
+    "source_sector_name": "新能源汽车",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "新能源整车",
+      "混动纯电"
+    ],
+    "stage": "revenue",
+    "fact": "整车零部件设计制造销售，全球智能汽车体系。",
+    "company_fact": "整车零部件设计制造销售，全球智能汽车体系。",
+    "ths_fact": "同股题材要点列欧拉魏牌坦克及Hi4系列混动纯电平台；新能源整车列已上市纯电车。",
+    "reason": "自有品牌动力平台与新能源整车产品交叉成立；新能源汽车解析所列1286.6万辆是全国数据不作公司销量，机器人合作不升级。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601636.SH",
+    "key": "photovoltaics",
+    "sector": "光伏",
+    "source_sector_name": "光伏概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "光伏高透玻璃",
+      "玻璃制造"
+    ],
+    "stage": "revenue",
+    "fact": "实际制造销售光伏光电高透基板玻璃及建筑电子玻璃。",
+    "company_fact": "实际制造销售光伏光电高透基板玻璃及建筑电子玻璃。",
+    "ths_fact": "光伏解析明确光伏玻璃制造销售，芯片封装玻璃仍针对性研发。",
+    "reason": "光伏玻璃已有实产品经营，玻璃基板研发未以同名技术直接替代市场主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601658.SH",
+    "key": "bank",
+    "sector": "银行",
+    "source_sector_name": "银行",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "零售存贷",
+      "公司金融"
+    ],
+    "stage": "revenue",
+    "fact": "个人金融公司金融资金业务。",
+    "company_fact": "个人金融公司金融资金业务。",
+    "ths_fact": "同股题材要点明确零售公司信贷、三农小微及存款管理。",
+    "reason": "银行经营双源一致，国企背景不是经营主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601665.SH",
+    "key": "bank",
+    "sector": "银行",
+    "source_sector_name": "银行",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "城商行",
+      "普惠金融"
+    ],
+    "stage": "revenue",
+    "fact": "公司零售县域普惠及金融市场资管业务。",
+    "company_fact": "公司零售县域普惠及金融市场资管业务。",
+    "ths_fact": "同股要点公司存贷款、供应链金融、齐鲁泉心贷及普惠服务。",
+    "reason": "实际银行产品与行业成员一致，高股息是风格不替代主归属。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601666.SH",
+    "key": "coal",
+    "sector": "煤炭",
+    "source_sector_name": "煤炭概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "主焦煤",
+      "煤炭采洗"
+    ],
+    "stage": "revenue",
+    "fact": "煤炭开采洗选销售，主焦煤和混煤有真实产销。",
+    "company_fact": "煤炭开采洗选销售，主焦煤和混煤有真实产销。",
+    "ths_fact": "煤炭解析明确混煤冶炼精煤开采洗选销售。",
+    "reason": "直接煤矿经营支撑煤炭，化工应用不等于公司全部煤化工制造。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601668.SH",
+    "key": "infrastructure_construction",
+    "sector": "基建工程",
+    "source_sector_name": "基建工程",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "房建基建",
+      "工程设计"
+    ],
+    "stage": "revenue",
+    "fact": "房建基础设施投资建设及地产勘察设计国内海外运营。",
+    "company_fact": "房建基础设施投资建设及地产勘察设计国内海外运营。",
+    "ths_fact": "基建解析明确房建基建地产设计综合工程集团。",
+    "reason": "广泛工程承包和建设为完整市场身份，绿电核电属于承建场景。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601669.SH",
+    "key": "yarlung_hydropower",
+    "sector": "雅下水电",
+    "source_sector_name": "雅下水电概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "水电勘察设计",
+      "工程建设"
+    ],
+    "stage": "delivery",
+    "fact": "核心工程承包勘测设计及水利水电装备，承担大型水能项目。",
+    "company_fact": "核心工程承包勘测设计及水利水电装备，承担大型水能项目。",
+    "ths_fact": "明确雅下重要参研参试参建单位，已投入建站布网地调勘探。",
+    "reason": "具体雅下前期工程与自有水电工程能力相互支持，delivery指已实施勘探工作不表示电站建成。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601677.SH",
+    "key": "nonferrous_aluminum",
+    "sector": "有色铝",
+    "source_sector_name": "有色铝",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "再生铝",
+      "板带箔加工"
+    ],
+    "stage": "revenue",
+    "fact": "废铝回收熔炼加工板带箔型材和销售一体化。",
+    "company_fact": "废铝回收熔炼加工板带箔型材和销售一体化。",
+    "ths_fact": "有色铝解析铝板带箔及废金属回收；机器人解析仅部分工业应用。",
+    "reason": "再生精深加工形成完整铝链身份，应用于机器人不自动成为人形核心。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601678.SH",
+    "key": "propylene_oxide",
+    "sector": "环氧丙烷",
+    "source_sector_name": "环氧丙烷",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "环氧丙烷",
+      "氯碱化工"
+    ],
+    "stage": "revenue",
+    "fact": "实际生产销售环氧丙烷烧碱MTBE，环氧丙烷51万吨产能。",
+    "company_fact": "实际生产销售环氧丙烷烧碱MTBE，环氧丙烷51万吨产能。",
+    "ths_fact": "半年报解析确认环氧丙烷51万吨及客户积累。",
+    "reason": "既有具体化工产品及市场周期匹配，航天氢能标签需独立经营支撑。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601686.SH",
+    "key": "underground_pipelines",
+    "sector": "地下管网",
+    "source_sector_name": "地下管网",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "焊接钢管",
+      "流体输送管"
+    ],
+    "stage": "revenue",
+    "fact": "国内焊接钢管研发生产销售企业，产销量行业领先。",
+    "company_fact": "国内焊接钢管研发生产销售企业，产销量行业领先。",
+    "ths_fact": "地下管网解析列镀锌钢管钢塑复合管和螺旋焊管。",
+    "reason": "实际管材产品与管网建设需求对应，未把水电标签推断雅下中标。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601688.SH",
+    "key": "securities_industry",
+    "sector": "证券",
+    "source_sector_name": "证券Ⅱ",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "财富管理",
+      "投行资管"
+    ],
+    "stage": "revenue",
+    "fact": "经纪投资银行交易资管及境外证券经营。",
+    "company_fact": "经纪投资银行交易资管及境外证券经营。",
+    "ths_fact": "涨乐财富通及全球通支持实际经纪投顾服务。",
+    "reason": "数字渠道服务证券客户，证券主身份覆盖完整业务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601689.SH",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "直线旋转执行器",
+      "灵巧手电机"
+    ],
+    "stage": "delivery",
+    "fact": "已成立机器人执行器事业部切入具身智能，形成汽车及机器人部件布局。",
+    "company_fact": "已成立机器人执行器事业部切入具身智能，形成汽车及机器人部件布局。",
+    "ths_fact": "人形解析列执行器电机传感器；同股业务要点明确直线旋转执行器及灵巧手电机小批量交付。",
+    "reason": "自营部件战略和具体小批交付支撑人形主线，汽车收入较高不否定市场身份，不称全部新品量产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601696.SH",
+    "key": "securities_industry",
+    "sector": "证券",
+    "source_sector_name": "证券Ⅱ",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "证券经纪",
+      "投行资管"
+    ],
+    "stage": "revenue",
+    "fact": "投行经纪资产管理投资交易及机构服务实际经营。",
+    "company_fact": "投行经纪资产管理投资交易及机构服务实际经营。",
+    "ths_fact": "期货解析明确全资中银国际期货。",
+    "reason": "证券综合经营而非仅凭附属期货标签改变归属。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601698.SH",
+    "key": "commercial_space",
+    "sector": "商业航天",
+    "source_sector_name": "商业航天",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "高轨通信卫星",
+      "卫星运营"
+    ],
+    "stage": "revenue",
+    "fact": "自有通信广播卫星频轨地面站资源，提供卫星运营与系统服务。",
+    "company_fact": "自有通信广播卫星频轨地面站资源，提供卫星运营与系统服务。",
+    "ths_fact": "商业航天解析高轨卫星运营和通信服务。",
+    "reason": "卫星资源及商业运营是明确市场身份，非火箭制造或低轨星座全部自有。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601699.SH",
+    "key": "coal",
+    "sector": "煤炭",
+    "source_sector_name": "煤炭概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "喷吹煤",
+      "煤炭产销"
+    ],
+    "stage": "revenue",
+    "fact": "煤炭焦炭生产销售，有喷吹煤混煤收入。",
+    "company_fact": "煤炭焦炭生产销售，有喷吹煤混煤收入。",
+    "ths_fact": "煤炭解析明确煤炭焦炭实际生产销售。",
+    "reason": "资源开采及产品经营一致，油价联动不是石油开采。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601700.SH",
+    "key": "uhv",
+    "sector": "特高压",
+    "source_sector_name": "特高压",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "输电铁塔",
+      "钢结构"
+    ],
+    "stage": "revenue",
+    "fact": "110至1100kV输电铁塔制造，供应国网南网及海外工程。",
+    "company_fact": "110至1100kV输电铁塔制造，供应国网南网及海外工程。",
+    "ths_fact": "特高压解析1000kV铁塔及复合绝缘杆塔实产品。",
+    "reason": "自有高压铁塔是直接电网建设链，光伏并行不抹去核心。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601702.SH",
+    "key": "new_energy_vehicles",
+    "sector": "新能源汽车",
+    "source_sector_name": "新能源汽车",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "铝热交换材料",
+      "电池铝材"
+    ],
+    "stage": "revenue",
+    "fact": "铝热传输材料电池料及冲压件，深耕新能源车散热。",
+    "company_fact": "铝热传输材料电池料及冲压件，深耕新能源车散热。",
+    "ths_fact": "新能源解析明确铝热传输及新能源车电池料生产销售。",
+    "reason": "实际车用材料供给和市场主题一致，属于材料不是整车。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601717.SH",
+    "key": "robotics",
+    "sector": "机器人",
+    "source_sector_name": "机器人概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "工业移动机器人",
+      "智能工厂"
+    ],
+    "stage": "product",
+    "fact": "核心竞争力明确自研导航控制及潜伏举升叉取作业三类机器人，提供智能工厂方案。",
+    "company_fact": "核心竞争力明确自研导航控制及潜伏举升叉取作业三类机器人，提供智能工厂方案。",
+    "ths_fact": "数耘智能提供机器人焊接工艺实验与客户定制化解决方案。",
+    "reason": "机器人有自研产品和服务交叉并非仅买设备自用；人形标签尚缺专用产品，选已有广义机器人。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601718.SH",
+    "key": "military",
+    "sector": "军工",
+    "source_sector_name": "军工",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "军用被装",
+      "单兵防护"
+    ],
+    "stage": "revenue",
+    "fact": "军队武警被装鞋靴防弹装备研发生产销售及军品出口。",
+    "company_fact": "军队武警被装鞋靴防弹装备研发生产销售及军品出口。",
+    "ths_fact": "军工解析陆军头盔悬挂系统防护订单。",
+    "reason": "特定军需防护产品和客户一致，不因纺服行业抹去军工身份。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601727.SH",
+    "key": "nuclear_fusion",
+    "sector": "可控核聚变",
+    "source_sector_name": "可控核聚变",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "托卡马克主设备",
+      "核电装备"
+    ],
+    "stage": "orders",
+    "fact": "实际核电设备和高端能源装备设计制造销售。",
+    "company_fact": "实际核电设备和高端能源装备设计制造销售。",
+    "ths_fact": "托卡马克技术已解决真空容器锻件问题，承接玄龙50洪荒70关键主设备。",
+    "reason": "具体聚变主设备承接和核能装备制造相互支撑，阶段按订单不把裂变收入算聚变；人形轴承送样另有进展。",
+    "basis": "crosschecked_sources"
+  }
+]

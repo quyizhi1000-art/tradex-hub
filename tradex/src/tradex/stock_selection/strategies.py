@@ -22,8 +22,10 @@ from .contracts import (
     StockSelectionStrategyOutcomeV1,
     StockSelectionStrategyResultV1,
     VolumeSurgeScreenV1,
+    MacdJScreenV1,
 )
 from .volume_surge import screen_volume_surge
+from .macd_j import screen_macd_j
 
 
 ROUND_TRIP_COST_PCT = 0.15
@@ -34,6 +36,7 @@ StrategyPayload: TypeAlias = (
     | StockPatternScreenV1
     | LimitUpTendencyScreenV1
     | VolumeSurgeScreenV1
+    | MacdJScreenV1
 )
 
 
@@ -54,7 +57,8 @@ def _digest(value: object) -> str:
 def snapshot_revision(snapshot: DailyStockFactorSnapshotV1) -> str:
     """Hash the complete accepted point-in-time evidence used by every strategy."""
 
-    return _digest(snapshot.model_dump(mode="json"))
+    # Optional new strategy evidence must not change older strategy identities.
+    return _digest(snapshot.model_dump(mode="json", exclude={"technicals"}))
 
 
 @dataclass(frozen=True, slots=True)
@@ -145,12 +149,22 @@ REGISTERED_STOCK_SELECTION_STRATEGIES = (
     ),
     RegisteredStockSelectionStrategy(
         strategy_id="upward-volume-surge-main-board",
-        strategy_version="v2",
+        strategy_version="v3",
         title="7 日向上放量",
         result_contract="stock_volume_surge_screen.v1",
         evaluation_policy="not_defined",
         display_order=40,
         execute=lambda snapshot, _selection: screen_volume_surge(snapshot),
+        requires_legacy_selection=False,
+    ),
+    RegisteredStockSelectionStrategy(
+        strategy_id="macd-j-upturn-main-board",
+        strategy_version="v5",
+        title="MACD 金叉 + J 线拐头",
+        result_contract="stock_macd_j_screen.v1",
+        evaluation_policy="not_defined",
+        display_order=50,
+        execute=lambda snapshot, _selection: screen_macd_j(snapshot),
         requires_legacy_selection=False,
     ),
 )
@@ -187,6 +201,10 @@ def build_strategy_results(
         key=lambda item: (item.display_order, item.strategy_id),
     ):
         definition = strategy.definition()
+        result_revision = (
+            _digest(snapshot.model_dump(mode="json"))
+            if definition.result_contract == "stock_macd_j_screen.v1" and snapshot.technicals is not None else revision
+        )
         payload = strategy.execute(snapshot, selection)
         payload_json = payload.model_dump(mode="json")
         if payload.contract != definition.result_contract:
@@ -196,7 +214,7 @@ def build_strategy_results(
             "strategy_id": definition.strategy_id,
             "strategy_version": definition.strategy_version,
             "trade_date": selection.trade_date.isoformat(),
-            "source_snapshot_revision": revision,
+            "source_snapshot_revision": result_revision,
             "payload": payload_json,
         }
         results.append(
@@ -212,7 +230,7 @@ def build_strategy_results(
                 trade_date=selection.trade_date,
                 generated_at=selection.generated_at,
                 source_contract=selection.source_contract,
-                source_snapshot_revision=revision,
+                source_snapshot_revision=result_revision,
                 source_quality=selection.source_quality,
                 source_provider_as_of=selection.source_provider_as_of,
                 quality=quality,

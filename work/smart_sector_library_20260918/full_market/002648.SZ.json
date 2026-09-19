@@ -1,0 +1,84 @@
+{
+  "instrument_id": "002648.SZ",
+  "name": "卫星化学",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "002648.SZ",
+    "name": "卫星化学",
+    "memberships": [
+      "基础化工",
+      "化学原料",
+      "其他化学原料",
+      "浙江板块",
+      "2026中报预增",
+      "大盘股",
+      "周期股",
+      "标准普尔",
+      "富时罗素",
+      "养老金",
+      "深证100R",
+      "MSCI中国",
+      "深股通",
+      "融资融券",
+      "深成500",
+      "HS300_",
+      "电池技术",
+      "液冷服务器",
+      "环氧丙烷",
+      "氢能源",
+      "婴童概念",
+      "互联网金融",
+      "锂电池概念",
+      "化工原料"
+    ],
+    "business_sections": [
+      {
+        "title": "轻烃产业链一体化生产",
+        "kind": "主营业务",
+        "text": "公司是国内领先的轻烃产业链一体化生产企业，率先建立了自主可控的轻烃全球供应链，利用绿色工艺生产功能化学品、高分子新材料、新能源材料，对副产的二氧化碳与氢气进行综合利用。"
+      },
+      {
+        "title": "难以复制的供应链护城河",
+        "kind": "核心竞争力",
+        "text": "公司构建起了“难以复制、高度稀缺、极具成本竞争力”的全球轻烃供应链体系。资源锁定。通过与直接生产商美国能源巨头Energy Transfer长期合作，锁定了关键出口设施，从源头保障原料稳定供应。运力锁定。构建专属的VLEC（超大型乙烷运输船）船队，锁定稀缺的乙烷运力，控制运输成本，抵御市场运费波动。"
+      },
+      {
+        "title": "高效集约的一体化产业链护城河",
+        "kind": "核心竞争力",
+        "text": "着眼一体化产业布局，打造“C2+C3”协同发展的完整产业链条，增强了自身“抗周期、防风险、强盈利”的韧性。"
+      },
+      {
+        "title": "快速迭代的高壁垒创新护城河",
+        "kind": "核心竞争力",
+        "text": "大力发展新质生产力，深化科技创新与产业创新深度融合，构建“基础研究、应用创新、产业转化、快速迭代”的创新体系，提升核心竞争力。"
+      },
+      {
+        "title": "顺应时代的绿色低碳先发护城河",
+        "kind": "核心竞争力",
+        "text": "在“能耗双控”转向“碳排双控”的背景下，轻烃技术路线下的低碳属性，已经转化为实实在在的市场竞争力，成为企业独特竞争优势。"
+      },
+      {
+        "title": "志同道合、共创共享共富的文化护城河",
+        "kind": "核心竞争力",
+        "text": "企业文化是看不见的“护城河”，是企业最根本的竞争力。用文化凝聚团队，共同打造世界一流的化学新材料科技公司。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ002648",
+    "fetched_at": "2026-09-18T22:52:38.014105+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "功能化学品"
+}

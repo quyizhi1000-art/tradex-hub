@@ -1,0 +1,59 @@
+{
+  "instrument_id": "300599.SZ",
+  "name": "雄塑科技",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "300599.SZ",
+    "name": "雄塑科技",
+    "memberships": [
+      "建筑材料",
+      "装修建材",
+      "管材",
+      "广东板块",
+      "创业板综",
+      "地下管网",
+      "降解塑料",
+      "石墨烯",
+      "水利建设"
+    ],
+    "business_sections": [
+      {
+        "title": "新型化学建材",
+        "kind": "主营业务",
+        "text": "公司以新型化学建材为核心业务领域，已发展成为专业从事“环保、安全、卫生、高性能”塑料管道产品的研发、生产和销售一体化的高新技术企业，作为国内塑料管道行业内工艺技术先进、生产规模较大、产品规格齐全、品牌优势突出的领先企业之一，公司拥有广东佛山、广西南宁、河南新乡、江西宜春、海南海口、云南玉溪六大业务基地。"
+      },
+      {
+        "title": "研发+产品+规模优势",
+        "kind": "核心竞争力",
+        "text": "公司作为塑料管道行业的国家级高新技术企业，长期致力于新材料、新工艺的开发与应用，曾参与多项行业标准编制，拥有国家CNAS认可工程实验室，建立完备的研发管理体系，打造经验丰富、研发能力强的研发团队。公司目前拥有一百余项有效专利，技术与工艺成果落地转化成效显著，并将加大研发创新力度，紧抓市场需求，从材料配方、生产工艺和产品性能等关键环节，落实产品差异化战略。"
+      },
+      {
+        "title": "营销+服务优势",
+        "kind": "核心竞争力",
+        "text": "公司深耕行业多年，始终以客户需求为导向，建立了直销团队、经销商、工程服务商等在内的多渠道销售体系，具有较强的营销和服务能力。公司在主要省份的地级城市和重要的县级城市设立经销商，并与水务、农业、电网、通信等行业众多知名企业建立了长期稳定的合作关系。"
+      },
+      {
+        "title": "品牌优势",
+        "kind": "核心竞争力",
+        "text": "公司始终将品牌战略视为实现长远目标和增强市场竞争力的关键因素。公司建立了严格的质量管理体系和完善的客户服务体系，并在技术创新、产品质量和服务质量上不断追求，为客户提供更为优质的产品和卓越的服务，赋予了产品更高的品牌价值及其更丰富的内涵。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ300599",
+    "fetched_at": "2026-09-18T23:12:25.013274+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "PVC系列管材"
+}

@@ -1,0 +1,91 @@
+[
+  {
+    "id": "688549.SH",
+    "key": "electronic_chemicals",
+    "sector": "电子化学品",
+    "source_sector_name": "电子化学品Ⅱ",
+    "source_sector_provider": "东方财富",
+    "stage": "revenue",
+    "chain": [
+      "电子湿化学品特气与前驱体"
+    ],
+    "fact": "湿化学品特气前驱体用于清洗刻蚀成膜。",
+    "company_fact": "湿化学品特气前驱体用于清洗刻蚀成膜。",
+    "ths_fact": "电子酸批量供应12英寸晶圆厂，供中芯长存等。",
+    "reason": "材料供应实际业务，非存储芯片本体制造。"
+  },
+  {
+    "id": "688550.SH",
+    "key": "photoresist",
+    "sector": "光刻胶",
+    "source_sector_name": "光刻胶",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "光刻胶单体及显示用胶"
+    ],
+    "fact": "专用有机材料含光刻胶单体TFT平坦胶和OLED材料。",
+    "company_fact": "专用有机材料含光刻胶单体TFT平坦胶和OLED材料。",
+    "ths_fact": "产品涵盖半导体光刻胶单体及TFT平坦层光刻胶。",
+    "reason": "光刻材料已有生产销售，区分单体与整胶，不将创新药中间体当自研制剂。"
+  },
+  {
+    "id": "688551.SH",
+    "key": "hydrogen_energy",
+    "sector": "氢能源",
+    "source_sector_name": "氢能源",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "制氢用氢测试装备"
+    ],
+    "fact": "设氢能测试及智能制造产品线，覆盖电解槽和燃料电池。",
+    "company_fact": "设氢能测试及智能制造产品线，覆盖电解槽和燃料电池。",
+    "ths_fact": "推出多功率电解槽测试系统及电堆发动机等测试系统。",
+    "reason": "实际测试装备产品定位，不视为制氢运营商。"
+  },
+  {
+    "id": "688552.SH",
+    "key": "defense_informatization",
+    "sector": "军工信息化",
+    "source_sector_name": "军工信息化",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "防空预警雷达"
+    ],
+    "fact": "雷达为国内多军种防空预警主力装备，销售服务军方。",
+    "company_fact": "雷达为国内多军种防空预警主力装备，销售服务军方。",
+    "ths_fact": "主营雷达整机配套装备零部件。",
+    "reason": "军用雷达身份明确，低空业务拓展不替代现有证明。"
+  },
+  {
+    "id": "688553.SH",
+    "key": "innovative_drugs",
+    "sector": "创新药",
+    "source_sector_name": "创新药",
+    "source_sector_provider": "同花顺",
+    "stage": "pilot",
+    "chain": [
+      "肿瘤抗体与小分子创新药"
+    ],
+    "fact": "在仿制药基础上开展三抗ADC及小分子创新管线。",
+    "company_fact": "在仿制药基础上开展三抗ADC及小分子创新管线。",
+    "ths_fact": "概念解析指向肿瘤创新药与仿制药双业务。",
+    "reason": "原H1确认HY0006单药I期完成并推进联合临床；不拿仿制制剂收入证明创新药商业化。",
+    "extra_evidence": [
+      {
+        "evidence_id": "official-688553-2026h1",
+        "source_kind": "official_filing",
+        "publisher": "汇宇制药",
+        "title": "2026年半年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12515533&stockid=688553",
+        "published_at": "2026-08-22",
+        "assertions": [
+          "HY0006单药I期完成，联合临床推进",
+          "创新管线处临床阶段，不计作创新药销售"
+        ]
+      }
+    ]
+  }
+]

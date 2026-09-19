@@ -1,0 +1,60 @@
+{
+  "instrument_id": "300175.SZ",
+  "name": "朗源股份",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "300175.SZ",
+    "name": "朗源股份",
+    "memberships": [
+      "农林牧渔",
+      "农产品加工",
+      "果蔬加工",
+      "山东板块",
+      "近期摘帽",
+      "创业板综",
+      "数据中心",
+      "农业种植"
+    ],
+    "business_sections": [
+      {
+        "title": "农副产品加工业务",
+        "kind": "主营业务",
+        "text": "公司农副产品加工业务主要是果干、坚果果仁、鲜果的加工、生产及销售，主要的产品有葡萄干、新鲜苹果、松子及松子仁等。公司的葡萄干产品主要作为休闲零食、烘焙原料等。松子主要用于国内零食炒货，松子仁、葡萄干主要作为烘焙原料，在业务性质、客户群体上趋同。公司鲜果业务目前仍是以出口为主，主要出口到东南亚、南亚等地区。"
+      },
+      {
+        "title": "严格的食品加工检测流程和先进的干鲜冷链共享技术",
+        "kind": "核心竞争力",
+        "text": "公司依托严格的食品加工检测流程和先进的干鲜冷链共享技术，使公司产品在国内、国际市场上均有较强的竞争力和抗风险能力。"
+      },
+      {
+        "title": "标准化管理和高效的产品质量管理体系",
+        "kind": "核心竞争力",
+        "text": "公司的各个业务环节包括原料采购、仓储和加工采用标准化模式管理，使得公司的生产效率和产品安全性得到保障；公司具备高效的产品质量管理体系，通过了HACCP（危害分析与关键控制点体系认证）认证，ISO22000（食品安全管理体系认证）认证，主打产品获得BRCGS（英国零售商协会为食品供应商专门制定的质量体系审核标准）认证证书，KOSHER（犹太洁食认证）认证证书，HALAL清真认证，GLOBAL GAP（全球良好农业操作规范）认证证书，为公司打开欧美发达地区市场提供了保障；公司拥有6万余吨储量的冷库规模，具有国内先进的干鲜冷链共享技术，能在保证产品品质情况下提高原料的存储期限。"
+      },
+      {
+        "title": "生产与产品质量优势",
+        "kind": "核心竞争力",
+        "text": "公司的各个业务环节包括原料采购,仓储和加工采用标准化模式管理,使得公司的生产效率和产品安全性得到保障;公司具备高效的产品质量管理体系,通过了 HACCP(危害分析与关键控制点体系认证)认证,ISO22000(食品安全管理体系认证)认证,主打产品获得 BRCGS(英国零售商协会为食品供应商专门制定的质量体系审核标准)认证证书,KOSHER(犹太洁食认证)认证证书,HALAL 清真认证,GLOBAL GAP(全球良好农业操作规范)认证证书,为公司打开欧美发达地区市场提供了保障;公司有 7 万余吨储量的冷库规模,具有国内先进的干鲜冷链共享技术,能在保证产品品质情况下提高原料的存储期限。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ300175",
+    "fetched_at": "2026-09-18T23:03:52.133843+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [
+    "农业"
+  ],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "干果"
+}

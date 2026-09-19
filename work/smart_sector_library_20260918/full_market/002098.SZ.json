@@ -1,0 +1,52 @@
+{
+  "instrument_id": "002098.SZ",
+  "name": "浔兴股份",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "002098.SZ",
+    "name": "浔兴股份",
+    "memberships": [
+      "纺织服饰",
+      "纺织制造",
+      "辅料",
+      "福建板块",
+      "跨境电商",
+      "跨境支付",
+      "体育产业"
+    ],
+    "business_sections": [
+      {
+        "title": "跨境电商业务",
+        "kind": "主营业务",
+        "text": "报告期内，公司跨境电商业务主要由控股子公司深圳价之链跨境电商有限公司负责运营，系公司重要的业务板块之一。业务采用B2C模式，以海外终端消费者为目标客户，依托亚马逊、TEMU等全球主流第三方电商平台开展线上零售业务。公司坚持精品化、品牌化的运营路线，聚焦3C电子、家居用品、汽车周边等高性价比品类，依托供应链整合优势，将中国优质商品直接销往海外市场，产品品类丰富且精准匹配海外消费需求，业务运营模式成熟稳定。"
+      },
+      {
+        "title": "拉链业务",
+        "kind": "主营业务",
+        "text": "公司在拉链领域深耕多年，构建起丰富多元的产品矩阵，涵盖金属、尼龙、塑钢三大系列，码装拉链、成品拉链及多种规格的拉头、配件一应俱全，精准定位中高端市场，可全方位满足服装、箱包、体育用品等多行业、多场景的应用需求。生产端采用订单生产与计划生产相结合的模式，兼顾定制化订单与通用产品供应，保障交付及时稳定；销售端以直营模式为主，精准对接市场需求，快速响应客户订单。凭借稳定的产品品质、齐全的规格体系及高效的定制服务能力，公司与众多国内外知名品牌建立了长期稳定的战略合作关系。"
+      },
+      {
+        "title": "技术、品牌、产品设计、营销网络、高效的管理团队等优势",
+        "kind": "核心竞争力",
+        "text": "公司的核心竞争力保持稳健，未发生重大变化。公司拉链业务的核心竞争力多维度展现，主要涵盖技术、品牌、产品设计、营销网络、高效的管理团队等方面。公司跨境电商出口业务核心竞争力则主要体现在“品牌电商+电商软件+电商社区”的协同效应、优质的电商社区服务、“精品化、品牌化”的产品运营策略以及先进的IT管理系统等方面。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ002098",
+    "fetched_at": "2026-09-18T22:41:31.185349+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "条装拉链"
+}

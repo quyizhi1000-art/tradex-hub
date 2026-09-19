@@ -1,0 +1,76 @@
+{
+  "instrument_id": "300320.SZ",
+  "name": "海达股份",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "300320.SZ",
+    "name": "海达股份",
+    "memberships": [
+      "基础化工",
+      "橡胶",
+      "其他橡胶制品",
+      "江苏板块",
+      "创业板综",
+      "深股通",
+      "融资融券",
+      "大飞机",
+      "新能源车",
+      "光伏概念",
+      "新能源"
+    ],
+    "business_sections": [
+      {
+        "title": "轨道交通",
+        "kind": "主营业务",
+        "text": "轨道交通：工程防水业务发展态势持续稳健向好，订单承接能力保持高位水平；在大直径、高水压、超埋深盾构管片密封件领域持续巩固行业领先优势，并成功切入洞穴空气储能、风塔基座等新兴赛道，实现业务多元拓展。"
+      },
+      {
+        "title": " 汽车",
+        "kind": "主营业务",
+        "text": " 汽车：车顶密封系统，罗马尼亚工厂顺利通过  IATF16949  体系认证审核，具备独立运营能力并获得客户高度认可，显著提升公司海外项目承接竞争力，在全球化布局中迈出坚实一步。"
+      },
+      {
+        "title": "建筑",
+        "kind": "主营业务",
+        "text": " 建筑：面对房地产市场整体承压态势，公司依托品牌影响力与核心产品竞争力实现逆势突围，经营底盘稳固，销售业绩保持平稳，中高端家装业务优势持续强化，行业地位进一步夯实。"
+      },
+      {
+        "title": " 航运",
+        "kind": "主营业务",
+        "text": " 航运：在行业整体相对低迷的市场环境中，经营表现大幅超越预期目标，实现优异经营成果。"
+      },
+      {
+        "title": " 其它橡胶件",
+        "kind": "主营业务",
+        "text": " 其它橡胶件：特种橡胶产品研发取得阶段性成果，实现从 0 到 1 的关键突破，未来成长潜力广阔；与隆基绿能共同开发推出全面屏边框 Hi-MO9 清锋光伏组件配套卡扣短边框产品，顺利通过了工厂体系审核，并形成了小批量订单。"
+      },
+      {
+        "title": "轻量化铝制品",
+        "kind": "主营业务",
+        "text": " 轻量化铝制品：成功为某头部汽车电池企业开发冷凝管产品并进入其供应商体系，进一步拓展在新能源汽车领域的业务布局与品牌影响力。"
+      },
+      {
+        "title": "技术优势、客户资源优势、产品梯队优势、综合成本优势、团队优势等",
+        "kind": "核心竞争力",
+        "text": "公司核心竞争优势包括有：技术优势（配方工艺优势和技术融合优势、具体产品技术优势）、客户资源优势、产品梯队优势、综合成本优势、团队优势等方面。随着上市以来近几年的发展，尤其是募集资金对原困扰公司的产能瓶颈、资金短缺等问题的解决改善，及公司在行业经验、技术创新、新产品延伸、客户拓展、产品质量、人才储备等方面取得的持续进步，公司各项竞争优势得以进一步增强。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ300320",
+    "fetched_at": "2026-09-18T23:06:46.333754+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "汽车用"
+}

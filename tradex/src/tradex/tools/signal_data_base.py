@@ -119,10 +119,10 @@ def register(mcp: FastMCP):
     @mcp.tool()
     async def get_concept_attribution(symbol: str) -> str:
         """
-        获取个股所属概念/行业/地域板块。
+        从聪明板块库读取个股唯一市场主归属，并附供应商板块行情。
 
-        显示股票归属于哪些概念板块、行业分类和地域板块，
-        每个板块含当日涨跌幅。主力源：东方财富，备用源：百度股市通。
+        主归属缺失显示待核验。供应商概念/行业/地域成分及当日涨跌幅
+        作为独立行情上下文，不能代替市场主归属。
 
         Args:
             symbol: 6位股票代码，如 "688017"。
@@ -131,21 +131,28 @@ def register(mcp: FastMCP):
             概念归属数据 (JSON)，含概念/行业/地域三个维度的板块列表。
         """
         symbol = normalize_symbol(symbol)
-        cache_key = f"concept_attribution:{symbol}"
+        from tradex.smart_sector_library.catalog import SmartSectorCatalog
+        exchange = "SH" if symbol.startswith("6") else "BJ" if symbol.startswith(("4", "8", "9")) else "SZ"
+        with SmartSectorCatalog() as sectors:
+            membership = sectors.get(f"{symbol}.{exchange}")
+            revision = sectors.revision
+        cache_key = f"concept_attribution:v2:{revision}:{symbol}"
         cached = cache.get(cache_key)
         if cached is not None:
             return cached
 
         try:
             data, _src = _router.route("concept_attribution", symbol=symbol)
-            output = dict_to_json(data)
+            output = dict_to_json({"contract":"stock_concept_context.v2", "schema_version":2,
+                "market_membership":membership.model_dump(mode="json"), "market_sector_revision":revision,
+                "provider_board_quotes":data, "board_semantics":"provider_index_memberships_not_primary"})
             if data.get("source"):
                 cache.set(cache_key, output, TTL_DAILY)
             return output
         except Exception as e:
-            return error_response(
-                f"获取概念归属失败: {e}", "get_concept_attribution"
-            )
+            return dict_to_json({"contract":"stock_concept_context.v2", "schema_version":2,
+                "market_membership":membership.model_dump(mode="json"), "market_sector_revision":revision,
+                "provider_board_quotes":None, "board_quote_error":type(e).__name__})
 
     @mcp.tool()
     async def get_profit_forecast(symbol: str) -> str:

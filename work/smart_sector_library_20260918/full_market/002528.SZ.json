@@ -1,0 +1,83 @@
+{
+  "instrument_id": "002528.SZ",
+  "name": "*ST英飞",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "002528.SZ",
+    "name": "*ST英飞",
+    "memberships": [
+      "计算机",
+      "计算机设备",
+      "安防设备",
+      "广东板块",
+      "破发股",
+      "最近多板",
+      "东方财富热股",
+      "长期破净",
+      "昨日首板",
+      "昨日涨停_含一字",
+      "富时罗素",
+      "昨日涨停",
+      "ST股",
+      "通信技术",
+      "信创",
+      "电子身份证",
+      "智慧灯杆",
+      "智慧政务",
+      "华为概念",
+      "生物识别",
+      "区块链",
+      "人工智能",
+      "5G概念",
+      "央国企改革",
+      "智能家居",
+      "安防概念",
+      "智慧城市",
+      "深圳特区"
+    ],
+    "business_sections": [
+      {
+        "title": "人物互联的新型智慧城市建设与运营服务商",
+        "kind": "主营业务",
+        "text": "公司是以人物互联为核心特色战略的新型智慧城市建设与运营服务商，处于软件和信息技术服务业。公司围绕智慧城市细分领域规划、软硬件供应、建设和运营服务精准发力；通过智慧园区、智慧楼宇+等构建细分领域的解决方案体系；形成智慧城市细分领域的应用平台、数字底座（包括物联、数据、集成、AI、数据治理五大中台，园羚平台及BIM/CIM底座）、物联产品三个层次的核心竞争力，以科技创新为第一驱动力，充分发挥自身技术优势和累积，发展成为新型智慧城市建设与运营服务商。"
+      },
+      {
+        "title": "数字化全链条科技服务能力",
+        "kind": "核心竞争力",
+        "text": "公司具有顶层规划、总包集成、数字底座、AI工程化、智慧场景、数据治理和运营等服务能力，为客户提供从规划、设计、设备、建设、运维到运营的全链条业务服务。"
+      },
+      {
+        "title": "技术创新和研发能力",
+        "kind": "核心竞争力",
+        "text": "公司拥有高清视频可视化、视频传输、视频存储、物联网、云计算、大数据、人工智能、5G应用等技术。公司拥有许多项发明专利、实用新型专利、外观设计专利、软件著作权以及国家科学技术成果鉴定，具有较强的研发实力。"
+      },
+      {
+        "title": "全球化商业版图",
+        "kind": "核心竞争力",
+        "text": "公司以多个品牌（英飞拓(Infinova)、Swann）覆盖了中国、北美、南美、欧洲、澳洲、中东、亚洲等许多国家和地区。公司构建了成熟的集全球研发、生产、销售、集成、运营服务的上下游信息产业链体系。"
+      },
+      {
+        "title": "控股股东资源优势",
+        "kind": "核心竞争力",
+        "text": "深投控于2019年12月成为公司控股股东，在战略、行业资源、品牌、资信等方面给予公司支持。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ002528",
+    "fetched_at": "2026-09-18T22:50:08.541267+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "物联"
+}

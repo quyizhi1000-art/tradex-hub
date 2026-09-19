@@ -1,0 +1,76 @@
+{
+  "instrument_id": "300870.SZ",
+  "name": "欧陆通",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "300870.SZ",
+    "name": "欧陆通",
+    "memberships": [
+      "电力设备",
+      "其他电源设备Ⅱ",
+      "其他电源设备Ⅲ",
+      "广东板块",
+      "中盘成长",
+      "中盘股",
+      "百元股",
+      "创业板综",
+      "深股通",
+      "融资融券",
+      "深成500",
+      "机构重仓",
+      "QFII重仓",
+      "转债标的",
+      "通信技术",
+      "液冷服务器",
+      "第三代半导体",
+      "数据中心",
+      "氮化镓",
+      "氢能源",
+      "华为概念",
+      "贬值受益",
+      "无线充电",
+      "5G概念",
+      "充电桩",
+      "深圳特区"
+    ],
+    "business_sections": [
+      {
+        "title": "开关电源产品的研发、生产与销售",
+        "kind": "主营业务",
+        "text": "公司专注于电源领域，主要从事开关电源产品的研发、生产与销售。公司作为快速发展的开关电源企业，致力于为客户提供可靠、高效、智能的开关电源产品。"
+      },
+      {
+        "title": "大客户资源丰富与粘性高，打造品牌知名度",
+        "kind": "核心竞争力",
+        "text": "公司业务注重全球布局，积极开拓全球市场，参与国际市场竞争。报告期内，公司境外销售客户包括LG、HP、沃尔玛、谷歌、Roku、Honeywell、Sagemcom、TTI等；境内知名客户包括浪潮信息、大华股份、海康威视、和硕、星网锐捷、富士康、比亚迪、华勤、联想、新华三等。"
+      },
+      {
+        "title": "牢牢把控质量控制，产品获得多国多项认证",
+        "kind": "核心竞争力",
+        "text": "公司始终把产品品质放在第一位，电源产品质量关乎电子设备的稳定性和使用者的安全性，同时公司下游客户大多为全球知名电子产品制造商，对电源品质有着严格的要求，因此，公司致力于完善自身的质量管理体系，强调全面质量（TQM）品质管理思维，专门设立品质中心，在研发、采购、生产、外协、售后等环节均设立了严格的质量管控措施。"
+      },
+      {
+        "title": "研发团队与体系逐步完善，技术创新实力不断增强",
+        "kind": "核心竞争力",
+        "text": "公司深耕电源领域多年，具备多学科的深度研发能力，擅长整合多领域技术进行综合研发创新。公司配置有全功能、全方位的研发与产品综合性实验室，产品技术参数均可实现自主设计、检测、实验，保证了研发速度与品质标准。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ300870",
+    "fetched_at": "2026-09-18T23:18:02.931671+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "数据中心"
+}

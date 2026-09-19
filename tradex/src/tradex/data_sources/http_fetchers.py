@@ -498,6 +498,11 @@ def fetch_realtime_quotes_tencent(symbols) -> pd.DataFrame:
             "涨跌幅": float(fields[32]) if fields[32] else 0.0,
             "成交额": float(fields[37]) if fields[37] else 0.0,
             "流通市值": float(fields[44]) if fields[44] else 0.0,
+            "今开": float(fields[5]) if fields[5] else 0.0,
+            "昨收": float(fields[4]) if fields[4] else 0.0,
+            "最高": float(fields[33]) if fields[33] else 0.0,
+            "最低": float(fields[34]) if fields[34] else 0.0,
+            "更新时间": fields[30] if fields[30] else None,
         }
 
     rows = [parsed[code] for code, _prefix in codes if code in parsed]

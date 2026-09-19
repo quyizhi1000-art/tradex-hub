@@ -1,0 +1,188 @@
+[
+  {
+    "id": "002800.SZ",
+    "key": "cross_border_logistics",
+    "sector": "跨境物流",
+    "source_sector_name": "跨境物流",
+    "source_sector_provider": "东方财富",
+    "stage": "revenue",
+    "chain": [
+      "国际航空运输",
+      "中欧中亚班列"
+    ],
+    "fact": "运营国际航空铁路物流及多式联运。",
+    "ths_fact": "中俄与跨境电商解析确认国际班列及航空多式联运物流服务。",
+    "company_fact": "主营分别明确租机国际运输、国际铁路班列及第三方物流。",
+    "reason": "已有跨境物流直接反映经营服务和区域贸易需求，跨境电商是客户场景并非自营商品平台。航线和班列经营重心变化时复核。"
+  },
+  {
+    "id": "002801.SZ",
+    "key": "humanoid_robots",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "无框力矩电机",
+      "伺服驱动"
+    ],
+    "fact": "形成用于人形机器人的无框力矩电机产品。",
+    "ths_fact": "2024-12官微解析具体69无框力矩电机通过工业新产品鉴定。",
+    "company_fact": "主营含微特电机驱动控制器机器人装备，技术优势确认参与多关节机器人伺服电机标准。",
+    "reason": "已有明确人形适用型号、鉴定及电机工程能力，选人形题材但仅product；不把风机收入归成人形，也不将鉴定说成客户量产订单。人形客户交付变化时复核。"
+  },
+  {
+    "id": "002802.SZ",
+    "key": "chemical_products",
+    "sector": "化学制品",
+    "source_sector_name": "化学制品",
+    "source_sector_provider": "东方财富",
+    "stage": "revenue",
+    "chain": [
+      "特种氯乙烯共聚树脂",
+      "水性乳液"
+    ],
+    "fact": "生产销售特种共聚树脂及乳液。",
+    "ths_fact": "补读公司资料页，主营氯乙烯醋酸乙烯共聚树脂和氯乙烯共聚乳液研发生产销售。",
+    "company_fact": "主营确认特种共聚物系列及水性化产品研发生产销售。",
+    "reason": "已有化学制品对应材料产品与应用能力；控制权变更不自动等于风电资产已注入。资产交割与产品经营结构变化时复核。",
+    "extra_evidence": [
+      {
+        "evidence_id": "ths-company-002802",
+        "source_kind": "web_secondary",
+        "publisher": "同花顺",
+        "title": "002802公司资料",
+        "source_url": "https://basic.10jqka.com.cn/002802/company.html",
+        "published_at": null,
+        "assertions": [
+          "补读公司资料页，主营氯乙烯醋酸乙烯共聚树脂和氯乙烯共聚乳液研发生产销售。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "002803.SZ",
+    "key": "cross_border_ecommerce",
+    "sector": "跨境电商",
+    "source_sector_name": "跨境电商",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "跨境社交零售",
+      "AI选品营销"
+    ],
+    "fact": "借社交平台流量向境外消费者销售商品。",
+    "ths_fact": "跨境电商解析明确独立站B2C及多平台广告和泛品类。",
+    "company_fact": "跨境社交电商主营确认AI画像与多国商品销售，包装另为实体经营。",
+    "reason": "已有跨境电商体现实际收入模式；AI是核心运营工具，不凭工具使用把全公司变成AI软件商。对外技术产品营收形成独立重心时复核。"
+  },
+  {
+    "id": "002805.SZ",
+    "key": "cathode_materials",
+    "sector": "正极材料",
+    "source_sector_name": "正极材料",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "磷酸铁锂",
+      "三元正极"
+    ],
+    "fact": "生产经营锂电正极材料及草酸。",
+    "ths_fact": "正极材料解析确认双主业结构，固态为研发布局与参股。",
+    "company_fact": "主营及竞争力确认磷酸铁锂三元两系列，服务储能动力电池。",
+    "reason": "已有正极材料承接电池需求，实际两主流材料比尚处研发的固态更直接；不将参股固态当自产电池。新材料量产结构变化时复核。"
+  },
+  {
+    "id": "002806.SZ",
+    "key": "motor_controls",
+    "sector": "电机电控",
+    "source_sector_name": "电机电控",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "新能源商用车控制器",
+      "电驱动系统"
+    ],
+    "fact": "供应新能源商用车电控及驱动系统。",
+    "ths_fact": "电机电控条目明确研发生产销售和技术服务。",
+    "company_fact": "理工华创主营确认整车控制器、电驱传动、高压集成等成熟产品，另营电极箔。",
+    "reason": "已有电机电控体现真实新能源产品层级；固态集流体送样不能当电芯量产，合资储能也不等于全资。技术交付与业务结构变更时复核。"
+  },
+  {
+    "id": "002807.SZ",
+    "key": "banks",
+    "sector": "银行",
+    "source_sector_name": "银行",
+    "source_sector_provider": "东方财富",
+    "stage": "revenue",
+    "chain": [
+      "农村商业银行",
+      "存贷结算"
+    ],
+    "fact": "提供存款贷款结算及相关金融服务。",
+    "ths_fact": "补读公司资料页确认存贷款、对公零售贷款、贸易融资和同业等业务，所属银行。",
+    "company_fact": "主营详列持牌存贷结算票据及金融服务。",
+    "reason": "已有银行是直接业务归属，高股息是风格标签。经营牌照及实体重组重大变化时复核。",
+    "extra_evidence": [
+      {
+        "evidence_id": "ths-company-002807",
+        "source_kind": "web_secondary",
+        "publisher": "同花顺",
+        "title": "002807公司资料",
+        "source_url": "https://basic.10jqka.com.cn/002807/company.html",
+        "published_at": null,
+        "assertions": [
+          "补读公司资料页确认存贷款、对公零售贷款、贸易融资和同业等业务，所属银行。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "002809.SZ",
+    "key": "water_conservancy",
+    "sector": "水利",
+    "source_sector_name": "水利",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "水利工程材料",
+      "混凝土外加剂"
+    ],
+    "fact": "提供用于工程建设的混凝土外加剂。",
+    "ths_fact": "2025-07-22解析明确参与天水曲溪供水及几内亚水电项目。",
+    "company_fact": "主营聚羧酸等多类外加剂，实际产品解决混凝土性能需求。",
+    "reason": "已有水利具有具体项目支撑，链位限定建材供应；雅下为设立主体与计划不声称已得订单，环氧丙烷衍生品不等同自产环氧丙烷。重大水利订单或新化工投产时复核。"
+  },
+  {
+    "id": "002810.SZ",
+    "key": "construction_coatings",
+    "sector": "建筑涂料",
+    "source_sector_name": "建筑涂料",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "纤维素醚添加剂",
+      "砂浆涂料性能改性"
+    ],
+    "fact": "生产应用于建材等领域的纤维素醚。",
+    "ths_fact": "建筑涂料解析明确建材级纤维素醚用于砂浆乳胶漆腻子等保水增稠。",
+    "company_fact": "主营确认纤维素醚功能及广泛建材医药食品应用。",
+    "reason": "已有建筑涂料以成熟建材级添加剂业务为依据，链位是添加剂而非涂料成品；锂电铜箔HEC已有小量交付作为新场景，不把它说成电池制造。应用和收入结构改变时复核。"
+  },
+  {
+    "id": "002811.SZ",
+    "key": "ai_applications",
+    "sector": "AI应用",
+    "source_sector_name": "AI应用",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "AI室内设计工具",
+      "设计材料数字平台"
+    ],
+    "fact": "向设计场景提供生成式工具和智能物料平台。",
+    "ths_fact": "AI应用解析具体TRANSFUSION AI创意生成，其他条目确认平台已对外开放。",
+    "company_fact": "科技赋能优势独立确认兆材云库及TRANSFUSIONAI解析需求、多模态表达和供应链衔接。",
+    "reason": "已有AI应用有可辨识对外平台与产品，区别内部通用模型接入；stage按可用交付，不声称单独AI收入已披露。平台商业收入和产品开放范围变化时复核。"
+  }
+]

@@ -1,0 +1,63 @@
+{
+  "instrument_id": "000631.SZ",
+  "name": "顺发恒能",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "000631.SZ",
+    "name": "顺发恒能",
+    "memberships": [
+      "公用事业",
+      "电力",
+      "其他能源发电",
+      "浙江板块",
+      "2026中报预减",
+      "破增发价股",
+      "微利股",
+      "低价股",
+      "标准普尔",
+      "深股通",
+      "融资融券",
+      "绿色电力",
+      "风能"
+    ],
+    "business_sections": [
+      {
+        "title": "清洁能源发电业务、综合智慧能源服务和物业服务",
+        "kind": "主营业务",
+        "text": "报告期内，公司主营业务收入主要来自清洁能源发电业务、综合智慧能源服务和物业服务。"
+      },
+      {
+        "title": "多业协同发展能力",
+        "kind": "核心竞争力",
+        "text": "公司依托清洁能源核心业务，积极拓展零碳园区等相关领域，推动产业协同发展与深度融合。通过整合风电、光伏、储能、智能微电网等多种能源技术，公司打造多能互补的一体化解决方案。同时，公司充分发挥项目开发能力，积极争取优质产业资源，力争在市场中占得先机。"
+      },
+      {
+        "title": "队伍优势",
+        "kind": "核心竞争力",
+        "text": "作为民营企业，精细化成本控制稳步增强了企业的运营效率与市场竞争力；建立健全的能源政策获取及研究机制，通过及时响应政策变化，动态调整经营策略与运营方针；具有高度一致的核心价值观，保证了公司在激烈的市场竞争中实现可持续发展。"
+      },
+      {
+        "title": "现金流充沛及资产布局能力",
+        "kind": "核心竞争力",
+        "text": "公司目前现金流较充沛，积极响应国家“双碳”战略，通过“自建+并购”双轮驱动模式加速清洁能源资产布局，不断扩大风电、光伏、气电、储能等业务规模。在电力市场化改革的背景下，为公司未来业务发展提供了支持。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ000631",
+    "fetched_at": "2026-09-18T22:35:39.711239+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "油气"
+}

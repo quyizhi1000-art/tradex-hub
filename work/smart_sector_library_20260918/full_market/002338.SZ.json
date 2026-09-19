@@ -1,0 +1,59 @@
+{
+  "instrument_id": "002338.SZ",
+  "name": "奥普光电",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "002338.SZ",
+    "name": "奥普光电",
+    "memberships": [
+      "国防军工",
+      "军工电子Ⅱ",
+      "军工电子Ⅲ",
+      "吉林板块",
+      "2026中报预增",
+      "小盘成长",
+      "小盘股",
+      "专精特新",
+      "深股通",
+      "融资融券",
+      "基金重仓",
+      "工业母机",
+      "空间站概念",
+      "商业航天",
+      "国产芯片",
+      "虚拟现实",
+      "央国企改革",
+      "医疗器械概念",
+      "军工"
+    ],
+    "business_sections": [
+      {
+        "title": "光机电一体化产品",
+        "kind": "主营业务",
+        "text": "公司是从事研制光机电一体化产品的高新技术企业，凭借在光电技术领域的深厚技术积累，形成了强大的综合优势，曾参与多项国家重大工程项目，在国防光电测控领域处于同行业领先地位。报告期内，公司主要产品为光电测控仪器设备，包括光电经纬仪光机分系统、航空/航天相机光机分系统、新型雷达天线座、精密转台等，新型医疗仪器，光学材料，光栅传感器，高性能碳纤维复合材料制品等。"
+      },
+      {
+        "title": "核心竞争力",
+        "kind": "核心竞争力",
+        "text": "（一）商标12项。\n（二）已获授权专利117项，已获得的软件著作权12项。\n（三）国防科技工业体系全套资质\n（四）医疗产品生产许可\n公司拥有吉林省食品药品监督管理局颁发的《医疗器械生产许可证》。\n（五）质量体系认证\n公司拥有中国新时代认证中心颁发的《质量管理体系认证证书》（光学材料）。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ002338",
+    "fetched_at": "2026-09-18T22:46:23.696431+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "复合材料"
+}

@@ -1,0 +1,91 @@
+[
+  {
+    "id": "301336.SZ",
+    "key": "smart_home",
+    "sector": "智能家居",
+    "source_sector_name": "智能家居",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "智能睡眠家居"
+    ],
+    "company_fact": "自有品牌科技家居研发设计及外包生产线上销售。",
+    "ths_fact": "智能睡眠监测调节语音控制家居联动，智能电动床助眠床垫鞋柜等产品。",
+    "fact": "自有品牌科技家居研发设计及外包生产线上销售。",
+    "reason": "自有智能家居产品身份清楚，客户品牌与电商渠道为副标签。"
+  },
+  {
+    "id": "301337.SZ",
+    "key": "brain_computer_interface",
+    "sector": "脑机接口",
+    "source_sector_name": "脑机接口",
+    "source_sector_provider": "同花顺",
+    "stage": "pilot",
+    "chain": [
+      "脑机智慧病房"
+    ],
+    "company_fact": "主营病房门诊和养老智能通讯交互系统，有病房产品研发与部署能力。",
+    "ths_fact": "2025年11月官微：多轮验证和临床场景共建后完成脑机与病房系统初步融合，与强脑产品协同。",
+    "fact": "主营病房门诊和养老智能通讯交互系统，有病房产品研发与部署能力。",
+    "reason": "已有脑机病房融合验证与自身病房业务吻合，限定pilot；不是自研植入设备或已确认收入。"
+  },
+  {
+    "id": "301338.SZ",
+    "key": "cpo",
+    "sector": "共封装光学(CPO)",
+    "source_sector_name": "共封装光学(CPO)",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "800G光模块自动化产线"
+    ],
+    "company_fact": "精密自动化装联设备，柔性设备平台组合运输操作功能上料模块。",
+    "ths_fact": "2025年6月已推出800G光模块自动化线体并获客户认可。",
+    "fact": "精密自动化装联设备，柔性设备平台组合运输操作功能上料模块。",
+    "reason": "光模块自动化设备是明确产品应用，归光通信设备环节，不等于自身制造CPO芯片。"
+  },
+  {
+    "id": "301339.SZ",
+    "key": "vehicle_road_coordination",
+    "sector": "车联网(车路协同)",
+    "source_sector_name": "车联网(车路协同)",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "C-V2X设备",
+      "车路云平台"
+    ],
+    "company_fact": "智慧交通产业链涵盖车路云综合方案、C-V2X传感器核心硬件及路网运营。",
+    "ths_fact": "多年V2X实践形成车路云全栈C-V2X产品体系及远程管理。",
+    "fact": "智慧交通产业链涵盖车路云综合方案、C-V2X传感器核心硬件及路网运营。",
+    "reason": "车路云平台硬件与ETC根基相接，选车路协同；不把参股自动驾驶公司当自身控制业务。"
+  },
+  {
+    "id": "301345.SZ",
+    "key": "humanoid_robots",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "stage": "pilot",
+    "chain": [
+      "K-Bot样机制造"
+    ],
+    "company_fact": "电动出行和户外特种车研发产销，拥有整车制造基础。",
+    "ths_fact": "2025年6月公司制造首台K-Bot人形样机下线。",
+    "fact": "电动出行和户外特种车研发产销，拥有整车制造基础。",
+    "reason": "原官网明确自己制造样机，不仅参股或战略合作；限定pilot，半年报未确认人形收入不推成批量。",
+    "extra_evidence": [
+      {
+        "evidence_id": "official-301345-kbot-sample",
+        "source_kind": "official_company",
+        "publisher": "涛涛车业",
+        "title": "首台人形机器人样机落地",
+        "source_url": "https://www.taomotor.com.cn/news/721.html",
+        "published_at": "2025-06-27",
+        "assertions": [
+          "由公司制造的首台K-Scale K-Bot人形机器人样机下线。"
+        ]
+      }
+    ]
+  }
+]

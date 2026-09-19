@@ -1,0 +1,57 @@
+{
+  "instrument_id": "000635.SZ",
+  "name": "英力特",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "000635.SZ",
+    "name": "英力特",
+    "memberships": [
+      "基础化工",
+      "化学原料",
+      "氯碱",
+      "宁夏板块",
+      "破增发价股",
+      "央国企改革",
+      "西部大开发"
+    ],
+    "business_sections": [
+      {
+        "title": "化学原料及化学制品制造业",
+        "kind": "主营业务",
+        "text": "根据中国证监会行业分类，公司属于“制造业——化学原料及化学制品制造业”，主要从事电石及其系列延伸产品的生产和销售；聚氯乙烯、烧碱及其系列延伸产品的生产和销售；特种树脂生产及销售；电力、热力的生产及销售，主营产品有 PVC、E-PVC、烧碱、电石等。"
+      },
+      {
+        "title": "一体化产业链优势",
+        "kind": "核心竞争力",
+        "text": "报告期内，公司构建了“自备电力→电石→聚氯乙烯”一体化产业链，热电机组为电石的生产提供了电力，自产电石又为下游产品聚氯乙烯提供了生产原料，形成了以西部煤炭资源为依托、以电力生产为基础、以聚氯乙烯和烧碱生产为核心、废物综合利用为一体的产业链，一体化产业链进一步巩固。"
+      },
+      {
+        "title": "技术装备优势",
+        "kind": "核心竞争力",
+        "text": "公司离子膜烧碱采用先进的高电流密度自然循环电解槽，电解槽离子膜采用全氟离子交换膜；固体烧碱采用煤熔盐降膜蒸发技术；聚合装置采用单台108m3反应釜，聚合工序采用热水入料工艺技术。上述技术和装备在降低生产成本、环境保护方面发挥了显著的作用。"
+      },
+      {
+        "title": "循环经济优势",
+        "kind": "核心竞争力",
+        "text": "采用超滤反渗透技术，氯碱生产线的用水实现了闭路循环；利用电石渣制取脱硫剂，减少了废渣排放；利用了电石炉净化后的一氧化碳烧制白灰及制取蒸汽。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ000635",
+    "fetched_at": "2026-09-18T22:35:40.168161+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "化工"
+}

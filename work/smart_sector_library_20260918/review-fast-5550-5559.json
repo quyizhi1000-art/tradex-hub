@@ -1,0 +1,214 @@
+[
+  {
+    "id": "920942.BJ",
+    "key": "construction_machinery",
+    "sector": "工程机械",
+    "source_sector_name": "工程机械",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "盾构与TBM破岩刀具"
+    ],
+    "stage": "revenue",
+    "fact": "工程破岩工具生产销售及再制造服务形成收入。",
+    "company_fact": "工程破岩工具生产销售及再制造服务形成收入。",
+    "ths_fact": "产品包括盾构和TBM刀具、顶管刀具、潜孔冲击器及钻头。",
+    "reason": "核心为工程机械耗材和部件，水利与天然气只是具体施工应用。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920943.BJ",
+    "key": "low_altitude_economy",
+    "sector": "低空经济",
+    "source_sector_name": "低空经济",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "无人机起落架精密零件"
+    ],
+    "stage": "delivery",
+    "fact": "定制机械设备零件，已有航空零部件精密加工业务。",
+    "company_fact": "定制机械设备零件，已有航空零部件精密加工业务。",
+    "ths_fact": "2024年多款无人机起落架结构等产品及加工成功进入无人机及低空市场。",
+    "reason": "具体无人机产品已进入市场支持主线，不以油气传统业务规模替代市场身份。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920946.BJ",
+    "key": "api_pharmaceuticals",
+    "sector": "原料药",
+    "source_sector_name": "原料药",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "化学原料药及医药中间体"
+    ],
+    "stage": "revenue",
+    "fact": "原料药及中间体生产销售，客户包括鲁抗、正大天晴等。",
+    "company_fact": "原料药及中间体生产销售，客户包括鲁抗、正大天晴等。",
+    "ths_fact": "同花顺公司资料明确原料药、医药中间体和含氧杂环化工中间体研发产销。",
+    "reason": "直接原料药业务充分，二氧五环部分电解液用途不等于电池产业成为主线。",
+    "basis": "crosschecked_sources",
+    "extra_evidence": [
+      {
+        "evidence_id": "ths-830946-company-business",
+        "source_kind": "web_secondary",
+        "publisher": "同花顺",
+        "title": "森萱医药公司资料",
+        "source_url": "https://basic.10jqka.com.cn/830946/company.html",
+        "published_at": null,
+        "assertions": [
+          "同花顺公司资料明确原料药、医药中间体和含氧杂环化工中间体研发产销。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "920950.BJ",
+    "key": "general_equipment",
+    "sector": "通用设备",
+    "source_sector_name": "通用设备",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "智能个人防护装备"
+    ],
+    "stage": "revenue",
+    "fact": "生产电焊面罩、电动送风过滤呼吸器及配件。",
+    "company_fact": "生产电焊面罩、电动送风过滤呼吸器及配件。",
+    "ths_fact": "同花顺公司资料明确自动变光电焊防护面罩、多场景送风过滤呼吸器研发产销。",
+    "reason": "专业工业个人防护装备有双源支撑，使用已有通用设备归属，产品细分仅记链条。",
+    "basis": "crosschecked_sources",
+    "extra_evidence": [
+      {
+        "evidence_id": "ths-834950-company-business",
+        "source_kind": "web_secondary",
+        "publisher": "同花顺",
+        "title": "迅安科技公司资料",
+        "source_url": "https://basic.10jqka.com.cn/834950/company.html",
+        "published_at": null,
+        "assertions": [
+          "同花顺公司资料明确自动变光电焊防护面罩、多场景送风过滤呼吸器研发产销。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "920953.BJ",
+    "key": "ai_agents",
+    "sector": "AI智能体",
+    "source_sector_name": "AI智能体",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "资产管理及高校审计智能体"
+    ],
+    "stage": "product",
+    "fact": "资产管理软件开发、技术服务及配套硬件服务政务和教育客户。",
+    "company_fact": "资产管理软件开发、技术服务及配套硬件服务政务和教育客户。",
+    "ths_fact": "审计平台具备智能问答、作业、报告和AI数智员工等多智能体体系；锦已在项目部署。",
+    "reason": "明确的自研行业智能体产品支撑主线，规格智能收购材料仍为拟交易，不假定已控股机器人业务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920957.BJ",
+    "key": "chemical_products",
+    "sector": "化学制品",
+    "source_sector_name": "化学制品",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "硬脂酸盐及高分子助剂"
+    ],
+    "stage": "revenue",
+    "fact": "环保硬脂酸锌钙镁和高分子化工助剂研发生产销售。",
+    "company_fact": "环保硬脂酸锌钙镁和高分子化工助剂研发生产销售。",
+    "ths_fact": "同花顺公司资料确认高分子环保助剂，主要产品脂肪酸盐助剂、复合助剂。",
+    "reason": "成熟精细化工助剂直接支撑已有行业归属，海外生产布局不是独立产业。",
+    "basis": "crosschecked_sources",
+    "extra_evidence": [
+      {
+        "evidence_id": "ths-836957-company-business",
+        "source_kind": "web_secondary",
+        "publisher": "同花顺",
+        "title": "汉维科技公司资料",
+        "source_url": "https://basic.10jqka.com.cn/836957/company.html",
+        "published_at": null,
+        "assertions": [
+          "同花顺公司资料确认高分子环保助剂，主要产品脂肪酸盐助剂、复合助剂。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "920961.BJ",
+    "key": "commercial_space",
+    "sector": "商业航天",
+    "source_sector_name": "商业航天",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "低轨卫星载荷通信测试"
+    ],
+    "stage": "product",
+    "fact": "射频通信测试仪器，业务覆盖无线通信、车联网、卫星与低空测试。",
+    "company_fact": "射频通信测试仪器，业务覆盖无线通信、车联网、卫星与低空测试。",
+    "ths_fact": "低轨卫星载荷认证测试系统覆盖功能、协议、互联互通及在轨网络性能测试。",
+    "reason": "有具体商业航天测试系统产品，尚不推定对应收入；5G已有销售为技术商业基础，6G项目验收仍属研发证据。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920964.BJ",
+    "key": "water_conservancy",
+    "sector": "水利",
+    "source_sector_name": "水利",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "节水灌溉装备及工程"
+    ],
+    "stage": "revenue",
+    "fact": "节水灌溉装备研发制造和项目设计施工运营。",
+    "company_fact": "节水灌溉装备研发制造和项目设计施工运营。",
+    "ths_fact": "滴灌首部控制、PVC及PE管件、滴喷灌系统和一站式工程服务。",
+    "reason": "水利基础设施是直接产品与服务主线，智慧农业为应用升级。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920970.BJ",
+    "key": "animal_health",
+    "sector": "动物保健",
+    "source_sector_name": "动物保健Ⅱ",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "微生态制剂与兽药"
+    ],
+    "stage": "revenue",
+    "fact": "饲料微生态、酶制剂、饲料和兽药研发生产销售。",
+    "company_fact": "饲料微生态、酶制剂、饲料和兽药研发生产销售。",
+    "ths_fact": "同花顺公司资料明确饲料添加剂、饲料及兽药，产品包括微生态制剂和酶制剂。",
+    "reason": "成熟动物营养健康产品明确，生猪基地框架协议不能当已建成养殖收入。",
+    "basis": "crosschecked_sources",
+    "extra_evidence": [
+      {
+        "evidence_id": "ths-871970-company-business",
+        "source_kind": "web_secondary",
+        "publisher": "同花顺",
+        "title": "大禹生物公司资料",
+        "source_url": "https://basic.10jqka.com.cn/871970/company.html",
+        "published_at": null,
+        "assertions": [
+          "同花顺公司资料明确饲料添加剂、饲料及兽药，产品包括微生态制剂和酶制剂。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "920971.BJ",
+    "key": "advanced_packaging",
+    "sector": "先进封装",
+    "source_sector_name": "先进封装",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "HBM封装Low-α氧化铝"
+    ],
+    "stage": "pilot",
+    "fact": "高性能精细氧化铝用于电子陶瓷、玻璃、隔膜及导热材料。",
+    "company_fact": "高性能精细氧化铝用于电子陶瓷、玻璃、隔膜及导热材料。",
+    "ths_fact": "HBM先进封装Low-α球形氧化铝取得研发进展，验证环节多且后续拟推进量产。",
+    "reason": "实际封装材料研发验证支撑主线，阶段保留pilot；未有材料证明已规模量产销售。",
+    "basis": "crosschecked_sources"
+  }
+]

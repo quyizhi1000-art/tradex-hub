@@ -1,0 +1,100 @@
+[
+  {
+    "id": "300766.SZ",
+    "key": "ai_applications",
+    "sector": "AI应用",
+    "source_sector_name": "AI应用",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "数据智能",
+      "AI工作站",
+      "行业智能体"
+    ],
+    "fact": "数据智能业务延伸至标准化AI工作站及行业应用。",
+    "ths_fact": "同花顺AI应用解析明确个知智能工作站搭载会议写作研究套件并以直销代理切入市场，另有行业共创。",
+    "company_fact": "主营确认DI与AI两业务，GAI OS融合大模型、数据治理和智能体应用。",
+    "reason": "已有AI应用对应产品化业务，DeepSeek为接入模型之一，不把内部使用当独家模型供应商；阶段不声称独立AI收入。"
+  },
+  {
+    "id": "300767.SZ",
+    "key": "liquid_cooled_servers",
+    "sector": "液冷服务器",
+    "source_sector_name": "液冷服务器",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "算力温控模组",
+      "液冷器件",
+      "服务器机柜"
+    ],
+    "fact": "已完成控股东创精艺，新增算力液冷产品业务。",
+    "ths_fact": "同花顺液冷解析明确东创已纳入合并，为算力服务器提供温控热管理。",
+    "company_fact": "原9月回复报告确认2026年5月完成51%投资并表，现聚焦智算液冷温控及机柜；EM旧资料只列减隔震未覆盖新增业务。",
+    "reason": "已有液冷服务器对应已实施的转型；在手及意向订单合计不全作正式订单，3亿元测算不写成已实现营收，传统减隔震仍经营。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "300767-20260918-new-business",
+        "source_kind": "official_filing",
+        "publisher": "公司公告（中财网转载）",
+        "title": "向特定对象发行股票审核问询函回复修订稿",
+        "source_url": "https://www.cfi.net.cn/p20260918002194.html",
+        "published_at": "2026-09-18",
+        "assertions": [
+          "5月完成东创51%控股并表；现有液冷温控及机柜业务，未来收入测算不当作实绩。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "300768.SZ",
+    "key": "cybersecurity",
+    "sector": "网络安全",
+    "source_sector_name": "网络安全",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "网络安全设备",
+      "数据安全",
+      "安全运营"
+    ],
+    "fact": "安全产品与自安全网络构成专业经营体系。",
+    "ths_fact": "同花顺网络安全解析覆盖检测分析防护服务和应用交付全场景能力。",
+    "company_fact": "主营确认安全产品、网络及应用交付和AI安全运营产品，覆盖预警防护回溯。",
+    "reason": "已有网络安全覆盖核心产品与客户问题，AI智能体是安全能力升级，不据400G交换机将全公司归算力租赁。"
+  },
+  {
+    "id": "300769.SZ",
+    "key": "lithium_batteries",
+    "sector": "锂电池",
+    "source_sector_name": "锂电池概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "磷酸铁锂正极",
+      "磷酸锰铁锂",
+      "补锂剂"
+    ],
+    "fact": "供应动力储能电池核心正极材料。",
+    "ths_fact": "同花顺锂电池解析列纳米磷酸铁锂、磷酸锰铁锂及补锂增强剂；固态条目仅材料适用性。",
+    "company_fact": "主营确认锂电池核心材料研发生产销售，面向新能源汽车和储能。",
+    "reason": "已有锂电池体现正极材料产业链，材料适用固态不等于固态电池装车量产，也不是电芯厂。"
+  },
+  {
+    "id": "300770.SZ",
+    "key": "culture_media",
+    "sector": "文化传媒",
+    "source_sector_name": "文化传媒概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "IPTV运营",
+      "视听内容版权"
+    ],
+    "fact": "互联网电视和内容版权服务构成传媒运营业务。",
+    "ths_fact": "同花顺文化传媒解析说明内容投资项目，短剧是内容形态之一。",
+    "company_fact": "主营列广东IPTV播控运营、互联网视听、内容版权及商务运营分成服务。",
+    "reason": "已有文化传媒覆盖内容及平台运营，不能仅凭研发实验室概念把业务认定为虚拟现实硬件或模型开发。"
+  }
+]

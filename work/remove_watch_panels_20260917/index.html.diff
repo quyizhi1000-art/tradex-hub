@@ -1,0 +1,85 @@
+--- before/index.html
++++ tradex/src/tradex/dashboard/watch/index.html
+@@ -545,82 +545,6 @@
+           </article>
+         </section>
+ 
+-        <section class="analysis-grid" aria-label="盘面分析与条件情景">
+-          <article class="panel interpretation-panel">
+-            <div class="panel-heading">
+-              <div>
+-                <span class="section-kicker">INTERPRETATION</span>
+-                <h2>此刻盘面在做什么</h2>
+-              </div>
+-              <span class="evidence-strength" id="analysis-strength">证据强度：未确认</span>
+-            </div>
+-            <p class="interpretation-summary" id="what-is-happening">等待完整快照后再形成结论。</p>
+-            <div class="evidence-columns">
+-              <div>
+-                <h3><span class="evidence-mark evidence-mark--support">+</span>支持证据</h3>
+-                <ul id="supporting-evidence">
+-                  <li class="muted-item">暂无已确认支持证据</li>
+-                </ul>
+-              </div>
+-              <div>
+-                <h3><span class="evidence-mark evidence-mark--counter">−</span>反证 / 保留意见</h3>
+-                <ul id="counter-evidence">
+-                  <li class="muted-item">暂无已确认反证</li>
+-                </ul>
+-              </div>
+-            </div>
+-          </article>
+-
+-          <article class="panel scenarios-panel">
+-            <div class="panel-heading">
+-              <div>
+-                <span class="section-kicker">NEXT 5–15 MIN</span>
+-                <h2>接下来最值得盯的条件</h2>
+-              </div>
+-              <span class="panel-state">最多 2 条</span>
+-            </div>
+-            <div class="scenario-list" id="scenario-list">
+-              <p class="empty-state">等待条件证据。这里不展示精确概率，只展示 if / then 与失效条件。</p>
+-            </div>
+-          </article>
+-        </section>
+-
+-        <section class="bottom-grid" aria-label="变化确认与提醒记录">
+-          <article class="panel change-panel">
+-            <div class="panel-heading">
+-              <div>
+-                <span class="section-kicker">CONFIRMED CHANGE</span>
+-                <h2>最近确认变化</h2>
+-              </div>
+-              <span class="panel-state" id="change-as-of">尚无</span>
+-            </div>
+-            <div class="change-content" id="confirmed-change">
+-              <span class="change-icon" aria-hidden="true">↔</span>
+-              <div>
+-                <strong>尚未确认状态切换</strong>
+-                <p>需要连续快照支持，单次抖动不会作为变化提醒。</p>
+-              </div>
+-            </div>
+-          </article>
+-
+-          <article class="panel alerts-panel">
+-            <div class="panel-heading">
+-              <div>
+-                <span class="section-kicker">ALERTS</span>
+-                <h2>盘面变化提醒</h2>
+-              </div>
+-              <button class="text-button" id="mark-read-button" type="button">全部已读</button>
+-            </div>
+-            <div class="alert-status-row">
+-              <span id="alert-delivery-state">数据确认前不发送提醒</span>
+-              <span id="unread-count">0 条未读</span>
+-            </div>
+-            <div class="alert-list" id="alert-list">
+-              <p class="empty-state">后端确认变化后，提醒会出现在这里。</p>
+-            </div>
+-          </article>
+-        </section>
+-
+         <section class="section-block stock-selection-block" id="stock-selection-section" aria-labelledby="stock-selection-heading">
+           <div class="stock-selection-launcher">
+             <div>

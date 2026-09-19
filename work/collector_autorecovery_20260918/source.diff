@@ -1,0 +1,280 @@
+--- before/collection_store.py
++++ tradex/src/tradex/market_watch/collection_store.py
+@@ -33,6 +33,7 @@
+ COLLECTION_LEDGER_CONTRACT = "market_watch_collection_ledger.v1"
+ COLLECTION_LEDGER_SCHEMA_VERSION = 1
+ SHANGHAI = ZoneInfo("Asia/Shanghai")
++DAILY_RECOVERY_FAILURE_RETRY_SECONDS = 60
+ _ACCEPTED_STATUSES = (
+     CollectionSlotStatus.ACCEPTED_REAL.value,
+     CollectionSlotStatus.REPAIRED.value,
+@@ -518,41 +519,13 @@
+                         ):
+                             return {"action": "existing", "recovery": recovery}
+                 if existing is None and trigger is DailyRecoveryTrigger.AUTOMATIC:
+-                    latest_automatic = self._connection.execute(
+-                        """
+-                        SELECT * FROM market_watch_daily_recovery_runs
+-                        WHERE config_version = ? AND trade_date = ? AND trigger = ?
+-                        ORDER BY id DESC LIMIT 1
+-                        """,
+-                        (
+-                            self.config_version,
+-                            trade_date.isoformat(),
+-                            DailyRecoveryTrigger.AUTOMATIC.value,
+-                        ),
+-                    ).fetchone()
+-                    existing = latest_automatic
+-                    if (
+-                        latest_automatic is not None
+-                        and latest_automatic["status"]
+-                        == DailyRecoveryStatus.RETRYING.value
+-                    ):
+-                        due_retry = self._connection.execute(
+-                            """
+-                            SELECT 1 FROM market_watch_collection_slots
+-                            WHERE config_version = ? AND trade_date = ?
+-                                AND status IN (?, ?)
+-                                AND (next_retry_at IS NULL OR next_retry_at <= ?)
+-                            LIMIT 1
+-                            """,
+-                            (
+-                                self.config_version,
+-                                trade_date.isoformat(),
+-                                CollectionSlotStatus.EXPECTED.value,
+-                                CollectionSlotStatus.RETRYING.value,
+-                                requested_iso,
+-                            ),
+-                        ).fetchone()
+-                        if due_retry is not None:
++                    # Continue the latest run, including interrupted/manual
++                    # work. A terminal minute must not veto other owned retries.
++                    existing = latest
++                    if latest is not None:
++                        completeness = self._read_completeness_locked(trade_date, observed)
++                        recovery = self._recovery(latest, completeness)
++                        if recovery.next_retry_at is not None and recovery.next_retry_at <= observed:
+                             existing = None
+                 if existing is not None:
+                     completeness = self._read_completeness_locked(trade_date, observed)
+@@ -664,6 +637,7 @@
+         trade_date: date,
+         *,
+         requested_at: datetime,
++        preserve_retry_schedule: bool = False,
+     ) -> int:
+         """Requeue gaps except terminal unpublished minutes; preserve their evidence."""
+ 
+@@ -698,7 +672,10 @@
+                     UPDATE market_watch_collection_slots
+                     SET status = CASE
+                             WHEN attempt_count = 0 THEN ? ELSE ? END,
+-                        next_retry_at = ?, ledger_revision = ?, updated_at = ?
++                        next_retry_at = CASE
++                            WHEN ? AND next_retry_at > ? THEN next_retry_at
++                            ELSE ? END,
++                        ledger_revision = ?, updated_at = ?
+                     WHERE config_version = ? AND trade_date = ?
+                         AND status NOT IN (?, ?, ?, ?)
+                         AND NOT (status = 'unresolved'
+@@ -707,6 +684,8 @@
+                     (
+                         CollectionSlotStatus.EXPECTED.value,
+                         CollectionSlotStatus.RETRYING.value,
++                        int(preserve_retry_schedule),
++                        requested_iso,
+                         requested_iso,
+                         revision,
+                         requested_iso,
+@@ -932,6 +911,10 @@
+                     error_message = str(error)[:1000] or error_code
+                 elif not remaining:
+                     status = DailyRecoveryStatus.COMPLETE
++                    error_code = None
++                    error_message = None
++                elif completeness.pending or completeness.retrying:
++                    status = DailyRecoveryStatus.RETRYING
+                     error_code = None
+                     error_message = None
+                 elif completeness.unresolved:
+@@ -1932,10 +1915,40 @@
+                 status = DailyRecoveryStatus.FAILED
+             elif not remaining:
+                 status = DailyRecoveryStatus.COMPLETE
++            elif completeness.pending or completeness.retrying:
++                status = DailyRecoveryStatus.RETRYING
+             elif completeness.unresolved:
+                 status = DailyRecoveryStatus.NEEDS_ATTENTION
+             else:
+                 status = DailyRecoveryStatus.RETRYING
++        completed_at = datetime.fromisoformat(row["completed_at"]) if row["completed_at"] else None
++        next_retry_at = None
++        if completed_at is not None and completeness.as_of.date() == completeness.trade_date:
++            if status is DailyRecoveryStatus.FAILED:
++                next_retry_at = completed_at + timedelta(seconds=DAILY_RECOVERY_FAILURE_RETRY_SECONDS)
++            elif status is DailyRecoveryStatus.RETRYING:
++                due = self._connection.execute(
++                    """SELECT MIN(COALESCE(next_retry_at, ?)) FROM market_watch_collection_slots
++                    WHERE config_version=? AND trade_date=? AND status IN ('expected','retrying')""",
++                    (completed_at.isoformat(timespec="seconds"), self.config_version, row["trade_date"]),
++                ).fetchone()[0]
++                if due is not None:
++                    next_retry_at = max(completed_at, datetime.fromisoformat(due))
++            if next_retry_at is not None and next_retry_at.date() != completeness.trade_date:
++                next_retry_at = None
++
++        failure_resolved = False
++        if optional("latest_failure_minute_bucket"):
++            failure_slot = self._connection.execute(
++                """SELECT status FROM market_watch_collection_slots
++                WHERE config_version=? AND trade_date=? AND minute_bucket=?""",
++                (self.config_version, row["trade_date"], optional("latest_failure_minute_bucket")),
++            ).fetchone()
++            failure_resolved = failure_slot is not None and failure_slot[0] in _ACCEPTED_STATUSES
++
++        def failure_detail(name):
++            return None if failure_resolved else optional(name)
++
+         return DailyCollectionRecoveryV1(
+             run_id=int(row["id"]),
+             trade_date=date.fromisoformat(row["trade_date"]),
+@@ -1952,6 +1965,7 @@
+                 if row["completed_at"]
+                 else None
+             ),
++            next_retry_at=next_retry_at,
+             expected_minute_buckets=completeness.expected_minute_buckets,
+             accepted_before=int(row["accepted_before"]),
+             accepted_after=accepted_after,
+@@ -1960,7 +1974,7 @@
+             failed_attempts=int(optional("failed_attempts", 0) or 0),
+             remaining_gaps=remaining,
+             unavailable_gaps=unavailable,
+-            manual_action_required=(status is DailyRecoveryStatus.FAILED or (
++            manual_action_required=((status is DailyRecoveryStatus.FAILED and next_retry_at is None) or (
+                 status is DailyRecoveryStatus.NEEDS_ATTENTION and remaining > unavailable
+             )),
+             latest_attempt_minute_bucket=(
+@@ -1983,22 +1997,22 @@
+             latest_attempt_progress_stage=optional("latest_attempt_progress_stage"),
+             latest_attempt_progress_message=optional("latest_attempt_progress_message"),
+             latest_failure_minute_bucket=(
+-                datetime.fromisoformat(optional("latest_failure_minute_bucket"))
+-                if optional("latest_failure_minute_bucket")
++                datetime.fromisoformat(failure_detail("latest_failure_minute_bucket"))
++                if failure_detail("latest_failure_minute_bucket")
+                 else None
+             ),
+             latest_failure_at=(
+-                datetime.fromisoformat(optional("latest_failure_at"))
+-                if optional("latest_failure_at")
++                datetime.fromisoformat(failure_detail("latest_failure_at"))
++                if failure_detail("latest_failure_at")
+                 else None
+             ),
+             latest_failure_next_retry_at=(
+-                datetime.fromisoformat(optional("latest_failure_next_retry_at"))
+-                if optional("latest_failure_next_retry_at")
++                datetime.fromisoformat(failure_detail("latest_failure_next_retry_at"))
++                if failure_detail("latest_failure_next_retry_at")
+                 else None
+             ),
+-            latest_failure_error_code=optional("latest_failure_error_code"),
+-            latest_failure_error_message=optional("latest_failure_error_message"),
++            latest_failure_error_code=failure_detail("latest_failure_error_code"),
++            latest_failure_error_message=failure_detail("latest_failure_error_message"),
+             last_error_code=(
+                 row["last_error_code"]
+                 if status is DailyRecoveryStatus.FAILED
+--- before/collection_contracts.py
++++ tradex/src/tradex/market_watch/collection_contracts.py
+@@ -244,6 +244,7 @@
+     requested_at: datetime
+     started_at: datetime | None = None
+     completed_at: datetime | None = None
++    next_retry_at: datetime | None = None
+     expected_minute_buckets: int = Field(ge=0)
+     accepted_before: int = Field(ge=0)
+     accepted_after: int = Field(ge=0)
+@@ -272,6 +273,7 @@
+         "requested_at",
+         "started_at",
+         "completed_at",
++        "next_retry_at",
+         "latest_attempt_minute_bucket",
+         "latest_attempt_at",
+         "latest_failure_minute_bucket",
+@@ -355,7 +357,14 @@
+                 raise ValueError("running recovery requires only started_at")
+         elif self.started_at is None or self.completed_at is None:
+             raise ValueError("finished recovery requires execution timestamps")
+-        expected_manual = self.status is DailyRecoveryStatus.FAILED or (
++        if self.next_retry_at is not None and (
++            self.status not in {DailyRecoveryStatus.FAILED, DailyRecoveryStatus.RETRYING}
++            or self.completed_at is None
++            or self.next_retry_at < self.completed_at
++            or self.next_retry_at.date() != self.trade_date
++        ):
++            raise ValueError("automatic recovery retry requires a same-day finished attempt")
++        expected_manual = (self.status is DailyRecoveryStatus.FAILED and self.next_retry_at is None) or (
+             self.status is DailyRecoveryStatus.NEEDS_ATTENTION
+             and self.remaining_gaps > self.unavailable_gaps
+         )
+--- before/app.js
++++ tradex/src/tradex/dashboard/watch/app.js
+@@ -3032,6 +3032,9 @@
+       candidates: asArray(payload.candidates).map((candidate) => ({
+         ...candidate, industry_block_name: mapping[candidate.instrument_id] || null,
+       })),
++      pending_candidates: asArray(payload.pending_candidates).map((candidate) => ({
++        ...candidate, industry_block_name: mapping[candidate.instrument_id] || null,
++      })),
+     };
+   }
+ 
+@@ -5035,8 +5038,9 @@
+       parts.push(formatTimestamp(recovery.latest_failure_minute_bucket));
+     }
+     parts.push(`${errorCode}：${message}`);
+-    if (!runErrorCode && recovery.latest_failure_next_retry_at) {
+-      parts.push(`下次重试 ${formatTimestamp(recovery.latest_failure_next_retry_at)}`);
++    const retryAt = runErrorCode ? recovery.next_retry_at : recovery.latest_failure_next_retry_at;
++    if (retryAt) {
++      parts.push(`下次自动重试 ${formatTimestamp(retryAt)}`);
+     }
+     return parts.join(" · ");
+   }
+@@ -5059,12 +5063,12 @@
+     const unavailableOnly = recovery?.status === "needs_attention"
+       && gaps > 0 && recovery.unavailable_gaps === gaps;
+     const statusLabels = {
+-      pending: "手动检查已排队",
++      pending: "检查已排队",
+       running: "正在检查并追补",
+       complete: "收盘数据完整",
+       retrying: "追补受阻 · 等待重试",
+       needs_attention: "仍有缺口 · 请查看原因",
+-      failed: "检查失败 · 可手动重试",
++      failed: recovery?.next_retry_at ? "检查受阻 · 已安排自动重试" : "检查失败 · 可手动重试",
+     };
+     let status = recovery ? text(recovery.status, "") : "";
+     if (!status) status = expected === 0 ? "not_due" : afterClose ? "pending_auto" : "before_close";
+--- before/collector_worker.py
++++ tradex/src/tradex/dashboard/collector_worker.py
+@@ -1227,11 +1227,13 @@
+     while not stop_event.is_set():
+         try:
+             run_cycle(stop_event, once=False)
+-            return
++            if stop_event.is_set():
++                return
++            logger.error("collector runtime exited unexpectedly; reopening persistence owners")
+         except Exception:  # noqa: BLE001 - process boundary must self-heal
+             logger.exception("collector runtime failed; reopening persistence owners")
+-            if stop_event.wait(retry_delay_seconds):
+-                return
++        if stop_event.wait(retry_delay_seconds):
++            return
+ 
+ 
+ def main(argv: list[str] | None = None) -> int:

@@ -1,0 +1,61 @@
+{
+  "instrument_id": "002705.SZ",
+  "name": "新宝股份",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "002705.SZ",
+    "name": "新宝股份",
+    "memberships": [
+      "家用电器",
+      "小家电",
+      "厨房小家电",
+      "广东板块",
+      "2026中报预减",
+      "破增发价股",
+      "小盘价值",
+      "小盘股",
+      "标准普尔",
+      "富时罗素",
+      "深股通",
+      "融资融券",
+      "小红书概念",
+      "机器人概念",
+      "中俄贸易概念",
+      "宠物经济",
+      "小米概念",
+      "贬值受益",
+      "智能家居",
+      "电商概念",
+      "婴童概念"
+    ],
+    "business_sections": [
+      {
+        "title": "西式小家电的出口销售、国内自主品牌业务",
+        "kind": "主营业务",
+        "text": "公司所处的小家电行业是中国改革开放以来形成的具有全球竞争力的产业，市场化程度较高。公司目前主要业务是西式小家电的出口销售，同时大力开拓国内自主品牌业务，实现海外营销和国内品牌均衡发展。"
+      },
+      {
+        "title": "产品对路、质量可靠、技术创新、价格有竞争力、服务快速高效",
+        "kind": "核心竞争力",
+        "text": "公司致力于建立多元化小家电为主的产业技术服务体系，为全球客户提供包括市场策略、设计研发、产品实现、模具研制、认证测试和量产技术等在内的一揽子解决方案，同时大力开拓国内市场，更好满足全球消费者的个性化品质生活需求。\n（1）产品——适销对路的产品；\n（2）质量——可靠的质量保证；\n（3）技术——创新及优质的技术支持；\n（4）价格——有竞争力的价格；\n（5）服务——快速高效的专业服务。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ002705",
+    "fetched_at": "2026-09-18T22:53:44.692684+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "厨房电器"
+}

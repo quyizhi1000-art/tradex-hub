@@ -1,0 +1,25 @@
+{
+  "version": "auction-weak-to-strong-mainboard.research.v1",
+  "trade_date": "2026-09-18",
+  "information_cutoff": "2026-09-18T09:25:00+08:00",
+  "prior_date": "2026-09-17",
+  "min_gap_pct": 1,
+  "max_gap_pct": 7,
+  "min_auction_amount_cny": 5000000,
+  "min_auction_amount_multiple": 1.5,
+  "weak_board_min_open_count": 2,
+  "weak_board_late_seal": "14:30:00",
+  "weak_decline_pct": -1,
+  "weak_pullback_pct": 3,
+  "weak_close_range_max": 0.5,
+  "reclaim_fraction": 0.5,
+  "latest_listing_date": "20260911",
+  "ranking": "auction amount multiple descending; amount descending; code ascending",
+  "notes": [
+    "Exploratory fixed thresholds, not backtested.",
+    "Exclude first five listing sessions and ST as of target date.",
+    "Limit-up / extreme high opens above 7 percent are kept in exclusions.",
+    "Matched auction amount is not net inflow; provider volume_ratio is display only.",
+    "After-the-fact replay; historical revisions and actual API publication latency are unverified."
+  ]
+}

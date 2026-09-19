@@ -1,0 +1,91 @@
+[
+  {
+    "id": "603569.SH",
+    "key": "unified_market",
+    "sector": "统一大市场",
+    "source_sector_name": "统一大市场",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "汽车整车物流网络"
+    ],
+    "fact": "第三方整车运输核心，为车厂经销商提供物流。",
+    "company_fact": "第三方整车运输核心，为车厂经销商提供物流。",
+    "ths_fact": "整车运输标准化网络与智慧物流。",
+    "reason": "汽车供应链运输身份，储能新增业务保留次标签。"
+  },
+  {
+    "id": "603577.SH",
+    "key": "uhv",
+    "sector": "特高压",
+    "source_sector_name": "特高压",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "输电铁塔"
+    ],
+    "fact": "角钢塔钢管塔及钢构产品研发生产。",
+    "company_fact": "角钢塔钢管塔及钢构产品研发生产。",
+    "ths_fact": "最高1000kV铁塔生产和国网特高压供应资质。",
+    "reason": "铁塔实际供应，核电送出线路不等同核电设备制造。"
+  },
+  {
+    "id": "603578.SH",
+    "key": "photovoltaic_glass",
+    "sector": "光伏玻璃",
+    "source_sector_name": "光伏玻璃",
+    "source_sector_provider": "同花顺",
+    "stage": "pilot",
+    "chain": [
+      "光伏玻璃加工及原片试产"
+    ],
+    "fact": "控股国华金泰经营光伏玻璃业务。",
+    "company_fact": "控股国华金泰经营光伏玻璃业务。",
+    "ths_fact": "既有光伏玻璃加工收入，国华金泰B窑2024出产品。",
+    "reason": "明确原片已试产，不把规划4条产线全部当投产；加工收入与新原片阶段分别说明。"
+  },
+  {
+    "id": "603579.SH",
+    "key": "robots",
+    "sector": "机器人",
+    "source_sector_name": "机器人概念",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "智能按摩机器人"
+    ],
+    "fact": "按摩器具设计研发生产销售与体验服务。",
+    "company_fact": "按摩器具设计研发生产销售与体验服务。",
+    "ths_fact": "DeepHealth与按摩机器人新品已发布。",
+    "reason": "具体健康按摩机器人产品；脑机仅联合实验室未作收入。"
+  },
+  {
+    "id": "603580.SH",
+    "key": "consumer_electronics",
+    "sector": "消费电子",
+    "source_sector_name": "消费电子概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "精密金属结构件"
+    ],
+    "fact": "原有轻型输送带研发产销，电子制造为应用领域。",
+    "company_fact": "原有轻型输送带研发产销，电子制造为应用领域。",
+    "ths_fact": "收购标的消费电子精密加工客户及技术。",
+    "reason": "原H1确认中石信50.2008%实际控制及消费电子零件产销，新业务已落地；不推断其他拟注入资产。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "603580-2026h1-control",
+        "source_kind": "official_filing",
+        "publisher": "艾艾精工",
+        "title": "2026年半年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12498269&stockid=603580",
+        "published_at": "2026-08-18",
+        "assertions": [
+          "收购中石信50.2008%取得控制权，精密冲压紧固件NC产品用于消费电子，子公司荃智顺电子元件制造。"
+        ]
+      }
+    ]
+  }
+]

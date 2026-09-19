@@ -1,0 +1,471 @@
+[
+  {
+    "id": "600893.SH",
+    "key": "aero_engines",
+    "sector": "航空发动机",
+    "chain": [
+      "军民用航空发动机整机、零件及维护"
+    ],
+    "stage": "revenue",
+    "fact": "公司具备全谱系军用发动机研制生产和服务能力，同时配套长江系列、开展出口转包。",
+    "ths_fact": "航空发动机、军工解释列整机及部件、燃机与维修；低空仅相关涡轴涡桨应用。",
+    "company_fact": "公司具备全谱系军用发动机研制生产和服务能力，同时配套长江系列、开展出口转包。",
+    "reason": "航空发动机体现已形成完整产品供应的核心市场身份；数据中心用燃机是应用方向，不外推为运营算力。",
+    "source_sector_name": "航空发动机",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600894.SH",
+    "key": "elevators",
+    "sector": "电梯",
+    "chain": [
+      "电梯整机、零部件、安装维保"
+    ],
+    "stage": "revenue",
+    "fact": "EM确认电梯全链条产品与工程服务，数智业务主要围绕现有设备赋能，服务机器人仍研发。",
+    "ths_fact": "电梯解释确认整机制造及多地基地；工业机器人有松兴电气集成业务。",
+    "company_fact": "EM确认电梯全链条产品与工程服务，数智业务主要围绕现有设备赋能，服务机器人仍研发。",
+    "reason": "电梯业务拥有成熟产品及全过程服务；不把研发中的服务机器人按落地收入处理，工业机器人业务保留跟踪。",
+    "source_sector_name": "电梯概念",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600895.SH",
+    "key": "lithography",
+    "sector": "光刻机",
+    "chain": [
+      "被投企业上海微电子SSX600系列光刻机产品；非上市公司并表制造"
+    ],
+    "stage": "product",
+    "fact": "张江浩成持有上海微电子股权；被投企业官网展示SSX600系列步进扫描投影光刻机实际产品。",
+    "ths_fact": "光刻机解释引用2016年投资及历史持股10.779%。",
+    "company_fact": "EM主营科技产业投资、集成电路服务和园区运营；公司2025年9月19日说明会确认仍持有上海微电子股权，投资收益不计入主营收入。",
+    "reason": "人工复核真实且重要的上海微电子投资关联构成光刻机市场身份。stage=product仅描述被投企业官网已展示的具体光刻机产品，不是上市公司制造、订单或并表收入。10.779%保留为历史披露口径，最新稀释比例未推定；后续股权与产品交付披露触发更新。",
+    "source_sector_name": "光刻机",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "relation": "investment",
+    "investment_reviewed": true,
+    "extra_evidence": [
+      {
+        "evidence_id": "600895_20250919_investor_meeting",
+        "source_kind": "official_filing",
+        "publisher": "张江高科",
+        "title": "2025年半年度业绩说明会内容",
+        "source_url": "https://pdf.dfcfw.com/pdf/H22_AN202509221748497140_1.pdf",
+        "published_at": "2025-09-19",
+        "assertions": [
+          "公司回复确认张江浩成仍持有上海微电子股权；末项回复回顾2016年投资及10.779%历史比例。",
+          "投资收益影响净利润、不计入主营业务收入；未确认提问中其他股权比例。"
+        ]
+      },
+      {
+        "evidence_id": "600895_smee_ssx600_product",
+        "source_kind": "official_company",
+        "publisher": "上海微电子装备（集团）股份有限公司",
+        "title": "SSX600系列光刻机产品介绍",
+        "source_url": "https://www.smee.com.cn/eis.pub?method=indexinfo&onclicknodeno=1_4_1_1&service=homepageService",
+        "published_at": null,
+        "assertions": [
+          "官网展示SSX600步进扫描投影光刻机，用于90nm、110nm、280nm光刻工艺及8寸、12寸产线。",
+          "产品事实属于被投企业，不代表张江高科自身生产或并表收入。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "600897.SH",
+    "key": "airports",
+    "sector": "机场",
+    "chain": [
+      "机场地面保障、旅客货运设施和场所运营"
+    ],
+    "stage": "revenue",
+    "fact": "公司为航空器、航空运输企业、旅客及货主提供地面设施服务，并运营出租机场内货站及商业场所。",
+    "ths_fact": "航空租赁概念解释为空，地域说明仅能定位机场所在地。",
+    "company_fact": "公司为航空器、航空运输企业、旅客及货主提供地面设施服务，并运营出租机场内货站及商业场所。",
+    "reason": "EM真实机场行业与明确服务经营一致；空白航空租赁概念不能代替机场运营身份。",
+    "source_sector_name": "机场",
+    "source_sector_provider": "东方财富",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600900.SH",
+    "key": "green_power",
+    "sector": "绿色电力",
+    "chain": [
+      "长江大型水电站运营与配售电"
+    ],
+    "stage": "revenue",
+    "fact": "大型水电运营总装机7179.5万千瓦，是已有发电经营业务。",
+    "ths_fact": "绿色电力解释确认水电和配售电；2026年抽蓄解释明确控股项目仍在建设。",
+    "company_fact": "大型水电运营总装机7179.5万千瓦，是已有发电经营业务。",
+    "reason": "绿色电力有在役水电完整支撑；不把在建抽蓄和少量制氢示范扩成已成熟的新主线。",
+    "source_sector_name": "绿色电力",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600901.SH",
+    "key": "financial_leasing",
+    "sector": "融资租赁",
+    "chain": [
+      "设备直接租赁与售后回租"
+    ],
+    "stage": "revenue",
+    "fact": "主营为监管批准的融资租赁，实际模式包括直接租赁和售后回租。",
+    "ths_fact": "已有融资租赁标签，但保存解释无正文，不能补造概念事实。",
+    "company_fact": "主营为监管批准的融资租赁，实际模式包括直接租赁和售后回租。",
+    "reason": "现有融资租赁标签与经营方式精确匹配；依据具体金融业务判断而非供应商排序。",
+    "source_sector_name": "融资租赁",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600903.SH",
+    "key": "natural_gas",
+    "sector": "天然气",
+    "chain": [
+      "城市燃气销售、输配设施及安装运营"
+    ],
+    "stage": "revenue",
+    "fact": "主营燃气销售与输配系统、接收储备站和加气站建设运营。",
+    "ths_fact": "天然气解释确认城市燃气运营；页岩气段描述收购标的模式，氢能为10%参股。",
+    "company_fact": "主营燃气销售与输配系统、接收储备站和加气站建设运营。",
+    "reason": "天然气覆盖已确认供销服务；页岩气交易是否完成不影响现有归属，未据标的描述写成上市公司已开采。",
+    "source_sector_name": "天然气",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600905.SH",
+    "key": "green_power",
+    "sector": "绿色电力",
+    "chain": [
+      "风电、海上风电及光伏电站开发运营"
+    ],
+    "stage": "revenue",
+    "fact": "主营风能与太阳能开发投资运营，形成风光储等协同业务。",
+    "ths_fact": "绿色电力解释直接列风光运营，海风有已投产容量；钒电池主要工程应用。",
+    "company_fact": "主营风能与太阳能开发投资运营，形成风光储等协同业务。",
+    "reason": "绿电运营是实际跨技术发电身份，海上风电属于重要链条；不能把储能应用写成电池制造。",
+    "source_sector_name": "绿色电力",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600906.SH",
+    "key": "securities",
+    "sector": "券商",
+    "chain": [
+      "经纪、投行、资管、自营及机构服务"
+    ],
+    "stage": "revenue",
+    "fact": "主营证券财富管理、投行、资管和证券投资，另有期货与投资子公司。",
+    "ths_fact": "雄安说明明确证券经营背景，期货解释对应控股财达期货业务。",
+    "company_fact": "主营证券财富管理、投行、资管和证券投资，另有期货与投资子公司。",
+    "reason": "持牌综合证券服务是完整市场身份；百度生态接入不等于对外AI产品主营。",
+    "source_sector_name": "券商概念",
+    "source_sector_provider": "东方财富",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600908.SH",
+    "key": "bank",
+    "sector": "银行",
+    "chain": [
+      "存贷款、结算及综合银行服务"
+    ],
+    "stage": "revenue",
+    "fact": "主营吸收存款、发放贷款、结算、票据及外汇等银行金融业务。",
+    "ths_fact": "村镇银行解释为控股银行经营关联，不能把旧两家数量当当前总网点。",
+    "company_fact": "主营吸收存款、发放贷款、结算、票据及外汇等银行金融业务。",
+    "reason": "银行是明确经营主体及现有行业，村镇银行为业务组织形式，不以参股标签替代本行身份。",
+    "source_sector_name": "银行",
+    "source_sector_provider": "东方财富",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600909.SH",
+    "key": "securities",
+    "sector": "券商",
+    "chain": [
+      "证券零售、产业和机构客户服务及自营"
+    ],
+    "stage": "revenue",
+    "fact": "EM确认证券客户服务、自营及风险管理业务。",
+    "ths_fact": "期货解释正文实际完整列证券经纪、承销、资管及融资融券等业务。",
+    "company_fact": "EM确认证券客户服务、自营及风险管理业务。",
+    "reason": "以正文确认综合证券经营，不因概念名为期货就机械归期货。",
+    "source_sector_name": "券商概念",
+    "source_sector_provider": "东方财富",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600916.SH",
+    "key": "gold",
+    "sector": "黄金",
+    "chain": [
+      "黄金珠宝销售、委托加工与回购"
+    ],
+    "stage": "revenue",
+    "fact": "主营黄金等贵金属制品委托加工与销售，含回收等服务。",
+    "ths_fact": "黄金概念明确黄金珠宝销售和委托加工；培育钻石已推出镶嵌产品。",
+    "company_fact": "主营黄金等贵金属制品委托加工与销售，含回收等服务。",
+    "reason": "黄金消费及加工业务形成真实市场身份；产业链为珠宝流通加工，不能写成金矿开采。",
+    "source_sector_name": "黄金概念",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600917.SH",
+    "key": "natural_gas",
+    "sector": "天然气",
+    "chain": [
+      "重庆等区域管道燃气及设施安装"
+    ],
+    "stage": "revenue",
+    "fact": "2025年主营仍为管道燃气供应和安装，服务重庆26个行政区域及湖南保靖。",
+    "ths_fact": "天然气及LNG解释确认储输配售、城市管网与加气站。",
+    "company_fact": "2025年主营仍为管道燃气供应和安装，服务重庆26个行政区域及湖南保靖。",
+    "reason": "燃气供销为完整经营链；碳交易许可不代表已有独立碳交易主业收入。",
+    "source_sector_name": "天然气",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600918.SH",
+    "key": "securities",
+    "sector": "券商",
+    "chain": [
+      "证券投行、财富管理、研究及资管"
+    ],
+    "stage": "revenue",
+    "fact": "主营证券投行、财富管理、研究、机构服务、证券投资和资管，并开展国际业务。",
+    "ths_fact": "期货解释对应控股期货业务的手续费和投资收益。",
+    "company_fact": "主营证券投行、财富管理、研究、机构服务、证券投资和资管，并开展国际业务。",
+    "reason": "现有券商板块覆盖完整证券经营；期货子业务不因唯一THS正文而自动成为主归属。",
+    "source_sector_name": "券商概念",
+    "source_sector_provider": "东方财富",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600919.SH",
+    "key": "bank",
+    "sector": "银行",
+    "chain": [
+      "商业银行存贷、结算与金融服务"
+    ],
+    "stage": "revenue",
+    "fact": "主营包括存贷款、结算、票据、债券、代客理财及外汇等监管批准的银行业务。",
+    "ths_fact": "保存THS仅高股息等标签，无经营概念正文，不补造创新业务。",
+    "company_fact": "主营包括存贷款、结算、票据、债券、代客理财及外汇等监管批准的银行业务。",
+    "reason": "已有银行行业与持牌经营范围一致；互联网和区块链标签未见更充分产品事实，不据此变更身份。",
+    "source_sector_name": "银行",
+    "source_sector_provider": "东方财富",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600925.SH",
+    "key": "coal",
+    "sector": "煤炭",
+    "chain": [
+      "煤炭采掘、洗选销售及配套电力"
+    ],
+    "stage": "revenue",
+    "fact": "运营6对矿井、2025年商品煤产销约1767及1769万吨，并经营电力。",
+    "ths_fact": "煤炭解释明确采掘洗选和销售；储能有投用项目。",
+    "company_fact": "运营6对矿井、2025年商品煤产销约1767及1769万吨，并经营电力。",
+    "reason": "煤炭开采销售具备实体资源和产销支撑；战略矿产仅资源机会及未来开发意向，不能算已开展金属采矿。",
+    "source_sector_name": "煤炭概念",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600926.SH",
+    "key": "bank",
+    "sector": "银行",
+    "chain": [
+      "存贷款、结算及综合银行服务"
+    ],
+    "stage": "revenue",
+    "fact": "主营吸收存款、发放贷款、结算、票据、外汇、基金销售托管等银行业务。",
+    "ths_fact": "消费金融和村镇银行说明为股权投资关系，不能将参股比例外推经营控制。",
+    "company_fact": "主营吸收存款、发放贷款、结算、票据、外汇、基金销售托管等银行业务。",
+    "reason": "本行持续银行经营是最完整既有市场身份，消费金融参股是补充业务关联。",
+    "source_sector_name": "银行",
+    "source_sector_provider": "东方财富",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600927.SH",
+    "key": "futures",
+    "sector": "期货",
+    "chain": [
+      "期货经纪、风险管理和资产管理"
+    ],
+    "stage": "revenue",
+    "fact": "主营期货经纪、结算、资管、大宗商品和衍生品风险管理，并有境外金融服务。",
+    "ths_fact": "期货解释确认经纪、咨询与永安资本风险管理服务。",
+    "company_fact": "主营期货经纪、结算、资管、大宗商品和衍生品风险管理，并有境外金融服务。",
+    "reason": "期货及风险管理对应真实客户和收费模式；数智平台是服务工具，不因内部系统建设归软件。",
+    "source_sector_name": "期货概念",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600928.SH",
+    "key": "bank",
+    "sector": "银行",
+    "chain": [
+      "区域商业银行公司、零售与普惠金融"
+    ],
+    "stage": "revenue",
+    "fact": "EM确认公司、零售、普惠及金融市场业务，数字金融用于提升银行服务。",
+    "ths_fact": "跨境支付解释列跨境结算金额，移动支付已有西银惠付等产品。",
+    "company_fact": "EM确认公司、零售、普惠及金融市场业务，数字金融用于提升银行服务。",
+    "reason": "支付业务是确实存在的银行服务延伸，但现有证据未确立比完整银行经营更主要的市场身份；不把CIPS标签推定系统运营方。",
+    "source_sector_name": "银行",
+    "source_sector_provider": "东方财富",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600929.SH",
+    "key": "lithium_batteries",
+    "sector": "锂电池",
+    "chain": [
+      "控股美特新材：钴酸锂正极材料"
+    ],
+    "stage": "revenue",
+    "fact": "原年报确认2025年12月收购美特41%后合计持61%并表，钴酸锂2025年销售4540吨；钠电仍中试送样。",
+    "ths_fact": "锂电池解释提及河北坤天收购筹划；钠电旧解释称吨级销售，需与新年报阶段区分。",
+    "company_fact": "原年报确认2025年12月收购美特41%后合计持61%并表，钴酸锂2025年销售4540吨；钠电仍中试送样。",
+    "reason": "已完成的锂电正极业务足以支持现有锂电池板块；不以尚筹划河北坤天负极收购当成交事实，钠电不沿用旧标签写成熟量产。",
+    "source_sector_name": "锂电池概念",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "600929.SH_12123083",
+        "source_kind": "official_filing",
+        "publisher": "雪天盐业",
+        "title": "2025年年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=600929&id=12123083",
+        "published_at": null,
+        "assertions": [
+          "收购美特41%已完成，合计持股61%并纳入合并报表。",
+          "钴酸锂2025年销售4540吨；钠电正极处于中试及客户送样。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "600930.SH",
+    "key": "green_power",
+    "sector": "绿色电力",
+    "chain": [
+      "风电和光伏开发运营、绿电供给"
+    ],
+    "stage": "revenue",
+    "fact": "中国华电新能源业务平台主要运营风力和太阳能发电，资产覆盖多省区。",
+    "ths_fact": "绿色电力解释明确风光发电，算电协同项目已投产用于供给绿电。",
+    "company_fact": "中国华电新能源业务平台主要运营风力和太阳能发电，资产覆盖多省区。",
+    "reason": "绿电是完整实际经营；向数据中心供电不等于自营算力服务，参股核电亦不混同并表核电收入。",
+    "source_sector_name": "绿色电力",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600933.SH",
+    "key": "cpo",
+    "sector": "共封装光学(CPO)",
+    "chain": [
+      "光模块用精密锌合金零部件"
+    ],
+    "stage": "orders",
+    "fact": "EM确认精密压铸件制造；原年报确认光模块领域订单已取得。",
+    "ths_fact": "CPO解释称锌合金业务进入光模块，订单集中OSFP/QSFP400G及800G。",
+    "company_fact": "EM确认精密压铸件制造；原年报确认光模块领域订单已取得。",
+    "reason": "已有CPO板块中以真实光模块配套零件关联判断，优先于机器人团队规划；仅记录订单，不声称制造光芯片、真正CPO封装器件或该业务已确认收入。",
+    "source_sector_name": "共封装光学(CPO)",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "600933.SH_12282035",
+        "source_kind": "official_filing",
+        "publisher": "爱柯迪",
+        "title": "2025年年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=600933&id=12282035",
+        "published_at": null,
+        "assertions": [
+          "锌合金业务已进入光模块领域，订单集中OSFP/QSFP400G及800G。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "600935.SH",
+    "key": "pvc",
+    "sector": "PVC",
+    "chain": [
+      "一体化PVC和氯碱化工制造"
+    ],
+    "stage": "revenue",
+    "fact": "主营PVC和烧碱，并包括三氯氢硅、PBAT生产销售。",
+    "ths_fact": "PVC解释确认PVC、烧碱和原料循环体系；可降解塑料旧解释为在建。",
+    "company_fact": "主营PVC和烧碱，并包括三氯氢硅、PBAT生产销售。",
+    "reason": "PVC是具体且持续产业化的市场主线；硅材料与PBAT的业务进展保留，不将旧在建文本视为已证规模。",
+    "source_sector_name": "PVC",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600936.SH",
+    "key": "ai_agents",
+    "sector": "AI智能体",
+    "chain": [
+      "交科集团科宝交通大模型与智能体中台"
+    ],
+    "stage": "product",
+    "fact": "原年报确认2025年8月29日交科51%置入交割完成，并推出科宝交通大模型、开展智慧管养应用。",
+    "ths_fact": "2025年12月解释确认科宝智能体中台发布，另有道路养护查询检索与推理功能。",
+    "company_fact": "原年报确认2025年8月29日交科51%置入交割完成，并推出科宝交通大模型、开展智慧管养应用。",
+    "reason": "交易完成后应按智慧交通新业务判断，已有具体AI产品支撑智能体主题；product不将所有工程收入记成智能体收入，旧广电业务标签不沿用。",
+    "source_sector_name": "AI智能体",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "600936.SH_12113335",
+        "source_kind": "official_filing",
+        "publisher": "北投科技",
+        "title": "2025年年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=600936&id=12113335",
+        "published_at": null,
+        "assertions": [
+          "2025年8月29日交科集团51%股权过户，资产置换交割完成。",
+          "推出科宝交通大模型，并以其应用构建智慧管养技术体系。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "600938.SH",
+    "key": "oil_gas_extraction",
+    "sector": "油气开采",
+    "chain": [
+      "海上油气勘探、开发、生产及销售"
+    ],
+    "stage": "revenue",
+    "fact": "主营油气勘探开发生产销售，是海上油气生产商。",
+    "ths_fact": "油气开采与天然气解释均确认常规和非常规油气业务；风电为转型拓展。",
+    "company_fact": "主营油气勘探开发生产销售，是海上油气生产商。",
+    "reason": "油气开采是已经形成资源生产销售的核心市场身份；海工装备标签不意味着主要向外销售装备。",
+    "source_sector_name": "油气开采",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  }
+]

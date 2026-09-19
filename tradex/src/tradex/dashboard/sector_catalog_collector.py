@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import sqlite3
+import time
 from datetime import datetime
 from functools import lru_cache
 from pathlib import Path
@@ -11,7 +12,7 @@ from zoneinfo import ZoneInfo
 
 from tradex.market_watch.contracts import SectorFlowSeriesV1
 from tradex.market_watch.integrity import stable_sha256
-from tradex.market_watch.sector_catalog import SectorCatalogStore, build_catalog, catalog_db_path
+from tradex.market_watch.sector_catalog import SectorCatalogStore, build_catalog, catalog_db_path, expected_minutes
 from .rotation_radar import (
     ROTATION_CONFIG_VERSION, ROTATION_SCHEMA_VERSION,
     _rank_snapshot, _sector_flow_definitions_for, _sector_flow_match,
@@ -27,28 +28,80 @@ def _board_key(source, taxonomy, code):
 
 _rank_cache_scope = None
 _rank_cache = {}
-_last_optional_target = {}
 
 
-def _repair_one_hotspot(catalog, observed):
-    from tradex.data_gateway.sector_flow import refresh_optional_sector_intraday_fund_flow
+def _repair_catalog_curves(catalog, observed, *, db_path=None, max_targets=32, time_budget_seconds=20.0, clock=None):
+    from tradex.data_gateway.sector_flow import (
+        refresh_optional_sector_intraday_fund_flow, sector_intraday_repair_window_open,
+    )
 
     if catalog.trade_date != observed.date().isoformat():
-        return
-    targets = sorted((e for e in catalog.entries if e.hot_state != "none"
-                      and e.curve_support == "same_source" and e.missing_minutes
-                      and not e.legacy_keys), key=lambda e: e.sector_key)
+        return False
+    clock = clock or (lambda: observed)
+    if not sector_intraday_repair_window_open(clock()):
+        return False
+    minute = observed.hour * 60 + observed.minute
+    bulk_window = minute >= 900 or 690 <= minute < 780
+    displayed = {e.sector_key for e in sorted(
+        (e for e in catalog.entries if e.hot_state == "active" and e.point_count),
+        key=lambda e: e.change_pct if e.change_pct is not None else float("-inf"), reverse=True)[:12]}
+    def priority(entry):
+        # Drain old/internal holes before repeatedly chasing a fresh trailing minute.
+        overdue = any(int(m[:2]) * 60 + int(m[3:]) <= minute - 5 for m in entry.missing_minutes)
+        return (not overdue, entry.sector_key not in displayed, entry.hot_state == "none",
+                attempts.get(entry.sector_key, {}).get("last_attempt_at", ""), entry.sector_key)
+    with SectorCatalogStore(db_path, read_only=False) as journal:
+        attempts = journal.repair_attempts(catalog.trade_date)
+        # Repair only the previous implementation's provable non-request backoff.
+        # Real in-window failures retain their retry deadlines and counters.
+        for key, attempt in attempts.items():
+            if (attempt["outcome"] == "no_progress" and attempt["error"] == "no_missing_minutes_returned"
+                    and not sector_intraday_repair_window_open(datetime.fromisoformat(attempt["last_attempt_at"]))):
+                journal.defer_repair(catalog.trade_date, key, observed)
+        attempts = journal.repair_attempts(catalog.trade_date)
+    targets = sorted((e for e in catalog.entries
+                      if e.curve_support == "same_source" and e.missing_minutes
+                      and e.observed_today
+                      and (e.sector_key not in attempts or
+                           datetime.fromisoformat(attempts[e.sector_key]["next_retry_at"]) <= observed)),
+                     key=priority)
     if not targets:
-        return
-    last = _last_optional_target.get(catalog.trade_date, "")
-    entry = next((e for e in targets if e.sector_key > last), targets[0])
-    result = refresh_optional_sector_intraday_fund_flow(dict(
-        sector_key=entry.sector_key, name=entry.name, taxonomy=entry.taxonomy,
-        provider_sector_code=entry.provider_sector_code, source_family=entry.source_family,
-    ), observed_at=observed)
-    if result is not None:
-        _last_optional_target.clear()
-        _last_optional_target[catalog.trade_date] = entry.sector_key
+        return False
+    started = time.monotonic()
+    improved = False
+    consecutive_failures = 0
+    budget = time_budget_seconds if bulk_window else min(time_budget_seconds, 10.0)
+    for entry in targets[:max_targets if bulk_window else min(max_targets, 4)]:
+        attempt_at = clock()
+        if (time.monotonic() - started >= budget
+                or attempt_at.date().isoformat() != catalog.trade_date
+                or not sector_intraday_repair_window_open(attempt_at)):
+            break
+        with SectorCatalogStore(db_path, read_only=False) as journal:
+            journal.begin_repair(catalog.trade_date, entry.sector_key, attempt_at)
+        error = None
+        try:
+            result = refresh_optional_sector_intraday_fund_flow(dict(
+                sector_key=entry.sector_key, name=entry.name, taxonomy=entry.taxonomy,
+                provider_sector_code=entry.provider_sector_code, source_family=entry.source_family,
+            ), observed_at=attempt_at)
+        except Exception as exc:
+            result, error = {}, type(exc).__name__
+        if result is None:
+            with SectorCatalogStore(db_path, read_only=False) as journal:
+                journal.defer_repair(catalog.trade_date, entry.sector_key, attempt_at)
+            break
+        minutes = {str(point["provider_as_of"])[11:16]
+                   for point in (result or {}).get(entry.sector_key, ())}
+        gained = bool(minutes.intersection(entry.missing_minutes))
+        with SectorCatalogStore(db_path, read_only=False) as journal:
+            journal.finish_repair(catalog.trade_date, entry.sector_key, attempt_at, gained=gained,
+                                  error=error or (None if gained else "no_missing_minutes_returned"))
+        improved = improved or gained
+        consecutive_failures = 0 if gained else consecutive_failures + 1
+        if consecutive_failures >= 3:
+            break
+    return improved
 
 
 def _identity(item):
@@ -89,6 +142,37 @@ def _hot_evidence(ranked, definitions):
 
 
 def refresh_sector_catalog(*, now=None, schedule_backfill=True, db_path=None):
+    """One restartable reconcile/download/publish/check cycle, owned by Collector."""
+    observed = now or datetime.now(ZoneInfo("Asia/Shanghai"))
+    if observed.tzinfo is None:
+        raise ValueError("catalog recovery requires timezone")
+    observed = observed.astimezone(ZoneInfo("Asia/Shanghai"))
+    path = Path(db_path or catalog_db_path()).resolve()
+    try:
+        result = _materialize_sector_catalog(now=observed, db_path=path)
+        with SectorCatalogStore(path, read_only=False) as journal:
+            catalog = journal.latest()
+            if catalog is None:
+                return result
+            journal.record_recovery(catalog, observed, state="running" if schedule_backfill else None)
+        repair_clock = (lambda: now.astimezone(ZoneInfo("Asia/Shanghai"))) if now is not None else (
+            lambda: datetime.now(ZoneInfo("Asia/Shanghai")))
+        if schedule_backfill and _repair_catalog_curves(catalog, observed, db_path=path, clock=repair_clock):
+            result = _materialize_sector_catalog(now=observed, db_path=path)
+        with SectorCatalogStore(path, read_only=False) as journal:
+            journal.record_recovery(journal.latest(), observed)
+        return result
+    except Exception as exc:
+        # Keep download checkpoints and the old published revision; next cycle
+        # can publish successful cache writes without downloading them again.
+        with SectorCatalogStore(path, read_only=False) as journal:
+            catalog = journal.latest()
+            if catalog is not None:
+                journal.record_recovery(catalog, observed, state="failed", error=type(exc).__name__)
+        raise
+
+
+def _materialize_sector_catalog(*, now, db_path):
     """No new quote requests: materialize all observed boards, with bounded repair."""
     from tradex.data_gateway.sector_flow import (
         read_sector_intraday_fund_flow_backfill,
@@ -106,17 +190,22 @@ def refresh_sector_catalog(*, now=None, schedule_backfill=True, db_path=None):
     if not rows:
         return {"action": "unavailable", "reason": "no_rotation_snapshots"}
     day = rows[-1]["trade_date"]
+    actual_cutoff = datetime.fromisoformat(rows[-1]["minute_bucket"])
+    close = actual_cutoff.replace(hour=15, minute=0, second=0, microsecond=0)
+    coverage = max(actual_cutoff, min(observed, close))
+    due_minutes = expected_minutes(coverage)
+    if due_minutes:
+        coverage = max(actual_cutoff, datetime.fromisoformat(f"{day}T{due_minutes[-1]}:00+08:00"))
     supplements = read_sector_intraday_fund_flow_backfill(trading_date=day)
     source_revision = stable_sha256({
-        "rules": "sector-catalog-v1.2",
+        "rules": "sector-catalog-v1.3",
+        "expected_minutes": due_minutes,
         "rows": [(r["minute_bucket"], hashlib.sha256(r["payload_blob"]).hexdigest()) for r in rows],
         "supplements": supplements,
     })
     with SectorCatalogStore(path) as reader:
         previous = reader.latest()
     if previous and previous.source_revision == source_revision:
-        if schedule_backfill:
-            _repair_one_hotspot(previous, now or datetime.now(ZoneInfo("Asia/Shanghai")))
         return {"action": "existing", "catalog_revision": previous.catalog_revision, **previous.counts}
     # Re-normalize only changed source minutes; the cache is confined to this
     # Collector projection and bounded to the one current day/store.
@@ -201,9 +290,8 @@ def refresh_sector_catalog(*, now=None, schedule_backfill=True, db_path=None):
         curves[key] = SectorFlowSeriesV1.model_validate(raw)
     hot = _hot_evidence(ranked, definitions)
     catalog = build_catalog(identities=identities, curves=curves, hot_evidence=hot, previous=previous,
-                            source_revision=source_revision, as_of=as_of, generated_at=observed, quote_as_of=quote_as_of)
+                            source_revision=source_revision, as_of=as_of, generated_at=observed, quote_as_of=quote_as_of,
+                            coverage_as_of=max(as_of, coverage))
     with SectorCatalogStore(path, read_only=False) as writer:
         writer.record(catalog, curves)
-    if schedule_backfill:
-        _repair_one_hotspot(catalog, now or datetime.now(ZoneInfo("Asia/Shanghai")))
     return {"action": "recorded", "catalog_revision": catalog.catalog_revision, **catalog.counts}

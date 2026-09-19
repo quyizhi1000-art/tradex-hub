@@ -1,0 +1,68 @@
+{
+  "instrument_id": "000949.SZ",
+  "name": "新乡化纤",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "000949.SZ",
+    "name": "新乡化纤",
+    "memberships": [
+      "基础化工",
+      "化学纤维",
+      "粘胶",
+      "河南板块",
+      "2026中报预增",
+      "深股通",
+      "基金重仓",
+      "央国企改革"
+    ],
+    "business_sections": [
+      {
+        "title": "化学纤维的生产和销售",
+        "kind": "主营业务",
+        "text": "公司主要从事化学纤维的生产和销售，主要产品包括生物质纤维素长丝和氨纶纤维。"
+      },
+      {
+        "title": "规模和结构优势",
+        "kind": "核心竞争力",
+        "text": "根据中国化学纤维工业协会化纤行业产量排名数据，公司生物质纤维素长丝产能位居行业第一；氨纶产能居国内前三位。公司两大主导产品具有明显的规模优势。"
+      },
+      {
+        "title": "品牌和市场优势",
+        "kind": "核心竞争力",
+        "text": "通过多年的持续经营和自身的不断努力，生物质纤维素长丝在国内外获得良好声誉，氨纶纤维的细旦丝在国内市场也倍受瞩目。“白鹭”牌商标被评为“中国驰名商标”。"
+      },
+      {
+        "title": "技术和装备优势",
+        "kind": "核心竞争力",
+        "text": "公司凭借自身的不断研究和探索，确立了全国主要综合类化纤生产企业的行业地位，拥有生物质纤维素长丝和氨纶生产技术，其中生物质纤维素长丝技术和氨纶连续聚合干法纺丝技术达到国际先进水平。"
+      },
+      {
+        "title": "研发优势",
+        "kind": "核心竞争力",
+        "text": "公司是国家级高新技术企业、全国纺织技术创新示范企业、国家级绿色工厂示范企业、河南省制造业头雁企业、河南省创新龙头企业和河南省节能减排科技创新示范企业。公司拥有博士后科研工作站、河南省菌草医药工程研究中心、省属企业技术中心、河南省再生纤维素纤维公共技术设计研发中心和新乡市差别化氨纶工程技术研究中心、白鹭新材料研究院等研发平台。"
+      },
+      {
+        "title": "管理和人才优势",
+        "kind": "核心竞争力",
+        "text": "公司深耕行业多年，已经建立起较为完善的经营管理体系，在生物质纤维素长丝和氨纶纤维的发展过程中积累了丰富的生产经验，建立了完善的生产控制和产品质量检测流程，保证了生产和质量的稳定。同时培养和吸纳了一批高素质管理人才，打造了一个稳定的技术研发团队和一支成熟的技术工人队伍，为公司的可持续发展提供了有力保障。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ000949",
+    "fetched_at": "2026-09-18T22:36:09.631407+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "氨纶"
+}

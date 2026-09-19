@@ -1,0 +1,60 @@
+{
+  "instrument_id": "002791.SZ",
+  "name": "坚朗五金",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "002791.SZ",
+    "name": "坚朗五金",
+    "memberships": [
+      "建筑材料",
+      "装修建材",
+      "其他建材Ⅲ",
+      "广东板块",
+      "破增发价股",
+      "富时罗素",
+      "深股通",
+      "融资融券",
+      "垃圾分类",
+      "一带一路"
+    ],
+    "business_sections": [
+      {
+        "title": "建筑五金系统及建筑构配件的研发、生产和销售",
+        "kind": "主营业务",
+        "text": "本公司主要从事中高端建筑五金系统及建筑构配件等相关产品的研发、生产和销售，产品线已在原有建筑门窗幕墙五金、门控五金系统、不锈钢护栏构配件等的基础上，加大投入智能锁、新风系统等智能家居、卫浴及精装房五金产品，开始进入安防、地下综合管廊、自然消防排烟与智能通风窗、防火防水材料、机电设备等业务领域，初步形成了以建筑门窗幕墙五金为核心的建筑配套件集成供应商的战略布局。产品广泛应用于住宅建筑、轨道交通、市政工程、学校、工厂及酒店等多类建筑场景。"
+      },
+      {
+        "title": "核心管理团队和关键技术人员",
+        "kind": "核心竞争力",
+        "text": "公司根据《公司法》《中共中央办公厅国务院办公厅关于完善中国特色现代企业制度的意见》完善公司治理结构，组建有股东会、董事会、管理层。公司核心管理团队长期专注于建筑五金领域的发展，总裁重点把控公司发展战略，其他高层管理人员分别负责公司营销、研发与生产、采购与供应链、战略投资、财务等决策和执行工作。"
+      },
+      {
+        "title": "专利和标准化工作",
+        "kind": "核心竞争力",
+        "text": "公司利用信息化管理工具及大数据分析技术相结合搭建起具有坚朗特色的“研发体系管理信息化平台”，快速响应市场需求，精准定位产品研发方向，由单点需求研发向集成产品研发升级；加大产品供给的资源整合力度，打造一体化的“研、产、供、销”智能化管理平台，推动产品智能化生产供给的实现步伐。"
+      },
+      {
+        "title": "生产制造投入情况",
+        "kind": "核心竞争力",
+        "text": "报告期，公司在坚朗河南基地，重点投资建设精制钢和建筑用装饰板项目，采购国内外行业先进设备和生产线，从而保证产品质量和市场竞争力。目前有关工作正在积极地推进中，得到市场和客户的广泛认可，并已形成稳定业务订单。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ002791",
+    "fetched_at": "2026-09-18T22:55:20.721874+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "门窗五金系统"
+}

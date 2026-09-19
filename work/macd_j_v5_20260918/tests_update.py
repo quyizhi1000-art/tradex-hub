@@ -1,0 +1,4 @@
+from pathlib import Path
+p=Path('tradex/tests/test_macd_j_v4.py');s=p.read_text(encoding='utf-8').replace('from tradex.stock_selection.macd_j import screen_macd_j','from tradex.stock_selection.macd_j import screen_macd_j as current_screen\n\ndef screen_macd_j(snapshot):\n    return current_screen(snapshot, version="v4")');p.write_text(s,encoding='utf-8')
+p=Path('tradex/tests/test_intraday_macd_j.py');s=p.read_text(encoding='utf-8').replace('"screen_version":"macd-j-upturn-main-board.v4"','"screen_version":"macd-j-upturn-main-board.v5"').replace('strategy_version="v4") == result','strategy_version="v5") == result');p.write_text(s,encoding='utf-8')
+p=Path('tradex/tests/test_intraday_increment.py');s=p.read_text(encoding='utf-8').replace('assert calls == [(date(2026, 9, 18), "v4")]','assert calls == [(date(2026, 9, 18), "v5")]');p.write_text(s,encoding='utf-8')

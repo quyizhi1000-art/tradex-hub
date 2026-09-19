@@ -1,0 +1,61 @@
+{
+  "instrument_id": "000548.SZ",
+  "name": "湖南投资",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "000548.SZ",
+    "name": "湖南投资",
+    "memberships": [
+      "交通运输",
+      "铁路公路",
+      "高速公路",
+      "湖南板块",
+      "微盘股",
+      "央国企改革"
+    ],
+    "business_sections": [
+      {
+        "title": "高速公路建设运营",
+        "kind": "主营业务",
+        "text": "公司拥有的绕南高速100%收费经营权，管辖里程为28.665公里，路段内有湘江黑石铺特大桥（全长3068米）、梅溪湖隧道（全长3320米），设有黄花塘、坪塘、大托、洞井、万家丽南等5个收费站。"
+      },
+      {
+        "title": "资产管理和物业服务",
+        "kind": "主营业务",
+        "text": "资产管理和物业服务板块是公司经营收入来源之一。公司旗下现拥有广欣发展、君逸物业两家物业公司，业务开展主要依托自主开发的房地产项目和自持的商业地产，目前已运营管理湖南投资大厦、新外滩商业广场自持资产，并承接广润福园、广荣福第、浏阳财富新城等物业服务项目，物管总面积近60万平方米。"
+      },
+      {
+        "title": "酒店投资经营",
+        "kind": "主营业务",
+        "text": "公司“君逸”品牌系列酒店，是公司经营收入来源之一。旗下君逸康年大酒店、君逸山水大酒店两家四星级酒店均地处长沙市内核心地段，经过多年经营，已形成较为成熟的管理模式和体系，积累了一定基础的客户消费群体。"
+      },
+      {
+        "title": "城市综合体投资开发",
+        "kind": "主营业务",
+        "text": "公司城市综合体项目以自主开发、销售为主，业务主要集中在住宅地产开发、商业地产运作等领域，是公司经营收入的主要来源之一。"
+      },
+      {
+        "title": "资产质量优良，盈利能力稳定",
+        "kind": "核心竞争力",
+        "text": "自2006年起，公司已连续20年实现盈利，资产质量优良。近年来，公司通过优化主营业务结构、明确产业定位，构建了以高速公路建设运营、资产管理和物业服务、酒店投资经营、城市综合体投资开发为主导的产业布局。当前，受行业环境影响，部分业务经营数据有所下滑，但公司整体仍具备较为稳定的盈利能力。公司将进一步明确发展目标、细化管理举措，积极应对经营下行压力，增强核心竞争力，同时持续完善法人治理结构、规范经营运作，不断提升治理能力和管理水平，确保企业可持续发展。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ000548",
+    "fetched_at": "2026-09-18T22:35:31.687135+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "房地产"
+}

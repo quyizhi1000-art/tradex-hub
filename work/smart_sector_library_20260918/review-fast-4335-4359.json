@@ -1,0 +1,444 @@
+[
+  {
+    "id": "603706.SH",
+    "key": "natural_gas",
+    "sector": "天然气",
+    "source_sector_name": "天然气",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "城市燃气与集中供热"
+    ],
+    "stage": "revenue",
+    "fact": "经营昌吉城市燃气及伊宁集中供热，提供输配、终端销售和安装服务。",
+    "company_fact": "经营昌吉城市燃气及伊宁集中供热，提供输配、终端销售和安装服务。",
+    "ths_fact": "天然气解析明确城镇燃气输配销售及供热业务。",
+    "reason": "真实经营与天然气标签高度一致，地域标签保留为辅助信息。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603707.SH",
+    "key": "innovative_drugs",
+    "sector": "创新药",
+    "source_sector_name": "创新药",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "自复制mRNA肿瘤免疫药物"
+    ],
+    "stage": "pilot",
+    "fact": "主营无菌注射剂及肝素，同时设生物药创新事业部和多个研发平台。",
+    "company_fact": "主营无菌注射剂及肝素，同时设生物药创新事业部和多个研发平台。",
+    "ths_fact": "已搭建自复制mRNA及LNP平台，自主创新药完成靶标分子设计制备及候选筛选。",
+    "reason": "创新生物药有具体技术平台与候选分子支持，选创新药转型主线；仍属临床前研发，不把肝素或获批仿制药收入称创新药收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603708.SH",
+    "key": "supermarkets",
+    "sector": "超市",
+    "source_sector_name": "超市",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "社区生鲜超市与食品供应链"
+    ],
+    "stage": "revenue",
+    "fact": "核心为综合、社区生鲜及乡村超市连锁，协同零食折扣等业态。",
+    "company_fact": "核心为综合、社区生鲜及乡村超市连锁，协同零食折扣等业态。",
+    "ths_fact": "冷链解析确认生鲜加工中心、中央厨房和农超全链服务。",
+    "reason": "已有超市行业准确体现社区消费零售身份，物流系统为经营支撑，不能当独立机器人或AI供应商。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603709.SH",
+    "key": "cross_border_ecommerce",
+    "sector": "跨境电商",
+    "source_sector_name": "跨境电商",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "海外沙发及家居零售"
+    ],
+    "stage": "revenue",
+    "fact": "主营功能沙发、固定沙发及板式家具，搭建全球销售网络。",
+    "company_fact": "主营功能沙发、固定沙发及板式家具，搭建全球销售网络。",
+    "ths_fact": "2025公告解析明确跨境电商为战略业务且已形成重要收入。",
+    "reason": "跨境线上家具零售已实质经营，既有渠道与产品互证，不能仅因海外销售推定电商，本股有直接电商收入证据。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603711.SH",
+    "key": "soft_drinks",
+    "sector": "软饮料",
+    "source_sector_name": "软饮料",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "冲泡奶茶及即饮茶饮"
+    ],
+    "stage": "revenue",
+    "fact": "经营香飘飘冲泡奶茶、Meco果茶、兰芳园及即饮牛乳茶。",
+    "company_fact": "经营香飘飘冲泡奶茶、Meco果茶、兰芳园及即饮牛乳茶。",
+    "ths_fact": "同股解析确认杯装奶茶、果汁茶及液体奶茶研发生产销售。",
+    "reason": "产品均为饮料，选已有软饮料行业比宽泛休闲零食或金融投资标签贴合。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603712.SH",
+    "key": "defense_informatization",
+    "sector": "军工信息化",
+    "source_sector_name": "军工信息化",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "军用专网无线通信终端及系统"
+    ],
+    "stage": "revenue",
+    "fact": "军用无线通信覆盖手持、机载、舰载等装备与多频段。",
+    "company_fact": "军用无线通信覆盖手持、机载、舰载等装备与多频段。",
+    "ths_fact": "军工信息化解析明确军用专网终端及系统研发生产销售。",
+    "reason": "军用通信装备为直接稳定业务，军事信息化比单一卫星或无人机题材覆盖更准确。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603713.SH",
+    "key": "smart_logistics",
+    "sector": "智能物流",
+    "source_sector_name": "智能物流",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "化工供应链及4PL平台"
+    ],
+    "stage": "revenue",
+    "fact": "提供货代仓储运输一站式化工物流，并延伸化工品交易。",
+    "company_fact": "提供货代仓储运输一站式化工物流，并延伸化工品交易。",
+    "ths_fact": "4PL SaaS物流系统面向客户统一管理订单、运输和仓储，形成供应商数字协同。",
+    "reason": "化工综合物流叠加已运营客户平台，支撑智能物流；内部大模型知识库不单独构成AI主业。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603716.SH",
+    "key": "ai_applications",
+    "sector": "AI应用",
+    "source_sector_name": "AI应用",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "医疗大模型与数字诊疗"
+    ],
+    "stage": "pilot",
+    "fact": "从SPD及IVD运营拓展医疗数智化、辅助决策和数字疗法。",
+    "company_fact": "从SPD及IVD运营拓展医疗数智化、辅助决策和数字疗法。",
+    "ths_fact": "海思灵曦数字诊疗系统在21家医疗机构开展数据收集优化，另开发耐药菌预测及诊疗专家系统。",
+    "reason": "已有具名诊疗产品和多中心验证支撑AI医疗应用主线；试验优化不等于商业收入，也不把脑科学合作自动称植入式脑机硬件。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603717.SH",
+    "key": "ecological_agriculture",
+    "sector": "生态农业",
+    "source_sector_name": "生态农业",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "农牧食品与生物健康产品"
+    ],
+    "stage": "revenue",
+    "fact": "以天乾食品经营农牧食品，整合猪源并拓展红曲及农副产品，旧园林原则上不再新增。",
+    "company_fact": "以天乾食品经营农牧食品，整合猪源并拓展红曲及农副产品，旧园林原则上不再新增。",
+    "ths_fact": "生态农业解析列农牧及农产品销售，与能源、环境业务并行。",
+    "reason": "选农业食品转型现有身份，不能继续机械沿用旧园林行业，也不将参股电解质厂全部算自营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603718.SH",
+    "key": "dental_care",
+    "sector": "牙科医疗",
+    "source_sector_name": "牙科医疗",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "口腔骨修复材料及口腔服务"
+    ],
+    "stage": "revenue",
+    "fact": "原半年报确认重组后已形成口腔修复及医疗服务为主、IVD为辅。",
+    "company_fact": "原半年报确认重组后已形成口腔修复及医疗服务为主、IVD为辅。",
+    "ths_fact": "牙科医疗解析明确子公司瑞盛生物口腔骨修复材料用于种植牙骨缺损修复。",
+    "reason": "口腔材料与服务是现有业务，原报告排除旧动物疫苗主营描述，ST风险状态不替代业务归属。",
+    "basis": "crosschecked_sources",
+    "extra_evidence": [
+      {
+        "evidence_id": "603718-original-2026h1",
+        "source_kind": "official_filing",
+        "publisher": "海利生物",
+        "title": "2026年半年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12569247&stockid=603718",
+        "published_at": "2026-08-29",
+        "assertions": [
+          "公司已由动保人保并行转向专注人保，当前口腔修复及医疗服务为主，IVD为辅。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "603719.SH",
+    "key": "snack_food_industry",
+    "sector": "休闲食品",
+    "source_sector_name": "休闲食品",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "全品类零食零售"
+    ],
+    "stage": "revenue",
+    "fact": "围绕休闲食品研发采购销售配送及全渠道运营。",
+    "company_fact": "围绕休闲食品研发采购销售配送及全渠道运营。",
+    "ths_fact": "解析列儿童零食、奶酪鱼肠、坚果月饼等实际产品及销售。",
+    "reason": "全品类零食品牌经营为明确身份，IP礼盒营销和乳品合作均属产品延伸，不因此改作谷子主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603721.SH",
+    "key": "ai_training_data",
+    "sector": "AI语料",
+    "source_sector_name": "AI语料",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "音视频大模型训练数据"
+    ],
+    "stage": "revenue",
+    "fact": "文科融合业务构建大规模高清音视频语料库，与多家大模型企业合作。",
+    "company_fact": "文科融合业务构建大规模高清音视频语料库，与多家大模型企业合作。",
+    "ths_fact": "数据要素解析明确音视频语料付费合作与交付，AI语料解析指向高质量算料供应。",
+    "reason": "已有付费语料交付，把内容版权转化为AI训练数据是真实市场主线，不仅是普通影视生产或泛AI合作。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603722.SH",
+    "key": "new_materials",
+    "sector": "新材料",
+    "source_sector_name": "新材料",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "聚醚胺与高端光学聚合物"
+    ],
+    "stage": "revenue",
+    "fact": "生产聚醚胺、光学聚合物树脂及已产业化COC高透光材料。",
+    "company_fact": "生产聚醚胺、光学聚合物树脂及已产业化COC高透光材料。",
+    "ths_fact": "解析确认光学树脂、聚醚胺及特种树脂产品，丙烯酸酯用于涂料。",
+    "reason": "高端聚合物跨风电光学等用途，新材料为已有且一致的主题；燃料电池投资不自动替换主营身份。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603725.SH",
+    "key": "robotics",
+    "sector": "机器人",
+    "source_sector_name": "机器人概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "参股机器人驱动控制与智能加工方案"
+    ],
+    "stage": "delivery",
+    "fact": "经营复合饰面材料及家居工程，原半年报确认与参股若铂深化智能制造合作。",
+    "company_fact": "经营复合饰面材料及家居工程，原半年报确认与参股若铂深化智能制造合作。",
+    "ths_fact": "2025年8月解析披露完成若铂18%战略投资，标的研发伺服驱动、控制算法与机器人解决方案。",
+    "reason": "重要战略参股带来机器人关联，原报告证实标的驱动控制及智能加工方案已落地；属投资主线，不将若铂收入写为公司并表收入，材料业务仍是现有基本盘。",
+    "basis": "crosschecked_sources",
+    "relation": "investment",
+    "investment_reviewed": true,
+    "extra_evidence": [
+      {
+        "evidence_id": "603725-original-2026h1",
+        "source_kind": "official_filing",
+        "publisher": "天安新材",
+        "title": "2026年半年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12567178&stockid=603725",
+        "published_at": "2026-08-29",
+        "assertions": [
+          "公司进一步加强与参股公司若铂机器人的合作。",
+          "若铂自研天然橡胶智能加工方案入选2026年国家发改委案例集，驱动控制及小模型低代码AI技术已有成熟落地；上述投资暂不构成重大业绩影响。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "603726.SH",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "机器人关节电机模组"
+    ],
+    "stage": "pilot",
+    "fact": "原半年报确认联合浙江大学机器人研究院研发关节电机模组，第二版已设计制样。",
+    "company_fact": "原半年报确认联合浙江大学机器人研究院研发关节电机模组，第二版已设计制样。",
+    "ths_fact": "人形机器人解析明确电机减速器控制一体关节方案适用于人形及协作机器人，样机验证完成但未量产。",
+    "reason": "直接关节模组研发支持人形机器人主线，最新原报告仍为验证及客户积累阶段且无收入；不把参股封测收益或风机收入称机器人收入。",
+    "basis": "crosschecked_sources",
+    "extra_evidence": [
+      {
+        "evidence_id": "603726-original-2026h1",
+        "source_kind": "official_filing",
+        "publisher": "朗迪集团",
+        "title": "2026年半年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12566346&stockid=603726",
+        "published_at": "2026-08-29",
+        "assertions": [
+          "已完成第二版关节模组设计制样并新增两个型号，推进验证和客户积累；相关在研项目尚未产生营业收入。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "603727.SH",
+    "key": "offshore_equipment",
+    "sector": "海工装备",
+    "source_sector_name": "海工装备",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "FPSO及海洋油气模块"
+    ],
+    "stage": "revenue",
+    "fact": "提供天然气液化、海洋油气及矿业专用模块集成设计建造。",
+    "company_fact": "提供天然气液化、海洋油气及矿业专用模块集成设计建造。",
+    "ths_fact": "可为FPSO及海洋平台提供生活楼、电气及上部油气处理全平台模块。",
+    "reason": "直接海工模块设计制造比油气开采资源标签更准确，公司并非据此拥有油气储量。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603728.SH",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "灵巧手电机与一体化关节"
+    ],
+    "stage": "orders",
+    "fact": "核心为控制电机、驱动系统和精密运动控制完整技术体系。",
+    "company_fact": "核心为控制电机、驱动系统和精密运动控制完整技术体系。",
+    "ths_fact": "人形领域已形成电机驱动传动闭环平台，覆盖空心杯、无框电机、编码器、丝杠及关节模组，取得持续扩大的批量订单。",
+    "reason": "直接运动控制核心零件和批量订单使人形机器人归属明确，不能被传统电机行业或新增液冷配套冲淡。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603729.SH",
+    "key": "influencer_economy",
+    "sector": "网红经济",
+    "source_sector_name": "网红经济",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "MCN及短视频整合营销"
+    ],
+    "stage": "revenue",
+    "fact": "提供广告媒介代理和数字营销全案服务，另有酒类经销。",
+    "company_fact": "提供广告媒介代理和数字营销全案服务，另有酒类经销。",
+    "ths_fact": "旗下MCN已入驻多个平台开展账号运营、视频制作、直播代运营及红人孵化。",
+    "reason": "已运营MCN与内容营销支撑网红经济身份，文旅战略协议未证明景区已投运。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603730.SH",
+    "key": "new_energy_vehicles",
+    "sector": "新能源汽车",
+    "source_sector_name": "新能源汽车",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "新能源车内饰配套"
+    ],
+    "stage": "revenue",
+    "fact": "主营汽车内饰件研发生产销售，全球生产研发销售网络。",
+    "company_fact": "主营汽车内饰件研发生产销售，全球生产研发销售网络。",
+    "ths_fact": "解析明确为特斯拉、蔚来、小鹏、理想等配套遮阳板等内饰产品。",
+    "reason": "新能源车零部件已有明确客户及实际供应，不仅是潜在适用；跨多家车企不只绑定单一品牌。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603733.SH",
+    "key": "specialty_paper",
+    "sector": "特种纸",
+    "source_sector_name": "特种纸",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "高性能纸基功能材料"
+    ],
+    "stage": "revenue",
+    "fact": "经营食品医疗、烟草、工业电气及消费等六大纸基材料系列。",
+    "company_fact": "经营食品医疗、烟草、工业电气及消费等六大纸基材料系列。",
+    "ths_fact": "解析确认电容器绝缘纸、食品包装替塑纸及医疗无菌包装纸。",
+    "reason": "共同核心为特种功能纸，不能将包装材料等同医疗器械制造，也不把园区自用光伏当绿电供应主业。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603737.SH",
+    "key": "construction_coatings",
+    "sector": "建筑涂料",
+    "source_sector_name": "建筑涂料",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "墙面涂料与防水材料"
+    ],
+    "stage": "revenue",
+    "fact": "主营墙面涂料、防水、地坪、保温、木器及工业涂料。",
+    "company_fact": "主营墙面涂料、防水、地坪、保温、木器及工业涂料。",
+    "ths_fact": "建筑涂料解析确认民族涂料品牌与生产业务；另有航天特种涂层应用。",
+    "reason": "建筑涂装品牌及系统材料是综合市场身份，航天涂层虽真实但单项应用不足以替代建筑涂料主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603738.SH",
+    "key": "cpo",
+    "sector": "共封装光学(CPO)",
+    "source_sector_name": "共封装光学(CPO)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "高速光通信低相噪晶振时钟"
+    ],
+    "stage": "product",
+    "fact": "具备全频段晶振及有源振荡器量产技术，布局超高基频低抖动等高端产品。",
+    "company_fact": "具备全频段晶振及有源振荡器量产技术，布局超高基频低抖动等高端产品。",
+    "ths_fact": "针对200G至1.6T光通信推出高基频低相噪差分时钟方案，并开发面向AI数据中心的312.5MHz温补振荡器。",
+    "reason": "高速光通信时钟有具名产品支持CPO关联主线，环节是晶振配套，并非CPO光引擎；不由通用光刻工艺推断生产光刻机。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603739.SH",
+    "key": "synthetic_biology",
+    "sector": "合成生物",
+    "source_sector_name": "合成生物",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "工程酶与微生态生物制造"
+    ],
+    "stage": "pilot",
+    "fact": "研发生产酶制剂、微生态制剂及动物保健品，覆盖生物催化用酶。",
+    "company_fact": "研发生产酶制剂、微生态制剂及动物保健品，覆盖生物催化用酶。",
+    "ths_fact": "已设合成生物实验室并开展多项研发，天然甜味蛋白索马甜开发完成，持续进行酶蛋白及代谢通路优化。",
+    "reason": "酶与微生态平台为合成生物主题提供技术业务基础，明确新路线研发属性，不将全部现有酶收入均称合成生物增量。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603755.SH",
+    "key": "condiments",
+    "sector": "调味品",
+    "source_sector_name": "调味品",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "定制复合调味料"
+    ],
+    "stage": "revenue",
+    "fact": "面向餐饮食品加工及零售提供酱汁、粉料及添加剂。",
+    "company_fact": "面向餐饮食品加工及零售提供酱汁、粉料及添加剂。",
+    "ths_fact": "解析确认专业复合调味解决方案及味之物语零售产品。",
+    "reason": "实际产品研发与销售均为调味品，预制菜募投计划或内部AI工具不能替代主归属。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603757.SH",
+    "key": "liquid_cooled_servers",
+    "sector": "液冷服务器",
+    "source_sector_name": "液冷服务器",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "数据中心温控屏蔽泵"
+    ],
+    "stage": "orders",
+    "fact": "主营各类泵，新沪屏蔽技术覆盖温控液冷及工业等场景。",
+    "company_fact": "主营各类泵，新沪屏蔽技术覆盖温控液冷及工业等场景。",
+    "ths_fact": "数据机房液冷已有成熟产品及小批订单，华为中兴仍为测试阶段，其他客户已有订单。",
+    "reason": "液冷核心循环部件具备产品及订单，支撑算力温控主线；区分送测客户与已下单客户，不升级为全面放量收入。",
+    "basis": "crosschecked_sources"
+  }
+]

@@ -1,0 +1,80 @@
+[
+  {
+    "id": "301287.SZ",
+    "key": "ai_agents",
+    "sector": "AI智能体",
+    "source_sector_name": "AI智能体",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "智能健身器材",
+      "运动评估与训练方案"
+    ],
+    "company_fact": "健身器材研发制造及互联网健身服务，提供智慧健身方案。",
+    "ths_fact": "智能体在家用健身房等器材实时分析运动并调整训练计划。",
+    "fact": "健身器材研发制造及互联网健身服务，提供智慧健身方案。",
+    "reason": "自有器材已有具体智能体应用功能，取product，不以传统器材收入推AI收费收入。"
+  },
+  {
+    "id": "301288.SZ",
+    "key": "wastewater_treatment",
+    "sector": "污水处理",
+    "source_sector_name": "污水处理",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "快速生化水处理",
+      "工业废水治理"
+    ],
+    "company_fact": "有机废水为基石并拓展工业污水和危废资源化。",
+    "ths_fact": "RPIR和T-Bic系列快速生化与高难废水技术产品。",
+    "fact": "有机废水为基石并拓展工业污水和危废资源化。",
+    "reason": "核心自有污水技术和运营持续成立，镍回收为扩展业务，不误称采矿企业。"
+  },
+  {
+    "id": "301289.SZ",
+    "key": "superconductors",
+    "sector": "超导",
+    "source_sector_name": "超导概念",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "超导电缆检测"
+    ],
+    "company_fact": "电线电缆检验检测服务涵盖中高压及通信电缆等。",
+    "ths_fact": "参与上海35kV公里级超导电缆示范工程检测技术支持。",
+    "fact": "电线电缆检验检测服务涵盖中高压及通信电缆等。",
+    "reason": "超导既有概念有实际项目服务，链位只检测；控股股东的超导股权不当上市公司直接持股。"
+  },
+  {
+    "id": "301290.SZ",
+    "key": "medical_devices",
+    "sector": "医疗器械",
+    "source_sector_name": "医疗器械概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "外科吻合器",
+      "手术耗材"
+    ],
+    "company_fact": "外科吻合器及组件研发生产销售，覆盖手术设备耗材。",
+    "ths_fact": "医疗器械解释主营直接一致，重组胶原仅委托开发合同。",
+    "fact": "外科吻合器及组件研发生产销售，覆盖手术设备耗材。",
+    "reason": "成熟自有医疗器械业务明确，委托研发不当已上市重组蛋白产品。"
+  },
+  {
+    "id": "301291.SZ",
+    "key": "data_centers",
+    "sector": "数据中心(AIDC)",
+    "source_sector_name": "数据中心(AIDC)",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "数据中心供配电设备"
+    ],
+    "company_fact": "变压器箱变开关成套输配电研发生产销售。",
+    "ths_fact": "My Power数据中心供电模块应用于通信与数据中心项目。",
+    "fact": "变压器箱变开关成套输配电研发生产销售。",
+    "reason": "已有AIDC概念有实际数据中心电力配套，链位为供配电而非运营算力机房。"
+  }
+]

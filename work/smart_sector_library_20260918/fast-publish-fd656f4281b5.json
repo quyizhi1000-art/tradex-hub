@@ -1,0 +1,77 @@
+[
+  {
+    "id": "603393.SH",
+    "key": "natural_gas",
+    "sector": "天然气",
+    "source_sector_name": "天然气",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "天然气输配与煤层气"
+    ],
+    "fact": "天然气输配销售及非常规气常规油气勘探开发。",
+    "company_fact": "天然气输配销售及非常规气常规油气勘探开发。",
+    "ths_fact": "城市燃气供应安装及煤层气开采销售。",
+    "reason": "煤炭探矿权不等于已采煤经营。"
+  },
+  {
+    "id": "603395.SH",
+    "key": "fertilizer",
+    "sector": "化肥",
+    "source_sector_name": "化肥",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "复合肥和氮肥"
+    ],
+    "fact": "复合肥氮肥研发生产销售及农化服务。",
+    "company_fact": "复合肥氮肥研发生产销售及农化服务。",
+    "ths_fact": "常规复合肥配方肥特种肥氮肥产品。",
+    "reason": "农业投入品主业，参股银行不改变身份。"
+  },
+  {
+    "id": "603396.SH",
+    "key": "photovoltaics",
+    "sector": "光伏",
+    "source_sector_name": "光伏概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "光伏组件及电池制造装备"
+    ],
+    "fact": "组件上料焊接层压封装检测整线交钥匙。",
+    "company_fact": "组件上料焊接层压封装检测整线交钥匙。",
+    "ths_fact": "光伏自动化成套装备生产销售，不生产电池组件。",
+    "reason": "设备商身份明确，新半导体项目拟建不作已投产业务。"
+  },
+  {
+    "id": "603398.SH",
+    "key": "photovoltaics",
+    "sector": "光伏",
+    "source_sector_name": "光伏概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "单晶硅棒硅片"
+    ],
+    "fact": "全资豪安能源单晶硅棒硅片生产销售。",
+    "company_fact": "全资豪安能源单晶硅棒硅片生产销售。",
+    "ths_fact": "单晶硅棒硅片研发生产销售。",
+    "reason": "硅片业务已运营；TOPCON旧投资合同不替代实际经营，玩具编程机器人为次标签。"
+  },
+  {
+    "id": "603399.SH",
+    "key": "lithium",
+    "sector": "锂",
+    "source_sector_name": "锂",
+    "source_sector_provider": "东方财富",
+    "stage": "revenue",
+    "chain": [
+      "电池级锂盐"
+    ],
+    "fact": "湖南永杉锂盐产销量实际增加，兼有钼炉料。",
+    "company_fact": "湖南永杉锂盐产销量实际增加，兼有钼炉料。",
+    "ths_fact": "锂电解析确认碳酸锂氢氧化锂研发生产销售。",
+    "reason": "锂盐加工而非凭产能证明自有锂矿；硫化锂中试筹备不算固态量产。"
+  }
+]

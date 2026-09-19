@@ -1,0 +1,441 @@
+[
+  {
+    "id": "603190.SH",
+    "key": "tesla",
+    "sector": "特斯拉",
+    "source_sector_name": "特斯拉概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "车身冲焊件"
+    ],
+    "stage": "revenue",
+    "fact": "生产汽车冲压焊接和铝压铸零部件，另有矿用运输设备。",
+    "company_fact": "生产汽车冲压焊接和铝压铸零部件，另有矿用运输设备。",
+    "ths_fact": "招股书载明为特斯拉一级供应商，供应Model3和Y尾灯支架。",
+    "reason": "明确车型配套及供应关系支撑主线，煤矿机器人测试不写成量产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603191.SH",
+    "key": "yarlung_hydropower",
+    "sector": "雅下水电",
+    "source_sector_name": "雅下水电概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "高原变压器"
+    ],
+    "stage": "orders",
+    "fact": "生产变压器、箱变及取向硅钢。",
+    "company_fact": "生产变压器、箱变及取向硅钢。",
+    "ths_fact": "2025年8月云变签约39台雅下项目变压器，包括施工变。",
+    "reason": "具体雅下合同提供主题依据，区分施工供电变压器与电站最终发电装备。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603192.SH",
+    "key": "polyurethane",
+    "sector": "聚氨酯",
+    "source_sector_name": "聚氨酯",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "功能聚氨酯材料"
+    ],
+    "stage": "revenue",
+    "fact": "研发生产销售聚氨酯材料。",
+    "company_fact": "研发生产销售聚氨酯材料。",
+    "ths_fact": "合成革解析明确革用PU、弹性体原液及聚酯多元醇。",
+    "reason": "材料业务清晰；固态电池隔垫和机器人材料部分送样，不当成量产主业。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603193.SH",
+    "key": "infant_child_products",
+    "sector": "婴童",
+    "source_sector_name": "婴童概念",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "婴童护理消费品"
+    ],
+    "stage": "revenue",
+    "fact": "形成婴童护理、驱蚊及精油三大系列。",
+    "company_fact": "形成婴童护理、驱蚊及精油三大系列。",
+    "ths_fact": "婴儿舒缓膏、湿巾和洗发沐浴露构成婴童护理产品。",
+    "reason": "婴童消费产品与渠道身份直接，IP联名作为营销产品标签。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603194.SH",
+    "key": "robotics",
+    "sector": "机器人",
+    "source_sector_name": "机器人概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "移动搬运机器人"
+    ],
+    "stage": "delivery",
+    "fact": "叉车及数智物流板块提供智能物料搬运方案。",
+    "company_fact": "叉车及数智物流板块提供智能物料搬运方案。",
+    "ths_fact": "搬马机器人已在物流转运中心应用。",
+    "reason": "实际移动机器人产品及使用场景支持归属，不等同人形机器人。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603195.SH",
+    "key": "data_centers",
+    "sector": "数据中心(AIDC)",
+    "source_sector_name": "数据中心(AIDC)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "智能PDU与模块机房"
+    ],
+    "stage": "delivery",
+    "fact": "电连接业务包含数据中心配电产品。",
+    "company_fact": "电连接业务包含数据中心配电产品。",
+    "ths_fact": "2026中报解析称大功率智能PDU量产、模块化机房首批交付及项目验收。",
+    "reason": "配电升级和模块机房构成实际算力基础设施供给，不将传统插座销售全部列为AIDC。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603196.SH",
+    "key": "lithium_batteries",
+    "sector": "锂电池",
+    "source_sector_name": "锂电池概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "电池粘结剂"
+    ],
+    "stage": "revenue",
+    "fact": "锂电粘结剂与服装双业务，产品含负极及隔膜粘结剂。",
+    "company_fact": "锂电粘结剂与服装双业务，产品含负极及隔膜粘结剂。",
+    "ths_fact": "锂电池解析明确粘结剂研发生产销售。",
+    "reason": "原报核实收购茵地乐71%完成且2026年并表，不能沿用2023锦源晟拟收购正极业务。",
+    "basis": "crosschecked_sources",
+    "extra_evidence": [
+      {
+        "evidence_id": "603196-h1-2026",
+        "source_kind": "official_filing",
+        "publisher": "璞源材料",
+        "title": "2026年半年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12497889&stockid=603196",
+        "published_at": "2026-08-18",
+        "assertions": [
+          "2025年12月31日完成收购茵地乐71%过户，2026年起利润表现金流量表并表，经营锂电粘结剂。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "603197.SH",
+    "key": "autonomous_driving",
+    "sector": "无人驾驶",
+    "source_sector_name": "无人驾驶",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "智能驾驶感知"
+    ],
+    "stage": "revenue",
+    "fact": "制造车载摄像头雷达、传感器及智能悬架等。",
+    "company_fact": "制造车载摄像头雷达、传感器及智能悬架等。",
+    "ths_fact": "毫米波雷达已量产，2025年雷达收入超7000万元。",
+    "reason": "感知与ADAS实际量产支持主线，4D预定点和机器人预计量产分别保留阶段。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603198.SH",
+    "key": "baijiu",
+    "sector": "白酒",
+    "source_sector_name": "白酒概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "生态白酒"
+    ],
+    "stage": "revenue",
+    "fact": "研发生产销售洞藏、贡酒等白酒。",
+    "company_fact": "研发生产销售洞藏、贡酒等白酒。",
+    "ths_fact": "中高档及普通白酒主营一致。",
+    "reason": "品牌与完整白酒产销链相互印证。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603199.SH",
+    "key": "tourism",
+    "sector": "旅游",
+    "source_sector_name": "旅游概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "九华山旅游运营"
+    ],
+    "stage": "revenue",
+    "fact": "经营九华山索道、酒店、客运和旅行社。",
+    "company_fact": "经营九华山索道、酒店、客运和旅行社。",
+    "ths_fact": "自主旅游在线平台和电商服务对接旅游客源。",
+    "reason": "目的地旅游资源及服务构成主归属。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603200.SH",
+    "key": "solid_state_batteries",
+    "sector": "固态电池",
+    "source_sector_name": "固态电池",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "固态电解质材料"
+    ],
+    "stage": "orders",
+    "fact": "传统水处理化学品之外拓展固态电池先进材料。",
+    "company_fact": "传统水处理化学品之外拓展固态电池先进材料。",
+    "ths_fact": "解析记录固态电池开发设计及测试阶段。",
+    "reason": "原中报已核实电解质硅碳负极硫化锂完成试生产验证并获小批订单，订单不等同规模化收入。",
+    "basis": "crosschecked_sources",
+    "extra_evidence": [
+      {
+        "evidence_id": "603200-h1-2026",
+        "source_kind": "official_filing",
+        "publisher": "上海洗霸",
+        "title": "2026年半年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12556014&stockid=603200",
+        "published_at": "2026-08-28",
+        "assertions": [
+          "固态电解质、硅碳负极和硫化锂完成试生产及产品验证，获得小批量订单。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "603201.SH",
+    "key": "cross_border_ecommerce",
+    "sector": "跨境电商",
+    "source_sector_name": "跨境电商",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "汽车维保设备跨境销售"
+    ],
+    "stage": "revenue",
+    "fact": "生产千斤顶、举升机等汽车维保设备和配套件。",
+    "company_fact": "生产千斤顶、举升机等汽车维保设备和配套件。",
+    "ths_fact": "采用多平台海外仓及独立站发展国际电商。",
+    "reason": "实际产品及持续经营渠道支撑跨境主线，达峰汽车电子目前资料为收购框架不能视为并表。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603202.SH",
+    "key": "automotive_electronics",
+    "sector": "汽车电子",
+    "source_sector_name": "汽车电子",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "汽车数字仪表"
+    ],
+    "stage": "revenue",
+    "fact": "研发生产汽车组合仪表、全液晶和双联屏仪表。",
+    "company_fact": "研发生产汽车组合仪表、全液晶和双联屏仪表。",
+    "ths_fact": "汽车仪表及相关汽车电子产品与主营对应。",
+    "reason": "直接仪表产品支撑，智能座舱募投不当成全部达产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603203.SH",
+    "key": "advanced_packaging",
+    "sector": "先进封装",
+    "source_sector_name": "先进封装",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "TCB热压键合设备"
+    ],
+    "stage": "pilot",
+    "fact": "提供固晶键合、精密焊接与机器视觉装备。",
+    "company_fact": "提供固晶键合、精密焊接与机器视觉装备。",
+    "ths_fact": "2026中报解析确认TCB面向HBM和CoWoS等，与多客户持续打样验证。",
+    "reason": "先进封装关键设备主线有实体产品支撑，TCB仍客户验证，其他已交付设备不替代其阶段。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603205.SH",
+    "key": "medical_devices",
+    "sector": "医疗器械",
+    "source_sector_name": "医疗器械概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "一次性医用敷料"
+    ],
+    "stage": "revenue",
+    "fact": "生产清洁消毒、护理及手术耗材。",
+    "company_fact": "生产清洁消毒、护理及手术耗材。",
+    "ths_fact": "同股医疗器械解析对应医用敷料等一次性器械。",
+    "reason": "医疗耗材证据一致；跨境电商解析误写稳健医疗，明确排除该错位资料。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603206.SH",
+    "key": "ai_agents",
+    "sector": "AI智能体",
+    "source_sector_name": "AI智能体",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "小嘉企业智能体"
+    ],
+    "stage": "delivery",
+    "fact": "提供政企智能化与信息通信系统技术服务。",
+    "company_fact": "提供政企智能化与信息通信系统技术服务。",
+    "ths_fact": "小嘉AI已用于问答检索纪要等场景，支持多种部署。",
+    "reason": "真实对外企业AI产品支持归属，培训平台及算力工程属于其他关联业务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603207.SH",
+    "key": "chemical_formulations",
+    "sector": "化学制剂",
+    "source_sector_name": "化学制剂",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "家庭外用药"
+    ],
+    "stage": "revenue",
+    "fact": "研发生产销售家庭外用药品。",
+    "company_fact": "研发生产销售家庭外用药品。",
+    "ths_fact": "列有开塞露、炉甘石洗剂和氧氟沙星滴耳液等产品。",
+    "reason": "上市外用药品支撑现有归属；脱发创新药为合作转化研发，需跟踪申报及试验实际进度。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603208.SH",
+    "key": "custom_home_furnishings",
+    "sector": "定制家居",
+    "source_sector_name": "定制家居",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "木门整装"
+    ],
+    "stage": "revenue",
+    "fact": "以木门为核心扩展门窗及柜类健康整装。",
+    "company_fact": "以木门为核心扩展门窗及柜类健康整装。",
+    "ths_fact": "门产品解析列进户门系列及配套智能锁。",
+    "reason": "制门与整装经营明确，适老产品是下游细分场景。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603209.SH",
+    "key": "shipping",
+    "sector": "航运",
+    "source_sector_name": "航运概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "液体化学品海运"
+    ],
+    "stage": "revenue",
+    "fact": "提供化学品成品油和LPG全球水上运输。",
+    "company_fact": "提供化学品成品油和LPG全球水上运输。",
+    "ths_fact": "航运解析与主营危险液货运输一致。",
+    "reason": "船队及国际内贸航线支撑主线，AI兴仔目前用于航运经营管理。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603210.SH",
+    "key": "xiaomi_automotive",
+    "sector": "小米汽车",
+    "source_sector_name": "小米汽车",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "车身结构功能件"
+    ],
+    "stage": "revenue",
+    "fact": "研发制造车身底盘结构件及功能件。",
+    "company_fact": "研发制造车身底盘结构件及功能件。",
+    "ths_fact": "小米汽车为核心客户之一。",
+    "reason": "直接客户及配套产品支撑主题，同时保留客户多元化事实。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603211.SH",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "机器人精密结构件"
+    ],
+    "stage": "product",
+    "fact": "已有机器人手臂关节壳体等精密结构件，长期服务协作机器人客户。",
+    "company_fact": "已有机器人手臂关节壳体等精密结构件，长期服务协作机器人客户。",
+    "ths_fact": "2026年公告解析明确拓展人形业务并与国内头部企业合作。",
+    "reason": "机器人制造经验及人形客户合作支持主题，协作机器人批量交付不等于人形业务批量收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603212.SH",
+    "key": "perovskite_cells",
+    "sector": "钙钛矿电池",
+    "source_sector_name": "钙钛矿电池",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "组件封装胶膜"
+    ],
+    "stage": "orders",
+    "fact": "生产光伏背板、封装胶膜等功能高分子材料。",
+    "company_fact": "生产光伏背板、封装胶膜等功能高分子材料。",
+    "ths_fact": "钙钛矿TPO胶膜与协鑫光电签订数兆瓦首批订单。",
+    "reason": "钙钛矿封装产品及订单支撑已有主题，早期预计交期不直接推定本期收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603213.SH",
+    "key": "chlor_alkali",
+    "sector": "氯碱",
+    "source_sector_name": "氯碱",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "烧碱氯化工"
+    ],
+    "stage": "revenue",
+    "fact": "生产烧碱液氯氯化石蜡次氯酸钠及PVC等。",
+    "company_fact": "生产烧碱液氯氯化石蜡次氯酸钠及PVC等。",
+    "ths_fact": "氢能源解析明确烧碱联产氢气供应周边化工客户。",
+    "reason": "氯碱一体化生产销售是直接身份，吸收合并筹划不改为高速公路经营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603214.SH",
+    "key": "ip_economy",
+    "sector": "IP经济(谷子经济)",
+    "source_sector_name": "IP经济(谷子经济)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "IP模型零售"
+    ],
+    "stage": "revenue",
+    "fact": "经营母婴专业连锁并拓展年轻消费商品渠道。",
+    "company_fact": "经营母婴专业连锁并拓展年轻消费商品渠道。",
+    "ths_fact": "与万代南梦宫合作开快闪及高达基地门店。",
+    "reason": "已有实际IP零售店经营支撑新市场身份，区别仅做联名营销。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603215.SH",
+    "key": "ai_glasses",
+    "sector": "AI眼镜",
+    "source_sector_name": "AI眼镜",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "AR眼镜组装"
+    ],
+    "stage": "delivery",
+    "fact": "除小家电外拓展AR眼镜新品类。",
+    "company_fact": "除小家电外拓展AR眼镜新品类。",
+    "ths_fact": "概念解析记录投资理湃光晶和AR光波导产线。",
+    "reason": "原2026中报确认本公司AR眼镜组装订单出货，直接业务支撑归属；理湃现持股4.4877%，其收入不能并作上市公司收入。",
+    "basis": "crosschecked_sources",
+    "extra_evidence": [
+      {
+        "evidence_id": "603215-h1-2026",
+        "source_kind": "official_filing",
+        "publisher": "比依股份",
+        "title": "2026年半年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12544257&stockid=603215",
+        "published_at": "2026-08-27",
+        "assertions": [
+          "AR眼镜组装产线完成订单出货；理湃光晶持股4.4877%，与自身组装业务区分。"
+        ]
+      }
+    ]
+  }
+]

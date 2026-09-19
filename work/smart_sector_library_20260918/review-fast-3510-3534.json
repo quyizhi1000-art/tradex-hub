@@ -1,0 +1,464 @@
+[
+  {
+    "id": "600801.SH",
+    "key": "cement",
+    "sector": "水泥",
+    "source_sector_name": "水泥概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "水泥骨料",
+      "全球建材"
+    ],
+    "stage": "revenue",
+    "fact": "水泥混凝土骨料装备环保一体经营，覆盖22海外国家。",
+    "company_fact": "水泥混凝土骨料装备环保一体经营，覆盖22海外国家。",
+    "ths_fact": "水泥解析明确制造销售技术设备全链。",
+    "reason": "实际全球建材经营稳定；雅下只有西藏布局不当成具体项目订单。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600802.SH",
+    "key": "nuclear_power",
+    "sector": "核电",
+    "source_sector_name": "核电",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "核电工程水泥"
+    ],
+    "stage": "product",
+    "fact": "自营水泥熟料5条线并取得核电工程硅酸盐水泥生产许可。",
+    "company_fact": "自营水泥熟料5条线并取得核电工程硅酸盐水泥生产许可。",
+    "ths_fact": "全资顺昌炼石具核电水泥资质许可。",
+    "reason": "具体核电用产品与资格支持现有核电细分主线，未明确交付核电营收，阶段仅产品。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600803.SH",
+    "key": "natural_gas",
+    "sector": "天然气",
+    "source_sector_name": "天然气",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "城市燃气",
+      "LNG接收及直销"
+    ],
+    "stage": "revenue",
+    "fact": "264燃气项目3276万家庭31.6万工商业客户及LNG接收站。",
+    "company_fact": "264燃气项目3276万家庭31.6万工商业客户及LNG接收站。",
+    "ths_fact": "天然气直销零售批发基础设施实际经营。",
+    "reason": "产业链运营和客户清楚，氢储备不替代成熟天然气。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600805.SH",
+    "key": "robotics",
+    "sector": "机器人",
+    "source_sector_name": "机器人概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "智能清洁机器人",
+      "环卫装备"
+    ],
+    "stage": "product",
+    "fact": "全资专用车经营清扫清洗环卫设备，提供智能环卫服务。",
+    "company_fact": "全资专用车经营清扫清洗环卫设备，提供智能环卫服务。",
+    "ths_fact": "已发布E-Cleaner N10清洁机器人自主避障检测跨楼层作业。",
+    "reason": "自有机器人实物产品与全资环卫业务衔接，选择增量智能装备主线，新能源电站农机保留，非人形。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600807.SH",
+    "key": "molecular_diagnostics",
+    "sector": "分子诊断",
+    "source_sector_name": "分子诊断",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "分子试剂",
+      "自动检测设备"
+    ],
+    "stage": "revenue",
+    "fact": "体外诊断仪器试剂及第三方检验集成经营。",
+    "company_fact": "体外诊断仪器试剂及第三方检验集成经营。",
+    "ths_fact": "艾克韦分子诊断与高通量平台产品产业化技术服务。",
+    "reason": "自有医疗产品平台与成员解析吻合，地产及钢贸为并行存量。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600808.SH",
+    "key": "high_speed_rail",
+    "sector": "高铁",
+    "source_sector_name": "高铁",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "高速动车轮轴"
+    ],
+    "stage": "revenue",
+    "fact": "实际轮轴轮对及环件用于铁路轨交。",
+    "company_fact": "实际轮轴轮对及环件用于铁路轨交。",
+    "ths_fact": "高速车轮核心知识产权及CRCC认证产品。",
+    "reason": "直接高铁轮轴强业务支撑，集团飞马早年AIDC规划不归本体当期经营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600809.SH",
+    "key": "baijiu",
+    "sector": "白酒",
+    "source_sector_name": "白酒概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "清香汾酒",
+      "竹叶青"
+    ],
+    "stage": "revenue",
+    "fact": "生产销售汾酒竹叶青杏花村。",
+    "company_fact": "生产销售汾酒竹叶青杏花村。",
+    "ths_fact": "白酒解析相同三品牌。",
+    "reason": "真实品牌消费主线清楚。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600810.SH",
+    "key": "pa66",
+    "sector": "PA66",
+    "source_sector_name": "PA66",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "尼龙66",
+      "工业丝帘子布"
+    ],
+    "stage": "revenue",
+    "fact": "生产尼龙66帘子布工业丝切片及己二酸，服务国际轮胎厂。",
+    "company_fact": "生产尼龙66帘子布工业丝切片及己二酸，服务国际轮胎厂。",
+    "ths_fact": "PA66产业链明确。",
+    "reason": "本体完整尼龙66产品和客户支持细分定位，非泛新材料。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600812.SH",
+    "key": "innovative_drugs",
+    "sector": "创新药",
+    "source_sector_name": "创新药",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "抗狂犬组合抗体",
+      "生物药临床"
+    ],
+    "stage": "pilot",
+    "fact": "原H1抗狂犬抗体组合制剂III期，其余单抗临床推进。",
+    "company_fact": "原H1抗狂犬抗体组合制剂III期，其余单抗临床推进。",
+    "ths_fact": "I类诺如疫苗已临床获批及自主一类抗狂犬抗体。",
+    "reason": "实际创新资产及原临床阶段支撑，不把未来批件及销售目标当既成营收。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "600812-2026h1",
+        "source_kind": "official_filing",
+        "publisher": "华北制药",
+        "title": "2026年半年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12519478&stockid=600812",
+        "published_at": "2026-08-22",
+        "assertions": [
+          "抗狂犬病毒抗体组合制剂III期，预计2029完成非当前上市收入。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "600814.SH",
+    "key": "new_retail",
+    "sector": "新零售",
+    "source_sector_name": "新零售",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "杭州商场",
+      "文化商业体验"
+    ],
+    "stage": "revenue",
+    "fact": "解百购物广场和杭州大厦零售租赁经营。",
+    "company_fact": "解百购物广场和杭州大厦零售租赁经营。",
+    "ths_fact": "自有AI+MR白娘子IP实景商业场景。",
+    "reason": "文化体验服务零售经营，未见独立谷子供应链收入；共享医院旧投资非当然主业。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600815.SH",
+    "key": "construction_machinery",
+    "sector": "工程机械",
+    "source_sector_name": "工程机械概念",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "装载挖掘",
+      "矿山与掘进装备"
+    ],
+    "stage": "revenue",
+    "fact": "实际装载机挖掘机盾构智能矿卡研发制造销售。",
+    "company_fact": "实际装载机挖掘机盾构智能矿卡研发制造销售。",
+    "ths_fact": "高端装备解析具体装载挖掘产品和生产能力。",
+    "reason": "直接机械产品体系与现有工程机械题材相符。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600816.SH",
+    "key": "trust",
+    "sector": "信托",
+    "source_sector_name": "信托概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "受托资产管理",
+      "信托服务"
+    ],
+    "stage": "revenue",
+    "fact": "真实信托手续费及自有资金业务，2025超额报酬8.4亿为历史项目一次性。",
+    "company_fact": "真实信托手续费及自有资金业务，2025超额报酬8.4亿为历史项目一次性。",
+    "ths_fact": "信托解析受托管理和固有业务。",
+    "reason": "金融牌照业务明确，不把单笔清收收入误作可重复增长。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600817.SH",
+    "key": "new_energy_vehicles",
+    "sector": "新能源汽车",
+    "source_sector_name": "新能源汽车",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "新能源环卫车",
+      "纯电矿卡"
+    ],
+    "stage": "revenue",
+    "fact": "自有新能源环卫设备及纯电矿卡已量产批量销售。",
+    "company_fact": "自有新能源环卫设备及纯电矿卡已量产批量销售。",
+    "ths_fact": "新能源环卫电机电控线控底盘实际技术应用。",
+    "reason": "真实纯电专用车构成明确主线；THS无人驾驶解析无人机邮政段与本体错位，不采该段。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600818.SH",
+    "key": "two_wheelers",
+    "sector": "两轮车",
+    "source_sector_name": "两轮车",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "永久自行车",
+      "助力车"
+    ],
+    "stage": "revenue",
+    "fact": "生产销售自行车助力车及配套。",
+    "company_fact": "生产销售自行车助力车及配套。",
+    "ths_fact": "两轮车解析明确实际经营范围。",
+    "reason": "产品实营清楚，高空风电旧调试等待持续运营补证，不当在营风电。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600819.SH",
+    "key": "photovoltaic_glass",
+    "sector": "光伏玻璃",
+    "source_sector_name": "光伏玻璃",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "TCO镀膜",
+      "太阳能玻璃"
+    ],
+    "stage": "revenue",
+    "fact": "三个浮法基地实际TCO及CSP玻璃原片，并营汽车建筑加工玻璃。",
+    "company_fact": "三个浮法基地实际TCO及CSP玻璃原片，并营汽车建筑加工玻璃。",
+    "ths_fact": "钙钛矿解析涉及已商业生产太阳能TCO材料。",
+    "reason": "已实营太阳能玻璃支撑，TCO可用于多种薄膜路线，不把碲化物应用强行视为钙钛矿电池自产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600820.SH",
+    "key": "low_altitude_economy",
+    "sector": "低空经济",
+    "source_sector_name": "低空经济",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "低空基础设施",
+      "通用机场建设运营"
+    ],
+    "stage": "revenue",
+    "fact": "基建投资设计施工运维及低空经济业务。",
+    "company_fact": "基建投资设计施工运维及低空经济业务。",
+    "ths_fact": "明确已从事通用机场和飞行基础设施规划设计投资施工运营维保。",
+    "reason": "自营低空基建服务完整，非仅参股EDA或口号，普通地铁工程收入不全归低空。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600821.SH",
+    "key": "computing_power_leasing",
+    "sector": "算力租赁",
+    "source_sector_name": "算力租赁",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "伊吾智算",
+      "算电协同"
+    ],
+    "stage": "revenue",
+    "fact": "原H1伊吾2000P运营、机架出租率100%，算力服务收入3260.38万元。",
+    "company_fact": "原H1伊吾2000P运营、机架出租率100%，算力服务收入3260.38万元。",
+    "ths_fact": "全资子公司已签算力技术服务合同。",
+    "reason": "原报告确认实际业务收入与在营资源，不以合同预期充实绩；代采代理净收入另列不算出租。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "600821-2026h1",
+        "source_kind": "official_filing",
+        "publisher": "金开新能",
+        "title": "2026年半年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12537338&stockid=600821",
+        "published_at": "2026-08-26",
+        "assertions": [
+          "伊吾2000P已投运出租率100%，算力服务收入32603773.56元，与原材料及服务器代采收入分开。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "600822.SH",
+    "key": "used_cars",
+    "sector": "二手车",
+    "source_sector_name": "二手车",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "汽车流通",
+      "二手交易服务"
+    ],
+    "stage": "revenue",
+    "fact": "自营汽车购用换养全周期及供应链。",
+    "company_fact": "自营汽车购用换养全周期及供应链。",
+    "ths_fact": "百联汽车新车二手交易维修三业务实际运营。",
+    "reason": "换车二手流通有成熟服务支持，非只有统一市场宏观概念。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600824.SH",
+    "key": "elderly_care",
+    "sector": "养老",
+    "source_sector_name": "养老概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "特色颐养院",
+      "养老运营"
+    ],
+    "stage": "revenue",
+    "fact": "与专业机构经营福荟及益福荟两颐养院182床位，兼品牌零售和物业。",
+    "company_fact": "与专业机构经营福荟及益福荟两颐养院182床位，兼品牌零售和物业。",
+    "ths_fact": "下属金辰颐养院实际专业养老机构。",
+    "reason": "实际床位与机构服务支持特色养老定位，保留零售基本盘，不以珠宝加工当金矿。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600825.SH",
+    "key": "culture_media",
+    "sector": "文化传媒",
+    "source_sector_name": "文化传媒概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "图书发行",
+      "文教内容"
+    ],
+    "stage": "revenue",
+    "fact": "实际图书文教用品经营。",
+    "company_fact": "实际图书文教用品经营。",
+    "ths_fact": "AI语料解析是英语教学语料平台及阅读课程。",
+    "reason": "内容与发行成熟，教学库不自动等同大模型训练语料收入，具体授权合同后再复核AI。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600826.SH",
+    "key": "ai_agents",
+    "sector": "AI智能体",
+    "source_sector_name": "AI智能体",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "会展智能体",
+      "Hi!WAIC服务"
+    ],
+    "stage": "delivery",
+    "fact": "原H1元数文化为70%控股子公司，推动AI会展生态。",
+    "company_fact": "原H1元数文化为70%控股子公司，推动AI会展生态。",
+    "ths_fact": "元数已发布Futur X与Hi!WAIC，在国家级会展服务实际应用。",
+    "reason": "控股关系原证确认，已有自有智能体及会展落地，未将合作机器人亮相外推自主本体制造。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "600826-2026h1",
+        "source_kind": "official_filing",
+        "publisher": "兰生股份",
+        "title": "2026年半年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12545538&stockid=600826",
+        "published_at": "2026-08-27",
+        "assertions": [
+          "子公司表列元数文化70%控股，战略由会展向AI生态服务拓展。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "600827.SH",
+    "key": "ip_economy",
+    "sector": "IP经济(谷子经济)",
+    "source_sector_name": "IP经济(谷子经济)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "二次元商业体",
+      "ACGN消费"
+    ],
+    "stage": "revenue",
+    "fact": "自有百联ZX创趣场二次元商业体实际运营，配多业态零售。",
+    "company_fact": "自有百联ZX创趣场二次元商业体实际运营，配多业态零售。",
+    "ths_fact": "ZX聚集头部ACGN零售及文化体验。",
+    "reason": "专门次元商业资产和实际谷子消费生态支持主题，非只营销IP，非自研动漫作品。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600828.SH",
+    "key": "department_stores",
+    "sector": "百货",
+    "source_sector_name": "百货",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "百货购物中心",
+      "商场运营"
+    ],
+    "stage": "revenue",
+    "fact": "23家零售实体门店含百货购物中心奥莱超市。",
+    "company_fact": "23家零售实体门店含百货购物中心奥莱超市。",
+    "ths_fact": "物业解析实际以商业零售为主辅物业酒店。",
+    "reason": "直接已有零售行业准确，租赁辅助不把主体单纯改物业。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600829.SH",
+    "key": "pharma_ecommerce",
+    "sector": "医药电商",
+    "source_sector_name": "医药电商",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "线上药房",
+      "医药配送"
+    ],
+    "stage": "revenue",
+    "fact": "医药批零及直营连锁提供药品器械配送。",
+    "company_fact": "医药批零及直营连锁提供药品器械配送。",
+    "ths_fact": "已有健康网与B2C/O2O网订店取店送实际经营。",
+    "reason": "真实线上线下药房服务与商品交叉，不把药品经销推成创新药研发。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600830.SH",
+    "key": "amc_debt_resolution",
+    "sector": "化债(AMC)",
+    "source_sector_name": "化债(AMC)概念",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "特殊资产处置",
+      "金融服务"
+    ],
+    "stage": "revenue",
+    "fact": "全资香溢金服合作开展不良资产处置获取固定收益，兼租赁典当担保。",
+    "company_fact": "全资香溢金服合作开展不良资产处置获取固定收益，兼租赁典当担保。",
+    "ths_fact": "2020以来参与不良债权涉诉破产资产，明确非持牌。",
+    "reason": "真实特殊资产业务支持化债题材，非持牌AMC机构身份，不夸大政策业务资格。",
+    "basis": "crosschecked_sources"
+  }
+]

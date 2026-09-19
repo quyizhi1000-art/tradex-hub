@@ -1,0 +1,402 @@
+[
+  {
+    "id": "300586.SZ",
+    "key": "sodium_ion_battery",
+    "sector": "钠离子电池",
+    "source_sector_name": "钠离子电池",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "普鲁士蓝正极材料"
+    ],
+    "stage": "pilot",
+    "fact": "高分子色材精细化工及新能源隔膜、普鲁士蓝白正极材料。",
+    "company_fact": "高分子色材精细化工及新能源隔膜、普鲁士蓝白正极材料。",
+    "ths_fact": "千吨级普鲁士蓝产能已建，正与客户提升生产稳定性，争取批量销售。",
+    "reason": "实际钠电材料产业化验证支持主题；不将建成产能写成批量收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300587.SZ",
+    "key": "solid_state_batteries",
+    "sector": "固态电池",
+    "source_sector_name": "固态电池",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "金属锂及铜锂复合负极"
+    ],
+    "stage": "orders",
+    "fact": "子公司昌吉利安徽天铁研发生产销售锂化物，兼轨交橡胶减振。",
+    "company_fact": "子公司昌吉利安徽天铁研发生产销售锂化物，兼轨交橡胶减振。",
+    "ths_fact": "安徽天铁金属锂项目试产，2025年7月签100吨铜锂复合带框架及采购订单，金额以正式PO为准。",
+    "reason": "直接锂负极材料订单支持固态链，区分订单口径与交付；欣界少数股投资不当本体电池产能。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300588.SZ",
+    "key": "ai_applications",
+    "sector": "AI应用",
+    "source_sector_name": "AI应用",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "警情大数据分析平台"
+    ],
+    "stage": "product",
+    "fact": "公共安全网络数据安全及数字经济智能软件方案。",
+    "company_fact": "公共安全网络数据安全及数字经济智能软件方案。",
+    "ths_fact": "AI警情平台以语义解析图谱实现归集研判风险预警。",
+    "reason": "具体公共安全AI应用已形成产品，独立AI收入不作推定。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300589.SZ",
+    "key": "offshore_equipment",
+    "sector": "海工装备",
+    "source_sector_name": "海工装备",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "特种船及海工运维船"
+    ],
+    "stage": "orders",
+    "fact": "公务旅游特种作业船艇设计生产销售。",
+    "company_fact": "公务旅游特种作业船艇设计生产销售。",
+    "ths_fact": "2026年5月获4艘海工船订单，产品含风电运维工程船等。",
+    "reason": "现有造船能力和新增海工订单一致，军工资格不自动等于舰艇收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300590.SZ",
+    "key": "iot",
+    "sector": "物联网",
+    "source_sector_name": "物联网",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "车载资产管理智能终端"
+    ],
+    "stage": "revenue",
+    "fact": "定位传感通信AI集成物联网终端研发销售。",
+    "company_fact": "定位传感通信AI集成物联网终端研发销售。",
+    "ths_fact": "车载资产两轮车冷链个人安全等物联网终端。",
+    "reason": "直接IoT终端跨场景经营清晰，AI潮玩是子公司新产品。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300591.SZ",
+    "key": "military",
+    "sector": "军工",
+    "source_sector_name": "军工",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "军警皮具及个体防护"
+    ],
+    "stage": "revenue",
+    "fact": "皮具个体防护产品研发制造销售，另有电商服务。",
+    "company_fact": "皮具个体防护产品研发制造销售，另有电商服务。",
+    "ths_fact": "长期军警在库合格供应商，军警客户招标保持中标。",
+    "reason": "军警装备供应有持续客户支撑，不仅库存资格；电商保留副线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300592.SZ",
+    "key": "cross_border_ecommerce",
+    "sector": "跨境电商",
+    "source_sector_name": "跨境电商",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "全球多平台商品销售"
+    ],
+    "stage": "revenue",
+    "fact": "泛品精品跨境销售及亿迈跨境供应链服务平台。",
+    "company_fact": "泛品精品跨境销售及亿迈跨境供应链服务平台。",
+    "ths_fact": "亚马逊eBay Temu速卖通沃尔玛向全球销售商品。",
+    "reason": "经营主体和平台模式直接对应跨境电商。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300593.SZ",
+    "key": "data_centers",
+    "sector": "数据中心(AIDC)",
+    "source_sector_name": "数据中心(AIDC)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "服务器模块电源供电架构"
+    ],
+    "stage": "product",
+    "fact": "电源芯片模块系统及电驱产品。",
+    "company_fact": "电源芯片模块系统及电驱产品。",
+    "ths_fact": "形成数据中心交流一次变换至服务器芯片二次变换的电源架构。",
+    "reason": "服务器供电产品构成明确，收入未单列按产品；低轨电源仍规范研发。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300594.SZ",
+    "key": "liquid_cooled_servers",
+    "sector": "液冷服务器",
+    "source_sector_name": "液冷服务器",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "数据中心温控液冷"
+    ],
+    "stage": "delivery",
+    "fact": "轨交空调延伸数据中心服务器节能温控方案。",
+    "company_fact": "轨交空调延伸数据中心服务器节能温控方案。",
+    "ths_fact": "液冷技术温控产品已应用于数据中心。",
+    "reason": "实际液冷应用可支撑增量方向，飞行汽车仍合作意向。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300595.SZ",
+    "key": "ophthalmology",
+    "sector": "眼科医疗",
+    "source_sector_name": "眼科医疗",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "角膜塑形接触镜与视光服务"
+    ],
+    "stage": "revenue",
+    "fact": "眼健康近视防控视光产品与服务。",
+    "company_fact": "眼健康近视防控视光产品与服务。",
+    "ths_fact": "硬性接触镜护理产品及其他视光产品研发生产销售。",
+    "reason": "视光器械与近视服务主线明确。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300596.SZ",
+    "key": "ai_glasses",
+    "sector": "AI眼镜",
+    "source_sector_name": "AI眼镜",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "PI柔性覆铜板薄膜"
+    ],
+    "stage": "delivery",
+    "fact": "抗老化添加剂润滑添加剂与PI电子材料，生命科学研发。",
+    "company_fact": "抗老化添加剂润滑添加剂与PI电子材料，生命科学研发。",
+    "ths_fact": "韩国IPI双层FCCL薄膜已用于部分品牌智能眼镜。",
+    "reason": "直接电子薄膜应用支持眼镜链，合成生物仅完成中试不当量产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300597.SZ",
+    "key": "data_centers",
+    "sector": "数据中心(AIDC)",
+    "source_sector_name": "数据中心(AIDC)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "算力机房规划设计工程"
+    ],
+    "stage": "revenue",
+    "fact": "通信技术及信息化集成服务运营商政企。",
+    "company_fact": "通信技术及信息化集成服务运营商政企。",
+    "ths_fact": "为运营商政府金融提供数据中心算力中心规划咨询设计工程服务。",
+    "reason": "真实规划设计建设服务对应数据中心，非自持算力租赁。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300598.SZ",
+    "key": "harmonyos",
+    "sector": "鸿蒙",
+    "source_sector_name": "鸿蒙概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "鸿蒙开发及商业发行操作系统"
+    ],
+    "stage": "revenue",
+    "fact": "移动终端汽车物联网软件，HongZOS商业发行版已至5.0。",
+    "company_fact": "移动终端汽车物联网软件，HongZOS商业发行版已至5.0。",
+    "ths_fact": "参与华为鸿蒙系统开发，华为为主要客户之一。",
+    "reason": "自主鸿蒙服务与发行产品双源吻合，统信参股不替代自身经营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300599.SZ",
+    "key": "underground_pipelines",
+    "sector": "地下管网",
+    "source_sector_name": "地下管网",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "给排水通信电力塑料管"
+    ],
+    "stage": "revenue",
+    "fact": "环保高性能塑料管道研发生产销售。",
+    "company_fact": "环保高性能塑料管道研发生产销售。",
+    "ths_fact": "PVC PE PPR给排水排污通信护套管广泛用于市政建设。",
+    "reason": "地下管材实际生产支撑管网主题。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300600.SZ",
+    "key": "commercial_space",
+    "sector": "商业航天",
+    "source_sector_name": "商业航天",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "航天地面控制仿真系统"
+    ],
+    "stage": "revenue",
+    "fact": "船舶配电机舱系统及航天仿真训练地控数据处理。",
+    "company_fact": "船舶配电机舱系统及航天仿真训练地控数据处理。",
+    "ths_fact": "2024航天自动化系统收入1008万元。",
+    "reason": "航天地控自动化有实际收入，不能仅用船舶原业务否定增量主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300601.SZ",
+    "key": "vaccines",
+    "sector": "生物疫苗",
+    "source_sector_name": "生物疫苗",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "乙肝肺炎狂犬等人用疫苗"
+    ],
+    "stage": "revenue",
+    "fact": "人用疫苗研产销，已上市及紧急使用14种。",
+    "company_fact": "人用疫苗研产销，已上市及紧急使用14种。",
+    "ths_fact": "主营免疫规划及非免疫规划人用疫苗。",
+    "reason": "直接疫苗商业化产品完整。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300602.SZ",
+    "key": "liquid_cooled_servers",
+    "sector": "液冷服务器",
+    "source_sector_name": "液冷服务器",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "服务器热管理冷板模组"
+    ],
+    "stage": "delivery",
+    "fact": "电磁屏蔽和热管理材料器件研发生产销售。",
+    "company_fact": "电磁屏蔽和热管理材料器件研发生产销售。",
+    "ths_fact": "服务器散热含单双相液冷冷板等，部分产品批量交付并获头部客户认可。",
+    "reason": "服务器热管理实际交付充分；灵巧手仍认证送样，CPO为光模块配套应用。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300603.SZ",
+    "key": "data_centers",
+    "sector": "数据中心(AIDC)",
+    "source_sector_name": "数据中心(AIDC)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "自建算力中心托管云服务"
+    ],
+    "stage": "revenue",
+    "fact": "自建运营成都广州等多地算力中心，提供IDC托管云计算。",
+    "company_fact": "自建运营成都广州等多地算力中心，提供IDC托管云计算。",
+    "ths_fact": "标准化机房多网平台提供带宽机柜IP租用。",
+    "reason": "实际机房资产运营和服务合同方向一致。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300604.SZ",
+    "key": "semiconductor_equipment",
+    "sector": "半导体设备",
+    "source_sector_name": "半导体设备",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "测试机分选机探针台"
+    ],
+    "stage": "revenue",
+    "fact": "集成电路测试设备研产销，多个封测厂实际使用。",
+    "company_fact": "集成电路测试设备研产销，多个封测厂实际使用。",
+    "ths_fact": "大功率模拟数字测试机分选机及晶圆封装光学检测。",
+    "reason": "直接半导体测试装备供应，不混为存储芯片生产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300605.SZ",
+    "key": "smart_city",
+    "sector": "智慧城市",
+    "source_sector_name": "智慧城市",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "公共安全民生信息化"
+    ],
+    "stage": "revenue",
+    "fact": "智慧城市信息技术行业方案及养老服务。",
+    "company_fact": "智慧城市信息技术行业方案及养老服务。",
+    "ths_fact": "智慧城市信息服务软件设计运维养老为产品业务。",
+    "reason": "实际城市行业方案最充分，AI中台作为升级能力保留。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300606.SZ",
+    "key": "flexible_display",
+    "sector": "柔性屏(折叠屏)",
+    "source_sector_name": "柔性屏(折叠屏)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "钛合金轴盖转轴精密加工"
+    ],
+    "stage": "revenue",
+    "fact": "抛光材料数控设备及折叠屏钛合金轴盖转轴零件加工。",
+    "company_fact": "抛光材料数控设备及折叠屏钛合金轴盖转轴零件加工。",
+    "ths_fact": "折叠屏精密结构件全制程和抛光材料突破推动客户订单。",
+    "reason": "直接折叠结构件与材料供应链清晰，不说制造柔性面板。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300607.SZ",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "人形精密零件五轴加工装备"
+    ],
+    "stage": "revenue",
+    "fact": "工业机器人注塑机和五轴机床，披露人形领域五轴机床收入市场地位。",
+    "company_fact": "工业机器人注塑机和五轴机床，披露人形领域五轴机床收入市场地位。",
+    "ths_fact": "五轴机床加工人形关节摆臂，产品覆盖人形等行业。",
+    "reason": "人形链提供实际制造装备及收入，CPO为拟收49%不能当已控股业务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300608.SZ",
+    "key": "ai_agents",
+    "sector": "AI智能体",
+    "source_sector_name": "AI智能体",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "运营商企业智能体应用"
+    ],
+    "stage": "delivery",
+    "fact": "全栈AI原生ICT产品服务运营商城市产业数字化。",
+    "company_fact": "全栈AI原生ICT产品服务运营商城市产业数字化。",
+    "ths_fact": "已研发交付上百个企业AI智能体应用。",
+    "reason": "明确智能体交付支撑增量主题，算力租赁为另有收入的并行业务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300609.SZ",
+    "key": "data_elements",
+    "sector": "数据要素",
+    "source_sector_name": "数据要素",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "线下商业客流数据服务"
+    ],
+    "stage": "revenue",
+    "fact": "商业公共服务客流分析远程巡店数据运维与平台。",
+    "company_fact": "商业公共服务客流分析远程巡店数据运维与平台。",
+    "ths_fact": "汇客云向苹果优衣库等持续提供采集分析数据产品。",
+    "reason": "可交付经营的数据产品支撑主线，算力租赁旧文仅拟设合资不冒认落地。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300610.SZ",
+    "key": "organosilicon",
+    "sector": "有机硅",
+    "source_sector_name": "有机硅概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "高温与室温硫化硅橡胶"
+    ],
+    "stage": "revenue",
+    "fact": "表面活性剂阻燃剂硅橡胶精细化学品研产销。",
+    "company_fact": "表面活性剂阻燃剂硅橡胶精细化学品研产销。",
+    "ths_fact": "生产高温及室温硫化硅橡胶。",
+    "reason": "硅橡胶直接产品支持有机硅，磷阻燃剂为并列化工线。",
+    "basis": "crosschecked_sources"
+  }
+]

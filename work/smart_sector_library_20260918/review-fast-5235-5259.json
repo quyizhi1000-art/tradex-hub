@@ -1,0 +1,408 @@
+[
+  {
+    "id": "920014.BJ",
+    "key": "hydrogen_energy",
+    "sector": "氢能源",
+    "source_sector_name": "氢能源",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "制输加用氢装备"
+    ],
+    "stage": "orders",
+    "fact": "氢能全链成套设备及天然气装备。",
+    "company_fact": "氢能全链成套设备及天然气装备。",
+    "ths_fact": "输氢掺氢制氢已有订单。",
+    "reason": "明确氢能装备实单支持。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920015.BJ",
+    "key": "photoresist",
+    "sector": "光刻胶",
+    "source_sector_name": "光刻胶",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "电子级羟胺",
+      "配套化学品"
+    ],
+    "stage": "revenue",
+    "fact": "羟胺水溶液及酮肟精细材料生产。",
+    "company_fact": "羟胺水溶液及酮肟精细材料生产。",
+    "ths_fact": "光刻相关工程化项目已试生产销售7.6吨羟胺水溶液。",
+    "reason": "核心配套化学品实际经营，非完整光刻胶配方制造。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920016.BJ",
+    "key": "food_feed_additives",
+    "sector": "食品及饲料添加剂",
+    "source_sector_name": "食品及饲料添加剂",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "香精香料"
+    ],
+    "stage": "revenue",
+    "fact": "香料香精专业研发生产销售。",
+    "company_fact": "香料香精专业研发生产销售。",
+    "ths_fact": "产品用于食品饮料日化烟草等。",
+    "reason": "选择已有添加剂行业涵盖真实香精经营，非因烟草标签锁单一客户用途。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920017.BJ",
+    "key": "cro",
+    "sector": "CRO",
+    "source_sector_name": "CRO概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "CMC/CMO药物产业化服务"
+    ],
+    "stage": "revenue",
+    "fact": "制剂研发生产及CMC CMO一体化服务已有收入。",
+    "company_fact": "制剂研发生产及CMC CMO一体化服务已有收入。",
+    "ths_fact": "创新药产业化共享平台和药物研发管线。",
+    "reason": "直接药研制造服务主线，平台建设不等同自有创新药获批。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920018.BJ",
+    "key": "uhv",
+    "sector": "特高压",
+    "source_sector_name": "特高压",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "变压器电磁线"
+    ],
+    "stage": "revenue",
+    "fact": "高压超特高压电磁线规模制造。",
+    "company_fact": "高压超特高压电磁线规模制造。",
+    "ths_fact": "电磁线用于超特高压变压器。",
+    "reason": "真实高等级电网材料。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920019.BJ",
+    "key": "resource_extraction",
+    "sector": "资源开采",
+    "source_sector_name": "资源开采概念",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "非煤矿山开发工程"
+    ],
+    "stage": "revenue",
+    "fact": "多矿种矿山工程运营优化一体化服务。",
+    "company_fact": "多矿种矿山工程运营优化一体化服务。",
+    "ths_fact": "爆破标的签约仅辅助新交易，现有矿山建设基础明确。",
+    "reason": "现有资源开发服务主线；爆破收购完成与并表待原证再调整。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920020.BJ",
+    "key": "autonomous_driving",
+    "sector": "无人驾驶",
+    "source_sector_name": "无人驾驶",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "矿山轮胎智能协同"
+    ],
+    "stage": "revenue",
+    "fact": "场景轮胎及数字化管理系统。",
+    "company_fact": "场景轮胎及数字化管理系统。",
+    "ths_fact": "无人驾驶协同技术实时数据决策已大批量生产。",
+    "reason": "矿车智能协同真实产品，非自动驾驶整车制造。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920021.BJ",
+    "key": "ai_agents",
+    "sector": "AI智能体",
+    "source_sector_name": "AI智能体",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "视听监测",
+      "行业智能助手"
+    ],
+    "stage": "product",
+    "fact": "智慧视听系统软件及内容运营。",
+    "company_fact": "智慧视听系统软件及内容运营。",
+    "ths_fact": "牛金金哈勃及AI鼠标助手具体发布。",
+    "reason": "自有AI视听产品，射频参控股线另列。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920022.BJ",
+    "key": "sensors",
+    "sector": "传感器",
+    "source_sector_name": "传感器",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "氢燃料热管理传感器"
+    ],
+    "stage": "product",
+    "fact": "控股九昌开发热管理与传感产品。",
+    "company_fact": "控股九昌开发热管理与传感产品。",
+    "ths_fact": "电导温压传感器已研发完成并业务合作。",
+    "reason": "真实传感产品，不把合作直接计批量订单。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920023.BJ",
+    "key": "fruit_vegetable_processing",
+    "sector": "果蔬加工",
+    "source_sector_name": "果蔬加工",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "原料果汁",
+      "速冻果蔬"
+    ],
+    "stage": "revenue",
+    "fact": "热带果汁与果蔬加工销售。",
+    "company_fact": "热带果汁与果蔬加工销售。",
+    "ths_fact": "自有种植基地为加工供原料。",
+    "reason": "已有果蔬加工产业身份，种植是配套。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920026.BJ",
+    "key": "ai_glasses",
+    "sector": "AI眼镜",
+    "source_sector_name": "AI眼镜",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "精密点胶装备"
+    ],
+    "stage": "delivery",
+    "fact": "点胶设备阀与核心部件研产销。",
+    "company_fact": "点胶设备阀与核心部件研产销。",
+    "ths_fact": "Mate AI眼镜取得千万级量产订单且交付。",
+    "reason": "明确AI终端制造装备实单。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920027.BJ",
+    "key": "high_speed_rail",
+    "sector": "高铁",
+    "source_sector_name": "高铁",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "铁路安全监测装备"
+    ],
+    "stage": "revenue",
+    "fact": "轨交智能装备与专业技术服务。",
+    "company_fact": "轨交智能装备与专业技术服务。",
+    "ths_fact": "轨道交通产品研发生产销售。",
+    "reason": "铁路安全基础装备真实经营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920028.BJ",
+    "key": "five_g",
+    "sector": "5G",
+    "source_sector_name": "5G",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "透波MPP发泡材料"
+    ],
+    "stage": "revenue",
+    "fact": "多类功能高分子发泡材料规模经营。",
+    "company_fact": "多类功能高分子发泡材料规模经营。",
+    "ths_fact": "MPP透波材料用于5G天线并在华为产品应用。",
+    "reason": "具体通信材料商业用途。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920029.BJ",
+    "key": "smart_grid",
+    "sector": "智能电网",
+    "source_sector_name": "智能电网",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "智能计量",
+      "AMI"
+    ],
+    "stage": "revenue",
+    "fact": "智能电水气表与能源管理系统。",
+    "company_fact": "智能电水气表与能源管理系统。",
+    "ths_fact": "智能计量终端及AMI软件研产销。",
+    "reason": "电网数智计量核心业务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920030.BJ",
+    "key": "automobile_dismantling",
+    "sector": "汽车拆解",
+    "source_sector_name": "汽车拆解概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "报废车回收拆解"
+    ],
+    "stage": "revenue",
+    "fact": "全周期汽车服务包含报废回收拆解实际收入。",
+    "company_fact": "全周期汽车服务包含报废回收拆解实际收入。",
+    "ths_fact": "报废拆解已有明确1285万半年收入。",
+    "reason": "实际汽车循环利用业务，保留经销背景。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920033.BJ",
+    "key": "metal_copper",
+    "sector": "金属铜",
+    "source_sector_name": "金属铜",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "湿法铜萃取剂"
+    ],
+    "stage": "revenue",
+    "fact": "铜金属萃取剂全球研发制造销售。",
+    "company_fact": "铜金属萃取剂全球研发制造销售。",
+    "ths_fact": "铜萃取及浮选特种化学品用于矿冶。",
+    "reason": "铜冶金关键耗材实业，非自有铜矿；回收试产不算成熟收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920035.BJ",
+    "key": "cold_chain_logistics",
+    "sector": "冷链物流",
+    "source_sector_name": "冷链物流",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "温控检测与监测仪表"
+    ],
+    "stage": "revenue",
+    "fact": "食品医药冷链检测记录智能控制器。",
+    "company_fact": "食品医药冷链检测记录智能控制器。",
+    "ths_fact": "冷链仪表云平台，液冷驱动仍研发投入。",
+    "reason": "真实冷链设备主线，液冷待具体验证或交付。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920036.BJ",
+    "key": "ai_agents",
+    "sector": "AI智能体",
+    "source_sector_name": "AI智能体",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "灵瞳视频Agent"
+    ],
+    "stage": "product",
+    "fact": "摄像机软件云服务与AI增值服务。",
+    "company_fact": "摄像机软件云服务与AI增值服务。",
+    "ths_fact": "已推出灵瞳多模态视频大模型Agent。",
+    "reason": "具体对外视觉Agent产品。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920037.BJ",
+    "key": "uhv",
+    "sector": "特高压",
+    "source_sector_name": "特高压",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "变压器绝缘纤维"
+    ],
+    "stage": "revenue",
+    "fact": "超特高压交直流变压器绝缘材料制造。",
+    "company_fact": "超特高压交直流变压器绝缘材料制造。",
+    "ths_fact": "750kV以上绝缘制品自主规模能力。",
+    "reason": "特高压核心材料经营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920038.BJ",
+    "key": "gold",
+    "sector": "黄金",
+    "source_sector_name": "黄金概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "环保浸金药剂"
+    ],
+    "stage": "revenue",
+    "fact": "黄金等贵金属选矿剂规模生产销售。",
+    "company_fact": "黄金等贵金属选矿剂规模生产销售。",
+    "ths_fact": "金银矿作业药剂实际应用。",
+    "reason": "黄金产业耗材直接经营，非矿权黄金储量。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920039.BJ",
+    "key": "professional_services",
+    "sector": "专业服务",
+    "source_sector_name": "专业服务",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "招标采购代理"
+    ],
+    "stage": "revenue",
+    "fact": "医疗交通能源等招标及采购咨询服务。",
+    "company_fact": "医疗交通能源等招标及采购咨询服务。",
+    "ths_fact": "电子招标平台积累数据库。",
+    "reason": "专业采购服务实业，数据积累不等同数据资产交易。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920045.BJ",
+    "key": "cpo",
+    "sector": "共封装光学(CPO)",
+    "source_sector_name": "共封装光学(CPO)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "无源内连光器件"
+    ],
+    "stage": "product",
+    "fact": "数通电信光模块无源器件研产销。",
+    "company_fact": "数通电信光模块无源器件研产销。",
+    "ths_fact": "已开发CPO无源内连系列，普通800G大批出货。",
+    "reason": "CPO具体产品成立，普通光模块收入不全部算共封装。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920046.BJ",
+    "key": "data_centers",
+    "sector": "数据中心(AIDC)",
+    "source_sector_name": "数据中心(AIDC)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "数据中心配电变压器"
+    ],
+    "stage": "delivery",
+    "fact": "变压电抗开关及工程系统销售。",
+    "company_fact": "变压电抗开关及工程系统销售。",
+    "ths_fact": "字节马来一期210MW变压器已两批交付运行。",
+    "reason": "数据中心配电明确交付场景，非IDC运营商。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920047.BJ",
+    "key": "innovative_drugs",
+    "sector": "创新药",
+    "source_sector_name": "创新药",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "基因治疗",
+      "重组蛋白"
+    ],
+    "stage": "product",
+    "fact": "基因与蛋白新药和眼科药研发产业化。",
+    "company_fact": "基因与蛋白新药和眼科药研发产业化。",
+    "ths_fact": "一款1类新药已国内获批，后续生物药管线。",
+    "reason": "自有创新药获批，不把全部临床管线当销售。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "920050.BJ",
+    "key": "medical_devices",
+    "sector": "医疗器械",
+    "source_sector_name": "医疗器械概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "康复护理",
+      "手术感控耗材"
+    ],
+    "stage": "revenue",
+    "fact": "护理垫冰袋手术包衣铺单ODM OEM生产。",
+    "company_fact": "护理垫冰袋手术包衣铺单ODM OEM生产。",
+    "ths_fact": "医疗耗材质量体系及国际客户业务。",
+    "reason": "实际医疗耗材经营。",
+    "basis": "crosschecked_sources"
+  }
+]

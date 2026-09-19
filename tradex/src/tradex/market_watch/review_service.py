@@ -227,6 +227,7 @@ class PostMarketReviewService:
 
     def _presentation(self, review: PostMarketReviewV1) -> dict[str, Any]:
         from tradex.instrument_taxonomy.store import read_profiles
+        from tradex.smart_sector_library.catalog import read_market_memberships
 
         previous = self.store.get_previous_before(review.trade_date)
         evidence_payload = review.evidence.model_dump(mode="json")
@@ -253,6 +254,7 @@ class PostMarketReviewService:
             review,
             previous_review=previous,
             business_profiles=read_profiles(instrument_ids),
+            market_memberships=read_market_memberships(instrument_ids, as_of=review.trade_date),
             official_announcements=official_announcements,
         )
         editorial_override = (

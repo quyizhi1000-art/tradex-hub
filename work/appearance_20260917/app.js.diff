@@ -1,0 +1,48 @@
+--- 
+
++++ 
+
+@@ -1,2 +1,42 @@
+
++// Appearance is local presentation state; it never refreshes market data.
++(() => {
++  "use strict";
++  const root = document.documentElement;
++  const panel = document.getElementById("appearance-panel");
++  if (!panel) return;
++  const themeNames = { paper: "暖纸米白", mist: "雾蓝浅灰", sage: "鼠尾草绿", graphite: "柔和石墨", classic: "经典深青" };
++  const layouts = ["comfortable", "compact", "wide"];
++  const storageKey = "tradex.marketWatch.appearance.v1";
++  function renderAppearance() {
++    document.getElementById("appearance-current").textContent = themeNames[root.dataset.theme];
++    panel.querySelectorAll("[data-appearance-theme]").forEach(button => {
++      button.setAttribute("aria-pressed", String(button.dataset.appearanceTheme === root.dataset.theme));
++    });
++    panel.querySelectorAll("[data-appearance-layout]").forEach(button => {
++      button.setAttribute("aria-pressed", String(button.dataset.appearanceLayout === root.dataset.layout));
++    });
++  }
++  panel.addEventListener("click", event => {
++    const button = event.target.closest("[data-appearance-theme], [data-appearance-layout]");
++    if (!button || !panel.contains(button)) return;
++    const { appearanceTheme: theme, appearanceLayout: layout } = button.dataset;
++    if (Object.hasOwn(themeNames, theme)) root.dataset.theme = theme;
++    else if (layouts.includes(layout)) root.dataset.layout = layout;
++    else return;
++    renderAppearance();
++    const status = document.getElementById("appearance-status");
++    try {
++      localStorage.setItem(storageKey, JSON.stringify({ theme: root.dataset.theme, layout: root.dataset.layout }));
++      status.textContent = "已应用并记住，下次打开仍使用这套外观。";
++    } catch {
++      status.textContent = "已应用；浏览器暂不允许保存，下次打开需重新选择。";
++    }
++  });
++  panel.addEventListener("toggle", event => {
++    document.getElementById("appearance-button").setAttribute("aria-expanded", String(event.newState === "open"));
++  });
++  renderAppearance();
++})();
++
+ (() => {
+   "use strict";

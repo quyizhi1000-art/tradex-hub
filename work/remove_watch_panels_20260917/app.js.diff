@@ -1,0 +1,262 @@
+--- before/app.js
++++ tradex/src/tradex/dashboard/watch/app.js
+@@ -79,7 +79,6 @@
+   });
+   const STORAGE_KEYS = {
+     deliveredAlerts: "tradex.marketWatch.deliveredAlerts.v1",
+-    readAlerts: "tradex.marketWatch.readAlerts.v1",
+     lastAlertAt: "tradex.marketWatch.lastAlertAt.v1",
+     muted: "tradex.marketWatch.muted.v1",
+     notificationEnabled: "tradex.marketWatch.notificationEnabled.v1",
+@@ -102,9 +101,6 @@
+     defense: "防御占优",
+     mixed: "风格拉扯",
+     uncertain: "方向未确认",
+-  };
+-  const CHANGE_REASON_LABELS = {
+-    no_confirmed_change_evidence: "需要连续快照支持，单次抖动不会作为变化提醒。",
+   };
+ 
+   const state = {
+@@ -155,7 +151,6 @@
+     ),
+     nextPollAt: 0,
+     notificationEnabled: false,
+-    readAlertKeys: new Set(loadStoredArray(STORAGE_KEYS.readAlerts)),
+     replayFetchInFlight: false,
+     replayHasLoaded: false,
+     replayLastAttemptAt: 0,
+@@ -510,7 +505,6 @@
+     );
+     const strength = strengthLabel(guardrail.conclusion_strength);
+     byId("conclusion-strength").textContent = `证据强度：${strength}`;
+-    byId("analysis-strength").textContent = `证据强度：${strength}`;
+   }
+ 
+   function renderIndexDock(snapshot) {
+@@ -2294,109 +2288,8 @@
+ 
+   }
+ 
+-  function renderEvidenceList(targetId, items, fallback) {
+-    const target = byId(targetId);
+-    target.replaceChildren();
+-    if (!items.length) {
+-      target.append(createElement("li", "muted-item", fallback));
+-      return;
+-    }
+-    items.slice(0, 5).forEach((item) => target.append(createElement("li", "", item)));
+-  }
+-
+-  function renderInterpretation(snapshot) {
+-    const guardrail = snapshot.guardrail && typeof snapshot.guardrail === "object" ? snapshot.guardrail : {};
+-    const freshness = normalizeFreshness(snapshot);
+-    const interpretation = freshness.status === "stale"
+-      ? "当前数据陈旧，仅展示最后一份可核验读数；不形成进攻、防御或轮动判断。"
+-      : freshness.status === "unavailable"
+-        ? "关键数据不可用，当前不形成盘面判断。"
+-        : text(guardrail.current_state, "尚未取得足够同向证据，当前结论保持不确定。");
+-    byId("what-is-happening").textContent = text(
+-      interpretation,
+-      "尚未取得足够同向证据，当前结论保持不确定。",
+-    );
+-    renderEvidenceList(
+-      "supporting-evidence",
+-      stringList(guardrail.supporting_evidence),
+-      "暂无已确认支持证据",
+-    );
+-    renderEvidenceList(
+-      "counter-evidence",
+-      stringList(guardrail.counter_evidence),
+-      "暂无已确认反证",
+-    );
+-  }
+-
+-  function renderScenarios(snapshot) {
+-    const scenarios = asArray(snapshot.scenarios).slice(0, 2);
+-    const target = byId("scenario-list");
+-    target.replaceChildren();
+-    if (!scenarios.length) {
+-      target.append(createElement(
+-        "p",
+-        "empty-state",
+-        "暂无有效条件情景。这里不展示精确概率，只展示 if / then 与失效条件。",
+-      ));
+-      return;
+-    }
+-
+-    scenarios.forEach((scenario, index) => {
+-      const card = createElement("article", "scenario-card");
+-      const header = createElement("div", "scenario-card__header");
+-      header.append(
+-        createElement("strong", "", `条件情景 ${index + 1}`),
+-        createElement("span", "", `${text(scenario.horizon_minutes, "5–15")} 分钟`),
+-      );
+-
+-      const ifRow = createElement("div", "scenario-rule");
+-      ifRow.append(
+-        createElement("span", "", "IF 如果"),
+-        createElement("p", "", text(scenario.if_condition, "触发条件尚未完整")),
+-      );
+-      const thenRow = createElement("div", "scenario-rule");
+-      thenRow.append(
+-        createElement("span", "", "THEN"),
+-        createElement("p", "", text(scenario.then_expectation, "等待更多盘面证据")),
+-      );
+-      const invalidation = createElement("p", "scenario-invalidation");
+-      invalidation.append(
+-        createElement("strong", "", "失效："),
+-        document.createTextNode(text(scenario.invalidation, "任一关键证据转弱时不再成立")),
+-      );
+-      card.append(header, ifRow, thenRow, invalidation);
+-      target.append(card);
+-    });
+-  }
+-
+-  function renderChange(snapshot) {
+-    const change = snapshot.change && typeof snapshot.change === "object" && !Array.isArray(snapshot.change)
+-      ? snapshot.change
+-      : {};
+-    const changedFields = stringList(change.changed_fields);
+-    const confirmed = change.available === true;
+-    byId("change-as-of").textContent = confirmed ? formatTimestamp(snapshot.as_of) : "尚无";
+-    const target = byId("confirmed-change");
+-    target.replaceChildren();
+-    const icon = createElement("span", "change-icon", confirmed ? "✓" : "↔");
+-    icon.setAttribute("aria-hidden", "true");
+-    const copy = createElement("div");
+-    copy.append(
+-      createElement("strong", "", confirmed ? "盘面状态出现确认变化" : "尚未确认状态切换"),
+-      createElement("p", "", confirmed
+-        ? text(change.summary, changedFields.length ? `变化字段：${changedFields.join("、")}` : "变化已确认。")
+-        : CHANGE_REASON_LABELS[change.reason]
+-          || "需要连续快照支持，单次抖动不会作为变化提醒。"),
+-    );
+-    target.append(icon, copy);
+-  }
+-
+   function alertKey(alert) {
+     return text(alert && alert.dedupe_key, text(alert && alert.code, "alert"));
+-  }
+-
+-  function alertReadKey(alert, snapshot) {
+-    return `${alertKey(alert)}@${text(snapshot && snapshot.snapshot_id, "unknown")}`;
+   }
+ 
+   function alertListFromSnapshot(snapshot) {
+@@ -2408,37 +2301,6 @@
+           >= state.sectorFlowSurgeThreshold
+       ))
+       .slice(0, 12);
+-  }
+-
+-  function renderAlerts(snapshot) {
+-    state.alerts = alertListFromSnapshot(snapshot);
+-    const target = byId("alert-list");
+-    target.replaceChildren();
+-    if (!state.alerts.length) {
+-      target.append(createElement("p", "empty-state", "当前没有后端确认的变化提醒。"));
+-    } else {
+-      state.alerts.forEach((alert) => {
+-        const key = alertKey(alert);
+-        const read = state.readAlertKeys.has(alertReadKey(alert, snapshot));
+-        const item = createElement("article", `alert-item${read ? " is-read" : ""}`);
+-        item.dataset.alertKey = key;
+-        const severity = text(alert.severity, "info").toLowerCase();
+-        item.append(
+-          createElement("span", `alert-severity alert-severity--${severity}`),
+-          (() => {
+-            const copy = createElement("div");
+-            copy.append(
+-              createElement("strong", "", text(alert.title, text(alert.code, "盘面变化"))),
+-              createElement("p", "", text(alert.message, "变化已确认")),
+-            );
+-            return copy;
+-          })(),
+-          createElement("time", "", formatTimestamp(snapshot.as_of)),
+-        );
+-        target.append(item);
+-      });
+-    }
+-    updateUnreadCount(snapshot);
+   }
+ 
+   function replayPayload(item) {
+@@ -2733,10 +2595,7 @@
+     renderBreadth(snapshot);
+     renderTurnover(snapshot);
+     renderRotationPulse(snapshot);
+-    renderInterpretation(snapshot);
+-    renderScenarios(snapshot);
+-    renderChange(snapshot);
+-    renderAlerts(snapshot);
++    state.alerts = alertListFromSnapshot(snapshot);
+     updateDataRisk(snapshot);
+     if (state.lastSummary?.source_snapshot_revision !== state.limitUpPoolRevision) {
+       if (!state.limitUpPool) byId("limit-up-pool-button-count").textContent = "…";
+@@ -2808,7 +2667,6 @@
+       );
+     }
+     byId("alert-lock-label").textContent = eligibility.allowed ? "盘面变化提醒可用" : "盘面变化提醒已锁定";
+-    updateAlertDeliveryState(snapshot);
+   }
+ 
+   function renderFetchRisk(error) {
+@@ -2824,15 +2682,6 @@
+       ? `最后画面已保留；${text(error && error.message, "等待自动重试")}。`
+       : `尚无可展示快照；${text(error && error.message, "等待自动重试")}。`;
+     byId("alert-lock-label").textContent = "盘面变化提醒已锁定";
+-    byId("alert-delivery-state").textContent = "请求恢复前不发送提醒";
+-    byId("alert-delivery-state").parentElement.classList.add("is-locked");
+-  }
+-
+-  function updateAlertDeliveryState(snapshot) {
+-    const eligibility = alertEligibility(snapshot);
+-    const delivery = byId("alert-delivery-state");
+-    delivery.textContent = eligibility.reason;
+-    delivery.parentElement.classList.toggle("is-locked", !eligibility.allowed);
+   }
+ 
+   function wasDeliveredRecently(alert, now = Date.now()) {
+@@ -2927,24 +2776,6 @@
+     pruneDeliveredKeys(now);
+     showSystemNotification(pending);
+     playAlertTone();
+-  }
+-
+-  function updateUnreadCount(snapshot) {
+-    const unread = state.alerts.filter((alert) => (
+-      !state.readAlertKeys.has(alertReadKey(alert, snapshot))
+-    )).length;
+-    byId("unread-count").textContent = `${unread} 条未读`;
+-  }
+-
+-  function markAllAlertsRead() {
+-    if (!state.lastSnapshot) return;
+-    state.alerts.forEach((alert) => (
+-      state.readAlertKeys.add(alertReadKey(alert, state.lastSnapshot))
+-    ));
+-    const keys = [...state.readAlertKeys].slice(-MAX_STORED_ALERT_KEYS);
+-    state.readAlertKeys = new Set(keys);
+-    storeJson(STORAGE_KEYS.readAlerts, keys);
+-    if (state.lastSnapshot) renderAlerts(state.lastSnapshot);
+   }
+ 
+   async function handleNotificationOptIn() {
+@@ -5793,8 +5624,6 @@
+       ? `本轮未取得新快照；保留最后一份已核验画面（${formatTimestamp(state.lastSnapshot.as_of)}），仅供回看，不代表当前盘面。`
+       : "页面结构和图表占位继续显示；不会把缺口心跳当成盘面数值。";
+     byId("alert-lock-label").textContent = "盘面变化提醒已锁定";
+-    byId("alert-delivery-state").textContent = "等待 accepted_real";
+-    byId("alert-delivery-state").parentElement.classList.add("is-locked");
+   }
+ 
+   function rememberDetailResult(result) {
+@@ -7198,7 +7027,6 @@
+       if (event.target !== limitUpDialog) return;
+       closeLimitUpPoolDialog();
+     });
+-    byId("mark-read-button").addEventListener("click", markAllAlertsRead);
+     document.querySelectorAll("[data-flow-mode]").forEach((button) => {
+       button.addEventListener("click", () => {
+         if (button.disabled) return;

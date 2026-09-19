@@ -1,6 +1,18 @@
 const test = require("node:test");
 const assert = require("node:assert/strict");
 const { matching, sortByChange, validateDetail } = require("../src/tradex/dashboard/watch/sector-catalog.js");
+const { recoveryLabel } = require("../src/tradex/dashboard/watch/sector-catalog.js");
+
+test("automatic recovery reports backoff and never hides a stalled checker", () => {
+  const now = Date.parse("2026-09-17T15:10:00+08:00");
+  const recovery = { catalog_revision:"r", checked_at:new Date(now).toISOString(), state:"backoff",
+    total_series:1000, missing_series:20, next_retry_at:"2026-09-17T15:11:00+08:00" };
+  assert.match(recoveryLabel(recovery,"r",now), /自动退避重试.*980\/1000.*15:11/);
+  assert.match(recoveryLabel(recovery,"r",now+180001), /检查已超时/);
+  assert.match(recoveryLabel(recovery,"other",now), /待核验/);
+  assert.match(recoveryLabel({...recovery,state:"failed"},"r",now), /发布失败/);
+  assert.match(recoveryLabel({...recovery,state:"complete",missing_series:0,next_retry_at:null},"r",now), /覆盖已验证.*1000\/1000/);
+});
 
 const fs = require("node:fs");
 const vm = require("node:vm");

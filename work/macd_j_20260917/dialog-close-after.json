@@ -1,0 +1,139 @@
+{
+  "results": [
+    {
+      "events": [
+        {
+          "type": "pointerdown",
+          "time": 891.3999999761581,
+          "eventTime": 843,
+          "open": true,
+          "target": "intraday-macd-j-history-dialog"
+        },
+        {
+          "type": "closed-mutation",
+          "time": 898.7999999523163
+        },
+        {
+          "type": "close",
+          "time": 899.7999999523163,
+          "eventTime": 891.5,
+          "open": false,
+          "target": "intraday-macd-j-history-dialog"
+        },
+        {
+          "type": "paint",
+          "time": 905.7999999523163
+        }
+      ],
+      "longTasks": []
+    },
+    {
+      "events": [
+        {
+          "type": "pointerdown",
+          "time": 1203.0999999046326,
+          "eventTime": 1201,
+          "open": true,
+          "target": "intraday-macd-j-history-dialog"
+        },
+        {
+          "type": "closed-mutation",
+          "time": 1209
+        },
+        {
+          "type": "close",
+          "time": 1210.2999999523163,
+          "eventTime": 1203.0999999046326,
+          "open": false,
+          "target": "intraday-macd-j-history-dialog"
+        },
+        {
+          "type": "paint",
+          "time": 1266.5
+        }
+      ],
+      "longTasks": []
+    },
+    {
+      "events": [
+        {
+          "type": "pointerdown",
+          "time": 1495.3999999761581,
+          "eventTime": 1494.6999999284744,
+          "open": true,
+          "target": "intraday-macd-j-history-dialog"
+        },
+        {
+          "type": "closed-mutation",
+          "time": 1504.5999999046326
+        },
+        {
+          "type": "close",
+          "time": 1537.7999999523163,
+          "eventTime": 1495.5,
+          "open": false,
+          "target": "intraday-macd-j-history-dialog"
+        },
+        {
+          "type": "paint",
+          "time": 1553.0999999046326
+        }
+      ],
+      "longTasks": []
+    },
+    {
+      "events": [
+        {
+          "type": "pointerdown",
+          "time": 1750.5,
+          "eventTime": 1750.1999999284744,
+          "open": true,
+          "target": "intraday-macd-j-history-dialog"
+        },
+        {
+          "type": "closed-mutation",
+          "time": 1755.2999999523163
+        },
+        {
+          "type": "close",
+          "time": 1756.2999999523163,
+          "eventTime": 1750.5999999046326,
+          "open": false,
+          "target": "intraday-macd-j-history-dialog"
+        },
+        {
+          "type": "paint",
+          "time": 1770.5999999046326
+        }
+      ],
+      "longTasks": []
+    },
+    {
+      "events": [
+        {
+          "type": "pointerdown",
+          "time": 2023.1999999284744,
+          "eventTime": 2022.3999999761581,
+          "open": true,
+          "target": "intraday-macd-j-history-dialog"
+        },
+        {
+          "type": "closed-mutation",
+          "time": 2034.2999999523163
+        },
+        {
+          "type": "close",
+          "time": 2089.7999999523163,
+          "eventTime": 2023.1999999284744,
+          "open": false,
+          "target": "intraday-macd-j-history-dialog"
+        },
+        {
+          "type": "paint",
+          "time": 2104.399999976158
+        }
+      ],
+      "longTasks": []
+    }
+  ]
+}

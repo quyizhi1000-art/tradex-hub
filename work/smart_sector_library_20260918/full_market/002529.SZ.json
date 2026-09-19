@@ -1,0 +1,63 @@
+{
+  "instrument_id": "002529.SZ",
+  "name": "海源复材",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "002529.SZ",
+    "name": "海源复材",
+    "memberships": [
+      "机械设备",
+      "专用设备",
+      "其他专用设备",
+      "江西板块",
+      "高市净率",
+      "近期摘帽",
+      "破发股",
+      "碳纤维",
+      "微盘股",
+      "新能源车",
+      "3D打印",
+      "光伏概念",
+      "新能源"
+    ],
+    "business_sections": [
+      {
+        "title": "复合材料轻量化制品、光伏组件",
+        "kind": "主营业务",
+        "text": "公司作为集研发、制造与销售于一体的综合性高新技术企业，始终深耕于复合材料轻量化制品与光伏组件两大核心赛道。秉持“成为新材料、新科技、新能源创新发展的引领者与驱动者”的宏伟愿景，公司致力于通过技术革新推动产业升级，为全球客户提供绿色、高效的一站式解决方案。"
+      },
+      {
+        "title": "研发优势",
+        "kind": "核心竞争力",
+        "text": "公司拥有一支行业经验丰富的研发团队，对复合材料结构与性能具有深刻理解。公司能够针对客户对高强度复杂结构件的需求，提供定制化的材料改性方案，确保产品在减重的同时，满足严苛的力学性能与安全标准。"
+      },
+      {
+        "title": "成本控制与规模制造能力",
+        "kind": "核心竞争力",
+        "text": "依托HP-RTM等模压工艺，公司通过生产过程的精细化管控，有效提升了产品良率与生产效率。同时，将“技术降本”与“管理降本”应用于生产成本控制之中，使公司在面对原材料价格波动时仍能保持稳健的毛利率，提升公司的抗风险能力。"
+      },
+      {
+        "title": "营销服务体系与客户粘性",
+        "kind": "核心竞争力",
+        "text": "公司建立了快速响应机制，深度嵌入主机厂及一级供应商的同步开发体系。在产品设计阶段即介入参与，帮助客户实现新车型的快速上市。这种“伴随式”的服务模式不仅增强了客户粘性，也为公司在新车型定点中赢得了先发优势。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ002529",
+    "fetched_at": "2026-09-18T22:50:09.960036+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "光伏"
+}

@@ -1,0 +1,49 @@
+{
+  "instrument_id": "000659.SZ",
+  "name": "珠海中富",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "000659.SZ",
+    "name": "珠海中富",
+    "memberships": [
+      "轻工制造",
+      "包装印刷",
+      "塑料包装",
+      "广东板块",
+      "高市净率",
+      "低价股",
+      "深股通",
+      "包装材料",
+      "粤港自贸"
+    ],
+    "business_sections": [
+      {
+        "title": "碳酸饮料、热灌装饮料、饮用水和啤酒包装用PET瓶、PET瓶胚、标签、外包装薄膜、胶罐的生产与销售",
+        "kind": "主营业务",
+        "text": "公司目前主要从事碳酸饮料、热灌装饮料、饮用水和啤酒包装用PET瓶、PET瓶胚、标签、外包装薄膜、胶罐的生产与销售，并同时为企业提供碳酸饮料、饮用水、茶饮料、无菌灌装、热灌装饮料代加工服务。公司作为目前国内生产规模位居前列的饮料包装企业之一、生产能力位居前列的饮料代加工（OEM）企业之一,具有完整的饮料塑料包装、代工产业链，近年来公司业务不断向下游延伸，伴随着饮料代加工（OEM）业务的逐步壮大，进一步丰富公司的产品线。"
+      },
+      {
+        "title": "多方面优势",
+        "kind": "核心竞争力",
+        "text": "（一）公司在25座城市建有近38家工厂，拥有全国性的生产、销售网络；\n（二）公司拥有长期、稳定的国内外著名客户；\n（三）公司拥有先进的生产技术工艺；\n（四）公司是国家行业标准的主要起草单位，具有先进的质量管控体系；\n（五）公司工程技术中心具有国内领先的饮料及PET啤酒包装研发能力；\n（六）公司整体装备水平达到国际先进水平；\n（七）公司业务向下游延伸并生产配套产品，具有产业链优势。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ000659",
+    "fetched_at": "2026-09-18T22:35:41.611525+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "食品饮料"
+}

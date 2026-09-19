@@ -1,0 +1,74 @@
+{
+  "instrument_id": "000993.SZ",
+  "name": "闽东电力",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "000993.SZ",
+    "name": "闽东电力",
+    "memberships": [
+      "公用事业",
+      "电力",
+      "水力发电",
+      "福建板块",
+      "2026中报预减",
+      "题材股",
+      "趋势股",
+      "百日新高",
+      "历史新高",
+      "近期新高",
+      "最近多板",
+      "东方财富热股",
+      "昨日高振幅",
+      "昨日高换手",
+      "深股通",
+      "融资融券",
+      "啤酒概念",
+      "绿色电力",
+      "碳交易",
+      "化债(AMC)概念",
+      "央国企改革",
+      "风能",
+      "光伏概念",
+      "新能源"
+    ],
+    "business_sections": [
+      {
+        "title": "电力生产与开发",
+        "kind": "主营业务",
+        "text": "公司致力于清洁能源、新能源等领域的发展。目前主营业务为电力生产与开发，主要以水电、风电、光伏为主，公司在电力为主的基础上进行相关多元投资。"
+      },
+      {
+        "title": "区位资源优势",
+        "kind": "核心竞争力",
+        "text": "宁德区域风能资源禀赋优越，沿海“狭管效应”带来优质风电资源，同时拥有丰富的海上风电资源，发展潜力巨大。公司作为宁德市唯一的国有控股清洁能源上市公司，在资源获取和政策支持方面具有一定优势。"
+      },
+      {
+        "title": "专业化优势",
+        "kind": "核心竞争力",
+        "text": "公司深耕清洁能源发电领域多年，专业化程度高，在电力业务的经营管理、技术储备等方面具备丰富的经验，已构建“水风光”多能互补的电源结构，可有效平滑单一电力波动，增强电力输出的稳定性与抗风险能力。"
+      },
+      {
+        "title": "资金优势",
+        "kind": "核心竞争力",
+        "text": "公司资信状况优良，财务稳健，经营现金流充足，且与金融机构保持稳固合作关系，融资渠道多元，资金保障有力，为公司项目持续扩张提供了充足的“安全垫”。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ000993",
+    "fetched_at": "2026-09-18T22:36:50.555374+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "电力"
+}

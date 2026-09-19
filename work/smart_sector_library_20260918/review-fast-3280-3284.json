@@ -1,0 +1,105 @@
+[
+  {
+    "id": "600520.SH",
+    "key": "advanced_packaging",
+    "sector": "先进封装",
+    "source_sector_name": "先进封装",
+    "source_sector_provider": "同花顺",
+    "stage": "pilot",
+    "chain": [
+      "先进封装设备及模具"
+    ],
+    "company_fact": "半导体封装装备面向封测及IDM客户，完成产业整合并进入国际客户供应链。",
+    "ths_fact": "基板压缩成型设备与扇出封装模具开展技术攻关。",
+    "fact": "半导体封装装备面向封测及IDM客户，完成产业整合并进入国际客户供应链。",
+    "reason": "先进封装设备国产替代身份明确；原半年报FSPM180完成初步验证，不将2028计划投产项目当现有产能。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "600520-2026h1-advanced",
+        "source_kind": "official_filing",
+        "publisher": "600520.SH",
+        "title": "2026年半年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12543550&stockid=600520",
+        "published_at": "2026-08-27",
+        "assertions": [
+          "FSPM180自动封装系统完成初步验证；众合280T双注塑首台交付验证；新产业化项目计划2028投产。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "600521.SH",
+    "key": "innovative_drugs",
+    "sector": "创新药",
+    "source_sector_name": "创新药",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "生物创新药研发及获批产品"
+    ],
+    "company_fact": "业务包含仿制药生物药创新药原料药，并强化创新研发管线及全球合作。",
+    "ths_fact": "主营涵盖创新药研发生产销售。",
+    "fact": "业务包含仿制药生物药创新药原料药，并强化创新研发管线及全球合作。",
+    "reason": "华奥泰HB0034于2026年7月获批，一类自研产品与临床梯队使创新药身份成立；获批不等于销售收入。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "600521-2026h1-hb0034",
+        "source_kind": "official_filing",
+        "publisher": "600521.SH",
+        "title": "2026年半年度报告",
+        "source_url": "https://static.cninfo.com.cn/finalpage/2026-08-27/1225513543.PDF",
+        "published_at": "2026-08-27",
+        "assertions": [
+          "第8及17页：HB0034七月获批上市，商业化准备中，另有多个临床管线。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "600522.SH",
+    "key": "optical_fiber",
+    "sector": "光纤",
+    "source_sector_name": "光纤概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "光棒光纤光缆及光通信网络"
+    ],
+    "company_fact": "通信业务具备预制棒光纤光缆及光网方案，并经营海缆电力新能源。",
+    "ths_fact": "主营光纤通信和电力传输，产品包括光通信网络海洋系列。",
+    "fact": "通信业务具备预制棒光纤光缆及光网方案，并经营海缆电力新能源。",
+    "reason": "光通信和海缆双主线下以已有光纤概念表达稳定市场身份；旧COB光模块证据不能等同CPO整机交付。"
+  },
+  {
+    "id": "600523.SH",
+    "key": "huawei_auto",
+    "sector": "华为汽车",
+    "source_sector_name": "华为汽车",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "车载热交换器及驾驶系统部件"
+    ],
+    "company_fact": "汽车零部件包含热交换器电子开关刮水器等，为整车企业配套。",
+    "ths_fact": "2025年互动确认华为驾驶系统供应商；2023互动确认车载热交换器主要供应关系。",
+    "fact": "汽车零部件包含热交换器电子开关刮水器等，为整车企业配套。",
+    "reason": "实际汽车供应链支撑华为汽车主归属，不能将集团航空资产拟注入当上市公司现有整机业务。"
+  },
+  {
+    "id": "600525.SH",
+    "key": "smart_grid",
+    "sector": "智能电网",
+    "source_sector_name": "智能电网",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "继保配网设备及能源服务"
+    ],
+    "company_fact": "长园深瑞等经营智能电网设备与能源互联网技术服务，覆盖传统及新能源系统。",
+    "ths_fact": "主营智能电网与能源服务，同时经营消费电子智能设备。",
+    "fact": "长园深瑞等经营智能电网设备与能源互联网技术服务，覆盖传统及新能源系统。",
+    "reason": "电网设备与能源技术形成完整直接业务；虚拟电厂为该平台具体应用，旧参股及客户概念不优先。"
+  }
+]

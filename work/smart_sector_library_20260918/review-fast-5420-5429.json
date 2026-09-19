@@ -1,0 +1,166 @@
+[
+  {
+    "id": "920407.BJ",
+    "key": "underground_pipelines",
+    "sector": "地下管网",
+    "source_sector_name": "地下管网",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "综合管廊气体环境监测"
+    ],
+    "fact": "气体安全仪表报警系统传感器用于工业及地下管廊。",
+    "company_fact": "气体安全仪表报警系统传感器用于工业及地下管廊。",
+    "ths_fact": "供货黄家湖冬奥雄安等管廊监测项目。",
+    "reason": "实际地下管廊项目链位，非管道建造商。"
+  },
+  {
+    "id": "920414.BJ",
+    "key": "photovoltaic",
+    "sector": "光伏",
+    "source_sector_name": "光伏概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "光伏AI视觉检测与运维"
+    ],
+    "fact": "光伏制造缺陷检测设备软件及电站评估运维服务。",
+    "company_fact": "光伏制造缺陷检测设备软件及电站评估运维服务。",
+    "ths_fact": "主营光伏检测方案设备软件及AI云检测服务。",
+    "reason": "行业核心为光伏质量检测，机器人为检测产线组成。"
+  },
+  {
+    "id": "920415.BJ",
+    "key": "ai_agents",
+    "sector": "AI智能体",
+    "source_sector_name": "AI智能体",
+    "source_sector_provider": "同花顺",
+    "stage": "pilot",
+    "chain": [
+      "航空智能助手"
+    ],
+    "fact": "为航空公司机场提供行业软件，兼有其它定制开发。",
+    "company_fact": "为航空公司机场提供行业软件，兼有其它定制开发。",
+    "ths_fact": "行业大模型智能助手智小签智小服已在客户试用。",
+    "reason": "具体试用产品支撑，低空产品计划不等于已大规模运营。"
+  },
+  {
+    "id": "920418.BJ",
+    "key": "reducers",
+    "sector": "减速器",
+    "source_sector_name": "减速器",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "RV减速器轴承滚动体"
+    ],
+    "fact": "滚针轴承及滚动体研发制造销售。",
+    "company_fact": "滚针轴承及滚动体研发制造销售。",
+    "ths_fact": "RV减速器相关产品已小批供货。",
+    "reason": "提供减速器轴承，不写成自制机器人整机或全部RV总成。"
+  },
+  {
+    "id": "920419.BJ",
+    "key": "pet_economy",
+    "sector": "宠物经济",
+    "source_sector_name": "宠物经济",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "宠物主粮零食"
+    ],
+    "fact": "宠物肉干罐头饼干主粮等生产销售。",
+    "company_fact": "宠物肉干罐头饼干主粮等生产销售。",
+    "ths_fact": "主营宠物食品研发产销。",
+    "reason": "宠物食品产业身份，运营宣传IP不优先当谷子商品经营。"
+  },
+  {
+    "id": "920422.BJ",
+    "key": "food_feed_additives",
+    "sector": "食品及饲料添加剂",
+    "source_sector_name": "食品及饲料添加剂",
+    "source_sector_provider": "东方财富",
+    "stage": "revenue",
+    "chain": [
+      "食品添加剂"
+    ],
+    "fact": "专业食品添加剂研发生产销售。",
+    "company_fact": "专业食品添加剂研发生产销售。",
+    "ths_fact": "仅汇率受益泛概念，无更贴合产业细分概念证据。",
+    "reason": "用已有食品及饲料添加剂行业，非按汇率因素归属。"
+  },
+  {
+    "id": "920425.BJ",
+    "key": "ai_glasses",
+    "sector": "AI眼镜",
+    "source_sector_name": "AI眼镜",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "五轴精密点胶控制系统"
+    ],
+    "fact": "工业运动控制系统服务消费电子点胶工艺。",
+    "company_fact": "工业运动控制系统服务消费电子点胶工艺。",
+    "ths_fact": "五轴精密点胶系统已用于全球头部智能眼镜品牌量产。",
+    "reason": "制造系统供应环节，非眼镜整机品牌。"
+  },
+  {
+    "id": "920427.BJ",
+    "key": "chips",
+    "sector": "芯片",
+    "source_sector_name": "芯片概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "集成电路封装测试设计"
+    ],
+    "fact": "原有工程勘察设计及咨询业务。",
+    "company_fact": "原有工程勘察设计及咨询业务。",
+    "ths_fact": "已收购九江华维芯51%并新增封测设计业务。",
+    "reason": "原H1确认控股与封测业务收入，选择已落地芯片业务，不以拟投无人机替代。",
+    "extra_evidence": [
+      {
+        "evidence_id": "official-920427-2026h1",
+        "source_kind": "official_filing",
+        "publisher": "华维设计",
+        "title": "2026年半年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12527006&stockid=920427",
+        "published_at": "2026-08-25",
+        "assertions": [
+          "九江华维芯51%收购已完成",
+          "控股封测设计业务已运营并影响合并收入"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "920429.BJ",
+    "key": "sports_industry",
+    "sector": "体育产业",
+    "source_sector_name": "体育产业",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "运动营养与科学健身"
+    ],
+    "fact": "运动健康营养食品和数字化体育服务。",
+    "company_fact": "运动健康营养食品和数字化体育服务。",
+    "ths_fact": "运动营养食品解决方案与科学健身服务实际经营。",
+    "reason": "体育营养业务身份，军需食品及AI为次标签。"
+  },
+  {
+    "id": "920433.BJ",
+    "key": "traditional_chinese_medicine",
+    "sector": "中医药",
+    "source_sector_name": "中医药",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "中成药与蒙药"
+    ],
+    "fact": "药品研发生产销售，持有注册批件并经药店医院销售。",
+    "company_fact": "药品研发生产销售，持有注册批件并经药店医院销售。",
+    "ths_fact": "道地药材蒙药专科药，中成药民族药为实际产品。",
+    "reason": "民族药中医药产业归属，不用地区开发标签。"
+  }
+]

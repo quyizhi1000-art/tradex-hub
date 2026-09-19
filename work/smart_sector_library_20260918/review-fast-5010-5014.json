@@ -1,0 +1,91 @@
+[
+  {
+    "id": "688518.SH",
+    "key": "solid_state_battery",
+    "sector": "固态电池",
+    "source_sector_name": "固态电池",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "固态电池激光制造设备"
+    ],
+    "fact": "精密激光焊接与智能制造，服务动力储能电池等。",
+    "company_fact": "精密激光焊接与智能制造，服务动力储能电池等。",
+    "ths_fact": "全固态已为两家头部客户中试线提供设备，半固态有订单。",
+    "reason": "设备实际交付，不把电池客户中试写成电池量产。"
+  },
+  {
+    "id": "688519.SH",
+    "key": "pcb",
+    "sector": "PCB",
+    "source_sector_name": "PCB概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "覆铜板与粘结片"
+    ],
+    "fact": "覆铜板粘结片是电路板核心材料，覆盖数据中心等终端。",
+    "company_fact": "覆铜板粘结片是电路板核心材料，覆盖数据中心等终端。",
+    "ths_fact": "现有产品直接供货PCB客户。",
+    "reason": "板材链位明确；CPO适配与DRAM认证不直接当芯片制造。"
+  },
+  {
+    "id": "688520.SH",
+    "key": "innovative_drugs",
+    "sector": "创新药",
+    "source_sector_name": "创新药",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "抗体与重组蛋白药物"
+    ],
+    "fact": "差异化生物药管线，已有五产品获批上市且另有临床品种。",
+    "company_fact": "差异化生物药管线，已有五产品获批上市且另有临床品种。",
+    "ths_fact": "SCTB14开展I/II期及联合II/III期研究，SCTB41启动I期。",
+    "reason": "创新药有获批产品及临床管线，外包购买CRO服务不算CRO供应商。"
+  },
+  {
+    "id": "688521.SH",
+    "key": "ai_chips",
+    "sector": "AI芯片",
+    "source_sector_name": "AI芯片",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "AI ASIC定制与IP授权"
+    ],
+    "fact": "半导体IP授权和定制服务，深度布局AI ASIC已有业绩。",
+    "company_fact": "半导体IP授权和定制服务，深度布局AI ASIC已有业绩。",
+    "ths_fact": "AI ISP融合NPU和ISP用于低功耗视觉应用。",
+    "reason": "AI ASIC身份与业务一致，IP和定制服务非自有晶圆制造。"
+  },
+  {
+    "id": "688522.SH",
+    "key": "low_altitude_economy",
+    "sector": "低空经济",
+    "source_sector_name": "低空经济",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "低空目标与气象相控阵雷达"
+    ],
+    "fact": "相控阵雷达已向低空民航等市场推广。",
+    "company_fact": "相控阵雷达已向低空民航等市场推广。",
+    "ths_fact": "多功能雷达用于低慢小目标探测和空管气象预警。",
+    "reason": "原半年报列明低空雷达新品；希格玛收购3月已终止，不采旧MCU并购标签。",
+    "extra_evidence": [
+      {
+        "evidence_id": "official-688522-2026h1",
+        "source_kind": "official_filing",
+        "publisher": "纳睿雷达",
+        "title": "2026年半年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12532209&stockid=688522",
+        "published_at": "2026-08-26",
+        "assertions": [
+          "低空多功能雷达产品已推出",
+          "2026年3月终止拟购希格玛事项"
+        ]
+      }
+    ]
+  }
+]

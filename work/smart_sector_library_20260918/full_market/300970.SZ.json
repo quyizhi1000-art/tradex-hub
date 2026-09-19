@@ -1,0 +1,59 @@
+{
+  "instrument_id": "300970.SZ",
+  "name": "华绿生物",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "300970.SZ",
+    "name": "华绿生物",
+    "memberships": [
+      "农林牧渔",
+      "种植业",
+      "食用菌",
+      "江苏板块",
+      "创业板综",
+      "融资融券",
+      "QFII重仓",
+      "合成生物",
+      "农业种植"
+    ],
+    "business_sections": [
+      {
+        "title": "食用菌的研发、工厂化种植及销售",
+        "kind": "主营业务",
+        "text": "公司自成立以来，专业从事食用菌的研发、工厂化种植及销售业务，是国内领先的食用菌工厂化生产企业之一。公司采用生物工程技术、生态环境模拟、智能化控制、自动化作业等工厂化方式，致力于为消费者提供安全、健康、营养的食用菌产品。"
+      },
+      {
+        "title": "生产基地区位优势明显",
+        "kind": "核心竞争力",
+        "text": "公司生产基地位于江苏省宿迁市、重庆市、贵州省桐梓县、河北省望都县、广西壮族自治区崇左市、河南省确山县、浙江省海宁市、云南省文山壮族苗族自治州文山市，生产基地布局分别辐射国内以及东盟市场，基地布局区位优势明显。"
+      },
+      {
+        "title": "不断创新的研发及技术优势",
+        "kind": "核心竞争力",
+        "text": "公司自成立以来高度重视技术研发，坚持改革创新，走在国内食用菌研究和生产领域的前沿，获得了较为先进的技术储备，形成了较强的竞争力。公司不断通过工艺流程的改善，选择使用最合理的自动化设备，搭设更高效更便捷的系统，提高生产效率、降低成本、优化产品品质。"
+      },
+      {
+        "title": "产品质量及品牌优势",
+        "kind": "核心竞争力",
+        "text": "为了保证产品质量和食品安全，公司通过了ISO9001:2008质量管理体系、ISO22000:2005食品安全管理体系认证，并严格按照体系的要求进行生产，从原材料筛选、生产过程监控到成品质检全程把关产品质量。公司产品质量已经得到消费者的认可，在市场开拓和竞争中具备品牌优势。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ300970",
+    "fetched_at": "2026-09-18T23:20:04.407757+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "金针菇"
+}

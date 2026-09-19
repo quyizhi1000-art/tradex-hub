@@ -1,0 +1,402 @@
+[
+  {
+    "id": "300534.SZ",
+    "key": "chinese_medicine",
+    "sector": "中医药",
+    "source_sector_name": "中医药",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "中成药滴丸合剂"
+    ],
+    "stage": "revenue",
+    "fact": "中成药医疗器械大健康研产销，元胡止痛滴丸、宣肺止嗽合剂等独家品种。",
+    "company_fact": "中成药医疗器械大健康研产销，元胡止痛滴丸、宣肺止嗽合剂等独家品种。",
+    "ths_fact": "主打元胡止痛滴丸为中药保护品种；布瑞哌唑口溶膜仅临床补充规格获批。",
+    "reason": "既有中成药产品链明确；新增口溶膜临床不等同上市创新药销售。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300535.SZ",
+    "key": "dyes",
+    "sector": "染料",
+    "source_sector_name": "染料",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "制革染料及皮革化学品"
+    ],
+    "stage": "revenue",
+    "fact": "皮革及合成革化学品、聚氨酯材料研产销，包括制革染料。",
+    "company_fact": "皮革及合成革化学品、聚氨酯材料研产销，包括制革染料。",
+    "ths_fact": "明确有制革用染料产品在售。",
+    "reason": "在售皮革染料双源吻合；光刻胶仅产品列名不足确认商业化阶段。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300536.SZ",
+    "key": "computing_power_leasing",
+    "sector": "算力租赁",
+    "source_sector_name": "算力租赁",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "算力服务器销售租赁组网"
+    ],
+    "stage": "revenue",
+    "fact": "算力综合服务已成收入主要来源，覆盖设备销售租赁组网运维；显示芯片未量产无收入。",
+    "company_fact": "算力综合服务已成收入主要来源，覆盖设备销售租赁组网运维；显示芯片未量产无收入。",
+    "ths_fact": "2024算力服务收入1.08亿元，销售租赁组网机电协同。",
+    "reason": "算力转型已有经营收入，不能继续以园林或未量产芯片概括。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300537.SZ",
+    "key": "photoresist",
+    "sector": "光刻胶",
+    "source_sector_name": "光刻胶",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "光固化光刻胶及配套材料"
+    ],
+    "stage": "revenue",
+    "fact": "新型功能涂层、光刻胶和配套材料研发生产销售。",
+    "company_fact": "新型功能涂层、光刻胶和配套材料研发生产销售。",
+    "ths_fact": "主营光刻胶涂料等光固化电子化学品；BC绝缘胶已有放量。",
+    "reason": "光刻胶实际材料业务是清晰市场主线，BC保留应用细分。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300538.SZ",
+    "key": "peek_materials",
+    "sector": "PEEK材料",
+    "source_sector_name": "PEEK材料",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "PEEK板棒与精密加工"
+    ],
+    "stage": "revenue",
+    "fact": "高分子复合板棒管研发生产销售深加工，兼材料代理方案。",
+    "company_fact": "高分子复合板棒管研发生产销售深加工，兼材料代理方案。",
+    "ths_fact": "已量产PEEK等工程塑料板棒材。",
+    "reason": "自主PEEK半成品量产明确，不把光刻胶原料代理写为自研胶。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300539.SZ",
+    "key": "reducers",
+    "sector": "减速器",
+    "source_sector_name": "减速器",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "精密齿轮箱及谐波减速器"
+    ],
+    "stage": "revenue",
+    "fact": "精密齿轮齿轮箱减速器及汽车轻量化结构件。",
+    "company_fact": "精密齿轮齿轮箱减速器及汽车轻量化结构件。",
+    "ths_fact": "谐波减速器和扫地机器人减速箱等已开发，精密齿轮箱驱动系统有量产。",
+    "reason": "直接传动产品支撑减速器主线；未将清洁机器人泛化为人形。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300540.SZ",
+    "key": "commercial_space",
+    "sector": "商业航天",
+    "source_sector_name": "商业航天",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "火箭推进剂液甲烷装备"
+    ],
+    "stage": "delivery",
+    "fact": "深冷装备包括航天级高纯甲烷装置，另有空分氢能。",
+    "company_fact": "深冷装备包括航天级高纯甲烷装置，另有空分氢能。",
+    "ths_fact": "火箭级液甲烷装置已交付建成待配套联调，酒泉配套空分有订单。",
+    "reason": "商业航天直接供气装备已交付，区别尚未投运与未供货。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300541.SZ",
+    "key": "data_centers",
+    "sector": "数据中心(AIDC)",
+    "source_sector_name": "数据中心(AIDC)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "算力中心IT基础设施"
+    ],
+    "stage": "revenue",
+    "fact": "金融互联网IT基础设施建设及算力中心数据中心运维。",
+    "company_fact": "金融互联网IT基础设施建设及算力中心数据中心运维。",
+    "ths_fact": "提供数据中心基础设施，另展示昇腾AI推理一体机。",
+    "reason": "建设运维实业对应数据中心，展示一体机不单独推定批量收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300542.SZ",
+    "key": "low_altitude_economy",
+    "sector": "低空经济",
+    "source_sector_name": "低空经济",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "低空申报与综合监视软件"
+    ],
+    "stage": "product",
+    "fact": "金融军工等软件开发集成，提供数据交换及大数据平台。",
+    "company_fact": "金融军工等软件开发集成，提供数据交换及大数据平台。",
+    "ths_fact": "已自主研发低空空域申报和综合监视平台并展示。",
+    "reason": "空管技术延伸有明确低空产品，按产品阶段不把合作签约写成订单。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300543.SZ",
+    "key": "motor_control",
+    "sector": "电机电控",
+    "source_sector_name": "电机电控",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "无刷电机智能控制"
+    ],
+    "stage": "revenue",
+    "fact": "电子智能控制器用于工具家电，另有BMS储能和终端。",
+    "company_fact": "电子智能控制器用于工具家电，另有BMS储能和终端。",
+    "ths_fact": "无刷电机系统用于吸尘器电动工具等，掌握FOC和超高速控制。",
+    "reason": "实际电机控制产品对应细分主线，机器人控制器仍研发送样。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300545.SZ",
+    "key": "ai_glasses",
+    "sector": "AI眼镜",
+    "source_sector_name": "AI眼镜",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "显示模组贴合设备"
+    ],
+    "stage": "delivery",
+    "fact": "显示模组设备用于硅基显示和AR/VR光波导等工序。",
+    "company_fact": "显示模组设备用于硅基显示和AR/VR光波导等工序。",
+    "ths_fact": "持续向业内客户提供AI眼镜贴合类设备。",
+    "reason": "真实贴合设备供货支持AI眼镜链，先进封装新键合机仍工程验证。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300546.SZ",
+    "key": "electronic_identity",
+    "sector": "电子身份证",
+    "source_sector_name": "电子身份证",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "安全证件制发及查验"
+    ],
+    "stage": "revenue",
+    "fact": "可信数字身份、安全证照采集AI鉴伪及管理方案。",
+    "company_fact": "可信数字身份、安全证照采集AI鉴伪及管理方案。",
+    "ths_fact": "向多国提供电子护照身份证制作发行方案及在线管理。",
+    "reason": "安全证照产品与实际客户应用双源确认。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300547.SZ",
+    "key": "liquid_cooled_servers",
+    "sector": "液冷服务器",
+    "source_sector_name": "液冷服务器",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "数据中心液冷管路"
+    ],
+    "stage": "delivery",
+    "fact": "橡塑软管拓展储能数据中心液冷管路并扩产。",
+    "company_fact": "橡塑软管拓展储能数据中心液冷管路并扩产。",
+    "ths_fact": "服务器客户液冷管路已小批量供货，二代产品继续开发。",
+    "reason": "液冷已有供货而非仅下游适配，保持小批交付口径。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300548.SZ",
+    "key": "cpo",
+    "sector": "共封装光学(CPO)",
+    "source_sector_name": "共封装光学(CPO)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "高速光器件光模块"
+    ],
+    "stage": "revenue",
+    "fact": "光芯片模组、集成光器件、光模块AOC及铜缆方案。",
+    "company_fact": "光芯片模组、集成光器件、光模块AOC及铜缆方案。",
+    "ths_fact": "400G模块线缆型号覆盖；2023年800G硅光和CPO尚研发，800G AEC为样品认证销售。",
+    "reason": "采用现有CPO市场主题表达高速光互联主线，revenue指既有光产品，绝不宣称CPO量产；CPO本体进展需后续原公告。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300549.SZ",
+    "key": "reducers",
+    "sector": "减速器",
+    "source_sector_name": "减速器",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "精密行星及蜗轮蜗杆减速器"
+    ],
+    "stage": "product",
+    "fact": "精密模具零件和自动化设备研发生产销售。",
+    "company_fact": "精密模具零件和自动化设备研发生产销售。",
+    "ths_fact": "有超精密行星及双导程蜗轮蜗杆减速器，子公司经营齿轮减速机传动模组。",
+    "reason": "直接减速器产品证实链条，未单独核到收入故按产品阶段。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300550.SZ",
+    "key": "smart_medical",
+    "sector": "智能医疗",
+    "source_sector_name": "智能医疗",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "医院信息系统及AI临床应用"
+    ],
+    "stage": "revenue",
+    "fact": "医院临床信息、数字健康城市及智慧诊疗场景系统。",
+    "company_fact": "医院临床信息、数字健康城市及智慧诊疗场景系统。",
+    "ths_fact": "AI中台已助力数十家三甲医院，TNM自动分期嵌入医生站。",
+    "reason": "既有医院系统与AI临床落地一致，非药品或自营诊疗。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300551.SZ",
+    "key": "internet_finance",
+    "sector": "互联网金融",
+    "source_sector_name": "互联网金融",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "金融软件及智慧金融系统"
+    ],
+    "stage": "revenue",
+    "fact": "金融设备、金融衍生品软件销售及证券信息服务。",
+    "company_fact": "金融设备、金融衍生品软件销售及证券信息服务。",
+    "ths_fact": "提供智慧金融整体方案及金融软件信息化产品服务。",
+    "reason": "真实金融科技业务确定，数字人民币仅技术储备。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300552.SZ",
+    "key": "vehicle_road_coordination",
+    "sector": "车联网(车路协同)",
+    "source_sector_name": "车联网(车路协同)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "V2X感知ETC激光雷达"
+    ],
+    "stage": "revenue",
+    "fact": "围绕车路提供网联感知ETC激光雷达动态称重系统服务。",
+    "company_fact": "围绕车路提供网联感知ETC激光雷达动态称重系统服务。",
+    "ths_fact": "展出V2X全栈、激光雷达ETC和车路云融合方案。",
+    "reason": "车路感知完整业务明确，人形雷达参展获奖不足替代已落地主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300553.SZ",
+    "key": "liquid_cooled_servers",
+    "sector": "液冷服务器",
+    "source_sector_name": "液冷服务器",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "Manifold管路校直检测装备"
+    ],
+    "stage": "orders",
+    "fact": "全自动平衡检测修正及自动化设备研发生产销售。",
+    "company_fact": "全自动平衡检测修正及自动化设备研发生产销售。",
+    "ths_fact": "子公司推出液冷Manifold管路校直设备，与头部企业合作，在手订单增长。",
+    "reason": "下游液冷扩产对应实际装备订单，区分管路加工设备与冷却系统本身。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300554.SZ",
+    "key": "diamond_wire",
+    "sector": "金刚石（线）",
+    "source_sector_name": "金刚石（线）",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "金刚线及精密金刚石砂轮"
+    ],
+    "stage": "revenue",
+    "fact": "电镀金刚线金刚石砂轮用于硅蓝宝石磁材和半导体加工。",
+    "company_fact": "电镀金刚线金刚石砂轮用于硅蓝宝石磁材和半导体加工。",
+    "ths_fact": "金刚石工具研发生产销售，切割磨削抛光硬脆材料。",
+    "reason": "直接磨切材料业务清晰，第三代半导体大项目仍规划口径。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300555.SZ",
+    "key": "broadcasting",
+    "sector": "广播电视",
+    "source_sector_name": "广播电视",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "广电接入网络传输设备"
+    ],
+    "stage": "revenue",
+    "fact": "向广电运营商供应宽带网络设备技术服务及智慧应用。",
+    "company_fact": "向广电运营商供应宽带网络设备技术服务及智慧应用。",
+    "ths_fact": "光收发放大器、PON、EOC等广电接入网产品。",
+    "reason": "主线是广播电视传输设备，量子仅基金投资关系。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300556.SZ",
+    "key": "virtual_reality",
+    "sector": "虚拟现实",
+    "source_sector_name": "虚拟现实",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "XR数字内容与交互场景"
+    ],
+    "stage": "revenue",
+    "fact": "CG数字视觉内容及AR/VR/MR整体方案服务教育文旅工业。",
+    "company_fact": "CG数字视觉内容及AR/VR/MR整体方案服务教育文旅工业。",
+    "ths_fact": "VR教育智慧宫及职业教学沉浸内容已有推广应用。",
+    "reason": "实际XR内容交付支撑虚拟现实主线，不将云渲染等同自营算力。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300557.SZ",
+    "key": "sensors",
+    "sector": "传感器",
+    "source_sector_name": "传感器",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "分布式光纤传感"
+    ],
+    "stage": "revenue",
+    "fact": "光纤传感产品方案服务交通电力油气消防等。",
+    "company_fact": "光纤传感产品方案服务交通电力油气消防等。",
+    "ths_fact": "自主分布式光纤光栅光栅阵列核心技术和配套产品。",
+    "reason": "光纤感知是直接产品定位，不等同通信光纤制造。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300558.SZ",
+    "key": "innovative_drugs",
+    "sector": "创新药",
+    "source_sector_name": "创新药",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "肿瘤靶向创新药"
+    ],
+    "stage": "revenue",
+    "fact": "自主创新抗肿瘤药研发生产营销。",
+    "company_fact": "自主创新抗肿瘤药研发生产营销。",
+    "ths_fact": "凯美纳贝美纳赛美纳伏美纳四款上市创新药全部适应症进入医保。",
+    "reason": "多款已上市产品明确商业化，不只临床研发。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300559.SZ",
+    "key": "ai_applications",
+    "sector": "AI应用",
+    "source_sector_name": "AI应用",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "教育考试模型与智能体"
+    ],
+    "stage": "product",
+    "fact": "教育考试数字化软硬件，融合AI机器视觉服务教管考评。",
+    "company_fact": "教育考试数字化软硬件，融合AI机器视觉服务教管考评。",
+    "ths_fact": "与华为发布教育考试昇腾DeepSeek一体机及智能体应用基座。",
+    "reason": "具体教育AI产品支持新增主线，独立AI销售未证按产品阶段。",
+    "basis": "crosschecked_sources"
+  }
+]

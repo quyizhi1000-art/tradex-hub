@@ -97,7 +97,7 @@ SCREENING_CONDITIONS = [
     {"name": "board", "category": "flag", "desc": "上市板块", "type": "enum",
      "enum_values": ["main_sh", "main_sz", "gem", "star", "bse"], "unit": "",
      "operators": ["in", "not_in"]},
-    {"name": "industry", "category": "flag", "desc": "所属行业", "type": "enum",
+    {"name": "industry", "category": "flag", "desc": "原始统计行业（非市场主归属）", "type": "enum",
      "enum_values": [], "unit": "", "operators": ["in", "not_in"]},
     {"name": "statistical_industry", "category": "flag", "desc": "申万三级统计行业", "type": "enum",
      "enum_values": [], "unit": "", "operators": ["in", "not_in"]},
@@ -178,7 +178,7 @@ def _instrument_id(stock: dict[str, Any]) -> str | None:
     if match is None:
         return None
     code = match.group(0)
-    exchange = "SH" if code.startswith("6") else "BJ" if code.startswith(("4", "8")) else "SZ"
+    exchange = "SH" if code.startswith("6") else "BJ" if code.startswith(("4", "8", "9")) else "SZ"
     return f"{code}.{exchange}"
 
 
@@ -190,6 +190,10 @@ def _enrich_relationships(
     from tradex.instrument_taxonomy.store import InstrumentTaxonomyReader
 
     instrument_ids = [item for stock in stocks_data if (item := _instrument_id(stock))]
+    from tradex.smart_sector_library.catalog import SmartSectorCatalog
+    with SmartSectorCatalog() as sectors:
+        memberships = sectors.get_many(instrument_ids)
+        market_revision = sectors.revision
     with InstrumentTaxonomyReader() as reader:
         profiles = reader.get_many(instrument_ids)
         status = reader.status()
@@ -198,6 +202,10 @@ def _enrich_relationships(
         stock = dict(source)
         instrument_id = _instrument_id(stock)
         profile = profiles.get(instrument_id or "")
+        membership = memberships.get(instrument_id or "")
+        stock["market_sector"] = membership.primary_sector_name if membership else None
+        stock["market_sector_status"] = membership.status if membership else "unresolved"
+        stock["market_sector_revision"] = market_revision
         if profile is not None:
             statistical_industry = (
                 profile.statistical_industry.level3_name

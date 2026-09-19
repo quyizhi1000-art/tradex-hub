@@ -1,0 +1,165 @@
+[
+  {
+    "id": "603376.SH",
+    "key": "automotive_electronics",
+    "sector": "汽车电子",
+    "source_sector_name": "汽车电子",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "车身电子控制总成"
+    ],
+    "fact": "座舱域驾驶照明舒适娱乐全系控制总成及配套开关。",
+    "company_fact": "座舱域驾驶照明舒适娱乐全系控制总成及配套开关。",
+    "ths_fact": "设计开发生产销售车身电子电器控制系统。",
+    "reason": "控制总成直接经营，驾驶辅助名称不等同自动驾驶算法。"
+  },
+  {
+    "id": "603377.SH",
+    "key": "driving_training",
+    "sector": "驾驶培训",
+    "source_sector_name": "驾驶培训",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "驾驶技能培训"
+    ],
+    "fact": "主营机动车及民航驾驶员培训，采用VR与实际道路教学。",
+    "company_fact": "主营机动车及民航驾驶员培训，采用VR与实际道路教学。",
+    "ths_fact": "法规技能安全驾驶及考试服务。",
+    "reason": "VR和AI为教学方式，明确服务主业身份。"
+  },
+  {
+    "id": "603378.SH",
+    "key": "architectural_coatings",
+    "sector": "建筑涂料",
+    "source_sector_name": "建筑涂料",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "建筑涂料与保温装饰"
+    ],
+    "fact": "功能涂料保温装饰防水砂浆家居材料六产品体系。",
+    "company_fact": "功能涂料保温装饰防水砂浆家居材料六产品体系。",
+    "ths_fact": "建筑涂料保温材料研发生产销售。",
+    "reason": "内部AI知识库试用不代表对外智能体业务。"
+  },
+  {
+    "id": "603379.SH",
+    "key": "refrigerants",
+    "sector": "制冷剂",
+    "source_sector_name": "制冷剂",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "含氟制冷剂"
+    ],
+    "fact": "氟制冷剂用于空调冰箱汽车制冷系统。",
+    "company_fact": "氟制冷剂用于空调冰箱汽车制冷系统。",
+    "ths_fact": "HFC单质与混配制冷剂。",
+    "reason": "核心产品与市场身份一致，PVDF项目建设不等同产销。"
+  },
+  {
+    "id": "603380.SH",
+    "key": "aidc",
+    "sector": "数据中心(AIDC)",
+    "source_sector_name": "数据中心(AIDC)",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "服务器电子制造"
+    ],
+    "fact": "通信业务5.20亿元，服务器板卡测试节点机架组装与龙头客户业务增加。",
+    "company_fact": "通信业务5.20亿元，服务器板卡测试节点机架组装与龙头客户业务增加。",
+    "ths_fact": "网络服务器GPU等制造服务用于数据中心。",
+    "reason": "实际服务器制造支撑算力设施身份，不是自营算力租赁。"
+  },
+  {
+    "id": "603381.SH",
+    "key": "humanoid_robots",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "精密铝合金结构件"
+    ],
+    "fact": "具备铝合金光伏边框及结构件研发制造销售能力。",
+    "company_fact": "具备铝合金光伏边框及结构件研发制造销售能力。",
+    "ths_fact": "与智元合作并形成批量交付，主力机型多核心部件供应。",
+    "reason": "现有人形批量供应构成新市场身份，保留光伏基础业务；不把预计液冷产能算收入。",
+    "extra_evidence": [
+      {
+        "evidence_id": "603381-2026h1-structure",
+        "source_kind": "official_filing",
+        "publisher": "永臻股份",
+        "title": "2026年半年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12558719&stockid=603381",
+        "published_at": "2026-08-28",
+        "assertions": [
+          "原报确认全产业链铝合金制造优势和跨行业第二增长曲线；具体智元批量交付依据已存同花顺公司互动回复，不将原报泛述当订单。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "603382.SH",
+    "key": "nylon",
+    "sector": "锦纶",
+    "source_sector_name": "锦纶",
+    "source_sector_provider": "东方财富",
+    "stage": "revenue",
+    "chain": [
+      "尼龙6切片丝线及帘子布"
+    ],
+    "fact": "完整尼龙6切片丝线帘子布产品体系。",
+    "company_fact": "完整尼龙6切片丝线帘子布产品体系。",
+    "ths_fact": "同花顺经营线索为尼龙企业数字化生产及自用屋顶电站。",
+    "reason": "选已有锦纶行业；自用光伏和智能车间不构成能源或工业互联网主营。"
+  },
+  {
+    "id": "603383.SH",
+    "key": "ai_agents",
+    "sector": "AI智能体",
+    "source_sector_name": "AI智能体",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "金融业务智能体"
+    ],
+    "fact": "智能体工场用于C6客户标签服务分析合规，头部券商实际落地。",
+    "company_fact": "智能体工场用于C6客户标签服务分析合规，头部券商实际落地。",
+    "ths_fact": "财富管理智慧运营资管已有AI智能体落地。",
+    "reason": "真实金融软件应用交付，非公司自己开展证券业务。"
+  },
+  {
+    "id": "603385.SH",
+    "key": "bathroom_products",
+    "sector": "卫浴制品",
+    "source_sector_name": "卫浴制品",
+    "source_sector_provider": "东方财富",
+    "stage": "revenue",
+    "chain": [
+      "全品类卫浴"
+    ],
+    "fact": "卫生陶瓷五金浴缸浴室家具等产品生产销售。",
+    "company_fact": "卫生陶瓷五金浴缸浴室家具等产品生产销售。",
+    "ths_fact": "卫浴产品研发生产销售及综合解决方案。",
+    "reason": "制造环节自动化不等同对外机器人业务。"
+  },
+  {
+    "id": "603386.SH",
+    "key": "pcb",
+    "sector": "PCB",
+    "source_sector_name": "PCB概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "印制电路板全流程制造"
+    ],
+    "fact": "PCB和SMT主营，样板至批量全流程，1至108层研制能力。",
+    "company_fact": "PCB和SMT主营，样板至批量全流程，1至108层研制能力。",
+    "ths_fact": "刚性柔性刚柔结合HDI及PCBA产品。",
+    "reason": "PCB是直接产品身份；光模块HDI不自动等同CPO器件，人形供货保留应用标签。"
+  }
+]

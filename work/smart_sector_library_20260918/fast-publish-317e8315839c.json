@@ -1,0 +1,415 @@
+[
+  {
+    "id": "300560.SZ",
+    "key": "edge_computing",
+    "sector": "边缘计算",
+    "source_sector_name": "边缘计算",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "边缘智能终端及视觉计算"
+    ],
+    "stage": "revenue",
+    "fact": "英博达提供边缘计算智能终端研发设计AI视觉及服务器方案，兼通信运维。",
+    "company_fact": "英博达提供边缘计算智能终端研发设计AI视觉及服务器方案，兼通信运维。",
+    "ths_fact": "英博达为边缘计算视觉方案商，英伟达是上游合作方；另中标GPU租赁。",
+    "reason": "自身边缘计算产品服务清楚，不把采购GPU解释为芯片供应。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300561.SZ",
+    "key": "internet_finance",
+    "sector": "互联网金融",
+    "source_sector_name": "互联网金融",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "银行现金风控及AI鉴权"
+    ],
+    "stage": "revenue",
+    "fact": "银行现金重控物品云端管理及AI音视频身份鉴权。",
+    "company_fact": "银行现金重控物品云端管理及AI音视频身份鉴权。",
+    "ths_fact": "银行支付安全、人脸语音识别和移动业务管控服务金融客户。",
+    "reason": "银行运营风控软件设备是真实金融科技主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300562.SZ",
+    "key": "smart_medical",
+    "sector": "智能医疗",
+    "source_sector_name": "智能医疗",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "健康监测及数字慢病管理"
+    ],
+    "stage": "revenue",
+    "fact": "血压血糖心电可穿戴监测设备、RPM远程监护及数字慢病管理。",
+    "company_fact": "血压血糖心电可穿戴监测设备、RPM远程监护及数字慢病管理。",
+    "ths_fact": "聚焦多维体征监测和AI慢病管理整体方案。",
+    "reason": "医疗级监测设备与持续健康服务相互支撑，不只消费手环。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300563.SZ",
+    "key": "high_speed_copper_interconnect",
+    "sector": "铜缆高速连接",
+    "source_sector_name": "铜缆高速连接",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "DAC高速数据线"
+    ],
+    "stage": "revenue",
+    "fact": "射频同轴线缆连接器组件用于高速数据通信等。",
+    "company_fact": "射频同轴线缆连接器组件用于高速数据通信等。",
+    "ths_fact": "USB4和SAS数据线，DAC高速线已持续量产。",
+    "reason": "实际高速铜缆量产支撑算力互联主题。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300564.SZ",
+    "key": "prefabricated_buildings",
+    "sector": "装配式建筑",
+    "source_sector_name": "装配式建筑",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "装配式建筑BIM设计"
+    ],
+    "stage": "revenue",
+    "fact": "建筑设计城市更新及装配式BIM绿色建筑咨询。",
+    "company_fact": "建筑设计城市更新及装配式BIM绿色建筑咨询。",
+    "ths_fact": "以BIM进行预制构件设计及施工运维全过程管理。",
+    "reason": "装配式设计业务明确，产业环节为设计不是构件生产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300565.SZ",
+    "key": "data_centers",
+    "sector": "数据中心(AIDC)",
+    "source_sector_name": "数据中心(AIDC)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "微模块机房及温控能源"
+    ],
+    "stage": "revenue",
+    "fact": "网络能源整机电池电源温控监控，服务基站数据中心储能。",
+    "company_fact": "网络能源整机电池电源温控监控，服务基站数据中心储能。",
+    "ths_fact": "智能微模块和封闭冷通道等，2025数据中心产品收入6213万元。",
+    "reason": "数据中心能源与节能产品已有单列收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300566.SZ",
+    "key": "poe_film",
+    "sector": "POE胶膜",
+    "source_sector_name": "POE胶膜",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "光伏封装胶膜"
+    ],
+    "stage": "revenue",
+    "fact": "EVA和共挤POE等光伏封装膜批量生产，另有显示光学膜。",
+    "company_fact": "EVA和共挤POE等光伏封装膜批量生产，另有显示光学膜。",
+    "ths_fact": "EVA EPE POE等量产，2023销售1.82亿元。",
+    "reason": "光伏胶膜真实量产可支撑主线；AI眼镜仍研发小试。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300567.SZ",
+    "key": "semiconductors",
+    "sector": "半导体",
+    "source_sector_name": "半导体概念",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "前后道晶圆量检测设备"
+    ],
+    "stage": "revenue",
+    "fact": "膜厚OCD电子束缺陷应力明场ATE等半导体量检测设备。",
+    "company_fact": "膜厚OCD电子束缺陷应力明场ATE等半导体量检测设备。",
+    "ths_fact": "芯片解析确认前后道检测全领域布局及上海精测核心设备。",
+    "reason": "半导体装备主线明确，不将存储客户关系解释为存储芯片制造。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300568.SZ",
+    "key": "lithium_battery_separators",
+    "sector": "锂电隔膜",
+    "source_sector_name": "锂电隔膜",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "干湿法及涂覆隔膜"
+    ],
+    "stage": "revenue",
+    "fact": "锂离子电池隔膜研发生产销售，干湿法涂覆及功能膜。",
+    "company_fact": "锂离子电池隔膜研发生产销售，干湿法涂覆及功能膜。",
+    "ths_fact": "干法隔膜稳定生产，专业锂离子电池隔膜供应商。",
+    "reason": "隔膜经营直接；固态电解质来自参股企业不得当全资主营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300569.SZ",
+    "key": "wind_power",
+    "sector": "风电",
+    "source_sector_name": "风电",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "塔筒单桩及风场运营"
+    ],
+    "stage": "revenue",
+    "fact": "风机塔架海上单桩锚栓与新能源发电。",
+    "company_fact": "风机塔架海上单桩锚栓与新能源发电。",
+    "ths_fact": "风电场投资运营为主业，塔筒用于陆上和海上。",
+    "reason": "设备制造与电站运营共同服务风电。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300570.SZ",
+    "key": "cpo",
+    "sector": "共封装光学(CPO)",
+    "source_sector_name": "共封装光学(CPO)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "光互连器件及封装集成"
+    ],
+    "stage": "revenue",
+    "fact": "无源有源光器件应用电信和算力云数据中心，另有光传感。",
+    "company_fact": "无源有源光器件应用电信和算力云数据中心，另有光传感。",
+    "ths_fact": "具备光元器件收发系统封装集成及光互连方案能力，推进高速有源量产。",
+    "reason": "CPO既有主题对应光互联供应链；收入指现有光器件，不宣称CPO整机量产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300571.SZ",
+    "key": "computing_power_leasing",
+    "sector": "算力租赁",
+    "source_sector_name": "算力租赁",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "GPU集群部署及资源服务"
+    ],
+    "stage": "revenue",
+    "fact": "采购组装部署GPU服务器，算力按使用量月度季度收费。",
+    "company_fact": "采购组装部署GPU服务器，算力按使用量月度季度收费。",
+    "ths_fact": "算力订单累计超22亿元，相关硬件已采购交付。",
+    "reason": "合同和持续收费模式证实算力服务，机器人参展是次要新业务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300572.SZ",
+    "key": "instruments",
+    "sector": "仪器仪表",
+    "source_sector_name": "仪器仪表",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "机动车检验设备系统"
+    ],
+    "stage": "revenue",
+    "fact": "机动车安全环保新能源检测系统，兼检测站数字运营。",
+    "company_fact": "机动车安全环保新能源检测系统，兼检测站数字运营。",
+    "ths_fact": "已布局32个网点，新能源检测设备内部试运行具量产条件。",
+    "reason": "成熟检测装备为现有主线，新能源新设备不提前写成批量销售。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300573.SZ",
+    "key": "ophthalmology",
+    "sector": "眼科医疗",
+    "source_sector_name": "眼科医疗",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "近视干眼及眼科药物"
+    ],
+    "stage": "revenue",
+    "fact": "专业眼科药研发生产销售，近视干眼抗感染等66批准文号。",
+    "company_fact": "专业眼科药研发生产销售，近视干眼抗感染等66批准文号。",
+    "ths_fact": "眼科系列覆盖十余细分药类凝胶滴眼眼膏多剂型。",
+    "reason": "眼科产品治疗领域最明确，创新生物药仍临床阶段。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300575.SZ",
+    "key": "pesticides",
+    "sector": "农药",
+    "source_sector_name": "农药",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "作物保护药剂"
+    ],
+    "stage": "revenue",
+    "fact": "农药研发生产销售，仿创结合与工艺改进。",
+    "company_fact": "农药研发生产销售，仿创结合与工艺改进。",
+    "ths_fact": "虫螨腈等用于防治草地贪夜蛾；创新药为参股研发。",
+    "reason": "直接作物保护经营明确，不以参股肿瘤临床替代本体农药。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300576.SZ",
+    "key": "photoresist",
+    "sector": "光刻胶",
+    "source_sector_name": "光刻胶",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "PCB显示半导体光刻胶"
+    ],
+    "stage": "revenue",
+    "fact": "湿膜阻焊干膜显示半导体及特种光刻胶配套化学品。",
+    "company_fact": "湿膜阻焊干膜显示半导体及特种光刻胶配套化学品。",
+    "ths_fact": "主营电子感光化学品研发生产销售，产品序列对应。",
+    "reason": "直接光刻胶材料研发制造销售双源吻合。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300577.SZ",
+    "key": "cross_border_ecommerce",
+    "sector": "跨境电商",
+    "source_sector_name": "跨境电商",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "90分箱包海外渠道"
+    ],
+    "stage": "revenue",
+    "fact": "包袋旅行箱服装配件研发生产销售及出行品牌。",
+    "company_fact": "包袋旅行箱服装配件研发生产销售及出行品牌。",
+    "ths_fact": "90分海外线上跨境电商和分销，已入驻美国亚马逊。",
+    "reason": "自有出行产品与跨境销售实业闭环，代工背景保留。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300578.SZ",
+    "key": "cloud_office",
+    "sector": "云办公",
+    "source_sector_name": "云办公",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "云视频协作平台终端"
+    ],
+    "stage": "revenue",
+    "fact": "会畅智云服务政企跨国企业音视频协同，硬件摄像机终端。",
+    "company_fact": "会畅智云服务政企跨国企业音视频协同，硬件摄像机终端。",
+    "ths_fact": "云端行业垂直视频完整方案。",
+    "reason": "成熟云视频协作有规模化应用，AI文字转视频仍方向表述。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300579.SZ",
+    "key": "cybersecurity",
+    "sector": "网络安全",
+    "source_sector_name": "网络安全",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "电子认证与密码安全"
+    ],
+    "stage": "revenue",
+    "fact": "电子认证网络安全产品集成服务。",
+    "company_fact": "电子认证网络安全产品集成服务。",
+    "ths_fact": "面向全国提供认证安全方案；量子方向是后量子密码研究。",
+    "reason": "数字信任安全是直接业务，后量子不等于量子计算硬件。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300580.SZ",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "滚珠滚柱丝杠与直线执行器"
+    ],
+    "stage": "product",
+    "fact": "工业母机人形领域直线部件，含丝杠微型丝杠导轨执行器。",
+    "company_fact": "工业母机人形领域直线部件，含丝杠微型丝杠导轨执行器。",
+    "ths_fact": "高精度滚珠滚柱丝杠和导轨用于工业母机人形领域。",
+    "reason": "真实精密传动产品支持人形链，不用传统汽车收入排除；订单收入未单证。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300581.SZ",
+    "key": "military",
+    "sector": "军工",
+    "source_sector_name": "军工",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "航空惯导发动机电子无人机"
+    ],
+    "stage": "revenue",
+    "fact": "航空惯导发动机监控和无人靶机，靶机已进入军方市场。",
+    "company_fact": "航空惯导发动机监控和无人靶机，靶机已进入军方市场。",
+    "ths_fact": "当前产品主要以军品销售，最终用户主要国内军方。",
+    "reason": "军用航电及无人机真实交付支撑军工。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300582.SZ",
+    "key": "led",
+    "sector": "LED",
+    "source_sector_name": "LED",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "照明驱动电源及控制"
+    ],
+    "stage": "revenue",
+    "fact": "LED驱动电源传感器控制系统模组研发生产销售。",
+    "company_fact": "LED驱动电源传感器控制系统模组研发生产销售。",
+    "ths_fact": "主营照明配套，不自产LED芯片；数字电源有多城灯杆案例。",
+    "reason": "归LED产业配套实业，区分驱动电源与LED芯片。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300583.SZ",
+    "key": "synthetic_biology",
+    "sector": "合成生物",
+    "source_sector_name": "合成生物",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "生物法甾体药物原料"
+    ],
+    "stage": "revenue",
+    "fact": "以基因工程和合成生物技术生产甾体原料，延伸原料药制剂。",
+    "company_fact": "以基因工程和合成生物技术生产甾体原料，延伸原料药制剂。",
+    "ths_fact": "合成生物工艺提高资源和生产效率并降低成本。",
+    "reason": "合成生物已用于实际原料制造，非仅投资或研究计划。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "300584.SZ",
+    "key": "chemical_pharmaceuticals",
+    "sector": "化学制药",
+    "source_sector_name": "化学制药",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "化学制剂原料药中间体"
+    ],
+    "stage": "revenue",
+    "fact": "化学制剂原料及中间体研产销，另布局锂电材料。",
+    "company_fact": "化学制剂原料及中间体研产销，另布局锂电材料。",
+    "ths_fact": "同花顺公司页确认化学制剂原料药中间体研产销，心脑血管等产品。",
+    "reason": "既有药品商业化清楚；NMS为共同投资、固态胶为研发合作，不能直接认定上市公司创新药或固态量产。",
+    "basis": "crosschecked_sources",
+    "extra_evidence": [
+      {
+        "evidence_id": "ths-company-300584-20260919",
+        "source_kind": "web_secondary",
+        "publisher": "同花顺",
+        "title": "海辰药业公司资料",
+        "source_url": "https://basic.10jqka.com.cn/300584/company.html",
+        "published_at": null,
+        "assertions": [
+          "同花顺公司页确认化学制剂原料药中间体研产销，心脑血管等产品。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "300585.SZ",
+    "key": "automotive_electronics",
+    "sector": "汽车电子",
+    "source_sector_name": "汽车电子",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "电子油门换挡及整车控制"
+    ],
+    "stage": "revenue",
+    "fact": "动力车身新能源控制含油门换挡VCU BMS等。",
+    "company_fact": "动力车身新能源控制含油门换挡VCU BMS等。",
+    "ths_fact": "研发生产销售汽车电子电器关键部件。",
+    "reason": "直接汽车电子产品最充分；钙钛矿合作历史表述不能证明当前量产。",
+    "basis": "crosschecked_sources"
+  }
+]

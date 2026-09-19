@@ -1,0 +1,95 @@
+[
+  {
+    "id": "002812.SZ",
+    "key": "lithium_battery_separators",
+    "sector": "锂电隔膜",
+    "source_sector_name": "锂电隔膜",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "锂电隔膜",
+      "湿法膜与涂覆"
+    ],
+    "fact": "研发生产销售锂电隔膜。",
+    "ths_fact": "锂电池与客户条目明确隔膜主产品、宁德比亚迪等客户和湿法膜保供。",
+    "company_fact": "主营确认核心隔离膜业务增长，包装薄膜为其他业务。",
+    "reason": "已有锂电隔膜体现实际产品和产业识别；固态小试送样保持验证阶段，不当全固态规模销售。隔膜与固态商业化结构变化时复核。"
+  },
+  {
+    "id": "002813.SZ",
+    "key": "smart_cockpit",
+    "sector": "智能座舱",
+    "source_sector_name": "智能座舱",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "座舱域控",
+      "抬头显示及车载影像"
+    ],
+    "fact": "提供智能座舱域控显示等车载产品。",
+    "ths_fact": "2025-09-24条目确认座舱起步并供应部分车厂。",
+    "company_fact": "主营汽车电子列座舱域控抬头显示视听声光和流媒监控四类产品。",
+    "reason": "已有智能座舱有具体产品及供货，保守delivery；旧机器人条目是拟购中联高机，不作为归属依据。整车供货及实际资产结构变化时复核。"
+  },
+  {
+    "id": "002815.SZ",
+    "key": "pcb",
+    "sector": "PCB",
+    "source_sector_name": "PCB概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "高多层高速PCB",
+      "HDI与IC载板"
+    ],
+    "fact": "设计生产电路板和封装载板。",
+    "ths_fact": "PCB解析列高多层HDI等产品，AIDC解析确认服务器交换机用板。",
+    "company_fact": "主营完整列电路板系列及通信服务器汽车工业等应用。",
+    "reason": "已有PCB体现高速互联硬件产品和客户共性，CPO条目实际光模块载板不把它当完整CPO系统。技术平台和终端需求重大变化时复核。"
+  },
+  {
+    "id": "002816.SZ",
+    "key": "lithography",
+    "sector": "光刻机",
+    "source_sector_name": "光刻机",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "无掩膜光刻机",
+      "微影光刻及配套工艺设备"
+    ],
+    "fact": "提供无掩膜与微影光刻等半导体工艺设备。",
+    "ths_fact": "2025-03-05解析确认相关产品且半导体公司营收贡献较小。",
+    "company_fact": "半导体主营明确光刻涂胶显影清洗三类研发制造和具体产品。",
+    "reason": "已有光刻机有明确自有设备产品，stage仅product不泛化先进EUV或规模收入；清洗线束为原经营背景。具体设备验收和收入分项变化时复核。"
+  },
+  {
+    "id": "002817.SZ",
+    "key": "chemical_pharmaceuticals",
+    "sector": "化学制药",
+    "source_sector_name": "化学制药",
+    "source_sector_provider": "东方财富",
+    "stage": "revenue",
+    "chain": [
+      "药用空心胶囊",
+      "药用辅料包装"
+    ],
+    "fact": "研发生产销售药用空心胶囊。",
+    "ths_fact": "补读公司资料，明胶与肠溶空心胶囊主营，列植物胶囊及药用辅料品牌。",
+    "company_fact": "主营确认明胶空心胶囊生产销售出口。",
+    "reason": "已有化学制药为行业归属，链位明确空心胶囊辅料，不能当创新药或活性原料药制造；医疗器械经营范围不当主业。具体新增产品收入结构变化时复核。",
+    "extra_evidence": [
+      {
+        "evidence_id": "ths-company-002817",
+        "source_kind": "web_secondary",
+        "publisher": "同花顺",
+        "title": "黄山胶囊公司资料",
+        "source_url": "https://basic.10jqka.com.cn/002817/company.html",
+        "published_at": null,
+        "assertions": [
+          "补读公司资料，明胶与肠溶空心胶囊主营，列植物胶囊及药用辅料品牌。"
+        ]
+      }
+    ]
+  }
+]

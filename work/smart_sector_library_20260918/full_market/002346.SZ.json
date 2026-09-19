@@ -1,0 +1,70 @@
+{
+  "instrument_id": "002346.SZ",
+  "name": "柘中股份",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "002346.SZ",
+    "name": "柘中股份",
+    "memberships": [
+      "电力设备",
+      "电网设备",
+      "配电设备",
+      "上海板块",
+      "2026中报预增",
+      "深股通",
+      "融资融券",
+      "机构重仓",
+      "QFII重仓",
+      "电池技术",
+      "碳化硅",
+      "半导体概念",
+      "体育产业",
+      "充电桩",
+      "长江三角",
+      "锂电池概念",
+      "参股银行",
+      "创投"
+    ],
+    "business_sections": [
+      {
+        "title": "成套开关设备业务",
+        "kind": "主营业务",
+        "text": "公司成套开关设备业务主要产品为35KV以下各类配电柜，属通用配电设备，广泛应用于电力电网、工业制造、民用建筑、轨道交通、机场枢纽等场景。公司近年来的主要客户集中在集成电路、国家电网、城市轨交、机场铁路等领域。"
+      },
+      {
+        "title": "投资业务",
+        "kind": "主营业务",
+        "text": "公司报告期投资业务主要通过股权直投、参与私募股权基金等方式开展。股权直投模式是以公司自有资金投资于有成长前景的非上市企业的股权，私募基金投资模式是通过向私募基金出资，将自有资金间接投资于企业的股权，通过股权增值获取投资收益。"
+      },
+      {
+        "title": "产品及品牌优势",
+        "kind": "核心竞争力",
+        "text": "公司深耕电气业务，自2005年起，“柘中”品牌一直被认定为“上海市著名商标”，在行业中享有较高知名度，产品被连续认定为“上海市名牌产品”。公司子公司柘中电气作为高新技术企业，通过了ISO9001质量体系认证、ISO14001环境管理体系认证和OHSAS18001职业健康安全管理体系认证等三项体系认证。公司生产的KYN37-12、KYN37-40.5系列智能化高压柜、OKKEN智能化低压柜、PPS系列智能化低压柜三大系列产品经上海电器行业协会专家评审为智能化电网所需的元件和成套设备，属于国家鼓励和支持的产品。"
+      },
+      {
+        "title": "销售及客户资源优势",
+        "kind": "核心竞争力",
+        "text": "成套开关设备作为电力系统的基础设备，被广泛应用于生产生活之中，其终端客户的多元化、分布的广泛性，决定了完善、健全的销售网络的重要性。中国幅员辽阔，经济发展程度存在一定差异，更凸显出植根于各地的销售网络对于成套开关设备企业实现规模增长、整体实力提升的重要性。公司在健全销售网络的同时，构建起与之配套的物流服务和持续服务能力，亦成为公司维护客户资源的有力保障，为公司可持续性销售打下坚实基础。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ002346",
+    "fetched_at": "2026-09-18T22:46:33.491006+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [
+    "芯片"
+  ],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "成套开关设备"
+}

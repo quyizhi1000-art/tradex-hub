@@ -1,0 +1,42 @@
+{
+  "checked_at": "2026-09-19T00:34:53.1223164+08:00",
+  "ths": {
+    "status": "running",
+    "total": 5567,
+    "processed": 2690,
+    "read": 2687,
+    "collected": null,
+    "unavailable": 3,
+    "failed": null,
+    "last": "301302.SZ",
+    "updated_at": "2026-09-18T16:34:51.981Z"
+  },
+  "business": {
+    "status": "running",
+    "total": 5567,
+    "processed": 5566,
+    "read": null,
+    "collected": 5566,
+    "unavailable": null,
+    "failed": 0,
+    "last": null,
+    "updated_at": "2026-09-19T00:34:52.505514+08:00"
+  },
+  "processes": [
+    {
+      "ProcessId": 63172,
+      "Name": "python.exe",
+      "CommandLine": "\"G:\\money\\.venv\\Scripts\\python.exe\" -m tradex.smart_sector_library.audit --output work/smart_sector_library_20260918/full_market"
+    },
+    {
+      "ProcessId": 28080,
+      "Name": "python.exe",
+      "CommandLine": "\"C:\\Users\\Admin\\AppData\\Roaming\\uv\\python\\cpython-3.12.13-windows-x86_64-none\\python.exe\" -m tradex.smart_sector_library.audit --output work/smart_sector_library_20260918/full_market"
+    },
+    {
+      "ProcessId": 34292,
+      "Name": "node.exe",
+      "CommandLine": "\"C:\\Program Files\\nodejs\\node.exe\" work/smart_sector_library_20260918/collect-ths.cjs"
+    }
+  ]
+}

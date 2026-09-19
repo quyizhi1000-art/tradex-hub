@@ -1,0 +1,467 @@
+[
+  {
+    "id": "601156.SH",
+    "key": "cross_border_ecommerce",
+    "sector": "跨境电商",
+    "source_sector_name": "跨境电商",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "跨境航空货运及物流方案"
+    ],
+    "stage": "revenue",
+    "fact": "经营全货机腹舱运力、地面服务及综合物流。",
+    "company_fact": "经营全货机腹舱运力、地面服务及综合物流。",
+    "ths_fact": "跨境电商物流带动综合物流增长，并服务拼多多等客户。",
+    "reason": "有实际电商跨境履约服务，作为物流链归属而非自营电商平台。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601158.SH",
+    "key": "wastewater_treatment",
+    "sector": "污水处理",
+    "source_sector_name": "污水处理",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "城镇污水与污泥处置"
+    ],
+    "stage": "revenue",
+    "fact": "经营供水、污水污泥处理及工程，具有特许经营资产。",
+    "company_fact": "经营供水、污水污泥处理及工程，具有特许经营资产。",
+    "ths_fact": "重庆水务从事自来水生产供应与污水处理。",
+    "reason": "直接水环境运营身份清楚；股东资产管理关联不替代上市公司业务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601162.SH",
+    "key": "securities",
+    "sector": "券商",
+    "source_sector_name": "券商概念",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "综合证券服务"
+    ],
+    "stage": "revenue",
+    "fact": "经营经纪、投行、自营、资管等证券业务。",
+    "company_fact": "经营经纪、投行、自营、资管等证券业务。",
+    "ths_fact": "公司资料页明确证券经纪、投行、自营、研究、资管、私募及海外业务。",
+    "reason": "综合证券经营归属明确，参股期货与物业为次级关系。",
+    "basis": "crosschecked_sources",
+    "extra_evidence": [
+      {
+        "evidence_id": "ths-company-601162-20260919",
+        "source_kind": "web_secondary",
+        "publisher": "同花顺",
+        "title": "公司资料",
+        "source_url": "https://basic.10jqka.com.cn/601162/company.html",
+        "published_at": null,
+        "assertions": [
+          "公司资料页明确证券经纪、投行、自营、研究、资管、私募及海外业务。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "601163.SH",
+    "key": "tires_wheels",
+    "sector": "轮胎轮毂",
+    "source_sector_name": "轮胎轮毂",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "乘用及商用轮胎"
+    ],
+    "stage": "revenue",
+    "fact": "研发生产销售商用乘用及工程机械轮胎。",
+    "company_fact": "研发生产销售商用乘用及工程机械轮胎。",
+    "ths_fact": "为宇通、金龙、比亚迪等新能源车辆提供轮胎。",
+    "reason": "汽车电动化改变应用车型，核心供货仍是轮胎；航空研发平台不证明航空轮胎订单。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601166.SH",
+    "key": "bank",
+    "sector": "银行",
+    "source_sector_name": "银行",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "综合商业银行"
+    ],
+    "stage": "revenue",
+    "fact": "开展存贷款、结算和金融市场业务。",
+    "company_fact": "开展存贷款、结算和金融市场业务。",
+    "ths_fact": "海峡两岸概念说明对公、零售和金融市场服务。",
+    "reason": "跨境支付是银行服务能力，银行身份最稳定。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601168.SH",
+    "key": "metal_copper",
+    "sector": "金属铜",
+    "source_sector_name": "金属铜",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "铜矿采选与冶炼"
+    ],
+    "stage": "revenue",
+    "fact": "拥有多项矿权及铜铅锌冶炼业务，铜冶炼能力35万吨。",
+    "company_fact": "拥有多项矿权及铜铅锌冶炼业务，铜冶炼能力35万吨。",
+    "ths_fact": "概念说明铜铅锌等有色金属采选、冶炼和贸易。",
+    "reason": "铜资源和冶炼构成直接有色主线；盐湖新项目及投资关系另行观察。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601169.SH",
+    "key": "bank",
+    "sector": "银行",
+    "source_sector_name": "银行",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "城市商业银行"
+    ],
+    "stage": "revenue",
+    "fact": "公司银行、零售和资金业务。",
+    "company_fact": "公司银行、零售和资金业务。",
+    "ths_fact": "参股村镇银行说明列明自设延庆等实际银行机构。",
+    "reason": "银行网络与金融经营直接对应，保险投资不改变经营身份。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601177.SH",
+    "key": "offshore_equipment",
+    "sector": "海工装备",
+    "source_sector_name": "海工装备",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "船舶齿轮箱及动力传动"
+    ],
+    "stage": "revenue",
+    "fact": "主营船用齿轮箱推进、工程和工业传动装置。",
+    "company_fact": "主营船用齿轮箱推进、工程和工业传动装置。",
+    "ths_fact": "船用齿轮箱为核心产品，部分产品用于海洋工程。",
+    "reason": "直接船舶海工传动比人形关节攻关计划更有业务依据；人形项目待产品及客户验证。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601179.SH",
+    "key": "uhv",
+    "sector": "特高压",
+    "source_sector_name": "特高压",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "输变电成套装备"
+    ],
+    "stage": "revenue",
+    "fact": "生产高压超高压特高压变压器、开关、换流阀等。",
+    "company_fact": "生产高压超高压特高压变压器、开关、换流阀等。",
+    "ths_fact": "特高压概念对应大型输配电装备业务。",
+    "reason": "特高压覆盖成套核心设备；固态变压器和核聚变配套为业务延伸。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601186.SH",
+    "key": "railway_infrastructure",
+    "sector": "铁路基建",
+    "source_sector_name": "铁路基建",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "铁路工程与轨道装备"
+    ],
+    "stage": "revenue",
+    "fact": "经营铁路公路市政工程、设计与装备制造。",
+    "company_fact": "经营铁路公路市政工程、设计与装备制造。",
+    "ths_fact": "铁路基建解析明确铁路施工设计和养护机械。",
+    "reason": "铁路建设工程与装备链是清晰市场身份，单项航天实验设施不替代主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601187.SH",
+    "key": "bank",
+    "sector": "银行",
+    "source_sector_name": "银行",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "两岸金融服务商业银行"
+    ],
+    "stage": "revenue",
+    "fact": "公司银行、零售银行、金融市场和两岸金融。",
+    "company_fact": "公司银行、零售银行、金融市场和两岸金融。",
+    "ths_fact": "公司资料页明确公司、零售、金融市场及两岸金融业务。",
+    "reason": "区域标签不足以代表产业，按实际银行经营归属。",
+    "basis": "crosschecked_sources",
+    "extra_evidence": [
+      {
+        "evidence_id": "ths-company-601187-20260919",
+        "source_kind": "web_secondary",
+        "publisher": "同花顺",
+        "title": "公司资料",
+        "source_url": "https://basic.10jqka.com.cn/601187/company.html",
+        "published_at": null,
+        "assertions": [
+          "公司资料页明确公司、零售、金融市场及两岸金融业务。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "601188.SH",
+    "key": "highways",
+    "sector": "高速公路",
+    "source_sector_name": "高速公路",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "收费公路运营"
+    ],
+    "stage": "revenue",
+    "fact": "运营哈大高速132.8公里，并受托管理道路。",
+    "company_fact": "运营哈大高速132.8公里，并受托管理道路。",
+    "ths_fact": "中俄区域概念说明核心为收费公路运营。",
+    "reason": "高速运营归属明确；石墨矿权和发电业务分别保留，不能由矿权推成石墨烯生产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601198.SH",
+    "key": "securities",
+    "sector": "券商",
+    "source_sector_name": "券商概念",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "综合证券服务"
+    ],
+    "stage": "revenue",
+    "fact": "证券经纪、投行、自营及资管等业务。",
+    "company_fact": "证券经纪、投行、自营及资管等业务。",
+    "ths_fact": "东兴198应用提供开户、交易、行情及基金金融服务。",
+    "reason": "证券业务与产品形成交叉依据；控股股东不良资产身份不等于上市公司直接经营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601199.SH",
+    "key": "underground_pipelines",
+    "sector": "地下管网",
+    "source_sector_name": "地下管网",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "供排水管网建设与运维"
+    ],
+    "stage": "revenue",
+    "fact": "自来水供应及工程安装、排水等业务。",
+    "company_fact": "自来水供应及工程安装、排水等业务。",
+    "ths_fact": "推进管网更新、漏损运维与污水提标。",
+    "reason": "实际水务工程与管网更新直接对应城市更新链，而非仅靠概念名称。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601200.SH",
+    "key": "solid_waste_treatment",
+    "sector": "固废处理",
+    "source_sector_name": "固废处理",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "垃圾焚烧与固废处置"
+    ],
+    "stage": "revenue",
+    "fact": "运营垃圾焚烧、填埋转运及污水处理项目。",
+    "company_fact": "运营垃圾焚烧、填埋转运及污水处理项目。",
+    "ths_fact": "固废处理对应生活垃圾处理运营。",
+    "reason": "固废处置产业身份明确，发电是垃圾资源化环节。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601208.SH",
+    "key": "pcb",
+    "sector": "PCB",
+    "source_sector_name": "PCB概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "电子级树脂及基板材料"
+    ],
+    "stage": "revenue",
+    "fact": "高分子新材料包括电工绝缘、光学膜与电子材料。",
+    "company_fact": "高分子新材料包括电工绝缘、光学膜与电子材料。",
+    "ths_fact": "电子级树脂稳定供应生益科技、台光电子、华正新材等。",
+    "reason": "PCB高端材料已有客户供应，优于仅据光刻胶合资计划判断；MLCC膜为次级材料线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601211.SH",
+    "key": "securities",
+    "sector": "券商",
+    "source_sector_name": "券商概念",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "综合证券金融服务"
+    ],
+    "stage": "revenue",
+    "fact": "财富管理、投行、机构交易、资管和融资租赁。",
+    "company_fact": "财富管理、投行、机构交易、资管和融资租赁。",
+    "ths_fact": "期货概念说明主体证券业务及期货子业务。",
+    "reason": "当前综合券商身份明确，不用旧拟合并文字证明交易完成。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601212.SH",
+    "key": "nuclear_fusion",
+    "sector": "可控核聚变",
+    "source_sector_name": "可控核聚变",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "核聚变超导电缆"
+    ],
+    "stage": "delivery",
+    "fact": "采选冶炼铜铅锌金银，同时全资长通生产超导电缆。",
+    "company_fact": "采选冶炼铜铅锌金银，同时全资长通生产超导电缆。",
+    "ths_fact": "长通为ITER等提供超导电缆，750米核聚变电缆已交付。",
+    "reason": "原半年报确认长通100%持股及实际聚变电缆交付；有直接关键材料身份，不能仅按传统金属收入否定。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "filing-12572458",
+        "source_kind": "official_filing",
+        "publisher": "白银有色",
+        "title": "2026年半年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12572458&stockid=601212",
+        "published_at": "2026-08-29",
+        "assertions": [
+          "长通列为100%子公司；750米核聚变装置用超导电缆由其研发制造并交付使用。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "601216.SH",
+    "key": "pvc",
+    "sector": "PVC",
+    "source_sector_name": "PVC",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "煤电氯碱一体化"
+    ],
+    "stage": "revenue",
+    "fact": "煤电化工循环链生产PVC烧碱等，并开展化工物流。",
+    "company_fact": "煤电化工循环链生产PVC烧碱等，并开展化工物流。",
+    "ths_fact": "具有80万吨PVC产能及氯碱一体化业务。",
+    "reason": "PVC是直接产品与周期主线；旧天弘和疫苗投资说明不自动替代。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601218.SH",
+    "key": "wind_power",
+    "sector": "风电",
+    "source_sector_name": "风电",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "风机铸件"
+    ],
+    "stage": "revenue",
+    "fact": "生产750kW至15MW轮毂底座主轴轴承座等，并运营风场。",
+    "company_fact": "生产750kW至15MW轮毂底座主轴轴承座等，并运营风场。",
+    "ths_fact": "风电解析明确风机铸件制造和海上大兆瓦产品。",
+    "reason": "核心风机部件及电站经营共同支持风电主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601222.SH",
+    "key": "energy_storage",
+    "sector": "储能",
+    "source_sector_name": "储能",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "储能PACK及系统集成"
+    ],
+    "stage": "revenue",
+    "fact": "智能电表、新能源电站与储能业务并行。",
+    "company_fact": "智能电表、新能源电站与储能业务并行。",
+    "ths_fact": "自有PACK生产线及BMS、PCS、EMS等储能系统产品已形成。",
+    "reason": "直接储能装备业务支撑增量身份；不把亿纬合资电芯全部算作自有并表业务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601225.SH",
+    "key": "coal",
+    "sector": "煤炭",
+    "source_sector_name": "煤炭",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "煤炭开采销售"
+    ],
+    "stage": "revenue",
+    "fact": "煤炭开采、加工销售及运输。",
+    "company_fact": "煤炭开采、加工销售及运输。",
+    "ths_fact": "煤炭开采概念说明煤炭生产销售和资源储量。",
+    "reason": "直接煤炭资源经营归属清晰。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601226.SH",
+    "key": "hydrogen_energy",
+    "sector": "氢能源",
+    "source_sector_name": "氢能源",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "制氢装备与工程系统"
+    ],
+    "stage": "delivery",
+    "fact": "物料输送及能源工程；核心竞争力段明确电解水制氢装备和控股材料企业。",
+    "company_fact": "物料输送及能源工程；核心竞争力段明确电解水制氢装备和控股材料企业。",
+    "ths_fact": "华电金源储氢罐用于铁岭、达茂旗及德令哈制氢工程。",
+    "reason": "原半年报确认三大制氢项目商业运行及通用氢能控股经营；制储氢实际产品工程支持主线，非只采信拟收购。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "filing-12533757",
+        "source_kind": "official_filing",
+        "publisher": "华电科工",
+        "title": "2026年半年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12533757&stockid=601226",
+        "published_at": "2026-08-26",
+        "assertions": [
+          "包头达茂旗、青海德令哈、辽宁铁岭制氢项目成功商业运行；通用氢能列子公司并披露主营收入。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "601228.SH",
+    "key": "ports",
+    "sector": "港口",
+    "source_sector_name": "港口",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "港口装卸与物流"
+    ],
+    "stage": "revenue",
+    "fact": "港口装卸仓储物流业务。",
+    "company_fact": "港口装卸仓储物流业务。",
+    "ths_fact": "概念说明广州港码头装卸及物流服务。",
+    "reason": "直接港口经营身份明确；数据资产登记不等于独立数字业务收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601229.SH",
+    "key": "bank",
+    "sector": "银行",
+    "source_sector_name": "银行",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "综合城市商业银行"
+    ],
+    "stage": "revenue",
+    "fact": "公司、个人金融及金融市场业务。",
+    "company_fact": "公司、个人金融及金融市场业务。",
+    "ths_fact": "公司资料页明确公司个人金融、资金、投行及资产管理服务。",
+    "reason": "分红率是风格标签，产业归属根据真实商业银行业务。",
+    "basis": "crosschecked_sources",
+    "extra_evidence": [
+      {
+        "evidence_id": "ths-company-601229-20260919",
+        "source_kind": "web_secondary",
+        "publisher": "同花顺",
+        "title": "公司资料",
+        "source_url": "https://basic.10jqka.com.cn/601229/company.html",
+        "published_at": null,
+        "assertions": [
+          "公司资料页明确公司个人金融、资金、投行及资产管理服务。"
+        ]
+      }
+    ]
+  }
+]

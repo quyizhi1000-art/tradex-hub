@@ -1,0 +1,407 @@
+[
+  {
+    "id": "000810.SZ",
+    "key": "ai_glasses",
+    "sector": "AI眼镜",
+    "source_sector_name": "AI眼镜",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "智能眼镜整机及交互系统"
+    ],
+    "stage": "product",
+    "fact": "公司技术竞争力材料明确智能眼镜轻量整机、传感融合、智能交互与开放大模型架构。",
+    "company_fact": "公司技术竞争力材料明确智能眼镜轻量整机、传感融合、智能交互与开放大模型架构。",
+    "ths_fact": "AI眼镜解析列AI交互AR产品，智能穿戴解析确认2025年4月发布全场景AI眼镜。",
+    "reason": "AI眼镜已有整机产品而非仅显示材料用途，选已存在的新终端主线；传统机顶盒保留背景，未证实眼镜收入规模。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "000811.SZ",
+    "key": "data_centers",
+    "sector": "数据中心(AIDC)",
+    "source_sector_name": "数据中心(AIDC)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "数据中心工业温控与制冷系统"
+    ],
+    "stage": "delivery",
+    "fact": "暖通装备业务明确服务数据中心及核电工业特种空调。",
+    "company_fact": "暖通装备业务明确服务数据中心及核电工业特种空调。",
+    "ths_fact": "AIDC明确顿汉布什数据中心温控产品线，液冷服务器解析列超算与多个数据中心已服务案例。",
+    "reason": "已交付温控系统支撑AIDC基础设施主线；不把机房冷水机误写成服务器冷板，也不因传统冷链更大否定新应用。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "000812.SZ",
+    "key": "packaging_printing",
+    "sector": "包装印刷",
+    "source_sector_name": "包装印刷",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "烟标",
+      "烟用丝束及咀棒"
+    ],
+    "stage": "revenue",
+    "fact": "烟草配套产业生产销售烟标丝束咀棒，另有高等教育，医养尚未运营。",
+    "company_fact": "烟草配套产业生产销售烟标丝束咀棒，另有高等教育，医养尚未运营。",
+    "ths_fact": "人民币升值解析具体说明烟标包装印刷及产能；在线教育为另一实际业务。",
+    "reason": "烟草包装印刷直接产品与既有分类清晰，教育并存但无充分证据令线上渠道替代；未运营医院不作主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "000813.SZ",
+    "key": "recombinant_proteins",
+    "sector": "重组蛋白",
+    "source_sector_name": "重组蛋白",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "重组III型胶原蛋白"
+    ],
+    "stage": "product",
+    "fact": "报告期汉肽生物重组III型胶原蛋白实现破皮级规模化生产。",
+    "company_fact": "报告期汉肽生物重组III型胶原蛋白实现破皮级规模化生产。",
+    "ths_fact": "重组蛋白解析列汉肽重组胶原蛋白医疗器械，前两类取得许可，三类未开展临床。",
+    "reason": "具体重组胶原蛋白生产进展与市场概念相互印证，选其为增量主线；传统降脂药保留，不能把破皮级生产等同三类注册获批。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "000815.SZ",
+    "key": "data_centers",
+    "sector": "数据中心(AIDC)",
+    "source_sector_name": "数据中心(AIDC)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "机架出租",
+      "网络接入及运维"
+    ],
+    "stage": "revenue",
+    "fact": "数据中心以定制及标准机架租赁、网络接入运维经营，光伏电站正常运营。",
+    "company_fact": "数据中心以定制及标准机架租赁、网络接入运维经营，光伏电站正常运营。",
+    "ths_fact": "AIDC解析明确同类机架及网络服务，算力租赁解析实为机柜租赁。",
+    "reason": "选择精确匹配服务的AIDC，不将机柜出租误称GPU算力出租，不沿用旧造纸主归属。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "000816.SZ",
+    "key": "agricultural_machinery",
+    "sector": "农机",
+    "source_sector_name": "农机",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "农业动力配套与发动机水泵"
+    ],
+    "stage": "revenue",
+    "fact": "研发制造销售发动机、发电机、水泵等动力设备，同时经营有色矿。",
+    "company_fact": "研发制造销售发动机、发电机、水泵等动力设备，同时经营有色矿。",
+    "ths_fact": "农机解析确认设备端配套农业机械；农业信息化另为业务方向。",
+    "reason": "江动动力制造和农机配套已有直接经营，选农机而不凭名称定农业种植；盐湖锂战略协议不算实际锂业务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "000818.SZ",
+    "key": "computing_power_leasing",
+    "sector": "算力租赁",
+    "source_sector_name": "算力租赁",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "自持服务器算力服务"
+    ],
+    "stage": "delivery",
+    "fact": "公司材料明确航锦武汉大规模算力基础设施投入并服务多家大型终端客户，航锦云提供云服务。",
+    "company_fact": "公司材料明确航锦武汉大规模算力基础设施投入并服务多家大型终端客户，航锦云提供云服务。",
+    "ths_fact": "算力租赁解析列约1400台自持服务器及服务，东数西算解析列三份算力服务合同。",
+    "reason": "已有设施与终端客户使算力服务成为真实增量主线，不受传统氯碱主营摘要限制；保守记交付，合同总额不当收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "000819.SZ",
+    "key": "petrochemicals",
+    "sector": "石油石化",
+    "source_sector_name": "石油石化",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "聚丙烯等石化产品及新材料"
+    ],
+    "stage": "revenue",
+    "fact": "从事化工新材料、能源化工等石化产品开发生产销售及成品油业务。",
+    "company_fact": "从事化工新材料、能源化工等石化产品开发生产销售及成品油业务。",
+    "ths_fact": "聚丙烯解析列丙烯、聚丙烯、MTBE、液化气等产品。",
+    "reason": "现有石化产品与完整经营共同支持石油石化；POE早期规划不直接认定成熟主线，新能源负极原料保留增量跟踪。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "000820.SZ",
+    "key": "energy_storage",
+    "sector": "储能",
+    "source_sector_name": "储能",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "独立储能电站EPC"
+    ],
+    "stage": "orders",
+    "fact": "主营包括新能源光伏储能电站建设，联合立本为经营主体之一。",
+    "company_fact": "主营包括新能源光伏储能电站建设，联合立本为经营主体之一。",
+    "ths_fact": "2025年8月公告解析载控股联合立本联合体中标孟津独立储能EPC，合同价约3.05亿元。",
+    "reason": "实际储能工程业务与明确中标合同支持增量主线；阶段为订单，不将联合体合同额当公司收入，余热及再生铜保留。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "000821.SZ",
+    "key": "photovoltaics",
+    "sector": "光伏",
+    "source_sector_name": "光伏概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "组件与电池片智能成套设备"
+    ],
+    "stage": "revenue",
+    "fact": "光伏装备覆盖组件和电池片，为客户提供整线方案，另有包装锂电装备。",
+    "company_fact": "光伏装备覆盖组件和电池片，为客户提供整线方案，另有包装锂电装备。",
+    "ths_fact": "光伏解析指核心光伏智能成套装备，BC等为设备技术路线。",
+    "reason": "光伏制造装备产业身份及市场概念吻合；机器人属于自动化设备，不能据此归人形机器人。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "000822.SZ",
+    "key": "soda_ash",
+    "sector": "纯碱",
+    "source_sector_name": "纯碱",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "盐化工纯碱及配套产品"
+    ],
+    "stage": "revenue",
+    "fact": "持续生产销售纯碱烧碱溴素等，纯碱为主导产品。",
+    "company_fact": "持续生产销售纯碱烧碱溴素等，纯碱为主导产品。",
+    "ths_fact": "食盐解析说明卤水用于纯碱厂及盐化工循环；钒电池为投资延伸，固态项目收益口径未证实产品销售。",
+    "reason": "已经营盐化工与现有纯碱成员支持归属；不把研究项目收益直接当固态电池收入，产业化再复核。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "000823.SZ",
+    "key": "pcb",
+    "sector": "PCB",
+    "source_sector_name": "PCB概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "高密度印制板及覆铜板"
+    ],
+    "stage": "revenue",
+    "fact": "生产销售印制线路板及覆铜板，应用通讯汽车雷达等。",
+    "company_fact": "生产销售印制线路板及覆铜板，应用通讯汽车雷达等。",
+    "ths_fact": "PCB解析对应产品，另有高算力配套板、毫米波雷达板及无人机主板供货。",
+    "reason": "多个下游共同依赖PCB制造，最具体稳定的市场主线是PCB；光模块小批量不等同CPO封装量产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "000825.SZ",
+    "key": "special_steel",
+    "sector": "特钢",
+    "source_sector_name": "特钢概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "不锈钢及高端合金钢"
+    ],
+    "stage": "revenue",
+    "fact": "具备完整钢铁工艺，生产销售不锈钢及其他钢材金属制品。",
+    "company_fact": "具备完整钢铁工艺，生产销售不锈钢及其他钢材金属制品。",
+    "ths_fact": "特钢解析列不锈钢硅钢轮轴钢模具钢，核电氢能等为特材应用。",
+    "reason": "高性能材料产品和市场特钢身份一致，聚变等可是真实应用但不把全部不锈钢改作聚变设备。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "000826.SZ",
+    "key": "integrated_environmental_management",
+    "sector": "综合环境治理",
+    "source_sector_name": "综合环境治理",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "环卫",
+      "水务与固废处置"
+    ],
+    "stage": "revenue",
+    "fact": "提供数字环卫水务生态固废运营及环卫装备，固废包含焚烧发电和医废。",
+    "company_fact": "提供数字环卫水务生态固废运营及环卫装备，固废包含焚烧发电和医废。",
+    "ths_fact": "农村环境治理、新型城镇化及垃圾分类解释共同覆盖水务固废与城乡环卫运营。",
+    "reason": "选择现有综合环境治理承载多环节环保业务；AI环卫工具不是独立AI主业，ST只为状态。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "000828.SZ",
+    "key": "highways",
+    "sector": "高速公路",
+    "source_sector_name": "高速公路",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "莞深高速等收费运营"
+    ],
+    "stage": "revenue",
+    "fact": "运营55.66公里莞深等高速，另有租赁保理与充换电收费。",
+    "company_fact": "运营55.66公里莞深等高速，另有租赁保理与充换电收费。",
+    "ths_fact": "粤港澳解析明确主营高速管理并列金融及充电，期货仅参股证券关联。",
+    "reason": "交通资产收费运营与市场高速公路身份直接对应；充电实际存在但没有取代路产主线的证据，关注收费权期限变化。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "000829.SZ",
+    "key": "consumer_electronics",
+    "sector": "消费电子",
+    "source_sector_name": "消费电子概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "智能终端分销零售及售后"
+    ],
+    "stage": "revenue",
+    "fact": "与苹果三星华为深度合作，形成智能终端全渠道销售和手机全生命周期服务。",
+    "company_fact": "与苹果三星华为深度合作，形成智能终端全渠道销售和手机全生命周期服务。",
+    "ths_fact": "消费电子解析列手机电脑穿戴家居等终端销售，华为苹果亦为销售与服务关系。",
+    "reason": "选择能覆盖多品牌终端渠道的消费电子；明确位于流通环节，不冒称芯片制造或仅凭参股魅族归AI手机。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "000830.SZ",
+    "key": "coal_chemicals",
+    "sector": "煤化工",
+    "source_sector_name": "煤化工概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "一体化化工园区与化工新材料"
+    ],
+    "stage": "revenue",
+    "fact": "经营化工新材料基础化工及化肥，煤炭等原料经一体化装置循环生产销售。",
+    "company_fact": "经营化工新材料基础化工及化肥，煤炭等原料经一体化装置循环生产销售。",
+    "ths_fact": "煤化工解析明确煤盐氟硅及新材料产业链，传统化肥已转型延伸。",
+    "reason": "煤化工一体化产业链是现有市场身份与实际装置基础，不能只按历史肥料名称归化肥；氢技术评价不等于批量卖氢。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "000831.SZ",
+    "key": "rare_earth_magnets",
+    "sector": "稀土永磁",
+    "source_sector_name": "稀土永磁",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "稀土开采分离及氧化物金属"
+    ],
+    "stage": "revenue",
+    "fact": "从资源开发分离到稀土金属合金产品，供磁性材料等下游。",
+    "company_fact": "从资源开发分离到稀土金属合金产品，供磁性材料等下游。",
+    "ths_fact": "稀土永磁及小金属解析明确稀土氧化物金属经营。",
+    "reason": "已有稀土永磁概念对应上游稀土供给环节，不能将归属误解为公司制造永磁电机。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "000833.SZ",
+    "key": "phosphorus_chemicals",
+    "sector": "磷化工",
+    "source_sector_name": "磷化工",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "硫铁矿制酸",
+      "磷肥及湿法磷酸"
+    ],
+    "stage": "revenue",
+    "fact": "公司生产销售硫酸和磷肥，构建采选制酸磷化化肥一体化链。",
+    "company_fact": "公司生产销售硫酸和磷肥，构建采选制酸磷化化肥一体化链。",
+    "ths_fact": "磷化工解析确认湿法磷酸建设布局，化肥解析确认既有硫酸磷肥生产销售。",
+    "reason": "既有硫磷产业链及磷酸增量项目支持磷化工；revenue仅指既有磷肥制酸经营，新净化装置未假定全面投产，糖纸银粉保留背景。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "000837.SZ",
+    "key": "machine_tools",
+    "sector": "工业母机",
+    "source_sector_name": "工业母机",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "精密数控机床及传动部件"
+    ],
+    "stage": "revenue",
+    "fact": "聚焦机床及精密传动，数控磨齿加工中心等产品与国内外销售服务实际开展。",
+    "company_fact": "聚焦机床及精密传动，数控磨齿加工中心等产品与国内外销售服务实际开展。",
+    "ths_fact": "工业母机明确数控机床工具基地，减速器另有工业机器人RV量产。",
+    "reason": "工业母机与完整产品研发制造市场身份交叉明确；机器人减速器是真业务，但未以人形名单替代已证实母机主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "000838.SZ",
+    "key": "real_estate",
+    "sector": "房地产",
+    "source_sector_name": "房地产",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "住宅开发及销售"
+    ],
+    "stage": "revenue",
+    "fact": "当前房地产在三省市开展，签约销售主要来自重庆镇江。",
+    "company_fact": "当前房地产在三省市开展，签约销售主要来自重庆镇江。",
+    "ths_fact": "租售同权和固废解析确认房地产开发背景，旧环保并购为历史材料。",
+    "reason": "现有地产开发销售与市场成员支持房地产，旧环保交易和控制权主题不足替换产业归属。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "000839.SZ",
+    "key": "artificial_intelligence",
+    "sector": "人工智能",
+    "source_sector_name": "人工智能",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "鸿联九五AI客户服务平台"
+    ],
+    "stage": "product",
+    "fact": "鸿联九五企业数智服务，智练云接入主流模型并提供智能对练和客户定制服务。",
+    "company_fact": "鸿联九五企业数智服务，智练云接入主流模型并提供智能对练和客户定制服务。",
+    "ths_fact": "智慧政务解析确认大模型本地部署及数智员工，网络安全解析含AI内容审核服务。",
+    "reason": "AI已进入自有对客平台功能，选已有人工智能市场主线；不按参股有线电视倒推广播电视，未把AI专门收入当已证实。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "000848.SZ",
+    "key": "soft_drinks",
+    "sector": "软饮料",
+    "source_sector_name": "软饮料",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "杏仁露及植物饮料"
+    ],
+    "stage": "revenue",
+    "fact": "生产销售露露杏仁露及养生水气泡水等饮料。",
+    "company_fact": "生产销售露露杏仁露及养生水气泡水等饮料。",
+    "ths_fact": "网红经济解析反映公司自播和主播合作销售渠道，未提供独立网红平台业务证据。",
+    "reason": "具体饮料产品与软饮料成员支持清晰归属；直播为销售渠道而非产业身份，THS渠道资料不被冒称产品独立验证。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "000850.SZ",
+    "key": "textile_manufacturing",
+    "sector": "纺织制造",
+    "source_sector_name": "纺织制造",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "纱线",
+      "面料与聚乳酸纤维"
+    ],
+    "stage": "revenue",
+    "fact": "生产纱线织物及印染，产品包括聚乳酸纤维纱线面料无纺布。",
+    "company_fact": "生产纱线织物及印染，产品包括聚乳酸纤维纱线面料无纺布。",
+    "ths_fact": "数字经济解析明确纺织工厂智能化及差异化纤维生产，银行券商等为持股。",
+    "reason": "纺织产品持续经营与市场行业相互印证，证券持仓矿权及自用数字化不替代产业主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "000852.SZ",
+    "key": "oil_gas_equipment_services",
+    "sector": "油气设服",
+    "source_sector_name": "油气设服",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "钻采压裂设备及油气工程服务"
+    ],
+    "stage": "revenue",
+    "fact": "提供油气勘探开发全流程核心装备，压裂设备及天然气压缩机市场地位明确。",
+    "company_fact": "提供油气勘探开发全流程核心装备，压裂设备及天然气压缩机市场地位明确。",
+    "ths_fact": "页岩气及俄乌解析确认油气装备研发制造销售租赁服务并已量产。",
+    "reason": "直接油气装备与技术服务精准对应现有油气设服；氢装备是延伸方向，不将测试装置宣称成熟氢能收入。",
+    "basis": "crosschecked_sources"
+  }
+]

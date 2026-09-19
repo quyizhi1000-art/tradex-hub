@@ -1,0 +1,33 @@
+--- before/styles.css
++++ tradex/src/tradex/dashboard/watch/styles.css
+@@ -4151,7 +4151,7 @@
+ 
+ .intraday-focus-grid {
+   display: grid;
+-  grid-template-columns: minmax(0, 2.15fr) minmax(330px, 0.85fr);
++  grid-template-columns: minmax(0, 1.4fr) minmax(280px, 0.9fr) minmax(330px, 0.85fr);
+   align-items: stretch;
+   gap: 12px;
+   margin-top: 12px;
+@@ -4160,6 +4160,21 @@
+ .intraday-focus-grid > .section-block {
+   min-width: 0;
+   margin-top: 0;
++}
++
++.intraday-focus-grid .stock-selection-launcher {
++  flex-direction: column;
++  align-items: stretch;
++}
++
++.intraday-focus-grid .stock-selection-launcher__actions {
++  flex-wrap: wrap;
++  justify-content: flex-start;
++  gap: 10px;
++}
++
++.intraday-focus-grid .stock-selection-launcher__summary {
++  flex-wrap: wrap;
+ }
+ 
+ .intraday-focus-grid .sector-move-radar-list {

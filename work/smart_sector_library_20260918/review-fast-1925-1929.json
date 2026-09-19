@@ -1,0 +1,81 @@
+[
+  {
+    "id": "300471.SZ",
+    "key": "hydrogen_energy",
+    "sector": "氢能源",
+    "source_sector_name": "氢能源",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "制储加氢装备",
+      "固态储氢系统"
+    ],
+    "fact": "主营明确氢能全链服务，固态储氢多场景商业应用，氢动力飞机加注设备应用及发电系统交付。",
+    "ths_fact": "氢能源解析列制储加用装备及关键加注部件，氢动力两轮车已投放。",
+    "company_fact": "主营明确氢能全链服务，固态储氢多场景商业应用，氢动力飞机加注设备应用及发电系统交付。",
+    "reason": "氢能源已有产品和商业应用支持市场识别，天然气仍为经营基础，不把新EPC订单自动确认为收入。"
+  },
+  {
+    "id": "300472.SZ",
+    "key": "silicon_energy",
+    "sector": "硅能源",
+    "source_sector_name": "硅能源",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "硅废料提纯装备"
+    ],
+    "fact": "公司核心技术包含硅废料提纯智能装备，经营处于整改恢复，未来研发增强仍为计划。",
+    "ths_fact": "硅能源条目确认自主提纯循环利用设备与工艺。",
+    "company_fact": "公司核心技术包含硅废料提纯智能装备，经营处于整改恢复，未来研发增强仍为计划。",
+    "reason": "已有硅能源由具体提纯设备与核心技术交叉支撑，链位为回收设备而非自产多晶硅；不将旧算力合同或未来整改目标当当前收入。"
+  },
+  {
+    "id": "300473.SZ",
+    "key": "automotive_thermal_management",
+    "sector": "汽车热管理",
+    "source_sector_name": "汽车热管理",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "隔热阻燃材料",
+      "电子泵及控制器"
+    ],
+    "fact": "主营降噪隔热电池阻燃及泵电机控制器，为汽车动力与热管理提供部件。",
+    "ths_fact": "热管理解析确认电子水泵控制单元批量配套比亚迪。",
+    "company_fact": "主营降噪隔热电池阻燃及泵电机控制器，为汽车动力与热管理提供部件。",
+    "reason": "现有热管理由真实汽车零件与供货交叉，机器人合作是海外工厂自动化改造，不能直接推导对外人形部件销售。"
+  },
+  {
+    "id": "300474.SZ",
+    "key": "gpu",
+    "sector": "GPU",
+    "source_sector_name": "GPU",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "国产图形处理芯片",
+      "图形显控及计算"
+    ],
+    "fact": "主营图形显控、专用雷达及芯片，JM5400到JM11形成自研GPU系列，边缘AISoC并行。",
+    "ths_fact": "GPU为已有成员；信创解析确认自主GPU产业化，算力条目列JM9已发布。",
+    "company_fact": "主营图形显控、专用雷达及芯片，JM5400到JM11形成自研GPU系列，边缘AISoC并行。",
+    "reason": "GPU精确体现国产芯片核心与市场辨识，区分图形与智算产品，不因参股航天自动变自营卫星制造。"
+  },
+  {
+    "id": "300475.SZ",
+    "key": "memory_chips",
+    "sector": "存储芯片",
+    "source_sector_name": "存储芯片",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "存储分销",
+      "企业级存储模组"
+    ],
+    "fact": "公司分销存储控制芯片模组，自有海普DDR4 DDR5及eSSD2025已规模收入。",
+    "ths_fact": "存储芯片解析明确服务器DDR4 RDIMM设计与量产。",
+    "company_fact": "公司分销存储控制芯片模组，自有海普DDR4 DDR5及eSSD2025已规模收入。",
+    "reason": "已有存储芯片与分销自研模组双线吻合，非DRAM晶圆原厂，旧家电减速器不替代当前存储主线。"
+  }
+]

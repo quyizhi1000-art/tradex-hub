@@ -17,6 +17,7 @@ SHANGHAI = ZoneInfo("Asia/Shanghai")
 
 @pytest.fixture(autouse=True)
 def _disable_review_announcement_network(monkeypatch):
+    monkeypatch.setattr("tradex.stock_selection.intraday_macd_j.refresh_watch", lambda **kwargs: {})
     monkeypatch.setattr(collector_worker, "_refresh_sector_catalog", lambda **kwargs: {"action": "existing"})
     monkeypatch.setattr(collector_worker, "_latest_final_close_revision", lambda day: "f" * 64)
     monkeypatch.setattr(
@@ -458,6 +459,25 @@ def test_supervisor_reopens_runtime_after_transient_cycle_failure() -> None:
     assert calls == [1, 2]
 
 
+def test_supervisor_reopens_after_unexpected_return_and_honors_stop() -> None:
+    stop_event = threading.Event()
+    calls = []
+
+    def run_cycle(observed_stop_event, *, once):
+        calls.append(once)
+        if len(calls) == 2:
+            observed_stop_event.set()
+
+    collector_worker._run_supervised(
+        stop_event, run_cycle=run_cycle, retry_delay_seconds=0,
+    )
+    assert calls == [False, False]
+    collector_worker._run_supervised(
+        stop_event, run_cycle=run_cycle, retry_delay_seconds=0,
+    )
+    assert calls == [False, False]
+
+
 def test_supervised_reopen_restores_persisted_envelope_heartbeat(
     tmp_path: Path,
     monkeypatch,
@@ -474,6 +494,9 @@ def test_supervised_reopen_restores_persisted_envelope_heartbeat(
     class FakeCollector:
         def __init__(self, ledger) -> None:
             self._ledger = ledger
+
+        def start(self) -> None:
+            self._ledger.update_runtime(CollectorRuntimeState.STARTING, heartbeat_at=observed)
 
         def run_forever(self, observed_stop_event) -> None:
             nonlocal cycles
@@ -863,3 +886,62 @@ def test_review_announcements_refresh_once_in_morning_and_evening(monkeypatch) -
     )
 
     assert announcement_calls == [0, 1]
+
+
+@pytest.mark.parametrize("failure", [RuntimeError("transient calendar failure"), None])
+def test_auxiliary_owner_recovers_from_crash_or_unexpected_exit(failure):
+    import threading
+    stop = threading.Event()
+    calls = []
+    def cycle(event):
+        calls.append(1)
+        if len(calls) == 1:
+            if failure:
+                raise failure
+            return
+        event.set()
+    collector_worker._run_supervised_auxiliary_loop(stop, run_loop=cycle, retry_delay_seconds=0)
+    assert len(calls) == 2
+
+
+def test_primary_heartbeat_precedes_auxiliary_computation(monkeypatch):
+    from contextlib import nullcontext
+    events = []
+    class Collector:
+        def start(self):
+            events.append("primary_ready")
+        def run_forever(self, stop):
+            events.append("primary_loop")
+            stop.set()
+    class Auxiliary:
+        def __init__(self, **kwargs):
+            pass
+        def start(self):
+            assert events == ["primary_ready"]
+            events.append("auxiliary_started")
+        def join(self, **kwargs):
+            pass
+    monkeypatch.setattr(collector_worker, "MarketWatchCollectionStore", lambda: nullcontext(None))
+    monkeypatch.setattr(collector_worker, "MarketWatchHistoryStore", lambda: nullcontext(None))
+    monkeypatch.setattr(collector_worker, "build_collector", lambda **kwargs: Collector())
+    monkeypatch.setattr(collector_worker.threading, "Thread", Auxiliary)
+    collector_worker._run_collector_cycle(threading.Event(), once=False)
+    assert events == ["primary_ready", "auxiliary_started", "primary_loop"]
+
+
+def test_lunch_catalog_backlog_uses_short_wait_and_actual_clock(monkeypatch):
+    class Stop:
+        done = False
+        waits = []
+        def is_set(self):
+            return self.done
+        def wait(self, seconds):
+            self.waits.append(seconds)
+            self.done = True
+    calls = []
+    monkeypatch.setattr(collector_worker, "_refresh_sector_catalog", lambda **kwargs:calls.append(kwargs) or {"history_missing":500})
+    monkeypatch.setattr(collector_worker, "_generate_latest_limit_up_pool", lambda **kwargs:{})
+    stop = Stop()
+    collector_worker._run_post_close_resonance_loop(stop, clock=lambda:datetime(2026,9,18,12,0,tzinfo=SHANGHAI))
+    assert stop.waits == [1.0]
+    assert calls == [{}]  # No stale loop timestamp is passed to gateway admission.

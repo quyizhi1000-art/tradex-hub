@@ -1,0 +1,77 @@
+[
+  {
+    "id": "603500.SH",
+    "key": "rail_transport",
+    "sector": "轨道交通",
+    "source_sector_name": "轨道交通",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "轨道扣件非金属部件"
+    ],
+    "fact": "轨道交通产品电子配件高分子材料研发生产销售。",
+    "company_fact": "轨道交通产品电子配件高分子材料研发生产销售。",
+    "ths_fact": "全资富适扣铁路与城轨扣件研发及销售。",
+    "reason": "轨交扣件有明确实体产品与长期市场身份，无人机仅泛称配套。"
+  },
+  {
+    "id": "603501.SH",
+    "key": "automotive_chips",
+    "sector": "汽车芯片",
+    "source_sector_name": "汽车芯片",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "车载CMOS及配套芯片"
+    ],
+    "fact": "图像传感器显示模拟芯片设计，车载视觉感知为关键市场。",
+    "company_fact": "图像传感器显示模拟芯片设计，车载视觉感知为关键市场。",
+    "ths_fact": "车载CMOS基础拓展SerDes电源MCU等车规解决方案。",
+    "reason": "汽车视觉芯片经营清晰；保留AI眼镜产品关联，不混整机制造。"
+  },
+  {
+    "id": "603505.SH",
+    "key": "fluorite",
+    "sector": "萤石",
+    "source_sector_name": "萤石",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "萤石采选"
+    ],
+    "fact": "酸级萤石精粉高品位块矿，延伸氟化氢等。",
+    "company_fact": "酸级萤石精粉高品位块矿，延伸氟化氢等。",
+    "ths_fact": "专注萤石投资开发及生产销售，具有矿山资源。",
+    "reason": "资源型身份明确；液冷参股交易另留，不把氟化氢收入直接变冷却液收入。"
+  },
+  {
+    "id": "603506.SH",
+    "key": "property_management",
+    "sector": "物业管理",
+    "source_sector_name": "物业管理",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "物业综合服务"
+    ],
+    "fact": "住宅商写城市服务全业态物业服务。",
+    "company_fact": "住宅商写城市服务全业态物业服务。",
+    "ths_fact": "物业基础增值及资产管理服务。",
+    "reason": "养老垃圾分类为物业延伸，机器人应用不等同制造。"
+  },
+  {
+    "id": "603507.SH",
+    "key": "wind_power",
+    "sector": "风电",
+    "source_sector_name": "风电",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "风电钢结构零件与海上运维"
+    ],
+    "fact": "转子定子塔筒机舱罩等及海上风电服务。",
+    "company_fact": "转子定子塔筒机舱罩等及海上风电服务。",
+    "ths_fact": "风电零件及海上安装运维。",
+    "reason": "主营产业链身份；商业航天紧固件供货保留标签，外骨骼研发不等同人形。"
+  }
+]

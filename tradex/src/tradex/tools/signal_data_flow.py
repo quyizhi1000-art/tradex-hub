@@ -202,6 +202,8 @@ def register(mcp: FastMCP):
         """
         relationship = None
         catalog_status = None
+        membership = None
+        market_revision = None
         if symbol:
             symbol = normalize_symbol(symbol)
             from tradex.instrument_taxonomy.store import InstrumentTaxonomyReader
@@ -210,15 +212,19 @@ def register(mcp: FastMCP):
                 f"{symbol}.SH"
                 if symbol.startswith("6")
                 else f"{symbol}.BJ"
-                if symbol.startswith(("4", "8"))
+                if symbol.startswith(("4", "8", "9"))
                 else f"{symbol}.SZ"
             )
             with InstrumentTaxonomyReader() as reader:
                 relationship = reader.get(instrument_id)
                 catalog_status = reader.status()
+            from tradex.smart_sector_library.catalog import SmartSectorCatalog
+            with SmartSectorCatalog() as sectors:
+                membership = sectors.get(instrument_id)
+                market_revision = sectors.revision
         cache_date = trade_date or datetime.now(_SHANGHAI).date().isoformat()
         catalog_revision = catalog_status.catalog_revision if catalog_status else "unavailable"
-        cache_key = f"industry_cmp:v3:{catalog_revision}:{symbol or 'all'}:{cache_date}:{top_n}"
+        cache_key = f"industry_cmp:v4:{catalog_revision}:{market_revision}:{symbol or 'all'}:{cache_date}:{top_n}"
         cached = cache.get(cache_key)
         if cached is not None:
             return cached
@@ -231,6 +237,9 @@ def register(mcp: FastMCP):
                 trade_date=trade_date,
                 top_n=top_n,
             )
+            result = dict(result)
+            result["market_membership"] = membership.model_dump(mode="json") if membership else None
+            result["market_sector_revision"] = market_revision
             if relationship is not None:
                 result = dict(result)
                 result["stock_relationship"] = {
@@ -247,7 +256,7 @@ def register(mcp: FastMCP):
                     "catalog_revision": catalog_status.catalog_revision if catalog_status else None,
                 }
                 result["comparison_semantics"] = (
-                    "provider_board_market_view; stock identity comes from stock_relationship"
+                    "provider_board_market_view; stock primary comes only from market_membership"
                 )
             output = dict_to_json(result)
             if result.get("industries"):

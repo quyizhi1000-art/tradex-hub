@@ -1,0 +1,78 @@
+{
+  "instrument_id": "000868.SZ",
+  "name": "安凯客车",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "000868.SZ",
+    "name": "安凯客车",
+    "memberships": [
+      "汽车",
+      "商用车",
+      "商用载客车",
+      "安徽板块",
+      "2026中报预减",
+      "破增发价股",
+      "微利股",
+      "最近多板",
+      "东方财富热股",
+      "昨日高振幅",
+      "昨日涨停_含一字",
+      "昨日涨停",
+      "深股通",
+      "融资融券",
+      "电池技术",
+      "汽车整车",
+      "氢能源",
+      "华为概念",
+      "新能源车",
+      "智能驾驶",
+      "PPP模式",
+      "央国企改革",
+      "燃料电池概念"
+    ],
+    "business_sections": [
+      {
+        "title": "客车整车及汽车零部件的研发、制造、销售和服务",
+        "kind": "主营业务",
+        "text": "公司是一家集客车整车及汽车零部件的研发、制造、销售和服务于一体并坚持自主研发为主的大型综合客车厂商。产品覆盖各类公路客车、公交客车、新能源客车、旅游客车、团体客车、景观车等。"
+      },
+      {
+        "title": "自主掌握的核心技术",
+        "kind": "核心竞争力",
+        "text": "公司引进德国凯斯鲍尔技术，进行技术合作，经过消化吸收再创新，形成自主掌握的客车全承载、底盘全桁架核心技术，并获得国家发明专利。"
+      },
+      {
+        "title": "新能源客车研发及生产优势",
+        "kind": "核心竞争力",
+        "text": "公司是国内较早研发和批量生产运营新能源客车的整车企业，具有新能源客车研发及生产优势。现已形成集10-12米纯电动公交客车、12米纯电动旅游和通勤客车、12米增程式电动公交客车、10-12米油电混合动力城市客车于一体的产品平台。"
+      },
+      {
+        "title": "雄厚而专业的研发实力",
+        "kind": "核心竞争力",
+        "text": "公司拥有国家电动客车整车系统集成工程技术研究中心、国家级企业技术中心、国家级博士后科研工作站，拥有雄厚而专业的研发实力。"
+      },
+      {
+        "title": "先进的生产管理体系和设备",
+        "kind": "核心竞争力",
+        "text": "公司拥有现代化的生产车间和科学合理的U型生产线，先进的TPS生产管理体系，以及高效高精度的生产设备，保障了公司产品品质。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ000868",
+    "fetched_at": "2026-09-18T22:36:01.191874+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "整车"
+}

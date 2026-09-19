@@ -67,3 +67,39 @@ test("batch failure and running recovery retain their distinct states", () => {
   assert.match(running.byId("collection-recovery-progress").textContent, /批内/);
   assert(running.classes.has("is-retrying"));
 });
+
+test("retryable batch failures show the owned automatic retry instead of requiring a manual click", () => {
+  const result = render({status: "failed", last_error_code: "TimeoutError", last_error_message: "fixture deadline", next_retry_at: "2026-09-16T16:25:11+08:00", manual_action_required: false});
+  assert.match(result.byId("collection-recovery-status").textContent, /自动重试/);
+  assert.match(result.byId("collection-recovery-error").textContent, /16:25:11/);
+  assert.doesNotMatch(result.byId("collection-recovery-status").textContent, /手动/);
+});
+
+test("cache completion stays visibly pending until publication and real gaps remain retryable", () => {
+  const start = source.indexOf("  function renderIntradayTrajectoryRepair(");
+  const end = source.indexOf("  async function fetchIntradayTrajectoryRepair(", start);
+  for (const remaining of [0, 2]) {
+    const elements = new Map();
+    const byId = id => {
+      if (!elements.has(id)) elements.set(id, {});
+      return elements.get(id);
+    };
+    const context = {
+      byId,
+      state: { collectionStatus: { latest_accepted_real: {} },
+        trajectoryRepair: { status: "partial", target_count: 88, remaining_targets: remaining,
+          last_error: "已发布至 11:27；目标 11:29" } },
+      text: (value, fallback) => value || fallback,
+      shanghaiClock: () => ({ minuteOfDay: 720 }),
+    };
+    vm.runInNewContext(source.slice(start, end) + "\nrenderIntradayTrajectoryRepair()", context);
+    assert.match(byId("trajectory-repair-status").textContent, /已发布至 11:27；目标 11:29/);
+    assert.equal(byId("trajectory-repair-button").disabled, remaining === 0);
+    if (remaining === 0) {
+      assert.match(byId("trajectory-repair-status").textContent, /等待发布验收/);
+      assert.equal(byId("trajectory-repair-button").textContent, "等待自动发布");
+    } else {
+      assert.equal(byId("trajectory-repair-button").textContent, "重试真实缺口");
+    }
+  }
+});

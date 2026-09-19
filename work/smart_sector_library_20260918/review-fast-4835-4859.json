@@ -1,0 +1,558 @@
+[
+  {
+    "id": "688267.SH",
+    "key": "propylene_oxide",
+    "sector": "环氧丙烷",
+    "chain": [
+      "HPPO工艺分子筛催化剂"
+    ],
+    "stage": "revenue",
+    "fact": "同花顺确认HPPO催化剂技术成熟并向聚源、嘉宏等客户销售。",
+    "ths_fact": "同花顺确认HPPO催化剂技术成熟并向聚源、嘉宏等客户销售。",
+    "company_fact": "东方财富主营特种分子筛及催化剂，应用于环保、能源与化工。",
+    "reason": "环氧丙烷产业化催化剂是可验证的市场切入点；属于制取环氧丙烷的上游催化材料，不是环氧丙烷本体生产。",
+    "source_sector_name": "环氧丙烷",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688268.SH",
+    "key": "lithography",
+    "sector": "光刻机",
+    "chain": [
+      "光刻用特种混合气"
+    ],
+    "stage": "revenue",
+    "fact": "同花顺光刻机概念对应光刻气，相关混合气获ASML及GIGAPHOTON认证并服务晶圆制造客户。",
+    "ths_fact": "同花顺光刻机概念对应光刻气，相关混合气获ASML及GIGAPHOTON认证并服务晶圆制造客户。",
+    "company_fact": "东方财富确认特种气体、普通工业气体及设备生产销售。",
+    "reason": "光刻环节特气构成半导体材料市场辨识度；归属现有光刻机板块，链条明确为光刻气，不将其说成光刻机整机或光刻胶制造商。",
+    "source_sector_name": "光刻机",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688269.SH",
+    "key": "hydrogen_energy",
+    "sector": "氢能源",
+    "chain": [
+      "燃料电池及制氢催化剂试产与客户评测"
+    ],
+    "stage": "pilot",
+    "fact": "同花顺披露燃料电池铂催化剂公斤级制备、电解水催化剂试产评测，高纯氢纯化催化剂已有应用。",
+    "ths_fact": "同花顺披露燃料电池铂催化剂公斤级制备、电解水催化剂试产评测，高纯氢纯化催化剂已有应用。",
+    "company_fact": "东方财富确认贵金属催化剂研发生产、技术服务与废催化剂回收。",
+    "reason": "氢能催化剂具备具体工艺及客户验证，足以支持已有氢能源主线。阶段指新燃料电池及制氢催化剂试产评测，不将普通催化剂收入全部计为氢能收入。",
+    "source_sector_name": "氢能源",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "688269_official_review",
+        "source_kind": "official_filing",
+        "publisher": "凯立新材",
+        "title": "2025年年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=688269&id=12170915",
+        "published_at": null,
+        "assertions": [
+          "燃料电池催化剂形成公斤级批量制备工艺，电解水催化剂处于试产和客户评测；高纯氢气体纯化催化剂已工业应用。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "688270.SH",
+    "key": "commercial_space",
+    "sector": "商业航天",
+    "chain": [
+      "星载射频芯片、电源模块及微系统"
+    ],
+    "stage": "delivery",
+    "fact": "同花顺商业航天说明卫星载荷芯片及微系统已有在轨应用。",
+    "ths_fact": "同花顺商业航天说明卫星载荷芯片及微系统已有在轨应用。",
+    "company_fact": "东方财富主营射频收发、高速转换、电源管理芯片和微系统模组。",
+    "reason": "星载产品已经供货及在轨运行，商业航天是实际业务支持的市场方向；不把后续批产预期或6G概念表述为已兑现收入。",
+    "source_sector_name": "商业航天",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "688270_official_review",
+        "source_kind": "official_filing",
+        "publisher": "臻镭科技",
+        "title": "2026年半年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=688270&id=12547776",
+        "published_at": null,
+        "assertions": [
+          "卫星互联网微系统在轨运行良好；电源模块已小批量供货，部分星用射频芯片完成鉴定和在轨应用。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "688271.SH",
+    "key": "brain_computer_interface",
+    "sector": "脑机接口",
+    "chain": [
+      "脑机接口科研用磁共振与多模态成像平台"
+    ],
+    "stage": "pilot",
+    "fact": "同花顺脑机接口对应与天津大学合作的神工—神观科研平台。",
+    "ths_fact": "同花顺脑机接口对应与天津大学合作的神工—神观科研平台。",
+    "company_fact": "东方财富主营医学影像、放疗与生命科学设备，涵盖磁共振技术。",
+    "reason": "上市公司本体参与的科研成像平台已启用，支持脑机接口市场主题；阶段为科研应用，不称植入式电极、获批脑机治疗产品或关联企业AI收入。",
+    "source_sector_name": "脑机接口",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "688271_tju_platform",
+        "source_kind": "official_company",
+        "publisher": "天津大学",
+        "title": "全球首台专用于脑机接口的神工—神观系统启用",
+        "source_url": "https://news.tju.edu.cn/info/1003/568409.htm",
+        "published_at": "2025-10-19",
+        "assertions": [
+          "天津大学与上海联影医疗共同研制的神工—神观系统于2025年10月18日启用，整合磁共振、脑电与刺激等技术用于脑机接口科研。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "688272.SH",
+    "key": "military",
+    "sector": "军工",
+    "chain": [
+      "红外热成像器件、热像仪及光电系统"
+    ],
+    "stage": "revenue",
+    "fact": "同花顺军工对应红外光电系统及军方客户，量子科技另涉及量子加密摄像机。",
+    "ths_fact": "同花顺军工对应红外光电系统及军方客户，量子科技另涉及量子加密摄像机。",
+    "company_fact": "东方财富主营红外成像器件、热像仪、光电系统及相关微光激光产品。",
+    "reason": "军用红外光电产品构成已确认经营及市场身份。最新半年报说明量子加密摄像机当期无订单收入且芯片外采，不能用旧题材将其认定为自产量子芯片或当前量子业务收入。",
+    "source_sector_name": "军工",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "688272_official_review",
+        "source_kind": "official_filing",
+        "publisher": "富吉瑞",
+        "title": "2026年半年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=688272&id=12550998",
+        "published_at": null,
+        "assertions": [
+          "2026年上半年量子加密摄像机未形成订单和收入，量子加密芯片外采；星间激光通信粗指向机构仍处样机测试。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "688273.SH",
+    "key": "brain_computer_interface",
+    "sector": "脑机接口",
+    "chain": [
+      "脑电近红外经颅磁刺激及手功能康复系统"
+    ],
+    "stage": "revenue",
+    "fact": "同花顺说明子公司锐诗得与脑机接口设备协同形成运动想象和视觉反馈康复方案。",
+    "ths_fact": "同花顺说明子公司锐诗得与脑机接口设备协同形成运动想象和视觉反馈康复方案。",
+    "company_fact": "东方财富涵盖盆底、生殖、运动康复及手部康复、经颅磁刺激系统。",
+    "reason": "选择脑机接口康复这一真实产品方向；收入阶段限定已获证上市销售的脑电近红外经颅重复磁刺激仪，不将仍开发中的非侵入式反馈系统、自研采集设备一并认作商业化。",
+    "source_sector_name": "脑机接口",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "688273_official_review",
+        "source_kind": "official_filing",
+        "publisher": "麦澜德",
+        "title": "2026年半年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=688273&id=12572668",
+        "published_at": null,
+        "assertions": [
+          "脑电近红外经颅重复磁刺激仪已取得医疗器械注册证并在经颅和盆底市场上市销售；部分非侵入脑机系统仍在开发或预研。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "688275.SH",
+    "key": "sodium_ion_battery",
+    "sector": "钠离子电池",
+    "chain": [
+      "钠离子电池正极材料"
+    ],
+    "stage": "delivery",
+    "fact": "同花顺确认钠电正极材料数百吨出货，应用于储能及启停场景。",
+    "ths_fact": "同花顺确认钠电正极材料数百吨出货，应用于储能及启停场景。",
+    "company_fact": "东方财富说明磷酸铁锂及前驱体业务，并确认钠离子正极材料数百吨出货。",
+    "reason": "钠电材料已有可量化供货，能够形成区别于原磷酸铁锂业务的真实新主线；按出货阶段记录，不将固态电池送样认定为商业量产。",
+    "source_sector_name": "钠离子电池",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688276.SH",
+    "key": "vaccines",
+    "sector": "生物疫苗",
+    "chain": [
+      "水痘、流感及带状疱疹疫苗"
+    ],
+    "stage": "revenue",
+    "fact": "同花顺生物疫苗和流感概念对应已上市疫苗及在研管线。",
+    "ths_fact": "同花顺生物疫苗和流感概念对应已上市疫苗及在研管线。",
+    "company_fact": "东方财富确认水痘、鼻喷流感、带状疱疹等疫苗获批销售。",
+    "reason": "疫苗平台与已上市产品共同形成持续市场身份；阿尔茨海默疫苗尚属临床前研发，不将计划申报等同临床或销售。",
+    "source_sector_name": "生物疫苗",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688277.SH",
+    "key": "robotics",
+    "sector": "机器人",
+    "chain": [
+      "骨科手术导航定位机器人"
+    ],
+    "stage": "revenue",
+    "fact": "同花顺机器人概念对应骨科手术导航定位系统。",
+    "ths_fact": "同花顺机器人概念对应骨科手术导航定位系统。",
+    "company_fact": "东方财富确认骨科手术机器人研发、生产销售及配套服务。",
+    "reason": "机器人是实际经营产品和清晰市场身份，细分为手术机器人，不扩写成人形机器人。",
+    "source_sector_name": "机器人概念",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688278.SH",
+    "key": "innovative_drugs",
+    "sector": "创新药",
+    "chain": [
+      "免疫与代谢领域细胞因子创新药"
+    ],
+    "stage": "revenue",
+    "fact": "同花顺创新药说明派格宾、益佩生及珮金等一类新药获批。",
+    "ths_fact": "同花顺创新药说明派格宾、益佩生及珮金等一类新药获批。",
+    "company_fact": "东方财富确认免疫、代谢领域创新药研发及细胞因子药物产业化。",
+    "reason": "已商业化创新生物药支撑创新药主线；收入阶段只对应上市药物，乙肝mRNA疫苗委托研发并非已上市疫苗。",
+    "source_sector_name": "创新药",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688279.SH",
+    "key": "robotics",
+    "sector": "机器人",
+    "chain": [
+      "机器人电机控制MCU及控制方案"
+    ],
+    "stage": "product",
+    "fact": "同花顺机器人概念涉及机器人电机控制芯片研发。",
+    "ths_fact": "同花顺机器人概念涉及机器人电机控制芯片研发。",
+    "company_fact": "东方财富主营BLDC电机驱动控制芯片、算法与系统方案。",
+    "reason": "原半年报将机器人方向推进至具体FU75XX芯片和控制方案，选择现有机器人板块；产品发布和合作不直接等于机器人独立收入，阶段保守记产品。",
+    "source_sector_name": "机器人概念",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "688279_official_review",
+        "source_kind": "official_filing",
+        "publisher": "峰岹科技",
+        "title": "2026年半年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=688279&id=12562287",
+        "published_at": null,
+        "assertions": [
+          "发布适配机器人等场景的FU75XX RISC-V双核电机控制芯片；持续与工业伺服和机器人客户开展合作与量产导入。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "688280.SH",
+    "key": "new_energy_vehicles",
+    "sector": "新能源汽车",
+    "chain": [
+      "新能源汽车电机、控制器与电驱总成"
+    ],
+    "stage": "revenue",
+    "fact": "同花顺新能源汽车说明电驱业务及国内外整车客户，SiC用于控制器。",
+    "ths_fact": "同花顺新能源汽车说明电驱业务及国内外整车客户，SiC用于控制器。",
+    "company_fact": "东方财富确认电机、发电机、控制器和传动总成研发生产与供应。",
+    "reason": "新能源汽车电驱是实际产品体系和持续市场定位；不将SiC控制器称为碳化硅芯片制造，也不把执行器等同无人驾驶算法。",
+    "source_sector_name": "新能源汽车",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688281.SH",
+    "key": "military",
+    "sector": "军工",
+    "chain": [
+      "特种功能涂层、结构材料及航空部件"
+    ],
+    "stage": "revenue",
+    "fact": "同花顺军工说明特种材料服务军工客户，另有航发及大飞机相关材料。",
+    "ths_fact": "同花顺军工说明特种材料服务军工客户，另有航发及大飞机相关材料。",
+    "company_fact": "东方财富确认特种功能涂层、热阻防腐声学材料、航空发动机加工和陶瓷基复材。",
+    "reason": "多类材料与航空部件服务国防装备形成统一军工市场身份；产品和工艺细节留在产业链，不自建材料类别板块。",
+    "source_sector_name": "军工",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688282.SH",
+    "key": "commercial_space",
+    "sector": "商业航天",
+    "chain": [
+      "火箭惯性导航、星地测控与定向定姿设备"
+    ],
+    "stage": "delivery",
+    "fact": "同花顺商业航天说明惯导合同及火箭导航配套。",
+    "ths_fact": "同花顺商业航天说明惯导合同及火箭导航配套。",
+    "company_fact": "东方财富主营惯性导航、制导及射频产品，并向民用领域拓展。",
+    "reason": "原年度报告已确认太空激光通信定姿设备及星地测控产品交付，商业航天不再只有合同预期；收入规模未独立核实，按交付记录。",
+    "source_sector_name": "商业航天",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "688282_official_review",
+        "source_kind": "official_filing",
+        "publisher": "理工导航",
+        "title": "2025年年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=688282&id=12044151",
+        "published_at": null,
+        "assertions": [
+          "太空激光通信高精度定向定姿产品已交付用户；控股宇讯电子地面测控站相关频段设备部分产品于2025年交付。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "688283.SH",
+    "key": "commercial_space",
+    "sector": "商业航天",
+    "chain": [
+      "卫星与星地链路无线测试仿真仪器"
+    ],
+    "stage": "revenue",
+    "fact": "同花顺商业航天说明仪器在卫星产业链应用并贡献持续增长的业务。",
+    "ths_fact": "同花顺商业航天说明仪器在卫星产业链应用并贡献持续增长的业务。",
+    "company_fact": "东方财富主营高端无线电测试仿真仪器。",
+    "reason": "商业航天测试已形成客户应用和业绩，原半年报进一步确认星地测试产品导入；产业链为测试设备，不是卫星整机生产。",
+    "source_sector_name": "商业航天",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "688283_official_review",
+        "source_kind": "official_filing",
+        "publisher": "坤恒顺维",
+        "title": "2026年半年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=688283&id=12566093",
+        "published_at": null,
+        "assertions": [
+          "卫星测试仪器及星地场景模拟产品已导入多家客户并获得下游使用反馈。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "688285.SH",
+    "key": "high_speed_rail",
+    "sector": "高铁",
+    "chain": [
+      "铁路接触网和城市轨道交通供电装备"
+    ],
+    "stage": "revenue",
+    "fact": "同花顺高铁概念对应电气化铁路接触网产品及轨交项目。",
+    "ths_fact": "同花顺高铁概念对应电气化铁路接触网产品及轨交项目。",
+    "company_fact": "东方财富确认铁路电气化接触网、城市轨道供电装备研发制造。",
+    "reason": "高铁和轨道供电构成完整持续业务，选择既有高铁板块；并非因名称判断，也不把少量汽车配件扩成核心汽车身份。",
+    "source_sector_name": "高铁",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688286.SH",
+    "key": "sensors",
+    "sector": "传感器",
+    "chain": [
+      "MEMS声学、压力与惯性传感器"
+    ],
+    "stage": "revenue",
+    "fact": "同花顺传感器及智能穿戴概念对应MEMS器件，人形方向涉及多轴力和IMU研发。",
+    "ths_fact": "同花顺传感器及智能穿戴概念对应MEMS器件，人形方向涉及多轴力和IMU研发。",
+    "company_fact": "东方财富确认MEMS传感器芯片设计及工艺研发，涵盖声学压力惯性品类。",
+    "reason": "现有销售的MEMS产品形成可核实传感器市场身份；人形多轴力与IMU仍在研发布局，后续实际产品和出货再复核，不将智能眼镜麦克风说成整机AI能力。",
+    "source_sector_name": "传感器",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "688286_official_review",
+        "source_kind": "official_filing",
+        "publisher": "敏芯股份",
+        "title": "2026年半年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=688286&id=12496644",
+        "published_at": null,
+        "assertions": [
+          "人形机器人方向仍以多轴力和IMU等研发布局为主，现有商业化业务为MEMS传感器。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "688288.SH",
+    "key": "vehicle_road_coordination",
+    "sector": "车联网(车路协同)",
+    "chain": [
+      "商用车智能网联终端、云平台及辅助驾驶"
+    ],
+    "stage": "revenue",
+    "fact": "同花顺车联网对应商用车智能网联终端和G-BOS等平台。",
+    "ths_fact": "同花顺车联网对应商用车智能网联终端和G-BOS等平台。",
+    "company_fact": "东方财富确认汽车智能网联、辅助驾驶及相关终端业务。",
+    "reason": "车载终端与云端车辆管理构成真实车联网身份；不外推为道路端设施供应，离题的政务语料概念说明不作为本股业务证据。",
+    "source_sector_name": "车联网(车路协同)",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688289.SH",
+    "key": "in_vitro_diagnostics",
+    "sector": "体外诊断",
+    "chain": [
+      "分子诊断试剂、仪器及检测服务"
+    ],
+    "stage": "revenue",
+    "fact": "同花顺体外诊断对应基因检测及呼吸道病原体等试剂仪器产品。",
+    "ths_fact": "同花顺体外诊断对应基因检测及呼吸道病原体等试剂仪器产品。",
+    "company_fact": "东方财富确认体外诊断试剂仪器、第三方检测及相关产品服务体系。",
+    "reason": "诊断技术与已上市产品构成一致的市场定位，选择已有体外诊断；AI用于诊断流程，制药业务另有具体产品，不把所有拓展合成新的自造板块。",
+    "source_sector_name": "体外诊断",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688290.SH",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "chain": [
+      "面向危险环境的遥操作具身人形机器人"
+    ],
+    "stage": "product",
+    "fact": "同花顺人形机器人对应2026年发布的具身智能机器人产品。",
+    "ths_fact": "同花顺人形机器人对应2026年发布的具身智能机器人产品。",
+    "company_fact": "东方财富主营核工业耐辐照机器人和智能装备。",
+    "reason": "既有核工业机器人能力已延伸为公开发布的遥操作人形产品，选择真实新主题；阶段为产品，不把初步验证说成批量收入或把核聚变意向说成订单。",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "688290_official_review",
+        "source_kind": "official_filing",
+        "publisher": "景业智能",
+        "title": "2026年半年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=688290&id=12505558",
+        "published_at": null,
+        "assertions": [
+          "已发布遥操作具身智能人形机器人，配置灵巧手、外骨骼主端、数据手套和VR；相关技术在核工业有初步验证。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "688291.SH",
+    "key": "three_d_printing",
+    "sector": "3D打印",
+    "chain": [
+      "激光增材制造控制软件、控制卡及扫描振镜"
+    ],
+    "stage": "product",
+    "fact": "同花顺3D打印说明SLA、SLM、SLS加工控制软件、控制卡及振镜方案。",
+    "ths_fact": "同花顺3D打印说明SLA、SLM、SLS加工控制软件、控制卡及振镜方案。",
+    "company_fact": "东方财富主营激光加工运动控制系统和相关部件。",
+    "reason": "3D激光加工是具体已推出产品方向，原半年报补充振镜小批试制及交付测试；阶段指产品和客户测试，不把送测等同商业批量收入。",
+    "source_sector_name": "3D打印",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "688291_official_review",
+        "source_kind": "official_filing",
+        "publisher": "金橙子",
+        "title": "2026年半年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=688291&id=12553909",
+        "published_at": null,
+        "assertions": [
+          "FS14及FS20国产化小批试制，面向3D打印多头需求的小型化光学产品已交付客户测试，部分机型仍试产。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "688292.SH",
+    "key": "ai_agents",
+    "sector": "AI智能体",
+    "chain": [
+      "行业大模型、企业知识库及业务智能体"
+    ],
+    "stage": "delivery",
+    "fact": "同花顺AI智能体对应晨星大模型、企业知识库及金融等行业应用。",
+    "ths_fact": "同花顺AI智能体对应晨星大模型、企业知识库及金融等行业应用。",
+    "company_fact": "东方财富说明网络数据技术及晨星AI、企业知识库、智能体数字员工业务。",
+    "reason": "晨星与专属智能体已有客户场景落地，形成真实AI智能体主线；未独立确认该业务收入，按交付记录，新催收场景仍是试点，不能把全部云边云客户算作AI付费客户。",
+    "source_sector_name": "AI智能体",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "688292_official_review",
+        "source_kind": "official_filing",
+        "publisher": "浩瀚深度",
+        "title": "2025年年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=688292&id=12244828",
+        "published_at": null,
+        "assertions": [
+          "晨星大模型及专属智能体已在运营商、银行等场景落地。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "688293.SH",
+    "key": "cro",
+    "sector": "CRO",
+    "chain": [
+      "细胞培养基及抗体CDMO服务"
+    ],
+    "stage": "revenue",
+    "fact": "同花顺CRO说明细胞培养产品与抗体药物工艺开发生产服务。",
+    "ths_fact": "同花顺CRO说明细胞培养产品与抗体药物工艺开发生产服务。",
+    "company_fact": "东方财富提供细胞培养产品和从DNA到IND、BLA相关服务。",
+    "reason": "培养基和生物药开发制造服务形成既有CRO产业身份；不将其说成自产最终抗体药物，也不以尚未核实交割的收购作为依据。",
+    "source_sector_name": "CRO概念",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688295.SH",
+    "key": "carbon_fiber",
+    "sector": "碳纤维",
+    "chain": [
+      "高性能碳纤维材料生产"
+    ],
+    "stage": "revenue",
+    "fact": "同花顺碳纤维涵盖多等级碳纤维，航空航天应用另有验证与认证进度。",
+    "ths_fact": "同花顺碳纤维涵盖多等级碳纤维，航空航天应用另有验证与认证进度。",
+    "company_fact": "东方财富确认PAN基碳纤维研发和规模生产，多等级产品已产业化。",
+    "reason": "碳纤维是实际材料产品和明确市场身份；航天和航空认证带来应用拓展，但不将验证或预批准等同整机批量订单。",
+    "source_sector_name": "碳纤维",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  }
+]

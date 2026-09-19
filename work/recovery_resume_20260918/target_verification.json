@@ -1,0 +1,39 @@
+{
+  "target": "2026-09-18T10:12:00+08:00",
+  "status": "repaired",
+  "accepted_at": "2026-09-18T16:33:49+08:00",
+  "source_snapshot_revision": "c4280905bcd6b3ff49906a2c6fbb79c2ee118e1ed3c9186da7a3f1e86d205170",
+  "as_of": "2026-09-18T10:12:00+08:00",
+  "breadth": {
+    "advance_ratio": 0.8696682464454977,
+    "available": true,
+    "down_count": 715,
+    "flat_count": 93,
+    "provider_as_of": "2026-09-18T10:12:00+08:00",
+    "quality": "accepted",
+    "quality_flags": [],
+    "reason": null,
+    "total_count": 5579,
+    "unclassified_count": 0,
+    "up_count": 4771
+  },
+  "turnover": {
+    "as_of": "10:12",
+    "available": true,
+    "difference_cny": 4888884760.0,
+    "difference_ratio": 0.0060356444050064795,
+    "direction": "flat",
+    "neutral_band_ratio": 0.03,
+    "previous_date": "2026-09-17",
+    "previous_same_time_amount_cny": 810002119400.0,
+    "reason": null,
+    "today_amount_cny": 814891004160.0,
+    "today_date": "2026-09-18"
+  },
+  "expected_breadth": {
+    "up": 4771,
+    "down": 715,
+    "flat": 93,
+    "total": 5579
+  }
+}

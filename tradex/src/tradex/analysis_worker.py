@@ -49,6 +49,7 @@ from tradex.stock_selection.service import (
     DailyStockSelectionService,
 )
 from tradex.stock_selection.store import DailyStockSelectionStore
+from tradex.stock_selection.insights import COMPARISON_POLICY
 from tradex.manual_portfolio.intraday_analysis import (
     build_manual_portfolio_intraday_analysis,
 )
@@ -97,9 +98,10 @@ def _portfolio_relationship_contexts(
     """Project only the local relationship catalog; never use provider sector labels."""
 
     from tradex.instrument_taxonomy.store import InstrumentTaxonomyReader
+    from tradex.smart_sector_library.catalog import SmartSectorCatalog
 
     contexts: dict[str, dict[str, Any]] = {}
-    with InstrumentTaxonomyReader() as reader:
+    with InstrumentTaxonomyReader() as reader, SmartSectorCatalog() as sectors:
         status = reader.status()
         if status is None:
             return contexts
@@ -141,6 +143,9 @@ def _portfolio_relationship_contexts(
                 )
             )
             contexts[instrument_id] = {
+                "market_sector_name": sectors.get(instrument_id).primary_sector_name,
+                "market_sector_revision": sectors.revision,
+                "market_sector_status": sectors.get(instrument_id).status,
                 "catalog_revision": status.catalog_revision,
                 "catalog_as_of": status.as_of,
                 "profile_as_of": profile.as_of,
@@ -553,6 +558,7 @@ class AnalysisRuntime:
 
     def materialize_review_views(self, *, force: bool = False) -> int:
         from tradex.instrument_taxonomy.store import InstrumentTaxonomyReader
+        from tradex.smart_sector_library import SmartSectorCatalog
 
         dates = self.review_store.list_dates(limit=365)
         learning = self.review_store.learning_summary(limit=20).model_dump(mode="json")
@@ -577,9 +583,12 @@ class AnalysisRuntime:
         }
         with InstrumentTaxonomyReader() as reader:
             relationship_status = reader.status()
+        with SmartSectorCatalog() as sectors:
+            market_sector_revision = sectors.revision
         catalog_revision = _revision({
             "dates": dates,
             "learning": learning,
+            "market_sector_revision": market_sector_revision,
             "relationship_catalog_revision": (
                 relationship_status.catalog_revision if relationship_status else None
             ),
@@ -645,6 +654,7 @@ class AnalysisRuntime:
         return published
 
     def materialize_selection_views(self, *, force: bool = False) -> int:
+        membership_revision = self.selection_service.refresh_limit_up_memberships()
         dates = self.selection_store.list_dates(limit=365)
         strategy_dates = self.selection_store.list_strategy_dates(limit=365)
         strategy_history = self.selection_service.strategy_history(limit=1)
@@ -653,6 +663,9 @@ class AnalysisRuntime:
         catalog_revision = _revision(
             {
                 "legacy_dates": dates,
+                "insights_contract": "stock_selection_insights.v1",
+                "comparison_policy": COMPARISON_POLICY,
+                "limit_up_membership_revision": membership_revision,
                 "strategy_dates": strategy_dates,
                 "strategy_catalog": strategy_catalog,
                 "industry_display_contract": industry_display.get("contract"),

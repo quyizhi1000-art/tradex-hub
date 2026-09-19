@@ -1,0 +1,318 @@
+--- work\double_turn_audit_20260918\before\tradex__docs__data-contracts.md
++++ tradex\docs\data-contracts.md
+@@ -704,6 +704,12 @@
+ 正常扫描排除超过 90 秒的报价；11:45 复核明确使用 11:30 收市行情，排除早于
+ 11:28:30 的报价。不从页面发起行情采集、不触发系统通知或声音。
+ 
++股票行情映射按股票所属交易所识别裸代码，避免将 `000688.SZ`、`000905.SZ`
++误认成同号沪市指数；不改变独立指数查询规则。成功一批后重置连续失败计数。
++已核验数量少于请求数量的扫描标为 `partial`，仅展示已核验范围内的命中，
++明确提示“扫描不完整，不代表全量结果”。旧记录读取时同样派生该状态，不改写
++原始存档；可靠的逐股提示和当日去重继续保留，无可核验数据仍为 `unavailable`。
++
+ MACD 用标准 EMA 递推的等价二阶 DIF 递推及上一日 DEA 计算，KDJ 使用前八日
+ 高低价与本日高低价；不从短窗口初始化 EMA。前九日复权因子必须一致、前复权
+ 收盘价与原始收盘价一致，本日昨收必须匹配上一日收盘价；否则不推算。
+--- work\double_turn_audit_20260918\before\tradex__src__tradex__dashboard____main__.py
++++ tradex\src\tradex\dashboard\__main__.py
+@@ -90,7 +90,7 @@
+ def _get_html() -> str:
+     """Read the desktop market-watch shell without caching it in-process."""
+     html_path = Path(__file__).parent / "watch" / "index.html"
+-    return html_path.read_text(encoding="utf-8")
++    return html_path.read_bytes().decode("utf-8")
+ 
+ 
+ def _get_watch_asset(name: str) -> tuple[bytes, str]:
+--- work\double_turn_audit_20260918\before\tradex__src__tradex__dashboard__watch__app.js
++++ tradex\src\tradex\dashboard\watch\app.js
+@@ -7245,7 +7245,8 @@
+   function renderIntradayMacdJ(payload) {
+     const confirmed = payload.status === "close_confirmed" && payload.scan_kind === "close_confirmation";
+     const closeScan = payload.status === "close_scanned" && payload.scan_kind === "manual_close";
+-    const fresh = (payload.status === "monitoring" || closeScan) && payload.trade_date === shanghaiClock().date;
++    const partial = payload.status === "partial";
++    const fresh = (["monitoring", "partial"].includes(payload.status) || closeScan) && payload.trade_date === shanghaiClock().date;
+     byId("intraday-macd-j-status").textContent = `${text(payload.trade_date)} · ${text(payload.message)}`;
+     byId("intraday-macd-j-coverage").textContent = confirmed
+       ? `正式收盘指标 · 主板非 ST ${payload.eligible_count} 只 · 已核验 ${payload.evaluated_count} 只 · 命中 ${payload.matched_count} 只 · 存档 ${formatTimestamp(payload.generated_at, true)}。与选股中心使用同一份结果。`
+@@ -7268,7 +7269,7 @@
+       state.intradayMacdJSeen[storageKey] = [...seen];
+       state.intradayMacdJToastIds = newAlerts.map(r => r.instrument_id);
+       storeJson(storageKey, [...seen]);
+-      byId("intraday-macd-j-toast-text").textContent = `${closeScan ? "手动收盘扫描（预估）" : "MACD + J 线盘中"}命中 ${newAlerts.length} 只：${newAlerts.slice(0, 5).map(r => `${r.name} ${r.instrument_id}`).join("、")}${newAlerts.length > 5 ? "等，完整名单见扫描记录" : ""}。${closeScan ? "使用收盘价推算，等待正式指标确认。" : "收盘前可能失效。"}`;
++      byId("intraday-macd-j-toast-text").textContent = `${partial ? "扫描不完整，仅在已核验范围内：" : ""}${closeScan ? "手动收盘扫描（预估）" : "MACD + J 线盘中"}命中 ${newAlerts.length} 只：${newAlerts.slice(0, 5).map(r => `${r.name} ${r.instrument_id}`).join("、")}${newAlerts.length > 5 ? "等，完整名单见扫描记录" : ""}。${closeScan ? "使用收盘价推算，等待正式指标确认。" : "收盘前可能失效。"}`;
+       byId("intraday-macd-j-toast").hidden = false;
+     }
+   }
+@@ -7348,8 +7349,10 @@
+     target.append(createElement("p", "", `已核验 ${scan.evaluated_count ?? 0} / 请求 ${scan.requested_count ?? 0} 只 · 未取得报价 ${scan.missing_quote_count ?? 0} 只 · 数据源 ${text(objectValue(scan.source_metadata).provider)}`));
+     const candidates = stockSelectionIndustryPayload({ candidates: scan.scan_candidates },
+       objectValue(state.intradayMacdJIndustryDisplay)).candidates;
+-    target.append(createElement("p", "", ["monitoring", "close_scanned", "close_confirmed"].includes(scan.status)
+-      ? `本次命中 ${candidates.length} 只（含此前已提示的股票）。` : "本次未完成可靠扫描，不代表没有股票符合条件。"));
++    target.append(createElement("p", "", scan.status === "partial"
++      ? `扫描不完整：已核验范围内命中 ${candidates.length} 只，不代表全量结果（含此前已提示的股票）。`
++      : ["monitoring", "close_scanned", "close_confirmed"].includes(scan.status)
++        ? `本次命中 ${candidates.length} 只（含此前已提示的股票）。` : "本次未完成可靠扫描，不代表没有股票符合条件。"));
+     const visibleCandidates = renderIntradayMacdJIndustryFilters(candidates, scan, index, target);
+     const scroll = createElement("div", "stock-selection-table-scroll");
+     scroll.tabIndex = 0;
+@@ -7369,8 +7372,9 @@
+     if (!visibleCandidates.length) {
+       const row = createElement("tr");
+       const cell = createElement("td", "stock-selection-table-empty",
+-        ["monitoring", "close_scanned", "close_confirmed"].includes(scan.status)
+-          ? "本次扫描没有命中股票。" : "本次未完成可靠扫描，不能判定是否命中。");
++        scan.status === "partial" ? "已核验范围内未命中；扫描不完整，不能判定全量结果。"
++          : ["monitoring", "close_scanned", "close_confirmed"].includes(scan.status)
++            ? "本次扫描没有命中股票。" : "本次未完成可靠扫描，不能判定是否命中。");
+       cell.colSpan = 8;
+       row.append(cell);
+       body.append(row);
+@@ -7422,7 +7426,7 @@
+       select.value = payload.trade_date;
+       const tabs = byId("intraday-macd-j-history-tabs");
+       state.intradayMacdJScans.forEach((scan, index) => {
+-        const button = createElement("button", "", `${scan.last_scan_slot.slice(11, 16)}${scan.scan_kind === "close_confirmation" ? " 收盘确认" : scan.scan_kind === "manual_close" ? " 收盘预估" : ""} · ${["monitoring", "close_scanned", "close_confirmed"].includes(scan.status) ? asArray(scan.scan_candidates).length + " 只" : "未完成"}`);
++        const button = createElement("button", "", `${scan.last_scan_slot.slice(11, 16)}${scan.scan_kind === "close_confirmation" ? " 收盘确认" : scan.scan_kind === "manual_close" ? " 收盘预估" : ""} · ${scan.status === "partial" ? asArray(scan.scan_candidates).length + " 只（扫描不完整）" : ["monitoring", "close_scanned", "close_confirmed"].includes(scan.status) ? asArray(scan.scan_candidates).length + " 只" : "未完成"}`);
+         button.type = "button";
+         button.id = `intraday-macd-j-scan-tab-${index}`;
+         button.setAttribute("role", "tab");
+--- work\double_turn_audit_20260918\before\tradex__src__tradex__data_gateway__intraday_scan_quotes.py
++++ tradex\src\tradex\data_gateway\intraday_scan_quotes.py
+@@ -1,5 +1,6 @@
+ """Bounded fresh-quote batches for a known, provider-neutral instrument universe."""
+ from datetime import datetime
++import logging
+ import time
+ 
+ from pydantic import Field
+@@ -41,8 +42,12 @@
+             )
+             collected.update({q.instrument_id: q for q in quotes})
+             providers.add(provider)
+-        except Exception:
++            failed = 0
++        except Exception as exc:
+             failed += 1
++            logging.getLogger(__name__).warning(
++                "intraday quote batch %s-%s failed: %s", batch[0], batch[-1], exc,
++            )
+             if failed >= 2:
+                 break
+     missing = tuple(i for i in requested if i not in collected)
+--- work\double_turn_audit_20260918\before\tradex__src__tradex__data_gateway__providers__market_universe.py
++++ tradex\src\tradex\data_gateway\providers\market_universe.py
+@@ -3,6 +3,7 @@
+ from __future__ import annotations
+ 
+ from datetime import datetime
++import re
+ from typing import Any
+ from zoneinfo import ZoneInfo
+ 
+@@ -30,6 +31,12 @@
+     raw = str(value or "").strip()
+     if not raw:
+         raise ValueError("A-share universe quote is missing its code")
++    # This payload contains stocks. Bare Shenzhen stock codes such as 000688
++    # and 000905 also identify Shanghai indices in the generic symbol helper.
++    # Supply the stock exchange here; preserve explicit identifiers and the
++    # separate index-query convention.
++    if re.fullmatch(r"[03]\d{5}", raw):
++        raw = f"{raw}.SZ"
+     return canonical_instrument_id(raw)
+ 
+ 
+--- work\double_turn_audit_20260918\before\tradex__src__tradex__stock_selection__intraday_macd_j.py
++++ tradex\src\tradex\stock_selection\intraday_macd_j.py
+@@ -285,12 +285,26 @@
+     }
+ 
+ 
++def _with_coverage_status(result):
++    """Label incomplete scans, including old archives, without rewriting history."""
++    result = dict(result)
++    requested, evaluated = result.get("requested_count"), result.get("evaluated_count")
++    if (result.get("status") in {"monitoring", "partial"}
++            and isinstance(requested, int) and isinstance(evaluated, int)
++            and evaluated < requested):
++        result.update(status="partial", message=(
++            f"扫描不完整：已核验 {evaluated} / {requested} 只；"
++            f"已核验范围内命中 {len(result.get('scan_candidates', []))} 只，不代表全量结果。"
++            "仅提示已核验信号，盘中预估，收盘前可能失效。"))
++    return result
++
++
+ def read_scan_history(*, trade_date=None, now=None, root=None):
+     now = now or datetime.now(SHANGHAI)
+     root = _root(root)
+     dates = sorted({p.name[5:15] for p in root.glob("scan-????-??-??-????.json")}, reverse=True)[:90]
+     selected = date.fromisoformat(trade_date) if trade_date else now.astimezone(SHANGHAI).date()
+-    scans = [value for p in sorted(root.glob(f"scan-{selected}-????.json"), reverse=True)
++    scans = [_with_coverage_status(value) for p in sorted(root.glob(f"scan-{selected}-????.json"), reverse=True)
+              if (value := _read(p)) is not None]
+     confirmed = read_close_confirmation(selected, now=now)
+     if confirmed is not None:
+@@ -313,7 +327,7 @@
+     stored = _read(_root(root) / f"watch-{day}.json")
+     result = stored or {"contract": CONTRACT, "trade_date": day.isoformat(), "records": [],
+                         "status": "waiting", "message": "等待盘中扫描；仅显示当日实时信号。"}
+-    result = dict(result)
++    result = _with_coverage_status(result)
+     if result.get("scan_kind") == "manual_close":
+         result["message"] = ("收盘价推算，尚未取得选股中心同日正式确认；"
+                              f"预估命中 {len(result.get('scan_candidates', []))} 只。")
+@@ -430,6 +444,7 @@
+         result.update(status="unavailable", message="所需行情或历史指标暂不可用，等待下一次计划扫描。",
+                       last_scan_slot=slot.isoformat() if slot else None,
+                       retry_after=(now + timedelta(minutes=10)).isoformat())
++    result = _with_coverage_status(result)
+     _write(path, result)
+     archive_scan(result, root=root)
+     return result
+--- work\double_turn_audit_20260918\before\tradex__tests__intraday_macd_j.test.cjs
++++ tradex\tests\intraday_macd_j.test.cjs
+@@ -62,6 +62,23 @@
+   payload.records[0].active = false;
+   c.renderIntradayMacdJ(payload);
+   assert.equal(c.byId('intraday-macd-j-toast').hidden, true);
++});
++
++test('partial scans label reliable alerts and never claim a complete zero-match result', () => {
++  const {c,payload} = harness();
++  payload.status = 'partial';
++  c.renderIntradayMacdJ(payload);
++  assert.equal(c.byId('intraday-macd-j-toast').hidden, false);
++  assert.match(c.byId('intraday-macd-j-toast-text').textContent, /扫描不完整.*已核验范围内/);
++  for (const candidates of [payload.records, []]) {
++    c.state.intradayMacdJScans = [{...payload, scan_candidates:candidates}];
++    c.selectIntradayMacdJScan(0);
++    const rendered = JSON.stringify(c.byId('intraday-macd-j-history-result'));
++    assert.match(rendered, /扫描不完整/);
++    assert.match(rendered, /不代表全量结果/);
++    assert.doesNotMatch(rendered, /本次扫描没有命中股票/);
++    if (candidates.length) assert.match(rendered, /600000.SH/);
++  }
+ });
+ 
+ test('explicit close scan has a distinct page prompt and close label', () => {
+--- work\double_turn_audit_20260918\before\tradex__tests__test_dashboard.py
++++ tradex\tests\test_dashboard.py
+@@ -13,6 +13,16 @@
+     _normalise_indices,
+     _normalise_participation_indices,
+ )
++
++
++def test_get_html_preserves_source_bytes_for_managed_health_check(tmp_path, monkeypatch):
++    from tradex.dashboard import __main__ as dashboard_app
++    watch = tmp_path / "watch"
++    watch.mkdir()
++    body = "<html>\r\n<title>双拐 · Tradex</title>\n</html>\r\n".encode("utf-8")
++    (watch / "index.html").write_bytes(body)
++    monkeypatch.setattr(dashboard_app, "__file__", str(tmp_path / "__main__.py"))
++    assert dashboard_app._get_html().encode("utf-8") == body
+ 
+ 
+ def test_get_html_reflects_file_changes(tmp_path, monkeypatch):
+--- work\double_turn_audit_20260918\before\tradex__tests__test_intraday_macd_j.py
++++ tradex\tests\test_intraday_macd_j.py
+@@ -203,6 +203,96 @@
+     assert result.quotes[0].amount_cny == 1230000
+     assert result.quotes[0].float_market_cap_cny == 200000000
+     assert not result.missing_instrument_ids
++
++
++def test_stock_index_code_collisions_do_not_abort_later_scan_batches():
++    from tradex.data_gateway.intraday_scan_quotes import fetch_intraday_scan_quotes
++    from tradex.utils.symbol import get_exchange
++    instruments = [f"{n:06d}.SZ" for n in range(500, 980)] + ["600000.SH"]
++    calls = []
++    class Router:
++        def route_validated(self, capability, validate, **kwargs):
++            calls.append(kwargs["symbols"])
++            rows = [{"code": code, "name": "stock", "last": 10, "change_pct": 0,
++                     "成交额": 123, "open": 10, "high": 11, "low": 9,
++                     "previous_close": 10, "更新时间": "20260917100000"}
++                    for code in kwargs["symbols"]]
++            return validate(rows, "tencent_http"), "tencent_http"
++    result = fetch_intraday_scan_quotes(instruments, now=NOW, router=Router())
++    assert len(result.quotes) == len(instruments)
++    assert not result.missing_instrument_ids
++    assert len(calls) == 7
++    assert {q.instrument_id for q in result.quotes} == set(instruments)
++    # The stock mapper must not change the separate index-query convention.
++    assert get_exchange("sh000688") == get_exchange("000905") == "sh"
++
++
++@pytest.mark.parametrize("requested,evaluated,status", [(3, 1, "partial"), (1, 1, "monitoring")])
++def test_partial_live_and_history_readback_preserves_immutable_scan(tmp_path, requested, evaluated, status):
++    import json
++    original = {"trade_date": str(NOW.date()), "status": "monitoring", "message": "scan",
++                "last_scan_slot": NOW.isoformat(), "generated_at": NOW.isoformat(),
++                "next_scan_at": (NOW + timedelta(minutes=15)).isoformat(),
++                "requested_count": requested, "evaluated_count": evaluated,
++                "scan_candidates": [{"instrument_id": "600000.SH"}], "records": []}
++    archive_scan(original, root=tmp_path)
++    path = tmp_path / f"watch-{NOW.date()}.json"
++    path.write_text(json.dumps(original), encoding="utf-8")
++    before = {p.name: p.read_bytes() for p in tmp_path.glob("*.json")}
++    live = read_watch(now=NOW, root=tmp_path)
++    history = read_scan_history(now=NOW, root=tmp_path)["scans"][0]
++    assert live["status"] == history["status"] == status
++    if status == "partial":
++        assert "扫描不完整" in live["message"]
++        assert "不代表全量结果" in history["message"]
++    assert history["scan_candidates"] == original["scan_candidates"]
++    assert {p.name: p.read_bytes() for p in tmp_path.glob("*.json")} == before
++
++
++def test_scheduled_scan_persists_partial_quality_and_keeps_verified_hits(tmp_path):
++    import json
++    from tradex.data_gateway.contracts import ContractMetadata
++    from tradex.data_gateway.intraday_technical_seed import IntradayTechnicalSeedDayV1
++    seeds, universe, *_ = fixture()
++    metadata = ContractMetadata(contract="fixture.v1", provider="fixture", fetched_at=NOW, quality="accepted")
++    for index, seed in enumerate(seeds):
++        model = IntradayTechnicalSeedDayV1(metadata=metadata, trade_date=seed.trade_date,
++            points=[vars(p) for p in seed.points], rejected_count=0,
++            st_trade_date=NOW.date() if index == 8 else None)
++        name = f"seed-{seed.trade_date}-st-{NOW.date() if index == 8 else None}.json"
++        (tmp_path / name).write_text(model.model_dump_json(), encoding="utf-8")
++    universe.requested_count = 2
++    universe.missing_instrument_ids = ("600001.SH",)
++    universe.metadata = metadata
++    result = refresh_watch(now=NOW, root=tmp_path, quote_loader=lambda *a, **kw: universe)
++    assert result["status"] == "partial"
++    assert result["evaluated_count"] == 1
++    assert result["missing_quote_count"] == 1
++    assert len(result["scan_candidates"]) == 1
++    assert result["records"][0]["alerted_at"]
++    saved = json.loads((tmp_path / "scan-2026-09-17-1000.json").read_text(encoding="utf-8"))
++    assert saved == result
++
++
++@pytest.mark.parametrize("failures,attempts,received", [({2, 4}, 6, 320), ({2, 3}, 3, 80)])
++def test_batch_failure_budget_is_consecutive_and_missing_quotes_stay_explicit(failures, attempts, received):
++    from tradex.data_gateway.intraday_scan_quotes import fetch_intraday_scan_quotes
++    instruments = [f"{n:06d}.SZ" for n in range(100, 580)]
++    class Router:
++        calls = 0
++        def route_validated(self, capability, validate, **kwargs):
++            self.calls += 1
++            if self.calls in failures:
++                raise RuntimeError("batch unavailable")
++            rows = [{"code": code, "name": "stock", "last": 10, "change_pct": 0,
++                     "成交额": 123, "更新时间": "20260917100000"} for code in kwargs["symbols"]]
++            return validate(rows, "tencent_http"), "tencent_http"
++    router = Router()
++    result = fetch_intraday_scan_quotes(instruments, now=NOW, router=router)
++    assert router.calls == attempts
++    assert len(result.quotes) == received
++    assert len(result.missing_instrument_ids) == len(instruments) - received
++    assert result.metadata.quality == "degraded"
+ 
+ 
+ def test_manual_close_uses_daily_bars_without_forging_timestamps(tmp_path):

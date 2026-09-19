@@ -1,0 +1,48 @@
+{
+  "days": [
+    {
+      "trade_date": "2026-09-17",
+      "result_id": "stock-selection-strategy-result:df0f2e75c597d1b091815680",
+      "confirmed": 12,
+      "pending": 43,
+      "eligible": 3052,
+      "evaluated": 3033,
+      "excluded": {
+        "drawdown_not_below_minus_20": 60,
+        "incomplete_indicator_window": 16,
+        "no_v4_signal": 2859,
+        "not_main_board": 2369,
+        "price_below_ma5": 2,
+        "price_history_unavailable": 3,
+        "special_treatment": 144,
+        "volume_ratio_above_1_5": 57
+      },
+      "same_archive_and_evidence": true
+    },
+    {
+      "trade_date": "2026-09-18",
+      "result_id": "stock-selection-strategy-result:fbb650e3bfe0de2290d81ca8",
+      "confirmed": 26,
+      "pending": 96,
+      "eligible": 3052,
+      "evaluated": 3036,
+      "excluded": {
+        "drawdown_not_below_minus_20": 193,
+        "incomplete_indicator_window": 14,
+        "no_v4_signal": 2587,
+        "not_main_board": 2369,
+        "price_below_ma5": 11,
+        "price_history_unavailable": 2,
+        "special_treatment": 144,
+        "volume_ratio_above_1_5": 123
+      },
+      "same_archive_and_evidence": true
+    }
+  ],
+  "assets_sha256": {
+    "/": "91fc81fec498a8110a4459a410773abdfda5738a9aee71cc56c4c5810432fb8b",
+    "/watch/app.js": "05150ddc657b2cfa7e4831348002f2fd3d8d7893b0cf2b396a73316520aaf2fc"
+  },
+  "current_watch_v5": true,
+  "next_session_realtime_unverified": true
+}

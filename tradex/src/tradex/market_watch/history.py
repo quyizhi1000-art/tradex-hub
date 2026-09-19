@@ -436,6 +436,7 @@ class MarketWatchHistoryStore:
         snapshot: MarketWatchSnapshotV1 | Mapping[str, Any],
         *,
         overwrite: bool = True,
+        expected_payload_digest: str | None = None,
     ) -> dict[str, Any]:
         """Insert or update one Shanghai-minute snapshot and append its alerts.
 
@@ -497,6 +498,11 @@ class MarketWatchHistoryStore:
                     if existing["payload_digest"] == payload_digest
                     else "updated"
                 )
+
+                if expected_payload_digest is not None and (
+                    existing is None or existing["payload_digest"] != expected_payload_digest
+                ):
+                    return {"action": "conflict", "reason": "source_revision_changed"}
 
                 if existing is not None and not overwrite:
                     return {

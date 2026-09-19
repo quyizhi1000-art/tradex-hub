@@ -1,0 +1,81 @@
+[
+  {
+    "id": "301309.SZ",
+    "key": "metal_products",
+    "sector": "金属制品",
+    "source_sector_name": "金属制品",
+    "source_sector_provider": "东方财富",
+    "stage": "revenue",
+    "chain": [
+      "铜制水暖阀门",
+      "管件"
+    ],
+    "company_fact": "铜制水暖阀门管件设计制造销售，用于建筑给排水冷热水采暖。",
+    "ths_fact": "智能家居解释包含水暖阀门管件，3D打印仍研发送样无实质销售。",
+    "fact": "铜制水暖阀门管件设计制造销售，用于建筑给排水冷热水采暖。",
+    "reason": "取已有金属制品行业更符合实际主营，未将研发非金属打印当主要量产业务。"
+  },
+  {
+    "id": "301310.SZ",
+    "key": "nuclear_fusion",
+    "sector": "可控核聚变",
+    "source_sector_name": "可控核聚变",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "核级特种线缆",
+      "电气贯穿件"
+    ],
+    "company_fact": "特种线缆产品明确覆盖核电及核聚变装置线缆、核贯穿件。",
+    "ths_fact": "依托ITER实践积累核级电缆及贯穿件技术，继续研发耐温抗辐射材料。",
+    "fact": "特种线缆产品明确覆盖核电及核聚变装置线缆、核贯穿件。",
+    "reason": "已有核聚变题材与明确产品技术吻合；阶段限product，未来装置目标不是商业化收入，旧人形拟研发不当批供。"
+  },
+  {
+    "id": "301311.SZ",
+    "key": "smart_logistics",
+    "sector": "智能物流",
+    "source_sector_name": "智能物流",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "自动仓储产线",
+      "AGV系统"
+    ],
+    "company_fact": "物流与产线设备设计制造集成维保，提供全流程行业方案。",
+    "ths_fact": "智能物流系统装备为主营，具自有AGV核心技术。",
+    "fact": "物流与产线设备设计制造集成维保，提供全流程行业方案。",
+    "reason": "智能物流业务完整可核，不由AGV泛机器人延伸成人形制造。"
+  },
+  {
+    "id": "301312.SZ",
+    "key": "cpo",
+    "sector": "共封装光学(CPO)",
+    "source_sector_name": "共封装光学(CPO)",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "光芯片检测固晶设备"
+    ],
+    "company_fact": "中后道半导体检测分选固晶封装设备，覆盖光通信等领域。",
+    "ths_fact": "已推出光芯片排巴摆盘AOI及高精度固晶设备进入硅光领域。",
+    "fact": "中后道半导体检测分选固晶封装设备，覆盖光通信等领域。",
+    "reason": "已有CPO题材有专用设备，取已推出产品阶段，不等同CPO系统或推断批量收入。"
+  },
+  {
+    "id": "301313.SZ",
+    "key": "ai_applications",
+    "sector": "AI应用",
+    "source_sector_name": "AI应用",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "AI三维数字孪生",
+      "行业软件系统"
+    ],
+    "company_fact": "3D可视化AI数字人及自研FTE数字孪生引擎服务水务城市工业。",
+    "ths_fact": "AI3D软件和系统集成方案，含算法模型数据平台及物联感知。",
+    "fact": "3D可视化AI数字人及自研FTE数字孪生引擎服务水务城市工业。",
+    "reason": "自有AI数字孪生软件与项目服务一致，保留产品证据，不虚构独立模型收入。"
+  }
+]

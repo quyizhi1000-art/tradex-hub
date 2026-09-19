@@ -1,0 +1,152 @@
+[
+  {
+    "id": "920522.BJ",
+    "key": "solid_state_battery",
+    "sector": "固态电池",
+    "source_sector_name": "固态电池",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "固态极片辊压与成型设备"
+    ],
+    "fact": "电池极片辊压装备覆盖半固态固态工艺。",
+    "company_fact": "电池极片辊压装备覆盖半固态固态工艺。",
+    "ths_fact": "2019年起与清陶有实质设备订单合作并多年获供应商认可。",
+    "reason": "设备供货链位，不是固态电芯生产商。"
+  },
+  {
+    "id": "920523.BJ",
+    "key": "lithium_batteries",
+    "sector": "锂电池",
+    "source_sector_name": "锂电池概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "锂锰锂铁一次电池"
+    ],
+    "fact": "专注锂一次电池研发产销，供物联网仪表等。",
+    "company_fact": "专注锂一次电池研发产销，供物联网仪表等。",
+    "ths_fact": "主营锂锰锂铁一次电池。",
+    "reason": "区分一次电池与可充电动力电池，安防合作次标签。"
+  },
+  {
+    "id": "920526.BJ",
+    "key": "electronic_chemicals",
+    "sector": "电子化学品",
+    "source_sector_name": "电子化学品Ⅱ",
+    "source_sector_provider": "东方财富",
+    "stage": "revenue",
+    "chain": [
+      "电子封装环氧材料"
+    ],
+    "fact": "无卤电子封装材料研产销。",
+    "company_fact": "无卤电子封装材料研产销。",
+    "ths_fact": "环氧塑封料用于半导体封装，存在实际销售。",
+    "reason": "电子化学材料身份，二三极管塑封不等同先进HBM封装。"
+  },
+  {
+    "id": "920527.BJ",
+    "key": "sports_industry",
+    "sector": "体育产业",
+    "source_sector_name": "体育产业",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "反光运动服饰材料"
+    ],
+    "fact": "反光布膜服饰及应用产品销售含运动服装装备。",
+    "company_fact": "反光布膜服饰及应用产品销售含运动服装装备。",
+    "ths_fact": "荧裳科技运动品牌提供夜跑衣运动短裤等产品。",
+    "reason": "实际运动服饰业务；金刚石增资拟投且金额小不自动替代。"
+  },
+  {
+    "id": "920533.BJ",
+    "key": "humanoid_robots",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "stage": "pilot",
+    "chain": [
+      "高性能塑料机器人零件"
+    ],
+    "fact": "制造平台为具身智能企业提供机器人零部件等。",
+    "company_fact": "制造平台为具身智能企业提供机器人零部件等。",
+    "ths_fact": "人形领域已合作，明确样件阶段。",
+    "reason": "真实样件应用，EM多产品供货不升格为人形批量收入。"
+  },
+  {
+    "id": "920541.BJ",
+    "key": "high_speed_rail",
+    "sector": "高铁",
+    "source_sector_name": "高铁",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "轨交信号监测防护"
+    ],
+    "fact": "轨道通信信号产品研制销售及集成工程服务。",
+    "company_fact": "轨道通信信号产品研制销售及集成工程服务。",
+    "ths_fact": "铁路城轨用信号监测LED防雷等有实际项目。",
+    "reason": "轨交安全核心，巡检机器人作为次标签。"
+  },
+  {
+    "id": "920547.BJ",
+    "key": "other_biological_products",
+    "sector": "其他生物制品",
+    "source_sector_name": "其他生物制品",
+    "source_sector_provider": "东方财富",
+    "stage": "revenue",
+    "chain": [
+      "高端氨基酸"
+    ],
+    "fact": "支链氨基酸等研产销，主要服务制剂培养基。",
+    "company_fact": "支链氨基酸等研产销，主要服务制剂培养基。",
+    "ths_fact": "合成生物条目指联合研究院与发酵技术研究。",
+    "reason": "选择已有生物制品行业，研发方向不自动认定新生物合成产品商业化。"
+  },
+  {
+    "id": "920553.BJ",
+    "key": "tobacco",
+    "sector": "烟草",
+    "source_sector_name": "烟草",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "烟包凹印版"
+    ],
+    "fact": "凹印印版研产销，含烟包版等。",
+    "company_fact": "凹印印版研产销，含烟包版等。",
+    "ths_fact": "烟包版终端覆盖知名烟草品牌。",
+    "reason": "烟草包装印版链，非卷烟制造；自用精密设备不当外销母机收入。"
+  },
+  {
+    "id": "920556.BJ",
+    "key": "smart_grid",
+    "sector": "智能电网",
+    "source_sector_name": "智能电网",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "电力测控仪表系统"
+    ],
+    "fact": "电力测控仪表装置保护及系统集成。",
+    "company_fact": "电力测控仪表装置保护及系统集成。",
+    "ths_fact": "主业电力监控仪表装置传感器。",
+    "reason": "智能电力主营；航天中心用普通监控仪表不提升为商业航天核心器件。"
+  },
+  {
+    "id": "920564.BJ",
+    "key": "spatiotemporal_big_data",
+    "sector": "时空大数据",
+    "source_sector_name": "时空大数据",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "遥感测绘与空间信息"
+    ],
+    "fact": "天空地多模态数据采集生产地理信息产品及基础设施。",
+    "company_fact": "天空地多模态数据采集生产地理信息产品及基础设施。",
+    "ths_fact": "持续时空信息研发应用并发布生态开放平台。",
+    "reason": "数据应用核心，航天遥感不等同卫星发射制造。"
+  }
+]

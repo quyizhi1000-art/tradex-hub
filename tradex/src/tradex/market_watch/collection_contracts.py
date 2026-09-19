@@ -244,6 +244,7 @@ class DailyCollectionRecoveryV1(CollectionContractModel):
     requested_at: datetime
     started_at: datetime | None = None
     completed_at: datetime | None = None
+    next_retry_at: datetime | None = None
     expected_minute_buckets: int = Field(ge=0)
     accepted_before: int = Field(ge=0)
     accepted_after: int = Field(ge=0)
@@ -272,6 +273,7 @@ class DailyCollectionRecoveryV1(CollectionContractModel):
         "requested_at",
         "started_at",
         "completed_at",
+        "next_retry_at",
         "latest_attempt_minute_bucket",
         "latest_attempt_at",
         "latest_failure_minute_bucket",
@@ -355,7 +357,14 @@ class DailyCollectionRecoveryV1(CollectionContractModel):
                 raise ValueError("running recovery requires only started_at")
         elif self.started_at is None or self.completed_at is None:
             raise ValueError("finished recovery requires execution timestamps")
-        expected_manual = self.status is DailyRecoveryStatus.FAILED or (
+        if self.next_retry_at is not None and (
+            self.status not in {DailyRecoveryStatus.FAILED, DailyRecoveryStatus.RETRYING}
+            or self.completed_at is None
+            or self.next_retry_at < self.completed_at
+            or self.next_retry_at.date() != self.trade_date
+        ):
+            raise ValueError("automatic recovery retry requires a same-day finished attempt")
+        expected_manual = (self.status is DailyRecoveryStatus.FAILED and self.next_retry_at is None) or (
             self.status is DailyRecoveryStatus.NEEDS_ATTENTION
             and self.remaining_gaps > self.unavailable_gaps
         )

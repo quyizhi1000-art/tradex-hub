@@ -1,0 +1,66 @@
+{
+  "instrument_id": "002426.SZ",
+  "name": "胜利精密",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "002426.SZ",
+    "name": "胜利精密",
+    "memberships": [
+      "电子",
+      "消费电子",
+      "消费电子零部件及组装",
+      "江苏板块",
+      "股权分散",
+      "破发股",
+      "小盘股",
+      "低价股",
+      "标准普尔",
+      "深股通",
+      "融资融券",
+      "通信技术",
+      "电池技术",
+      "消费电子概念",
+      "AI眼镜",
+      "AIPC",
+      "复合集流体",
+      "机器视觉",
+      "华为概念",
+      "5G概念",
+      "苹果概念",
+      "特斯拉概念",
+      "智能穿戴",
+      "锂电池概念"
+    ],
+    "business_sections": [
+      {
+        "title": "消费电子产品、汽车零部件业务",
+        "kind": "主营业务",
+        "text": "公司主营业务为消费电子产品业务以及汽车零部件业务。"
+      },
+      {
+        "title": "科技创新驱动发展战略",
+        "kind": "核心竞争力",
+        "text": "公司始终坚持科技创新驱动发展战略，目前累计拥有各类专利近600项，公司持续深化与高等院校、科研院和专业机构的人才交流与产学研合作，不断开展新技术研究和前沿制造技术的整合应用，着力提升技术成果向产品转化的可行性与产业化水平。公司长期秉持“快速的为客户创造新价值”的服务理念，紧密围绕行业龙头客户开展深度合作，贴近客户需求共建战略合作平台、联合研发中心和配套生产基地，推行定制化、一体化服务模式。同时，公司持续强化成本控制能力，通过扩大规模化生产效应、强化精益生产管理等举措，进一步强化综合平台竞争优势，保障核心产品在行业内保持领先水平。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ002426",
+    "fetched_at": "2026-09-18T22:48:14.094955+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [
+    "消费电子"
+  ],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "消费电子"
+}

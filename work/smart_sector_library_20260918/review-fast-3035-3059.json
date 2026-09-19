@@ -1,0 +1,428 @@
+[
+  {
+    "id": "600178.SH",
+    "key": "low_altitude_economy",
+    "sector": "低空经济",
+    "source_sector_name": "低空经济",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "无人机增程动力及陆地载体供能"
+    ],
+    "stage": "orders",
+    "fact": "研发生产发动机、增程动力及变速器，并拓展飞行动力。",
+    "company_fact": "研发生产发动机、增程动力及变速器，并拓展飞行动力。",
+    "ths_fact": "2025年5月重载多旋翼无人机搭载增程系统顺利点火、亮相大会并收获订单。",
+    "reason": "无人机动力已有具体订单；小鹏汇天陆地载体供电不能混写为空中飞行发动机，低空实际新业务支持主归属。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600179.SH",
+    "key": "shipping",
+    "sector": "航运",
+    "source_sector_name": "航运概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "集装箱航运与多式联运"
+    ],
+    "stage": "revenue",
+    "fact": "安通物流、安盛船务开展集装箱物流和海公铁运输。",
+    "company_fact": "安通物流、安盛船务开展集装箱物流和海公铁运输。",
+    "ths_fact": "航运解析明确集装箱物流服务及多式联运网络。",
+    "reason": "实际运力及运输网络构成航运主线，与电池企业物流合作不等于制造电池。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600180.SH",
+    "key": "coal",
+    "sector": "煤炭",
+    "source_sector_name": "煤炭概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "煤炭供应链贸易服务"
+    ],
+    "stage": "revenue",
+    "fact": "开展煤炭全球供应链、粮食加工等业务。",
+    "company_fact": "开展煤炭全球供应链、粮食加工等业务。",
+    "ths_fact": "煤炭解析明确煤炭供应链运营；易煤平台服务煤炭交易。",
+    "reason": "煤炭商品流通和产业服务形成实际业务，归煤炭但不称煤矿开采企业。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600182.SH",
+    "key": "tires_wheels",
+    "sector": "轮胎轮毂",
+    "source_sector_name": "轮胎轮毂",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "汽车子午线轮胎"
+    ],
+    "stage": "revenue",
+    "fact": "福建佳通生产销售半钢及全钢轮胎。",
+    "company_fact": "福建佳通生产销售半钢及全钢轮胎。",
+    "ths_fact": "地域解析明确轮胎生产；工业互联网为内部生产物流系统。",
+    "reason": "轮胎产品及制造销售清楚，内部数字化不应替代产品所属板块。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600183.SH",
+    "key": "copper_clad_laminate",
+    "sector": "覆铜板",
+    "source_sector_name": "覆铜板概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "高频高速覆铜板及粘结片"
+    ],
+    "stage": "revenue",
+    "fact": "生产覆铜板、粘结片及印制电路板材料，覆盖服务器等用途。",
+    "company_fact": "生产覆铜板、粘结片及印制电路板材料，覆盖服务器等用途。",
+    "ths_fact": "覆铜板解析明确高性能覆铜板生产销售，材料进入高端电子应用。",
+    "reason": "覆铜板为已有直接产品概念，AI通信是下游；不把材料供货混为光模块制造。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600184.SH",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "机器人头部光电模组"
+    ],
+    "stage": "delivery",
+    "fact": "从事防务光电产品、光电信息及光学材料器件。",
+    "company_fact": "从事防务光电产品、光电信息及光学材料器件。",
+    "ths_fact": "2025年4月解析引用披露：头部模组装备某型机器人系列平台，报告期完成首批交付。",
+    "reason": "机器人头部感知模组有实际交付支撑增量主线；不将首批交付写成大规模收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600185.SH",
+    "key": "duty_free_shops",
+    "sector": "免税店",
+    "source_sector_name": "免税店",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "口岸免税零售"
+    ],
+    "stage": "revenue",
+    "fact": "开展口岸免税零售业务，运营多个口岸门店。",
+    "company_fact": "开展口岸免税零售业务，运营多个口岸门店。",
+    "ths_fact": "南沙、潮汕、三峡等免税店开业运营，珠海免税开展销售。",
+    "reason": "公司现实经营已聚焦免税零售，旧地产标签不能代表当前主归属。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600186.SH",
+    "key": "computing_power_leasing",
+    "sector": "算力租赁",
+    "source_sector_name": "算力租赁",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "人工智能算力基础设施服务"
+    ],
+    "stage": "orders",
+    "fact": "形成食品及人工智能基础设施、智能软件业务。",
+    "company_fact": "形成食品及人工智能基础设施、智能软件业务。",
+    "ths_fact": "2026年8月解析明确控股孙公司莲花紫星服务阶跃星辰，7月获得8.15亿元订单。",
+    "reason": "控股业务有具体算力订单，支持市场增量主线；参股纽菲斯不能等同控股算力资产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600187.SH",
+    "key": "wastewater_treatment",
+    "sector": "污水处理",
+    "source_sector_name": "污水处理",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "污水厂运营及水处理工程"
+    ],
+    "stage": "revenue",
+    "fact": "运营污水处理企业，并由中科国益开展水工程。",
+    "company_fact": "运营污水处理企业，并由中科国益开展水工程。",
+    "ths_fact": "污水处理解析列示运营项目和水处理业务。",
+    "reason": "实际污水运营及工程形成清楚主线，储热材料参数不足替代该业务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600188.SH",
+    "key": "coal",
+    "sector": "煤炭",
+    "source_sector_name": "煤炭概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "煤炭开采与煤化工"
+    ],
+    "stage": "revenue",
+    "fact": "在中国澳大利亚开展动力煤喷吹煤焦煤开采及煤化工。",
+    "company_fact": "在中国澳大利亚开展动力煤喷吹煤焦煤开采及煤化工。",
+    "ths_fact": "煤炭解析明确煤炭生产销售及资源基础。",
+    "reason": "资源开采与煤化工真实匹配煤炭主线，不据其他矿种储量标签改归属。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600189.SH",
+    "key": "soft_drinks",
+    "sector": "软饮料",
+    "source_sector_name": "软饮料",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "天然矿泉水"
+    ],
+    "stage": "revenue",
+    "fact": "经营长白山天然矿泉水，同时有木门和园林业务。",
+    "company_fact": "经营长白山天然矿泉水，同时有木门和园林业务。",
+    "ths_fact": "母婴消费解析明确天然矿泉水和母婴用水产品。",
+    "reason": "矿泉水实际品牌产品对应软饮料，母公司其他酒类业务不能归于本公司。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600191.SH",
+    "key": "grain",
+    "sector": "粮食",
+    "source_sector_name": "粮食概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "粮食深加工及生物发酵"
+    ],
+    "stage": "revenue",
+    "fact": "从事谷朊粉、食用酒精、黄原胶和食糖等加工。",
+    "company_fact": "从事谷朊粉、食用酒精、黄原胶和食糖等加工。",
+    "ths_fact": "粮食解析列示粮食深加工及产品，黄原胶菌株用于发酵研发。",
+    "reason": "粮食原料加工和发酵产品形成真实业务，菌株测序不等于基因测序服务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600192.SH",
+    "key": "smart_grid",
+    "sector": "智能电网",
+    "source_sector_name": "智能电网",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "输配电开关及电气自动化"
+    ],
+    "stage": "revenue",
+    "fact": "生产高低压开关、电器元件、母线及电气自动化系统。",
+    "company_fact": "生产高低压开关、电器元件、母线及电气自动化系统。",
+    "ths_fact": "2025年7月智能电网解析明确相关输配电设备产品。",
+    "reason": "电网设备和电气控制直接对应智能电网；参股燃料电池不能替代控股经营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600195.SH",
+    "key": "animal_vaccines",
+    "sector": "动物疫苗",
+    "source_sector_name": "动物疫苗",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "兽用生物制品"
+    ],
+    "stage": "revenue",
+    "fact": "研发生产销售动物疫苗、兽药及饲料产品。",
+    "company_fact": "研发生产销售动物疫苗、兽药及饲料产品。",
+    "ths_fact": "动物疫苗解析列出猪禽等兽用疫苗及产品经营。",
+    "reason": "兽用疫苗是直接产品与市场主题，不混入人用疫苗医保概念。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600196.SH",
+    "key": "innovative_drugs",
+    "sector": "创新药",
+    "source_sector_name": "创新药",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "创新药研发及商业化"
+    ],
+    "stage": "revenue",
+    "fact": "聚焦创新药研发商业化，并经营医疗器械诊断及医疗服务。",
+    "company_fact": "聚焦创新药研发商业化，并经营医疗器械诊断及医疗服务。",
+    "ths_fact": "创新药解析列示自主及许可创新药获批；青蒿琥酯产品已有商业销售。",
+    "reason": "获批上市和销售支撑创新药主线；绿谷拟收购及相关药物恢复商业化尚不能视为完成。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600197.SH",
+    "key": "baijiu",
+    "sector": "白酒",
+    "source_sector_name": "白酒概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "浓香型白酒"
+    ],
+    "stage": "revenue",
+    "fact": "生产销售伊力特系列浓香型白酒。",
+    "company_fact": "生产销售伊力特系列浓香型白酒。",
+    "ths_fact": "白酒解析明确系列白酒产品及经营。",
+    "reason": "白酒品牌及销售形成直接归属，地域概念仅为附属。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600198.SH",
+    "key": "chips",
+    "sector": "芯片",
+    "source_sector_name": "芯片概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "安全芯片与特种通信"
+    ],
+    "stage": "revenue",
+    "fact": "研发安全芯片及特种通信，芯片用于身份金融社保等领域。",
+    "company_fact": "研发安全芯片及特种通信，芯片用于身份金融社保等领域。",
+    "ths_fact": "芯片解析明确安全芯片产品；低轨终端及抗量子技术为拓展方向。",
+    "reason": "安全芯片有明确产品及经营基础；卫星终端进入市场和技术研发不等于大规模业务迁移。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600199.SH",
+    "key": "baijiu",
+    "sector": "白酒",
+    "source_sector_name": "白酒概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "馥合香及浓香白酒"
+    ],
+    "stage": "revenue",
+    "fact": "生产销售馥合香及浓香型白酒。",
+    "company_fact": "生产销售馥合香及浓香型白酒。",
+    "ths_fact": "白酒解析列示品牌产品；啤酒为子公司经销业务。",
+    "reason": "自有白酒产品构成清楚消费主线，经销啤酒不改主归属。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600201.SH",
+    "key": "animal_vaccines",
+    "sector": "动物疫苗",
+    "source_sector_name": "动物疫苗",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "兽用疫苗"
+    ],
+    "stage": "revenue",
+    "fact": "研发生产销售猪禽反刍及宠物兽用疫苗。",
+    "company_fact": "研发生产销售猪禽反刍及宠物兽用疫苗。",
+    "ths_fact": "动物疫苗解析对应疫苗经营；宠物狂犬产品在售，部分其他产品研发中。",
+    "reason": "兽用疫苗形成实际收入，不把研发平台或未上市宠物产品拔高为现有规模。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600202.SH",
+    "key": "nuclear_power",
+    "sector": "核电",
+    "source_sector_name": "核电",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "核级空气处理设备"
+    ],
+    "stage": "delivery",
+    "fact": "研发生产石化空冷器及电站空冷设备。",
+    "company_fact": "研发生产石化空冷器及电站空冷设备。",
+    "ths_fact": "核电解析明确核级设备用于秦山及巴基斯坦核电项目并投入运行。",
+    "reason": "核电专用设备有项目交付及运行证据，空冷业务具备核电链真实联系；不推断AI液冷。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600203.SH",
+    "key": "ai_glasses",
+    "sector": "AI眼镜",
+    "source_sector_name": "AI眼镜",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "智能眼镜ODM制造"
+    ],
+    "stage": "orders",
+    "fact": "从事智能手机及AIoT终端ODM、JDM、OEM制造。",
+    "company_fact": "从事智能手机及AIoT终端ODM、JDM、OEM制造。",
+    "ths_fact": "2026年4月解析明确中诺开发AI眼镜等产品并获客户订单。",
+    "reason": "智能硬件制造基础与眼镜订单交叉印证AI终端增量，订单阶段不写成量产收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600206.SH",
+    "key": "sputtering_targets",
+    "sector": "靶材",
+    "source_sector_name": "靶材",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "半导体高纯溅射靶材"
+    ],
+    "stage": "revenue",
+    "fact": "研发生产高纯靶材，同时经营稀土及红外材料等。",
+    "company_fact": "研发生产高纯靶材，同时经营稀土及红外材料等。",
+    "ths_fact": "靶材解析明确材料供货；2026年5月披露与长江存储长期稳定合作。",
+    "reason": "半导体靶材有实际产品和客户供货，存储是材料下游而非自有存储芯片制造。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600207.SH",
+    "key": "photovoltaic_glass",
+    "sector": "光伏玻璃",
+    "source_sector_name": "光伏玻璃",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "组件封装玻璃"
+    ],
+    "stage": "revenue",
+    "fact": "生产销售光伏玻璃、浮法玻璃等并经营天然气。",
+    "company_fact": "生产销售光伏玻璃、浮法玻璃等并经营天然气。",
+    "ths_fact": "光伏玻璃解析明确组件前后盖板玻璃产品及经营。",
+    "reason": "直接面向组件封装的玻璃制造匹配主线，不将自用发电或石英管当成更强归属。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600208.SH",
+    "key": "venture_capital",
+    "sector": "创投",
+    "source_sector_name": "创投",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "科技股权投资"
+    ],
+    "stage": "revenue",
+    "fact": "开展房地产及科技股权投资，形成投资经营业务。",
+    "company_fact": "开展房地产及科技股权投资，形成投资经营业务。",
+    "ths_fact": "创投解析明确投资业务及科技企业股权；其他新技术多来自参股。",
+    "reason": "实际科技投资支持创投；原公告确认先导电科收购已终止，排除旧主营材料仍称拟购的过时内容。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "600208-12326940",
+        "source_kind": "official_filing",
+        "publisher": "衢州发展",
+        "title": "终止发行股份购买资产事项公告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12326940&stockid=600208",
+        "published_at": "2026-05-17",
+        "assertions": [
+          "董事会同意终止收购先导电科95.4559%股份。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "600210.SH",
+    "key": "plastic_packaging",
+    "sector": "塑料包装",
+    "source_sector_name": "塑料包装",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "饮料塑料包装及印刷包装"
+    ],
+    "stage": "revenue",
+    "fact": "生产销售PET瓶瓶坯、瓶盖、标签等包装产品。",
+    "company_fact": "生产销售PET瓶瓶坯、瓶盖、标签等包装产品。",
+    "ths_fact": "旧锂电解析将紫江新材称控股，与新原公告冲突；包装产品由半年报交叉核实。",
+    "reason": "原半年报确认紫江新材自2025年9月底不再并表，不能继续按控股铝塑膜归锂电；航空亦属投资，选择实际塑料包装。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "600210-12555960",
+        "source_kind": "official_filing",
+        "publisher": "紫江企业",
+        "title": "2026年半年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12555960&stockid=600210",
+        "published_at": "2026-08-28",
+        "assertions": [
+          "紫江新材自2025年9月30日转让部分股份后不再纳入合并范围；主营饮料包装产品。"
+        ]
+      }
+    ]
+  }
+]

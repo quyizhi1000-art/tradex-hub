@@ -1,0 +1,78 @@
+[
+  {
+    "id": "301292.SZ",
+    "key": "solid_state_batteries",
+    "sector": "固态电池",
+    "source_sector_name": "固态电池",
+    "source_sector_provider": "同花顺",
+    "stage": "pilot",
+    "chain": [
+      "固态电解质材料"
+    ],
+    "company_fact": "电解液溶剂锂盐及添加剂研发制造，技术基础为电池精细化学品。",
+    "ths_fact": "布局氧化物电解质凝胶单体高纯硫化锂，部分中试验证。",
+    "fact": "电解液溶剂锂盐及添加剂研发制造，技术基础为电池精细化学品。",
+    "reason": "已有固态题材对应自有电解质研发，阶段明确pilot，不把液态电解液收入替代固态收入。"
+  },
+  {
+    "id": "301293.SZ",
+    "key": "brain_computer_interface",
+    "sector": "脑机接口",
+    "source_sector_name": "脑机接口",
+    "source_sector_provider": "同花顺",
+    "stage": "pilot",
+    "chain": [
+      "神经临床研究",
+      "脑机实验验证"
+    ],
+    "company_fact": "神经专科医疗服务集团，医教研一体化和神经诊疗研究。",
+    "ths_fact": "脑机接口仍实验性开展及实验室验证，距成熟应用仍需验证。",
+    "fact": "神经专科医疗服务集团，医教研一体化和神经诊疗研究。",
+    "reason": "已有脑机题材与神经专科研究一致，取pilot并明确非成熟脑机商业设备或业务营收。"
+  },
+  {
+    "id": "301295.SZ",
+    "key": "smart_grid",
+    "sector": "智能电网",
+    "source_sector_name": "智能电网",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "智能电表磁保持继电器"
+    ],
+    "company_fact": "继电器和流体电磁阀研发生产销售，磁保持产品用于智能电表。",
+    "ths_fact": "智能电网方案中磁保持继电器充当电表智能开关。",
+    "fact": "继电器和流体电磁阀研发生产销售，磁保持产品用于智能电表。",
+    "reason": "实际电表核心控制元件支撑已有智能电网归属，不混作电网运营。"
+  },
+  {
+    "id": "301296.SZ",
+    "key": "packaging_materials",
+    "sector": "包装材料",
+    "source_sector_name": "包装材料",
+    "source_sector_provider": "东方财富",
+    "stage": "revenue",
+    "chain": [
+      "乳饮无菌包装"
+    ],
+    "company_fact": "无菌包装研发制造销售，供应乳品及非碳酸饮料客户。",
+    "ths_fact": "食品安全概念解释也是无菌包装产品。",
+    "fact": "无菌包装研发制造销售，供应乳品及非碳酸饮料客户。",
+    "reason": "选择已有包装材料主归属最直接，食品安全为作用场景；并购不代替主营标签。"
+  },
+  {
+    "id": "301297.SZ",
+    "key": "semiconductors",
+    "sector": "芯片",
+    "source_sector_name": "芯片概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "半导体设备精密清洗"
+    ],
+    "company_fact": "半导体显示设备精密洗净实际服务，提供污染控制再生。",
+    "ths_fact": "主营包括半导体洗净涂层维修，光刻环节为涂胶显影部件清洗。",
+    "fact": "半导体显示设备精密洗净实际服务，提供污染控制再生。",
+    "reason": "芯片产业服务为直接主线，准确保留设备清洗链位，不把7nm清洗能力当7nm芯片生产。"
+  }
+]

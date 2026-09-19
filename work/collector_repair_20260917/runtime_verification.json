@@ -1,0 +1,1002 @@
+{
+  "status": {
+    "as_of": "2026-09-17T12:09:39.827333+08:00",
+    "collection_completeness": {
+      "accepted_real": 100,
+      "as_of": "2026-09-17T12:09:39.827333+08:00",
+      "contract": "market_watch_collection_completeness.v1",
+      "expected_minute_buckets": 239,
+      "gap_heartbeat": 21,
+      "ledger_digest": "78e5f6979af19df3a18c420c8e396ba0789569d6e173baac55ed5f546c94abdb",
+      "ledger_revision": 24815,
+      "pending": 118,
+      "repaired": 12,
+      "retrying": 0,
+      "schema_version": 1,
+      "trade_date": "2026-09-17",
+      "unresolved": 21
+    },
+    "collection_cursor": {
+      "accepted_at": null,
+      "attempt_count": 1,
+      "contract": "market_watch_collection_slot.v1",
+      "first_attempt_at": "2026-09-17T11:29:00+08:00",
+      "gap_heartbeat": true,
+      "last_attempt_at": "2026-09-17T11:29:00+08:00",
+      "last_error_code": "SnapshotQualityRejected",
+      "last_error_message": "Persisted stale snapshot was incorrectly accepted",
+      "ledger_revision": 24665,
+      "minute_bucket": "2026-09-17T11:29:00+08:00",
+      "next_retry_at": null,
+      "schema_version": 1,
+      "source_snapshot_id": null,
+      "source_snapshot_revision": null,
+      "status": "unresolved",
+      "trade_date": "2026-09-17",
+      "updated_at": "2026-09-17T12:02:38+08:00"
+    },
+    "collector_heartbeat_at": "2026-09-17T12:09:39+08:00",
+    "collector_state": "running",
+    "contract": "market_watch_collector_envelope.v1",
+    "daily_recovery": null,
+    "latest_accepted_real": {
+      "accepted_at": "2026-09-17T12:02:44+08:00",
+      "minute_bucket": "2026-09-17T11:27:00+08:00",
+      "repaired": false,
+      "snapshot_id": "mw-00000119-6c99dbb6c5474192a4a549868a534dc9",
+      "source_snapshot_revision": "16b25c769cf2c44bf860556c46b28dd21b82b40094c332ed7ca668f1e4fd2e1d",
+      "trade_date": "2026-09-17"
+    },
+    "latest_published_status": {
+      "accepted_at": null,
+      "attempt_count": 1,
+      "contract": "market_watch_collection_slot.v1",
+      "first_attempt_at": "2026-09-17T11:29:00+08:00",
+      "gap_heartbeat": true,
+      "last_attempt_at": "2026-09-17T11:29:00+08:00",
+      "last_error_code": "SnapshotQualityRejected",
+      "last_error_message": "Persisted stale snapshot was incorrectly accepted",
+      "ledger_revision": 24665,
+      "minute_bucket": "2026-09-17T11:29:00+08:00",
+      "next_retry_at": null,
+      "schema_version": 1,
+      "source_snapshot_id": null,
+      "source_snapshot_revision": null,
+      "status": "unresolved",
+      "trade_date": "2026-09-17",
+      "updated_at": "2026-09-17T12:02:38+08:00"
+    },
+    "schema_version": 1
+  },
+  "source_snapshot_revision": "16b25c769cf2c44bf860556c46b28dd21b82b40094c332ed7ca668f1e4fd2e1d",
+  "published_through": "2026-09-17T11:27:00+08:00",
+  "expected_minutes_per_curve": 117,
+  "curve_count": 88,
+  "old_revision_http_status": 409,
+  "provider_history_value_revision_count": 7,
+  "conditional_get": "304/0 bytes",
+  "curves": [
+    {
+      "direction": "defense",
+      "sector_key": "agriculture",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "defense",
+      "sector_key": "chicken_concept",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "defense",
+      "sector_key": "coal",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "defense",
+      "sector_key": "coal_chemical",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "defense",
+      "sector_key": "gold_concept",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "defense",
+      "sector_key": "grain_concept",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "defense",
+      "sector_key": "oil_gas",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "defense",
+      "sector_key": "oil_gas_resources",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "defense",
+      "sector_key": "oil_gas_services",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "defense",
+      "sector_key": "pork_concept",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "defense",
+      "sector_key": "precious_metals",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "defense",
+      "sector_key": "medical_device_concept",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "defense",
+      "sector_key": "medical_devices",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "defense",
+      "sector_key": "pharmaceutical_biology",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "defense",
+      "sector_key": "traditional_chinese_medicine",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "defense",
+      "sector_key": "traditional_chinese_medicine_concept",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "defense",
+      "sector_key": "baijiu",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "defense",
+      "sector_key": "dairy",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "defense",
+      "sector_key": "duty_free",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "defense",
+      "sector_key": "food_beverage",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "defense",
+      "sector_key": "new_retail",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "defense",
+      "sector_key": "retail",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "defense",
+      "sector_key": "retail_concept",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "defense",
+      "sector_key": "white_goods",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "defense",
+      "sector_key": "electric_power",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "defense",
+      "sector_key": "green_power",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "defense",
+      "sector_key": "nuclear_power",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "defense",
+      "sector_key": "highway",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "defense",
+      "sector_key": "ports",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "defense",
+      "sector_key": "shipping",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "defense",
+      "sector_key": "energy_conservation_environmental_protection",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "defense",
+      "sector_key": "environmental_protection",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "defense",
+      "sector_key": "gas",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "defense",
+      "sector_key": "natural_gas",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "defense",
+      "sector_key": "shale_gas",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "defense",
+      "sector_key": "water_conservancy",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "defense",
+      "sector_key": "water_utilities",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "defense",
+      "sector_key": "bank",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "defense",
+      "sector_key": "diversified_finance",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "defense",
+      "sector_key": "insurance",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "offense",
+      "sector_key": "aerospace",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "offense",
+      "sector_key": "commercial_spaceflight",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "offense",
+      "sector_key": "defense",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "offense",
+      "sector_key": "military",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "offense",
+      "sector_key": "satellite_internet",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "offense",
+      "sector_key": "innovative_drugs",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "offense",
+      "sector_key": "battery",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "offense",
+      "sector_key": "energy_storage",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "offense",
+      "sector_key": "hjt_battery",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "offense",
+      "sector_key": "lithium_battery",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "offense",
+      "sector_key": "photovoltaic_concept",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "offense",
+      "sector_key": "photovoltaic_equipment",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "offense",
+      "sector_key": "solid_state_battery",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "offense",
+      "sector_key": "topcon_battery",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "offense",
+      "sector_key": "minor_metals",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "offense",
+      "sector_key": "rare_earth_permanent_magnet",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "offense",
+      "sector_key": "advanced_packaging",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "offense",
+      "sector_key": "ai_agent",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [
+        {
+          "provider_as_of": "2026-09-17T09:35:00+08:00",
+          "previous_value": 212812661.0,
+          "current_value": 222763769.0
+        }
+      ],
+      "five_day_matches": true
+    },
+    {
+      "direction": "offense",
+      "sector_key": "ai_application",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [
+        {
+          "provider_as_of": "2026-09-17T09:46:00+08:00",
+          "previous_value": 806670228.0,
+          "current_value": 805811630.0
+        }
+      ],
+      "five_day_matches": true
+    },
+    {
+      "direction": "offense",
+      "sector_key": "ai_chip",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "offense",
+      "sector_key": "ai_glasses",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [
+        {
+          "provider_as_of": "2026-09-17T10:59:00+08:00",
+          "previous_value": -1186563688.0,
+          "current_value": -1186251833.0
+        }
+      ],
+      "five_day_matches": true
+    },
+    {
+      "direction": "offense",
+      "sector_key": "ai_phone",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [
+        {
+          "provider_as_of": "2026-09-17T11:02:00+08:00",
+          "previous_value": -316797879.0,
+          "current_value": -316559448.0
+        }
+      ],
+      "five_day_matches": true
+    },
+    {
+      "direction": "offense",
+      "sector_key": "aigc",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [
+        {
+          "provider_as_of": "2026-09-17T11:13:00+08:00",
+          "previous_value": -153208711.0,
+          "current_value": -157356057.0
+        }
+      ],
+      "five_day_matches": true
+    },
+    {
+      "direction": "offense",
+      "sector_key": "apple_concept",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [
+        {
+          "provider_as_of": "2026-09-17T11:22:00+08:00",
+          "previous_value": 9894337.0,
+          "current_value": -5169842.0
+        }
+      ],
+      "five_day_matches": true
+    },
+    {
+      "direction": "offense",
+      "sector_key": "artificial_intelligence",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [
+        {
+          "provider_as_of": "2026-09-17T11:24:00+08:00",
+          "previous_value": -1836703457.0,
+          "current_value": -1836106916.0
+        }
+      ],
+      "five_day_matches": true
+    },
+    {
+      "direction": "offense",
+      "sector_key": "automation_equipment",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "offense",
+      "sector_key": "communication_equipment",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "offense",
+      "sector_key": "compute",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "offense",
+      "sector_key": "consumer_electronics",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "offense",
+      "sector_key": "consumer_electronics_concept",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "offense",
+      "sector_key": "cpo",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "offense",
+      "sector_key": "data_center",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "offense",
+      "sector_key": "domestic_chip",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "offense",
+      "sector_key": "humanoid_robot",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "offense",
+      "sector_key": "liquid_cooling_server",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "offense",
+      "sector_key": "lithography_machine",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "offense",
+      "sector_key": "machine_vision",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "offense",
+      "sector_key": "multimodal_ai",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "offense",
+      "sector_key": "photoresist",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "offense",
+      "sector_key": "reducer",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "offense",
+      "sector_key": "robot_actuator",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "offense",
+      "sector_key": "robotics",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "offense",
+      "sector_key": "semiconductor",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "offense",
+      "sector_key": "semiconductor_concept",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "offense",
+      "sector_key": "smart_wearable",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "offense",
+      "sector_key": "software_development",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "offense",
+      "sector_key": "storage_chip",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    },
+    {
+      "direction": "offense",
+      "sector_key": "third_generation_semiconductor",
+      "point_count": 117,
+      "missing": [],
+      "existing_timestamps_preserved": true,
+      "unexplained_values": [],
+      "provider_history_value_revisions": [],
+      "five_day_matches": true
+    }
+  ]
+}

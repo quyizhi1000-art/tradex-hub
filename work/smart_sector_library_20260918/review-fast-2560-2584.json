@@ -1,0 +1,505 @@
+[
+  {
+    "id": "301149.SZ",
+    "key": "pa66",
+    "sector": "PA66",
+    "source_sector_name": "PA66",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "聚酰胺树脂",
+      "尼龙66及特种尼龙试产"
+    ],
+    "stage": "pilot",
+    "fact": "控股隆华高材4万吨装置已建成，尼龙66及特种尼龙仍在调试试产和产品验证。",
+    "ths_fact": "PA66解析对应隆华高材项目，旧108万吨属于总规划。",
+    "company_fact": "东方财富主营载明聚酰胺树脂现有4万吨产能；2026半年报进一步明确试生产阶段。",
+    "reason": "选择已有PA66，实际装置与试产使题材超出规划；不把名义产能或108万吨规划当成已量产收入，后续复核验证与销售。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "301149-review-official",
+        "source_kind": "official_filing",
+        "publisher": "隆华新材",
+        "title": "2026年半年度报告",
+        "source_url": "https://disc.static.szse.cn/download/disc/disk03/finalpage/2026-08-26/2f5e4eb8-66c1-4e4a-bb34-6b045ee70787.PDF",
+        "published_at": "2026-08-26",
+        "assertions": [
+          "4万吨聚酰胺装置建成并处于调试试生产，正在进行产品验证和推广。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "301150.SZ",
+    "key": "lithium_batteries",
+    "sector": "锂电池",
+    "source_sector_name": "锂电池概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "锂电铜箔",
+      "电子电路铜箔"
+    ],
+    "stage": "revenue",
+    "fact": "公司实际生产销售锂电铜箔，已有动力电池客户。",
+    "ths_fact": "锂电池与宁德时代解析确认铜箔产品及电池客户；比亚迪单项误写铜冠铜箔，已排除。",
+    "company_fact": "东方财富主营确认锂电、电子电路两类铜箔及5.55万吨名义产能。",
+    "reason": "锂电铜箔的产品和客户共同支持已有锂电池主线；PCB保留业务背景，PET和固态研发不视为量产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301151.SZ",
+    "key": "liquid_cooled_servers",
+    "sector": "液冷服务器",
+    "source_sector_name": "液冷服务器",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "数据中心液冷系统阀门",
+      "流量压力控制"
+    ],
+    "stage": "product",
+    "fact": "已有面向数据中心液冷系统的阀门产品应用。",
+    "ths_fact": "液冷及数据中心解析明确阀门用于冷却液流量和压力控制。",
+    "company_fact": "东方财富主营将数据中心液冷列入阀门实际下游应用。",
+    "reason": "选择真实产品支持的液冷服务器增量方向；公司供应阀门并非服务器整机，未单独核实该方向收入，阶段仅产品。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301152.SZ",
+    "key": "solid_state_batteries",
+    "sector": "固态电池",
+    "source_sector_name": "固态电池",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "高镍正极材料",
+      "固态电池材料"
+    ],
+    "stage": "product",
+    "fact": "公司具备高镍正极材料，9系产品已有部分客户应用，布局固态电池材料。",
+    "ths_fact": "固态电池解析称9系高镍已有部分客户开始应用；钠电仍为小试阶段。",
+    "company_fact": "东方财富主营确认高镍三元系列，核心技术段明确布局固态电池材料和高镍低钴技术。",
+    "reason": "已有固态电池标签与具体材料产品形成联系，选择该增量主线；客户应用不等于固态整电芯量产，阶段按材料产品，不将传统正极收入移作固态收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301153.SZ",
+    "key": "ai_agents",
+    "sector": "AI智能体",
+    "source_sector_name": "AI智能体",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "财政智能体",
+      "预算执行及绩效监督"
+    ],
+    "stage": "product",
+    "fact": "公司将AI用于财政管理，推出预算、执行、绩效等智能体。",
+    "ths_fact": "2026年6月财政智能体矩阵及联合方案解析明确具体场景。",
+    "company_fact": "东方财富主营明确智慧财政融合AI，服务多省财政业务。",
+    "reason": "财政AI有现成业务场景与具体智能体产品，优先已有AI智能体；未将原财政软件全部收入视作智能体收入，待核客户验收及产品收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301155.SZ",
+    "key": "offshore_wind_power",
+    "sector": "海上风电",
+    "source_sector_name": "海上风电",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "海上风电塔筒",
+      "桩基与导管架"
+    ],
+    "stage": "revenue",
+    "fact": "公司持续生产销售海上风电塔筒、桩基和导管架等装备。",
+    "ths_fact": "风电解析列明塔筒桩基产品，已有海上风电成员标签。",
+    "company_fact": "东方财富主营明确海上风电装备及12MW以上机型产品。",
+    "reason": "海上风电是实际装备和下游客户共同识别的主线；参股风场及绿电运营保留背景，不替代装备业务定位。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301156.SZ",
+    "key": "synthetic_biology",
+    "sector": "合成生物",
+    "source_sector_name": "合成生物",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "酶解植物蛋白",
+      "饲料原料生物转化"
+    ],
+    "stage": "revenue",
+    "fact": "利用菌种及酶技术规模应用生产酶解植物蛋白饲料原料。",
+    "ths_fact": "合成生物解析具体列明玉米副产物酶水解等产业化工艺。",
+    "company_fact": "东方财富主营确认合成生物改菌筛菌获取规模应用酶并酶解植物蛋白。",
+    "reason": "工艺、产品和产业化相互支持已有合成生物；链条为饲料原料，不把添加维生素等同维生素原药制造。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301157.SZ",
+    "key": "liquid_cooled_servers",
+    "sector": "液冷服务器",
+    "source_sector_name": "液冷服务器",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "服务器液冷CDU",
+      "集装箱液冷系统"
+    ],
+    "stage": "product",
+    "fact": "公司实际经营产品已含液冷CDU及集装箱式液冷系统。",
+    "ths_fact": "液冷解析原为2026年2月经营性资产收购计划。",
+    "company_fact": "东方财富核心段已列服务器液冷产品；2026半年报列明L2L、L2A CDU及集装箱系统和控股孙公司华域热控。",
+    "reason": "原半年报弥补旧收购计划时态，选择已有液冷服务器；不由资产付款比例推断交割或收入，已确认产品，独立收入未量化。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "301157-review-official",
+        "source_kind": "official_filing",
+        "publisher": "华塑科技",
+        "title": "2026年半年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12543773&stockid=301157",
+        "published_at": null,
+        "assertions": [
+          "华域热控为控股孙公司，液冷产品包括L2L、L2A CDU及集装箱式液冷系统。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "301158.SZ",
+    "key": "oil_gas_equipment_services",
+    "sector": "油气设服",
+    "source_sector_name": "油气设服",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "油气钻井工具",
+      "定向钻井技术服务"
+    ],
+    "stage": "revenue",
+    "fact": "公司生产销售和租赁油气钻井工具，提供定向与水平钻井技术服务。",
+    "ths_fact": "页岩气解析说明螺杆钻具实际用途，海工解析列井口产品销售。",
+    "company_fact": "东方财富主营确认油气钻井工具装备研发生产销售租赁及技术服务。",
+    "reason": "多个钻井场景共同指向已有油气设服，非自身拥有油气资源开采；页岩气与海工为应用细分。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301159.SZ",
+    "key": "ai_agents",
+    "sector": "AI智能体",
+    "source_sector_name": "AI智能体",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "SunwayLink智能体平台",
+      "数据分析与文档问答"
+    ],
+    "stage": "orders",
+    "fact": "公司已形成AI智能体开发平台并有相关订单。",
+    "ths_fact": "AI应用解析称SunwayLink订单落地，AI智能体解析列ChatBI、ChatDOC。",
+    "company_fact": "东方财富主营将SunwayLink列为基于大模型的一站式智能体开发平台。",
+    "reason": "具体平台与订单支持AI智能体主线；不把人形机器人战略协议或实验室软件用途当作机器人或芯片制造。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301160.SZ",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "减速器与轴承精密材料",
+      "机器人应用场景"
+    ],
+    "stage": "pilot",
+    "fact": "人形机器人相关精密材料进入客户试样阶段，尚未量产。",
+    "ths_fact": "人形机器人及机器人解析列减速器轴承柔轮材料，2025年末客户试样但未量产。",
+    "company_fact": "东方财富主营列机器人材料布局，核心段说明人形机器人零部件材料拓展及控股远昌智能场景合作。",
+    "reason": "实际试样与控股经营支持已有人形机器人增量主线；阶段为试验，不将汽车材料收入或产业伙伴名单当成人形批量收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301161.SZ",
+    "key": "chips",
+    "sector": "芯片",
+    "source_sector_name": "芯片概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "半导体设备密封件",
+      "全氟醚橡胶密封"
+    ],
+    "stage": "delivery",
+    "fact": "控股业务提供半导体设备密封产品，已有验证及部分工艺批量供货。",
+    "ths_fact": "芯片解析明确控股子公司半导体设备密封部分工艺批量供货。",
+    "company_fact": "东方财富主营为液压气动密封；原2025年报进一步列半导体密封产品、FFKM成功验证及北方华创供应商资格。",
+    "reason": "芯片已有标签由真实设备配套产品支撑，选择国产替代增量；不是晶圆制造，验证与部分交付不扩大成全面量产收入。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "301161-review-official",
+        "source_kind": "official_filing",
+        "publisher": "唯万密封",
+        "title": "2025年年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12226924&stockid=301161",
+        "published_at": "2026-04-28",
+        "assertions": [
+          "列明半导体全氟醚密封产品，FFKM在半导体设备得到成功验证，上海嘉诺成为北方华创合格供应商。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "301162.SZ",
+    "key": "virtual_power_plant",
+    "sector": "虚拟电厂",
+    "source_sector_name": "虚拟电厂",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "虚拟电厂平台",
+      "聚合运营与电力交易"
+    ],
+    "stage": "revenue",
+    "fact": "公司开展虚拟电厂平台开发及聚合运营，并提供电力交易等服务。",
+    "ths_fact": "虚拟电厂解析确认平台和运营业务，AI为功率预测等场景技术。",
+    "company_fact": "东方财富主营完整列明虚拟电厂平台开发及聚合商运营、电力交易及储能EMS。",
+    "reason": "平台与运营均为确认经营，选择已有虚拟电厂；AI气象模型为业务能力，未用一般AI标签覆盖具体电力主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301163.SZ",
+    "key": "wind_power",
+    "sector": "风电",
+    "source_sector_name": "风电",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "风电铸件",
+      "铸铁铸铝关键零部件"
+    ],
+    "stage": "revenue",
+    "fact": "公司为风电等行业生产销售关键铸件。",
+    "ths_fact": "风电解析确认陆上及海上风电铸件；机床铸件和储能飞轮为其他应用。",
+    "company_fact": "东方财富主营明确风电、电力、医疗及机床用关键铸铁铸铝零部件。",
+    "reason": "风电具备具体产品和持续应用，已有主线更明确；机床保留业务背景，未将机器人产品名扩成未经交叉的人形主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301165.SZ",
+    "key": "cpo",
+    "sector": "共封装光学(CPO)",
+    "source_sector_name": "共封装光学(CPO)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "51.2T CPO交换机",
+      "AI集群光电互联"
+    ],
+    "stage": "product",
+    "fact": "已发布51.2T CPO交换机商用互联方案。",
+    "ths_fact": "CPO解析确认已推出CPO交换机；液冷NPO交换机属于不同技术方案。",
+    "company_fact": "东方财富主营确认网络设备；2025年报原文明确发布51.2T CPO交换机商用互联方案。",
+    "reason": "已有CPO标签有自主具体产品支撑，优先此增量主线；仅发布产品，不能把传统交换机收入移算CPO，亦不把6GHz WiFi误作蜂窝6G。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "301165-review-official",
+        "source_kind": "official_filing",
+        "publisher": "锐捷网络",
+        "title": "2025年年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12026684&stockid=301165",
+        "published_at": null,
+        "assertions": [
+          "已发布51.2T CPO交换机商用互联方案，未据此推断该产品已产生收入。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "301166.SZ",
+    "key": "recombinant_proteins",
+    "sector": "重组蛋白",
+    "source_sector_name": "重组蛋白",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "重组蛋白科研试剂",
+      "生命科学供应服务"
+    ],
+    "stage": "revenue",
+    "fact": "公司为科研等客户提供重组蛋白相关试剂及生命科学产品服务。",
+    "ths_fact": "重组蛋白解析明确科研试剂、培养添加和标准品，其他治疗概念多为研究工具供应。",
+    "company_fact": "东方财富主营确认生命科学试剂仪器耗材、代理品牌与自有产品供应。",
+    "reason": "选择有实物科研供应支持的已有重组蛋白；不把科研试剂销售说成获批治疗药或临床服务，后续按新品及销售变化复核。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301167.SZ",
+    "key": "building_energy_efficiency",
+    "sector": "建筑节能",
+    "source_sector_name": "建筑节能",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "绿色建筑设计咨询",
+      "节能改造"
+    ],
+    "stage": "revenue",
+    "fact": "公司实际提供建筑设计、绿色节能咨询及改造服务。",
+    "ths_fact": "建筑节能解析确认设计标准和业务；核聚变解析为BEST水冷系统联合中标。",
+    "company_fact": "东方财富主营确认建筑设计咨询、EPC及能源合同业务。",
+    "reason": "已有建筑节能由持续设计经营充分支持；BEST题材本次原2026半年报未检出项目履约，早期中标不等于正式合同与收入，待取得签约及自身工作范围再复核核聚变主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301168.SZ",
+    "key": "solid_state_batteries",
+    "sector": "固态电池",
+    "source_sector_name": "固态电池",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "PPS准固态电池隔膜",
+      "材料与工艺研发"
+    ],
+    "stage": "pilot",
+    "fact": "PPS准固态电池隔膜经历中试，原年报研发项目已基本结束，未证明批量销售。",
+    "ths_fact": "固态电池解析称RD85隔膜完成中试，技术鉴定不能等同电芯量产。",
+    "company_fact": "东方财富主营仍为光伏接线盒；原2025年报确认RD85研发进度和干法电极工艺及产线成果。",
+    "reason": "具体材料研发成果支持已有固态电池增量，阶段保留试验转化；不将接线盒收入移作固态收入，后续复核客户验证和销售。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "301168-review-official",
+        "source_kind": "official_filing",
+        "publisher": "通灵股份",
+        "title": "2025年年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12271213&stockid=301168",
+        "published_at": "2026-04-29",
+        "assertions": [
+          "RD85 PPS准固态隔膜研发阶段已基本结束，列明干法电极工艺和产线成果，未披露该项目销售收入。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "301169.SZ",
+    "key": "artificial_intelligence",
+    "sector": "人工智能",
+    "source_sector_name": "人工智能",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "零点楷模行业模型",
+      "问数问策问稿应用"
+    ],
+    "stage": "delivery",
+    "fact": "零点楷模已形成行业解决方案并在政法、国央企客户侧应用。",
+    "ths_fact": "AI相关解析列楷模及智能体应用；DeepSeek内部接入和参股公司业务不单独作为经营依据。",
+    "company_fact": "东方财富核心段明确自有数据训练问数问策问稿产品、昇腾适配及客户侧落地。",
+    "reason": "已有人工智能标签可直接承接自有产品及外部应用；不用较宽数据要素覆盖实际AI产品，未把应用客户等同已披露独立AI收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301170.SZ",
+    "key": "new_energy_vehicles",
+    "sector": "新能源汽车",
+    "source_sector_name": "新能源汽车",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "电机壳体",
+      "变速箱轻量化壳体"
+    ],
+    "stage": "revenue",
+    "fact": "公司提供新能源汽车电机和变速箱等铝合金壳体。",
+    "ths_fact": "新能源汽车及减速器解析确认新能源部件、伊顿AMT项目落地。",
+    "company_fact": "东方财富主营确认汽车铝轻量化产品及新能源电机壳、变速箱壳。",
+    "reason": "新能源车已有实际产品和客户项目，选择此主线；公司为零部件环节，储能新建项目不计已兑现业务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301171.SZ",
+    "key": "ai_video",
+    "sector": "AI视频",
+    "source_sector_name": "AI视频",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "KreadoAI视频生成",
+      "广告及漫剧内容工具"
+    ],
+    "stage": "delivery",
+    "fact": "KreadoAI已提供视频生成等工具并在广告与内容创作场景落地。",
+    "ths_fact": "AI视频解析明确KreadoAI多模态视频生成及对外产品，智能体解析称端到端广告视频生成。",
+    "company_fact": "东方财富主营为互联网营销；KreadoAI官方产品文章确认图生视频、AI动画和客户使用案例。",
+    "reason": "已有AI视频由对外产品和真实应用支撑，优先于宽泛营销标签；未把营销总收入等同AI视频收入。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "301171-review-official",
+        "source_kind": "official_company",
+        "publisher": "易点天下KreadoAI",
+        "title": "KreadoAI与Google圆桌：AI漫剧出海",
+        "source_url": "https://www.kreadoai.com/zh/article/kreadoai-google-aivideo-aimanju",
+        "published_at": "2025-11-20",
+        "assertions": [
+          "自有KreadoAI提供视频生成及AI动画工具，官方披露广告和内容创作使用案例。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "301172.SZ",
+    "key": "ai_agents",
+    "sector": "AI智能体",
+    "source_sector_name": "AI智能体",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "政企智能体平台",
+      "智慧城市行业应用"
+    ],
+    "stage": "orders",
+    "fact": "公司已推出政企AI智能体平台并取得相关订单。",
+    "ths_fact": "AI智能体和AI应用解析明确平台订单、MCP集成及行业落地；算力租赁为新募投计划。",
+    "company_fact": "东方财富主营列AI智能体构建管理平台及自研产品销售、政企解决方案。",
+    "reason": "平台及订单使已有AI智能体比未建设算力租赁更有支撑；光通信标的处优化小批适配，未放大为CPO批量生产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301173.SZ",
+    "key": "new_energy_vehicles",
+    "sector": "新能源汽车",
+    "source_sector_name": "新能源汽车",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "汽车天窗",
+      "新能源车运动部件"
+    ],
+    "stage": "revenue",
+    "fact": "公司生产汽车天窗并为多家新能源客户车型量产配套。",
+    "ths_fact": "新能源汽车解析明确22家量产客户、65款车型；比亚迪中标与量产阶段分别保留。",
+    "company_fact": "东方财富主营确认天窗研发生产一体和整车客户体系。",
+    "reason": "已有新能源汽车由量产配套支撑；不以客户名称板块替代产业主线，也不将所有新定点视为已量产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301175.SZ",
+    "key": "biomass_power",
+    "sector": "生物质能发电",
+    "source_sector_name": "生物质能发电",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "垃圾焚烧发电",
+      "热能与沼气资源利用"
+    ],
+    "stage": "revenue",
+    "fact": "公司运营垃圾焚烧发电项目，并开展热能与沼气资源利用。",
+    "ths_fact": "生物质能发电及绿色电力解析确认垃圾焚烧经营；航天仅燃料合作框架。",
+    "company_fact": "东方财富主营确认BOT、BOO项目投资建设运营及垃圾处理发电供热。",
+    "reason": "已有生物质能发电对应经营资产与产品；不把航天框架升级成已向火箭供应燃料，AI内部升级保留背景。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301176.SZ",
+    "key": "pcb",
+    "sector": "PCB",
+    "source_sector_name": "PCB概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "电子电路铜箔",
+      "覆铜板与印制电路板"
+    ],
+    "stage": "revenue",
+    "fact": "公司生产销售电子电路铜箔及PCB相关产品。",
+    "ths_fact": "PCB解析确认铜箔、铝基覆铜板、PCB；MiniLED为实际应用，锂电铜箔为技术产品矩阵。",
+    "company_fact": "东方财富主营明确高性能铜箔及下游印制电路板研发生产销售。",
+    "reason": "上下游一体的电路板业务共同支持已有PCB；MiniLED和汽车电子为应用，不因锂电技术储备改变已证实的主线。",
+    "basis": "crosschecked_sources"
+  }
+]

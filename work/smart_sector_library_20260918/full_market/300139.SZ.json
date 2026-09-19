@@ -1,0 +1,73 @@
+{
+  "instrument_id": "300139.SZ",
+  "name": "晓程科技",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "300139.SZ",
+    "name": "晓程科技",
+    "memberships": [
+      "有色金属",
+      "贵金属",
+      "黄金",
+      "北京板块",
+      "高成长股",
+      "小盘成长",
+      "小盘股",
+      "创业板综",
+      "深股通",
+      "融资融券",
+      "QFII重仓",
+      "电网概念",
+      "民爆概念",
+      "绿色电力",
+      "半导体概念",
+      "国产芯片",
+      "PPP模式",
+      "一带一路",
+      "光伏概念",
+      "智能电网",
+      "黄金概念"
+    ],
+    "business_sections": [
+      {
+        "title": "黄金开采及销售业务。太阳能发电业务、集成电路设计业务",
+        "kind": "主营业务",
+        "text": "本报告期，公司主营业务涵盖黄金开采及销售业务、太阳能发电业务与集成电路设计业务。"
+      },
+      {
+        "title": "金矿与能源业务协同发展，资源与产能双轮驱动",
+        "kind": "核心竞争力",
+        "text": "公司围绕“黄金开采及销售+光伏发电+集成电路设计”三大业务板块，形成业务多向协同效应，实现黄金勘探、采矿、选冶、冶炼、销售全链条自主运营，以及光伏电站从建设、并网、运营到回款的全环节管理能力，重点项目均按计划高效推进。核心金矿梯次布局、协同发力，同时配备专业钻探部门统筹全矿区勘探工作，持续推进资源增储，为产能稳定提升提供核心资源支撑，全产业链布局实现各环节高效协同，保障业务稳健运营。"
+      },
+      {
+        "title": "非洲核心属地深度深耕，构建本土化运营体系",
+        "kind": "核心竞争力",
+        "text": "本土化运营体系成熟：在加纳各业务板块搭建“中方技术管理+本地员工主力生产”的高效团队，深度适配属地用工环境；同时实现设备、物料、成本的本地化管控，有效降低运营成本，提升项目落地与运营效率。"
+      },
+      {
+        "title": "研发创新持续深耕，场景化应用逐步落地",
+        "kind": "核心竞争力",
+        "text": "公司坚持自主研发与技术创新，具备较强的核心器件研发、软硬件一体化设计及行业解决方案落地能力，在相关领域形成成熟的产品体系与稳定的市场应用，同时持续推进新产品迭代与新业务布局，不断拓展应用场景，构建起技术、产品与系统协同发展的综合竞争优势。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ300139",
+    "fetched_at": "2026-09-18T23:03:06.849200+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [
+    "芯片"
+  ],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "贵金属"
+}

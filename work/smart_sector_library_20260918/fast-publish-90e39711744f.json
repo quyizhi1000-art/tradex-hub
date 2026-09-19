@@ -1,0 +1,81 @@
+[
+  {
+    "id": "300456.SZ",
+    "key": "chips",
+    "sector": "芯片",
+    "source_sector_name": "芯片概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "MEMS工艺开发",
+      "晶圆制造及IC设计服务"
+    ],
+    "fact": "主营明确MEMS纯代工和IC设计服务，境内亦庄产线运营；瑞典Silex已于2025年7月出表。",
+    "ths_fact": "芯片条目明确MEMS工艺及晶圆制造；CPO为硅光子代工并非光模块整机。",
+    "company_fact": "主营明确MEMS纯代工和IC设计服务，境内亦庄产线运营；瑞典Silex已于2025年7月出表。",
+    "reason": "已有芯片覆盖核心代工能力和产业认知；不能将已出售控制权的Silex全额业绩计入本体，光刻机参股不等于自营整机。"
+  },
+  {
+    "id": "300457.SZ",
+    "key": "solid_state_batteries",
+    "sector": "固态电池",
+    "source_sector_name": "固态电池",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "固态电池制造设备"
+    ],
+    "fact": "主营锂电自动化设备含涂布辊压分切卷绕叠片组装，提供产线设备服务。",
+    "ths_fact": "2025年6月解析明确固态湿法涂布辊压转印设备已到客户现场，用于中试线。",
+    "company_fact": "主营锂电自动化设备含涂布辊压分切卷绕叠片组装，提供产线设备服务。",
+    "reason": "固态电池主线有专用设备实际交付与制造技术交叉，链位仅设备，客户中试线不等于公司量产固态电芯；电子烟另列业务背景。"
+  },
+  {
+    "id": "300458.SZ",
+    "key": "ai_glasses",
+    "sector": "AI眼镜",
+    "source_sector_name": "AI眼镜",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "低功耗视觉SoC",
+      "AI眼镜芯片方案"
+    ],
+    "fact": "主营智能SoC模拟及无线互联芯片，AI语音视觉产品在头部客户实现量产落地。",
+    "ths_fact": "2025年4月V821慧眼方案客户AI眼镜已首发并销售。",
+    "company_fact": "主营智能SoC模拟及无线互联芯片，AI语音视觉产品在头部客户实现量产落地。",
+    "reason": "现有AI眼镜由明确芯片方案及客户终端上市支撑，芯片设计链位不冒称自营眼镜整机或将全部SoC销售算眼镜收入。"
+  },
+  {
+    "id": "300459.SZ",
+    "key": "ai_applications",
+    "sector": "AI应用",
+    "source_sector_name": "AI应用",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "AI情感陪伴",
+      "IP智能硬件"
+    ],
+    "fact": "公司围绕汤姆猫IP经营线上线下业务，AI机器人和随身AI产品已推出，具软硬件及交互技术。",
+    "ths_fact": "AI应用条目为陪伴产品，机器人条目明确2024年底开售及2025成交额增长。",
+    "company_fact": "公司围绕汤姆猫IP经营线上线下业务，AI机器人和随身AI产品已推出，具软硬件及交互技术。",
+    "reason": "真实陪伴应用产品和销售验证AI主线，IP为差异化基础，不将参股大模型业务全算自营或将陪伴机器人误做人形工业机器人。"
+  },
+  {
+    "id": "300460.SZ",
+    "key": "passive_components",
+    "sector": "被动元件",
+    "source_sector_name": "被动元件",
+    "source_sector_provider": "东方财富",
+    "stage": "revenue",
+    "chain": [
+      "石英晶振",
+      "频率元器件"
+    ],
+    "fact": "主营谐振器热敏晶体和振荡器研发生产销售，具高频小型化量产及多平台认证。",
+    "ths_fact": "元器件条目确认石英频率元件，光模块和AI眼镜条目指晶振配套用途。",
+    "company_fact": "主营谐振器热敏晶体和振荡器研发生产销售，具高频小型化量产及多平台认证。",
+    "reason": "已有被动元件准确归纳专营频率器件，AI眼镜CPO均为用途，内部接入模型不构成独立AI业务，认证也不等于所有下游交付。"
+  }
+]

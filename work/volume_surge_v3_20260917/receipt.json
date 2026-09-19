@@ -1,0 +1,77 @@
+{
+  "dates": [
+    {
+      "date": "2026-09-09",
+      "old_count": 376,
+      "new_count": 130,
+      "old_result_id": "stock-selection-strategy-result:b31fc143f2f02b52ce4ad523",
+      "new_result_id": "stock-selection-strategy-result:b353490e7c11d4ea576bb8e3",
+      "same_source_revision": true,
+      "snapshot_path": "work\\volume_surge_research_20260916\\snapshot-2026-09-09.json",
+      "snapshot_sha256": "5770e0851c0fa0fc4da15de50a425091b5f5131677e4ad1c4b049b689bfbceef"
+    },
+    {
+      "date": "2026-09-10",
+      "old_count": 320,
+      "new_count": 97,
+      "old_result_id": "stock-selection-strategy-result:ba8c1f03ce2a9caddfd78aba",
+      "new_result_id": "stock-selection-strategy-result:85df3a1d8a9fb2311e45b448",
+      "same_source_revision": true,
+      "snapshot_path": "work\\volume_surge_research_20260916\\snapshot-2026-09-10.json",
+      "snapshot_sha256": "4b405a211f1b583eefa7910791f2dbc28c46c517098f7c46426f50146ff4868c"
+    },
+    {
+      "date": "2026-09-11",
+      "old_count": 222,
+      "new_count": 60,
+      "old_result_id": "stock-selection-strategy-result:c550d964aaff47189fedd069",
+      "new_result_id": "stock-selection-strategy-result:d554c3e4a3185fbc1832440c",
+      "same_source_revision": true,
+      "snapshot_path": "work\\volume_surge_research_20260916\\snapshot-2026-09-11.json",
+      "snapshot_sha256": "9442fe9c953a04382cb9473ecaa5916e2075cbf21dda4bc1527539740c501ea2"
+    },
+    {
+      "date": "2026-09-14",
+      "old_count": 231,
+      "new_count": 64,
+      "old_result_id": "stock-selection-strategy-result:4c129f7e5c6e2c7552e7ceff",
+      "new_result_id": "stock-selection-strategy-result:b27c7c9428d17f53a9ca170d",
+      "same_source_revision": true,
+      "snapshot_path": "work\\volume_surge_research_20260916\\snapshot-2026-09-14.json",
+      "snapshot_sha256": "3abce98c37d642a19240fc5bb78322b259cfcfd299cdae87182e6bd5762e6f14"
+    },
+    {
+      "date": "2026-09-15",
+      "old_count": 173,
+      "new_count": 54,
+      "old_result_id": "stock-selection-strategy-result:08d18520c01518fd9f31a746",
+      "new_result_id": "stock-selection-strategy-result:afc79332cc6b7f6a00b91f6f",
+      "same_source_revision": true,
+      "snapshot_path": "work\\volume_surge_research_20260916\\snapshot-2026-09-15.json",
+      "snapshot_sha256": "b0bd1d2f871897dcce66267f66a5bac62fc1ed76f8ab4cde4a753e7d2e7d7d59"
+    },
+    {
+      "date": "2026-09-16",
+      "old_count": 166,
+      "new_count": 51,
+      "old_result_id": "stock-selection-strategy-result:9e6060f0f5458ae731687cc9",
+      "new_result_id": "stock-selection-strategy-result:6d1d7335b046c599c15b9e13",
+      "same_source_revision": true,
+      "snapshot_path": "work\\volume_surge_research_20260916\\snapshot-2026-09-16.json",
+      "snapshot_sha256": "11f9b86183b4ff52e1c5fabcf48182e127b0ff112b830d6aa8e4d74d6a3f5b88"
+    },
+    {
+      "date": "2026-09-17",
+      "old_count": 170,
+      "new_count": 43,
+      "old_result_id": "stock-selection-strategy-result:a73eb605b453988a17fd9b0f",
+      "new_result_id": "stock-selection-strategy-result:7599a9c73ae4b4eb586c4232",
+      "same_source_revision": true,
+      "snapshot_path": "work\\macd_j_20260917\\snapshot-2026-09-17.json",
+      "snapshot_sha256": "99791b1d755072f3513296c193b81dcdf300b7f7b24f1f61b7daf92c8f3b3f5a"
+    }
+  ],
+  "existing_archives_unchanged": true,
+  "published_views": 18,
+  "backup": "G:\\money\\work\\volume_surge_v3_20260917\\selection-before-v3-20260917-233811.sqlite3"
+}

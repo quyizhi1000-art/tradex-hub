@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import time
 from collections.abc import Callable
-from datetime import date, datetime
+from datetime import date, datetime, time as minute_time
 from threading import Condition
 from typing import Any
 from zoneinfo import ZoneInfo
@@ -129,11 +129,13 @@ def fetch_intraday_minute_series(
     cache: IntradayMinuteCache | None = None,
     use_cache: bool = True,
     expected_trading_date: date | None = None,
+    required_minutes: tuple[minute_time, ...] = (),
 ) -> IntradayMinuteSeriesV1:
     """Fetch, normalize, quality-check, and cache one complete 1-minute curve."""
 
     instrument_id = canonical_instrument_id(symbol)
     fetched_at = _now(now)
+    required = frozenset(required_minutes)
 
     def load() -> IntradayMinuteSeriesV1:
         def validate(frame: Any, provider: str) -> IntradayMinuteSeriesV1:
@@ -150,6 +152,12 @@ def fetch_intraday_minute_series(
                 raise RuntimeError(
                     f"intraday provider did not prove trading date {expected_trading_date}"
                 )
+            missing = required - {point.minute for point in series.points}
+            if missing:
+                raise RuntimeError(
+                    "intraday provider omitted required exact minutes: "
+                    + ", ".join(str(minute) for minute in sorted(missing)[:8])
+                )
             return series
 
         series, _provider = _router(router).route_validated(
@@ -161,7 +169,8 @@ def fetch_intraday_minute_series(
         )
         return series
 
-    if not use_cache:
+    # The ordinary instrument cache does not encode exact-minute requirements.
+    if not use_cache or required:
         return load()
     return (cache or _INTRADAY_CACHE).get_or_load(instrument_id, load)
 
@@ -214,6 +223,7 @@ def fetch_intraday_minute_series_batch_partial(
     *,
     router: Any | None = None,
     now: datetime | None = None,
+    allow_empty: bool = False,
 ) -> dict[str, IntradayMinuteSeriesV1]:
     """Fetch all exact curves present; omissions remain explicit for fallback."""
 
@@ -245,7 +255,7 @@ def fetch_intraday_minute_series_batch_partial(
                 instrument_id=instrument_id,
                 fetched_at=fetched_at,
             )
-        if not result:
+        if not result and not allow_empty:
             raise RuntimeError("partial intraday minute batch returned no exact curves")
         return result
 
@@ -254,6 +264,7 @@ def fetch_intraday_minute_series_batch_partial(
         validate,
         symbols=instrument_ids,
         trade_date=fetched_at.astimezone(_SHANGHAI).date(),
+        **({"allow_empty": True} if allow_empty else {}),
     )
     return result
 

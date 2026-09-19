@@ -1,0 +1,77 @@
+[
+  {
+    "id": "600531.SH",
+    "key": "gold",
+    "sector": "黄金",
+    "source_sector_name": "黄金概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "冶炼伴生黄金回收"
+    ],
+    "fact": "铅铜冶炼并综合回收黄金白银锌等有价元素，黄金产品为金锭。",
+    "company_fact": "铅铜冶炼并综合回收黄金白银锌等有价元素，黄金产品为金锭。",
+    "ths_fact": "2025年互动明确无自有金矿，黄金来自铅铜冶炼伴生回收并在金交所销售。",
+    "reason": "黄金价格与回收产品共同形成贵金属市场身份；链位明确冶炼回收，不写成金矿资源企业。"
+  },
+  {
+    "id": "600533.SH",
+    "key": "real_estate_development",
+    "sector": "房地产开发",
+    "source_sector_name": "房地产开发",
+    "source_sector_provider": "东方财富",
+    "stage": "revenue",
+    "chain": [
+      "住宅开发与租赁物业"
+    ],
+    "fact": "在南京无锡苏州经营住宅开发租赁物业管理。",
+    "company_fact": "在南京无锡苏州经营住宅开发租赁物业管理。",
+    "ths_fact": "物业管理及长三角解析共同确认房地产经营。",
+    "reason": "住宅开发为直接成熟业务；银行参股和间接独角兽标签不足以替代地产身份。"
+  },
+  {
+    "id": "600535.SH",
+    "key": "innovative_drugs",
+    "sector": "创新药",
+    "source_sector_name": "创新药",
+    "source_sector_provider": "同花顺",
+    "stage": "pilot",
+    "chain": [
+      "创新中药与创新生物药研发"
+    ],
+    "fact": "坚持创新中药和先进治疗药物双轮驱动，围绕心血管代谢等开展研产销。",
+    "company_fact": "坚持创新中药和先进治疗药物双轮驱动，围绕心血管代谢等开展研产销。",
+    "ths_fact": "2026互动在研31项创新药；2026公告FGF21完成美国Ia且国内Ib完成入组。",
+    "reason": "创新药具有具体临床项目与公司创新主线交叉支撑；仅把研发管线标为临床阶段，不将全部中药收入当创新收入。"
+  },
+  {
+    "id": "600536.SH",
+    "key": "domestic_os",
+    "sector": "国产操作系统",
+    "source_sector_name": "国产操作系统",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "基础操作系统及行业应用"
+    ],
+    "fact": "基础软件和党政核心应用为主营，拥有操作系统至应用产品完整链条并开展产品销售。",
+    "company_fact": "基础软件和党政核心应用为主营，拥有操作系统至应用产品完整链条并开展产品销售。",
+    "ths_fact": "自主软件包含桌面及服务器操作系统，麒麟为核心基础软件。",
+    "reason": "国产操作系统是明确自主产品身份，信创为上层需求，AI接入和行业客户不替代核心主归属。"
+  },
+  {
+    "id": "600537.SH",
+    "key": "photovoltaics",
+    "sector": "光伏",
+    "source_sector_name": "光伏概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "光伏组件与电站"
+    ],
+    "fact": "经营晶硅电池组件研产销及电站开发运营；披露电池产能停产但组件业务继续。",
+    "company_fact": "经营晶硅电池组件研产销及电站开发运营；披露电池产能停产但组件业务继续。",
+    "ths_fact": "主要产品为光伏产品发电与EPC。",
+    "reason": "归实际光伏业务，明确电池停产边界；钙钛矿段为行业描述，不能当公司GW出货或量产证据。"
+  }
+]

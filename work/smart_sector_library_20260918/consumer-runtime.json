@@ -1,0 +1,126 @@
+{
+  "/api/daily-stock-selection/history": {
+    "status": 200,
+    "keys": [
+      "contract",
+      "dates",
+      "outcome",
+      "recent_outcomes",
+      "schedule",
+      "schema_version",
+      "selection",
+      "strategy_archive",
+      "trade_date",
+      "artifact_revision",
+      "artifact_generated_at"
+    ],
+    "industry_display": null,
+    "market_membership": null
+  },
+  "/api/limit-up-pool": {
+    "status": 400,
+    "keys": [
+      "error"
+    ],
+    "industry_display": null,
+    "market_membership": null
+  },
+  "/api/manual-portfolio/outlook": {
+    "status": 200,
+    "keys": [
+      "contract",
+      "daily_review",
+      "deterministic_price_prediction",
+      "generated_at",
+      "horizon",
+      "items",
+      "market_context",
+      "portfolio_revision",
+      "schema_version",
+      "source_snapshot_revision",
+      "source_trading_date",
+      "artifact_revision",
+      "artifact_generated_at"
+    ],
+    "industry_display": null,
+    "market_membership": null,
+    "item_count": 1
+  },
+  "/api/stock-relationships?symbol=002050": {
+    "status": 200,
+    "keys": [
+      "contract",
+      "schema_version",
+      "catalog_status",
+      "profile",
+      "market_membership",
+      "market_sector_revision"
+    ],
+    "industry_display": null,
+    "market_membership": {
+      "contract": "smart_sector_membership.v2",
+      "schema_version": 2,
+      "instrument_id": "002050.SZ",
+      "name": "三花智控",
+      "as_of": "2026-09-18",
+      "status": "verified",
+      "primary_sector_key": "humanoid_robotics",
+      "primary_sector_name": "人形机器人",
+      "chain": [
+        "机电执行器"
+      ],
+      "tags": [
+        "汽车热管理",
+        "液冷"
+      ],
+      "rationale": "市场概念与机电执行器产品、批量交付进展相互印证；热管理的营收占比不能直接否定机器人市场归属。",
+      "reviewed_on": "2026-09-18",
+      "review_due": "2026-10-18",
+      "evidence": [
+        {
+          "evidence_id": "sanhua-official",
+          "source_kind": "official_filing",
+          "publisher": "三花智控",
+          "title": "2026年8月27日投资者关系活动记录",
+          "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12563691&stockid=002050",
+          "published_at": "2026-08-27",
+          "retrieved_at": "2026-09-18T14:35:47Z",
+          "assertions": [
+            "机器人机电执行器推进批量交付与产线爬坡",
+            "汽车热管理实际经营",
+            "液冷产品涵盖泵、阀、换热器等"
+          ],
+          "content_sha256": null
+        },
+        {
+          "evidence_id": "sanhua-market",
+          "source_kind": "provider_membership",
+          "publisher": "同花顺",
+          "title": "公司概念行情贴合度栏目",
+          "source_url": "https://basic.10jqka.com.cn/002050/",
+          "published_at": null,
+          "retrieved_at": "2026-09-18T14:35:47Z",
+          "assertions": [
+            "栏目包含人形机器人、汽车热管理",
+            "列表顺序不等于已知贴合度数值"
+          ],
+          "content_sha256": null
+        },
+        {
+          "evidence_id": "sanhua-concept",
+          "source_kind": "provider_membership",
+          "publisher": "同花顺",
+          "title": "概念题材",
+          "source_url": "https://basic.10jqka.com.cn/002050/concept.html",
+          "published_at": null,
+          "retrieved_at": "2026-09-18T14:35:47Z",
+          "assertions": [
+            "包含人形机器人、汽车热管理、液冷服务器"
+          ],
+          "content_sha256": null
+        }
+      ],
+      "flags": []
+    }
+  }
+}

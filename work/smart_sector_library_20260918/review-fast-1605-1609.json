@@ -1,0 +1,109 @@
+[
+  {
+    "id": "300125.SZ",
+    "key": "green_power",
+    "sector": "绿色电力",
+    "source_sector_name": "绿色电力",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "光伏电站运营",
+      "新能源电力工程"
+    ],
+    "fact": "持有运营格尔木光伏电站并开展新能源电力工程。",
+    "ths_fact": "绿色电力条目记子公司光伏电站技改，光伏条目显示向下游工程延伸。",
+    "company_fact": "主营明确神光53MW光伏电站运营，天津嘉悦和阳光恒煜开展电力工程。",
+    "reason": "以实际清洁发电资产和工程经营确定绿色电力，旧电池扩产及新半导体团队筹备不等于当期投产收入；新业务实际交付后复核。"
+  },
+  {
+    "id": "300126.SZ",
+    "key": "general_equipment",
+    "sector": "通用设备",
+    "source_sector_name": "通用设备",
+    "source_sector_provider": "东方财富",
+    "stage": "revenue",
+    "chain": [
+      "专业电动工具"
+    ],
+    "fact": "研发生产销售专业电动工具。",
+    "ths_fact": "2026年8月锂电池条目实际为上市20V锂电电钻及角磨机。",
+    "company_fact": "主营明确专业电动工具研发生产销售与品牌经销。",
+    "reason": "已有通用设备匹配工具制造，锂电是工具动力形式，不能冒称电芯制造；少数股权不替代主业。"
+  },
+  {
+    "id": "300127.SZ",
+    "key": "rare_earth_magnets",
+    "sector": "稀土永磁",
+    "source_sector_name": "稀土永磁",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "粘结钕铁硼",
+      "钐钴及热压磁体"
+    ],
+    "fact": "持续生产销售稀土永磁元件和部件。",
+    "ths_fact": "稀土永磁明确粘结钕铁硼钐钴热压磁体，新能源车为电机用途。",
+    "company_fact": "主营及核心确认三类磁体研发产销与规模化生产。",
+    "reason": "实际磁性材料与细分板块直接一致，汽车军工是应用场景，不由单一客户标签替代材料定位。"
+  },
+  {
+    "id": "300128.SZ",
+    "key": "liquid_cooled_servers",
+    "sector": "液冷服务器",
+    "source_sector_name": "液冷服务器",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "液冷板部件",
+      "微流道换热组件"
+    ],
+    "fact": "自营液冷板零部件已取得订单并形成收入。",
+    "ths_fact": "2025年10月企业号解析列铲齿结构获订单用于B200液冷系统，B300仍送样。",
+    "company_fact": "东方财富明确电子精密制造背景；原2026半年报进一步列AI服务器液冷板部件及其独立收入。",
+    "reason": "已有液冷服务器由真实订单和半年报液冷部件收入支撑，链位为组件而非整机；不将所有消费电子收入算液冷，原摘要异常营收单位不引用。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "filing-300128-20260828",
+        "source_kind": "official_filing",
+        "publisher": "上市公司",
+        "title": "锦富技术2026年半年度报告",
+        "source_url": "https://static.cninfo.com.cn/finalpage/2026-08-28/1225522314.PDF",
+        "published_at": "2026-08-28",
+        "assertions": [
+          "液冷板部件为AI服务器换热零件；报告列该业务收入29,128,457.36元。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "300129.SZ",
+    "key": "commercial_space",
+    "sector": "商业航天",
+    "source_sector_name": "商业航天",
+    "source_sector_provider": "同花顺",
+    "stage": "orders",
+    "chain": [
+      "火箭燃料贮箱",
+      "航天结构件"
+    ],
+    "fact": "东台航天基地投产，火箭贮箱已有在执行订单。",
+    "ths_fact": "商业航天2月条目仍为建设期，已用9月原IR更新阶段。",
+    "company_fact": "东方财富确认风电海工制造及创新业务；9月16日原IR明确贮箱基地6月投产、鉴定件下线和近600万元在执行订单。",
+    "reason": "实际自营贮箱制造及订单让已有商业航天从规划转为市场增量主线；保留风电业务背景，不把鉴定件下线说成批量交付或把订单计入收入。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "ir-300129-20260916",
+        "source_kind": "official_filing",
+        "publisher": "上市公司",
+        "title": "泰胜风能9月16日业绩说明会活动记录",
+        "source_url": "https://www.cfi.net.cn/p20260916002388.html",
+        "published_at": "2026-09-16",
+        "assertions": [
+          "东台基地6月下旬投产，首件贮箱鉴定件下线，半年报披露时近600万元航天订单执行中；9月回复已进入批产，不披露具体客户。"
+        ]
+      }
+    ]
+  }
+]

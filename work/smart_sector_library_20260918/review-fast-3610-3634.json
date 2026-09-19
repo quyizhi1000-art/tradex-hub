@@ -1,0 +1,500 @@
+[
+  {
+    "id": "600939.SH",
+    "key": "infrastructure_construction",
+    "sector": "基建工程",
+    "chain": [
+      "公路、桥梁、隧道等基础设施施工"
+    ],
+    "stage": "revenue",
+    "fact": "主营基础设施建设投资、房建，并配套机械材料设计服务。",
+    "ths_fact": "已承接市外基建、综合管廊和城镇化工程；机器人为焊接场景应用，雅下仅资质及西藏既有项目。",
+    "company_fact": "主营基础设施建设投资、房建，并配套机械材料设计服务。",
+    "reason": "基建有真实项目及施工能力交叉支撑；不能以西藏分公司和资质直接认定雅下项目中标。",
+    "source_sector_name": "基建工程",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600941.SH",
+    "key": "cloud_computing",
+    "sector": "云计算",
+    "chain": [
+      "移动云公有云、私有云、边缘云和算力服务"
+    ],
+    "stage": "revenue",
+    "fact": "主营除连接通信外，明确包含数据中心、移动云和移动云应用等算力服务。",
+    "ths_fact": "云计算解释确认移动云收入及三类云服务，数据中心解释列真实算力业务。",
+    "company_fact": "主营除连接通信外，明确包含数据中心、移动云和移动云应用等算力服务。",
+    "reason": "移动云已形成对外经营，具有完整云基础设施和应用生态的市场身份；6G研究、机器人试点和单一AI应用不自动优先于成熟云服务。",
+    "source_sector_name": "云计算",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600955.SH",
+    "key": "electrolyte",
+    "sector": "电解液",
+    "chain": [
+      "锂电池电解液用碳酸酯溶剂"
+    ],
+    "stage": "revenue",
+    "fact": "EM及2025年报确认25万吨电解液溶剂项目建成投产，主营已包含溶剂研发生产销售。",
+    "ths_fact": "电解液解释为碳酸二甲酯及旧募投规划，不能直接视为现状。",
+    "company_fact": "EM及2025年报确认25万吨电解液溶剂项目建成投产，主营已包含溶剂研发生产销售。",
+    "reason": "按已经投产经营的新能源材料链判断，旧规划由原披露更新；公司供应溶剂而非将全部产能算成成品电解液。",
+    "source_sector_name": "电解液",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "600955.SH_12108018",
+        "source_kind": "official_filing",
+        "publisher": "维远股份",
+        "title": "2025年年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=600955&id=12108018",
+        "published_at": null,
+        "assertions": [
+          "25万吨电解液溶剂项目建成投产。",
+          "主营产品研发生产销售包括电解液溶剂；全面达产及高端客户认证仍需推进。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "600956.SH",
+    "key": "green_power",
+    "sector": "绿色电力",
+    "chain": [
+      "风电场开发运营及电力销售"
+    ],
+    "stage": "revenue",
+    "fact": "主营新能源发电与天然气业务，新能源环节包括风电场建设运营和对电网售电。",
+    "ths_fact": "绿色电力解释确认多省风电项目运营，AI智能体为检修问答内部工具。",
+    "company_fact": "主营新能源发电与天然气业务，新能源环节包括风电场建设运营和对电网售电。",
+    "reason": "已有风电运营构成明确绿电身份，天然气为并行经营；不把内部检修AI改为独立AI服务主业。",
+    "source_sector_name": "绿色电力",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600958.SH",
+    "key": "securities",
+    "sector": "券商",
+    "chain": [
+      "证券经纪、咨询及综合证券服务"
+    ],
+    "stage": "revenue",
+    "fact": "EM主营证券业务、投资咨询及证券财务顾问。",
+    "ths_fact": "互联网金融解释确认东方赢家经纪客户及实际交易，期货为全资东证。",
+    "company_fact": "EM主营证券业务、投资咨询及证券财务顾问。",
+    "reason": "实际证券服务及经纪客户支撑券商身份，线上交易是渠道并非脱离证券的独立科技主业。",
+    "source_sector_name": "券商概念",
+    "source_sector_provider": "东方财富",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600959.SH",
+    "key": "computing_power_leasing",
+    "sector": "算力租赁",
+    "chain": [
+      "智算资源池及政企算力服务"
+    ],
+    "stage": "revenue",
+    "fact": "EM包含政企数智服务；原年报确认算力服务以自主运营和生态合作方式经营，已建智能计算资源池。",
+    "ths_fact": "2026年3月解释明确算力租赁客户为政府、国企及金融企业，已有云资源和数据中心。",
+    "company_fact": "EM包含政企数智服务；原年报确认算力服务以自主运营和生态合作方式经营，已建智能计算资源池。",
+    "reason": "已有客户和实际算力服务区别于单纯筹建智算设备公司，支持新的算力经营身份；不把合资设备计划记成已量产，收入不作未披露量化。",
+    "source_sector_name": "算力租赁",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "600959.SH_12073998",
+        "source_kind": "official_filing",
+        "publisher": "江苏有线",
+        "title": "2025年年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=600959&id=12073998",
+        "published_at": null,
+        "assertions": [
+          "算力服务采用自主运营和生态合作模式，已有市场化客户服务。",
+          "已建智能计算资源池，形成网络接入至算力服务能力链。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "600960.SH",
+    "key": "huawei_automotive",
+    "sector": "华为汽车",
+    "chain": [
+      "赛力斯问界发动机配套活塞"
+    ],
+    "stage": "revenue",
+    "fact": "EM确认实际活塞和轻量化零部件制造；2026半年报确认完成北汽模塑、安道拓及莱尼线束三项交割，未含智联科技。",
+    "ths_fact": "华为汽车解释确认活塞参与问界发动机配套；智能座舱段对应原拟收购智联科技。",
+    "company_fact": "EM确认实际活塞和轻量化零部件制造；2026半年报确认完成北汽模塑、安道拓及莱尼线束三项交割，未含智联科技。",
+    "reason": "实际问界供货形成客户主题；不能把原四标的方案中智联科技自动算入最新已完成三标的交易，不据此声称取得智能座舱业务。",
+    "source_sector_name": "华为汽车",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "600960.SH_12572650",
+        "source_kind": "official_filing",
+        "publisher": "渤海汽车",
+        "title": "2026年半年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=600960&id=12572650",
+        "published_at": null,
+        "assertions": [
+          "2026年8月12日北汽模塑51%、廊坊安道拓51%、廊坊莱尼线束50%完成交割。",
+          "半年报保留活塞及轻量化经营，最终交易标的不含旧方案智联科技。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "600961.SH",
+    "key": "indium",
+    "sector": "铟",
+    "chain": [
+      "铅锌冶炼伴生铟回收及产品销售"
+    ],
+    "stage": "revenue",
+    "fact": "锌冶炼过程中综合回收铟等有价元素，加工为成品或半成品外销。",
+    "ths_fact": "铟和稀有金属解释确认铟锭产品及用途，金属回收说明采用萃取工艺。",
+    "company_fact": "锌冶炼过程中综合回收铟等有价元素，加工为成品或半成品外销。",
+    "reason": "铟是有真实产品及回收工艺支撑的特色资源身份；不因铅锌收入大而排除，也不沿用旧文宣称当前国内第一或新增产能。",
+    "source_sector_name": "铟",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600962.SH",
+    "key": "fruit_vegetable_processing",
+    "sector": "果蔬加工",
+    "chain": [
+      "浓缩苹果汁等果蔬汁浆加工销售"
+    ],
+    "stage": "revenue",
+    "fact": "EM主营浓缩果蔬汁；2026半年报披露8月26日取得重组注册批复，仍为购买电子院股份安排。",
+    "ths_fact": "芯片、智慧城市及房屋检测解释均对应拟收购电子院，不是原果汁经营。",
+    "company_fact": "EM主营浓缩果蔬汁；2026半年报披露8月26日取得重组注册批复，仍为购买电子院股份安排。",
+    "reason": "当前已确认经营选已有果蔬加工；注册批复不等于产权交割，电子院是明确的新复核触发，取得完成过户原证后应及时重判。",
+    "source_sector_name": "果蔬加工",
+    "source_sector_provider": "东方财富",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "600962.SH_12566960",
+        "source_kind": "official_filing",
+        "publisher": "国投中鲁",
+        "title": "2026年半年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=600962&id=12566960",
+        "published_at": null,
+        "assertions": [
+          "原业务为浓缩果蔬汁生产销售。",
+          "8月26日收到重组注册批复，披露拟收购电子院100%股份。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "600963.SH",
+    "key": "carbon_trading",
+    "sector": "碳交易",
+    "chain": [
+      "诚通碳汇：林业碳汇项目开发及收益分配"
+    ],
+    "stage": "orders",
+    "fact": "EM确认生态碳汇经营主体；原年报明确通过合同承接项目、实施指标开发，2025年20个项目进入开发。",
+    "ths_fact": "碳交易解释确认林业碳汇中选项目及专业平台；AI用于碳汇开发工具。",
+    "company_fact": "EM确认生态碳汇经营主体；原年报明确通过合同承接项目、实施指标开发，2025年20个项目进入开发。",
+    "reason": "碳汇开发合同及具体项目支撑特色市场主题；orders不把项目储备或开发面积当已签发CCER收入，部分合同解除和签发政策为持续复核项。",
+    "source_sector_name": "碳交易",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "600963.SH_11989502",
+        "source_kind": "official_filing",
+        "publisher": "岳阳林纸",
+        "title": "2025年年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=600963&id=11989502",
+        "published_at": null,
+        "assertions": [
+          "诚通碳汇按合同开发碳汇指标并分配收益，2025年20个项目进入开发。",
+          "存在2026年1月因政策解除合作合同的披露，不能把全部储备等同兑现。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "600965.SH",
+    "key": "funeral_services",
+    "sector": "殡仪服务",
+    "chain": [
+      "灵山宝塔陵园墓位及殡葬配套服务"
+    ],
+    "stage": "revenue",
+    "fact": "当前EM已明确运营灵山宝塔陵园并提供殡葬一体化服务，农业食品另并存。",
+    "ths_fact": "殡仪服务解释列宝塔陵园墓地销售、维护等；旧文为收购预案。",
+    "company_fact": "当前EM已明确运营灵山宝塔陵园并提供殡葬一体化服务，农业食品另并存。",
+    "reason": "以现有已经营殡葬业务和独特市场主题判断，不沿用旧预案当仍未收购；农业多业务不是排除该身份的理由。",
+    "source_sector_name": "殡仪服务",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600966.SH",
+    "key": "paper",
+    "sector": "造纸",
+    "chain": [
+      "白卡纸、文化纸及箱板纸"
+    ],
+    "stage": "revenue",
+    "fact": "主营完整覆盖白纸板、文化纸、箱板纸及石膏护面纸。",
+    "ths_fact": "纸浆及人民币升值解释正文确认卡纸、文化纸、箱板纸实际生产销售。",
+    "company_fact": "主营完整覆盖白纸板、文化纸、箱板纸及石膏护面纸。",
+    "reason": "实际产品集中在纸品制造，选择已有造纸行业；不因THS无造纸概念而机械选纸浆或汇率题材。",
+    "source_sector_name": "造纸",
+    "source_sector_provider": "东方财富",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600967.SH",
+    "key": "military",
+    "sector": "军工",
+    "chain": [
+      "坦克、轮式战车及相关装备"
+    ],
+    "stage": "revenue",
+    "fact": "主营高新武器装备研发制造，涵盖坦克、轮式战车及中口径火炮。",
+    "ths_fact": "军工及军民融合解释确认装备承制和军贸交装；人形为关键技术突破，无批量经营证据。",
+    "company_fact": "主营高新武器装备研发制造，涵盖坦克、轮式战车及中口径火炮。",
+    "reason": "完整军品研产交装形成核心市场身份；人形技术与无人机首飞保留阶段，不推定成熟订单收入。",
+    "source_sector_name": "军工",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600968.SH",
+    "key": "oil_service_engineering",
+    "sector": "油服工程",
+    "chain": [
+      "油田工程技术、装备运维和采油生产服务"
+    ],
+    "stage": "revenue",
+    "fact": "能源技术服务围绕油气田生产，包括钻完修井、采收率提升、装备维修、FPSO等。",
+    "ths_fact": "页岩气解释为一体化油服，LNG解释为运输；海水制氢处于示范运行。",
+    "company_fact": "能源技术服务围绕油气田生产，包括钻完修井、采收率提升、装备维修、FPSO等。",
+    "reason": "实际工程与生产服务构成油服身份；制氢示范和船舶运输是技术及业务延伸，不把示范产氢写作成熟收入。",
+    "source_sector_name": "油服工程",
+    "source_sector_provider": "东方财富",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600969.SH",
+    "key": "electric_power",
+    "sector": "电力",
+    "chain": [
+      "地方电网供电及综合能源"
+    ],
+    "stage": "revenue",
+    "fact": "EM主营供电与供水，为湖南地方电网运营企业，另有工业气体和新能源。",
+    "ths_fact": "电力改革及绿色电力正文均确认供电，低空为电力运维场景。",
+    "company_fact": "EM主营供电与供水，为湖南地方电网运营企业，另有工业气体和新能源。",
+    "reason": "电力覆盖持续配售电经营；低空巡检首先服务电网，不以运维场景推断已形成独立低空产业收入。",
+    "source_sector_name": "电力",
+    "source_sector_provider": "东方财富",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600970.SH",
+    "key": "machinery_equipment",
+    "sector": "机械装备",
+    "chain": [
+      "水泥生产线核心装备与EPC技术服务"
+    ],
+    "stage": "revenue",
+    "fact": "EM明确水泥全流程核心装备研发制造，产品包括粉磨、破碎、热工设备，并提供EPC。",
+    "ths_fact": "机械装备解释确认水泥技术装备和工程服务，风电含新EPC及合资建设。",
+    "company_fact": "EM明确水泥全流程核心装备研发制造，产品包括粉磨、破碎、热工设备，并提供EPC。",
+    "reason": "产业身份是装备及技术工程，不将水泥客户误记为自产水泥；海外和绿色项目属于应用链条。",
+    "source_sector_name": "机械装备",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600971.SH",
+    "key": "coal",
+    "sector": "煤炭",
+    "chain": [
+      "煤炭开采、洗选、运输与销售"
+    ],
+    "stage": "revenue",
+    "fact": "主营采煤洗选运输销售及生产服务，供电力、冶金和化工。",
+    "ths_fact": "煤炭解释列混煤、精煤、块煤等，贫煤用途涵盖发电和喷吹。",
+    "company_fact": "主营采煤洗选运输销售及生产服务，供电力、冶金和化工。",
+    "reason": "煤炭是完整实际经营身份；多煤种用途并存，不能仅凭供应商焦煤标签将所有产品改成焦煤。",
+    "source_sector_name": "煤炭概念",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600973.SH",
+    "key": "nuclear_fusion",
+    "sector": "可控核聚变",
+    "chain": [
+      "BEST、CRAFT聚变装置用超导线缆"
+    ],
+    "stage": "delivery",
+    "fact": "EM装备线缆业务确认BEST和CRAFT实际应用，并区分普通核电批量供货。",
+    "ths_fact": "2026年3月解释明确超导线缆用于BEST、CRAFT，另有早期ITER研究和样品。",
+    "company_fact": "EM装备线缆业务确认BEST和CRAFT实际应用，并区分普通核电批量供货。",
+    "reason": "聚变已由早期研究走到具体装置应用，支持市场主题；delivery仅指相关线缆应用，不拿国和一号及华龙收入冒充聚变收入。",
+    "source_sector_name": "可控核聚变",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600975.SH",
+    "key": "pig_farming",
+    "sector": "猪肉",
+    "chain": [
+      "生猪繁育养殖、屠宰肉品与配套饲料"
+    ],
+    "stage": "revenue",
+    "fact": "主营养殖、肉品销售和饲料，形成供港澳及内地的生猪产业链。",
+    "ths_fact": "猪肉解释列生猪养殖和肉品销售，冷链为全产业链环节。",
+    "company_fact": "主营养殖、肉品销售和饲料，形成供港澳及内地的生猪产业链。",
+    "reason": "生猪与肉品经营有完整交叉事实；智慧养殖合作不改变公司经营身份。",
+    "source_sector_name": "猪肉",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600976.SH",
+    "key": "innovative_drugs",
+    "sector": "创新药",
+    "chain": [
+      "中药1.1类创新药生产销售与管线"
+    ],
+    "stage": "revenue",
+    "fact": "EM药品处方线经营；原年报确认七蕊胃舒发货增长39%，紫贝宣肺首年销售发出超7000万元。",
+    "ths_fact": "创新药解释确认七蕊胃舒、小儿紫贝宣肺等获批。",
+    "company_fact": "EM药品处方线经营；原年报确认七蕊胃舒发货增长39%，紫贝宣肺首年销售发出超7000万元。",
+    "reason": "创新药已有实际商业化，不只是中药研发计划；revenue来自已售品种，获批未确认销售及临床管线分别看待。",
+    "source_sector_name": "创新药",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "600976.SH_12009490",
+        "source_kind": "official_filing",
+        "publisher": "健民集团",
+        "title": "2025年年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=600976&id=12009490",
+        "published_at": null,
+        "assertions": [
+          "七蕊胃舒胶囊和小儿紫贝宣肺糖浆为中药1.1类创新药。",
+          "2025年两品种已有销售发出数据，其他管线仍有临床或准入阶段。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "600977.SH",
+    "key": "ai_video",
+    "sector": "AI视频",
+    "chain": [
+      "中影神思影视图像修复与画质处理"
+    ],
+    "stage": "delivery",
+    "fact": "EM实际影视制作、电影科技研发及技术服务业务，为相关图像处理系统提供经营基础。",
+    "ths_fact": "AI视频解释确认自研中影神思已应用于多个电影项目，具有修复和画质增强功能。",
+    "company_fact": "EM实际影视制作、电影科技研发及技术服务业务，为相关图像处理系统提供经营基础。",
+    "reason": "现有AI影像系统有具体电影应用，选择已有AI视频主题；不把修复系统表述为文生视频基础模型，也未宣称独立AI收入规模。",
+    "source_sector_name": "AI视频",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600979.SH",
+    "key": "virtual_power_plant",
+    "sector": "虚拟电厂",
+    "chain": [
+      "分布式能源与负荷聚合调度运营"
+    ],
+    "stage": "delivery",
+    "fact": "EM已有供电和综合能源经营；2026半年报确认建成虚拟电厂运营平台并取得市场主体资格。",
+    "ths_fact": "2026年解释明确虚拟电厂已建成，聚合48家、235.5MW，迎峰度夏实际响应。",
+    "company_fact": "EM已有供电和综合能源经营；2026半年报确认建成虚拟电厂运营平台并取得市场主体资格。",
+    "reason": "平台已经参与实际调度，区别于概念规划；delivery仅指投入运营和响应，不将全部售电结算收入算成虚拟电厂专项收入。",
+    "source_sector_name": "虚拟电厂",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "600979.SH_12524678",
+        "source_kind": "official_filing",
+        "publisher": "广安爱众",
+        "title": "2026年半年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=600979&id=12524678",
+        "published_at": null,
+        "assertions": [
+          "已建成川渝两地部署的虚拟电厂运营平台。",
+          "爱众能源销售取得虚拟电厂运营商市场主体资格。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "600980.SH",
+    "key": "rare_earth_magnets",
+    "sector": "稀土永磁",
+    "chain": [
+      "稀土永磁及相关磁性材料"
+    ],
+    "stage": "delivery",
+    "fact": "EM磁性材料业务实际包括稀土永磁、铁氧体、永磁器件等，另经营矿冶装备。",
+    "ths_fact": "2025年8月解释明确稀土永磁仅小批量生产、主要供国内客户。",
+    "company_fact": "EM磁性材料业务实际包括稀土永磁、铁氧体、永磁器件等，另经营矿冶装备。",
+    "reason": "稀土永磁有实际制造和供货关系，不因铁氧体或装备业务较大而排除；维持小批量口径，不把全部磁材营收计入稀土。",
+    "source_sector_name": "稀土永磁",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600981.SH",
+    "key": "cross_border_ecommerce",
+    "sector": "跨境电商",
+    "chain": [
+      "自有品牌、海外仓及跨境消费品供应链"
+    ],
+    "stage": "revenue",
+    "fact": "EM主营供应链运营和金融投资，消费品供应链形成实际业务基础。",
+    "ths_fact": "跨境电商解释确认童装玩具箱包鞋等业务正常运营，并有自建海外仓模式。",
+    "company_fact": "EM主营供应链运营和金融投资，消费品供应链形成实际业务基础。",
+    "reason": "跨境渠道有真实产品和运营，不是仅海外投资标签；微小蚂蚁间接投资不构成更强主线。",
+    "source_sector_name": "跨境电商",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600982.SH",
+    "key": "biomass_power",
+    "sector": "生物质能发电",
+    "chain": [
+      "生物质电厂及综合能源运营"
+    ],
+    "stage": "revenue",
+    "fact": "主营含热电联产、生物质发电、抽水蓄能和综合能源服务。",
+    "ths_fact": "生物质能发电解释确认宁波明州和丰城宁能已投产。",
+    "company_fact": "主营含热电联产、生物质发电、抽水蓄能和综合能源服务。",
+    "reason": "已有生物质电厂投产运营支撑具体绿电身份；抽蓄与风电投资的新阶段不由一般主营描述推定。",
+    "source_sector_name": "生物质能发电",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  }
+]

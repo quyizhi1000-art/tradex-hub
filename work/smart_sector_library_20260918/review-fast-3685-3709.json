@@ -1,0 +1,402 @@
+[
+  {
+    "id": "601096.SH",
+    "key": "uhv",
+    "sector": "特高压",
+    "source_sector_name": "特高压",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "输电铁塔及构支架"
+    ],
+    "stage": "revenue",
+    "fact": "生产全系列电压等级铁塔构支架。",
+    "company_fact": "生产全系列电压等级铁塔构支架。",
+    "ths_fact": "参与国内全部特高压线路建设，供应大跨越铁塔。",
+    "reason": "直接特高压装备身份强于钢结构泛行业，自用能源监控非智能电网对外业务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601098.SH",
+    "key": "ai_agents",
+    "sector": "AI智能体",
+    "source_sector_name": "AI智能体",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "教育智能体及数字教材"
+    ],
+    "stage": "delivery",
+    "fact": "出版发行媒体及数字教育阅读服务。",
+    "company_fact": "出版发行媒体及数字教育阅读服务。",
+    "ths_fact": "A佳教育智能体已用于备教学评，智趣平台覆盖1559所学校。",
+    "reason": "既有教育内容转化为实际AI产品场景；短剧是并行内容产品而非唯一主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601099.SH",
+    "key": "securities",
+    "sector": "券商",
+    "source_sector_name": "券商概念",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "综合证券服务"
+    ],
+    "stage": "revenue",
+    "fact": "经纪信用投行资管投资及研究服务。",
+    "company_fact": "经纪信用投行资管投资及研究服务。",
+    "ths_fact": "互联网金融解析确认线上业务平台服务业务转型。",
+    "reason": "证券本体服务明确，早年合作意向不直接定互联网券商。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601100.SH",
+    "key": "construction_machinery",
+    "sector": "工程机械",
+    "source_sector_name": "工程机械概念",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "液压泵阀油缸系统"
+    ],
+    "stage": "revenue",
+    "fact": "研发制造液压元件系统供挖掘机盾构等设备。",
+    "company_fact": "研发制造液压元件系统供挖掘机盾构等设备。",
+    "ths_fact": "高端装备解析确认油缸配套三一卡特等主机客户。",
+    "reason": "当前保存候选未列人形机器人，不自造成员关系；工程机械液压有扎实交叉业务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601101.SH",
+    "key": "thermal_coal",
+    "sector": "动力煤",
+    "source_sector_name": "动力煤",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "动力煤生产销售物流"
+    ],
+    "stage": "revenue",
+    "fact": "生产煤炭甲醇，煤主要供电厂。",
+    "company_fact": "生产煤炭甲醇，煤主要供电厂。",
+    "ths_fact": "煤炭解析确认采销及铁路专用运输。",
+    "reason": "能源煤供应链身份明确，甲醇为相关联产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601106.SH",
+    "key": "nuclear_power",
+    "sector": "核电",
+    "source_sector_name": "核电",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "核反应堆压力容器及锻件"
+    ],
+    "stage": "delivery",
+    "fact": "制造重型技术装备及大型金属设备。",
+    "company_fact": "制造重型技术装备及大型金属设备。",
+    "ths_fact": "华龙一号福清5号压力容器已制造交付，核岛设备为具体产品。",
+    "reason": "核电关键装备是成熟主题，核聚变仅研发配套不写商业量产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601107.SH",
+    "key": "highways",
+    "sector": "高速公路",
+    "source_sector_name": "高速公路",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "四川高速运营"
+    ],
+    "stage": "revenue",
+    "fact": "投资运营成渝成雅等高速及沿线资源。",
+    "company_fact": "投资运营成渝成雅等高速及沿线资源。",
+    "ths_fact": "成渝解析确认高速建设经营管理。",
+    "reason": "高速收费运营身份稳定，充电设施为沿线延伸。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601108.SH",
+    "key": "securities",
+    "sector": "券商",
+    "source_sector_name": "券商概念",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "证券财富管理投行资管"
+    ],
+    "stage": "revenue",
+    "fact": "经营财富管理证券信用投行自营资管等。",
+    "company_fact": "经营财富管理证券信用投行自营资管等。",
+    "ths_fact": "共同富裕解析明确综合券商服务，蚂蚁合作为销售渠道且未参股。",
+    "reason": "金融渠道不替代券商主身份，不误写蚂蚁股权。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601111.SH",
+    "key": "aviation_transport",
+    "sector": "航空运输",
+    "source_sector_name": "航空运输",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "国内国际航空客运"
+    ],
+    "stage": "revenue",
+    "fact": "载旗航空公司经营国内外航线及机队。",
+    "company_fact": "载旗航空公司经营国内外航线及机队。",
+    "ths_fact": "人民币升值解析直接明确航空公司及国际航线经营。",
+    "reason": "航空运输对应经营，汇率收益只是风险因子。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601112.SH",
+    "key": "wind_power",
+    "sector": "风电",
+    "source_sector_name": "风电",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "风电叶片纤维织物及拉挤材料"
+    ],
+    "stage": "revenue",
+    "fact": "研发销售清洁能源纤维增强材料含叶片及光伏。",
+    "company_fact": "研发销售清洁能源纤维增强材料含叶片及光伏。",
+    "ths_fact": "招股解析确认高模超高模风电织物系统方案。",
+    "reason": "叶片材料对应真实风电产业链，碳玻多材料不机械全部归碳纤维。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601113.SH",
+    "key": "nylon",
+    "sector": "锦纶",
+    "source_sector_name": "锦纶",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "差别化民用锦纶长丝"
+    ],
+    "stage": "revenue",
+    "fact": "生产锦纶6和66长丝多系列产品。",
+    "company_fact": "生产锦纶6和66长丝多系列产品。",
+    "ths_fact": "锦纶解析明确POY等产品；电商解析已称原全资通拓。",
+    "reason": "当前锦纶经营双源一致，旧跨境电商不能继续作现有主营证据。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601116.SH",
+    "key": "supermarkets",
+    "sector": "超市",
+    "source_sector_name": "超市",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "社区生鲜连锁"
+    ],
+    "stage": "revenue",
+    "fact": "社区邻里生鲜超市经营。",
+    "company_fact": "社区邻里生鲜超市经营。",
+    "ths_fact": "同花顺具体列社区连锁鲜食零售及预制菜在售。",
+    "reason": "超市本体清晰，冷链处试运且服务内部需求，不当成熟物流主业。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601117.SH",
+    "key": "coal_chemicals",
+    "sector": "煤化工",
+    "source_sector_name": "煤化工概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "煤化工工程设计EPC"
+    ],
+    "stage": "revenue",
+    "fact": "化工煤化工石化工程全流程服务及新材料。",
+    "company_fact": "化工煤化工石化工程全流程服务及新材料。",
+    "ths_fact": "长期承建大量现代煤化工项目并具备煤气化液化等技术。",
+    "reason": "工程核心技术与市场认知相符，核聚变新中标尚待合同不压过成熟主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601118.SH",
+    "key": "rubber",
+    "sector": "橡胶",
+    "source_sector_name": "橡胶",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "天然橡胶种植加工贸易"
+    ],
+    "stage": "revenue",
+    "fact": "拥有境内外胶园初加工及销售贸易全链业务。",
+    "company_fact": "拥有境内外胶园初加工及销售贸易全链业务。",
+    "ths_fact": "橡胶与农业解析均确认天然橡胶全产业链。",
+    "reason": "商品资源产业明确，土地转租收益不改橡胶主营身份。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601121.SH",
+    "key": "iron_ore",
+    "sector": "铁矿石",
+    "source_sector_name": "铁矿石",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "铁矿采选及铁精粉"
+    ],
+    "stage": "revenue",
+    "fact": "开采选矿销售铁精粉予钢厂。",
+    "company_fact": "开采选矿销售铁精粉予钢厂。",
+    "ths_fact": "多金属解析仍明确主营铁矿开采加工。",
+    "reason": "黄金等为矿权伴生资源，不能替代实际铁矿经营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601123.SH",
+    "key": "iron_ore",
+    "sector": "铁矿石",
+    "source_sector_name": "铁矿石",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "铁矿采选及伴生钼回收"
+    ],
+    "stage": "revenue",
+    "fact": "铁矿采选铁精粉钼精矿销售及石灰石。",
+    "company_fact": "铁矿采选铁精粉钼精矿销售及石灰石。",
+    "ths_fact": "招股及小金属解析确认铁矿和伴生钼产品。",
+    "reason": "铁矿资源开发定位清晰，钼为综合利用链条。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601126.SH",
+    "key": "smart_grid",
+    "sector": "智能电网",
+    "source_sector_name": "智能电网",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "继电保护自动化电力电子"
+    ],
+    "stage": "revenue",
+    "fact": "为发输配用电提供继保自动化控制及电力电子。",
+    "company_fact": "为发输配用电提供继保自动化控制及电力电子。",
+    "ths_fact": "2025年回复确认相关产品方案及业绩贡献。",
+    "reason": "新型电网核心装备贯穿多场景，AIDC供配电为重要应用但不泛化为机房运营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601127.SH",
+    "key": "huawei_automotive",
+    "sector": "华为汽车",
+    "source_sector_name": "华为汽车",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "问界高端电动汽车"
+    ],
+    "stage": "revenue",
+    "fact": "聚焦问界整车研产销服。",
+    "company_fact": "聚焦问界整车研产销服。",
+    "ths_fact": "华为汽车解析具体列问界M9M7M5销售表现。",
+    "reason": "合作品牌车型与实际业务一致，人形尚框架协同不能当已交付。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601128.SH",
+    "key": "bank",
+    "sector": "银行",
+    "source_sector_name": "银行",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "小微三农及村镇金融"
+    ],
+    "stage": "revenue",
+    "fact": "经营公司零售金融市场村镇银行业务。",
+    "company_fact": "经营公司零售金融市场村镇银行业务。",
+    "ths_fact": "持有兴福村镇银行90%并已布局六省。",
+    "reason": "银行业务及控股村镇网络交叉，小微是链条细分。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601133.SH",
+    "key": "chips",
+    "sector": "芯片",
+    "source_sector_name": "芯片概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "半导体洁净室集成"
+    ],
+    "stage": "revenue",
+    "fact": "高科技工厂建厂技改洁净系统。",
+    "company_fact": "高科技工厂建厂技改洁净系统。",
+    "ths_fact": "参建12英寸晶圆DRAM及封装等项目洁净室。",
+    "reason": "半导体制造基础设施供应链清晰，不误称芯片设计或晶圆销售。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601136.SH",
+    "key": "securities",
+    "sector": "券商",
+    "source_sector_name": "券商概念",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "证券经纪投行资管"
+    ],
+    "stage": "revenue",
+    "fact": "经纪承销自营资产管理融资融券。",
+    "company_fact": "经纪承销自营资产管理融资融券。",
+    "ths_fact": "地域解析完整列证券服务种类，控股期货真实运营。",
+    "reason": "选择综合券商而非单一期货或国改标签。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601137.SH",
+    "key": "high_speed_copper_interconnect",
+    "sector": "铜缆高速连接",
+    "source_sector_name": "铜缆高速连接",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "高速连接器铜合金材料"
+    ],
+    "stage": "revenue",
+    "fact": "研发生产有色合金棒线带细丝用于AI等领域。",
+    "company_fact": "研发生产有色合金棒线带细丝用于AI等领域。",
+    "ths_fact": "2026年5月回复AI服务器铜连接材料2025年销量增长较快。",
+    "reason": "真实销售连接材料最贴合算力增量，光模块屏蔽材料不直接等于CPO产品。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601138.SH",
+    "key": "data_centers",
+    "sector": "数据中心(AIDC)",
+    "source_sector_name": "数据中心(AIDC)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "AI服务器及高速交换机"
+    ],
+    "stage": "revenue",
+    "fact": "云计算AI基础设施与通信网络设备制造。",
+    "company_fact": "云计算AI基础设施与通信网络设备制造。",
+    "ths_fact": "AIDC解析确认HPC模块化服务器，算力解析有AI服务器收入。",
+    "reason": "市场核心为AI基础设施，不能因公司名回到工业互联网，也不将CPO研发作已售。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601139.SH",
+    "key": "natural_gas",
+    "sector": "天然气",
+    "source_sector_name": "天然气",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "城燃供应LNG及综合能源"
+    ],
+    "stage": "revenue",
+    "fact": "经营城市管道燃气和LNG资源，另有胶膜与能源业务。",
+    "company_fact": "经营城市管道燃气和LNG资源，另有胶膜与能源业务。",
+    "ths_fact": "天然气解析确认管网特许经营和供应销售。",
+    "reason": "城燃供给是明确能源主身份，SOFC不是固态锂电池。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601155.SH",
+    "key": "commercial_real_estate",
+    "sector": "商业地产",
+    "source_sector_name": "商业地产",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "吾悦广场出租运营"
+    ],
+    "stage": "revenue",
+    "fact": "商业综合体运营及住宅开发销售。",
+    "company_fact": "商业综合体运营及住宅开发销售。",
+    "ths_fact": "2024年报解析确认地产开发物业出租管理。",
+    "reason": "吾悦商业资产运营形成清晰身份，装配式只是开发方式。",
+    "basis": "crosschecked_sources"
+  }
+]

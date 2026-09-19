@@ -1,0 +1,20 @@
+[
+  {
+    "route": "/",
+    "status": 200,
+    "sha256": "91a38c6adc3a9e768abaf8b2b9046fee5fa74a0f0f8e440fb9a35f6b64e037fc",
+    "matches_workspace": true
+  },
+  {
+    "route": "/watch/app.js",
+    "status": 200,
+    "sha256": "58c4aece2c88a141f6477fed1e59f82c8c1fcf182e31b8d76640ab842d9603d9",
+    "matches_workspace": true
+  },
+  {
+    "route": "/watch/styles.css",
+    "status": 200,
+    "sha256": "9dec1901cf5936b3d74526bf90c453a75a6ba3032aacbb5e3a75a54aadf7e989",
+    "matches_workspace": true
+  }
+]

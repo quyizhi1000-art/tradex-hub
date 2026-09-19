@@ -1,0 +1,358 @@
+--- before/reconstruction.py
++++ after/reconstruction.py
+@@ -4,7 +4,7 @@
+ 
+ import time as time_module
+ from collections.abc import Callable, Iterable, Mapping
+-from concurrent.futures import ThreadPoolExecutor, as_completed
++from concurrent.futures import FIRST_COMPLETED, ThreadPoolExecutor, wait
+ from dataclasses import dataclass
+ from datetime import date, datetime, time, timedelta
+ from threading import Lock
+@@ -294,6 +294,7 @@
+         self._index_points: dict[str, dict[time, Any]] = {}
+         self._index_previous_close: dict[str, tuple[str, float]] = {}
+         self._partial_trade_date: date | None = None
++        self._partial_provider_as_of: datetime | None = None
+         self._partial_previous_close: dict[str, float] = {}
+         self._partial_stock_prices: dict[time, dict[str, float]] = {}
+         self._prepared_rotation_date: date | None = None
+@@ -681,20 +682,30 @@
+                         "已复用进程重启前保存的同日精确分钟源",
+                     )
+                     return
+-            universe = fetch_a_share_universe_snapshot(
+-                now=observed,
+-                trade_date=target.date(),
+-            )
+-            provider_as_of = universe.metadata.provider_as_of
+-            if provider_as_of is None or provider_as_of.astimezone(SHANGHAI).date() != target.date() or provider_as_of.astimezone(SHANGHAI).time() < time(15, 0):
+-                raise RuntimeError("A-share universe does not prove the same-day close")
+-            previous_close = {
+-                item.instrument_id: item.previous_close
+-                for item in universe.quotes
+-                if item.previous_close is not None
+-            }
+-            if len(previous_close) != len(universe.quotes) or universe.excluded_row_count:
+-                raise RuntimeError("A-share universe lacks complete previous-close coverage")
++            if self._partial_trade_date != target.date() and self._source_cache is not None:
++                checkpoint = self._source_cache.read_checkpoint(target.date())
++                if checkpoint is not None:
++                    self._partial_trade_date = target.date()
++                    self._partial_provider_as_of = datetime.fromisoformat(checkpoint["provider_as_of"])
++                    self._partial_previous_close = dict(checkpoint["previous_close"])
++                    self._partial_stock_prices = {
++                        time.fromisoformat(minute): dict(values)
++                        for minute, values in checkpoint["stock_prices"].items()
++                    }
++            if self._partial_trade_date == target.date() and self._partial_provider_as_of is not None:
++                provider_as_of = self._partial_provider_as_of
++                previous_close = self._partial_previous_close
++            else:
++                universe = fetch_a_share_universe_snapshot(now=observed, trade_date=target.date())
++                provider_as_of = universe.metadata.provider_as_of
++                if provider_as_of is None or provider_as_of.astimezone(SHANGHAI).date() != target.date() or provider_as_of.astimezone(SHANGHAI).time() < time(15, 0):
++                    raise RuntimeError("A-share universe does not prove the same-day close")
++                previous_close = {
++                    item.instrument_id: item.previous_close
++                    for item in universe.quotes if item.previous_close is not None
++                }
++                if len(previous_close) != len(universe.quotes) or universe.excluded_row_count:
++                    raise RuntimeError("A-share universe lacks complete previous-close coverage")
+             if (
+                 self._partial_trade_date == target.date()
+                 and self._partial_previous_close == previous_close
+@@ -706,8 +717,18 @@
+             else:
+                 stock_prices = {minute: {} for minute in requested_times}
+             self._partial_trade_date = target.date()
++            self._partial_provider_as_of = provider_as_of
+             self._partial_previous_close = previous_close
+             self._partial_stock_prices = stock_prices
++
++            def checkpoint_sources() -> None:
++                if self._source_cache is not None:
++                    self._source_cache.record_checkpoint(
++                        trade_date=target.date(), provider_as_of=provider_as_of,
++                        previous_close=previous_close, stock_prices=stock_prices,
++                    )
++
++            checkpoint_sources()
+             codes = tuple(
+                 instrument_id
+                 for instrument_id in previous_close
+@@ -735,6 +756,7 @@
+                             stock_prices[minute][instrument_id] = exact[minute]
+                 completed_batches += 1
+                 loaded_instruments += len(batch)
++                checkpoint_sources()
+                 progress(
+                     completed_batches,
+                     len(batches),
+@@ -742,44 +764,7 @@
+                     f"已加载 {loaded_instruments}/{len(previous_close)} 只，逐只回退 {omitted_count} 只",
+                 )
+ 
+-            worker_count = (
+-                1 if self._batch_pause_seconds > 0 else self._batch_concurrency
+-            )
+-            if worker_count == 1:
+-                for number, batch in enumerate(batches, start=1):
+-                    loaded, omitted_count = self._load_stock_batch(
+-                        batch,
+-                        observed,
+-                        target.date(),
+-                        tuple(sorted(requested_times)),
+-                    )
+-                    accept_batch(batch, loaded, omitted_count)
+-                    if number < len(batches) and self._batch_pause_seconds > 0:
+-                        self._sleep(self._batch_pause_seconds)
+-            else:
+-                with ThreadPoolExecutor(
+-                    max_workers=worker_count,
+-                    thread_name_prefix="tradex-recovery-minute",
+-                ) as executor:
+-                    futures = {
+-                        executor.submit(
+-                            self._load_stock_batch,
+-                            batch,
+-                            observed,
+-                            target.date(),
+-                            tuple(sorted(requested_times)),
+-                        ): batch
+-                        for batch in batches
+-                    }
+-                    try:
+-                        for future in as_completed(futures):
+-                            batch = futures[future]
+-                            loaded, omitted_count = future.result()
+-                            accept_batch(batch, loaded, omitted_count)
+-                    except Exception:
+-                        for future in futures:
+-                            future.cancel()
+-                        raise
++            self._load_source_batches(batches, observed, target.date(), tuple(sorted(requested_times)), accept_batch)
+ 
+             overview = fetch_market_overview(now=observed)
+             identities = {
+@@ -831,6 +816,7 @@
+             self._index_points = index_points
+             self._index_previous_close = identities
+             self._partial_trade_date = None
++            self._partial_provider_as_of = None
+             self._partial_previous_close = {}
+             self._partial_stock_prices = {}
+ 
+@@ -867,8 +853,46 @@
+         self._index_points = index_points
+         self._index_previous_close = index_previous_close
+         self._partial_trade_date = None
++        self._partial_provider_as_of = None
+         self._partial_previous_close = {}
+         self._partial_stock_prices = {}
++
++    def _load_source_batches(self, batches, observed, trading_date, required_minutes, accept_batch):
++        worker_count = 1 if self._batch_pause_seconds > 0 else self._batch_concurrency
++        if worker_count == 1:
++            for number, batch in enumerate(batches, start=1):
++                loaded, omitted = self._load_stock_batch(batch, observed, trading_date, required_minutes)
++                accept_batch(batch, loaded, omitted)
++                if number < len(batches) and self._batch_pause_seconds > 0:
++                    self._sleep(self._batch_pause_seconds)
++            return
++        # Keep only the actual worker window queued. On failure, drain and save
++        # other running results before returning; later retries load only gaps.
++        remaining = iter(batches)
++        error = None
++        with ThreadPoolExecutor(max_workers=worker_count, thread_name_prefix="tradex-recovery-minute") as executor:
++            pending = {}
++            def fill():
++                while len(pending) < worker_count:
++                    batch = next(remaining, None)
++                    if batch is None:
++                        break
++                    pending[executor.submit(self._load_stock_batch, batch, observed, trading_date, required_minutes)] = batch
++            fill()
++            while pending:
++                completed, _ = wait(pending, return_when=FIRST_COMPLETED)
++                for future in completed:
++                    batch = pending.pop(future)
++                    try:
++                        loaded, omitted = future.result()
++                        accept_batch(batch, loaded, omitted)
++                    except Exception as exc:
++                        if error is None:
++                            error = exc
++                if error is None:
++                    fill()
++        if error is not None:
++            raise error
+ 
+     def _load_stock_batch(
+         self,
+@@ -906,7 +930,13 @@
+                 )
+             except Exception as exc:  # noqa: BLE001 - bounded provider backoff
+                 last = exc
+-                if "429" not in str(exc) or attempt == 2:
++                # The router currently aggregates provider failures as text.
++                # Retry only transient capacity/deadline failures, within the
++                # existing three-attempt budget; payload errors still fail.
++                retryable = any(token in str(exc).lower() for token in (
++                    "429", "deadline", "request capacity is busy", "rate budget is full",
++                ))
++                if not retryable or attempt == 2:
+                     raise
+                 self._sleep(20.0 * (attempt + 1))
+         raise RuntimeError("minute batch retry exhausted") from last
+@@ -922,15 +952,21 @@
+                 for row in records
+                 if row.get("record_kind") == "accepted_real"
+             }
+-            if target.time() not in accepted:
++            record = accepted.get(target.time())
++            if record is None:
+                 continue
+-            for row in self._history.get_timeline(candidate_date):
+-                if datetime.fromisoformat(row["minute_bucket"]).time() != target.time():
+-                    continue
+-                turnover = row["payload"].get("turnover") or {}
+-                amount = turnover.get("today_amount_cny")
+-                if turnover.get("available") and turnover.get("today_date") == candidate_date.isoformat() and turnover.get("as_of") == target.strftime("%H:%M") and isinstance(amount, (int, float)) and amount > 0:
+-                    return candidate_date, float(amount)
++            row = self._history.get_snapshot_by_pointer(
++                trade_date=candidate_date,
++                minute_bucket=record["minute_bucket"],
++                snapshot_id=record["snapshot_id"],
++                payload_digest=record["payload_digest"],
++            )
++            if row is None:
++                continue
++            turnover = row["payload"].get("turnover") or {}
++            amount = turnover.get("today_amount_cny")
++            if turnover.get("available") and turnover.get("today_date") == candidate_date.isoformat() and turnover.get("as_of") == target.strftime("%H:%M") and isinstance(amount, (int, float)) and amount > 0:
++                return candidate_date, float(amount)
+         raise RuntimeError("no accepted previous-trading-day same-minute turnover baseline")
+ 
+     @staticmethod
+--- before/recovery_source_cache.py
++++ after/recovery_source_cache.py
+@@ -4,6 +4,7 @@
+ 
+ import hashlib
+ import json
++import math
+ import os
+ import sqlite3
+ import zlib
+@@ -17,6 +18,7 @@
+ ENV_DB_PATH = "TRADEX_MARKET_WATCH_RECOVERY_SOURCE_DB"
+ CONTRACT = "market_watch_recovery_source_matrix.v1"
+ SCHEMA_VERSION = 1
++CHECKPOINT_CONTRACT = "market_watch_recovery_source_checkpoint.v1"
+ 
+ 
+ def _canonical_bytes(value: Any) -> bytes:
+@@ -36,7 +38,7 @@
+ 
+ 
+ def _positive_number(value: Any, *, name: str) -> float:
+-    if isinstance(value, bool) or not isinstance(value, (int, float)) or value <= 0:
++    if isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value) or value <= 0:
+         raise ValueError(f"{name} must be a positive number")
+     return float(value)
+ 
+@@ -78,7 +80,85 @@
+                 payload_blob BLOB NOT NULL,
+                 updated_at TEXT NOT NULL
+             );
++            CREATE TABLE IF NOT EXISTS recovery_source_checkpoints (
++                trade_date TEXT PRIMARY KEY,
++                payload_digest TEXT NOT NULL,
++                payload_blob BLOB NOT NULL,
++                updated_at TEXT NOT NULL
++            );
+             """
++        )
++
++    @staticmethod
++    def _checkpoint_payload(*, trade_date, provider_as_of, previous_close, stock_prices):
++        if provider_as_of.tzinfo is None or provider_as_of.utcoffset() is None:
++            raise ValueError("recovery checkpoint requires an aware close timestamp")
++        observed = provider_as_of.astimezone(SHANGHAI)
++        if observed.date() != trade_date or observed.time() < time(15):
++            raise ValueError("recovery checkpoint requires same-day close proof")
++        closes = {str(code): _positive_number(value, name="previous close") for code, value in previous_close.items()}
++        if not closes:
++            raise ValueError("recovery checkpoint requires the complete instrument universe")
++        prices = {}
++        for minute, values in stock_prices.items():
++            if not set(values).issubset(closes):
++                raise ValueError("recovery checkpoint contains an unexpected instrument")
++            prices[_time_key(minute)] = {
++                code: _positive_number(value, name="exact minute price")
++                for code, value in values.items()
++            }
++        return {
++            "contract": CHECKPOINT_CONTRACT,
++            "trade_date": trade_date.isoformat(),
++            "provider_as_of": observed.isoformat(timespec="seconds"),
++            "previous_close": closes,
++            "stock_prices": prices,
++        }
++
++    def record_checkpoint(self, *, trade_date, provider_as_of, previous_close, stock_prices) -> None:
++        """Keep validated partial inputs separate from publishable full matrices."""
++        payload = self._checkpoint_payload(
++            trade_date=trade_date, provider_as_of=provider_as_of,
++            previous_close=previous_close, stock_prices=stock_prices,
++        )
++        raw = _canonical_bytes(payload)
++        with sqlite3.connect(self.db_path, timeout=5) as connection:
++            connection.execute("PRAGMA journal_mode = WAL")
++            self._initialize(connection)
++            connection.execute(
++                """INSERT INTO recovery_source_checkpoints VALUES (?, ?, ?, ?)
++                ON CONFLICT(trade_date) DO UPDATE SET
++                    payload_digest=excluded.payload_digest,
++                    payload_blob=excluded.payload_blob, updated_at=excluded.updated_at""",
++                (trade_date.isoformat(), hashlib.sha256(raw).hexdigest(),
++                 zlib.compress(raw, level=1), datetime.now(SHANGHAI).isoformat(timespec="seconds")),
++            )
++            connection.execute("""DELETE FROM recovery_source_checkpoints WHERE trade_date NOT IN
++                (SELECT trade_date FROM recovery_source_checkpoints ORDER BY trade_date DESC LIMIT 2)""")
++
++    def read_checkpoint(self, trade_date: date) -> dict[str, Any] | None:
++        if not Path(self.db_path).exists():
++            return None
++        with sqlite3.connect(Path(self.db_path).as_uri() + "?mode=ro", uri=True, timeout=5) as connection:
++            if connection.execute("SELECT 1 FROM sqlite_master WHERE name='recovery_source_checkpoints'").fetchone() is None:
++                return None
++            row = connection.execute(
++                "SELECT payload_digest,payload_blob FROM recovery_source_checkpoints WHERE trade_date=?",
++                (trade_date.isoformat(),),
++            ).fetchone()
++        if row is None:
++            return None
++        raw = zlib.decompress(row[1])
++        if hashlib.sha256(raw).hexdigest() != row[0]:
++            raise RuntimeError("recovery checkpoint digest mismatch")
++        payload = json.loads(raw)
++        if payload.get("contract") != CHECKPOINT_CONTRACT or payload.get("trade_date") != trade_date.isoformat():
++            raise RuntimeError("recovery checkpoint identity mismatch")
++        return self._checkpoint_payload(
++            trade_date=trade_date,
++            provider_as_of=datetime.fromisoformat(payload["provider_as_of"]),
++            previous_close=payload["previous_close"],
++            stock_prices={time.fromisoformat(minute): values for minute, values in payload["stock_prices"].items()},
+         )
+ 
+     def record(
+@@ -205,6 +285,7 @@
+                 )
+                 """
+             )
++            connection.execute("DELETE FROM recovery_source_checkpoints WHERE trade_date=?", (trade_date.isoformat(),))
+         return {"action": action, "payload_digest": digest}
+ 
+     def read(

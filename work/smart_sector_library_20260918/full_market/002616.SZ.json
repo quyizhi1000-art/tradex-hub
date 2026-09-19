@@ -1,0 +1,63 @@
+{
+  "instrument_id": "002616.SZ",
+  "name": "长青集团",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "002616.SZ",
+    "name": "长青集团",
+    "memberships": [
+      "公用事业",
+      "电力",
+      "其他能源发电",
+      "广东板块",
+      "价值股",
+      "2025三季报预增",
+      "深股通",
+      "生物质能发电",
+      "绿色电力",
+      "碳交易",
+      "雄安新区",
+      "节能环保",
+      "新能源"
+    ],
+    "business_sections": [
+      {
+        "title": "生物质热电联产、工业园区燃煤集中供热、生活垃圾发电业务",
+        "kind": "主营业务",
+        "text": "公司报告期内主营业务为生物质热电联产、工业园区燃煤集中供热和生活垃圾发电业务，从事电力和热力生产及生物质综合利用。"
+      },
+      {
+        "title": "风险管控优势",
+        "kind": "核心竞争力",
+        "text": "公司创立至今，从单一零部件阀门做到国内领先，到燃气具整机做到外销第一梯队，再到进军环保领域将农林生物质热电联产做到行业前列，每次行业转型既将公司推到一个新的发展高度，同时又使公司进入未知市场风险之中。因此在跨入新行业或新领域时需要公司管理层审时度势、精心规划，识别并充分评估潜在风险，及时调整业务节奏甚至转向。"
+      },
+      {
+        "title": "经营效益优势",
+        "kind": "核心竞争力",
+        "text": "公司深耕细作环保热能产业20年，依托合理的项目规划布局、先进高效的技术路线和对燃料成本的精细化管理能力，逐步聚焦于农林生物质热电联产、工业园区燃煤集中供热等业务板块。"
+      },
+      {
+        "title": "运营规模优势",
+        "kind": "核心竞争力",
+        "text": "国信证券研报显示，按照2024年农林生物质发电装机容量排名，公司的装机规模位居全国第三（前二顺位分别是国企央企）、民营企业第一。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ002616",
+    "fetched_at": "2026-09-18T22:52:00.280236+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "供电"
+}

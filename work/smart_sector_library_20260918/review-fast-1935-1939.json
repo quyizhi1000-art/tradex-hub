@@ -1,0 +1,80 @@
+[
+  {
+    "id": "300481.SZ",
+    "key": "oled",
+    "sector": "OLED",
+    "source_sector_name": "OLED",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "有机光电材料中间体"
+    ],
+    "fact": "主营顺酐衍生物和功能材料中间体研发产销，后者用于有机光电材料。",
+    "ths_fact": "2026年6月回复明确功能材料中间体下游用于OLED且不生产面板。",
+    "company_fact": "主营顺酐衍生物和功能材料中间体研发产销，后者用于有机光电材料。",
+    "reason": "已有OLED体现精细中间体链与市场识别，清楚限定材料供应而非面板成品，风电树脂用途并行。"
+  },
+  {
+    "id": "300482.SZ",
+    "key": "in_vitro_diagnostics",
+    "sector": "体外诊断",
+    "source_sector_name": "体外诊断",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "POCT诊断试剂",
+      "配套检测仪器"
+    ],
+    "fact": "主营快速诊断试剂和仪器研发制造营销，涵盖临床重症慢病及家庭健康。",
+    "ths_fact": "体外诊断明确快速检测全产品体系，智能医疗主要参股AI公司。",
+    "company_fact": "主营快速诊断试剂和仪器研发制造营销，涵盖临床重症慢病及家庭健康。",
+    "reason": "全场景POCT有独立产品经营，AI参股和内部数字化不自动改成AI制药；毒品检测不等于生产该受检物质。"
+  },
+  {
+    "id": "300483.SZ",
+    "key": "natural_gas",
+    "sector": "天然气",
+    "source_sector_name": "天然气",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "天然气勘探开发",
+      "生产销售及增压"
+    ],
+    "fact": "报告主营天然气，由中海沃邦等主体经营全链条。",
+    "ths_fact": "天然气条目明确勘探生产代输销售。",
+    "company_fact": "报告主营天然气，由中海沃邦等主体经营全链条。",
+    "reason": "已有天然气是明确现有业务，历史园艺标签不代表现在主归属。"
+  },
+  {
+    "id": "300484.SZ",
+    "key": "new_energy_vehicles",
+    "sector": "新能源汽车",
+    "source_sector_name": "新能源汽车",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "电机驱动控制器",
+      "车用电控系统"
+    ],
+    "fact": "主营新能源驱动及工控产品，研发制造销售电机控制器变频伺服和电梯系统。",
+    "ths_fact": "新能源车条目列主辅驱及多合一控制器，比亚迪已有销售。",
+    "company_fact": "主营新能源驱动及工控产品，研发制造销售电机控制器变频伺服和电梯系统。",
+    "reason": "已有新能源车由真实驱动控制产品支撑，人形为参股华创协同，低空旧资料为技术攻关，不能等同本体规模收入。"
+  },
+  {
+    "id": "300485.SZ",
+    "key": "biological_products",
+    "sector": "生物制品",
+    "source_sector_name": "生物制品",
+    "source_sector_provider": "东方财富",
+    "stage": "revenue",
+    "chain": [
+      "生物生化注射制剂"
+    ],
+    "fact": "主营生物生化注射针剂，多项已上市药品及规模纯化技术。",
+    "ths_fact": "肝炎抗肿瘤解析列胸腺肽等具体药品，创新药条目只是开发平台。",
+    "company_fact": "主营生物生化注射针剂，多项已上市药品及规模纯化技术。",
+    "reason": "已有生物制品最能对应实际核心药物，创新药平台尚缺具体独立管线阶段交叉，疫苗为少数股权不计为自主疫苗生产。"
+  }
+]

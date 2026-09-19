@@ -1,0 +1,77 @@
+{
+  "instrument_id": "000010.SZ",
+  "name": "*ST美丽",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "000010.SZ",
+    "name": "*ST美丽",
+    "memberships": [
+      "建筑装饰",
+      "基础建设",
+      "园林工程",
+      "广东板块",
+      "股权分散",
+      "破增发价股",
+      "超跌股",
+      "低价股",
+      "QFII重仓",
+      "ST股",
+      "新型城镇化",
+      "工程建设",
+      "PPP模式",
+      "深圳特区",
+      "参股期货"
+    ],
+    "business_sections": [
+      {
+        "title": "市政基础设施建设、建筑施工及公路工程",
+        "kind": "主营业务",
+        "text": "报告期内，公司仍以市政基础设施建设、建筑施工及公路工程为核心业务，围绕基础设施及相关工程领域开展经营活动。公司主要通过工程总承包、施工总承包、专业工程分包及建筑物资贸易等模式组织实施项目，业务结构整体保持稳定。"
+      },
+      {
+        "title": "资质优势",
+        "kind": "核心竞争力",
+        "text": "公司下属子公司具备多项施工总承包及专业承包一级资质，涵盖市政公用工程、公路工程、铁路工程、建筑工程、水利水电工程、电力工程及相关专业领域，资质体系较为完善。"
+      },
+      {
+        "title": "跨区域施工能力",
+        "kind": "核心竞争力",
+        "text": "公司及下属子公司在川渝地区、江浙地区及粤港澳大湾区、长三角经济区等区域开展业务布局，其中粤港澳大湾区为公司重点深耕区域之一。依托区域经济活跃度及基础设施建设需求，公司在相关区域形成了相对稳定的市场基础和项目实施能力。"
+      },
+      {
+        "title": "市场布局优势",
+        "kind": "核心竞争力",
+        "text": "公司结合国家宏观政策导向及行业结构调整趋势，关注“保障性住房建设、城中村改造和平急两用公共基础设施建设”等重点领域，同时跟踪新能源基础设施、城市更新等相关市场机会，逐步优化业务布局方向。"
+      },
+      {
+        "title": "管理及业务模式优势",
+        "kind": "核心竞争力",
+        "text": "公司结合宏观经济形势及行业发展趋势，持续对管理体系和经营模式进行优化调整，提升组织运行效率和项目管理水平。公司经营管理层根据市场环境变化和业务结构特点，动态完善经营策略，强化精细化管理，提升项目执行能力。"
+      },
+      {
+        "title": "人才战略优势",
+        "kind": "核心竞争力",
+        "text": "公司坚持以人才为核心的发展理念，注重各层级人才梯队建设，持续优化专业结构和岗位配置，逐步完善管理、技术及项目实施等多领域人才体系。围绕主营业务发展需要，公司加强复合型、专业型人才的引进与培养，提升团队整体协同能力。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ000010",
+    "fetched_at": "2026-09-18T22:35:13.982323+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [
+    "房地产"
+  ],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "工程组合"
+}

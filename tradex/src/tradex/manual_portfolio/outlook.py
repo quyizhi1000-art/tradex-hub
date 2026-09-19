@@ -94,18 +94,9 @@ def _relationship_context(
 def _relationship_text(context: ManualPortfolioRelationshipContextV1 | None) -> str:
     if context is None:
         return "本地关系库没有可用归属；本次不使用供应商板块名称补位。"
-    business = " > ".join(context.business_path) or "业务目录未核验"
-    industry = " > ".join(context.industry_path) or "统计行业未核验"
-    verification = {
-        "verified": "已核验",
-        "corroborated": "已交叉佐证",
-        "provider_only": "仅结构化来源，待佐证",
-        "disputed": "归属有冲突",
-        "stale": "归属已过期",
-        "unresolved": "归属未解决",
-    }[context.verification_status]
+    sector = context.market_sector_name if context.market_sector_status == "verified" else None
     return (
-        f"本地关系库：业务目录 {business}；统计行业 {industry}（{verification}）。"
+        f"聪明板块库：市场主归属 {sector or '待核验'}。"
         "次日只有同目录股票多数同向时，才把个股强弱解释为板块共振；"
         "未取得同目录聚合时明确记为未核验。"
     )
@@ -332,9 +323,9 @@ def build_manual_portfolio_outlook(
                 "则上一交易日区间逻辑失效。",
             )
             catalog_label = (
-                " > ".join(relationship.business_path or relationship.industry_path)
-                if relationship is not None
-                else "本地关系库对应同类"
+                relationship.market_sector_name
+                if relationship is not None and relationship.market_sector_status == "verified"
+                else "聪明板块库待核验"
             )
             tomorrow_checkpoints = (
                 f"09:25：只记录相对前收 {price_plan.previous_close:.2f} 的竞价缺口；"

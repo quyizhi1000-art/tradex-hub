@@ -1,0 +1,74 @@
+{
+  "instrument_id": "002522.SZ",
+  "name": "浙江众成",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "002522.SZ",
+    "name": "浙江众成",
+    "memberships": [
+      "基础化工",
+      "塑料",
+      "膜材料",
+      "浙江板块",
+      "破增发价股",
+      "专精特新",
+      "富时罗素",
+      "深股通",
+      "融资融券",
+      "光纤概念",
+      "通信技术",
+      "5G概念",
+      "央国企改革",
+      "新材料"
+    ],
+    "business_sections": [
+      {
+        "title": "热收缩膜产品",
+        "kind": "主营业务",
+        "text": "公司是国内最大的POF热收缩薄膜生产企业，自2001年10月设立至今，已能生产 3大类 8个系列高品质的热收缩膜产品。"
+      },
+      {
+        "title": "行业地位突出，规模优势显著",
+        "kind": "核心竞争力",
+        "text": "公司是国内最早涉足POF热收缩膜生产领域的企业之一，历经多年深耕发展，已成为全球POF系列热收缩膜产能规模最大的企业，产品市场占有率位居全球第二位，仅次于美国希悦尔公司，行业地位突出，规模优势尤为显著。"
+      },
+      {
+        "title": "通过设备自主研发制造，实现成本控制与技术领先，产品性价比高",
+        "kind": "核心竞争力",
+        "text": "公司自成立以来，高度重视成本管控和技术创新，持续深耕生产设备的改造升级与自主研发制造。公司已成功研发并自制多条具有国际领先水平的生产线及配套设备，其中聚烯烃热收缩膜生产线、电子束交联塑料管膜多管导向装置等多项设备研发成果均获国家专利认证。"
+      },
+      {
+        "title": "深耕工艺创新，产品品质达行业领先水平",
+        "kind": "核心竞争力",
+        "text": "作为国内POF热收缩膜行业的领跑者，公司长期注重自主创新能力培育，构建了相对成熟的持续创新机制，在工艺创新领域取得了一系列重要成果，形成了一批技术含量较高的专利技术和非专利技术。"
+      },
+      {
+        "title": "坚持产品研发创新，品种体系齐全且结构持续优化",
+        "kind": "核心竞争力",
+        "text": "公司始终践行“赢在领先”的发展战略，经过多年实践积累与持续的新产品研发，产品体系日趋丰富完善。目前，公司已形成POF普通型膜、POF交联膜、POF印刷膜等3大类8个系列的产品序列，成为全球热收缩膜产品系列最丰富的供应商之一，能够充分满足不同客户的多样化采购需求。"
+      },
+      {
+        "title": "聚焦优质客户资源，品牌影响力持续提升",
+        "kind": "核心竞争力",
+        "text": "塑料包装薄膜企业的品牌价值和市场竞争力，更多取决于所合作客户的品牌知名度和行业市场地位，客户价值直接决定公司核心价值和行业地位。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ002522",
+    "fetched_at": "2026-09-18T22:50:02.409963+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "热塑性弹性体"
+}

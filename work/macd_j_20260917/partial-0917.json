@@ -1,0 +1,36 @@
+{
+  "trade_date": "2026-09-17",
+  "artifact_generated_at": "2026-09-17T09:45:24.966881+00:00",
+  "results": [
+    {
+      "strategy_id": "balanced-multifactor-a-share",
+      "strategy_version": "v1",
+      "generated_at": "2026-09-17T17:44:02.797639+08:00",
+      "count": 20
+    },
+    {
+      "strategy_id": "next-session-limit-up-tendency-main-board",
+      "strategy_version": "v2",
+      "generated_at": "2026-09-17T17:44:02.797639+08:00",
+      "count": 20
+    },
+    {
+      "strategy_id": "long-upper-shadow-main-board",
+      "strategy_version": "v3",
+      "generated_at": "2026-09-17T17:44:02.797639+08:00",
+      "count": 84
+    },
+    {
+      "strategy_id": "upward-volume-surge-main-board",
+      "strategy_version": "v2",
+      "generated_at": "2026-09-17T17:44:02.797639+08:00",
+      "count": 170
+    }
+  ],
+  "missing_strategy_ids": [
+    "macd-j-upturn-main-board"
+  ],
+  "reason": "signal-day published indicator endpoint returned no rows",
+  "authorization": "User authorized early post-close generation at 17:39; real clock preserved",
+  "previous_archives_unchanged": true
+}

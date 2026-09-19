@@ -1,0 +1,60 @@
+{
+  "instrument_id": "002254.SZ",
+  "name": "泰和新材",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "002254.SZ",
+    "name": "泰和新材",
+    "memberships": [
+      "基础化工",
+      "化学纤维",
+      "其他化学纤维",
+      "山东板块",
+      "2026中报预增",
+      "破增发价股",
+      "标准普尔",
+      "富时罗素",
+      "深股通",
+      "融资融券",
+      "光纤概念",
+      "电池技术",
+      "固态电池",
+      "军民融合",
+      "无人机",
+      "央国企改革",
+      "铁路基建",
+      "锂电池概念",
+      "新材料",
+      "军工"
+    ],
+    "business_sections": [
+      {
+        "title": "绿色化工、高端纺织、高性能纤维、新能源材料等",
+        "kind": "主营业务",
+        "text": "公司业务横跨绿色化工、高端纺织、高性能纤维、新能源材料等众多产业领域，是中国首家氨纶、间位芳纶、对位芳纶、芳纶纸生产企业。目前，间位芳纶、芳纶纸产能居全球第二位，对位芳纶产能居全球第三位，氨纶产能居全球第五位，产品服务于纺织、医疗、信息、交通、环保、应急等国民经济各相关领域。"
+      },
+      {
+        "title": "核心竞争力",
+        "kind": "核心竞争力",
+        "text": "公司是国务院科改示范企业、国家技术创新示范企业、国家制造业单项冠军、国家知识产权示范企业，在国内率先突破氨纶、间位芳纶、芳纶纸、对位芳纶产业化技术和全球首创的智能纤维产业化技术，引领了国内相关行业的发展；公司注重产学研用协调发展，拥有国家认定企业技术中心、国家芳纶工程技术研究中心、山东省芳纶产业技术创新中心、博士后科研工作站等行业领先的研发平台，3次荣获国家科技进步奖，20次荣获省部级科技进步奖。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ002254",
+    "fetched_at": "2026-09-18T22:44:44.550990+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "安全防护、信息技术及新能源产业用"
+}

@@ -1,0 +1,426 @@
+[
+  {
+    "id": "688006.SH",
+    "key": "lithium_batteries",
+    "sector": "锂电池",
+    "source_sector_name": "锂电池概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "化成分容",
+      "后段设备"
+    ],
+    "stage": "revenue",
+    "fact": "电池化成分容测试物流整线供三星LG及国内客户。",
+    "company_fact": "电池化成分容测试物流整线供三星LG及国内客户。",
+    "ths_fact": "固态解释半固态中试线合作，全固态后处理研发。",
+    "reason": "选实际锂电装备完整市场，固态后段待具体设备交样披露。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688007.SH",
+    "key": "ai_glasses",
+    "sector": "AI眼镜",
+    "source_sector_name": "AI眼镜",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "AR光机",
+      "激光显示"
+    ],
+    "stage": "product",
+    "fact": "原创半导体激光光源架构及显示器件整机研发生产。",
+    "company_fact": "原创半导体激光光源架构及显示器件整机研发生产。",
+    "ths_fact": "AR眼镜蜻蜓和彩虹多款单绿彩色光机已推出。",
+    "reason": "具体眼镜光机实品与显示能力交叉，product非批量收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688008.SH",
+    "key": "memory_chips",
+    "sector": "存储芯片",
+    "source_sector_name": "存储芯片",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "内存接口",
+      "高速互连"
+    ],
+    "stage": "revenue",
+    "fact": "内存接口模组配套Retimer CXL芯片实际设计销售。",
+    "company_fact": "内存接口模组配套Retimer CXL芯片实际设计销售。",
+    "ths_fact": "内存接口RCD/DB及MRCD/MDB等明确产品。",
+    "reason": "存储互连核心身份，非自产DRAM存储颗粒。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688009.SH",
+    "key": "low_altitude_economy",
+    "sector": "低空经济",
+    "source_sector_name": "低空经济",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "低空交通管控",
+      "调度系统"
+    ],
+    "stage": "product",
+    "fact": "轨道交通安全控制通信系统研发制造集成交付能力。",
+    "company_fact": "轨道交通安全控制通信系统研发制造集成交付能力。",
+    "ths_fact": "已发布数字化低空交通管理系统，空域智能管控具体成果。",
+    "reason": "自研管控技术由轨交迁移形成实际产品，product不推低空收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688010.SH",
+    "key": "commercial_space",
+    "sector": "商业航天",
+    "source_sector_name": "商业航天",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "箭载镜头",
+      "星载光学"
+    ],
+    "stage": "delivery",
+    "fact": "特种全光谱镜头光电系统已用于重大航天工程。",
+    "company_fact": "特种全光谱镜头光电系统已用于重大航天工程。",
+    "ths_fact": "箭载镜头批产，低轨激光通信镜头小批交付。",
+    "reason": "具体商业航天镜头已交付，非仅历史国家航天背书。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688011.SH",
+    "key": "military",
+    "sector": "军工",
+    "source_sector_name": "军工",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "光学制导",
+      "目标仿真"
+    ],
+    "stage": "revenue",
+    "fact": "军工光学制导批配及仿真测试激光对抗。",
+    "company_fact": "军工光学制导批配及仿真测试激光对抗。",
+    "ths_fact": "国防武器系统高端光电组件装置与解决方案。",
+    "reason": "军工核心器件身份明确。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688012.SH",
+    "key": "semiconductor_equipment",
+    "sector": "半导体设备",
+    "source_sector_name": "半导体设备",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "刻蚀",
+      "薄膜沉积"
+    ],
+    "stage": "revenue",
+    "fact": "CCP ICP刻蚀沉积MOCVD设备已用于先进制程及客户量产。",
+    "company_fact": "CCP ICP刻蚀沉积MOCVD设备已用于先进制程及客户量产。",
+    "ths_fact": "芯片解析刻蚀薄膜CMP MOCVD。",
+    "reason": "自有设备准确产业身份，非终端芯片制造。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688013.SH",
+    "key": "smart_medical",
+    "sector": "智能医疗",
+    "source_sector_name": "智能医疗",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "MA手术平台",
+      "末端执行器"
+    ],
+    "stage": "pilot",
+    "fact": "吻合器及手术机器人有源末端产品研发经营。",
+    "company_fact": "吻合器及手术机器人有源末端产品研发经营。",
+    "ths_fact": "MA智能平台产线工艺验证完成正在产品技术验证。",
+    "reason": "具体机器人手术平台验证支撑pilot，未获上市注册及临床商业化不声称。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688015.SH",
+    "key": "rail_transit",
+    "sector": "轨道交通",
+    "source_sector_name": "轨道交通",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "CBTC信号",
+      "系统集成"
+    ],
+    "stage": "revenue",
+    "fact": "自主CBTC轨交信号设备集成总包维护。",
+    "company_fact": "自主CBTC轨交信号设备集成总包维护。",
+    "ths_fact": "轨交解析完整产品及新建改造铁路市场。",
+    "reason": "轨交实际交付确定，低空子公司业务方向待产品具体落地再复核。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688016.SH",
+    "key": "medical_devices",
+    "sector": "医疗器械",
+    "source_sector_name": "医疗器械概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "血管介入",
+      "覆膜支架"
+    ],
+    "stage": "revenue",
+    "fact": "主动脉外周血管支架球囊滤器已获批经营。",
+    "company_fact": "主动脉外周血管支架球囊滤器已获批经营。",
+    "ths_fact": "介入医疗器械研发生产销售。",
+    "reason": "真实高端介入产品。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688017.SH",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "谐波减速器",
+      "关节传动"
+    ],
+    "stage": "product",
+    "fact": "精密减速器机电一体化模块及自动化装备研发制造。",
+    "company_fact": "精密减速器机电一体化模块及自动化装备研发制造。",
+    "ths_fact": "人形客户合作且具备定制到批产交付能力。",
+    "reason": "核心人形关节传动有实际定制产品能力，保守product不把通用减速器营收全当人形。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688018.SH",
+    "key": "ai_agents",
+    "sector": "AI智能体",
+    "source_sector_name": "AI智能体",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "AIoT芯片",
+      "喵伴开发板"
+    ],
+    "stage": "product",
+    "fact": "连接处理芯片至操作系统软件云AI全栈技术生态。",
+    "company_fact": "连接处理芯片至操作系统软件云AI全栈技术生态。",
+    "ths_fact": "喵伴智能体开发板已推出开源支持自然语义意图识别。",
+    "reason": "具体智能体硬件软件平台自营产品，非泛连接模型概念。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688019.SH",
+    "key": "advanced_packaging",
+    "sector": "先进封装",
+    "source_sector_name": "先进封装",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "CMP材料",
+      "电镀化学品"
+    ],
+    "stage": "revenue",
+    "fact": "先进封装电镀液多品量产，CMP和湿化学品覆盖晶圆及封装。",
+    "company_fact": "先进封装电镀液多品量产，CMP和湿化学品覆盖晶圆及封装。",
+    "ths_fact": "抛光液光胶去除剂已贡献收入用于先进封装。",
+    "reason": "明确高端封装材料实际销售，去除剂不是光刻胶本体。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688020.SH",
+    "key": "pcb",
+    "sector": "PCB",
+    "source_sector_name": "PCB概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "超薄铜箔",
+      "屏蔽膜"
+    ],
+    "stage": "revenue",
+    "fact": "屏蔽膜电子铜箔挠性覆铜板电阻膜为实际收入。",
+    "company_fact": "屏蔽膜电子铜箔挠性覆铜板电阻膜为实际收入。",
+    "ths_fact": "可剥铜载板及RTF柔性板铜箔已测试获小批订单。",
+    "reason": "具体板材料经营与客户验证交叉，非所有铜箔已大批高端封装。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688021.SH",
+    "key": "vehicle_exhaust_treatment",
+    "sector": "尾气治理",
+    "source_sector_name": "尾气治理",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "蜂窝陶瓷",
+      "后处理载体"
+    ],
+    "stage": "revenue",
+    "fact": "移动固定源蜂窝陶瓷后处理载体生产销售。",
+    "company_fact": "移动固定源蜂窝陶瓷后处理载体生产销售。",
+    "ths_fact": "国六DOC SCR DPF等具体载体产品。",
+    "reason": "实际尾气处理材料定位，非燃料电池整机。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688022.SH",
+    "key": "automotive_electronics",
+    "sector": "汽车电子",
+    "source_sector_name": "汽车电子",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "连接传感",
+      "智能装备"
+    ],
+    "stage": "revenue",
+    "fact": "连接传感智能装备核心，自动化定制及标准化产品。",
+    "company_fact": "连接传感智能装备核心，自动化定制及标准化产品。",
+    "ths_fact": "汽车电子智能制造装备供全球核心零部件客户。",
+    "reason": "当前明确核心装备交叉，不按旧换电概念替代经营重心。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688023.SH",
+    "key": "ai_agents",
+    "sector": "AI智能体",
+    "source_sector_name": "AI智能体",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "恒脑安全智能体"
+    ],
+    "stage": "product",
+    "fact": "AI安全研发销售，智能体与数据安全运营全生命周期。",
+    "company_fact": "AI安全研发销售，智能体与数据安全运营全生命周期。",
+    "ths_fact": "恒脑3.0及数百安全智能体分批融合安全产品。",
+    "reason": "对外安全产品已实现具体智能体功能，保守product不单列全部AI收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688025.SH",
+    "key": "optical_fiber",
+    "sector": "光纤",
+    "source_sector_name": "光纤概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "MPO MMC",
+      "光纤阵列"
+    ],
+    "stage": "revenue",
+    "fact": "自营光纤MPO FAU等用于数据中心传输。",
+    "company_fact": "自营光纤MPO FAU等用于数据中心传输。",
+    "ths_fact": "CPO解析MPO/MMC认证扩产及FAU模块客户批量出货。",
+    "reason": "以已供高速光纤连接产业归属，不将未来CPO架构用量推为现有完整CPO订单。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688026.SH",
+    "key": "cell_immunotherapy",
+    "sector": "细胞免疫治疗",
+    "source_sector_name": "细胞免疫治疗",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "细胞培养",
+      "实验生产耗材"
+    ],
+    "stage": "revenue",
+    "fact": "细胞培养液体处理器械用于CGT生物制药实验生产。",
+    "company_fact": "细胞培养液体处理器械用于CGT生物制药实验生产。",
+    "ths_fact": "3D细胞培养支架用于细胞免疫及细胞药生产工具。",
+    "reason": "直接细胞药生产工具实际产品，非自行治疗或药品上市。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688027.SH",
+    "key": "quantum_technology",
+    "sector": "量子科技",
+    "source_sector_name": "量子科技",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "量子通信",
+      "量子计算测量"
+    ],
+    "stage": "revenue",
+    "fact": "量子保密通信整机核心件量子计算及精密测量经营。",
+    "company_fact": "量子保密通信整机核心件量子计算及精密测量经营。",
+    "ths_fact": "三类量子技术产品服务清楚。",
+    "reason": "专营实际量子产品身份明确。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688028.SH",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "减速器丝杠加工",
+      "超硬刀具"
+    ],
+    "stage": "pilot",
+    "fact": "高精密超硬刀具CVD功能材料生产技术。",
+    "company_fact": "高精密超硬刀具CVD功能材料生产技术。",
+    "ths_fact": "人形减速器行星滚柱丝杠刀具已下游研发供样。",
+    "reason": "具体制造环节人形刀具样品支撑，不称减速器整机。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688029.SH",
+    "key": "medical_devices",
+    "sector": "医疗器械",
+    "source_sector_name": "医疗器械概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "内镜微创",
+      "肿瘤消融"
+    ],
+    "stage": "revenue",
+    "fact": "微创医疗器械研发制造销售。",
+    "company_fact": "微创医疗器械研发制造销售。",
+    "ths_fact": "内镜诊疗及消融设备两大产品系列。",
+    "reason": "医疗器械实业务明确。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688030.SH",
+    "key": "cybersecurity",
+    "sector": "网络安全",
+    "source_sector_name": "网络安全",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "安全芯片",
+      "全域防护"
+    ],
+    "stage": "revenue",
+    "fact": "自研ASIC及AI安全矩阵十类产品服务。",
+    "company_fact": "自研ASIC及AI安全矩阵十类产品服务。",
+    "ths_fact": "边界云安全实际软硬件；靶场智能体是功能升级。",
+    "reason": "完整网络安全商业产品身份，单功能AI不替代综合安全平台。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688031.SH",
+    "key": "ai_agents",
+    "sector": "AI智能体",
+    "source_sector_name": "AI智能体",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "LLMOps",
+      "企业智能体平台"
+    ],
+    "stage": "product",
+    "fact": "AI大数据基础软件及部署落地解决方案。",
+    "company_fact": "AI大数据基础软件及部署落地解决方案。",
+    "ths_fact": "LLMOps全链智能体开发运营及无涯问知九个助手。",
+    "reason": "自营产品可构建执行企业智能体，product不把所有基础软件收入算智能体。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688032.SH",
+    "key": "photovoltaics",
+    "sector": "光伏",
+    "source_sector_name": "光伏概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "微型逆变器",
+      "电力变换"
+    ],
+    "stage": "revenue",
+    "fact": "光伏微逆组串逆变器及储能电力设备经营。",
+    "company_fact": "光伏微逆组串逆变器及储能电力设备经营。",
+    "ths_fact": "光伏逆变器监控分布式系统等明确产品。",
+    "reason": "微逆技术主线确定，储能为并行拓展。",
+    "basis": "crosschecked_sources"
+  }
+]

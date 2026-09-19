@@ -1,0 +1,106 @@
+[
+  {
+    "id": "600604.SH",
+    "key": "venture_capital",
+    "sector": "创投",
+    "source_sector_name": "创投",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "产业园科技孵化投资服务"
+    ],
+    "fact": "产业园开发运营外经营产业孵化投资，以基金科创孵化服务结合。",
+    "company_fact": "产业园开发运营外经营产业孵化投资，以基金科创孵化服务结合。",
+    "ths_fact": "聚能湾实际科技企业孵化投资加服务体系。",
+    "reason": "园区科创投资运营形成市场身份，服务属于本体实际业务，不能把入驻企业技术算自身产品。"
+  },
+  {
+    "id": "600605.SH",
+    "key": "liquid_cooled_servers",
+    "sector": "液冷服务器",
+    "source_sector_name": "液冷服务器",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "参股液冷冷板与流体部件"
+    ],
+    "fact": "传统地产租赁物业外，已布局半导体智能制造硬科技投资。",
+    "company_fact": "传统地产租赁物业外，已布局半导体智能制造硬科技投资。",
+    "ths_fact": "拟受让稳扬18.18%，标的实际产品为CPU/GPU冷板歧管及回路总成。",
+    "reason": "原H1确认稳扬18.18%已交割且非并表，液冷战略投资具具体产品关联；stage属于被投产品，不计上市本体制造收入。",
+    "relation": "investment",
+    "investment_reviewed": true,
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "600605-2026h1-wenyang",
+        "source_kind": "official_filing",
+        "publisher": "汇通能源",
+        "title": "2026年半年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12503400&stockid=600605",
+        "published_at": "2026-08-19",
+        "assertions": [
+          "稳扬18.18%9000万元投资完成工商交割，非并表长期股权投资；具体产品含冷板歧管及回路。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "600606.SH",
+    "key": "real_estate_development",
+    "sector": "房地产开发",
+    "source_sector_name": "房地产开发",
+    "source_sector_provider": "东方财富",
+    "stage": "revenue",
+    "chain": [
+      "房地产开发与基建"
+    ],
+    "fact": "以房地产基建为双核心，其他金融能源消费协同。",
+    "company_fact": "以房地产基建为双核心，其他金融能源消费协同。",
+    "ths_fact": "物业管理解析确认地产开发房屋基础设施等经营。",
+    "reason": "实际地产开发身份明确，元宇宙蚂蚁等标签不替代核心经营。"
+  },
+  {
+    "id": "600609.SH",
+    "key": "auto_parts",
+    "sector": "汽车零部件",
+    "source_sector_name": "汽车零部件",
+    "source_sector_provider": "东方财富",
+    "stage": "revenue",
+    "chain": [
+      "汽车饰件座椅三电冷却部件"
+    ],
+    "fact": "设计生产销售饰件座椅照明电池与三电冷却组件，主要客户华晨宝马。",
+    "company_fact": "设计生产销售饰件座椅照明电池与三电冷却组件，主要客户华晨宝马。",
+    "ths_fact": "汽车客户解析确认内饰座椅橡胶等实际配套。",
+    "reason": "公司已是零部件供应商，不能按公司名误作整车；新机器人公司设立不等于产品交付。"
+  },
+  {
+    "id": "600610.SH",
+    "key": "chemical_raw_materials",
+    "sector": "化学原料",
+    "source_sector_name": "化学原料",
+    "source_sector_provider": "东方财富",
+    "stage": "revenue",
+    "chain": [
+      "多元醇等精细化工"
+    ],
+    "fact": "全资赤峰瑞阳生产季戊四醇三羟甲基丙烷系列及酒精DDGS。",
+    "company_fact": "全资赤峰瑞阳生产季戊四醇三羟甲基丙烷系列及酒精DDGS。",
+    "ths_fact": "同花顺公司及经营页明确精细化工研产销与同样产品。",
+    "reason": "主营产品匹配化学原料行业，国企或中字头不构成业务归属。",
+    "extra_evidence": [
+      {
+        "evidence_id": "600610-ths-operate",
+        "source_kind": "web_secondary",
+        "publisher": "同花顺",
+        "title": "中毅达经营分析",
+        "source_url": "https://basic.10jqka.com.cn/600610/operate.html",
+        "published_at": null,
+        "assertions": [
+          "主营精细化工生产销售，产品季戊四醇及三羟甲基丙烷系列、食用酒精DDGS。"
+        ]
+      }
+    ]
+  }
+]

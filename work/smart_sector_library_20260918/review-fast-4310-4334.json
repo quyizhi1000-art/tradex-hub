@@ -1,0 +1,418 @@
+[
+  {
+    "id": "603667.SH",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "灵巧手丝杠及关节轴承"
+    ],
+    "stage": "product",
+    "fact": "主营轴承精密零件，延伸具身执行器核心零部件。",
+    "company_fact": "主营轴承精密零件，延伸具身执行器核心零部件。",
+    "ths_fact": "已开发灵巧手微型丝杠及线性执行器行星滚柱丝杠，机器人轴承配套多家减速器企业。",
+    "reason": "已有面向人形执行器的专用产品，人形机器人比泛轴承更能表达产业转型主线；开发产品不等同人形批量收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603668.SH",
+    "key": "aquatic_products",
+    "sector": "水产",
+    "source_sector_name": "水产概念",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "鳗鱼养殖食品与特水饲料"
+    ],
+    "stage": "revenue",
+    "fact": "业务覆盖鳗鲡养殖、食品加工、饲料和种苗研发。",
+    "company_fact": "业务覆盖鳗鲡养殖、食品加工、饲料和种苗研发。",
+    "ths_fact": "鳗鲡堂烤鳗及冻熟鱼类产品已有经营，亦有特种水产配合饲料。",
+    "reason": "围绕鳗鲡形成水产全产业链，水产归属可贯通养殖食品与饲料，不机械按饲料收入最高分类。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603669.SH",
+    "key": "innovative_drugs",
+    "sector": "创新药",
+    "source_sector_name": "创新药",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "创新化药临床及合作研发"
+    ],
+    "stage": "pilot",
+    "fact": "主营化学药处方制剂，拥有多个药品批准文号并推进研发。",
+    "company_fact": "主营化学药处方制剂，拥有多个药品批准文号并推进研发。",
+    "ths_fact": "2026年8月解析披露2.2类艾司奥美拉唑镁碳酸氢钠干混悬剂获临床批件，LK2577合作研发进入实施阶段。",
+    "reason": "已有具体创新药临床管线支持创新药主线；临床许可不写成创新药上市收入，后续关注临床推进。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603676.SH",
+    "key": "vitamins",
+    "sector": "维生素",
+    "source_sector_name": "维生素",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "复合维生素注射制剂"
+    ],
+    "stage": "revenue",
+    "fact": "核心产品覆盖复合维生素、微量元素及电解质制剂。",
+    "company_fact": "核心产品覆盖复合维生素、微量元素及电解质制剂。",
+    "ths_fact": "注射用12种复合维生素已有市场覆盖及销售基础。",
+    "reason": "复合维生素药品与真实业务一致，比泛化学制药更具辨识度；不把旧解析中未投产小儿品种算已销。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603677.SH",
+    "key": "home_appliances",
+    "sector": "家用电器",
+    "source_sector_name": "家用电器",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "家电离合器及精密加工"
+    ],
+    "stage": "revenue",
+    "fact": "机械精加工覆盖家电离合器、汽车和电动工具零部件。",
+    "company_fact": "机械精加工覆盖家电离合器、汽车和电动工具零部件。",
+    "ths_fact": "解析披露家电零件产品，机器人客户验证及热泵合作另有布局。",
+    "reason": "家电核心部件构成现有经营身份，机器人客户验证不足以证明主线切换，热泵业务进展作为复审触发。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603678.SH",
+    "key": "military",
+    "sector": "军工",
+    "source_sector_name": "军工",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "高可靠电容与特种陶瓷材料"
+    ],
+    "stage": "revenue",
+    "fact": "经营电子元器件及陶瓷纤维新材料，产品用于航空航天等高可靠领域。",
+    "company_fact": "经营电子元器件及陶瓷纤维新材料，产品用于航空航天等高可靠领域。",
+    "ths_fact": "军用MLCC具备宇航级等多等级认证，参与多项科研与标准制定。",
+    "reason": "高可靠电容和特种材料共同支撑军工供应链身份，不能将所有民用电容销售归为军工收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603679.SH",
+    "key": "smart_light_poles",
+    "sector": "智慧灯杆",
+    "source_sector_name": "智慧灯杆",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "城市照明与多功能灯杆"
+    ],
+    "stage": "revenue",
+    "fact": "主营智慧城市照明及相关工程，推进数字化城市服务。",
+    "company_fact": "主营智慧城市照明及相关工程，推进数字化城市服务。",
+    "ths_fact": "智慧灯杆已正常销售，同时有数字人运营及城市AI应用产品。",
+    "reason": "已销售智慧灯杆贯通照明硬件和城市服务，优先于泛AI标签；不借其他主体的卫星算力业务推定上市公司收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603680.SH",
+    "key": "rail_transit",
+    "sector": "轨道交通",
+    "source_sector_name": "轨道交通",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "轨交车辆配套系统"
+    ],
+    "stage": "revenue",
+    "fact": "研发制造轨道交通车辆多种配套产品并出口。",
+    "company_fact": "研发制造轨道交通车辆多种配套产品并出口。",
+    "ths_fact": "解析确认轨道交通装备配套业务，储能产品亦有批量交付。",
+    "reason": "轨交配套系统是稳定且具辨识度的市场身份，储能交付保留为次级业务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603681.SH",
+    "key": "adhesives_tapes",
+    "sector": "胶黏剂及胶带",
+    "source_sector_name": "胶黏剂及胶带",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "消费及工业胶粘材料"
+    ],
+    "stage": "revenue",
+    "fact": "主营消费、汽车与工业等领域胶粘材料。",
+    "company_fact": "主营消费、汽车与工业等领域胶粘材料。",
+    "ths_fact": "同股解析明确各类胶带研发生产销售，固态电池相关主要是包装膜材料。",
+    "reason": "选已有胶黏剂及胶带行业，不能将电池包装膜认作固态电解质或把内部AI应用变成AI供应商。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603682.SH",
+    "key": "urban_construction",
+    "sector": "新型城镇化",
+    "source_sector_name": "新型城镇化",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "城市更新商业物业运营"
+    ],
+    "stage": "revenue",
+    "fact": "通过存量物业改造招商运营，采用租赁、委托及合作经营模式。",
+    "company_fact": "通过存量物业改造招商运营，采用租赁、委托及合作经营模式。",
+    "ths_fact": "解析明确城市更新与创意产业园区运营。",
+    "reason": "城市存量改造运营与新型城镇化主线直接相连；艺术展或博主活动不构成谷子或平台技术主业。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603683.SH",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "柔性触觉电子皮肤"
+    ],
+    "stage": "delivery",
+    "fact": "主营胶粘功能材料并拓展柔性触觉传感器，服务具身智能等场景。",
+    "company_fact": "主营胶粘功能材料并拓展柔性触觉传感器，服务具身智能等场景。",
+    "ths_fact": "灵巧手指尖及全掌电子皮肤已有产品，2025三季报解析称与头部机器人及灵巧手企业合作并交付订单。",
+    "reason": "电子皮肤已形成专用产品和订单交付，支撑人形机器人市场主线；不将一般胶带收入算作人形收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603685.SH",
+    "key": "green_power",
+    "sector": "绿色电力",
+    "source_sector_name": "绿色电力",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "增量配电网与新能源发配售"
+    ],
+    "stage": "revenue",
+    "fact": "形成照明结构件与增量配电网、风光储开发运营双主业。",
+    "company_fact": "形成照明结构件与增量配电网、风光储开发运营双主业。",
+    "ths_fact": "绿色电力解析确认风力光伏电站及增量配电网运营。",
+    "reason": "绿电综合供应已有实际经营，较旧照明行业更体现转型；智算增资不能替代算力项目履约证据。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603686.SH",
+    "key": "robotics",
+    "sector": "机器人",
+    "source_sector_name": "机器人概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "城市服务与无人环卫机器人"
+    ],
+    "stage": "revenue",
+    "fact": "智能装备涵盖环卫装备及城市服务机器人制造。",
+    "company_fact": "智能装备涵盖环卫装备及城市服务机器人制造。",
+    "ths_fact": "已推出L4无人清扫机器人，解析明确无人驾驶车型实现量产销售。",
+    "reason": "真实城市服务机器人产品和销售支持机器人主线，业务形态为特种服务机器人，不能写成人形机器人。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603687.SH",
+    "key": "chips",
+    "sector": "芯片",
+    "source_sector_name": "芯片概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "参股国产GPU设计企业"
+    ],
+    "stage": "product",
+    "fact": "原半年报确认纸包装及高端装备经营，并已参股国产图形处理器企业芯瞳。",
+    "company_fact": "原半年报确认纸包装及高端装备经营，并已参股国产图形处理器企业芯瞳。",
+    "ths_fact": "2026年3月解析披露拟分次投资芯瞳，其主营通用高性能图形处理器设计研发与销售。",
+    "reason": "国产GPU投资已完成首轮交割且金额重大，选芯片为投资关联主线；当前持股14.6117%，22.9831%为后续完成口径，标的不并表，不能把GPU业务当上市公司收入。",
+    "basis": "crosschecked_sources",
+    "relation": "investment",
+    "investment_reviewed": true,
+    "extra_evidence": [
+      {
+        "evidence_id": "603687-original-2026h1-gpu-investment",
+        "source_kind": "official_filing",
+        "publisher": "大胜达",
+        "title": "2026年半年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12538249&stockid=603687",
+        "published_at": "2026-08-26",
+        "assertions": [
+          "7月3日完成芯瞳首次及老股转让交割，持股14.6117%；7月13日首轮增资及受让款合计3亿元付清。",
+          "芯瞳主要业务为图形处理器，投资不并表；后续增资以第三代图形处理器流片成功等为条件。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "603688.SH",
+    "key": "chips",
+    "sector": "芯片",
+    "source_sector_name": "芯片概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "半导体高纯石英材料"
+    ],
+    "stage": "revenue",
+    "fact": "公司优先发展半导体石英材料，同时供应光伏和光电石英材料。",
+    "company_fact": "公司优先发展半导体石英材料，同时供应光伏和光电石英材料。",
+    "ths_fact": "2026年7月披露半导体石英认证种类数量增加，业务营收占比提升；扩散炉管已通过头部存储晶圆客户认证。",
+    "reason": "半导体材料国产化已有认证和收入，选芯片主线；公司供材料，并非生产存储芯片。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603689.SH",
+    "key": "natural_gas",
+    "sector": "天然气",
+    "source_sector_name": "天然气",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "长输管网及城市燃气"
+    ],
+    "stage": "revenue",
+    "fact": "从事天然气长输、销售、城市燃气及设施服务。",
+    "company_fact": "从事天然气长输、销售、城市燃气及设施服务。",
+    "ths_fact": "天然气解析明确安徽长输管线运营与CNG/LNG、城市燃气业务。",
+    "reason": "天然气运营覆盖真实业务全链，氢能码头合作不替代稳定燃气身份。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603690.SH",
+    "key": "semiconductor_equipment",
+    "sector": "半导体设备",
+    "source_sector_name": "半导体设备",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "湿法清洗及高纯工艺系统"
+    ],
+    "stage": "revenue",
+    "fact": "至微专注晶圆湿法槽式及单片清洗设备，公司同时提供高纯工艺系统。",
+    "company_fact": "至微专注晶圆湿法槽式及单片清洗设备，公司同时提供高纯工艺系统。",
+    "ths_fact": "芯片解析确认单片、槽式清洗设备与制程支持设备生产销售。",
+    "reason": "晶圆制造设备是直接业务，已有行业半导体设备比客户存储标签更准确。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603693.SH",
+    "key": "green_power",
+    "sector": "绿色电力",
+    "source_sector_name": "绿色电力",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "风光发电与储能运营"
+    ],
+    "stage": "revenue",
+    "fact": "投资建设运营风光储项目，已具备控股发电和储能装机。",
+    "company_fact": "投资建设运营风光储项目，已具备控股发电和储能装机。",
+    "ths_fact": "绿色电力与风电解析均有实际电站及发电量，盐城储能已并网。",
+    "reason": "清洁发电运营形成统一身份，钠电技术储备不等同电池生产收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603696.SH",
+    "key": "condiments",
+    "sector": "调味品",
+    "source_sector_name": "调味品",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "复合调味料"
+    ],
+    "stage": "revenue",
+    "fact": "专注调味品研发生产销售，覆盖排骨、海鲜、骨汤等系列。",
+    "company_fact": "专注调味品研发生产销售，覆盖排骨、海鲜、骨汤等系列。",
+    "ths_fact": "主营复合调味粉、香辛料、汤料及酱类，排骨味王为代表产品。",
+    "reason": "产品、品牌和收入来源均指向调味品，小贷投资与市场主营身份无关。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603697.SH",
+    "key": "snack_food",
+    "sector": "休闲零食",
+    "source_sector_name": "休闲零食",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "泡卤风味食品"
+    ],
+    "stage": "revenue",
+    "fact": "以泡椒凤爪为核心，配套鸭掌、猪皮晶、火鸡翅及豆干竹笋。",
+    "company_fact": "以泡椒凤爪为核心，配套鸭掌、猪皮晶、火鸡翅及豆干竹笋。",
+    "ths_fact": "休闲零食解析列泡椒凤爪、卤香火鸡翅等实际产品。",
+    "reason": "成熟泡卤零食产品支撑休闲零食，预制菜仅研发储备不能压过实际业务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603698.SH",
+    "key": "hydrogen_energy",
+    "sector": "氢能源",
+    "source_sector_name": "氢能源",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "绿氢电解槽及氢气工程"
+    ],
+    "stage": "product",
+    "fact": "设绿氢工程板块，完成1000方8MPa高压碱性电解槽设计及样机；另有煤化工与气体运营。",
+    "company_fact": "设绿氢工程板块，完成1000方8MPa高压碱性电解槽设计及样机；另有煤化工与气体运营。",
+    "ths_fact": "氢能源解析明确燃料氢定向除杂装置及制氢工程合作。",
+    "reason": "制氢装备和工程已形成专门业务与样机，支持氢能主线；不能将航天股东或军转民技术等同火箭业务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603699.SH",
+    "key": "nuclear_fusion",
+    "sector": "可控核聚变",
+    "source_sector_name": "可控核聚变",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "ITER核级及非核级阀门"
+    ],
+    "stage": "delivery",
+    "fact": "主营工业阀门，服务能源、电力及海工等高可靠场景。",
+    "company_fact": "主营工业阀门，服务能源、电力及海工等高可靠场景。",
+    "ths_fact": "2024年解析明确已向法国ITER供货近6000万元核级及非核级阀门。",
+    "reason": "已交付聚变工程专用阀门为直接证据，聚变主线具辨识度；不将全部油气阀门收入计入聚变。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603700.SH",
+    "key": "underground_pipelines",
+    "sector": "地下管网",
+    "source_sector_name": "地下管网",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "供水管网智能计量与监测"
+    ],
+    "stage": "revenue",
+    "fact": "提供水计量产品与智慧水务体系，重点聚焦供水管网整体智能化。",
+    "company_fact": "提供水计量产品与智慧水务体系，重点聚焦供水管网整体智能化。",
+    "ths_fact": "从计量终端、管网技术及SaaS水务平台提供供水管网整体方案。",
+    "reason": "供水管网智能化是实际产品与服务共同指向，内部大模型与虚拟人规划不足以替代此归属。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603701.SH",
+    "key": "new_energy_vehicles",
+    "sector": "新能源汽车",
+    "source_sector_name": "新能源汽车",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "车用电子真空泵"
+    ],
+    "stage": "revenue",
+    "fact": "主营车用交流发电机及主要用于新能源汽车的电子真空泵。",
+    "company_fact": "主营车用交流发电机及主要用于新能源汽车的电子真空泵。",
+    "ths_fact": "控股普来恩中力生产电子真空泵，新能源汽车是明确应用。",
+    "reason": "新能源车刹车助力产品已有真实经营，相较参股座舱或新储能布局更有确定性。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603703.SH",
+    "key": "commercial_space",
+    "sector": "商业航天",
+    "source_sector_name": "商业航天",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "卫星通信终端与组件"
+    ],
+    "stage": "revenue",
+    "fact": "经营卫星通信终端、组件及方案，FTA开展卫星互联网终端研发销售。",
+    "company_fact": "经营卫星通信终端、组件及方案，FTA开展卫星互联网终端研发销售。",
+    "ths_fact": "控股浙江卫通从事卫星通信终端设计制造、租赁及运营服务。",
+    "reason": "已有卫星通信终端经营支撑商业航天，保留高速铜缆与显示器件为其他业务，不把战略量子合作当收入。",
+    "basis": "crosschecked_sources"
+  }
+]

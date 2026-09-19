@@ -3,14 +3,16 @@
 from __future__ import annotations
 
 from datetime import datetime
+import re
 from typing import Any
+from zoneinfo import ZoneInfo
 
 from ..contracts import AShareUniverseQuoteV1
 from .market_overview import field, finite_number, parse_provider_time
-from .securities import canonical_instrument_id
+from .securities import canonical_instrument_id, _volume_shares
 
 
-_VERIFIED_UNIT_PROVIDERS = {"akshare", "tushare"}
+_VERIFIED_UNIT_PROVIDERS = {"akshare", "tushare", "tencent_http"}
 
 
 def _records(payload: Any) -> list[dict[str, Any]]:
@@ -29,6 +31,12 @@ def _instrument(value: Any) -> str:
     raw = str(value or "").strip()
     if not raw:
         raise ValueError("A-share universe quote is missing its code")
+    # This payload contains stocks. Bare Shenzhen stock codes such as 000688
+    # and 000905 also identify Shanghai indices in the generic symbol helper.
+    # Supply the stock exchange here; preserve explicit identifiers and the
+    # separate index-query convention.
+    if re.fullmatch(r"[03]\d{5}", raw):
+        raw = f"{raw}.SZ"
     return canonical_instrument_id(raw)
 
 
@@ -44,6 +52,9 @@ def _optional_number(row: dict[str, Any], *aliases: str) -> float | None:
 
 
 def _provider_amount_cny(row: dict[str, Any], provider: str) -> float | None:
+    if provider == "tencent_http":
+        value = _optional_number(row, "成交额")
+        return value * 10_000 if value is not None else None
     if provider == "tushare":
         return _optional_number(row, "amount")
     return _optional_number(
@@ -59,6 +70,9 @@ def _provider_amount_cny(row: dict[str, Any], provider: str) -> float | None:
 def _provider_market_cap_cny(
     row: dict[str, Any], provider: str, *, total: bool
 ) -> float | None:
+    if provider == "tencent_http":
+        value = _optional_number(row, "总市值" if total else "流通市值")
+        return value * 100_000_000 if value is not None else None
     if provider == "tushare":
         value = _optional_number(row, "total_mv" if total else "circ_mv")
         return value * 10_000 if value is not None else None
@@ -97,6 +111,11 @@ def map_a_share_universe_payload(
         provider_time = parse_provider_time(
             field(row, "provider_as_of", "更新时间", "数据时间", "timestamp")
         )
+        if provider == "tencent_http" and provider_time is None:
+            try:
+                provider_time = datetime.strptime(str(field(row, "更新时间")), "%Y%m%d%H%M%S").replace(tzinfo=ZoneInfo("Asia/Shanghai"))
+            except ValueError:
+                pass
         if provider_time is not None:
             row_times.append(provider_time)
         last = _optional_number(
@@ -114,6 +133,15 @@ def map_a_share_universe_payload(
         if last is None or last <= 0 or change_pct is None or amount is None or amount < 0:
             excluded += 1
             continue
+        shares = _volume_shares(row, provider) if provider in _VERIFIED_UNIT_PROVIDERS else None
+        low = _optional_number(row, "最低", "最低价", "low")
+        high = _optional_number(row, "最高", "最高价", "high")
+        if shares is not None and (shares <= 0 or not low or not high
+                or not low*.99 <= amount/shares <= high*1.01):
+            shares = None
+        ratio = _optional_number(row, "量比", "volume_ratio")
+        if ratio is not None and ratio < 0:
+            ratio = None
         quotes.append(AShareUniverseQuoteV1(
             instrument_id=_instrument(
                 field(
@@ -128,9 +156,11 @@ def map_a_share_universe_payload(
                 )
             ),
             name=_name(field(row, "名称", "股票名称", "name")),
+            observed_at=provider_time,
             last=last,
             change_pct=change_pct,
             amount_cny=amount,
+            volume_shares=shares, volume_ratio=ratio,
             open=_optional_number(row, "今开", "开盘", "open"),
             high=_optional_number(row, "最高", "最高价", "high"),
             low=_optional_number(row, "最低", "最低价", "low"),

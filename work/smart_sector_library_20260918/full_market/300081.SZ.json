@@ -1,0 +1,77 @@
+{
+  "instrument_id": "300081.SZ",
+  "name": "ST恒信",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "300081.SZ",
+    "name": "ST恒信",
+    "memberships": [
+      "通信",
+      "通信服务",
+      "通信应用增值服务",
+      "北京板块",
+      "破增发价股",
+      "破发股",
+      "ST股",
+      "谷子经济",
+      "空间计算",
+      "算力概念",
+      "数字水印",
+      "AIGC概念",
+      "Web3.0",
+      "数字经济",
+      "虚拟数字人",
+      "元宇宙概念",
+      "华为概念",
+      "影视概念",
+      "人工智能",
+      "虚拟现实",
+      "在线教育",
+      "网络游戏"
+    ],
+    "business_sections": [
+      {
+        "title": "文化创意、内容生产与技术服务",
+        "kind": "主营业务",
+        "text": "恒信东方是一家主要从事数字文化创意、内容生产与技术服务的公司。2025年，公司继续推进以“艺术创意+视觉技术”为驱动的数字创意产业发展战略，同时顺应国家数字基础设施建设发展趋势，积极开拓新业务领域。报告期内，业务范围主要包括数字创意产品应用及服务业务、互联网视频应用产品及服务业务、算力系统集成及技术服务业务。"
+      },
+      {
+        "title": "技术和研发优势",
+        "kind": "核心竞争力",
+        "text": "公司始终坚持将持续研发创新作为发展的核心动力，不断促进技术创新和技术升级，持续进行研发投入，在数字创意产业领域拥有强有力的技术优势。"
+      },
+      {
+        "title": "优质战略合作伙伴资源优势",
+        "kind": "核心竞争力",
+        "text": "目前，公司已与维塔工作室、紫水鸟影像、The Virtual Reality Company（VRC）等多家业内知名影视创作、视觉特效、虚拟现实领域企业形成战略合作关系。"
+      },
+      {
+        "title": "IP开发运营优势",
+        "kind": "核心竞争力",
+        "text": "公司通过多年来与海内外影视视觉制作公司建立的良好合作关系，获得了一系列经典影视动画形象知识产权。截至报告期末，公司拥有的IP分为四大类：儿童类、影视类、VR影视游戏类、VR图书类。"
+      },
+      {
+        "title": "大型数实融合文旅项目创制实施能力优势",
+        "kind": "核心竞争力",
+        "text": "基于在珠海横琴中医药科技创意博物馆等大型文旅类场馆建设的综合实践，公司深耕“中国故事国际表达”创制理念，具备“虚拟现实+文旅场景”科技赋能实施能力和“IP+线上线下”联动运营能力。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ300081",
+    "fetched_at": "2026-09-18T23:01:59.324669+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "互联网视频应用产品及服务"
+}

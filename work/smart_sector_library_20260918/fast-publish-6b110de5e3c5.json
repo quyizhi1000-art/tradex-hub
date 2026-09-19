@@ -1,0 +1,96 @@
+[
+  {
+    "id": "300743.SZ",
+    "key": "computer_equipment",
+    "sector": "计算机设备",
+    "source_sector_name": "计算机设备",
+    "source_sector_provider": "东方财富",
+    "stage": "revenue",
+    "chain": [
+      "热转印碳带耗材"
+    ],
+    "fact": "打印识别用热转印碳带研发生产销售。",
+    "ths_fact": "同花顺仅有贬值受益及专精特新等宽泛属性，不足以确立具体题材。",
+    "company_fact": "公司主营明确热转印碳带研发生产销售，东方财富已有计算机设备及其他计算机设备分类。",
+    "reason": "在已有行业中选计算机设备承接打印耗材身份，不以汇率和荣誉作主板块，也不创造碳带主题名称。"
+  },
+  {
+    "id": "300745.SZ",
+    "key": "high_voltage_fast_charging",
+    "sector": "高压快充",
+    "source_sector_name": "高压快充",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "大功率直流充电模块",
+      "车载高压电源"
+    ],
+    "fact": "电力电子能力形成车载电源和高压快充装备。",
+    "ths_fact": "同花顺高压快充解析明确SCM直流模块和地面超级充电系统，充电桩条目为800V快充产品。",
+    "company_fact": "主营确认OBC、DC/DC及多合一高压电控系统，另有燃料电池DCF及大功率高端装备。",
+    "reason": "选已有高压快充体现电力电子升级主线；是模块和电源提供商而非整车厂，碳化硅器件应用不等于晶圆制造。"
+  },
+  {
+    "id": "300746.SZ",
+    "key": "smart_city",
+    "sector": "智慧城市",
+    "source_sector_name": "智慧城市",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "城市治理数字化",
+      "城市智能运营"
+    ],
+    "fact": "城市治理技术服务有已合并经营记录，但伏泰股权拟下降须持续跟踪。",
+    "ths_fact": "同花顺智慧城市解析为伏泰城市治理AIoT服务，后续无人驾驶条目记载多城少人化运营。",
+    "company_fact": "主营确认城市治理数字化和城市治理机器人业务；原2026H1确认伏泰为子公司，8月29日公告拟转16%并在完成后不再并表。",
+    "reason": "采用已有智慧城市对应已实施转型；不把拟处置当已完成，也不保证其后仍控股。保留设计咨询业务，后续过户或控制权变化应重审归属。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "300746-20260829-divest",
+        "source_kind": "official_filing",
+        "publisher": "公司公告（新浪转载）",
+        "title": "关于转让控股子公司部分股份暨被动形成关联担保及关联财务资助的公告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12571179&stockid=300746",
+        "published_at": "2026-08-29",
+        "assertions": [
+          "原收购伏泰51%，拟转让16%，完成后持35%不再并表；本次审阅未将计划转让认定已完成。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "300747.SZ",
+    "key": "laser",
+    "sector": "激光",
+    "source_sector_name": "激光",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "工业光纤激光器",
+      "激光加工核心光源"
+    ],
+    "fact": "激光器及加工光源为专业业务身份。",
+    "ths_fact": "同花顺激光解析明确光纤激光器研发生产服务，高端装备条目列核心光源产品。",
+    "company_fact": "主营列连续准连续脉冲及超快等六类激光器，应用工业医疗消费和安防，并提供特种光纤。",
+    "reason": "已有激光覆盖核心产品而不是只按下游取题材；光纤激光器不等于通信光模块，激光加工应用不代表晶圆厂。"
+  },
+  {
+    "id": "300748.SZ",
+    "key": "rare_earth_magnets",
+    "sector": "稀土永磁",
+    "source_sector_name": "稀土永磁",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "高性能钕铁硼",
+      "磁组件",
+      "电机转子"
+    ],
+    "fact": "稀土永磁材料与磁组件具备跨场景供应能力。",
+    "ths_fact": "同花顺稀土永磁解析明确钕铁硼及磁组件，另人形解析有小批量磁组件交付。",
+    "company_fact": "主营确认高性能钕铁硼、磁组件、具身机器人电机转子及稀土回收综合利用。",
+    "reason": "选择已有稀土永磁体现材料技术核心与市场身份，人形是重要下游标签；不将人形小批交付推成全部磁材收入或整机制造。"
+  }
+]

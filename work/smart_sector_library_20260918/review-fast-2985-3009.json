@@ -1,0 +1,402 @@
+[
+  {
+    "id": "600114.SH",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "关节电机与精密减速器"
+    ],
+    "stage": "orders",
+    "fact": "经营粉末成形、软磁复材及金属注射成形，产品用于机器人和算力等。",
+    "company_fact": "经营粉末成形、软磁复材及金属注射成形，产品用于机器人和算力等。",
+    "ths_fact": "人形解析列轴向磁通电机；减速器解析明确已与人形机器人客户签样品项目采购协议。",
+    "reason": "实际关节产品和样品采购支撑增量主线；轴向电机总收入不全部写成人形收入，光模块结构件仍未销售。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600115.SH",
+    "key": "aviation_transport",
+    "sector": "航空运输",
+    "source_sector_name": "航空运输",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "航空客运及延伸服务"
+    ],
+    "stage": "revenue",
+    "fact": "以客运机队开展国内国际航空运输及延伸服务。",
+    "company_fact": "以客运机队开展国内国际航空运输及延伸服务。",
+    "ths_fact": "大飞机解析确认运营17架C919，航空租赁解析明确航空营运。",
+    "reason": "是航空运营商，大飞机用户和自身维修3D打印不应替代运输主线；旧东航物流关系不据以升级电商。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600116.SH",
+    "key": "virtual_power_plant",
+    "sector": "虚拟电厂",
+    "source_sector_name": "虚拟电厂",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "负荷聚合与电力响应平台"
+    ],
+    "stage": "delivery",
+    "fact": "厂网一体电力供应之外投资运营储能设施并提供综合能源服务。",
+    "company_fact": "厂网一体电力供应之外投资运营储能设施并提供综合能源服务。",
+    "ths_fact": "虚拟电厂解析确认聚合91.85兆瓦、通过能力校核并参与需求侧响应12次。",
+    "reason": "已经调度响应的资源聚合平台支撑新型电力方向，尚未单列虚拟电厂收入所以按交付应用阶段。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600117.SH",
+    "key": "special_steel",
+    "sector": "特钢",
+    "source_sector_name": "特钢概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "特殊钢冶炼压延"
+    ],
+    "stage": "revenue",
+    "fact": "生产轴承、模具、不锈、弹簧等特殊钢及棒材。",
+    "company_fact": "生产轴承、模具、不锈、弹簧等特殊钢及棒材。",
+    "ths_fact": "特钢解析列铁路轴承、汽车齿轮、石化耐蚀等钢材。",
+    "reason": "多行业特钢供应为清晰主线，雅下开拓和航天历史配套不等同最新订单。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600118.SH",
+    "key": "commercial_space",
+    "sector": "商业航天",
+    "source_sector_name": "商业航天",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "小微卫星研制与卫星应用"
+    ],
+    "stage": "delivery",
+    "fact": "开展卫星系统与部组件研制，完成小微卫星发射并运营卫星应用。",
+    "company_fact": "开展卫星系统与部组件研制，完成小微卫星发射并运营卫星应用。",
+    "ths_fact": "商业航天解析列系统研制、部组件、通导遥终端及卫星运营。",
+    "reason": "实际整星研制与在轨交付支撑商业航天，不将导航等同只有芯片或地面终端。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600119.SH",
+    "key": "unified_market",
+    "sector": "统一大市场",
+    "source_sector_name": "统一大市场",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "国际货代与综合物流"
+    ],
+    "stage": "revenue",
+    "fact": "经营汽车进口报关仓储运输及进出口海运货代，另有气象仪器和公寓。",
+    "company_fact": "经营汽车进口报关仓储运输及进出口海运货代，另有气象仪器和公寓。",
+    "ths_fact": "统一大市场解析确认国际货运、仓储配送等现代物流功能。",
+    "reason": "跨区域物流经营直接支持流通主题，矿业续证进程和气象卫星应用分别保留。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600120.SH",
+    "key": "diversified_financial_services",
+    "sector": "多元金融",
+    "source_sector_name": "多元金融",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "信托期货与资产管理"
+    ],
+    "stage": "revenue",
+    "fact": "实际经营信托期货人身险融资租赁及基金管理投资。",
+    "company_fact": "实际经营信托期货人身险融资租赁及基金管理投资。",
+    "ths_fact": "信托解析列金融组合，期货解析明确全资大地期货，融资租赁有具体经营。",
+    "reason": "多牌照金融经营双源充分；量子解析为较早下属业务描述，当前权益及经营贡献需再核，不代替已证实金融归属。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600121.SH",
+    "key": "coal",
+    "sector": "煤炭",
+    "source_sector_name": "煤炭概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "工业动力煤与煤矿工程"
+    ],
+    "stage": "revenue",
+    "fact": "从事煤炭开采洗选销售及矿井工程，产品包括动力煤及喷吹配煤。",
+    "company_fact": "从事煤炭开采洗选销售及矿井工程，产品包括动力煤及喷吹配煤。",
+    "ths_fact": "煤炭解析明确开采销售与配套贸易；数据产品仅登记挂牌，算力中心为行业数字化。",
+    "reason": "实际煤炭资源经营主线明确，内部数智化和新产品挂牌不能直接等同独立算力收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600123.SH",
+    "key": "coal",
+    "sector": "煤炭",
+    "source_sector_name": "煤炭概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "煤矿开采与煤化工配套"
+    ],
+    "stage": "revenue",
+    "fact": "运营多座煤矿，同时生产尿素和己内酰胺。",
+    "company_fact": "运营多座煤矿，同时生产尿素和己内酰胺。",
+    "ths_fact": "煤炭解析确认原煤尿素等实际产品，煤化工解析为整合升级改造。",
+    "reason": "煤炭经营和资源属性更直接，煤化工为产业延伸且甲醇无对外销售。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600125.SH",
+    "key": "railway_transport",
+    "sector": "铁路运输",
+    "source_sector_name": "铁路运输",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "铁路特种箱与临港物流"
+    ],
+    "stage": "revenue",
+    "fact": "特种集装箱、沙鲅铁路货运及临港冷链物流实际运营。",
+    "company_fact": "特种集装箱、沙鲅铁路货运及临港冷链物流实际运营。",
+    "ths_fact": "统一大市场和铁路基建解析均明确铁路特种集装箱与铁路货运经营。",
+    "reason": "核心是铁路物流运营而非铁路工程建设，参股碳捕集和贸易业务保留为辅助。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600126.SH",
+    "key": "data_centers",
+    "sector": "数据中心(AIDC)",
+    "source_sector_name": "数据中心(AIDC)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "数据中心建设与运营"
+    ],
+    "stage": "revenue",
+    "fact": "控股宁波钢铁并运营杭钢云、浙江云和数据公司数字业务。",
+    "company_fact": "控股宁波钢铁并运营杭钢云、浙江云和数据公司数字业务。",
+    "ths_fact": "AIDC及算力租赁解析确认数千机柜投运，2026H1杭钢云浙江云有实际营业收入。",
+    "reason": "数据中心运营是已兑现增量主线，不因钢铁收入大排除；新1152P集群尚部署不写全量投运。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600127.SH",
+    "key": "grain",
+    "sector": "粮食",
+    "source_sector_name": "粮食概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "粮油精深加工"
+    ],
+    "stage": "revenue",
+    "fact": "生产米面油奶和休闲食品并经营农产品贸易。",
+    "company_fact": "生产米面油奶和休闲食品并经营农产品贸易。",
+    "ths_fact": "粮食解析确认大米面粉面条植物油等产品。",
+    "reason": "粮油加工直接支撑粮食市场识别，预制菜仅18%参股、养老为合作方向。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600128.SH",
+    "key": "cross_border_ecommerce",
+    "sector": "跨境电商",
+    "source_sector_name": "跨境电商",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "自有品牌跨境零售"
+    ],
+    "stage": "revenue",
+    "fact": "进出口及国内贸易覆盖玩具宠物用品设备化工，积极经营跨境电商。",
+    "company_fact": "进出口及国内贸易覆盖玩具宠物用品设备化工，积极经营跨境电商。",
+    "ths_fact": "跨境电商解析确认亚马逊平台HollyHOME等自有品牌出口零售及差价收入模式。",
+    "reason": "实际平台零售与品牌支撑跨境电商，期货和知识产权交易所均为参股关系。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600129.SH",
+    "key": "chinese_medicine",
+    "sector": "中医药",
+    "source_sector_name": "中医药",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "品牌中成药与药材产业链"
+    ],
+    "stage": "revenue",
+    "fact": "生产销售中西成药，拥有制药医药商业和中药材资源业务。",
+    "company_fact": "生产销售中西成药，拥有制药医药商业和中药材资源业务。",
+    "ths_fact": "中医药和超级品牌解析确认中成药批文，流感解析列藿香正气口服液。",
+    "reason": "品牌中药实际经营充分，减肥药获临床批准与AI营销工具暂不替代这一识别。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600130.SH",
+    "key": "consumer_electronics",
+    "sector": "消费电子",
+    "source_sector_name": "消费电子概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "手机主板与智能终端模块"
+    ],
+    "stage": "revenue",
+    "fact": "经营手机配件、车载模组、智能设备和IoT模块加工。",
+    "company_fact": "经营手机配件、车载模组、智能设备和IoT模块加工。",
+    "ths_fact": "消费电子解析确认手机主板及新拓车载中控、识别装置等。",
+    "reason": "消费电子制造与智能终端业务相连，卫星导航来自华大北斗投资，不算自产芯片。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600131.SH",
+    "key": "virtual_power_plant",
+    "sector": "虚拟电厂",
+    "source_sector_name": "虚拟电厂",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "电力交易与负荷调控软件"
+    ],
+    "stage": "delivery",
+    "fact": "能源数字化涵盖电力交易、用电管理，虚拟电厂产品在成都巴中等项目落地。",
+    "company_fact": "能源数字化涵盖电力交易、用电管理，虚拟电厂产品在成都巴中等项目落地。",
+    "ths_fact": "虚拟电厂解析确认成都巴中乐山等应用，电力营销调度积累支撑。",
+    "reason": "项目落地和源网荷储能力支撑虚拟电厂增量主线，电力AI与鸿蒙作为实现技术保留。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600132.SH",
+    "key": "beer",
+    "sector": "啤酒",
+    "source_sector_name": "啤酒概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "啤酒酿造与品牌销售"
+    ],
+    "stage": "revenue",
+    "fact": "制造销售啤酒。",
+    "company_fact": "制造销售啤酒。",
+    "ths_fact": "啤酒解析列嘉士伯乐堡1664等品牌组合和啤酒经营。",
+    "reason": "实际啤酒产品明确，地域和高股息不是产业归属。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600133.SH",
+    "key": "smart_city",
+    "sector": "智慧城市",
+    "source_sector_name": "智慧城市",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "智慧园区运营系统"
+    ],
+    "stage": "delivery",
+    "fact": "环保科技和产业园区运营并行，提供产业生态运营服务。",
+    "company_fact": "环保科技和产业园区运营并行，提供产业生态运营服务。",
+    "ths_fact": "智慧城市解析确认智慧园区系统及APP已推出入选运营案例；人工智能解析列索元智园系统升级。",
+    "reason": "实际园区数字化系统支撑智慧城市应用，单纯接入DeepSeek不作为独立大模型收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600135.SH",
+    "key": "lithium_battery_separators",
+    "sector": "锂电隔膜",
+    "source_sector_name": "锂电隔膜",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "锂电池隔膜与功能膜"
+    ],
+    "stage": "revenue",
+    "fact": "经营影像医疗光电膜材，实际产品包括锂电隔膜及铝塑膜。",
+    "company_fact": "经营影像医疗光电膜材，实际产品包括锂电隔膜及铝塑膜。",
+    "ths_fact": "锂电池解析确认2025年隔膜线正常运营且上半年销量增长；隔膜解析有专属候选。",
+    "reason": "实际隔膜销售支持材料增量，铝塑膜线验收不足证明固态电池专用订单，集团柔性膜不可混入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600136.SH",
+    "key": "culture_media",
+    "sector": "文化传媒",
+    "source_sector_name": "文化传媒概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "影视内容与影院演艺"
+    ],
+    "stage": "revenue",
+    "fact": "影视剧和短剧综艺电影制作上映，经营影院演艺，并有智慧空间服务。",
+    "company_fact": "影视剧和短剧综艺电影制作上映，经营影院演艺，并有智慧空间服务。",
+    "ths_fact": "文化传媒和物业解析均确认影视传媒、影院与智慧空间经营。",
+    "reason": "作品上线和院线运营为直接内容主线，物业为并行业务，不能只沿供应商物业行业自动分类。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600137.SH",
+    "key": "apparel_home_textiles",
+    "sector": "服装家纺",
+    "source_sector_name": "服装家纺",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "针织内衣"
+    ],
+    "stage": "revenue",
+    "fact": "研发生产经营保暖内衣短裤文胸等，兼外贸贴牌。",
+    "company_fact": "研发生产经营保暖内衣短裤文胸等，兼外贸贴牌。",
+    "ths_fact": "成渝解析明确针织内衣为主导产品。",
+    "reason": "消费服装真实业务清晰，浪莎品牌不能误扩到集团全部袜业资产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600138.SH",
+    "key": "tourism",
+    "sector": "旅游",
+    "source_sector_name": "旅游概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "文旅目的地与旅行服务"
+    ],
+    "stage": "revenue",
+    "fact": "经营乌镇古北水镇景区及旅行社、整合营销与酒店。",
+    "company_fact": "经营乌镇古北水镇景区及旅行社、整合营销与酒店。",
+    "ths_fact": "旅游解析确认文旅目的地和综合旅游服务；AI应用主要用于旅游服务升级。",
+    "reason": "景区旅行服务构成稳定识别，内部AI接入及IT代理不替代文旅主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600141.SH",
+    "key": "phosphorus_chemicals",
+    "sector": "磷化工",
+    "source_sector_name": "磷化工",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "磷矿与精细磷化学品"
+    ],
+    "stage": "revenue",
+    "fact": "精细磷化工为核心并经营电子化学品农药有机硅肥料及新能源材料。",
+    "company_fact": "精细磷化工为核心并经营电子化学品农药有机硅肥料及新能源材料。",
+    "ths_fact": "磷化工解析明确采矿及系列产品，存储芯片解析列子公司湿电子化学品批量供应。",
+    "reason": "磷化工资源材料链及高端化是共同经营基础，半导体是材料客户；固态及液冷仍小试阶段。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600143.SH",
+    "key": "data_centers",
+    "sector": "数据中心(AIDC)",
+    "source_sector_name": "数据中心(AIDC)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "AI高速连接器LCP材料"
+    ],
+    "stage": "delivery",
+    "fact": "化工新材料产品用于电子、具身智能、能源等，具备特种工程塑料平台。",
+    "company_fact": "化工新材料产品用于电子、具身智能、能源等，具备特种工程塑料平台。",
+    "ths_fact": "AIDC解析确认低介电LCP大批应用224Gbps AI服务器高速连接器，算力解析有头部客户批供。",
+    "reason": "实际算力材料批供支撑增量方向，不能仅固定在传统改性塑料；人形与航天为其他已拓应用。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600148.SH",
+    "key": "automotive_parts",
+    "sector": "汽车零部件",
+    "source_sector_name": "汽车零部件",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "商用车离合器与液压翻转"
+    ],
+    "stage": "revenue",
+    "fact": "制造商用车离合器驾驶室液压翻转机构，并布局AMT和新能源部件。",
+    "company_fact": "制造商用车离合器驾驶室液压翻转机构，并布局AMT和新能源部件。",
+    "ths_fact": "一带一路及中俄解析确认控股俄罗斯公司离合器经营，东北解析列离合器生产。",
+    "reason": "明确的汽车传动配套支撑主线，无人机只有方案设计，不按军工资质推定军品收入。",
+    "basis": "crosschecked_sources"
+  }
+]

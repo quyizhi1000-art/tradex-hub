@@ -1,0 +1,62 @@
+{
+  "instrument_id": "301041.SZ",
+  "name": "金百泽",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "301041.SZ",
+    "name": "金百泽",
+    "memberships": [
+      "电子",
+      "元件",
+      "印制电路板",
+      "广东板块",
+      "趋势股",
+      "近期新高",
+      "创业板综",
+      "融资融券",
+      "QFII重仓",
+      "通信技术",
+      "电网概念",
+      "低空经济",
+      "新型工业化",
+      "CPO概念",
+      "机器人概念",
+      "职业教育",
+      "特高压",
+      "PCB",
+      "5G概念",
+      "军工"
+    ],
+    "business_sections": [
+      {
+        "title": "集成产品设计与制造IPDM、印制电路板PCB、数字化服务及科技成果转化服务等",
+        "kind": "主营业务",
+        "text": "公司主营业务主要包括集成产品设计与制造IPDM、印制电路板PCB、数字化服务及科技成果转化服务等。公司持续强化硬件创新服务能力，业务覆盖航空航天、电力电子、工业控制、人工智能、低空经济、信息技术、医疗设备、汽车电子、新能源和智能硬件等行业，将深耕技术研发，深化全链路服务能力，为客户在供应链安全与技术创新道路上，提供AI终端中试服务新底座。"
+      },
+      {
+        "title": "支撑客户研发创新、产品工程化和产业化落地",
+        "kind": "核心竞争力",
+        "text": "伴随着全球新一轮科技革命和产业变革蓬勃兴起，硬科技正逐步由“技术探索”走向“商业闭环”，成为推动产业升级和价值创造的核心引擎。金百泽深耕产业近三十年，深刻洞察行业本质——硬科技价值兑现的关键，在于跨越从实验室研发到规模化生产的“死亡谷”。2025年度，公司提供核心技术工程变现，构建降低创新门槛、加速科技成果转化的系统性基础设施，确立“制造+服务+平台”的核心模式，以工程化与数字化双轮驱动，致力于成为硬科技创新的关键使能者与生态构建者。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ301041",
+    "fetched_at": "2026-09-18T23:21:32.164555+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [
+    "PCB"
+  ],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "PCB"
+}

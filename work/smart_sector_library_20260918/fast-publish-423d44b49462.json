@@ -1,0 +1,96 @@
+[
+  {
+    "id": "002823.SZ",
+    "key": "new_energy_vehicles",
+    "sector": "新能源汽车",
+    "source_sector_name": "新能源汽车",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "三电连接器",
+      "电池及驱动精密零件"
+    ],
+    "fact": "为新能源汽车供应精密连接和驱动零件。",
+    "ths_fact": "新能源条目具体动力电池cell frame和busbar、电控逆变及驱动电机部件。",
+    "company_fact": "主营确认专业定制连接器换向器及新能源智能驾驶等核心零组件。",
+    "reason": "已有新能源汽车从三电及精密部件体现经营，机器人为自动化装备子线不泛化人形；客户及产品业务结构改变时复核。"
+  },
+  {
+    "id": "002824.SZ",
+    "key": "liquid_cooled_servers",
+    "sector": "液冷服务器",
+    "source_sector_name": "液冷服务器",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "液冷电力母排",
+      "算力设备精密结构件"
+    ],
+    "fact": "向算力服务器集成商交付液冷电力母排等产品。",
+    "ths_fact": "9月15日IR解析明确加工生产线建成及逐步量产交付。",
+    "company_fact": "EM确认铝合金及电池结构件制造基础，新增算力交付以原IR补正。",
+    "reason": "已有液冷服务器有近期量产交付事实，链位严格是母排等硬件供应而非服务器整机；不把目标收入计入actual。后续客户持续交付与收入贡献变化时复核。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "official-ir-002824-20260915",
+        "source_kind": "official_filing",
+        "publisher": "和胜股份",
+        "title": "2026年9月15日投资者关系活动记录表",
+        "source_url": "https://www.cfi.net.cn/p20260915003965.html",
+        "published_at": "2026-09-15",
+        "assertions": [
+          "公司已建成液冷电力母排等精密加工产线，已向头部AI算力服务器集成商逐步交付量产产品。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "002825.SZ",
+    "key": "consumer_electronics",
+    "sector": "消费电子",
+    "source_sector_name": "消费电子概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "电子光学保护膜",
+      "3C原厂配套"
+    ],
+    "fact": "向手机等3C原厂供应光学保护膜。",
+    "ths_fact": "2025年报解析确认电子光学膜面向3C前装与售后客户。",
+    "company_fact": "主营电子光学膜聚焦品牌手机前装售后，兼有汽车膜喷印材料。",
+    "reason": "已有消费电子来自可识别原厂产品，燃料电池和参股硅负极尚不能从所存业务材料确认成为经营重心。新增材料实际交付改变时复核。"
+  },
+  {
+    "id": "002826.SZ",
+    "key": "generic_drugs",
+    "sector": "仿制药",
+    "source_sector_name": "仿制药",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "特色仿制制剂",
+      "原料药制剂一体化"
+    ],
+    "fact": "生产销售特色仿制药并提供药品推广。",
+    "ths_fact": "仿制药条目明确蒙脱石散通过一致性评价。",
+    "company_fact": "主营自主生产，技术优势确认蒙脱石散多潘立酮米格列醇过评和后两者集采中标。",
+    "reason": "已有仿制药直接对应过评品种与制造销售，不把特色或竞品少当成创新药资质。新药注册和产品结构重大变化时复核。"
+  },
+  {
+    "id": "002827.SZ",
+    "key": "civil_explosives",
+    "sector": "民爆",
+    "source_sector_name": "民爆概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "炸药雷管",
+      "爆破一体化服务"
+    ],
+    "fact": "生产民爆器材并提供爆破和运输服务。",
+    "ths_fact": "民爆解析确认炸药及销售配送爆破业务，雅下条目为一般业务介绍未列项目订单。",
+    "company_fact": "主营明确民爆全链和水利矿山等应用、爆破及电子雷管模组。",
+    "reason": "已有民爆连接水利建设预期和实际产品，雅下具体订单未证实不写已中标。区域重点工程订单和经营主体变化时复核。"
+  }
+]

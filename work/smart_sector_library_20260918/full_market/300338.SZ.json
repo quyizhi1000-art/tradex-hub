@@ -1,0 +1,68 @@
+{
+  "instrument_id": "300338.SZ",
+  "name": "*ST开元",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "300338.SZ",
+    "name": "*ST开元",
+    "memberships": [
+      "社会服务",
+      "教育",
+      "培训教育",
+      "湖南板块",
+      "股权分散",
+      "破发股",
+      "长期破净",
+      "ST股",
+      "电池技术",
+      "电网概念",
+      "虚拟数字人",
+      "职业教育",
+      "元宇宙概念",
+      "储能概念",
+      "钠离子电池",
+      "虚拟电厂",
+      "百度概念",
+      "在线教育"
+    ],
+    "business_sections": [
+      {
+        "title": "职业教育业务",
+        "kind": "主营业务",
+        "text": "公司主营职业教育业务，面向在职人士、求职人士和院校学生等多层次群体，提供财经会计、建筑工程、社工、医学、公考、教资等领域的职业资格考试培训、技能提升及继续教育服务。国家政策持续鼓励职业教育发展，就业优先战略深入实施，新技术应用加速行业变革，市场需求保持稳定增长。报告期内，职业教育行业受益于政策红利、市场需求和技术创新，整体呈现高质量发展态势。"
+      },
+      {
+        "title": "内容研发与教学交付能力",
+        "kind": "核心竞争力",
+        "text": "公司始终以学员通过率和就业率为导向，进行深度内容研发，形成了针对财经实操和资格考试的独特教学体系。在考证培训领域，公司开发了“考霸魔方”等产品体系，结合大数据分析和个性化辅导，帮助学员精准提升薄弱环节，显著提高考试通过效率。在实操技能培训方面，公司推出“开元秘方”研发模式和EAT教学体系（涵盖备课、磨课、看课、评课全流程），强调项目贯穿和场景化实训，让学员快速积累实战经验，缩短从学习到就业的路径。"
+      },
+      {
+        "title": "数字化平台与线上线下融合能力",
+        "kind": "核心竞争力",
+        "text": "公司构建了以See.AI为核心的智能化学习系统，集成智慧校区管理和运营平台，支持个性化推荐、智能排课、深度伴学和数据分析。该系统实现线上题库练习、直播互动与线下实操面授的无缝融合（OMO模式），提升教学效率和学员体验。"
+      },
+      {
+        "title": "品牌影响力与用户获取能力",
+        "kind": "核心竞争力",
+        "text": "公司旗下“恒企教育”“中大网校”和“准题库”品牌在财经和建筑职业教育细分领域具有较高知名度，积累了稳定用户群体和口碑转介绍。通过全国化校区布局（覆盖主要城市）和多渠道运营（官网、APP、电商、新媒体），公司形成了高效的用户获取体系。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ300338",
+    "fetched_at": "2026-09-18T23:07:05.823694+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "教育"
+}

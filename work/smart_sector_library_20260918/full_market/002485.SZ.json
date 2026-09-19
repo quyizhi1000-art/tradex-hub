@@ -1,0 +1,57 @@
+{
+  "instrument_id": "002485.SZ",
+  "name": "ST雪发",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "002485.SZ",
+    "name": "ST雪发",
+    "memberships": [
+      "纺织服饰",
+      "服装家纺",
+      "非运动服装",
+      "山东板块",
+      "破发股",
+      "ST股",
+      "旅游概念"
+    ],
+    "business_sections": [
+      {
+        "title": "文化旅游业务",
+        "kind": "主营业务",
+        "text": "近年来，公司依托全国一线旅游目的地资源，专注于文旅小镇开发与运营。目前，公司在营文旅小镇包括云南香格里拉独克宗花巷和浙江嘉兴西塘花巷一期。同时，公司积极推进在建项目浙江嘉兴西塘花巷二期的建设，以期为游客提供更加多元、丰富的文旅体验。"
+      },
+      {
+        "title": "供应链运营管理和综合服务",
+        "kind": "主营业务",
+        "text": "公司坚持稳健经营、稳中求进，供应链业务依托上市公司规范管理体系及资金支持，持续深耕，为多个垂直品类大宗商品提供供应链综合服务。当前公司主要经营品种包括：煤炭、钢材、铝材等品种，经营模式包括以上游为核心的集采分销业务，库存管理、产品定制、价格管理以及以下游为核心配送保供业务等。"
+      },
+      {
+        "title": "资源优势",
+        "kind": "核心竞争力",
+        "text": "公司文旅小镇位于香格里拉、西塘等国内一线旅游目的地黄金地段，市场客源相对稳定，旅游资源较为丰富，项目稀缺性凸显，资产优质且升值空间大。"
+      },
+      {
+        "title": "团队优势",
+        "kind": "核心竞争力",
+        "text": "公司组建优秀管理团队，聚集综合服务人才。团队具备丰富的行业运营管理经验，通过创造丰富多样的商业模式，提供多层次、多样化的产品与服务，构建企业核心竞争力。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ002485",
+    "fetched_at": "2026-09-18T22:49:22.272899+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "供应链"
+}

@@ -1,0 +1,36 @@
+{
+  "apiDifferenceExact": true,
+  "comparison": {
+    "contract": "intraday_macd_j_increment.v1",
+    "baseline": {
+      "status": "available",
+      "trade_date": "2026-09-17",
+      "result_id": "stock-selection-strategy-result:6b54d83e3775b34af1b90516",
+      "source_snapshot_revision": "f8e8a6f046c15beec678e96604ad2ee3c8d9cf5da185c9d594c6e413b7377913",
+      "strategy_version": "v3",
+      "quality": "degraded",
+      "matched_count": 105,
+      "evaluated_count": 3036,
+      "eligible_count": 3052
+    },
+    "raw_matched_count": 150,
+    "status": "available",
+    "removed_count": 57,
+    "new_count": 93
+  },
+  "servedAssetsMatch": true,
+  "confirmedExample": {
+    "instrument": "000657.SZ",
+    "crossDate": "2026-09-16",
+    "jTurnDate": "2026-09-18"
+  },
+  "window": {
+    "sameTable": true,
+    "detailsOpen": true,
+    "scrollTop": 400
+  },
+  "dailySummary": "主板非 ST 3,052 只 · 完整指标 3,036 只 · 覆盖 99.5% · 命中 105 只（J 当日拐头 12 · 此前 1～3 日拐头 93） · 降级",
+  "dailyRule": "金叉距今日 0～2 个交易日 · v3",
+  "legacyRule": "历史规则：当天新金叉 · v1",
+  "pageErrors": []
+}

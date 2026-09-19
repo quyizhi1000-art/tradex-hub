@@ -1,0 +1,96 @@
+[
+  {
+    "id": "300737.SZ",
+    "key": "waterproof_materials",
+    "sector": "防水材料",
+    "source_sector_name": "防水材料",
+    "source_sector_provider": "东方财富",
+    "stage": "revenue",
+    "chain": [
+      "建筑防水材料",
+      "防水综合方案"
+    ],
+    "fact": "建筑防水材料和工程解决方案为明确产业身份。",
+    "ths_fact": "同花顺新型城镇化及水利解析说明防水卷材涂料生产和防水工程施工。",
+    "company_fact": "公司主营以建筑防水为核心，覆盖工建民用修缮减隔震等产品方案。",
+    "reason": "已有防水材料最准确体现产品实质；航天基地防水不属于航天器制造，核电项目供材也不等同核心核设备。"
+  },
+  {
+    "id": "300738.SZ",
+    "key": "data_centers",
+    "sector": "数据中心(AIDC)",
+    "source_sector_name": "数据中心(AIDC)",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "IDC运营",
+      "云网基础设施"
+    ],
+    "fact": "经营IDC和云网基础服务，映射数据中心产业。",
+    "ths_fact": "同花顺AIDC解析明确IDC服务；算力租赁解析主要是多个数据中心建设及服务提升。",
+    "company_fact": "主营确认云计算数据中心与全球云网传输网络，向互联网及AI等客户提供基础服务。",
+    "reason": "已有数据中心(AIDC)直接对应经营业务，不能仅凭建设项目把所有机柜服务说成GPU租赁；参股芯片和基金不替换主线。"
+  },
+  {
+    "id": "300739.SZ",
+    "key": "pcb",
+    "sector": "PCB",
+    "source_sector_name": "PCB概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "高多层PCB",
+      "高速互联电路板"
+    ],
+    "fact": "研发生产PCB并覆盖AI数据中心高速互联板。",
+    "ths_fact": "同花顺PCB解析明确印制电路板主业，2026年5月调研记录AI数据中心高速互联PCB批量交付。",
+    "company_fact": "公司主营资料明确印制电路板研发生产销售，产品涵盖多层和高密度互连等。",
+    "reason": "已有PCB直接覆盖实体产品与高速互联升级；光模块研发板不能当作完整光模块，玻璃基封装实验线不当量产。"
+  },
+  {
+    "id": "300740.SZ",
+    "key": "cosmetics",
+    "sector": "化妆品",
+    "source_sector_name": "化妆品概念",
+    "source_sector_provider": "东方财富",
+    "stage": "revenue",
+    "chain": [
+      "护肤化妆品品牌",
+      "全渠道销售"
+    ],
+    "fact": "多品牌化妆品研发生产与渠道销售。",
+    "ths_fact": "同花顺跨境电商及平台条目确认美妆品牌多渠道经营，医美条目主要是品牌线上产品而非医疗服务。",
+    "company_fact": "主营确认EDB、御泥坊等品牌，面膜水乳彩妆个护产品及线上线下全球销售网络。",
+    "reason": "选已有化妆品概念覆盖消费者产品和品牌身份，直播是渠道，内部AI办公不成主归属。"
+  },
+  {
+    "id": "300741.SZ",
+    "key": "tobacco",
+    "sector": "烟草",
+    "source_sector_name": "烟草",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "烟用香精",
+      "风味配料"
+    ],
+    "fact": "香精企业通过烟用香精参与烟草产业链。",
+    "ths_fact": "同花顺烟草解析明确向中烟企业供烟用香精；新型烟草条目为烟用香精在HNB应用原理。",
+    "company_fact": "原2026半年报确认风味板块食品香精、烟用香精及风味复合料业务，并列营养健康、香氛护理板块。",
+    "reason": "选已有烟草明确香精配套角色；东方财富本地主营LPG深加工段与本公司不符，排除并以原半年报更正交叉核验，不据此归油化工。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "300741-2026h1-correct-business",
+        "source_kind": "official_filing",
+        "publisher": "巨潮资讯",
+        "title": "华宝科技2026年半年度报告",
+        "source_url": "https://static.cninfo.com.cn/finalpage/2026-08-27/1225513239.PDF",
+        "published_at": "2026-08-27",
+        "assertions": [
+          "报告第10页确认风味板块含烟用香精，不是本地F10缓存所列LPG深加工。"
+        ]
+      }
+    ]
+  }
+]

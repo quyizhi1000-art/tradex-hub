@@ -1,0 +1,77 @@
+[
+  {
+    "id": "688507.SH",
+    "key": "ai_agents",
+    "sector": "AI智能体",
+    "source_sector_name": "AI智能体",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "物理仿真与智能体训练平台"
+    ],
+    "fact": "CAE与开物物理AI应用平台已推出。",
+    "company_fact": "CAE与开物物理AI应用平台已推出。",
+    "ths_fact": "物理AI多物理场仿真及智能体训练行业平台。",
+    "reason": "以仿真训练平台支持具身，非人形整机制造。"
+  },
+  {
+    "id": "688508.SH",
+    "key": "data_centers",
+    "sector": "数据中心(AIDC)",
+    "source_sector_name": "数据中心(AIDC)",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "服务器电源管理与功率芯片"
+    ],
+    "fact": "电源电机系统芯片覆盖服务器通信光储等。",
+    "company_fact": "电源电机系统芯片覆盖服务器通信光储等。",
+    "ths_fact": "服务器等大功率数字电源已从研发到销售推广。",
+    "reason": "数据中心电源链位，普通电机产品适用人形不混入量产收入。"
+  },
+  {
+    "id": "688509.SH",
+    "key": "underground_pipelines",
+    "sector": "地下管网",
+    "source_sector_name": "地下管网",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "地下管网安全运维"
+    ],
+    "fact": "测绘地理信息地下管网及智慧城市运营。",
+    "company_fact": "测绘地理信息地下管网及智慧城市运营。",
+    "ths_fact": "主营地下管网安全运维技术服务。",
+    "reason": "地下空间安全实际经营，并非仅地域政策标签。"
+  },
+  {
+    "id": "688510.SH",
+    "key": "aero_engines",
+    "sector": "航空发动机",
+    "source_sector_name": "航空发动机",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "发动机叶片转动结构件"
+    ],
+    "fact": "航发和燃机主流客户供应商，航空锻造能力。",
+    "company_fact": "航发和燃机主流客户供应商，航空锻造能力。",
+    "ths_fact": "向赛峰RR GE等直接供货叶片零部件。",
+    "reason": "精密零件供应非发动机整机；医疗关节为并行业务。"
+  },
+  {
+    "id": "688511.SH",
+    "key": "military_electronics",
+    "sector": "军工电子",
+    "source_sector_name": "军工电子Ⅱ",
+    "source_sector_provider": "东方财富",
+    "stage": "revenue",
+    "chain": [
+      "灭火抑爆与防护电子"
+    ],
+    "fact": "灭火抑爆三防采集航空点火熔断电子器件产销。",
+    "company_fact": "灭火抑爆三防采集航空点火熔断电子器件产销。",
+    "ths_fact": "军工总体一级配套，武器防护产品。",
+    "reason": "军用电子防护身份，泛航空应用不等同商业火箭批供。"
+  }
+]

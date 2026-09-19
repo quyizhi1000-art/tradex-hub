@@ -1,0 +1,152 @@
+[
+  {
+    "id": "920892.BJ",
+    "key": "new_urbanization",
+    "sector": "新型城镇化",
+    "source_sector_name": "新型城镇化",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "工程投资咨询招标管理"
+    ],
+    "fact": "工程咨询造价招标项目管理监理一站式服务。",
+    "company_fact": "工程咨询造价招标项目管理监理一站式服务。",
+    "ths_fact": "承接多地城镇化与城乡融合项目。",
+    "reason": "工程咨询身份；航天发射场谋划支持不是建设运营发射场。"
+  },
+  {
+    "id": "920895.BJ",
+    "key": "agricultural_machinery",
+    "sector": "农机",
+    "source_sector_name": "农机",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "打捆机与玉米割台"
+    ],
+    "fact": "农业机械研发产销及经销服务。",
+    "company_fact": "农业机械研发产销及经销服务。",
+    "ths_fact": "农业装备核心为打捆机。",
+    "reason": "农机实际制造，非泛种植政策标签。"
+  },
+  {
+    "id": "920896.BJ",
+    "key": "robots",
+    "sector": "机器人",
+    "source_sector_name": "机器人概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "精密传动部件"
+    ],
+    "fact": "齿轮离合器及摩擦材料传动零件研产销。",
+    "company_fact": "齿轮离合器及摩擦材料传动零件研产销。",
+    "ths_fact": "2026年4月明确机器人精密传动部件已量产取得收入。",
+    "reason": "有机器人零件收入，但未明确人形不得混为人形。"
+  },
+  {
+    "id": "920906.BJ",
+    "key": "smart_cockpit",
+    "sector": "智能座舱",
+    "source_sector_name": "智能座舱",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "车内智能照明与成像"
+    ],
+    "fact": "汽车功能件扩展智能照明机构成像产品。",
+    "company_fact": "汽车功能件扩展智能照明机构成像产品。",
+    "ths_fact": "氛围灯CARLOG已量产，HUD仍待定点开发。",
+    "reason": "已量产座舱产品与HUD阶段分开，AGV为另一业务。"
+  },
+  {
+    "id": "920914.BJ",
+    "key": "metal_nickel",
+    "sector": "金属镍",
+    "source_sector_name": "金属镍",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "精密镍带箔及结构件"
+    ],
+    "fact": "电池镍基连接材料研产销。",
+    "company_fact": "电池镍基连接材料研产销。",
+    "ths_fact": "镍带箔及下游精密结构件一体化生产。",
+    "reason": "镍材料加工非镍矿开采，不泛化资源储量。"
+  },
+  {
+    "id": "920924.BJ",
+    "key": "compute_leasing",
+    "sector": "算力租赁",
+    "source_sector_name": "算力租赁",
+    "source_sector_provider": "同花顺",
+    "stage": "orders",
+    "chain": [
+      "智算服务与系统集成"
+    ],
+    "fact": "通信综合服务涵盖ICT行业应用与资产运营。",
+    "company_fact": "通信综合服务涵盖ICT行业应用与资产运营。",
+    "ths_fact": "已中标浙江联通智算租赁，获得广州联通算力及西湖GPU项目。",
+    "reason": "区分租赁合同与硬件集成，不全部归为租赁已确认营收。"
+  },
+  {
+    "id": "920925.BJ",
+    "key": "medical_devices",
+    "sector": "医疗器械",
+    "source_sector_name": "医疗器械概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "助听器"
+    ],
+    "fact": "助听器为核心主营，有芯片算法声学技术。",
+    "company_fact": "助听器为核心主营，有芯片算法声学技术。",
+    "ths_fact": "康复家用医疗器械研发产销。",
+    "reason": "助听器自用芯片不等于独立芯片外销主业。"
+  },
+  {
+    "id": "920926.BJ",
+    "key": "home_appliances",
+    "sector": "家用电器",
+    "source_sector_name": "家用电器",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "智能厨房小家电"
+    ],
+    "fact": "电饭煲压力锅炒菜机等厨房电器研产销。",
+    "company_fact": "电饭煲压力锅炒菜机等厨房电器研产销。",
+    "ths_fact": "家电产品完整实际业务。",
+    "reason": "跨境是渠道，归属家电产业。"
+  },
+  {
+    "id": "920931.BJ",
+    "key": "energy_heavy_equipment",
+    "sector": "能源及重型设备",
+    "source_sector_name": "能源及重型设备",
+    "source_sector_provider": "东方财富",
+    "stage": "revenue",
+    "chain": [
+      "石化换热设备"
+    ],
+    "fact": "定制换热设备设计制造销售，应用石油化工。",
+    "company_fact": "定制换热设备设计制造销售，应用石油化工。",
+    "ths_fact": "概念仅专精特新资质。",
+    "reason": "使用已有行业，不因换热二字新增不存在液冷成员标签。"
+  },
+  {
+    "id": "920932.BJ",
+    "key": "robots",
+    "sector": "机器人",
+    "source_sector_name": "机器人概念",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "矿山特种机器人"
+    ],
+    "fact": "智慧矿山系统及物联网远程监测运维。",
+    "company_fact": "智慧矿山系统及物联网远程监测运维。",
+    "ths_fact": "已有四款机器人进入销售环节，另有多款研发。",
+    "reason": "矿山特种机器人已成品，人形联合开发框架不当人形量产。"
+  }
+]

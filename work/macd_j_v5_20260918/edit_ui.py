@@ -1,0 +1,16 @@
+from pathlib import Path
+for f in ['macd_j.py','intraday_macd_j.py']:
+ p=Path('tradex/src/tradex/stock_selection')/f;s=p.read_text(encoding='utf-8').replace('"no_current_signal"','"no_v4_signal"');p.write_text(s,encoding='utf-8')
+p=Path('tradex/src/tradex/dashboard/watch/app.js');s=p.read_text(encoding='utf-8');s=s.replace('function renderMacdPending(target, rows, isClose) {','function renderMacdPending(target, rows, isClose, maxJLead = 2) {')
+s=s.replace('"尚未金叉；DIF今天上升、两线差距连续两天缩小，J当天或前一交易日拐头且今天仍上升。满足同样的60日高点、MA5和量比过滤；不保证之后金叉。"','`尚未金叉；DIF今天上升、两线差距连续两天缩小，J当天或此前${maxJLead}个交易日内拐头且今天仍上升。满足同样的60日高点、MA5和量比过滤；不保证之后金叉。`')
+s=s.replace('byId("stock-macd-j-rule").textContent = payload.screen_version === "macd-j-upturn-main-board.v4"', 'byId("stock-macd-j-rule").textContent = payload.screen_version === "macd-j-upturn-main-board.v5"\n      ? "当日金叉 · J 当天或提前1～2日 · 距60日高点<-20% · 价格≥MA5 · 量比≤1.5 · v5"\n      : payload.screen_version === "macd-j-upturn-main-board.v4"')
+s=s.replace('payload.screen_version?.endsWith(".v4") ? "前一交易日" : "此前 1～3 日"', 'payload.screen_version?.endsWith(".v5") ? "此前1～2日" : payload.screen_version?.endsWith(".v4") ? "前一交易日" : "此前 1～3 日"')
+s=s.replace('payload.screen_version?.endsWith(".v4") ? "J 前一交易日拐头" : "J 此前 1～3 个交易日拐头"', 'payload.screen_version?.endsWith(".v5") ? "J 此前1～2个交易日拐头" : payload.screen_version?.endsWith(".v4") ? "J 前一交易日拐头" : "J 此前 1～3 个交易日拐头"')
+s=s.replace('renderMacdPending(pendingPanel, stockSelectionVisibleCandidates(payload.pending_candidates), true);','renderMacdPending(pendingPanel, stockSelectionVisibleCandidates(payload.pending_candidates), true, payload.screen_version?.endsWith(".v4") ? 1 : 2);')
+s=s.replace('item.signal_group === "prior_1_session"','["prior_1_session", "prior_2_sessions"].includes(item.signal_group)')
+s=s.replace('candidate.signal_group === "prior_1_session" ? "J 前一交易日拐头" : "J 此前 1～3 日拐头"','candidate.signal_group === "prior_1_session" ? "J 前一交易日拐头" : candidate.signal_group === "prior_2_sessions" ? "J 此前1～2日拐头" : "J 此前 1～3 日拐头"')
+s=s.replace('scan.screen_version !== "macd-j-upturn-main-board.v4"','scan.screen_version !== "macd-j-upturn-main-board.v5"').replace('J最多提前1日及价格量比过滤混算','J最多提前2日及价格量比过滤混算')
+s=s.replace('stockSelectionIndustryName(r) === state.intradayMacdJIndustry), isClose);','stockSelectionIndustryName(r) === state.intradayMacdJIndustry), isClose, scan.screen_version?.endsWith(".v4") ? 1 : 2);')
+p.write_text(s,encoding='utf-8')
+p=Path('tradex/src/tradex/dashboard/watch/index.html');s=p.read_text(encoding='utf-8').replace('当天或前一交易日拐头','当天或此前1～2个交易日拐头').replace('J当天或提前1日','J当天或提前1～2日').replace('J 前一交易日拐头','J 此前1～2个交易日拐头');p.write_text(s,encoding='utf-8')
+p=Path('docs/intraday-macd-j.md');s=p.read_text(encoding='utf-8').replace('当前规则 v4','当前规则 v5').replace('`macd-j-upturn-main-board.v4`','`macd-j-upturn-main-board.v5`').replace('v1/v2/v3 历史存档','v1/v2/v3/v4 历史存档').replace('J 当天或前一交易日拐头','J 当天或此前1～2个交易日拐头').replace('不允许提前两天','不允许提前三天').replace('`macd_rules.v4_signal`','`macd_rules.v4_signal(max_j_lead=2)`').replace('按已确认窗口不入选。','v5允许提前两日，需继续核验其他条件。');s+='\n本次v5仅将v4的J前置窗口从最多1日放宽为最多2日，正式入选与独立预警同时适用。v4历史规则仍保持最多1日。\n';p.write_text(s,encoding='utf-8')

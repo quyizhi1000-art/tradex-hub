@@ -523,6 +523,9 @@ def _attribution_key(attribution: Mapping[str, Any]) -> tuple[str, ...]:
 
 
 def _merge_stock_record(current: dict[str, Any], incoming: dict[str, Any]) -> None:
+    consistent = (current["membership_verified"] and incoming["membership_verified"]
+                  and {a["sector_key"] for a in current["attributions"]}
+                  == {a["sector_key"] for a in incoming["attributions"]})
     if not current["code"] and incoming["code"]:
         current["code"] = incoming["code"]
     if not current["name"] and incoming["name"]:
@@ -544,6 +547,10 @@ def _merge_stock_record(current: dict[str, Any], incoming: dict[str, Any]) -> No
         if key not in existing_attributions:
             current["attributions"].append(attribution)
             existing_attributions.add(key)
+    if not consistent:
+        current["membership_verified"] = False
+        current["attributions"] = []
+        current["matched_tags"] = []
 
     current_count = current["board_count"] or 0
     incoming_count = incoming["board_count"] or 0
@@ -587,9 +594,19 @@ def _prepare_stock(record: Record) -> dict[str, Any]:
     profile = raw_profile if isinstance(raw_profile, Mapping) else {}
     industry = _normalize_tag(profile.get("industry"))
     industry_attribution = attribute_tokens(
-        (industry,) if industry else (),
-        source="industry_profile",
+        (industry,) if industry else (), source="industry_profile",
     )
+    # Reasons and provider industries remain audit context. Only the shared
+    # library's primary membership may assign a stock to an aggregation bucket.
+    membership = record.get("smart_sector_membership")
+    authoritative = []
+    if isinstance(membership, Mapping) and membership.get("status") == "verified":
+        key = membership.get("primary_sector_key")
+        if key in SECTOR_LABELS:
+            authoritative = [{"matched_tag": membership["primary_sector_name"],
+                              "canonical_tag": membership["primary_sector_name"],
+                              "sector_key": key, "chain_node": membership["primary_sector_name"],
+                              "rule_id": "smart_sector_library_v2", "source": "smart_sector_library"}]
     concept_tags_value = profile.get("concept_tags")
     if isinstance(concept_tags_value, (str, bytes)):
         concept_tags = parse_reason_tags(concept_tags_value)
@@ -614,14 +631,8 @@ def _prepare_stock(record: Record) -> dict[str, Any]:
         "board_label": board_label,
         "raw_reasons": [raw_reason] if raw_reason else [],
         "parsed_tags": reason_attribution["parsed_tags"],
-        "matched_tags": _unique([
-            *reason_attribution["matched_tags"],
-            *industry_attribution["matched_tags"],
-        ]),
-        "attributions": [
-            *reason_attribution["attributions"],
-            *industry_attribution["attributions"],
-        ],
+        "matched_tags": [item["matched_tag"] for item in authoritative],
+        "attributions": authoritative,
         "unmapped_tags": reason_attribution["unmapped_tags"],
         "unmapped_industries": industry_attribution["unmapped_tags"],
         "sector_profile": {
@@ -633,6 +644,7 @@ def _prepare_stock(record: Record) -> dict[str, Any]:
             "fetched_at": profile.get("fetched_at"),
         } if industry else None,
         "order_amount": _finite_number(_first_value(record, _ORDER_AMOUNT_FIELDS)),
+        "membership_verified": isinstance(membership, Mapping) and membership.get("status") == "verified",
     }
 
 
@@ -666,8 +678,8 @@ def _leader_sort_key(stock: Mapping[str, Any]) -> tuple[float, float, str]:
 def attribute_limit_up_records(records: Sequence[Record] | Iterable[Record]) -> dict[str, Any]:
     """Build leadership evidence for all eleven risk-appetite sectors.
 
-    A stock may appear in multiple sectors, while duplicate records or multiple
-    matching tags never inflate a sector's unique-stock count.
+    Only the library primary assigns a stock. Provider tags remain audit context.
+    Incomplete membership coverage cannot imply a neutral leadership vote.
     """
 
     stocks_by_identity: dict[tuple[str, str], dict[str, Any]] = {}
@@ -694,6 +706,7 @@ def attribute_limit_up_records(records: Sequence[Record] | Iterable[Record]) -> 
     # domain layer decides whether that valid empty pool is neutral evidence.
     reason_coverage = records_with_reason / pool_total if pool_total else 1.0
     records_with_profile = sum(stock["sector_profile"] is not None for stock in stocks)
+    membership_coverage = sum(stock["membership_verified"] for stock in stocks) / pool_total if pool_total else 1.0
     industry_profile_coverage = (
         records_with_profile / pool_total if pool_total else 1.0
     )
@@ -714,7 +727,7 @@ def attribute_limit_up_records(records: Sequence[Record] | Iterable[Record]) -> 
             (stock["board_count"] or 0 for stock in matched_stocks),
             default=0,
         )
-        if not pool_total:
+        if not pool_total or membership_coverage < 1.0:
             vote = UNKNOWN
         elif matched_count >= 3 or (matched_count >= 2 and max_board_count >= 2):
             vote = STRONG
@@ -734,6 +747,8 @@ def attribute_limit_up_records(records: Sequence[Record] | Iterable[Record]) -> 
         "pool_total": pool_total,
         "reason_coverage": reason_coverage,
         "industry_profile_coverage": industry_profile_coverage,
+        "membership_coverage": membership_coverage,
+        "membership_basis": "smart_sector_library",
         "sectors": sectors,
         "unmapped_tags": sorted(set(unmapped_tags)),
         "unmapped_industries": sorted(set(unmapped_industries)),

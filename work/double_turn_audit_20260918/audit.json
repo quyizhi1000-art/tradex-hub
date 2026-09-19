@@ -1,0 +1,200 @@
+{
+  "scans": [
+    {
+      "last_scan_slot": "2026-09-18T09:30:00+08:00",
+      "status": "unavailable",
+      "requested_count": null,
+      "universe_count": null,
+      "evaluated_count": null,
+      "missing_quote_count": null,
+      "excluded_counts": null,
+      "hits": 0
+    },
+    {
+      "last_scan_slot": "2026-09-18T09:45:00+08:00",
+      "status": "monitoring",
+      "requested_count": 3043,
+      "universe_count": 240,
+      "evaluated_count": 240,
+      "missing_quote_count": 2803,
+      "excluded_counts": {
+        "no_clear_new_cross": 237,
+        "no_recent_turn": 1
+      },
+      "hits": 2
+    },
+    {
+      "last_scan_slot": "2026-09-18T10:00:00+08:00",
+      "status": "monitoring",
+      "requested_count": 3043,
+      "universe_count": 240,
+      "evaluated_count": 240,
+      "missing_quote_count": 2803,
+      "excluded_counts": {
+        "no_clear_new_cross": 236,
+        "no_recent_turn": 1
+      },
+      "hits": 3
+    },
+    {
+      "last_scan_slot": "2026-09-18T10:15:00+08:00",
+      "status": "monitoring",
+      "requested_count": 3043,
+      "universe_count": 240,
+      "evaluated_count": 240,
+      "missing_quote_count": 2803,
+      "excluded_counts": {
+        "no_clear_new_cross": 236,
+        "no_recent_turn": 1
+      },
+      "hits": 3
+    },
+    {
+      "last_scan_slot": "2026-09-18T10:30:00+08:00",
+      "status": "monitoring",
+      "requested_count": 3043,
+      "universe_count": 240,
+      "evaluated_count": 240,
+      "missing_quote_count": 2803,
+      "excluded_counts": {
+        "no_clear_new_cross": 236,
+        "no_recent_turn": 1
+      },
+      "hits": 3
+    },
+    {
+      "last_scan_slot": "2026-09-18T10:45:00+08:00",
+      "status": "monitoring",
+      "requested_count": 3043,
+      "universe_count": 240,
+      "evaluated_count": 240,
+      "missing_quote_count": 2803,
+      "excluded_counts": {
+        "no_clear_new_cross": 236,
+        "no_recent_turn": 1
+      },
+      "hits": 3
+    },
+    {
+      "last_scan_slot": "2026-09-18T11:00:00+08:00",
+      "status": "monitoring",
+      "requested_count": 3043,
+      "universe_count": 240,
+      "evaluated_count": 240,
+      "missing_quote_count": 2803,
+      "excluded_counts": {
+        "no_clear_new_cross": 236,
+        "no_recent_turn": 1
+      },
+      "hits": 3
+    }
+  ],
+  "seeds": [
+    {
+      "file": "seed-2026-09-04-st-None.json",
+      "points": 5542,
+      "rejected": 6
+    },
+    {
+      "file": "seed-2026-09-07-st-None.json",
+      "points": 5541,
+      "rejected": 8
+    },
+    {
+      "file": "seed-2026-09-08-st-None.json",
+      "points": 5541,
+      "rejected": 8
+    },
+    {
+      "file": "seed-2026-09-09-st-None.json",
+      "points": 5541,
+      "rejected": 9
+    },
+    {
+      "file": "seed-2026-09-10-st-None.json",
+      "points": 5539,
+      "rejected": 10
+    },
+    {
+      "file": "seed-2026-09-11-st-None.json",
+      "points": 5541,
+      "rejected": 9
+    },
+    {
+      "file": "seed-2026-09-14-st-None.json",
+      "points": 5542,
+      "rejected": 8
+    },
+    {
+      "file": "seed-2026-09-15-st-None.json",
+      "points": 5541,
+      "rejected": 7
+    },
+    {
+      "file": "seed-2026-09-16-st-2026-09-17.json",
+      "points": 5542,
+      "rejected": 6
+    },
+    {
+      "file": "seed-2026-09-16-st-None.json",
+      "points": 5542,
+      "rejected": 8
+    },
+    {
+      "file": "seed-2026-09-17-st-2026-09-18.json",
+      "points": 5546,
+      "rejected": 6
+    }
+  ],
+  "coverage_pct": 7.89,
+  "probe": {
+    "at": "2026-09-18T11:12:12.506680+08:00",
+    "requested": 3043,
+    "received": 240,
+    "missing": 2803,
+    "first": "000001.SZ",
+    "last": "000892.SZ",
+    "trace": [
+      {
+        "batch": 1,
+        "first": "000001",
+        "last": "000428",
+        "count": 80,
+        "received": 80,
+        "seconds": 0.125
+      },
+      {
+        "batch": 2,
+        "first": "000429",
+        "last": "000605",
+        "count": 80,
+        "received": 80,
+        "seconds": 0.469
+      },
+      {
+        "batch": 3,
+        "first": "000607",
+        "last": "000751",
+        "count": 80,
+        "error": "All sources for 'intraday_scan_quotes' failed: tencent_http: unexpected scan instrument",
+        "seconds": 0.531
+      },
+      {
+        "batch": 4,
+        "first": "000753",
+        "last": "000892",
+        "count": 80,
+        "received": 80,
+        "seconds": 0.484
+      },
+      {
+        "batch": 5,
+        "first": "000893",
+        "last": "001210",
+        "count": 80,
+        "error": "All sources for 'intraday_scan_quotes' failed: tencent_http: unexpected scan instrument",
+        "seconds": 0.5
+      }
+    ]
+  }
+}

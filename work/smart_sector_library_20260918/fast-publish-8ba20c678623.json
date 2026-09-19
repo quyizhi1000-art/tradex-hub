@@ -1,0 +1,454 @@
+[
+  {
+    "id": "600048.SH",
+    "key": "real_estate_development",
+    "sector": "房地产开发",
+    "source_sector_name": "房地产开发",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "住宅开发与资产运营"
+    ],
+    "stage": "revenue",
+    "fact": "以商品住宅投资开发为主并经营租赁商业养老等资产。",
+    "company_fact": "以商品住宅投资开发为主并经营租赁商业养老等资产。",
+    "ths_fact": "物业管理解析确认房地产开发经营。",
+    "reason": "住宅开发为直接持续业务，智能家居是住宅产品能力、养老是服务拓展。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600050.SH",
+    "key": "computing_power",
+    "sector": "东数西算(算力)",
+    "source_sector_name": "东数西算(算力)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "云网一体智算基础设施"
+    ],
+    "stage": "revenue",
+    "fact": "连接之外建设AIDC智算集群，经营联通云和安全服务。",
+    "company_fact": "连接之外建设AIDC智算集群，经营联通云和安全服务。",
+    "ths_fact": "算力解析确认云和数据中心收入，智算规模及云网经营实际开展。",
+    "reason": "真实大规模云算业务支撑算力增量主线，不能只因连接收入大锁定电信行业。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600051.SH",
+    "key": "cross_border_ecommerce",
+    "sector": "跨境电商",
+    "source_sector_name": "跨境电商",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "进出口综合供应链服务"
+    ],
+    "stage": "revenue",
+    "fact": "热电房地产和进出口批发并行，贸易提供通关仓储外汇物流。",
+    "company_fact": "热电房地产和进出口批发并行，贸易提供通关仓储外汇物流。",
+    "ths_fact": "跨境电商解析明确进出口及跨境电商综合服务。",
+    "reason": "已有综合外贸服务是可识别市场方向，码头为联营，热电和地产另列。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600052.SH",
+    "key": "heating_services",
+    "sector": "热力服务",
+    "source_sector_name": "热力服务",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "园区热水供应运营"
+    ],
+    "stage": "revenue",
+    "fact": "聚焦园区热水系统投资建设运营，延伸校园服务；影视存量盘活。",
+    "company_fact": "聚焦园区热水系统投资建设运营，延伸校园服务；影视存量盘活。",
+    "ths_fact": "补公司页明确主营园区生活服务，产品含热水供应。",
+    "reason": "真实热水运营对应既有热力服务，旧影视扩张描述过时；参股储能不直接取代主线。",
+    "basis": "crosschecked_sources",
+    "extra_evidence": [
+      {
+        "evidence_id": "supplement-600052-2026",
+        "source_kind": "web_secondary",
+        "publisher": "同花顺",
+        "title": "公司资料",
+        "source_url": "https://basic.10jqka.com.cn/600052/company.html",
+        "published_at": null,
+        "assertions": [
+          "主营园区生活服务，产品包括热水供应服务。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "600053.SH",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "六维力传感器与关节模组"
+    ],
+    "stage": "delivery",
+    "fact": "传统PE地产之外，原半年报确认控股神源生传感器并新设关节模组业务。",
+    "company_fact": "传统PE地产之外，原半年报确认控股神源生传感器并新设关节模组业务。",
+    "ths_fact": "人形解析指神源生六维力传感器，旧拟交易状态经原报告修正已并表。",
+    "reason": "2026年2月完成控股并有传感器销售，具实业转型；收入含工业等客户，不把全额等同人形收入。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "supplement-600053-2026",
+        "source_kind": "official_filing",
+        "publisher": "九鼎投资",
+        "title": "2026年半年度报告",
+        "source_url": "https://static.cninfo.com.cn/finalpage/2026-08-25/1225498625.PDF",
+        "published_at": "2026-08-25",
+        "assertions": [
+          "南京神源生53.2897%完成工商变更并纳入合并，购买日2026年2月6日；六维力传感器批量生产交付，销售面向工业和人形客户。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "600054.SH",
+    "key": "tourism",
+    "sector": "旅游",
+    "source_sector_name": "旅游概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "黄山景区索道酒店"
+    ],
+    "stage": "revenue",
+    "fact": "景区索道酒店餐饮旅行社及智慧旅游运营。",
+    "company_fact": "景区索道酒店餐饮旅行社及智慧旅游运营。",
+    "ths_fact": "旅游解析与六类业务一致。",
+    "reason": "资源景区及配套服务构成旅游产业链，AI助手为文旅服务工具。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600055.SH",
+    "key": "smart_medical",
+    "sector": "智能医疗",
+    "source_sector_name": "智能医疗",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "医学影像装备与AI云影像"
+    ],
+    "stage": "revenue",
+    "fact": "经营高端医学影像及AI数字医疗平台。",
+    "company_fact": "经营高端医学影像及AI数字医疗平台。",
+    "ths_fact": "智能医疗解析对应DR核磁CT及智慧医疗，万里云有医院平台应用。",
+    "reason": "影像设备与真实数字诊疗结合，智能医疗覆盖升级；自用太阳能不视作绿电主业。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600056.SH",
+    "key": "pharma_ecommerce",
+    "sector": "医药电商",
+    "source_sector_name": "医药电商",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "医药品牌数字营销及运营"
+    ],
+    "stage": "revenue",
+    "fact": "医药工商器械国际贸易并行，金穗平台开展品牌电商服务。",
+    "company_fact": "医药工商器械国际贸易并行，金穗平台开展品牌电商服务。",
+    "ths_fact": "2026年4月解析确认授权经销、TP代运营和品牌全链服务。",
+    "reason": "医药渠道数字化具实际经营支撑；创新药旧临床和脑机论坛不足以直接替代为创新药或脑机。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600057.SH",
+    "key": "raw_material_supply_chain",
+    "sector": "原材料供应链服务",
+    "source_sector_name": "原材料供应链服务",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "大宗采购分销综合物流"
+    ],
+    "stage": "revenue",
+    "fact": "为制造业客户提供原辅料采购产成品分销物流金融信息服务。",
+    "company_fact": "为制造业客户提供原辅料采购产成品分销物流金融信息服务。",
+    "ths_fact": "统一大市场解析明确大宗采购与综合物流，商品覆盖金属农产能源。",
+    "reason": "跨商品供应链是共同真实能力；商业航天铝业段涉及集团协同，不直接认作本体生产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600058.SH",
+    "key": "trade",
+    "sector": "贸易",
+    "source_sector_name": "贸易Ⅱ",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "冶金资源金属供应链"
+    ],
+    "stage": "revenue",
+    "fact": "资源贸易金属贸易与仓储加工物流服务。",
+    "company_fact": "资源贸易金属贸易与仓储加工物流服务。",
+    "ths_fact": "小金属及互联网钢铁解析确认冶金原料贸易和配供。",
+    "reason": "原半年报明确铁矿资产置入尚待监管审批，先按真实贸易经营，矿业交割作为复核触发。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "supplement-600058-2026",
+        "source_kind": "official_filing",
+        "publisher": "五矿发展",
+        "title": "2026年半年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12560038&stockid=600058",
+        "published_at": "2026-08-28",
+        "assertions": [
+          "铁矿资产置换购买已获股东会通过，尚待监管批准审核注册方可实施。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "600059.SH",
+    "key": "wine_industry",
+    "sector": "酿酒",
+    "source_sector_name": "酿酒概念",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "黄酒酿造与品牌销售"
+    ],
+    "stage": "revenue",
+    "fact": "研发酿造销售古越龙山等黄酒。",
+    "company_fact": "研发酿造销售古越龙山等黄酒。",
+    "ths_fact": "超级品牌和老字号解析确认黄酒产业定位。",
+    "reason": "已有酿酒板块对应黄酒产品，白酒品类延伸不改变黄酒识别。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600060.SH",
+    "key": "mini_led",
+    "sector": "MiniLED",
+    "source_sector_name": "MiniLED",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "RGB背光显示及电视终端"
+    ],
+    "stage": "revenue",
+    "fact": "智慧显示终端、激光商显芯片及云服务。",
+    "company_fact": "智慧显示终端、激光商显芯片及云服务。",
+    "ths_fact": "MiniLED背光技术与已发布RGB-MiniLED电视芯片产业化相互印证。",
+    "reason": "新显示技术已融入商业终端，AI眼镜和机器人投资不自动替代实际显示主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600061.SH",
+    "key": "financial_holding",
+    "sector": "金融控股",
+    "source_sector_name": "金融控股",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "证券信托基金期货平台"
+    ],
+    "stage": "revenue",
+    "fact": "通过国投证券、信托、基金及期货经营多类持牌金融业务。",
+    "company_fact": "通过国投证券、信托、基金及期货经营多类持牌金融业务。",
+    "ths_fact": "期货及信托解析均明确金融控股平台和多牌照组合。",
+    "reason": "综合金融控股有控股实业基础，非仅零散参股证券。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600062.SH",
+    "key": "chemical_formulations",
+    "sector": "化学制剂",
+    "source_sector_name": "化学制剂",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "慢病专科及输液药"
+    ],
+    "stage": "revenue",
+    "fact": "经营慢病、儿科肾科精神抗凝等专科药、输液和原料药。",
+    "company_fact": "经营慢病、儿科肾科精神抗凝等专科药、输液和原料药。",
+    "ths_fact": "高血压及儿童药等解析有明确上市产品，创新药解析主要为研发平台。",
+    "reason": "药品商业体系明确，司美生物类似药临床不当作已上市创新药；NMN仅上游原料且未开展NMN。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600063.SH",
+    "key": "mlcc",
+    "sector": "MLCC",
+    "source_sector_name": "MLCC概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "电子陶瓷用PVB树脂"
+    ],
+    "stage": "pilot",
+    "fact": "经营PVA/PVB树脂胶片及光学膜等高分子材料。",
+    "company_fact": "经营PVA/PVB树脂胶片及光学膜等高分子材料。",
+    "ths_fact": "2026年5月解析明确多款MLCC用PVB经客户测试合格，产业化推进。",
+    "reason": "具体电子材料验证支持MLCC增量方向，记pilot不写规模收入；用户侧储能为自用设施。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600064.SH",
+    "key": "venture_capital",
+    "sector": "创投",
+    "source_sector_name": "创投",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "专业化股权投资平台"
+    ],
+    "stage": "revenue",
+    "fact": "房地产市政与股权投资并行业务。",
+    "company_fact": "房地产市政与股权投资并行业务。",
+    "ths_fact": "创投解析明确股权投资为核心，四类投资平台和项目组合。",
+    "reason": "主动投资管理构成持续经营，不能把单一银行持股收益机械认作银行主营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600066.SH",
+    "key": "new_energy_vehicles",
+    "sector": "新能源汽车",
+    "source_sector_name": "新能源汽车",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "新能源客车整车"
+    ],
+    "stage": "revenue",
+    "fact": "研发制造销售全系列客车及纯电混动车型。",
+    "company_fact": "研发制造销售全系列客车及纯电混动车型。",
+    "ths_fact": "新能源解析确认纯电混合动力燃料电池系列化产品。",
+    "reason": "新能源客车为直接商业化主线，自动驾驶道路试验与当前批量经营分开。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600067.SH",
+    "key": "flat_wire_motor",
+    "sector": "扁线电机",
+    "source_sector_name": "扁线电机",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "汽车驱动电机电磁扁线"
+    ],
+    "stage": "revenue",
+    "fact": "电磁线规模生产，另有地产和电解液添加剂。",
+    "company_fact": "电磁线规模生产，另有地产和电解液添加剂。",
+    "ths_fact": "新能源汽车解析确认扁线供电机且与车企合作；扁线电机列技改扩产。",
+    "reason": "实际电机绕组扁线支撑市场主线，属于材料非整机；人形探索尚缺量化出货。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600071.SH",
+    "key": "machine_vision",
+    "sector": "机器视觉",
+    "source_sector_name": "机器视觉",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "工业成像光学镜头"
+    ],
+    "stage": "revenue",
+    "fact": "光学镜头元件仪器及智能控制器，镜头用于工业自动化检测。",
+    "company_fact": "光学镜头元件仪器及智能控制器，镜头用于工业自动化检测。",
+    "ths_fact": "汽车电子解析同时确认工业机器视觉镜头已入一流供应链，机器人段亦有工业抓取光学应用。",
+    "reason": "真实工业成像镜头支撑机器视觉，半导体检测小应用和旧电芯业务不主导。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600072.SH",
+    "key": "wind_power",
+    "sector": "风电",
+    "source_sector_name": "风电",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "风机装备及风场系统集成"
+    ],
+    "stage": "revenue",
+    "fact": "风电主机关键配套研发制造、资源开发工程运维。",
+    "company_fact": "风电主机关键配套研发制造、资源开发工程运维。",
+    "ths_fact": "风电解析直接对应当前主营。",
+    "reason": "经营证据确认风电转型，不将中船集团军舰和沪东造船业务移给本体。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600073.SH",
+    "key": "pig_farming",
+    "sector": "猪肉",
+    "source_sector_name": "猪肉",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "养殖屠宰深加工分销"
+    ],
+    "stage": "revenue",
+    "fact": "猪养殖猪牛羊屠宰及肉制品，另有品牌食品。",
+    "company_fact": "猪养殖猪牛羊屠宰及肉制品，另有品牌食品。",
+    "ths_fact": "猪肉解析确认养殖屠宰深加工分销全链。",
+    "reason": "完整肉类经营支撑猪肉主线，预制菜是深加工的一部分。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600075.SH",
+    "key": "pvc",
+    "sector": "PVC",
+    "source_sector_name": "PVC",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "聚氯乙烯一体化生产"
+    ],
+    "stage": "revenue",
+    "fact": "电石PVC烧碱及醇化工配套循环产业链。",
+    "company_fact": "电石PVC烧碱及醇化工配套循环产业链。",
+    "ths_fact": "PVC解析明确特种树脂一体化模式及实际销售。",
+    "reason": "PVC产品和工艺贯通，PBAT为参股，自用能源不取代化工。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600076.SH",
+    "key": "chips",
+    "sector": "芯片",
+    "source_sector_name": "芯片概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "半导体刻蚀设备修复与配件"
+    ],
+    "stage": "revenue",
+    "fact": "原半年报确认宇邦55%已于4月并表，经营干法刻蚀设备修复改造及组件配件。",
+    "company_fact": "原半年报确认宇邦55%已于4月并表，经营干法刻蚀设备修复改造及组件配件。",
+    "ths_fact": "芯片旧解析为拟收51%，原报告已更正为完成55%。",
+    "reason": "并购已完成且产生经营损益，半导体设备服务成为实质转型主线；不是芯片制造厂。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "supplement-600076-2026",
+        "source_kind": "official_filing",
+        "publisher": "康欣新材",
+        "title": "2026年半年度报告",
+        "source_url": "https://static.cninfo.com.cn/finalpage/2026-08-26/1225505233.PDF",
+        "published_at": "2026-08-26",
+        "assertions": [
+          "宇邦55%股权工商变更已完成且自4月并表，主营干法刻蚀设备修复改造与配件销售，本期损益影响1253688.21元。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "600078.SH",
+    "key": "phosphorus_chemicals",
+    "sector": "磷化工",
+    "source_sector_name": "磷化工",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "黄磷磷酸磷酸盐"
+    ],
+    "stage": "revenue",
+    "fact": "精细磷化工产品研发生产销售。",
+    "company_fact": "精细磷化工产品研发生产销售。",
+    "ths_fact": "磷化工解析明确完整产品系列。",
+    "reason": "产品与行业相互印证，水电为配套控股业务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600079.SH",
+    "key": "fentanyl",
+    "sector": "芬太尼",
+    "source_sector_name": "芬太尼",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "麻醉镇痛药品"
+    ],
+    "stage": "revenue",
+    "fact": "医药工业在中枢神经甾体激素维药等形成产品布局。",
+    "company_fact": "医药工业在中枢神经甾体激素维药等形成产品布局。",
+    "ths_fact": "芬太尼解析列宜昌人福芬太尼舒芬太尼瑞芬太尼制剂和原料。",
+    "reason": "具体麻醉镇痛产品为强识别产业线，创新药研发AI工具不等于已商业化AI服务。",
+    "basis": "crosschecked_sources"
+  }
+]

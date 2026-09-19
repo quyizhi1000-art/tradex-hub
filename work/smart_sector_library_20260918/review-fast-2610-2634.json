@@ -1,0 +1,551 @@
+[
+  {
+    "id": "301205.SZ",
+    "key": "optical_modules",
+    "sector": "光通信模块",
+    "source_sector_name": "光通信模块",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "光通信收发模块",
+      "光电器件集成"
+    ],
+    "stage": "revenue",
+    "fact": "光通信收发模块已开展生产销售。",
+    "ths_fact": "CPO解析所引仍是光模块业务及光电集成能力，数据中心解析确认模块应用。",
+    "company_fact": "主营明确光通信收发模块研发生产销售及器件集成设计制造。",
+    "reason": "选真实经营支撑的已有光通信模块；通用模块能力不能直接证明共封装产品，出现CPO专用交付后复核。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301206.SZ",
+    "key": "synthetic_biology",
+    "sector": "合成生物",
+    "source_sector_name": "合成生物",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "生物制造甜味剂",
+      "发酵与酶工程"
+    ],
+    "stage": "revenue",
+    "fact": "依托合成生物技术生产甜味配料，阿洛酮糖产品已有客户认可。",
+    "ths_fact": "合成生物解析明确阿洛酮糖生产采用该技术；代糖解析列实际赤藓糖醇产品。",
+    "company_fact": "主营以合成生物、酶工程和发酵支撑糖醇、功能糖等健康配料。",
+    "reason": "技术路线与实际产品相互支持，选择已有合成生物；自用光伏不足以改为绿电经营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301207.SZ",
+    "key": "influenza",
+    "sector": "流感",
+    "source_sector_name": "流感",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "流感疫苗",
+      "人用疫苗生产销售"
+    ],
+    "stage": "revenue",
+    "fact": "流感疫苗系列已注册上市并经营。",
+    "ths_fact": "流感与生物疫苗解析列已上市流感疫苗；禽流感相关为研究。",
+    "company_fact": "主营确认人用疫苗研发生产销售，列四价流感及儿童剂型等注册产品。",
+    "reason": "已有流感主题对应真实产品；不把H7N9研究进展写成商业化疫苗。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301208.SZ",
+    "key": "ai_agents",
+    "sector": "AI智能体",
+    "source_sector_name": "AI智能体",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "智能运维智能体",
+      "可观测与自动化平台"
+    ],
+    "stage": "delivery",
+    "fact": "自研运维智能体已集成平台并在金融场景初步应用。",
+    "ths_fact": "AI应用解析确认自研AI Agent及金融应用，另有小亦运维平台实践。",
+    "company_fact": "主营智能运维包括可观测基座、大模型分析决策、自动化及运维智能体模块。",
+    "reason": "两源共同支持真实运维智能体产品应用；不单凭OneAgent监控探针名称判断，也不推定独立智能体收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301209.SZ",
+    "key": "photoresist",
+    "sector": "光刻胶",
+    "source_sector_name": "光刻胶",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "光刻胶单体",
+      "苯乙烯类电子材料"
+    ],
+    "stage": "pilot",
+    "fact": "控股启辰开展光刻胶单体业务，相关产品已向部分客户送样。",
+    "ths_fact": "2026年6月解析确认KrF、UV及OLED相关单体送样。",
+    "company_fact": "东方财富核心段列控股启辰电子化学品；原年报摘要明确苯乙烯类光刻胶单体及树脂业务。",
+    "reason": "真实控股材料业务与客户送样支持已有光刻胶；限定单体材料阶段，不以参股曝光设备企业声称自主光刻机量产。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "301209-review-official-0",
+        "source_kind": "official_filing",
+        "publisher": "联合化学",
+        "title": "2025年年度报告摘要",
+        "source_url": "https://pdf.dfcfw.com/pdf/H2_AN202604271821637685_1.pdf",
+        "published_at": null,
+        "assertions": [
+          "启辰半导体为控股公司，开展苯乙烯类光刻胶单体及树脂业务；曝光设备企业米莱芯程为参股。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "301210.SZ",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "关节精密结构件",
+      "六维力传感器弹性体"
+    ],
+    "stage": "product",
+    "fact": "公司自身已具备柔轮刚轮及弹性体产品加工能力。",
+    "ths_fact": "减速器解析确认目前可从事柔轮、刚轮和弹性体生产。",
+    "company_fact": "主营机器人段区分参股企业与自身精密加工，确认以现有加工能力提供结构件和弹性体设计加工。",
+    "reason": "归属依据自身具体产品能力；参股整机或关节企业不作为上市公司交付收入证据，待客户交付复核阶段。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301211.SZ",
+    "key": "influenza",
+    "sector": "流感",
+    "source_sector_name": "流感",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "布洛芬原料药",
+      "退热制剂"
+    ],
+    "stage": "revenue",
+    "fact": "已生产经营布洛芬原料药及相关制剂。",
+    "ths_fact": "流感解析列布洛芬颗粒用于普通感冒或流感引起的发热。",
+    "company_fact": "主营为原料药制剂及CDMO，核心段确认布洛芬工艺、GMP生产及规模经营。",
+    "reason": "选择已有流感所承接的退热用药环节；不将对症退热解释为直接抗病毒或治愈流感。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301212.SZ",
+    "key": "lithium_batteries",
+    "sector": "锂电池",
+    "source_sector_name": "锂电池概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "NMP等电子化学品",
+      "锂电材料生产溶剂"
+    ],
+    "stage": "revenue",
+    "fact": "电子化学品已有量产销售并进入锂电相关应用。",
+    "ths_fact": "锂电解析明确NMP在锂离子电池生产中的溶剂应用；可降解塑料解析涉及募投。",
+    "company_fact": "主营精细中间体和电子化学品；原年报确认多个电子化学品量产，应用进入半导体及电解液领域。",
+    "reason": "选择已有锂电池并限定溶剂配套；可降解项目仍在试生产准备，不能以规划替代已经营业务。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "301212-review-official-0",
+        "source_kind": "official_filing",
+        "publisher": "联盛化学",
+        "title": "2025年年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=301212&id=12166241",
+        "published_at": null,
+        "assertions": [
+          "电子化学品量产进入半导体及电解液应用，电子化学品收入约占20%；可降解材料项目处于试生产准备。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "301213.SZ",
+    "key": "defense_informatization",
+    "sector": "军工信息化",
+    "source_sector_name": "军工信息化",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "装备全寿命管理",
+      "军用数字化保障"
+    ],
+    "stage": "revenue",
+    "fact": "实际经营装备全寿命管理、智能装备和数字化保障。",
+    "ths_fact": "军工信息化解析对应装备保障，机器人为维修保障产品；航天等新增项目含募资计划。",
+    "company_fact": "主营完整列军装全寿命管理、数字孪生、智能装备及AI应用。",
+    "reason": "已有军工信息化贯通实际产品和客户场景；AI与机器人属于军装保障能力，不把募资计划写成新产业收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301215.SZ",
+    "key": "autonomous_driving",
+    "sector": "无人驾驶",
+    "source_sector_name": "无人驾驶",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "智能网联试验场",
+      "自动驾驶测试服务"
+    ],
+    "stage": "revenue",
+    "fact": "智能网联汽车试验场已实际投运并提供测试服务。",
+    "ths_fact": "智能网联试验场2024年已投运，车路协同解析确认多种通信场景部署。",
+    "company_fact": "主营为汽车场地试验，核心段确认智能网联试验服务。",
+    "reason": "从已有无人驾驶成员中选择测试服务环节；低空场景兼容和探索不等于飞行器制造或低空业务规模收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301216.SZ",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "PEEK摆线减速器",
+      "机器人手臂部件"
+    ],
+    "stage": "product",
+    "fact": "实际控制的轻镁智塑已推出机器人减速器并开展手臂部件配套。",
+    "ths_fact": "2026年1月解析列轻镁PEEK摆线减速器发布及灵心手臂核心部件组装配套。",
+    "company_fact": "东方财富主营仍为聚酯；原年报确认轻镁通过一致行动取得60%表决权并纳入合并，半年报列其合并范围。",
+    "reason": "新归属依据受控实体实际产品，不依据灵心少数股权；尚无分项销售兑现证据，阶段保留产品，后续核查交付收入。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "301216-review-official-0",
+        "source_kind": "official_filing",
+        "publisher": "万凯新材",
+        "title": "2025年年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=301216&id=12231234",
+        "published_at": null,
+        "assertions": [
+          "轻镁智塑因一致行动安排表决权合计60%，公司取得实质控制并纳入合并。"
+        ]
+      },
+      {
+        "evidence_id": "301216-review-official-1",
+        "source_kind": "official_filing",
+        "publisher": "万凯新材",
+        "title": "2026年半年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=301216&id=12520840",
+        "published_at": null,
+        "assertions": [
+          "轻镁智塑仍列合并业务；灵心股权出售后持有2.98%，不能沿用旧8.2%参股比例。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "301217.SZ",
+    "key": "pcb",
+    "sector": "PCB",
+    "source_sector_name": "PCB概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "电子线路铜箔",
+      "覆铜板原材料"
+    ],
+    "stage": "revenue",
+    "fact": "已生产销售PCB用电子铜箔并服务覆铜板及线路板客户。",
+    "ths_fact": "PCB解析列生益、台耀等实际客户；固态解析为适用铜箔开发，PET铜箔为研究。",
+    "company_fact": "主营确认PCB铜箔和锂电铜箔研发生产销售。",
+    "reason": "已有PCB兼有具体客户和真实经营支撑；固态及复合铜箔在专用产品客户验证和供货明确后复核。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301218.SZ",
+    "key": "ai_applications",
+    "sector": "AI应用",
+    "source_sector_name": "AI应用",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "公检法智能分析",
+      "智慧城市识别系统"
+    ],
+    "stage": "delivery",
+    "fact": "人工智能分析已融入公检法等智慧城市系统。",
+    "ths_fact": "AI应用解析列公检法智能分析应用及实际智能化系统。",
+    "company_fact": "主营智慧城市系统，核心段确认图像识别、智能抓拍预警等技术与项目结合。",
+    "reason": "已有AI应用对应实际项目；人形相关为拟参股，不能替代上市公司已实施的智能化业务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301219.SZ",
+    "key": "cobalt",
+    "sector": "金属钴",
+    "source_sector_name": "金属钴",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "钴盐冶炼",
+      "钴镍锂材料"
+    ],
+    "stage": "revenue",
+    "fact": "公司实际生产销售钴等能源金属产品。",
+    "ths_fact": "金属钴解析明确钴盐经营；固态电池等仅说明材料可能应用。",
+    "company_fact": "主营确认钴铜镍锂产品及相关前驱体经营。",
+    "reason": "钴主题有直接业务证据；下游可用性和回收研究不构成更强的新主归属。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301220.SZ",
+    "key": "synthetic_biology",
+    "sector": "合成生物",
+    "source_sector_name": "合成生物",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "生物合成天然香兰素",
+      "香料生产"
+    ],
+    "stage": "revenue",
+    "fact": "已将生物合成工艺用于天然香兰素实际经营。",
+    "ths_fact": "合成生物解析确认持续投入生物合成研发及技术合作。",
+    "company_fact": "主营为香精香料；原年报明确天然香兰素依托生物合成工艺优化成本维持盈利，部分新品推进量产验证。",
+    "reason": "选择已有合成生物依据已经营的生物工艺产品；不把所有合成香兰素产能都称作生物合成，也不把新品验证等同收入。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "301220-review-official-0",
+        "source_kind": "official_filing",
+        "publisher": "亚香股份",
+        "title": "2025年年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=301220&id=12242327",
+        "published_at": null,
+        "assertions": [
+          "天然香兰素依托生物合成工艺优化成本维持盈利；部分生物合成新品在量产验证阶段，不等同全部新产品已贡献收入。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "301221.SZ",
+    "key": "ai_agents",
+    "sector": "AI智能体",
+    "source_sector_name": "AI智能体",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "SDW智能开发工具",
+      "汽车软件研发智能体"
+    ],
+    "stage": "product",
+    "fact": "已开发以AI智能体支撑的软件研发平台。",
+    "ths_fact": "AI智能体解析列SDW2.0及面向客户搭建应用的工具能力。",
+    "company_fact": "主营汽车软件开发；核心段确认AI融入需求、开发、测试及项目管理，SDW已有内部验证。",
+    "reason": "具体平台支持已有智能体主线；内部验证与产品发布不足以证明外部收费收入，阶段为产品，待客户交付复核。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301222.SZ",
+    "key": "batteries",
+    "sector": "电池",
+    "source_sector_name": "电池",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "锌锰电池",
+      "一次电池制造"
+    ],
+    "stage": "revenue",
+    "fact": "实际生产经营锌锰一次电池。",
+    "ths_fact": "锂电解析涉及扣式锂锰产品布局；工业互联网对应公司内部产线。",
+    "company_fact": "主营明确锌锰电池研发制造销售。",
+    "reason": "已有电池直接承接已确认经营；新电池品类布局未证明成熟订单，内部数字产线亦不改变电池业务归属。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301223.SZ",
+    "key": "eco_packaging",
+    "sector": "环保包装",
+    "source_sector_name": "环保包装",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "纸制消费品包装",
+      "减塑印刷材料"
+    ],
+    "stage": "revenue",
+    "fact": "已经营纸制包装并采用环保油墨等减塑工艺。",
+    "ths_fact": "环保包装解析列环保油墨、胶黏剂和纸包装减塑方案。",
+    "company_fact": "主营为纸制印刷包装研发设计生产销售，覆盖完整生产工序。",
+    "reason": "已有环保包装同时有产品与工艺支撑；烟草或电子烟是包装客户用途，数字水印亦不单独推导软件业务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301225.SZ",
+    "key": "peek_materials",
+    "sector": "PEEK材料",
+    "source_sector_name": "PEEK材料",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "轻量化精密制件",
+      "PEEK材料加工"
+    ],
+    "stage": "delivery",
+    "fact": "PEEK等轻量化材料产品已向海外客户交付小批量样件订单。",
+    "ths_fact": "PEEK解析列材料聚合、改性及注塑成品交付布局。",
+    "company_fact": "主营含轻量高性能零件；原年报明确PEEK等材料已实现海外大客户小批量样件订单交付。",
+    "reason": "具体原文交付支持已有PEEK材料，阶段为样件交付；不能据此宣称大规模收入或氢能量产。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "301225-review-official-0",
+        "source_kind": "official_filing",
+        "publisher": "恒勃股份",
+        "title": "2025年年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=301225&id=12135334",
+        "published_at": null,
+        "assertions": [
+          "布局PEEK等轻量化材料，已实现海外大客户小批量样件订单交付。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "301226.SZ",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "机器人关节模组",
+      "关节电机"
+    ],
+    "stage": "pilot",
+    "fact": "控股机器人业务已有具体关节模组，客户合作处送样测试。",
+    "ths_fact": "人形解析列关节模组及展出产品；2026年6月公司回复明确暂无出口、相关合作处送样测试。",
+    "company_fact": "东方财富主营为微电机风机；原年报确认控股祥翰，官网列适配人形等机器人的自研关节模组。",
+    "reason": "选择已有人形机器人，限定实际产品和客户测试；不采纳投资者提问中的韩国百套订单及出口假设，不声称批量销售。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "301226-review-official-0",
+        "source_kind": "official_filing",
+        "publisher": "祥明智能",
+        "title": "2025年年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=301226&id=12165834",
+        "published_at": "2026-04-24",
+        "assertions": [
+          "祥翰为控股公司，开展机器人相关产品业务。"
+        ]
+      },
+      {
+        "evidence_id": "301226-review-official-1",
+        "source_kind": "official_company",
+        "publisher": "祥明智能",
+        "title": "关节模组产品页",
+        "source_url": "https://www.xiangming.com/shaoguanjiemozu/",
+        "published_at": null,
+        "assertions": [
+          "官网列适配人形、协作及医疗机器人等场景的自研关节模组，产品能力不等于已批量交付。"
+        ]
+      },
+      {
+        "evidence_id": "301226-review-official-2",
+        "source_kind": "web_secondary",
+        "publisher": "同花顺",
+        "title": "祥明智能关于机器人业务送样测试的公司回复",
+        "source_url": "https://yuanchuang.10jqka.com.cn/20260629/c677783385.shtml",
+        "published_at": "2026-06-29",
+        "assertions": [
+          "公司回复明确暂无出口业务，相关合作处于送样测试；投资者提问的百套订单不是公司确认。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "301227.SZ",
+    "key": "building_energy_efficiency",
+    "sector": "建筑节能",
+    "source_sector_name": "建筑节能",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "节能铝包木窗",
+      "建筑门窗系统"
+    ],
+    "stage": "revenue",
+    "fact": "已经营节能门窗并用于建筑项目。",
+    "ths_fact": "建筑节能解析列被动房认证产品及实际工程应用。",
+    "company_fact": "主营为定制节能铝包木窗研发设计生产销售。",
+    "reason": "已有建筑节能由核心产品和项目共同支撑，智能家居少量应用不替代更完整的节能业务主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301228.SZ",
+    "key": "soil_remediation",
+    "sector": "土壤修复",
+    "source_sector_name": "土壤修复",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "土壤污染检测",
+      "修复与治理技术服务"
+    ],
+    "stage": "revenue",
+    "fact": "已提供土壤污染调查检测及修复相关服务。",
+    "ths_fact": "土壤修复解析列污染识别、示踪与抽提注入技术及实际解决方案。",
+    "company_fact": "主营覆盖环境检测、土壤修复及盐碱地等业务。",
+    "reason": "已有土壤修复贯通检测和治理服务；保留食品检测业务背景，不以多业务为由取消唯一主归属。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301229.SZ",
+    "key": "new_energy_vehicles",
+    "sector": "新能源汽车",
+    "source_sector_name": "新能源汽车",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "汽车悬架零件",
+      "动力系统精密件"
+    ],
+    "stage": "revenue",
+    "fact": "新能源汽车相关零件已有实际销售。",
+    "ths_fact": "新能源汽车解析列2025年相关收入；机器人为拟设公司及委托开发滚柱丝杠。",
+    "company_fact": "主营汽车悬架、动力系统零件及模具研发制造。",
+    "reason": "具体销售与主营共同支持已有新能源汽车；机器人委托研发和减速壳送样尚不足以确认新的持续交付主线，量产后复核。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301230.SZ",
+    "key": "ai_drug_discovery",
+    "sector": "AI制药（医疗）",
+    "source_sector_name": "AI制药（医疗）",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "AI辅助药物设计",
+      "分子筛选平台"
+    ],
+    "stage": "product",
+    "fact": "已建立AI辅助药物设计和分子筛选平台。",
+    "ths_fact": "AI应用及智能医疗解析明确分子生成平台、PRGPT及AI融入药物设计。",
+    "company_fact": "主营药物发现及工艺研发，核心段确认CADD/AIDD技术平台和AI辅助设计。",
+    "reason": "已有AI制药由具体平台与研发能力支撑；不把客户药物研发当成公司获批药品，也未将全部CRO收入认定为AI收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301231.SZ",
+    "key": "ai_video",
+    "sector": "AI视频",
+    "source_sector_name": "AI视频",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "AI短剧制作",
+      "数字内容商业化"
+    ],
+    "stage": "revenue",
+    "fact": "控股余禾已上线AI短剧，2026年3至6月实现收入3074.16万元。",
+    "ths_fact": "AI视频解析列控股余禾的AI剧工作流与实际上线作品。",
+    "company_fact": "东方财富以图书业务为主；原半年报确认控股余禾、AI短剧上线和并表期间收入。",
+    "reason": "原文补足新业务时态差，选择已有AI视频；采用控股业务收入而非平台流量或投资者猜测证明商业化，不将全部集团收入视为AI收入。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "301231-review-official-0",
+        "source_kind": "official_filing",
+        "publisher": "荣信文化",
+        "title": "2026年半年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=301231&id=12545084",
+        "published_at": null,
+        "assertions": [
+          "控股余禾制作并上线AI短剧，2026年3至6月营业收入3074.16万元；存在IAP/IAA商业化模式。"
+        ]
+      }
+    ]
+  }
+]

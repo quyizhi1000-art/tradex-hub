@@ -159,6 +159,34 @@ def test_batch_contract_rejects_more_than_verified_40_instruments() -> None:
         fetch_intraday_minute_series_batch(symbols, router=object(), now=_NOW)
 
 
+def test_empty_partial_batch_requires_explicit_recovery_opt_in() -> None:
+    class Router:
+        def route_validated(self, data_type, validator, **kwargs):
+            return validator(_tushare_frame().iloc[:0], "tushare"), "tushare"
+
+    with pytest.raises(RuntimeError, match="no exact curves"):
+        fetch_intraday_minute_series_batch_partial(["000001.SZ"], router=Router())
+    assert fetch_intraday_minute_series_batch_partial(
+        ["000001.SZ"], router=Router(), allow_empty=True,
+    ) == {}
+
+
+def test_required_minutes_reject_short_primary_before_fallback_and_skip_cache() -> None:
+    owner = IntradayMinuteCache()
+    short = _tushare_frame().iloc[:1].copy()
+    fetch_intraday_minute_series("000001.SZ", router=_Router(short, "tushare"), cache=owner)
+    router = SmartRouter()
+    router.register("minute_data", "tushare", lambda **kwargs: short, 1)
+    router.register("minute_data", "eastmoney", lambda **kwargs: _tushare_frame(), 2)
+    result = fetch_intraday_minute_series(
+        "000001.SZ", router=router, cache=owner, now=_NOW,
+        expected_trading_date=_NOW.date(),
+        required_minutes=(datetime.strptime("09:30", "%H:%M").time(),),
+    )
+    assert result.metadata.provider == "eastmoney"
+    assert len(result.points) == 2
+
+
 def test_tushare_minutes_sort_and_derive_cumulative_vwap() -> None:
     series = fetch_intraday_minute_series(
         "000001",

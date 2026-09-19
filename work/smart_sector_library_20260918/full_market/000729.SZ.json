@@ -1,0 +1,61 @@
+{
+  "instrument_id": "000729.SZ",
+  "name": "燕京啤酒",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "000729.SZ",
+    "name": "燕京啤酒",
+    "memberships": [
+      "食品饮料",
+      "非白酒",
+      "啤酒",
+      "北京板块",
+      "消费风格",
+      "2026一季报预增",
+      "中盘价值",
+      "中盘股",
+      "标准普尔",
+      "富时罗素",
+      "MSCI中国",
+      "深股通",
+      "中证500",
+      "融资融券",
+      "深成500",
+      "基金重仓",
+      "味蕾经济",
+      "啤酒概念",
+      "酿酒概念",
+      "央国企改革",
+      "创投"
+    ],
+    "business_sections": [
+      {
+        "title": "啤酒的制造和销售、水的制造和销售、饮料的制造和销售",
+        "kind": "主营业务",
+        "text": "公司主营啤酒、水、饮料等制造和销售。啤酒属于日常快速消费品，公司啤酒的生产及销售业务占公司主营业务的90%以上。"
+      },
+      {
+        "title": "特色的经营模式",
+        "kind": "核心竞争力",
+        "text": "公司在发展中开创了具有燕京特色的经营模式，形成了以市场优势、产品优势、品牌优势、管理和技术优势为主要内容的核心竞争力，为中国民族啤酒工业的发展作出了贡献。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ000729",
+    "fetched_at": "2026-09-18T22:35:48.733389+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "啤酒"
+}

@@ -1,0 +1,402 @@
+[
+  {
+    "id": "301005.SZ",
+    "key": "commercial_space",
+    "sector": "商业航天",
+    "source_sector_name": "商业航天",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "火箭壳段整流罩结构件"
+    ],
+    "stage": "delivery",
+    "fact": "高强度连接紧固件研产销，拓展航天精密机械件。",
+    "company_fact": "高强度连接紧固件研产销，拓展航天精密机械件。",
+    "ths_fact": "火箭壳段整流罩等已批量交付；人形为小批样品订单。",
+    "reason": "火箭结构件真实交付更充分，明确与人形样件阶段不同。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301006.SZ",
+    "key": "iot",
+    "sector": "物联网",
+    "source_sector_name": "物联网",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "联网超声水热表"
+    ],
+    "stage": "revenue",
+    "fact": "超声水热表含采集传输应用系统及控制阀。",
+    "company_fact": "超声水热表含采集传输应用系统及控制阀。",
+    "ths_fact": "NB-IoT智能超声水表为现有产品优势。",
+    "reason": "联网计量设备真实产品与应用吻合。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301007.SZ",
+    "key": "reducers",
+    "sector": "减速器",
+    "source_sector_name": "减速器",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "机器人减速机精密轴"
+    ],
+    "stage": "revenue",
+    "fact": "精密轴与切削件汽车及工业应用。",
+    "company_fact": "精密轴与切削件汽车及工业应用。",
+    "ths_fact": "三款量产精密零件用于工业机器人减速机；人形丝杠尚定点研发。",
+    "reason": "已有工业减速机零件量产支持，不将人形前期研发抬成供货。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301008.SZ",
+    "key": "home_appliances",
+    "sector": "家用电器",
+    "source_sector_name": "家用电器",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "家电电磁阀与传感器"
+    ],
+    "stage": "revenue",
+    "fact": "流体阀传感模块供家电厂，兼汽车内饰；良质仅参股。",
+    "company_fact": "流体阀传感模块供家电厂，兼汽车内饰；良质仅参股。",
+    "ths_fact": "家电重要构件包括流体阀模块水位传感器。",
+    "reason": "直接家电构件经营充分，减速器投资不是本体已控股量产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301009.SZ",
+    "key": "elderly_care",
+    "sector": "养老",
+    "source_sector_name": "养老概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "成人失禁护理用品"
+    ],
+    "stage": "revenue",
+    "fact": "成人失禁婴儿女性宠物一次性卫生用品制造品牌。",
+    "company_fact": "成人失禁婴儿女性宠物一次性卫生用品制造品牌。",
+    "ths_fact": "长期深耕成人失禁护理及养老服务。",
+    "reason": "真实成人护理用品支撑养老消费。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301010.SZ",
+    "key": "cold_chain_logistics",
+    "sector": "冷链物流",
+    "source_sector_name": "冷链物流",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "冷库保温围护系统"
+    ],
+    "stage": "revenue",
+    "fact": "冷库工业建筑节能保温夹芯板配套产品。",
+    "company_fact": "冷库工业建筑节能保温夹芯板配套产品。",
+    "ths_fact": "多数材料用于冷库工程，参与昆明万纬深圳华美等项目。",
+    "reason": "冷链基础设施直接供应，非运输经营商。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301011.SZ",
+    "key": "ip_economy",
+    "sector": "IP经济(谷子经济)",
+    "source_sector_name": "IP经济(谷子经济)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "动漫卡片手办衍生品"
+    ],
+    "stage": "revenue",
+    "fact": "游艺设备动漫IP卡片手办及TCG，通过门店销售取得收入。",
+    "company_fact": "游艺设备动漫IP卡片手办及TCG，通过门店销售取得收入。",
+    "ths_fact": "PlayLab运营正版动漫潮玩键帽文创周边。",
+    "reason": "实际IP商品与设备结合变现明确。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301012.SZ",
+    "key": "computing_power_leasing",
+    "sector": "算力租赁",
+    "source_sector_name": "算力租赁",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "自持算力资源交付运营"
+    ],
+    "stage": "delivery",
+    "fact": "变压器铁芯电磁线等电力设备为传统基础。",
+    "company_fact": "变压器铁芯电磁线等电力设备为传统基础。",
+    "ths_fact": "四川汉扬自持算力已陆续交付客户，并整合伙伴资源统一销售。",
+    "reason": "子公司算力已经实际交付，区别于只向机房卖变压器。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301013.SZ",
+    "key": "cpo",
+    "sector": "共封装光学(CPO)",
+    "source_sector_name": "共封装光学(CPO)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "光模块清洁检测点胶装备"
+    ],
+    "stage": "product",
+    "fact": "自动化智能设备服务终端网络器件制造检测，客户含Lumentum。",
+    "company_fact": "自动化智能设备服务终端网络器件制造检测，客户含Lumentum。",
+    "ths_fact": "提供光模块自动清洁端面检测固定点胶及LDU转移设备。",
+    "reason": "直接光模块设备支持CPO市场链，未称制造CPO模块或大额收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301015.SZ",
+    "key": "pharmaceutical_distribution",
+    "sector": "医药流通",
+    "source_sector_name": "医药流通",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "药品品牌商业化运营"
+    ],
+    "stage": "revenue",
+    "fact": "核心品牌运营并推进创新产品临床导入。",
+    "company_fact": "核心品牌运营并推进创新产品临床导入。",
+    "ths_fact": "批发配送药品器械超8500品规，医院药房客户广泛并线上线下零售。",
+    "reason": "商业化运营平台最充分，泛创新布局未给自营上市药阶段。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301016.SZ",
+    "key": "rail_transit",
+    "sector": "轨道交通",
+    "source_sector_name": "轨道交通",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "车体转向架及电气零件"
+    ],
+    "stage": "revenue",
+    "fact": "轨交车体转向架电气研发制造销售，覆盖60至350km/h车辆。",
+    "company_fact": "轨交车体转向架电气研发制造销售，覆盖60至350km/h车辆。",
+    "ths_fact": "车体底架墙板及制动减震转向架全面应用铁路城市轨道。",
+    "reason": "轨交车辆零件实际制造应用吻合。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301017.SZ",
+    "key": "pharma_ecommerce",
+    "sector": "医药电商",
+    "source_sector_name": "医药电商",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "全渠道连锁药店"
+    ],
+    "stage": "revenue",
+    "fact": "连锁药店并B2C O2O网上购药及批发加盟。",
+    "company_fact": "连锁药店并B2C O2O网上购药及批发加盟。",
+    "ths_fact": "推进线上线下新零售，互联网医院问诊电子处方慢病服务。",
+    "reason": "购药渠道及服务实际经营，非药物研发。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301018.SZ",
+    "key": "liquid_cooled_servers",
+    "sector": "液冷服务器",
+    "source_sector_name": "液冷服务器",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "冷板及浸没液冷温控"
+    ],
+    "stage": "revenue",
+    "fact": "特种空调温控服务数据产业工业专业环境。",
+    "company_fact": "特种空调温控服务数据产业工业专业环境。",
+    "ths_fact": "冷板式和浸没式液冷均有规模化成熟应用。",
+    "reason": "成熟数据中心液冷真实产品清楚。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301019.SZ",
+    "key": "dyes",
+    "sector": "染料",
+    "source_sector_name": "染料",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "塑料色母粒及功能母粒"
+    ],
+    "stage": "revenue",
+    "fact": "塑料色母粒研发制造定制着色服务。",
+    "company_fact": "塑料色母粒研发制造定制着色服务。",
+    "ths_fact": "彩白黑色母粒及功能母粒为主营产品。",
+    "reason": "现有染料主题对应塑料着色材料，POE交联母粒为新产品副线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301020.SZ",
+    "key": "data_centers",
+    "sector": "数据中心(AIDC)",
+    "source_sector_name": "数据中心(AIDC)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "备用电力发动机密封件"
+    ],
+    "stage": "delivery",
+    "fact": "密封垫隔热罩纤维板涂胶板用于发动机发电机组等。",
+    "company_fact": "密封垫隔热罩纤维板涂胶板用于发动机发电机组等。",
+    "ths_fact": "大缸径产品已用于数据中心电力设备。",
+    "reason": "直接机房电源配套应用证实，氢零件仍开发。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301021.SZ",
+    "key": "lasers",
+    "sector": "激光器",
+    "source_sector_name": "激光器",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "纳秒皮秒飞秒工业光源"
+    ],
+    "stage": "revenue",
+    "fact": "多波段脉冲激光器及精密加工方案。",
+    "company_fact": "多波段脉冲激光器及精密加工方案。",
+    "ths_fact": "具微加工多脉宽核心技术及深紫外纳秒批量供应。",
+    "reason": "直接激光光源制造清晰，先进封装仅下游布局。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301022.SZ",
+    "key": "peek_materials",
+    "sector": "PEEK材料",
+    "source_sector_name": "PEEK材料",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "特种改性工程塑料"
+    ],
+    "stage": "delivery",
+    "fact": "汽车模具注塑和改性材料，产品含PEEK已应用多个下游。",
+    "company_fact": "汽车模具注塑和改性材料，产品含PEEK已应用多个下游。",
+    "ths_fact": "青岛中试基地小批供货，改性工程塑料品类含PEEK。",
+    "reason": "具体特种材料产品供货支持PEEK链，不声称全部基地均为PEEK；人形仍配套开发。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301023.SZ",
+    "key": "reducers",
+    "sector": "减速器",
+    "source_sector_name": "减速器",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "微特减速电机及传动"
+    ],
+    "stage": "revenue",
+    "fact": "定制减速电机用于高压开关房车光伏等。",
+    "company_fact": "定制减速电机用于高压开关房车光伏等。",
+    "ths_fact": "产品含蜗轮蜗杆和行星齿轮减速器。",
+    "reason": "直接减速传动商业产品充分，人形仅合作电机研发。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301024.SZ",
+    "key": "urban_construction",
+    "sector": "新型城镇化",
+    "source_sector_name": "新型城镇化",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "居住公共建筑设计"
+    ],
+    "stage": "revenue",
+    "fact": "住宅及公共建筑专业设计咨询。",
+    "company_fact": "住宅及公共建筑专业设计咨询。",
+    "ths_fact": "概念规划方案初步设计顾问服务。",
+    "reason": "建筑设计双源充分，数据中心旧框架不当已运营；新能源EPC保留新增业务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301025.SZ",
+    "key": "digital_reading",
+    "sector": "数字阅读",
+    "source_sector_name": "数字阅读",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "全版权图书与数字内容"
+    ],
+    "stage": "revenue",
+    "fact": "民营图书策划发行，孵化本土内容。",
+    "company_fact": "民营图书策划发行，孵化本土内容。",
+    "ths_fact": "文化传媒解析确认数字阅读平台重要内容供应及有声书全版权运营。",
+    "reason": "既有出版内容数字化经营明确，谷子IP非实物周边量产证据。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301026.SZ",
+    "key": "metal_recycling",
+    "sector": "金属回收",
+    "source_sector_name": "金属回收",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "铂钯铑银二次资源回收"
+    ],
+    "stage": "revenue",
+    "fact": "废催化剂回收贵金属并深加工材料贸易。",
+    "company_fact": "废催化剂回收贵金属并深加工材料贸易。",
+    "ths_fact": "贵金属二次资源综合利用及回收服务。",
+    "reason": "实际循环回收主营直接对应。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301027.SZ",
+    "key": "building_inspection",
+    "sector": "房屋检测",
+    "source_sector_name": "房屋检测",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "工程质量检测验收"
+    ],
+    "stage": "revenue",
+    "fact": "工程设计规划总承包管理及咨询。",
+    "company_fact": "工程设计规划总承包管理及咨询。",
+    "ths_fact": "持有检测资质，开展房屋市政桥梁施工交验检测。",
+    "reason": "实际检测服务资质和范围明确，保留规划设计背景。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301028.SZ",
+    "key": "yarlung_hydropower",
+    "sector": "雅下水电",
+    "source_sector_name": "雅下水电概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "项目配套压缩空气设备"
+    ],
+    "stage": "delivery",
+    "fact": "空气压缩机真空泵研发制造销售。",
+    "company_fact": "空气压缩机真空泵研发制造销售。",
+    "ths_fact": "产品已应用于雅下电站配套项目。",
+    "reason": "具体工程供货支撑现有雅下主题，通用空压设备不称核心水轮机。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301029.SZ",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "直线运动及机械标准零件"
+    ],
+    "stage": "revenue",
+    "fact": "FA自动化直线传动气动及结构零件供应。",
+    "company_fact": "FA自动化直线传动气动及结构零件供应。",
+    "ths_fact": "向人形厂商供部分直线运动机械小件，占比较低。",
+    "reason": "实际人形零件供应足够支撑主题，工业自动化仍基础。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301030.SZ",
+    "key": "exhaust_gas_treatment",
+    "sector": "废气处理",
+    "source_sector_name": "废气处理",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "制程废气与脱硝装备"
+    ],
+    "stage": "revenue",
+    "fact": "酸碱NOx危气VOCs治理装备核心，另销售N型太阳能片。",
+    "company_fact": "酸碱NOx危气VOCs治理装备核心，另销售N型太阳能片。",
+    "ths_fact": "长期废气处理设备研发生产销售。",
+    "reason": "污染控制实业充分，TOPCon旧签约规模不能等同已实现产能。",
+    "basis": "crosschecked_sources"
+  }
+]

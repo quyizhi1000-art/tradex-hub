@@ -1,0 +1,72 @@
+{
+  "instrument_id": "000536.SZ",
+  "name": "华映科技",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "000536.SZ",
+    "name": "华映科技",
+    "memberships": [
+      "电子",
+      "光学光电子",
+      "面板",
+      "福建板块",
+      "高市净率",
+      "小盘股",
+      "标准普尔",
+      "深股通",
+      "融资融券",
+      "显示技术",
+      "荣耀概念",
+      "玻璃基板",
+      "柔性屏(折叠屏)",
+      "华为概念",
+      "3D玻璃",
+      "OLED",
+      "央国企改革"
+    ],
+    "business_sections": [
+      {
+        "title": "显示面板业务",
+        "kind": "主营业务",
+        "text": "公司子公司华佳彩拥有一条金属氧化物薄膜晶体管液晶显示器件（IGZO TFT-LCD）生产线，主要生产中小尺寸显示面板，产品主要应用于车载显示屏、工业控制屏、平板电脑、POS机、智能手机等领域。"
+      },
+      {
+        "title": "显示模组业务",
+        "kind": "主营业务",
+        "text": "公司所生产的中小尺寸显示模组产品主要应用于车载显示屏、工业控制屏、平板电脑、POS机、智能手机等领域。"
+      },
+      {
+        "title": "持续优化的产业链优势",
+        "kind": "核心竞争力",
+        "text": "公司所属的显示行业是我国信息产业持续发展的战略性行业之一，各级政府出台了一系列发展规划和产业政策支持行业发展，提供了财政、税收、人才、技术等全方位的支持，为公司业务发展提供了持续利好的政策环境。"
+      },
+      {
+        "title": "核心技术优势",
+        "kind": "核心竞争力",
+        "text": "公司一向重视研发创新，加强核心技术攻坚、科研成果转化和创新投入。2025年，公司研发投入约为10,409.86万元，约占营业收入的7.55%。公司聚焦差异化产品开发及高附加值产品开发，加大产品开发力度，加快开发成果转化，加速向车载显示屏、工业控制屏及中尺寸显示屏等高毛利、高附加值产品转型，实现差异化竞争，提高产品竞争力。报告期内，公司荣获“2025年福建战略新兴产业企业百强”。"
+      },
+      {
+        "title": "生产管理经验优势",
+        "kind": "核心竞争力",
+        "text": "公司深耕显示行业多年，生产和管理经验丰富，具备较强的原材料的检验管控能力、制程控制优化能力和出货品质管控能力。公司将以市场为导向，紧密结合市场需求及变化，调整自身产品结构，拓展产品应用领域，实现差异化竞争。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ000536",
+    "fetched_at": "2026-09-18T22:35:30.153978+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "面板"
+}

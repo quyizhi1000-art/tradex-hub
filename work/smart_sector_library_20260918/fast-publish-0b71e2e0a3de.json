@@ -1,0 +1,480 @@
+[
+  {
+    "id": "600416.SH",
+    "key": "low_altitude_economy",
+    "sector": "低空经济",
+    "chain": [
+      "航空电机、电控及涵道风扇电推进"
+    ],
+    "stage": "delivery",
+    "fact": "东方财富确认特种电机制造；2025年报确认航空电机电控迭代首飞及大功率涵道风扇电推进取得订单。",
+    "ths_fact": "无人机解释明确45kW涵道电推进与航空辅助起动系统已交付，后续对接小批量；低空段涉及研发合作。",
+    "company_fact": "东方财富确认特种电机制造；2025年报确认航空电机电控迭代首飞及大功率涵道风扇电推进取得订单。",
+    "reason": "已有低空经济获得真实航空电推进与交付支撑，选其体现新市场身份；不把商业航天样机、合作协议写成批量销售。",
+    "source_sector_name": "低空经济",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "600416.SH-original-review",
+        "source_kind": "official_filing",
+        "publisher": "湘电股份",
+        "title": "2025年年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=600416&id=12072343",
+        "published_at": null,
+        "assertions": [
+          "2025年航空电机电控迭代首飞，涵道风扇电推进获得订单。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "600418.SH",
+    "key": "huawei_automotive",
+    "sector": "华为汽车",
+    "chain": [
+      "尊界智能汽车制造与销售"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富确认整车研产销；2025年报确认尊界S800于2025年5月上市、年末累计交付超过一万辆。",
+    "ths_fact": "华为汽车解释明确与华为深度合作及尊界S800。",
+    "company_fact": "东方财富确认整车研产销；2025年报确认尊界S800于2025年5月上市、年末累计交付超过一万辆。",
+    "reason": "华为汽车由战略合作走向实际量产销售，是更具体的现实市场身份。低空航空器框架协议与旧蔚来代工描述均不能替代尊界经营事实。",
+    "source_sector_name": "华为汽车",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "600418.SH-original-review",
+        "source_kind": "official_filing",
+        "publisher": "江淮汽车",
+        "title": "2025年年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=600418&id=12062695",
+        "published_at": null,
+        "assertions": [
+          "与华为合作尊界S800上市且2025年累计交付超过10000辆。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "600419.SH",
+    "key": "dairy",
+    "sector": "乳业",
+    "chain": [
+      "牧业养殖、乳品加工及销售"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富明确乳制品制造与畜牧，收入利润来自乳制品销售。",
+    "ths_fact": "乳业解释列出养殖、加工、销售三环节。",
+    "company_fact": "东方财富明确乳制品制造与畜牧，收入利润来自乳制品销售。",
+    "reason": "乳业的养殖加工销售链完整，两源一致，地域与兵团身份不替代产业归属。",
+    "source_sector_name": "乳业",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600420.SH",
+    "key": "chemical_pharmaceuticals",
+    "sector": "化学制药",
+    "chain": [
+      "化学原料药、制剂及相关药品经营"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富确认原料药、化学制剂研发生产销售，覆盖抗感染、心血管、神经系统、激素等领域。",
+    "ths_fact": "一致性评价解释确认在产药品及过评项目；创新药强调转型，另有布瑞哌唑口溶膜临床项目。",
+    "company_fact": "东方财富确认原料药、化学制剂研发生产销售，覆盖抗感染、心血管、神经系统、激素等领域。",
+    "reason": "既有化学制药覆盖已形成的药品经营及转型基础。创新项目有真实临床进展，当前不将其临床阶段推成上市收入；以关键临床、获批及商业化产品形成触发复核。",
+    "source_sector_name": "化学制药",
+    "source_sector_provider": "东方财富",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600422.SH",
+    "key": "artemisinin",
+    "sector": "青蒿素",
+    "chain": [
+      "青蒿素系列抗疟原料药及制剂"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富确认蒿甲醚、双氢青蒿素磷酸哌喹等产品及国际采购认证和销售网络。",
+    "ths_fact": "青蒿素解释确认抗疟原料药及出口网络，中医药解释亦列蒿甲醚系列。",
+    "company_fact": "东方财富确认蒿甲醚、双氢青蒿素磷酸哌喹等产品及国际采购认证和销售网络。",
+    "reason": "青蒿素是已有且产品、国际认证、销售网络完整的具体市场身份；创新药研究与养老战略未据此变成已兑现新业务。",
+    "source_sector_name": "青蒿素",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600423.SH",
+    "key": "chips",
+    "sector": "芯片",
+    "chain": [
+      "半导体清洗等用途的电子级双氧水材料"
+    ],
+    "stage": "product",
+    "fact": "东方财富确认双氧水生产销售，并明确高纯级电子级、食品级合计实际产量。",
+    "ths_fact": "芯片解释明确已生产G1/G2级电子双氧水，可用于硅晶片清洗与电子材料处理。",
+    "company_fact": "东方财富确认双氧水生产销售，并明确高纯级电子级、食品级合计实际产量。",
+    "reason": "已有芯片概念的实际支撑是电子级化学材料，选其体现高纯化产品延伸，不称芯片设计制造。电子级未单列销售收入，阶段按已产产品；不沿用煤化工旧产能。",
+    "source_sector_name": "芯片概念",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600425.SH",
+    "key": "cement",
+    "sector": "水泥",
+    "chain": [
+      "水泥、熟料及混凝土建材"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富确认水泥、混凝土等建材生产销售，同时有PVC、烧碱、尿素。",
+    "ths_fact": "水泥解释明确产品及特种油井水泥认证，人工智能仅内部生产升级。",
+    "company_fact": "东方财富确认水泥、混凝土等建材生产销售，同时有PVC、烧碱、尿素。",
+    "reason": "水泥具备生产体系、特殊产品与区域供给的完整业务身份，选择已有水泥；参股煤矿和氢气有权益关联，尚不足以替代其建材市场身份。",
+    "source_sector_name": "水泥概念",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600426.SH",
+    "key": "coal_chemicals",
+    "sector": "煤化工",
+    "chain": [
+      "煤气化联产化肥及有机化工产品"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富确认多业联产的新能源新材料、化学肥料、有机胺和醋酸等业务。",
+    "ths_fact": "煤化工解释明确煤气化源头、甲醇合成氨中间体及尿素DMF等产品。",
+    "company_fact": "东方财富确认多业联产的新能源新材料、化学肥料、有机胺和醋酸等业务。",
+    "reason": "煤化工覆盖真实联产技术路线和产业体系，选其而非机械挑最大单品；新能源材料用途不等同整电池制造。",
+    "source_sector_name": "煤化工概念",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600428.SH",
+    "key": "shipping",
+    "sector": "航运",
+    "chain": [
+      "特种船远洋运输及配套物流"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富确认特种船运输及端到端物流，2025年末经营船舶198艘。",
+    "ths_fact": "航运解释包括多用途、半潜、重吊、汽车运输船等。",
+    "company_fact": "东方财富确认特种船运输及端到端物流，2025年末经营船舶198艘。",
+    "reason": "特种船运输是持续运营的市场身份；AI为内部办公部署，汽车客户合作也不改变运输产业位置。",
+    "source_sector_name": "航运概念",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600429.SH",
+    "key": "dairy",
+    "sector": "乳业",
+    "chain": [
+      "液态奶、奶粉、奶酪及冷饮"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富主营乳制品加工，列示各奶品与冷食系列。",
+    "ths_fact": "乳业说明低温常温乳、奶粉奶酪等实际产品。",
+    "company_fact": "东方财富主营乳制品加工，列示各奶品与冷食系列。",
+    "reason": "乳业覆盖品牌乳品的实际生产销售，乳粉为其中产品系列，无需由三胎政策另立身份。",
+    "source_sector_name": "乳业",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600433.SH",
+    "key": "specialty_paper",
+    "sector": "特种纸",
+    "chain": [
+      "热敏纸、转印纸、涂布白卡及功能涂层"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富确认多条特种原纸与涂布线，以及标签、胶片涂料等特种材料。",
+    "ths_fact": "人民币升值解释确认特种纸生产；氢能源新段为碳纸中试及首批测试订单。",
+    "company_fact": "东方财富确认多条特种原纸与涂布线，以及标签、胶片涂料等特种材料。",
+    "reason": "已有特种纸覆盖已形成的涂布材料产业身份；燃料电池碳纸已有中试测试订单，后续以验证转商业供货复核，现不写成规模氢能收入。",
+    "source_sector_name": "特种纸",
+    "source_sector_provider": "东方财富",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600435.SH",
+    "key": "defense_informatization",
+    "sector": "军工信息化",
+    "chain": [
+      "导航控制、制导及军事通信连接"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富确认导航控制、军事通信及智能集成连接三类产业。",
+    "ths_fact": "军工信息化解释包含制导导航、探测、电台卫星通信、电连接及无人巡飞。",
+    "company_fact": "东方财富确认导航控制、军事通信及智能集成连接三类产业。",
+    "reason": "军工信息化直接对应整体专业系统与实际产品，较仅按无人机或航母用途归类更完整。",
+    "source_sector_name": "军工信息化",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600436.SH",
+    "key": "chinese_medicine",
+    "sector": "中医药",
+    "chain": [
+      "片仔癀及系列中成药"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富确认片仔癀及系列中成药制造销售，兼有医药流通和化妆品。",
+    "ths_fact": "品牌和老字号解释明确片仔癀中成药，创新药为临床许可和在研管线。",
+    "company_fact": "东方财富确认片仔癀及系列中成药制造销售，兼有医药流通和化妆品。",
+    "reason": "中医药由独有药品、生产许可和市场品牌共同支撑。创新管线处临床，化妆品为并行业务；登革热解释混入热毒宁主力产品断言不采信。",
+    "source_sector_name": "中医药",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600438.SH",
+    "key": "photovoltaics",
+    "sector": "光伏",
+    "chain": [
+      "高纯晶硅、太阳能电池及组件"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富确认硅料、电池、组件研产销，供应下游硅片及组件客户并拓展全球组件。",
+    "ths_fact": "光伏解释确认高纯硅、电池及组件出货；新电池技术段多为研发。",
+    "company_fact": "东方财富确认硅料、电池、组件研产销，供应下游硅片及组件客户并拓展全球组件。",
+    "reason": "光伏完整产业链形成独立且持续的市场身份，不能因原饲料业务仍在便归饲料。电子级硅虽已供货但规模较小，BC及钙钛矿研发不据此替换主线。",
+    "source_sector_name": "光伏概念",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600439.SH",
+    "key": "cross_border_ecommerce",
+    "sector": "跨境电商",
+    "chain": [
+      "假发品牌跨境平台与独立站零售"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富确认假发及自主品牌经营；2026半年报明确欧美销售通过跨境平台和独立站开展零售。",
+    "ths_fact": "跨境电商解释确认海外平台店铺、代运营与独立站。",
+    "company_fact": "东方财富确认假发及自主品牌经营；2026半年报明确欧美销售通过跨境平台和独立站开展零售。",
+    "reason": "跨境电商有实际品牌及销售模式，能够表达渠道转型市场身份，产业链保留假发产品，不泛化成互联网平台运营商。",
+    "source_sector_name": "跨境电商",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "600439.SH-original-review",
+        "source_kind": "official_filing",
+        "publisher": "ST瑞贝卡",
+        "title": "2026年半年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=600439&id=12561545",
+        "published_at": null,
+        "assertions": [
+          "欧美业务通过跨境平台及独立站进行品牌零售。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "600444.SH",
+    "key": "specialized_equipment",
+    "sector": "专用设备",
+    "chain": [
+      "流体分离、试验检测及工程成套装备"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富完整列明流体机械研发制造、工程成套、特种泵阀、分离与检测装置等按订单经营。",
+    "ths_fact": "概念解释分别证实离心萃取、环保成套、核电工程应用、海工泥浆装备及回收设备。",
+    "company_fact": "东方财富完整列明流体机械研发制造、工程成套、特种泵阀、分离与检测装置等按订单经营。",
+    "reason": "多个已有应用题材都源于流体装备，当前证据最完整的共同经营身份为已有专用设备。聚变仅希望提供辅助验证系统，不写成聚变订单；新场景规模化后再复核。",
+    "source_sector_name": "专用设备",
+    "source_sector_provider": "东方财富",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600446.SH",
+    "key": "ai_agents",
+    "sector": "AI智能体",
+    "chain": [
+      "金融做市、财富管理及风控智能体"
+    ],
+    "stage": "product",
+    "fact": "东方财富AI产品主营明确KOCA AI平台及业务百事通、智能领航员和机构运营智能体矩阵。",
+    "ths_fact": "AI智能体解释明确做市2.0与AI智能体解决方案，AI应用有金融大模型产品。",
+    "company_fact": "东方财富AI产品主营明确KOCA AI平台及业务百事通、智能领航员和机构运营智能体矩阵。",
+    "reason": "AI智能体已形成具体产品体系，两源直接对应，作为金融IT的新市场身份；按产品阶段，不将所有金融软件收入等同智能体收入。",
+    "source_sector_name": "AI智能体",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600448.SH",
+    "key": "dyeing_printing",
+    "sector": "印染",
+    "chain": [
+      "纺织面料印染订单加工"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富明确以印染订单加工为主，配有纺纱、服装、家纺和贸易。",
+    "ths_fact": "概念解释确认家纺产品和营销，透明工厂是印染制造内部升级，工业大麻为面料产品应用。",
+    "company_fact": "东方财富明确以印染订单加工为主，配有纺纱、服装、家纺和贸易。",
+    "reason": "已有印染行业最完整对应真实生产与客户订单；材料品类和内部智能化不自动改变公司经营身份，后续以新材料独立业务进展复核。",
+    "source_sector_name": "印染",
+    "source_sector_provider": "东方财富",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600449.SH",
+    "key": "data_centers",
+    "sector": "数据中心(AIDC)",
+    "chain": [
+      "数据中心机柜与云基础服务"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富主营仍列建材及数字物流；2025年报另确认数据中心收入2745.46万元，同比增长12.05%。",
+    "ths_fact": "AIDC解释明确数据中心认证及计算存储网络服务；算力租赁旧段仅计划出租剩余机柜。",
+    "company_fact": "东方财富主营仍列建材及数字物流；2025年报另确认数据中心收入2745.46万元，同比增长12.05%。",
+    "reason": "原年报补足数据中心实际经营，选择已有AIDC体现已形成的新业务；未将机柜服务扩写成GPU算力租赁，中建信息拟重组关联也不当成已经并入。",
+    "source_sector_name": "数据中心(AIDC)",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "600449.SH-original-review",
+        "source_kind": "official_filing",
+        "publisher": "宁夏建材",
+        "title": "2025年年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=600449&id=12019269",
+        "published_at": null,
+        "assertions": [
+          "2025年数据中心业务主营收入2745.46万元。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "600452.SH",
+    "key": "electric_power",
+    "sector": "电力",
+    "chain": [
+      "地方配电网运营及节能合同管理"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富确认趸购电量后供电的电网运营，以及EMC节能效益分享。",
+    "ths_fact": "电力改革解释明确涪陵地区供售电经营，水泥为35%参股投资。",
+    "company_fact": "东方财富确认趸购电量后供电的电网运营，以及EMC节能效益分享。",
+    "reason": "已有电力对应实际供售电与配网服务，既非发电装机也非水泥主体，明确公司所在电网环节。",
+    "source_sector_name": "电力",
+    "source_sector_provider": "东方财富",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600455.SH",
+    "key": "vocational_education",
+    "sector": "职业教育",
+    "chain": [
+      "应用型本科院校运营"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富确认高等教育为现实业务，辅以信息技术。",
+    "ths_fact": "职业教育解释明确持有西安交通大学城市学院70%，学校培养应用型人才；鸿蒙仅产教共同体。",
+    "company_fact": "东方财富确认高等教育为现实业务，辅以信息技术。",
+    "reason": "选择已有职业教育板块，链条明确为应用型本科，未将本科误称职业培训或高职。供应商软件行业标签及加入鸿蒙共同体不足以替代教育经营。",
+    "source_sector_name": "职业教育",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600456.SH",
+    "key": "commercial_space",
+    "sector": "商业航天",
+    "chain": [
+      "航天航空用钛合金加工材料"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富确认钛合金制造；2026半年报列航天壳件、发动机等用途及连续获得航天集团优秀供应商。",
+    "ths_fact": "商业航天解释明确航天科技集团供应商及航空客户合作。",
+    "company_fact": "东方财富确认钛合金制造；2026半年报列航天壳件、发动机等用途及连续获得航天集团优秀供应商。",
+    "reason": "已有商业航天由实际航天钛材供给支撑，产业链限定加工材料，不称商业火箭整机或擅造特定客户批量订单；与一般金属用途相比更体现高端装备供给身份。",
+    "source_sector_name": "商业航天",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "600456.SH-original-review",
+        "source_kind": "official_filing",
+        "publisher": "宝钛股份",
+        "title": "2026年半年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=600456&id=12533712",
+        "published_at": null,
+        "assertions": [
+          "钛材应用于航天壳件等，公司连续三届获得航天科技集团优秀供应商。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "600458.SH",
+    "key": "data_centers",
+    "sector": "数据中心(AIDC)",
+    "chain": [
+      "AIDC电容隔膜材料"
+    ],
+    "stage": "orders",
+    "fact": "东方财富确认先进纸基及高分子材料业务；2026半年报确认电容隔膜首次用于AIDC并取得国内头部电容客户批量订单。",
+    "ths_fact": "AIDC解释明确电容隔膜通过头部客户验证并取得小批量订单。",
+    "company_fact": "东方财富确认先进纸基及高分子材料业务；2026半年报确认电容隔膜首次用于AIDC并取得国内头部电容客户批量订单。",
+    "reason": "AIDC新材料已经取得订单，选择这一真实新场景，阶段orders，不把新订单推成收入，也不把风电叶片与汽车制品收入归入AIDC。",
+    "source_sector_name": "数据中心(AIDC)",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "600458.SH-original-review",
+        "source_kind": "official_filing",
+        "publisher": "时代新材",
+        "title": "2026年半年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=600458&id=12505347",
+        "published_at": null,
+        "assertions": [
+          "电容隔膜首次应用AIDC并获得国内头部电容客户批量订单。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "600459.SH",
+    "key": "metal_recycling",
+    "sector": "金属回收",
+    "chain": [
+      "铂族等贵金属二次资源循环利用"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富明确贵金属新材料、资源循环利用及供给服务，形成原料材料回收链。",
+    "ths_fact": "金属回收及固废处理解释确认每年十余吨铂族金属回收与扩产。",
+    "company_fact": "东方财富明确贵金属新材料、资源循环利用及供给服务，形成原料材料回收链。",
+    "reason": "金属回收有持续处理能力与经营链支撑；脑机材料有样品验证且极小收入、抗癌药在临床前，保留后续复核，不将其技术布局认作整体新主身份。",
+    "source_sector_name": "金属回收",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600460.SH",
+    "key": "igbt",
+    "sector": "IGBT",
+    "chain": [
+      "IGBT芯片与功率模块的IDM制造"
+    ],
+    "stage": "revenue",
+    "fact": "东方财富确认硅与化合物半导体设计、制造、封装及分立器件供给。",
+    "ths_fact": "IGBT及芯片制造解释确认自主工艺、批量制造；汽车芯片段确认模块供货。",
+    "company_fact": "东方财富确认硅与化合物半导体设计、制造、封装及分立器件供给。",
+    "reason": "IGBT体现已形成的功率半导体核心市场身份，链条覆盖芯片及模块；AIDC模拟芯片新产品和多技术平台并行，不据概念顺序直接切换。",
+    "source_sector_name": "IGBT",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  }
+]

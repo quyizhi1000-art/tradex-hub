@@ -1,0 +1,73 @@
+{
+  "instrument_id": "000596.SZ",
+  "name": "古井贡酒",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "000596.SZ",
+    "name": "古井贡酒",
+    "memberships": [
+      "食品饮料",
+      "白酒Ⅱ",
+      "白酒Ⅲ",
+      "安徽板块",
+      "消费风格",
+      "破增发价股",
+      "中盘股",
+      "标准普尔",
+      "富时罗素",
+      "深证100R",
+      "MSCI中国",
+      "深股通",
+      "央视50_",
+      "融资融券",
+      "深成500",
+      "机构重仓",
+      "基金重仓",
+      "HS300_",
+      "AB股",
+      "味蕾经济",
+      "酿酒概念",
+      "白酒",
+      "央国企改革"
+    ],
+    "business_sections": [
+      {
+        "title": "白酒",
+        "kind": "主营业务",
+        "text": "古井贡酒为公司的主导产品，其渊源始于公元196年曹操将家乡亳州产的“九酝春酒”和酿造方法进献给汉献帝刘协，自此一直作为皇室贡品；古井贡酒以“色清如水晶、香纯似幽兰、入口甘美醇和、回味经久不息”的独特风格，四次蝉联全国白酒评比金奖，在巴黎第十三届国际食品博览会上荣获金奖，先后获得中国地理标志产品、国家重点文物保护单位、国家非物质文化遗产保护项目、安徽省政府质量奖、全国质量标杆等荣誉。"
+      },
+      {
+        "title": "强化市场建设,提升品牌影响力",
+        "kind": "核心竞争力",
+        "text": "公司坚持全国化、次高端、古20+的发展战略,通过“插旗、打井、育户”实施路径,加速推进全国化进程,提速省外市场,产品结构不断提升。坚持“品牌求强,高举高打、资源聚焦”的传播策略,推进品牌联动、传播创新,品牌影响力逐步增强。"
+      },
+      {
+        "title": "“品质”求精,白酒产品质量扎实提升",
+        "kind": "核心竞争力",
+        "text": "公司完善白酒品质表达体系,发布《古井贡酒·年份原浆品质管控纲要》。正式上线行业首家“透明工厂”,深化“产学研管用一体化”发展。持续优化酿造工艺,全面推行酿酒标准化生产。"
+      },
+      {
+        "title": "科技赋能,品质根基更加牢固",
+        "kind": "核心竞争力",
+        "text": "公司全面推进原粮基地种植,为“酿好酒”提供坚实保障。高质高效完成白酒新国标的切换,全面从严,食品安全主体责任得到进一步落实。不断探索酿酒副产物处理新思路。公司获得发明专利9项、授权实用新型专利62项。多项技术创新成果达到国际国内领先水平,并在公司实现成果转化。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ000596",
+    "fetched_at": "2026-09-18T22:35:36.219437+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "白酒"
+}

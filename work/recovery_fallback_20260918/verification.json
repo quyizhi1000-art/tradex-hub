@@ -1,0 +1,50 @@
+{
+  "files": {
+    "tradex/src/tradex/data_gateway/intraday.py": "2ff303fde689d297e5b1a15f71f5256f71a3b6c42e35442fd322b3de3c33f46f",
+    "tradex/src/tradex/data_sources/tushare_fetchers.py": "76c12623714152e99390e25c90b6b17340a6f71ca557b409f4036683d4a80afe",
+    "tradex/src/tradex/market_watch/reconstruction.py": "2f93f4f7a0241d80112ae3729d233e3254ae96ec32bdde514307efa3abcc442a"
+  },
+  "tests": {
+    "result": "54 passed",
+    "scope": "intraday gateway, Tushare fetchers, market-watch reconstruction, architecture boundary"
+  },
+  "live_reproduction": {
+    "universe": {
+      "provider": "tushare",
+      "active_count": 5579,
+      "excluded_count": 0,
+      "elapsed_seconds": 16.9,
+      "provider_as_of": "2026-09-18T15:00:05+08:00"
+    },
+    "batch_40": {
+      "returned": 38,
+      "omitted": [
+        "000004.SZ",
+        "000016.SZ"
+      ]
+    },
+    "before": {
+      "omitted_batch": "empty data error",
+      "000016.SZ": {
+        "points": 1,
+        "target_10_24": false
+      }
+    },
+    "after": {
+      "elapsed_seconds": 5.54,
+      "fallback_count": 2,
+      "provider": "eastmoney",
+      "points_each": 241,
+      "trading_date": "2026-09-18",
+      "target_10_24_each": true
+    }
+  },
+  "runtime": {
+    "name": "collector",
+    "process_pid": 64376,
+    "process_start_utc": "2026-09-18T08:09:22.0152504Z",
+    "started_at": "2026-09-18T16:09:26.6374258+08:00",
+    "stdout_log": "G:\\money\\.tradex-run\\collector.out.log",
+    "stderr_log": "G:\\money\\.tradex-run\\collector.err.log"
+  }
+}

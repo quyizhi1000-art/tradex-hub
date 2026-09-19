@@ -19,6 +19,7 @@ from .core import (
     load_reviewed_market_attributions,
 )
 from .service import SmartSectorLibrary
+from .catalog import SmartSectorCatalog, MarketMembershipV2, read_market_memberships
 
 __all__ = [
     "BUSINESS_SECTOR_RULES",
@@ -31,6 +32,9 @@ __all__ = [
     "SmartSectorCandidateV1",
     "SmartSectorDecisionV1",
     "SmartSectorLibrary",
+    "SmartSectorCatalog",
+    "MarketMembershipV2",
+    "read_market_memberships",
     "SmartSectorPolicyV1",
     "infer_business_categories",
     "infer_current_market_categories",

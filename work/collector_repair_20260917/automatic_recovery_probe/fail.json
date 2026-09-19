@@ -1,0 +1,66 @@
+{
+  "stage": "fail",
+  "process_id": 33364,
+  "result": {
+    "action": "recorded",
+    "catalog_revision": "4b51bdb35ffa0101a01b9dbd2a88bf831a6202b8aed764074741a17621154414",
+    "total": 3,
+    "observed": 3,
+    "mapped": 0,
+    "unclassified": 3,
+    "with_curve": 3,
+    "history_missing": 3,
+    "curve_unverified": 0,
+    "missing_latest": 0,
+    "hot": 0,
+    "new": 3,
+    "renamed": 0
+  },
+  "recovery": {
+    "contract": "sector_catalog_recovery.v1",
+    "trade_date": "2026-09-17",
+    "catalog_revision": "4b51bdb35ffa0101a01b9dbd2a88bf831a6202b8aed764074741a17621154414",
+    "checked_at": "2026-09-17T16:13:29.896206+08:00",
+    "coverage_as_of": "2026-09-17T15:00:00+08:00",
+    "state": "backoff",
+    "total_series": 3,
+    "missing_series": 3,
+    "repairable_series": 3,
+    "attempt_count": 3,
+    "failed_targets": 3,
+    "next_retry_at": "2026-09-17T16:13:59.896206+08:00",
+    "last_error": null
+  },
+  "attempts": {
+    "board_722e8b33ad5c0a7e9929d084": {
+      "trade_date": "2026-09-17",
+      "sector_key": "board_722e8b33ad5c0a7e9929d084",
+      "attempt_count": 1,
+      "failures": 1,
+      "last_attempt_at": "2026-09-17T16:13:29.896206+08:00",
+      "next_retry_at": "2026-09-17T16:13:59.896206+08:00",
+      "outcome": "no_progress",
+      "error": "TimeoutError"
+    },
+    "board_809cff19dbae57a368d03ac1": {
+      "trade_date": "2026-09-17",
+      "sector_key": "board_809cff19dbae57a368d03ac1",
+      "attempt_count": 1,
+      "failures": 1,
+      "last_attempt_at": "2026-09-17T16:13:29.896206+08:00",
+      "next_retry_at": "2026-09-17T16:13:59.896206+08:00",
+      "outcome": "no_progress",
+      "error": "TimeoutError"
+    },
+    "board_c5bad6ab117e03ce751d0593": {
+      "trade_date": "2026-09-17",
+      "sector_key": "board_c5bad6ab117e03ce751d0593",
+      "attempt_count": 1,
+      "failures": 1,
+      "last_attempt_at": "2026-09-17T16:13:29.896206+08:00",
+      "next_retry_at": "2026-09-17T16:13:59.896206+08:00",
+      "outcome": "no_progress",
+      "error": "TimeoutError"
+    }
+  }
+}

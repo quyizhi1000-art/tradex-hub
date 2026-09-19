@@ -1,0 +1,439 @@
+[
+  {
+    "id": "002004.SZ",
+    "key": "chemical_pharmaceuticals",
+    "sector": "化学制药",
+    "source_sector_name": "化学制药",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "皮肤临床药",
+      "原料制剂一体化"
+    ],
+    "stage": "revenue",
+    "fact": "公司皮肤药覆盖抗过敏痤疮皮炎银屑病，拥有原料制剂一体化生产及全国营销。",
+    "company_fact": "公司皮肤药覆盖抗过敏痤疮皮炎银屑病，拥有原料制剂一体化生产及全国营销。",
+    "ths_fact": "银屑病解析列卡泊三醇卤米松阿维A等具体药品，仿制药解析确认左西替利嗪产品。",
+    "reason": "皮肤临床药品经营交叉最完整，选化学制药；医美医院和旅游农化存在，但参股细胞疗法不等于本体创新药上市。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002005.SZ",
+    "key": "led",
+    "sector": "LED",
+    "source_sector_name": "LED概念",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "车规LED封装",
+      "汽车照明"
+    ],
+    "stage": "revenue",
+    "fact": "公司LED封装向高端器件转型，具车规供应能力，产品用于车灯手机闪光灯及背光。",
+    "company_fact": "公司LED封装向高端器件转型，具车规供应能力，产品用于车灯手机闪光灯及背光。",
+    "ths_fact": "新能源车解析明确锐拓LED汽车照明已为多家车企主力车型量产供货。",
+    "reason": "选择LED反映已量产车规封装增量；小家电为真实并行业务，非自动按家电行业标签定主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002006.SZ",
+    "key": "carbon_fiber",
+    "sector": "碳纤维",
+    "source_sector_name": "碳纤维",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "原丝及碳化装备",
+      "复合材料成型"
+    ],
+    "stage": "revenue",
+    "fact": "公司形成原丝碳化复材装备矩阵，碳化生产线国内市占率60%以上。",
+    "company_fact": "公司形成原丝碳化复材装备矩阵，碳化生产线国内市占率60%以上。",
+    "ths_fact": "碳纤维解析明确高端装备与新材料研发生产销售。",
+    "reason": "全产业链碳纤维装备有实业地位支撑，人形智能腿仍联合研发，不替代已确认主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002007.SZ",
+    "key": "blood_products",
+    "sector": "血液制品",
+    "source_sector_name": "血液制品",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "白蛋白",
+      "免疫球蛋白凝血产品"
+    ],
+    "stage": "revenue",
+    "fact": "公司研产销白蛋白免疫球蛋白凝血因子等11品种34规格，同时控股疫苗业务。",
+    "company_fact": "公司研产销白蛋白免疫球蛋白凝血因子等11品种34规格，同时控股疫苗业务。",
+    "ths_fact": "血液制品解析列同样产品体系和血浆综合利用。",
+    "reason": "直接血浆制品产品壁垒与市场候选相符，参股创新生物药不自动覆盖主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002008.SZ",
+    "key": "laser_equipment",
+    "sector": "激光设备",
+    "source_sector_name": "激光设备",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "工业激光加工",
+      "智能制造装备"
+    ],
+    "stage": "revenue",
+    "fact": "公司研产销智能制造装备关键器件，产品含通用工业激光、信息产业、新能源及半导体设备。",
+    "company_fact": "公司研产销智能制造装备关键器件，产品含通用工业激光、信息产业、新能源及半导体设备。",
+    "ths_fact": "机器人解析确认自动化设备，锂电解析列激光相关加工及整线产品；现有激光加工产品构成装备定位。",
+    "reason": "选择已有激光设备表达本体工艺装备平台，机器人及锂电设备为应用延展，不将参股芯片概念升主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002009.SZ",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "具身智能解决方案",
+      "本体与数据实训"
+    ],
+    "stage": "product",
+    "fact": "公司将具身智能列三大主业之一，开展机器人本体方案、多模态数据及垂类模型开发。",
+    "company_fact": "公司将具身智能列三大主业之一，开展机器人本体方案、多模态数据及垂类模型开发。",
+    "ths_fact": "人形及机器人解析明确工业具身系统、本体制造优化与真机实训。",
+    "reason": "实际机器人业务和战略方向交叉，选人形机器人；未取得收入拆分不记收入，脑机合作属后续研发。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002010.SZ",
+    "key": "smart_logistics",
+    "sector": "智能物流",
+    "source_sector_name": "智能物流",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "公路港网络",
+      "产业供应链平台"
+    ],
+    "stage": "revenue",
+    "fact": "公司运营全国智能公路港网络，为新能源化工快消提供产业供应链方案。",
+    "company_fact": "公司运营全国智能公路港网络，为新能源化工快消提供产业供应链方案。",
+    "ths_fact": "智能物流解析明确27省区73公路港及制造业物流服务。",
+    "reason": "全国网络和服务模式支撑智能物流，化工为并行实业；人形中试联合体不能代替直接经营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002011.SZ",
+    "key": "data_centers",
+    "sector": "数据中心(AIDC)",
+    "source_sector_name": "数据中心(AIDC)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "温控阀件",
+      "换热器组件"
+    ],
+    "stage": "delivery",
+    "fact": "公司阀件换热器及组件已成熟应用数据中心温控，兼制冷空调及汽车热管理。",
+    "company_fact": "公司阀件换热器及组件已成熟应用数据中心温控，兼制冷空调及汽车热管理。",
+    "ths_fact": "AIDC解析明确同样数据中心温控成熟应用；液冷机组解析主要为储能用途。",
+    "reason": "选择已有AIDC反映实际温控配套增量，准确限定阀件及组件，不把储能液冷机组收入算为服务器液冷。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002012.SZ",
+    "key": "paper",
+    "sector": "造纸",
+    "source_sector_name": "造纸",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "特种包装纸",
+      "工业保护纸"
+    ],
+    "stage": "revenue",
+    "fact": "公司生产烟用接装纸、食品医用包装纸及工业衬纸，覆盖卷烟餐饮钢厂等客户。",
+    "company_fact": "公司生产烟用接装纸、食品医用包装纸及工业衬纸，覆盖卷烟餐饮钢厂等客户。",
+    "ths_fact": "烟草解析明确食品包装、烟用接装及医用包装材料。",
+    "reason": "特种纸多场景直接经营最明确，选造纸；强云数据业务旧材料未独立核对当前经营，不自动替换主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002014.SZ",
+    "key": "plastic_packaging",
+    "sector": "塑料包装",
+    "source_sector_name": "塑料包装",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "彩印复合软包装",
+      "多功能薄膜"
+    ],
+    "stage": "revenue",
+    "fact": "公司生产彩印复合软包装和多功能膜，实际服务食品日化医药包装。",
+    "company_fact": "公司生产彩印复合软包装和多功能膜，实际服务食品日化医药包装。",
+    "ths_fact": "已保存同股经营分析页面明确真空镀膜、多功能薄膜、彩印复合软包装及新型医药包装生产经营。",
+    "reason": "软包装产品两源明确，选已有塑料包装；THS概念表无可解析行不等于缺业务，经营正文有效交叉。",
+    "basis": "crosschecked_sources",
+    "extra_evidence": [
+      {
+        "evidence_id": "002014.SZ-ths-operate-saved",
+        "source_kind": "web_secondary",
+        "publisher": "同花顺",
+        "title": "永新股份经营分析",
+        "source_url": "https://basic.10jqka.com.cn/002014/operate.html",
+        "published_at": null,
+        "assertions": [
+          "保存的同股经营分析搜索正文明确彩印复合软包装、多功能薄膜及医药包装产品的生产经营。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "002015.SZ",
+    "key": "virtual_power_plant",
+    "sector": "虚拟电厂",
+    "source_sector_name": "虚拟电厂",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "可调负荷聚合",
+      "能源交易服务"
+    ],
+    "stage": "revenue",
+    "fact": "公司能源服务端持续扩大虚拟电厂、售电、绿证等规模，以能源资产管理和交易服务双轮经营。",
+    "company_fact": "公司能源服务端持续扩大虚拟电厂、售电、绿证等规模，以能源资产管理和交易服务双轮经营。",
+    "ths_fact": "虚拟电厂解析明确业务跨多个地区，可调负荷约690MW并参与辅助服务市场。",
+    "reason": "实际负荷聚合和交易业务支撑虚拟电厂主线；算力等其他布局保留复核，不仅凭热度选租赁。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002016.SZ",
+    "key": "real_estate",
+    "sector": "房地产",
+    "source_sector_name": "房地产",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "珠海住宅开发",
+      "商业配套"
+    ],
+    "stage": "revenue",
+    "fact": "公司以住宅开发销售为主并经营配套商业，拓展上下游物业等。",
+    "company_fact": "公司以住宅开发销售为主并经营配套商业，拓展上下游物业等。",
+    "ths_fact": "广东自贸区解析明确世荣实业地产开发，物业解析为子公司配套。",
+    "reason": "项目开发和地域经营一致，选房地产；船舶发动机为参股，不当作直接造船。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002017.SZ",
+    "key": "cybersecurity",
+    "sector": "网络安全",
+    "source_sector_name": "网络安全",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "数字身份安全",
+      "智能卡安全平台"
+    ],
+    "stage": "revenue",
+    "fact": "公司以可信数字身份为根基，结合智能卡安全硬件及平台软件，在多行业规模落地。",
+    "company_fact": "公司以可信数字身份为根基，结合智能卡安全硬件及平台软件，在多行业规模落地。",
+    "ths_fact": "网络安全解析明确中国电科数字身份安全产业平台，覆盖通信支付和物联。",
+    "reason": "数字安全为跨智能卡与平台的完整直接业务，选网络安全；数字币及量子卡是产品分支。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002019.SZ",
+    "key": "innovative_drugs",
+    "sector": "创新药",
+    "source_sector_name": "创新药",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "创新生物药",
+      "国际化商业化"
+    ],
+    "stage": "product",
+    "fact": "公司核心竞争力明确首个创新生物药在中美欧巴西获上市销售许可，拥有亿立舒等文号和境外产业链。",
+    "company_fact": "公司核心竞争力明确首个创新生物药在中美欧巴西获上市销售许可，拥有亿立舒等文号和境外产业链。",
+    "ths_fact": "创新药解析明确国际化创新战略，流感解析说明新药销量增长。",
+    "reason": "创新生物药上市资质和管线支持概念，保守记产品阶段，不将整体医药销售直接当该单品收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002020.SZ",
+    "key": "innovative_drugs",
+    "sector": "创新药",
+    "source_sector_name": "创新药",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "精神神经创新药",
+      "地达西尼"
+    ],
+    "stage": "product",
+    "fact": "公司拥有1类创新药地达西尼胶囊，精神神经方向10余创新药械项目推进。",
+    "company_fact": "公司拥有1类创新药地达西尼胶囊，精神神经方向10余创新药械项目推进。",
+    "ths_fact": "创新药解析具体列地达西尼及三疾病产品梯队。",
+    "reason": "具体获有创新品种与研发战略交叉，选创新药；不把整个制剂收入认作创新药收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002021.SZ",
+    "key": "textile_apparel_equipment",
+    "sector": "纺织服装设备",
+    "source_sector_name": "纺织服装设备",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "工业缝纫机"
+    ],
+    "stage": "revenue",
+    "fact": "公司研发生产销售十四系列工业缝制机械，具年80万台生产能力。",
+    "company_fact": "公司研发生产销售十四系列工业缝制机械，具年80万台生产能力。",
+    "ths_fact": "高端装备解析具体列工业平缝包缝绷缝及特种机。",
+    "reason": "直接设备产品及规模明确，选纺织服装设备；机器人联合实验室和内部物流不代替产品经营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002022.SZ",
+    "key": "in_vitro_diagnostics",
+    "sector": "体外诊断",
+    "source_sector_name": "体外诊断",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "诊断试剂",
+      "检验仪器"
+    ],
+    "stage": "revenue",
+    "fact": "公司研产销体外诊断试剂仪器，多方法学产品形成检验解决方案。",
+    "company_fact": "公司研产销体外诊断试剂仪器，多方法学产品形成检验解决方案。",
+    "ths_fact": "医疗器械与体外诊断解析明确生化免疫分子试剂及仪器。",
+    "reason": "诊断产品不是血浆制剂，选体外诊断并排除THS血液制品错误泛化。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002023.SZ",
+    "key": "low_altitude_economy",
+    "sector": "低空经济",
+    "source_sector_name": "低空经济",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "飞行模拟器",
+      "航空技术服务"
+    ],
+    "stage": "delivery",
+    "fact": "公司将低空研发应用纳业务，航空模拟器及控制器等成熟批量交付，航空工程服务有技术基础。",
+    "company_fact": "公司将低空研发应用纳业务，航空模拟器及控制器等成熟批量交付，航空工程服务有技术基础。",
+    "ths_fact": "低空解析明确安胜研制交付国内首台eVTOL模拟机。",
+    "reason": "明确模拟机交付与航空技术平台交叉支持低空主线；参股芯片不用旧控股描述替代当前关系。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002024.SZ",
+    "key": "retail",
+    "sector": "零售",
+    "source_sector_name": "零售概念",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "家电连锁",
+      "场景体验门店"
+    ],
+    "stage": "revenue",
+    "fact": "公司调整低效门店并新开重装79家大型体验店，围绕智慧生活空间经营。",
+    "company_fact": "公司调整低效门店并新开重装79家大型体验店，围绕智慧生活空间经营。",
+    "ths_fact": "超级品牌解析明确综合电器销售服务和3C家电连锁。",
+    "reason": "实际门店与零售服务匹配已有零售；ST和历史金融剥离不构成产业归属。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002025.SZ",
+    "key": "data_centers",
+    "sector": "数据中心(AIDC)",
+    "source_sector_name": "数据中心(AIDC)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "高速互连",
+      "供电液冷连接器"
+    ],
+    "stage": "product",
+    "fact": "公司研制高速及液冷连接器，光通信器件应用数据中心等领域。",
+    "company_fact": "公司研制高速及液冷连接器，光通信器件应用数据中心等领域。",
+    "ths_fact": "AIDC解析具体列高速互连、供电及液冷板连接器，算力解析确认相关领域配套收入。",
+    "reason": "现有产品和数据中心配套具体一致，选AIDC；产品阶段保守，不把商业航天与算力合计收入拆成单独算力营收。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002026.SZ",
+    "key": "battery_swapping",
+    "sector": "换电",
+    "source_sector_name": "换电概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "换电站装备",
+      "智能制造"
+    ],
+    "stage": "revenue",
+    "fact": "公司为新能源汽车提供换电站研发到制造一站式服务，精密配件与数控装备同时经营。",
+    "company_fact": "公司为新能源汽车提供换电站研发到制造一站式服务，精密配件与数控装备同时经营。",
+    "ths_fact": "换电解析明确控股孙公司昆山斯沃普供应蔚来第二代换电站。",
+    "reason": "设备和已供货客户支撑换电增量辨识，不因钻夹头传统收入直接否定；股权投资留背景。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002027.SZ",
+    "key": "advertising_media",
+    "sector": "广告媒体",
+    "source_sector_name": "广告媒体",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "电梯媒体",
+      "楼宇广告"
+    ],
+    "stage": "revenue",
+    "fact": "公司自营电梯电视覆盖境内约240城及多国，设备约122.3万台。",
+    "company_fact": "公司自营电梯电视覆盖境内约240城及多国，设备约122.3万台。",
+    "ths_fact": "文化传媒解析明确楼宇电梯和影院广告开发运营。",
+    "reason": "自营媒体网络与广告产品为确定经营基础；AI精准营销正在拓展，不将内部工具及未来释放描述等同独立AI业务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002028.SZ",
+    "key": "power_grid_equipment",
+    "sector": "电网设备",
+    "source_sector_name": "电网设备",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "输配电一次二次设备",
+      "电能治理"
+    ],
+    "stage": "revenue",
+    "fact": "公司经营输配电设备及零部件，覆盖一次二次设备和电能质量方案。",
+    "company_fact": "公司经营输配电设备及零部件，覆盖一次二次设备和电能质量方案。",
+    "ths_fact": "特高压及电力物联网解析确认输变电设备制造和系统解决方案。",
+    "reason": "电网产品矩阵直接清晰，选电网设备；参股芯片和超级电容不替代完整输配电平台。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002029.SZ",
+    "key": "apparel_home_textiles",
+    "sector": "服装家纺",
+    "source_sector_name": "服装家纺",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "品牌男装",
+      "七匹狼"
+    ],
+    "stage": "revenue",
+    "fact": "公司设计生产销售七匹狼男装针纺，经营Karl Lagerfeld品牌。",
+    "company_fact": "公司设计生产销售七匹狼男装针纺，经营Karl Lagerfeld品牌。",
+    "ths_fact": "跨境电商解析明确2024线上销售且跨境极少，AI解析为店长商品等内部工具。",
+    "reason": "品牌服装经营确定，现有服装家纺对应实际产品；不把极少跨境或内用AI升级主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002030.SZ",
+    "key": "in_vitro_diagnostics",
+    "sector": "体外诊断",
+    "source_sector_name": "体外诊断",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "分子诊断",
+      "PCR试剂仪器"
+    ],
+    "stage": "revenue",
+    "fact": "公司从诊断原料试剂到仪器耗材贯通，分子诊断为主导的多方法学产品研产销。",
+    "company_fact": "公司从诊断原料试剂到仪器耗材贯通，分子诊断为主导的多方法学产品研产销。",
+    "ths_fact": "体外诊断及分子诊断解析明确PCR等平台和试剂仪器销售。",
+    "reason": "诊断业务两源完整，选体外诊断；辅助生殖和AI为参股经营，不直接替代本体产品。",
+    "basis": "crosschecked_sources"
+  }
+]

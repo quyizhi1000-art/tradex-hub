@@ -1,0 +1,66 @@
+{
+  "instrument_id": "300074.SZ",
+  "name": "华平股份",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "300074.SZ",
+    "name": "华平股份",
+    "memberships": [
+      "计算机",
+      "软件开发",
+      "垂直应用软件",
+      "上海板块",
+      "破发股",
+      "养老金",
+      "创业板综",
+      "股权激励",
+      "创新医疗服务",
+      "低空经济",
+      "微盘股",
+      "DRG/DIP",
+      "智慧政务",
+      "超清视频",
+      "互联网医疗",
+      "增强现实",
+      "充电桩",
+      "安防概念",
+      "在线教育",
+      "大数据",
+      "智慧城市"
+    ],
+    "business_sections": [
+      {
+        "title": "音视频通讯",
+        "kind": "主营业务",
+        "text": "公司在音视频通讯行业成功打造了具有广泛影响力的自主品牌“AVCON”，依托领先的技术水平、优异的音视频传输性能及全方位的服务体系，在政府、应急、医疗等众多行业用户中建立了稳固且良好的品牌口碑。自2006年起，公司凭借持续积累的技术优势与丰富的行业经验，在交互式视音频通讯与应急通信指挥领域始终保持国内市场领先地位，市场份额稳居行业前列。"
+      },
+      {
+        "title": "行业需求深度理解与场景化服务能力",
+        "kind": "核心竞争力",
+        "text": "公司专注于以音视频技术为核心的行业可视化应用领域，秉持行业驱动技术创新的发展理念，聚焦应急管理、消防救援、公安政法、海事、林草、水利、气象、新能源、医疗卫生、低空经济等重点支持领域，在2024年基础上进一步拓展场景覆盖，升级完善覆盖2000+行业场景的知识信息图库，新增低空飞行管控、移动储能、AI医疗结算等新兴场景的场景化解决方案，形成更全面的场景适配能力。"
+      },
+      {
+        "title": "全生命周期数字化解决方案交付与应用",
+        "kind": "核心竞争力",
+        "text": "公司将技术创新确立为企业长期发展的核心战略驱动力。2025年度，公司持续深化研发体系建设，加大在音视频编解码、实时通信优化、AI智能交互等视频通讯核心技术领域的研发投入，全面提升自研能力与技术迭代效率。公司构建“预研-开发-转化”三级研发体系链路，在音视频通信、网络传输与组网、智慧医疗、智慧城市、低空经济配套、AI融合应用等多个关键技术领域，建立了独树一帜的技术优势，并形成专利池+产品线的双向赋能机制，切实解决行业痛点，为客户创造显著价值。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ300074",
+    "fetched_at": "2026-09-18T23:01:50.177249+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "应急指挥"
+}

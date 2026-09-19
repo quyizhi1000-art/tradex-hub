@@ -1,0 +1,428 @@
+[
+  {
+    "id": "301668.SZ",
+    "key": "smart_grid",
+    "sector": "智能电网",
+    "source_sector_name": "智能电网",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "智能配电开关及环网柜"
+    ],
+    "stage": "revenue",
+    "fact": "主营智能环网柜、柱上开关、箱式变电站。",
+    "company_fact": "主营智能环网柜、柱上开关、箱式变电站。",
+    "ths_fact": "智能电网解析明确上述产品研发生产销售。",
+    "reason": "配电保护监测一体化为实际业务，风电只是应用分支。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301669.SZ",
+    "key": "energy_storage",
+    "sector": "储能",
+    "source_sector_name": "储能",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "储能电池管理系统"
+    ],
+    "stage": "revenue",
+    "fact": "经营储能BMS及数据诊断安全管理系统。",
+    "company_fact": "经营储能BMS及数据诊断安全管理系统。",
+    "ths_fact": "大型储能BMS出货居行业前列，覆盖工商业与户储。",
+    "reason": "芯片自研服务BMS，储能为完整商业化体系；适配新电池不等于制造电芯。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301677.SZ",
+    "key": "machine_tools",
+    "sector": "工业母机",
+    "source_sector_name": "工业母机",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "孔加工钻削刀具"
+    ],
+    "stage": "revenue",
+    "fact": "主营环形和实心钻削刀具，面向数控加工与工程制造。",
+    "company_fact": "主营环形和实心钻削刀具，面向数控加工与工程制造。",
+    "ths_fact": "工业母机解析对应钻削系列；深孔钻已向核电客户交付。",
+    "reason": "切削工具是母机关键耗材，核电工程为特定下游。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301678.SZ",
+    "key": "chips",
+    "sector": "芯片",
+    "source_sector_name": "芯片概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "封装引线框架与eSIM封测"
+    ],
+    "stage": "revenue",
+    "fact": "生产柔性和蚀刻引线框架，提供智能卡及eSIM模块封测。",
+    "company_fact": "生产柔性和蚀刻引线框架，提供智能卡及eSIM模块封测。",
+    "ths_fact": "芯片解析确认封装材料研发生产销售及封测服务。",
+    "reason": "芯片封装产业链清晰；自用视觉检测不归AI主营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301680.SZ",
+    "key": "automotive_thermal",
+    "sector": "汽车热管理",
+    "source_sector_name": "汽车热管理",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "电池热失控隔热防护"
+    ],
+    "stage": "revenue",
+    "fact": "以云母树脂制作电芯模组电池包隔热防护，另有电工绝缘及铜铝复材。",
+    "company_fact": "以云母树脂制作电芯模组电池包隔热防护，另有电工绝缘及铜铝复材。",
+    "ths_fact": "汽车热管理解析对应热失控防护，核心技术已商业化。",
+    "reason": "电池热安全为直接功能业务，电网绝缘另列，不将人形电池应用等同机器人执行器。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301682.SZ",
+    "key": "mlcc",
+    "sector": "MLCC",
+    "source_sector_name": "MLCC概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "高可靠多层陶瓷电容"
+    ],
+    "stage": "revenue",
+    "fact": "研发生产MLCC等阻容器件及精密零组件。",
+    "company_fact": "研发生产MLCC等阻容器件及精密零组件。",
+    "ths_fact": "MLCC解析确认主要产品，军工解析证明航空航天防务配套。",
+    "reason": "高可靠电容为技术产品主线；先进封装、算力结构件虽实际销售仍是延伸。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301683.SZ",
+    "key": "mini_led",
+    "sector": "MiniLED",
+    "source_sector_name": "MiniLED",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "LED封装与固晶涂层"
+    ],
+    "stage": "revenue",
+    "fact": "功能树脂和涂层材料覆盖电子新能源等下游。",
+    "company_fact": "功能树脂和涂层材料覆盖电子新能源等下游。",
+    "ths_fact": "MiniLED解析明确光电封装和固晶材料用于Mini/Micro LED芯片。",
+    "reason": "具体光学封装材料支持新显示主线；固态仅技术储备、玻璃基板未规模销售。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301686.SZ",
+    "key": "consumer_electronics",
+    "sector": "消费电子",
+    "source_sector_name": "消费电子概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "消费电子改性工程塑料"
+    ],
+    "stage": "revenue",
+    "fact": "改性工程塑料用于手机穿戴PC储能汽车。",
+    "company_fact": "改性工程塑料用于手机穿戴PC储能汽车。",
+    "ths_fact": "消费电子为核心业务，进入多家品牌合格供应商体系。",
+    "reason": "真实消费电子材料供应链清晰，储能汽车销售增长作为扩展。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301687.SZ",
+    "key": "pcb",
+    "sector": "PCB",
+    "source_sector_name": "PCB概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "FPC制程特种功能膜"
+    ],
+    "stage": "revenue",
+    "fact": "生产抗溢胶及强耐受膜，用于柔性线路板制造。",
+    "company_fact": "生产抗溢胶及强耐受膜，用于柔性线路板制造。",
+    "ths_fact": "主要客户鹏鼎、维信、景旺等FPC企业。",
+    "reason": "制板工艺材料构成稳定产业链；汽车材料通过测试不等于规模量产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301688.SZ",
+    "key": "other_chemical_products",
+    "sector": "其他化学制品",
+    "source_sector_name": "其他化学制品",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "日化香精用香料"
+    ],
+    "stage": "revenue",
+    "fact": "研发销售松节油、柏木油及全合成香料近40种。",
+    "company_fact": "研发销售松节油、柏木油及全合成香料近40种。",
+    "ths_fact": "次新股解析明确主营香料研发生产销售。",
+    "reason": "保存来源没有香料细分行业，采用已有化学制品行业，链字段记录香料，外销风格不作产业。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301689.SZ",
+    "key": "cpo",
+    "sector": "共封装光学(CPO)",
+    "source_sector_name": "共封装光学(CPO)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "光模块误码测试仪"
+    ],
+    "stage": "product",
+    "fact": "电子测量仪器覆盖微波光电通信，销售整机及测试系统。",
+    "company_fact": "电子测量仪器覆盖微波光电通信，销售整机及测试系统。",
+    "ths_fact": "5233D误码仪提供光模块生产一站式测试方案。",
+    "reason": "真实光模块测试产品与测量技术相符，归已有CPO链；未证实该型号收入故仅product。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301696.SZ",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "关节动力模组及电机"
+    ],
+    "stage": "product",
+    "fact": "经营无人机动力和CubeMars机器人电机驱动模组。",
+    "company_fact": "经营无人机动力和CubeMars机器人电机驱动模组。",
+    "ths_fact": "已推出适配人形、四足等场景动力系统，电机驱动板行星减速器自研。",
+    "reason": "机器人关节产品真实，采用人形增量主线；未单独量化人形客户交付，记product。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301697.SZ",
+    "key": "hjt_cells",
+    "sector": "HJT电池",
+    "source_sector_name": "HJT电池",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "银包铜浆粉材料"
+    ],
+    "stage": "revenue",
+    "fact": "导电材料有机硅涂层服务光伏与电子，客户含华晟帝科。",
+    "company_fact": "导电材料有机硅涂层服务光伏与电子，客户含华晟帝科。",
+    "ths_fact": "2026年8月明确银包铜浆HJT批量供货并具自主制粉能力。",
+    "reason": "HJT降银材料已商业化，优于仍测试的部分MiniLED材料。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301699.SZ",
+    "key": "wind_power",
+    "sector": "风电",
+    "source_sector_name": "风电",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "大功率风电主轴及增速箱轴承"
+    ],
+    "stage": "revenue",
+    "fact": "综合轴承制造，提供重大装备和新能源轴承。",
+    "company_fact": "综合轴承制造，提供重大装备和新能源轴承。",
+    "ths_fact": "16MW海上主轴轴承已产业化，20+MW产品获首台套认定，客户含风机龙头。",
+    "reason": "风电轴承具实际技术和客户；人形仍研制开发不按成熟机器人供货。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301707.SZ",
+    "key": "defense_informatization",
+    "sector": "军工信息化",
+    "source_sector_name": "军工信息化",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "高可靠模拟芯片与微模块"
+    ],
+    "stage": "revenue",
+    "fact": "设计销售电源管理芯片、微模块和分立器件。",
+    "company_fact": "设计销售电源管理芯片、微模块和分立器件。",
+    "ths_fact": "军工电子应用驱动高可靠芯片，现有收入来自军工。",
+    "reason": "高可靠集成电路直连军工电子，不因采用封装技术变成通用代工企业。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301716.SZ",
+    "key": "graphene",
+    "sector": "石墨烯",
+    "source_sector_name": "石墨烯",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "AI芯片导热界面材料"
+    ],
+    "stage": "revenue",
+    "fact": "原招股注册稿确认导热界面、电磁屏蔽吸波材料主营，石墨烯垫片及金属碳复材已批供AI芯片客户。",
+    "company_fact": "原招股注册稿确认导热界面、电磁屏蔽吸波材料主营，石墨烯垫片及金属碳复材已批供AI芯片客户。",
+    "ths_fact": "石墨烯解析明确量产垫片规模应用及TIM1小批供应。",
+    "reason": "以真实石墨烯产品和批供支撑归属，EM主营空缺已由原招股书补足。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "supplement-301716.SZ-business",
+        "source_kind": "official_filing",
+        "publisher": "鸿富诚",
+        "title": "首次公开发行招股说明书注册稿",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12395621&stockid=301716",
+        "published_at": "2026-06-10",
+        "assertions": [
+          "石墨烯导热垫片和金属碳基复合材料已进入全球主要AI芯片客户供应链并批量供货。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "301717.SZ",
+    "key": "lithography",
+    "sector": "光刻机",
+    "source_sector_name": "光刻机",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "特殊涂层精密设备零件"
+    ],
+    "stage": "revenue",
+    "fact": "为芯片制造和精密光学提供改性加工清洗涂层零部件。",
+    "company_fact": "为芯片制造和精密光学提供改性加工清洗涂层零部件。",
+    "ths_fact": "在刻蚀光刻沉积退火核心部件领域具量产能力。",
+    "reason": "光刻设备部件真实经营，链注明涂层零件而非整机。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "302132.SZ",
+    "key": "aviation_equipment",
+    "sector": "航空装备",
+    "source_sector_name": "航空装备Ⅱ",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "航空防务整机与部件"
+    ],
+    "stage": "revenue",
+    "fact": "主营航空防务装备民用航空和智能测控。",
+    "company_fact": "主营航空防务装备民用航空和智能测控。",
+    "ths_fact": "大飞机解析列歼系列与民机机头研制，成飞解析确认航空产品经营。",
+    "reason": "整机航空装备是重组后明确业务，传感器支线不覆盖航空主体，旧中航电测描述不作当前主营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600000.SH",
+    "key": "bank",
+    "sector": "银行",
+    "source_sector_name": "银行",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "商业银行及金融服务"
+    ],
+    "stage": "revenue",
+    "fact": "经营商业银行、租赁、信托、理财及持牌相关金融服务。",
+    "company_fact": "经营商业银行、租赁、信托、理财及持牌相关金融服务。",
+    "ths_fact": "补读同花顺公司资料明确主营银行及相关金融服务。",
+    "reason": "CIPS为银行结算能力，信托为金融分支，归属银行。",
+    "basis": "crosschecked_sources",
+    "extra_evidence": [
+      {
+        "evidence_id": "supplement-600000.SH-business",
+        "source_kind": "web_secondary",
+        "publisher": "同花顺",
+        "title": "公司资料",
+        "source_url": "https://basic.10jqka.com.cn/600000/company.html",
+        "published_at": null,
+        "assertions": [
+          "主营银行及相关金融服务。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "600004.SH",
+    "key": "airports",
+    "sector": "机场",
+    "source_sector_name": "机场",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "航空地面保障及机场商业"
+    ],
+    "stage": "revenue",
+    "fact": "运营起降停场旅客安全及机场商业租赁。",
+    "company_fact": "运营起降停场旅客安全及机场商业租赁。",
+    "ths_fact": "粤港澳解析明确航空运输业务背景，免税解析为拟参股10%市内店。",
+    "reason": "机场服务为真实经营，不把小比例拟参股免税作为控股运营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600006.SH",
+    "key": "new_energy_vehicles",
+    "sector": "新能源汽车",
+    "source_sector_name": "新能源汽车",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "新能源轻型商用车"
+    ],
+    "stage": "revenue",
+    "fact": "制造销售轻卡小卡VAN客车底盘及发动机，油电并举。",
+    "company_fact": "制造销售轻卡小卡VAN客车底盘及发动机，油电并举。",
+    "ths_fact": "新能源解析明确本体新能源物流车及客车产品。",
+    "reason": "电动轻商用车真实经营；剔除柳汽、集团乘用品牌等非上市本体混入段，自动驾驶示范不写量产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600007.SH",
+    "key": "commercial_real_estate",
+    "sector": "商业地产",
+    "source_sector_name": "商业地产",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "国贸物业租赁运营"
+    ],
+    "stage": "revenue",
+    "fact": "经营写字楼商城公寓出租管理及酒店。",
+    "company_fact": "经营写字楼商城公寓出租管理及酒店。",
+    "ths_fact": "物业管理解析列国贸大厦商城和公寓经营。",
+    "reason": "持有型商务物业经营与已有商业地产一致；冲突实控人标签不作为归属证据。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600008.SH",
+    "key": "wastewater_treatment",
+    "sector": "污水处理",
+    "source_sector_name": "污水处理",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "城镇工业污水及水环境运营"
+    ],
+    "stage": "revenue",
+    "fact": "供水污水再生水管网及固废环境综合服务。",
+    "company_fact": "供水污水再生水管网及固废环境综合服务。",
+    "ths_fact": "污水解析明确投资运营水务处理与水环境治理。",
+    "reason": "水环境运营具有持续项目基础，AI机器人是环保工具和延伸，非替代主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600009.SH",
+    "key": "airports",
+    "sector": "机场",
+    "source_sector_name": "机场",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "上海两场航空服务与商业"
+    ],
+    "stage": "revenue",
+    "fact": "统一管理浦东虹桥，运营航空与非航空服务。",
+    "company_fact": "统一管理浦东虹桥，运营航空与非航空服务。",
+    "ths_fact": "上海自贸解析明确航空地面保障，迪士尼解析亦指浦东机场资产运营。",
+    "reason": "机场基础设施运营主线明确；免税合资权益不等于机场整体变成零售。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600010.SH",
+    "key": "rare_earth_magnets",
+    "sector": "稀土永磁",
+    "source_sector_name": "稀土永磁",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "稀土精矿资源供应"
+    ],
+    "stage": "revenue",
+    "fact": "矿产开发与钢铁并行，矿产品含稀土精矿和萤石精矿。",
+    "company_fact": "矿产开发与钢铁并行，矿产品含稀土精矿和萤石精矿。",
+    "ths_fact": "稀土永磁解析明确稀土精矿产品。",
+    "reason": "实际稀土资源是区别普钢的市场主线；链仅精矿，不写永磁制品制造或集团白云矿全部权益。",
+    "basis": "crosschecked_sources"
+  }
+]

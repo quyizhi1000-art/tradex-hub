@@ -180,6 +180,10 @@ def _fetch_leadership_pool(
     records = limit_event_series_to_legacy_records(series)
     source = series.metadata.provider
     metadata = limit_event_series_to_component_metadata(series)
+    from datetime import date
+    from tradex.smart_sector_library.catalog import SmartSectorCatalog
+    with SmartSectorCatalog(as_of=date.fromisoformat(trade_date)) as sectors:
+        membership_by_id = sectors.get_many(event.instrument_id for event in series.events)
     codes = [str(row.get("代码") or row.get("code") or "").strip() for row in records]
 
     profile_status: dict[str, Any] = {
@@ -194,6 +198,10 @@ def _fetch_leadership_pool(
         "error": None,
     }
     enriched_records = [dict(record) for record in records]
+    for record in enriched_records:
+        code = str(record.get("代码") or record.get("code") or "").strip()
+        membership = next((item for key, item in membership_by_id.items() if key[:6] == code), None)
+        record["smart_sector_membership"] = membership.model_dump(mode="json") if membership else None
     if records:
         try:
             requested_ids = tuple(
@@ -221,9 +229,8 @@ def _fetch_leadership_pool(
                 record["sector_profile"] = {
                     "industry": profile.get("行业"),
                     "region": profile.get("地域"),
-                    # Concepts are retained for audit context, but only the
-                    # stable f100 industry contributes attribution.  A broad
-                    # concept membership alone does not prove today's theme.
+                    # Provider industry and concepts are audit context only.
+                    # The separate library membership owns stock attribution.
                     "concept_tags": copy.deepcopy(profile.get("概念标签") or []),
                     "source": profile.get("source") or profile_series.metadata.provider,
                     "provider_as_of": profile.get("provider_as_of"),
@@ -254,7 +261,7 @@ def _fetch_leadership_pool(
                 "status": "ready",
                 "source": profile_series.metadata.provider,
                 "source_valid": True,
-                "eligible_for_attribution": True,
+                "eligible_for_attribution": False,
                 "requested_total": len(codes),
                 "returned_total": len(profile_records),
                 "coverage": 1.0,

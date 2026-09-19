@@ -28,13 +28,14 @@ _router = get_router()
 def _instrument_id(symbol: str) -> str:
     if symbol.startswith("6"):
         return f"{symbol}.SH"
-    if symbol.startswith(("4", "8")):
+    if symbol.startswith(("4", "8", "9")):
         return f"{symbol}.BJ"
     return f"{symbol}.SZ"
 
 
 def _relationship_payload(symbol: str) -> dict | None:
     from tradex.instrument_taxonomy.store import InstrumentTaxonomyReader
+    from tradex.smart_sector_library.catalog import SmartSectorCatalog
 
     with InstrumentTaxonomyReader() as reader:
         profile = reader.get(_instrument_id(symbol))
@@ -43,6 +44,11 @@ def _relationship_payload(symbol: str) -> dict | None:
         return None
     payload = profile.model_dump(mode="json")
     payload["catalog_revision"] = status.catalog_revision if status else None
+    with SmartSectorCatalog() as sectors:
+        membership = sectors.get(_instrument_id(symbol))
+        payload["market_sector"] = membership.primary_sector_name
+        payload["market_sector_status"] = membership.status
+        payload["market_sector_revision"] = sectors.revision
     return payload
 
 

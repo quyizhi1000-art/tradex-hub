@@ -1,0 +1,85 @@
+{
+  "instrument_id": "002385.SZ",
+  "name": "大北农",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "002385.SZ",
+    "name": "大北农",
+    "memberships": [
+      "农林牧渔",
+      "饲料",
+      "畜禽饲料",
+      "北京板块",
+      "2026中报首亏",
+      "消费风格",
+      "破增发价股",
+      "破发股",
+      "小盘股",
+      "反内卷概念",
+      "标准普尔",
+      "富时罗素",
+      "深股通",
+      "融资融券",
+      "深成500",
+      "机构重仓",
+      "合成生物",
+      "粮食概念",
+      "水产概念",
+      "北交所概念",
+      "转基因",
+      "乳业",
+      "农业种植",
+      "乡村振兴",
+      "猪肉概念",
+      "互联网金融",
+      "移动支付",
+      "生物疫苗"
+    ],
+    "business_sections": [
+      {
+        "title": "种业、饲料及养殖等业务",
+        "kind": "主营业务",
+        "text": "公司从事的主要业务为种业、饲料、生猪、疫苗动保等相关产品的生产与销售。"
+      },
+      {
+        "title": "文化与人才优势",
+        "kind": "核心竞争力",
+        "text": "党委统领大北农文化建设，面对百年未有之大变局、大机遇，公司更需加强党领导下的企业文化建设。大北农事业。"
+      },
+      {
+        "title": "战略与布局优势",
+        "kind": "核心竞争力",
+        "text": "公司于1994年正式成立，以饲料业务起家，2000年引入种业业务，2002年进入动保行业，2003年进入疫苗行业，2011年进入种猪行业，2016年进入生猪养殖行业。在夯实饲料业务基础上，向下游拓展生猪养殖业务，并行发展动保疫苗业务，全力发展种业业务，实现农业产业链的关键环节业务覆盖。经过三十余年的发展布局，公司围绕作物科技和动。"
+      },
+      {
+        "title": "研发与创新优势",
+        "kind": "核心竞争力",
+        "text": "科技创新是推动农业现代化发展的源动力，公司总部大北农凤凰国际创新园自2022年底开始投入使用，配套仪器设备1,200余台套，是综合性农业科技企业创新园，致力于建成我国农业科技创新“硅谷”、全球农业创新高地。围绕大北农凤凰国际创新园，未来将以多种方式在国内外建立多个优势生命科学研发平台，以粮食安全、生物育种、生物制造、。"
+      },
+      {
+        "title": "模式与规模优势",
+        "kind": "核心竞争力",
+        "text": "近年来，公司基本形成了种业、饲料、生猪养殖、动保疫苗等业务综合发展的良好格局，进行了一系列产业链供应。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ002385",
+    "fetched_at": "2026-09-18T22:47:23.729051+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [
+    "农业"
+  ],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "养殖"
+}

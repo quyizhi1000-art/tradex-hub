@@ -1,0 +1,581 @@
+[
+  {
+    "id": "301325.SZ",
+    "key": "solid_state_batteries",
+    "sector": "固态电池",
+    "source_sector_name": "固态电池",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "固态电池干湿法涂布设备"
+    ],
+    "company_fact": "涂布设备业务覆盖锂电泛半导体，下游电池厂及设备商。",
+    "ths_fact": "固态干湿双线产品已出货多款，调试验证获认可。",
+    "fact": "涂布设备业务覆盖锂电泛半导体，下游电池厂及设备商。",
+    "reason": "自有设备已交付，固态主线明确，非电池整机制造。"
+  },
+  {
+    "id": "301326.SZ",
+    "key": "liquid_cooled_servers",
+    "sector": "液冷服务器",
+    "source_sector_name": "液冷服务器",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "服务器CDU",
+      "分水器及液冷部件"
+    ],
+    "company_fact": "精密结构功能件与VC部件原有业务；新液冷由H1自设捷邦数能产品补核。",
+    "ths_fact": "服务器液冷业务推进，未披露具体项目。",
+    "fact": "精密结构功能件与VC部件原有业务；新液冷由H1自设捷邦数能产品补核。",
+    "reason": "H1明确自有CDU和Manifold产品，取product；恒钜收购仍推进，不能将标的客户及消费电子VC收入冒作服务器已量产。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "official-301326-2026h1-liquid",
+        "source_kind": "official_filing",
+        "publisher": "捷邦科技",
+        "title": "2026年半年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12558127&stockid=301326",
+        "published_at": "2026-08-28",
+        "assertions": [
+          "自设捷邦数能有CDU和Manifold服务器液冷产品；恒钜55%收购仍推进，消费电子VC放量不等于服务器液冷收入。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "301327.SZ",
+    "key": "energy_storage",
+    "sector": "储能",
+    "source_sector_name": "储能",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "便携储能",
+      "家庭储能"
+    ],
+    "company_fact": "便携家庭储能和光伏研发品牌销售服务。",
+    "ths_fact": "长期聚焦锂电池储能，自有电源管理与产销体系。",
+    "fact": "便携家庭储能和光伏研发品牌销售服务。",
+    "reason": "已有储能主营市场定位稳定；固态与亿纬为合作研发商业化探索，不替代成熟储能。"
+  },
+  {
+    "id": "301328.SZ",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "机器人信号电源连接器"
+    ],
+    "company_fact": "高端工控汽车新能源连接器研发制造销售，工控自动化实际业务。",
+    "ths_fact": "旧解析合并工业和人形机器人表述成熟量产能力及部分出货。",
+    "fact": "高端工控汽车新能源连接器研发制造销售，工控自动化实际业务。",
+    "reason": "7月1日原公告明确人形暂未批量生产，不能套用工业机器人量产；保留已被市场关注的人形连接器主线，阶段product且收入不确定。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "official-301328-20260701-clarification",
+        "source_kind": "official_filing",
+        "publisher": "维峰电子",
+        "title": "股票交易异常波动公告",
+        "source_url": "https://static.cninfo.com.cn/finalpage/2026-07-01/1225403278.PDF",
+        "published_at": "2026-07-01",
+        "assertions": [
+          "市场关注机器人题材，公司明确人形相关产品未形成批量生产、收入不确定；维讯光电尚未经营。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "301329.SZ",
+    "key": "commercial_space",
+    "sector": "商业航天",
+    "source_sector_name": "商业航天",
+    "source_sector_provider": "同花顺",
+    "stage": "pilot",
+    "chain": [
+      "低轨卫星地面接收连接器"
+    ],
+    "company_fact": "连接器研发生产销售，传统覆盖电脑消费电子汽车医疗。",
+    "ths_fact": "低轨卫星地面接收装置连接器处于试产。",
+    "fact": "连接器研发生产销售，传统覆盖电脑消费电子汽车医疗。",
+    "reason": "既有商业航天题材具具体试产产品，链位为地面终端，非星载部件或规模收入。"
+  },
+  {
+    "id": "301392.SZ",
+    "key": "glass_substrate",
+    "sector": "玻璃基板",
+    "source_sector_name": "玻璃基板",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "TGV深孔薄膜沉积",
+      "真空镀膜装备"
+    ],
+    "stage": "product",
+    "fact": "自有真空镀膜设备和PVD工艺模块解决方案。",
+    "company_fact": "自有真空镀膜设备和PVD工艺模块解决方案。",
+    "ths_fact": "2025年8月明确HiPIMS技术解决TGV深孔膜层沉积。",
+    "reason": "明确玻璃通孔设备工艺支持新主线，不将通用ALD应用视作芯片量产订单。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301393.SZ",
+    "key": "innovative_drugs",
+    "sector": "创新药",
+    "source_sector_name": "创新药",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "多肽合成试剂",
+      "药物研发分子砌块"
+    ],
+    "stage": "revenue",
+    "fact": "自有多肽合成试剂与分子砌块研发生产销售。",
+    "company_fact": "自有多肽合成试剂与分子砌块研发生产销售。",
+    "ths_fact": "创新药解析明确服务药物发现与合成的上游分子砌块。",
+    "reason": "实际创新药研发材料平台，不是自有获批创新药；通用多肽试剂不自动全部GLP1收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301395.SZ",
+    "key": "synthetic_resins",
+    "sector": "合成树脂",
+    "source_sector_name": "合成树脂",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "GPPS",
+      "HIPS聚苯乙烯"
+    ],
+    "stage": "revenue",
+    "fact": "自有GPPS及HIPS树脂研发生产销售。",
+    "company_fact": "自有GPPS及HIPS树脂研发生产销售。",
+    "ths_fact": "解析及原题材要点明确聚苯乙烯材料，新能源配件仅具体小批下游。",
+    "reason": "现有材料板块覆盖真实自主产品，多应用属性不据一客户泛化为新能源整车。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301396.SZ",
+    "key": "computing_power_leasing",
+    "sector": "算力租赁",
+    "source_sector_name": "算力租赁",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "智算资源池",
+      "算力基础服务"
+    ],
+    "stage": "delivery",
+    "fact": "现行主营明确IaaS智算集群部署和资源池服务，已积累大规模集群建设经验。",
+    "company_fact": "现行主营明确IaaS智算集群部署和资源池服务，已积累大规模集群建设经验。",
+    "ths_fact": "2024年10月签订三年40908万元智算服务合同。",
+    "reason": "算力运营平台与实际集群服务支持主线，合同总额不是已确认收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301397.SZ",
+    "key": "liquid_cooled_servers",
+    "sector": "液冷服务器",
+    "source_sector_name": "液冷服务器",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "液冷管路",
+      "UQD及分水器"
+    ],
+    "stage": "product",
+    "fact": "自有液冷管路快接分水器冷板及相应制造能力。",
+    "company_fact": "自有液冷管路快接分水器冷板及相应制造能力。",
+    "ths_fact": "2025年底明确溯联智控液冷管路及配套产品。",
+    "reason": "具体流体连接产品和制造平台对应，未取专项交付数据不推全部汽车营收至液冷。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301398.SZ",
+    "key": "new_energy_vehicles",
+    "sector": "新能源汽车",
+    "source_sector_name": "新能源汽车",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "镁合金动力总成壳体",
+      "汽车轻量化"
+    ],
+    "stage": "revenue",
+    "fact": "自有镁铝压铸，原H1新能源配套收入占主营63.65%，机器人新业务已有340.60万元。",
+    "company_fact": "自有镁铝压铸，原H1新能源配套收入占主营63.65%，机器人新业务已有340.60万元。",
+    "ths_fact": "新能源解析明确动力总成等自有轻量化部件；减速器为汽车二合一壳体。",
+    "reason": "机器人增量已商业化但原报告具体协作关节机架壳体，客户品牌不足拆成人形收入；当前选实证新能源，出现人形明确产品再复核。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "301398-2026-08-29-official",
+        "source_kind": "official_filing",
+        "publisher": "星源卓镁",
+        "title": "2026年半年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12568537&stockid=301398",
+        "published_at": "2026-08-29",
+        "assertions": [
+          "新能源汽车配套主营收入63.65%，机器人业务340.60万元；具体聚焦协作机器人关节机架壳体，未将总机器人收入全认定人形。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "301399.SZ",
+    "key": "liquid_cooled_servers",
+    "sector": "液冷服务器",
+    "source_sector_name": "液冷服务器",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "一次侧散热",
+      "复合蒸发冷换热"
+    ],
+    "stage": "product",
+    "fact": "自有高效换热器明确数据中心液冷领域布局。",
+    "company_fact": "自有高效换热器明确数据中心液冷领域布局。",
+    "ths_fact": "2026年2月产品兼容风冷液冷的数据中心一次侧散热。",
+    "reason": "具体热交换产品支持液冷链条，边界是设施热排散而非服务器主板。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301408.SZ",
+    "key": "pharma_distribution",
+    "sector": "医药商业",
+    "source_sector_name": "医药商业",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "连锁药店",
+      "医药零售"
+    ],
+    "stage": "revenue",
+    "fact": "自有国胜药店等医药零售代理与制药业务。",
+    "company_fact": "自有国胜药店等医药零售代理与制药业务。",
+    "ths_fact": "原业务要点明确2266家直营店，所谓创新药项目实为同名同方及仿制品种。",
+    "reason": "真实药品零售渠道明确，仿制药开发不当作原创创新药管线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301413.SZ",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "机器人力矩传感器"
+    ],
+    "stage": "delivery",
+    "fact": "自有压力温度氧及力传感器研发制造。",
+    "company_fact": "自有压力温度氧及力传感器研发制造。",
+    "ths_fact": "2024年12月明确向天机机器人协作及人形产品供力矩传感器。",
+    "reason": "明确人形用途和实际供货对应，不将汽车传感销量全部计为人形。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301418.SZ",
+    "key": "chips",
+    "sector": "芯片",
+    "source_sector_name": "芯片概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "MOSFET",
+      "功率半导体"
+    ],
+    "stage": "revenue",
+    "fact": "自身经营功率半导体芯片和运动控制器研发销售。",
+    "company_fact": "自身经营功率半导体芯片和运动控制器研发销售。",
+    "ths_fact": "全资凯思提供Trench、SGT及SJ系列MOSFET。",
+    "reason": "自有芯片业务与现有候选一致，控制器应用机器人不等于人形整机。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301419.SZ",
+    "key": "liquid_cooled_servers",
+    "sector": "液冷服务器",
+    "source_sector_name": "液冷服务器",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "液冷散热器件",
+      "热管理材料"
+    ],
+    "stage": "product",
+    "fact": "自有射频保护EMI及热管理材料器件制造平台。",
+    "company_fact": "自有射频保护EMI及热管理材料器件制造平台。",
+    "ths_fact": "2026年4月明确液冷销售低且处早期，散热垫及热管等部分产品批量。",
+    "reason": "液冷具体产品支持增量主线，不能把全部导热材料批量当液冷收入，普通光模块散热不升级CPO。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301421.SZ",
+    "key": "lithography",
+    "sector": "光刻机",
+    "source_sector_name": "光刻机",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "曝光光学",
+      "精密镜片及平行光源"
+    ],
+    "stage": "revenue",
+    "fact": "自有精密光学元件和曝光平行光源紫外系统。",
+    "company_fact": "自有精密光学元件和曝光平行光源紫外系统。",
+    "ths_fact": "2025年1月明确光刻相关产品已列收入分类，应用贴近直写及检测。",
+    "reason": "具体光刻光学经营成立，非完整EUV光刻整机。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301428.SZ",
+    "key": "data_elements",
+    "sector": "数据要素",
+    "source_sector_name": "数据要素",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "数据采集",
+      "标注及加工服务"
+    ],
+    "stage": "revenue",
+    "fact": "现行主营明确数据标注成为核心增长业务，另有车主营销服务。",
+    "company_fact": "现行主营明确数据标注成为核心增长业务，另有车主营销服务。",
+    "ths_fact": "2026年6月明确具身数据采集标注客户服务。",
+    "reason": "自有数据服务与市场题材吻合，机器人客户不是自身生产机器人。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301429.SZ",
+    "key": "prefabricated_buildings",
+    "sector": "装配式建筑",
+    "source_sector_name": "装配式建筑",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "木塑复合材料",
+      "装配建材"
+    ],
+    "stage": "revenue",
+    "fact": "自有WPC及SPC等生物质复合材料研发制造。",
+    "company_fact": "自有WPC及SPC等生物质复合材料研发制造。",
+    "ths_fact": "解析明确产品用于装配式建筑配套。",
+    "reason": "具体建材产品经营对应，非一般工程总包。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301439.SZ",
+    "key": "high_speed_copper_interconnect",
+    "sector": "铜缆高速连接",
+    "source_sector_name": "铜缆高速连接",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "高速铜缆",
+      "数据互连"
+    ],
+    "stage": "delivery",
+    "fact": "电源线及高速数据线缆，原H1确认达为54.16%受控子公司。",
+    "company_fact": "电源线及高速数据线缆，原H1确认达为54.16%受控子公司。",
+    "ths_fact": "达为高速铜缆已向安费诺莫仕泰科等供货。",
+    "reason": "真实受控制造及客户交付链成立，不把电源线收入整体当高速铜缆。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "301439-2026-08-15-official",
+        "source_kind": "official_filing",
+        "publisher": "泓淋电力",
+        "title": "2026年半年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12494180&stockid=301439",
+        "published_at": "2026-08-15",
+        "assertions": [
+          "集团构成明确深圳达为互联持股54.16%收购取得。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "301446.SZ",
+    "key": "data_centers",
+    "sector": "数据中心(AIDC)",
+    "source_sector_name": "数据中心(AIDC)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "数据中心液冷管路"
+    ],
+    "stage": "product",
+    "fact": "自有液压管路和流体连接制造。",
+    "company_fact": "自有液压管路和流体连接制造。",
+    "ths_fact": "2026年1月展示专门面向数据中心的液冷管路方案。",
+    "reason": "具体产品方案而非单纯经营范围，未证实相关订单按product。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301448.SZ",
+    "key": "robotics",
+    "sector": "机器人",
+    "source_sector_name": "机器人概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "四足及人形机器人",
+      "样机验证"
+    ],
+    "stage": "pilot",
+    "fact": "传统电动工具制造，2025年报确认燕谷为控股子公司开展机器人研发。",
+    "company_fact": "传统电动工具制造，2025年报确认燕谷为控股子公司开展机器人研发。",
+    "ths_fact": "机器人概念明确燕谷与清华合作具身研究。",
+    "reason": "原报告具体四足原型调试及1.3米人形打样测试，已超纯规划；不把1.7米架构规划当成整机产品。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "301448-20260428-annual",
+        "source_kind": "official_filing",
+        "publisher": "开创电气",
+        "title": "2025年年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12228392&stockid=301448",
+        "published_at": "2026-04-28",
+        "assertions": [
+          "原HTML完整正文明确控股燕谷，大型四足原型调试，1.3米人形已打样及组装测试，1.7米仅系统架构规划。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "301449.SZ",
+    "key": "nuclear_power",
+    "sector": "核电",
+    "source_sector_name": "核电",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "核电站设备计量校准"
+    ],
+    "stage": "revenue",
+    "fact": "自有第三方计量校准检测服务覆盖多行业。",
+    "company_fact": "自有第三方计量校准检测服务覆盖多行业。",
+    "ths_fact": "已为多核电企业提供两万余台设备校准。",
+    "reason": "明确核电专用服务合同场景支持，非核电站运营或核装备制造。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301456.SZ",
+    "key": "wind_power",
+    "sector": "风电",
+    "source_sector_name": "风电",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "润滑系统",
+      "变桨偏航液压"
+    ],
+    "stage": "revenue",
+    "fact": "自有风机集中润滑及液压变桨偏航产品。",
+    "company_fact": "自有风机集中润滑及液压变桨偏航产品。",
+    "ths_fact": "2026年6月明确主流风机制造商供应关系。",
+    "reason": "成熟风机专用配套清晰，液压通用性不直接推人形订单。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301458.SZ",
+    "key": "data_centers",
+    "sector": "数据中心(AIDC)",
+    "source_sector_name": "数据中心(AIDC)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "AI服务器电流检测",
+      "电路保护"
+    ],
+    "stage": "revenue",
+    "fact": "自有电流感测电阻熔断器及传感器。",
+    "company_fact": "自有电流感测电阻熔断器及传感器。",
+    "ths_fact": "2026年6月明确数据中心领域已有收入且规模较小。",
+    "reason": "具体增量产品经营成立，小额收入仍可形成主线，不把全公司收入当AIDC。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301459.SZ",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "减速器密封件",
+      "传动配套"
+    ],
+    "stage": "pilot",
+    "fact": "自有密封传动带与热管理管路制造。",
+    "company_fact": "自有密封传动带与热管理管路制造。",
+    "ths_fact": "2025年5月明确人形减速器密封部件向头部客户小批验证供货。",
+    "reason": "人形专用客户验证支持，阶段pilot，工业传动带量产不能替代人形验证。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301468.SZ",
+    "key": "nuclear_power",
+    "sector": "核电",
+    "source_sector_name": "核电",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "核电高压管道堆焊",
+      "汽水分离再热器"
+    ],
+    "stage": "revenue",
+    "fact": "自有防腐耐磨堆焊装备及制造业务。",
+    "company_fact": "自有防腐耐磨堆焊装备及制造业务。",
+    "ths_fact": "2025年10月明确核电高压管道及汽水分离再热器产品。",
+    "reason": "核电专用制造用途明确，非核电运营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301469.SZ",
+    "key": "specialty_paper",
+    "sector": "特种纸",
+    "source_sector_name": "特种纸",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "医疗灭菌包装纸",
+      "食品包装原纸"
+    ],
+    "stage": "revenue",
+    "fact": "自有医疗食品特种包装原纸制造。",
+    "company_fact": "自有医疗食品特种包装原纸制造。",
+    "ths_fact": "医疗解析明确医疗透析包装纸产量比例。",
+    "reason": "本质是特种纸材料平台，医疗透析纸为灭菌包装而非血液透析器。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301479.SZ",
+    "key": "ai_glasses",
+    "sector": "AI眼镜",
+    "source_sector_name": "AI眼镜",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "眼镜光学镜头",
+      "成像模组"
+    ],
+    "stage": "pilot",
+    "fact": "自有精密光学镜头模组覆盖智能硬件。",
+    "company_fact": "自有精密光学镜头模组覆盖智能硬件。",
+    "ths_fact": "2025年AI眼镜项目已在客户验证，部分应用落地。",
+    "reason": "具体AI眼镜项目支持，泛具身摄像模组定点不直接等于人形；未取量产规模。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301486.SZ",
+    "key": "cpo_concept",
+    "sector": "CPO",
+    "source_sector_name": "CPO概念",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "MPC金属PIC耦合器",
+      "光纤直连芯片"
+    ],
+    "stage": "pilot",
+    "fact": "自有光纤连接器及跳线业务，原5月IR确认配合客户的MPC已认证处NPI。",
+    "company_fact": "自有光纤连接器及跳线业务，原5月IR确认配合客户的MPC已认证处NPI。",
+    "ths_fact": "原主营要点确认光纤阵列MPO等基础产品，最新THS异动明确MPC用于CPO。",
+    "reason": "原IR明确共封装专用光连接和验证阶段，不把普通光纤收入混同CPO，四季度投产是计划。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "301486-2026-05-29-official",
+        "source_kind": "official_filing",
+        "publisher": "致尚科技",
+        "title": "投资者关系活动记录表原文转载",
+        "source_url": "https://www.9fzt.com/detail/sz_301486_9_66d9efb7fdac8c0381b57ad92d26257a.html",
+        "published_at": "2026-05-29",
+        "assertions": [
+          "MPC为共封装专用光纤直连芯片连接器，已认证处NPI；四季度投产及2027爬坡仍是计划。"
+        ]
+      }
+    ]
+  }
+]

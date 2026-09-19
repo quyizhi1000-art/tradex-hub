@@ -1,0 +1,44 @@
+[
+  {
+    "example": "朗迪集团",
+    "instrument_id": "603726.SH",
+    "states": [
+      {
+        "date": "2026-09-10",
+        "state": "金叉状态（缺前日数据，方向未判定）"
+      },
+      {
+        "date": "2026-09-11",
+        "state": "金叉下行"
+      },
+      {
+        "date": "2026-09-14",
+        "state": "死叉点"
+      },
+      {
+        "date": "2026-09-15",
+        "state": "死叉下行"
+      },
+      {
+        "date": "2026-09-16",
+        "state": "死叉上行"
+      },
+      {
+        "date": "2026-09-17",
+        "state": "金叉点"
+      }
+    ]
+  },
+  {
+    "day": "2026-09-17",
+    "confirmed": 12,
+    "pending": 43,
+    "identical_evidence": true
+  },
+  {
+    "day": "2026-09-18",
+    "confirmed": 26,
+    "pending": 96,
+    "identical_evidence": true
+  }
+]

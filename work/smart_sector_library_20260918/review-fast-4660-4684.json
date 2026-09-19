@@ -1,0 +1,454 @@
+[
+  {
+    "id": "688065.SH",
+    "key": "synthetic_biology",
+    "sector": "合成生物",
+    "source_sector_name": "合成生物",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "生物制造",
+      "生物基材料"
+    ],
+    "stage": "revenue",
+    "fact": "合成生物底层技术规模制造生物基新材料。",
+    "company_fact": "合成生物底层技术规模制造生物基新材料。",
+    "ths_fact": "合成生物解析同主营生产销售。",
+    "reason": "实际生物制造完整链。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688066.SH",
+    "key": "spatiotemporal_big_data",
+    "sector": "时空大数据",
+    "source_sector_name": "时空大数据",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "PIE平台",
+      "遥感数据"
+    ],
+    "stage": "revenue",
+    "fact": "PIE Engine遥感时空分析及行业方案多地落地。",
+    "company_fact": "PIE Engine遥感时空分析及行业方案多地落地。",
+    "ths_fact": "时空大数据解析自主感知数据与PIE行业产品服务。",
+    "reason": "直接空天数据服务身份，发星框架不代替已落地业务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688067.SH",
+    "key": "in_vitro_diagnostics",
+    "sector": "体外诊断",
+    "source_sector_name": "体外诊断",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "医学镜检",
+      "诊断试剂"
+    ],
+    "stage": "revenue",
+    "fact": "尿液粪便体液形态分析仪试剂耗材实际经营。",
+    "company_fact": "尿液粪便体液形态分析仪试剂耗材实际经营。",
+    "ths_fact": "医械解析原创镜检及配套IVD产品。",
+    "reason": "现有体外诊断行业直接对应。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688068.SH",
+    "key": "innovative_drugs",
+    "sector": "创新药",
+    "source_sector_name": "创新药",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "舜景医药",
+      "抗体管线"
+    ],
+    "stage": "pilot",
+    "fact": "原H1明确控股舜景SGC001已二期入组，新适应症获IND。",
+    "company_fact": "原H1明确控股舜景SGC001已二期入组，新适应症获IND。",
+    "ths_fact": "创新药解析全球临床联盟协同。",
+    "reason": "控股实际临床创新药主线成立，pilot为临床阶段，不把诊断收入算药品销售。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "688068-original-h1",
+        "source_kind": "official_filing",
+        "publisher": "热景生物",
+        "title": "2026年半年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12544511&stockid=688068",
+        "published_at": "2026-08-27",
+        "assertions": [
+          "控股舜景医药SGC001已完成Ia/Ib并启动II期入组，新增适应症IND获批。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "688069.SH",
+    "key": "water_services",
+    "sector": "水务及水治理",
+    "source_sector_name": "水务及水治理",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "湖库内源治理",
+      "蓝藻"
+    ],
+    "stage": "revenue",
+    "fact": "湖库蓝藻调查诊断装备运维资源利用综合服务。",
+    "company_fact": "湖库蓝藻调查诊断装备运维资源利用综合服务。",
+    "ths_fact": "水利解析水生态流域管理水质改善技术。",
+    "reason": "已有水治理行业精准覆盖实际业务，非仅水利概念协同研究。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688070.SH",
+    "key": "low_altitude_economy",
+    "sector": "低空经济",
+    "source_sector_name": "低空经济",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "工业无人机",
+      "无人值守"
+    ],
+    "stage": "revenue",
+    "fact": "工业无人机系统研发制造销售服务全链。",
+    "company_fact": "工业无人机系统研发制造销售服务全链。",
+    "ths_fact": "多型无人机及云平台国内外广泛应用。",
+    "reason": "低空工业飞行器核心实际经营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688071.SH",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "惯导IMU",
+      "运动姿态感知"
+    ],
+    "stage": "delivery",
+    "fact": "高精度惯导产品及智能驾驶测试业务。",
+    "company_fact": "高精度惯导产品及智能驾驶测试业务。",
+    "ths_fact": "已推出机器人应用惯导型号并正式交付。",
+    "reason": "具体人形运动状态传感产品交付，不将测试整车营收混计。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688072.SH",
+    "key": "semiconductor_equipment",
+    "sector": "半导体设备",
+    "source_sector_name": "半导体设备",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "薄膜沉积",
+      "三维集成"
+    ],
+    "stage": "revenue",
+    "fact": "薄膜沉积先进键合及配套量测设备研发制造。",
+    "company_fact": "薄膜沉积先进键合及配套量测设备研发制造。",
+    "ths_fact": "PECVD用于逻辑存储制造先进封装。",
+    "reason": "完整半导体设备身份比单下游存储更准确。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688073.SH",
+    "key": "cro",
+    "sector": "CRO",
+    "source_sector_name": "CRO",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "分子砌块",
+      "科学试剂"
+    ],
+    "stage": "revenue",
+    "fact": "分子砌块生命试剂支持新药发现筛选优化。",
+    "company_fact": "分子砌块生命试剂支持新药发现筛选优化。",
+    "ths_fact": "同股主营要点药研基础材料产销及大库容客户服务。",
+    "reason": "药物研发供应服务归已有CRO，汇率仅属性。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688075.SH",
+    "key": "in_vitro_diagnostics",
+    "sector": "体外诊断",
+    "source_sector_name": "体外诊断",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "POCT",
+      "检测试剂仪器"
+    ],
+    "stage": "revenue",
+    "fact": "八大场景POCT及自产抗原抗体原料。",
+    "company_fact": "八大场景POCT及自产抗原抗体原料。",
+    "ths_fact": "体外诊断完整产品国际销售。",
+    "reason": "直接诊断产品经营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688076.SH",
+    "key": "weight_loss_drugs",
+    "sector": "减肥药",
+    "source_sector_name": "减肥药",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "GLP-1",
+      "多肽原料药"
+    ],
+    "stage": "revenue",
+    "fact": "司美利拉等多肽原料药已有关联审评与海外销售体系。",
+    "company_fact": "司美利拉等多肽原料药已有关联审评与海外销售体系。",
+    "ths_fact": "司美替尔泊肽等海外注册，利拉制剂FDA受理。",
+    "reason": "实际GLP-1原料药产业链，受理不称美国制剂获批，stage针对现有原料经营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688077.SH",
+    "key": "rare_earth_magnets",
+    "sector": "稀土永磁",
+    "source_sector_name": "稀土永磁",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "高性能钕铁硼",
+      "磁组件"
+    ],
+    "stage": "revenue",
+    "fact": "烧结钕铁硼供汽车工业电机风电等。",
+    "company_fact": "烧结钕铁硼供汽车工业电机风电等。",
+    "ths_fact": "永磁主营明确，人形产品亦已有应用。",
+    "reason": "核心永磁材料广谱经营形成市场辨识，人形保留直接应用次线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688078.SH",
+    "key": "digital_twin",
+    "sector": "数字孪生",
+    "source_sector_name": "数字孪生",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "矿山GIS",
+      "工业软件"
+    ],
+    "stage": "revenue",
+    "fact": "时空模型GIS孪生仿真为矿山安监等提供软件方案。",
+    "company_fact": "时空模型GIS孪生仿真为矿山安监等提供软件方案。",
+    "ths_fact": "数字孪生解析同自研平台与客户场景。",
+    "reason": "对外孪生工业软件实际经营，非企业内部可视化。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688079.SH",
+    "key": "glass_substrate",
+    "sector": "玻璃基板",
+    "source_sector_name": "玻璃基板",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "玻璃晶圆",
+      "TGV工艺"
+    ],
+    "stage": "delivery",
+    "fact": "半导体声光MEMS封测精密微纳光学制造。",
+    "company_fact": "半导体声光MEMS封测精密微纳光学制造。",
+    "ths_fact": "玻璃晶圆高精抛光TGV技术，AR/MR及半导体玻璃晶圆已量产。",
+    "reason": "直接玻璃材料制程量产支持，非仅合资智能眼镜意向。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688080.SH",
+    "key": "industrial_internet",
+    "sector": "工业互联网",
+    "source_sector_name": "工业互联网",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "边缘网关",
+      "工业通信"
+    ],
+    "stage": "revenue",
+    "fact": "工业路由交换边缘计算及云平台具体产品。",
+    "company_fact": "工业路由交换边缘计算及云平台具体产品。",
+    "ths_fact": "工业物联网通信云端整体解决方案。",
+    "reason": "实际工业互联产品，招聘销售内部Agent不替代外部业务身份。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688081.SH",
+    "key": "defense_informatization",
+    "sector": "军工信息化",
+    "source_sector_name": "军工信息化",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "智能视频指挥",
+      "视频智算"
+    ],
+    "stage": "revenue",
+    "fact": "智能视频及数据底座服务国防运营商政企等。",
+    "company_fact": "智能视频及数据底座服务国防运营商政企等。",
+    "ths_fact": "国防AI视频指挥核心产品与军民扩展。",
+    "reason": "国防信息化实际产品场景明确。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688082.SH",
+    "key": "semiconductor_equipment",
+    "sector": "半导体设备",
+    "source_sector_name": "半导体设备",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "清洗电镀",
+      "晶圆工艺"
+    ],
+    "stage": "revenue",
+    "fact": "清洗电镀炉管Track PECVD及先进封装设备研发制造。",
+    "company_fact": "清洗电镀炉管Track PECVD及先进封装设备研发制造。",
+    "ths_fact": "面板级电镀设备已推出，实现先进封装应用。",
+    "reason": "全线晶圆工艺设备准确市场身份。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688083.SH",
+    "key": "new_industrialization",
+    "sector": "新型工业化",
+    "source_sector_name": "新型工业化",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "自主CAD CAE CAM"
+    ],
+    "stage": "revenue",
+    "fact": "自研二维三维CAD/CAM多学科仿真工业软件。",
+    "company_fact": "自研二维三维CAD/CAM多学科仿真工业软件。",
+    "ths_fact": "国内CAD工业软件供应商。",
+    "reason": "工业设计工具直接支撑新型工业化，非一般办公软件。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688084.SH",
+    "key": "robotics",
+    "sector": "机器人",
+    "source_sector_name": "机器人概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "特种机器人",
+      "智能感知"
+    ],
+    "stage": "revenue",
+    "fact": "特种机器人感知制造仿真实际产品经营。",
+    "company_fact": "特种机器人感知制造仿真实际产品经营。",
+    "ths_fact": "特种轮履足复合形态机器人及核心部件研产。",
+    "reason": "真实特种机器人主线，非直接人形。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688085.SH",
+    "key": "robotics",
+    "sector": "机器人",
+    "source_sector_name": "机器人概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "重要联营春风化雨",
+      "脊柱手术机器人"
+    ],
+    "stage": "pilot",
+    "fact": "原H1确认春风化雨当前联营并孵化投资，三臂脊柱手术系统已多院临床入组。",
+    "company_fact": "原H1确认春风化雨当前联营并孵化投资，三臂脊柱手术系统已多院临床入组。",
+    "ths_fact": "机器人解析联营自研手术系统进入创新器械审查。",
+    "reason": "原证权益及实际临床产品支持重要孵化主线；pilot为联营标的临床而非并表销售，特别审查不等于上市许可。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "688085-original-h1",
+        "source_kind": "official_filing",
+        "publisher": "三友医疗",
+        "title": "2026年半年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12527859&stockid=688085",
+        "published_at": "2026-08-25",
+        "assertions": [
+          "春风化雨为当前联营，原苏州更名北京；三臂脊柱手术机器人2026年3月注册临床首次入组后已三院开展。"
+        ]
+      }
+    ],
+    "relation": "investment",
+    "investment_reviewed": true
+  },
+  {
+    "id": "688087.SH",
+    "key": "solid_waste_treatment",
+    "sector": "固废处理",
+    "source_sector_name": "固废处理",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "废塑料回收",
+      "再生制品"
+    ],
+    "stage": "revenue",
+    "fact": "全球塑料回收再生PS粒及框材装饰建材制造。",
+    "company_fact": "全球塑料回收再生PS粒及框材装饰建材制造。",
+    "ths_fact": "塑料循环回收再利用全产业链。",
+    "reason": "完整再生制造实际业务，非可降解塑料假定。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688088.SH",
+    "key": "ai_glasses",
+    "sector": "AI眼镜",
+    "source_sector_name": "AI眼镜",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "视觉算法",
+      "影像交互"
+    ],
+    "stage": "delivery",
+    "fact": "视觉AI算法授权及终端方案实际经营。",
+    "company_fact": "视觉AI算法授权及终端方案实际经营。",
+    "ths_fact": "BOLON AI眼镜已发布搭自有影像拍摄与交互引擎。",
+    "reason": "具体终端算法落地明确，人形通用算法合作不推同等批供。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688089.SH",
+    "key": "synthetic_biology",
+    "sector": "合成生物",
+    "source_sector_name": "合成生物",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "细胞工厂",
+      "营养素"
+    ],
+    "stage": "revenue",
+    "fact": "生物合成制造ARA DHA SA HMO等营养素全球销售。",
+    "company_fact": "生物合成制造ARA DHA SA HMO等营养素全球销售。",
+    "ths_fact": "八大生物平台完成工程化产业化。",
+    "reason": "底层工艺与实际产品完整交叉。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688090.SH",
+    "key": "robotics",
+    "sector": "机器人",
+    "source_sector_name": "机器人概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "工业机器人",
+      "柔性制造"
+    ],
+    "stage": "revenue",
+    "fact": "机器人视觉工业软件智能制造方案供汽车电子等。",
+    "company_fact": "机器人视觉工业软件智能制造方案供汽车电子等。",
+    "ths_fact": "机器人研设制造应用销售服务。",
+    "reason": "自营工业机器人解决方案完整。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688091.SH",
+    "key": "innovative_drugs",
+    "sector": "创新药",
+    "source_sector_name": "创新药",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "紫杉醇胶束",
+      "抗肿瘤"
+    ],
+    "stage": "revenue",
+    "fact": "抗肿瘤创新药研产销一体及自主药品基地。",
+    "company_fact": "抗肿瘤创新药研产销一体及自主药品基地。",
+    "ths_fact": "同股要点紫杉醇胶束2021已获批，创新平台持续研发。",
+    "reason": "已上市改良创新药真实商业产品，不等于全部管线商业化。",
+    "basis": "crosschecked_sources"
+  }
+]

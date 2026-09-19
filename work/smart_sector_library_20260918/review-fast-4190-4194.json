@@ -1,0 +1,91 @@
+[
+  {
+    "id": "603387.SH",
+    "key": "in_vitro_diagnostics",
+    "sector": "体外诊断",
+    "source_sector_name": "体外诊断",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "POCT试剂与仪器"
+    ],
+    "fact": "POCT化学发光生化分子等诊断试剂仪器生产销售。",
+    "company_fact": "POCT化学发光生化分子等诊断试剂仪器生产销售。",
+    "ths_fact": "心标及炎症POCT和化学发光产品。",
+    "reason": "诊断平台身份稳定，感染检测不等同治疗药物。"
+  },
+  {
+    "id": "603389.SH",
+    "key": "rare_earth_magnets",
+    "sector": "稀土永磁",
+    "source_sector_name": "稀土永磁",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "独居石等重砂分选"
+    ],
+    "fact": "新增锆钛矿分选加工业务，独居石锆英砂钛精矿对外销售。",
+    "company_fact": "新增锆钛矿分选加工业务，独居石锆英砂钛精矿对外销售。",
+    "ths_fact": "广西锆业收购及已披露稀土相关选矿产出。",
+    "reason": "原报确认并表选矿经营，主归属对应稀土资源端；不声称磁材制造，不把集团矿权算自有。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "603389-2026h1-mineral",
+        "source_kind": "official_filing",
+        "publisher": "亚振家居",
+        "title": "2026年半年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12571013&stockid=603389",
+        "published_at": "2026-08-29",
+        "assertions": [
+          "广西锆业并表，进口锆钛重砂在境内分选为钛精矿锆英砂独居石并销售，独居石为稀土提取原料。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "603390.SH",
+    "key": "vehicle_networking",
+    "sector": "车联网(车路协同)",
+    "source_sector_name": "车联网(车路协同)",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "车载智能终端与公交云平台"
+    ],
+    "fact": "智慧交通面向整车和运输客户，软硬件数据服务一体方案。",
+    "company_fact": "智慧交通面向整车和运输客户，软硬件数据服务一体方案。",
+    "ths_fact": "车载信息管理系统，车联网产业园及巴士在线产品。",
+    "reason": "实际车路场云经营，与车辆信息服务一致；不把试验自动驾驶车当大规模无人运营。"
+  },
+  {
+    "id": "603391.SH",
+    "key": "energy_heavy_equipment",
+    "sector": "能源及重型设备",
+    "source_sector_name": "能源及重型设备",
+    "source_sector_provider": "东方财富",
+    "stage": "revenue",
+    "chain": [
+      "热水蒸汽锅炉"
+    ],
+    "fact": "热水与蒸汽锅炉研发生产销售用于采暖生活热水工业蒸汽。",
+    "company_fact": "热水与蒸汽锅炉研发生产销售用于采暖生活热水工业蒸汽。",
+    "ths_fact": "募投超低氮燃气锅炉项目。",
+    "reason": "现有能源设备行业最贴直接产品；工业互联网仅生产项目手段。"
+  },
+  {
+    "id": "603392.SH",
+    "key": "hpv_vaccines",
+    "sector": "HPV疫苗",
+    "source_sector_name": "HPV疫苗",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "二价九价HPV疫苗"
+    ],
+    "fact": "九价馨可宁9已上市，二价入围国家免疫规划集采并拓海外。",
+    "company_fact": "九价馨可宁9已上市，二价入围国家免疫规划集采并拓海外。",
+    "ths_fact": "二价生产线投产，旧解析九价尚临床。",
+    "reason": "公司更新业务资料已推进九价上市，不沿用旧临床状态；收入经营依据已有二价产品。"
+  }
+]

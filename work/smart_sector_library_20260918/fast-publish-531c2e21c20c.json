@@ -1,0 +1,77 @@
+[
+  {
+    "id": "600551.SH",
+    "key": "publishing",
+    "sector": "出版",
+    "source_sector_name": "出版",
+    "source_sector_provider": "东方财富",
+    "stage": "revenue",
+    "chain": [
+      "图书教材及数字出版"
+    ],
+    "fact": "主营教材一般图书期刊音像数字出版物教辅编辑出版并销售。",
+    "company_fact": "主营教材一般图书期刊音像数字出版物教辅编辑出版并销售。",
+    "ths_fact": "文化传媒解析对应出版传媒教材教辅内容版权。",
+    "reason": "出版内容版权与教育产品为直接身份，合作AI教辅属于产品升级，不能据此把全部业务算AI收入。"
+  },
+  {
+    "id": "600552.SH",
+    "key": "flexible_display",
+    "sector": "柔性屏(折叠屏)",
+    "source_sector_name": "柔性屏(折叠屏)",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "UTG可折叠显示玻璃"
+    ],
+    "fact": "显示材料含UTG超薄玻璃触控模组与盖板。",
+    "company_fact": "显示材料含UTG超薄玻璃触控模组与盖板。",
+    "ths_fact": "UTG已用于折叠屏手机并与终端面板客户合作。",
+    "reason": "折叠屏UTG业务有实际应用，TGV尚研发测试，避免将显示玻璃等同先进封装玻璃基板量产。"
+  },
+  {
+    "id": "600556.SH",
+    "key": "ai_agents",
+    "sector": "AI智能体",
+    "source_sector_name": "AI智能体",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "内容创作营销智能体"
+    ],
+    "fact": "红人平台经营之外已推出AIGC灵感岛，拥有创作者与营销数据库。",
+    "company_fact": "红人平台经营之外已推出AIGC灵感岛，拥有创作者与营销数据库。",
+    "ths_fact": "2025年灵感岛推出六大AI Agent，覆盖账号规划到内容变现。",
+    "reason": "从红人营销数据延伸自有智能体产品，形成AI营销应用身份；仅确认产品，不推断智能体收入。"
+  },
+  {
+    "id": "600557.SH",
+    "key": "innovative_drugs",
+    "sector": "创新药",
+    "source_sector_name": "创新药",
+    "source_sector_provider": "同花顺",
+    "stage": "pilot",
+    "chain": [
+      "创新中药化药临床研发"
+    ],
+    "fact": "中药化药生物药差异化管线持续推进，多个创新药已进入临床。",
+    "company_fact": "中药化药生物药差异化管线持续推进，多个创新药已进入临床。",
+    "ths_fact": "阿尔茨海默解析2026年6月DC20进入III期；创新药解析对应研发投入。",
+    "reason": "公司临床研发业务与具体DC20临床进展共同支撑创新归属；成熟中成药收入与在研管线阶段分开。"
+  },
+  {
+    "id": "600558.SH",
+    "key": "nuclear_fusion",
+    "sector": "可控核聚变",
+    "source_sector_name": "可控核聚变",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "聚变部件核级焊接材料"
+    ],
+    "fact": "经营碳钢低合金不锈钢镍基等焊条焊丝焊剂。",
+    "company_fact": "经营碳钢低合金不锈钢镍基等焊条焊丝焊剂。",
+    "ths_fact": "与三大核电公司合作开发核级焊材，部分已用于可控核聚变部件制造。",
+    "reason": "核级材料已存在实际部件用途，归核聚变产业链焊材环节，不是制造聚变整机或把全焊材收入算聚变收入。"
+  }
+]

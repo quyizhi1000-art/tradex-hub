@@ -1,0 +1,91 @@
+[
+  {
+    "id": "603559.SH",
+    "key": "low_altitude_economy",
+    "sector": "低空经济",
+    "source_sector_name": "低空经济",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "低空可信数据中心集成"
+    ],
+    "fact": "政企数字化已交付沈阳低空可信数据中心等。",
+    "company_fact": "政企数字化已交付沈阳低空可信数据中心等。",
+    "ths_fact": "沈阳低空全域可信数据服务中心项目成功交付。",
+    "reason": "实际低空数据设施服务，非飞机制造或自营飞行。"
+  },
+  {
+    "id": "603565.SH",
+    "key": "shipping",
+    "sector": "航运",
+    "source_sector_name": "航运概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "沿海集装箱运输"
+    ],
+    "fact": "沿海集运为主，公铁物流全程服务及海外自营租船航线。",
+    "company_fact": "沿海集运为主，公铁物流全程服务及海外自营租船航线。",
+    "ths_fact": "主营集装箱物流航运。",
+    "reason": "真实航运承运身份，数字系统属运营支撑。"
+  },
+  {
+    "id": "603566.SH",
+    "key": "animal_vaccines",
+    "sector": "动物疫苗",
+    "source_sector_name": "动物疫苗",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "畜禽兽用生物制品"
+    ],
+    "fact": "兽用生物化学药中兽药产销，畜禽宠物疫病预防治疗。",
+    "company_fact": "兽用生物化学药中兽药产销，畜禽宠物疫病预防治疗。",
+    "ths_fact": "非洲猪瘟尚临床申请；已有猪圆支禽流感等疫苗。",
+    "reason": "收入依据已有兽用疫苗，不把非洲猪瘟申请当获批收入；关联医院不并入。"
+  },
+  {
+    "id": "603567.SH",
+    "key": "innovative_drugs",
+    "sector": "创新药",
+    "source_sector_name": "创新药",
+    "source_sector_provider": "同花顺",
+    "stage": "pilot",
+    "chain": [
+      "中药与化药创新临床"
+    ],
+    "fact": "中药核心并布局化药生物药研发创新。",
+    "company_fact": "中药核心并布局化药生物药研发创新。",
+    "ths_fact": "HZB0071创新药受理线索。",
+    "reason": "原H1中药创新药II期和HZB1006完成I期支持临床主归属；HZB0071等阶段评估，不沿用受理推断上市。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "603567-2026h1-clinical",
+        "source_kind": "official_filing",
+        "publisher": "珍宝岛",
+        "title": "2026年半年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12573033&stockid=603567",
+        "published_at": "2026-08-29",
+        "assertions": [
+          "一个中药创新药II期，HZB1006已完成I期统计评估；ZBD1042 HZB0071 ZBD0276阶段性评估，不等同上市。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "603568.SH",
+    "key": "solid_waste",
+    "sector": "固废处理",
+    "source_sector_name": "固废处理",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "垃圾焚烧与固废运营"
+    ],
+    "fact": "环境治理涵盖生活垃圾焚烧餐厨污泥处理并装备制造。",
+    "company_fact": "环境治理涵盖生活垃圾焚烧餐厨污泥处理并装备制造。",
+    "ths_fact": "垃圾焚烧投运处理生活垃圾并发电。",
+    "reason": "直接环保运营链位，机器人为打焦研发非人形。"
+  }
+]

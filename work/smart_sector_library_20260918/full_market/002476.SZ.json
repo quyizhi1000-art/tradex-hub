@@ -1,0 +1,52 @@
+{
+  "instrument_id": "002476.SZ",
+  "name": "新叶股份",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "002476.SZ",
+    "name": "新叶股份",
+    "memberships": [
+      "石油石化",
+      "炼化及贸易",
+      "其他石化",
+      "山东板块",
+      "融资融券",
+      "油气资源",
+      "天然气"
+    ],
+    "business_sections": [
+      {
+        "title": "主营业务",
+        "kind": "主营业务",
+        "text": "报告期内，公司主要业务涵盖精细化工及环保水处理两大领域，其中精细化工业务为核心业务。公司作为行业内领先的生产供应商，专注于三次采油及水处理领域重要原材料聚丙烯酰胺的研发与生产，同时围绕上下游产业链拓展相关产品及服务。"
+      },
+      {
+        "title": "技术创新优势",
+        "kind": "核心竞争力",
+        "text": "公司设有省级企业技术中心，与科研机构建立了广泛的合作关系。多年来，公司不断加大研发投入，相继承担了多项国家级重点科技攻关项目、高新技术产业化示范工程项目，形成了一整套自主专有的微生物法丙烯酰胺、阴离子聚丙烯酰胺、阳离子聚丙烯酰胺、表面活性剂等生产工艺和技术，产品系列丰富，可满足不同领域客户的需要，已拥有多项专利技术，核心技术处于同行业领先地位。"
+      },
+      {
+        "title": "品牌优势",
+        "kind": "核心竞争力",
+        "text": "公司拥有先进的微生物法丙烯酰胺、聚丙烯酰胺一体化生产装置。近年来，公司通过内部技术优化和外部市场开拓，在生产能力、市场规模、成本控制、品牌形象等方面均有大幅提升，在行业内形成了较高的知名度和美誉度。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ002476",
+    "fetched_at": "2026-09-18T22:49:11.988894+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "油田用化学品"
+}

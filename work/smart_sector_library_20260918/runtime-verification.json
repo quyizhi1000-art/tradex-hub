@@ -1,0 +1,89 @@
+{
+  "contract": "smart_sector_catalog.v2",
+  "revision": "aa0796cc47f011e3da3c8ab0519440206504905f6f1242ca5de92f4ad5bbde58",
+  "total": 5567,
+  "verified_total": 5,
+  "pending_total": 5562,
+  "research_progress": {
+    "contract": "smart_sector_research.v1",
+    "schema_version": 1,
+    "published_at": "2026-09-18T23:27:14.510459+08:00",
+    "total": 5567,
+    "collected": 2537,
+    "ths_attempted": 753,
+    "ths_read": 753,
+    "stage": "acquisition_in_progress_review_pending"
+  },
+  "index.html": true,
+  "app.js": true,
+  "smart-sector-library.js": true,
+  "smart-sector-library.css": true,
+  "portfolio_pages": [
+    {
+      "date": "2026-09-18",
+      "membership": "玻璃基板",
+      "status": "verified"
+    },
+    {
+      "date": "2026-09-17",
+      "membership": null,
+      "status": "unresolved"
+    },
+    {
+      "date": "2026-09-16",
+      "membership": null,
+      "status": "unresolved"
+    },
+    {
+      "date": "2026-09-15",
+      "membership": null,
+      "status": "unresolved"
+    },
+    {
+      "date": "2026-09-14",
+      "membership": null,
+      "status": "unresolved"
+    },
+    {
+      "date": "2026-09-11",
+      "membership": null,
+      "status": "unresolved"
+    },
+    {
+      "date": "2026-09-09",
+      "membership": null,
+      "status": "unresolved"
+    },
+    {
+      "date": "2026-09-08",
+      "membership": null,
+      "status": "unresolved"
+    },
+    {
+      "date": "2026-09-07",
+      "membership": null,
+      "status": "unresolved"
+    },
+    {
+      "date": "2026-09-04",
+      "membership": null,
+      "status": "unresolved"
+    },
+    {
+      "date": "2026-09-03",
+      "membership": null,
+      "status": "unresolved"
+    },
+    {
+      "date": "2026-09-02",
+      "membership": null,
+      "status": "unresolved"
+    },
+    {
+      "date": "2026-09-01",
+      "membership": null,
+      "status": "unresolved"
+    }
+  ],
+  "selection_basis": "smart_sector_library"
+}

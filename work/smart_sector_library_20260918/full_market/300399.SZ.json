@@ -1,0 +1,83 @@
+{
+  "instrument_id": "300399.SZ",
+  "name": "天利科技",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "300399.SZ",
+    "name": "天利科技",
+    "memberships": [
+      "计算机",
+      "IT服务Ⅱ",
+      "IT服务Ⅲ",
+      "江西板块",
+      "创业板综",
+      "深股通",
+      "算力概念",
+      "互联网服务",
+      "百度概念",
+      "阿里概念",
+      "央国企改革",
+      "互联网金融",
+      "参股保险"
+    ],
+    "business_sections": [
+      {
+        "title": "融合通信业务",
+        "kind": "主营业务",
+        "text": "以企业信息触达与数字化融通为核心，主要产品包括企业短信、5G消息、视频短信、智慧消息、语音消息五大类型，覆盖企业身份验证、服务通知、会员运营、品牌营销等全场景，具备高触达、高稳定、全兼容、可溯源等核心优势。"
+      },
+      {
+        "title": "融合保险业务",
+        "kind": "主营业务",
+        "text": "以保险经纪与场景化保障为核心，涵盖财产险、人身险、场景化保险三大业务线。"
+      },
+      {
+        "title": "创新业务",
+        "kind": "主营业务",
+        "text": "立足主业延伸与属地资源整合，重点布局保险智能助手、AI智算等前沿领域，推进技术研发、资源整合与人才梯队建设。2025年已在关键技术领域实现突破，当前对营收与利润贡献有限，长期将成为公司新的增长引擎。"
+      },
+      {
+        "title": "技术创新能力",
+        "kind": "核心竞争力",
+        "text": "技术创新能力：重视研发投入，构建1+3+N技术服务体系，具备信息技术与保险科技融合研发能力。"
+      },
+      {
+        "title": "全国化营销网络",
+        "kind": "核心竞争力",
+        "text": "全国化营销网络：移动信息业务形成1+3、保险业务形成1+8的全国服务网络，在主要城市设立了分支机构，实现客户快速响应与精准服务。"
+      },
+      {
+        "title": "完备资质与项目经验",
+        "kind": "核心竞争力",
+        "text": "完备资质与项目经验：移动信息服务业务入围全国主要城市运营商合作库；保险业务持有保险经纪牌照，资质齐全、项目落地经验丰富。"
+      },
+      {
+        "title": "精细化管理体系",
+        "kind": "核心竞争力",
+        "text": "精细化管理体系：通过管理系统建设、制度流程优化、绩效责任落地，实现合规、团队、业务全维度高效管控；5、优质客户资源：覆盖金融、汽车等领域头部企业，包括平安、中信建投、人保、太平洋保险、赛力斯等，品牌与。"
+      },
+      {
+        "title": "优质客户资源",
+        "kind": "核心竞争力",
+        "text": "优质客户资源：覆盖金融、汽车等领域头部企业，包括平安、中信建投、人保、太平洋保险、赛力斯等，品牌与。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ300399",
+    "fetched_at": "2026-09-18T23:08:13.281216+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "保险产品服务"
+}

@@ -1,0 +1,454 @@
+[
+  {
+    "id": "601231.SH",
+    "key": "ai_glasses",
+    "sector": "AI眼镜",
+    "source_sector_name": "AI眼镜",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "智能眼镜SiP及无线通信模组"
+    ],
+    "stage": "product",
+    "fact": "智能穿戴SiP覆盖手表眼镜耳机，头戴设备有WiFi和系统主板模块。",
+    "company_fact": "智能穿戴SiP覆盖手表眼镜耳机，头戴设备有WiFi和系统主板模块。",
+    "ths_fact": "无线SiP可用于AI眼镜，2024年说明预计2025量产；AR模块自2022出货。",
+    "reason": "微型化模组是眼镜真实产业链，按已有产品阶段记录，未把早期量产计划写成已证实AI眼镜收入；1.6T可插拔光模块不等于CPO量产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601233.SH",
+    "key": "pta",
+    "sector": "PTA",
+    "source_sector_name": "PTA",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "PTA与涤纶长丝一体化"
+    ],
+    "stage": "revenue",
+    "fact": "生产民用涤纶长丝及原料PTA、MEG。",
+    "company_fact": "生产民用涤纶长丝及原料PTA、MEG。",
+    "ths_fact": "嘉兴石化PTA二期已投产并优化运行。",
+    "reason": "PTA实际生产与涤纶产业链支持周期主线；新建煤矿项目不能按投产煤矿描述。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601236.SH",
+    "key": "securities",
+    "sector": "券商",
+    "source_sector_name": "券商概念",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "证券自营财富及机构服务"
+    ],
+    "stage": "revenue",
+    "fact": "自营投资、财富管理、机构服务三大板块。",
+    "company_fact": "自营投资、财富管理、机构服务三大板块。",
+    "ths_fact": "公司资料页列股票固收投资、经纪、融资融券、资管和投行业务。",
+    "reason": "综合证券经营身份清晰，期货子业务与烟草股东不替代。",
+    "basis": "crosschecked_sources",
+    "extra_evidence": [
+      {
+        "evidence_id": "ths-company-601236-20260919",
+        "source_kind": "web_secondary",
+        "publisher": "同花顺",
+        "title": "公司资料",
+        "source_url": "https://basic.10jqka.com.cn/601236/company.html",
+        "published_at": null,
+        "assertions": [
+          "公司资料页列股票固收投资、经纪、融资融券、资管和投行业务。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "601238.SH",
+    "key": "huawei_automotive",
+    "sector": "华为汽车",
+    "source_sector_name": "华为汽车",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "智能网联整车"
+    ],
+    "stage": "revenue",
+    "fact": "研发、整车、零部件、商贸出行与能源生态构成汽车产业链。",
+    "company_fact": "研发、整车、零部件、商贸出行与能源生态构成汽车产业链。",
+    "ths_fact": "已成立华望合作载体，另已有多款产品搭载华为智驾和座舱方案。",
+    "reason": "华为合作有现有车型产品基础，不仅是新品牌计划；机器人展示、固态中试和飞行样机保留阶段标签。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601279.SH",
+    "key": "new_energy_vehicles",
+    "sector": "新能源汽车",
+    "source_sector_name": "新能源汽车",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "轻量化车身防撞结构及电池壳"
+    ],
+    "stage": "revenue",
+    "fact": "研发制造车身结构件、防撞系统金属及非金属零件。",
+    "company_fact": "研发制造车身结构件、防撞系统金属及非金属零件。",
+    "ths_fact": "已与比亚迪小鹏蔚来极星等新能源车企合作，并提供EV电池壳体。",
+    "reason": "直接新能源轻量化供应链，而非把电池外壳当电芯制造。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601288.SH",
+    "key": "bank",
+    "sector": "银行",
+    "source_sector_name": "银行",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "大型商业银行"
+    ],
+    "stage": "revenue",
+    "fact": "公司零售金融市场服务，重点三农县域金融。",
+    "company_fact": "公司零售金融市场服务，重点三农县域金融。",
+    "ths_fact": "CIPS首批直接参与者之一。",
+    "reason": "跨境结算属于银行业务能力，综合银行归属更完整。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601298.SH",
+    "key": "ports",
+    "sector": "港口",
+    "source_sector_name": "港口",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "港口装卸及综合物流"
+    ],
+    "stage": "revenue",
+    "fact": "提供各货种码头装卸、堆存及港口物流配套服务。",
+    "company_fact": "提供各货种码头装卸、堆存及港口物流配套服务。",
+    "ths_fact": "航运解析明确装卸及港口配套，集装箱货种形成实际业务。",
+    "reason": "港口运营身份明确；AI平台接入与区块链单证是自身数字化。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601311.SH",
+    "key": "battery_recycling",
+    "sector": "动力电池回收",
+    "source_sector_name": "动力电池回收",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "铅锂电池回收循环"
+    ],
+    "stage": "revenue",
+    "fact": "汽车低压电池与回收并行，铅酸回收86万吨每年并推进锂循环。",
+    "company_fact": "汽车低压电池与回收并行，铅酸回收86万吨每年并推进锂循环。",
+    "ths_fact": "多地电池制造回收基地，已回收三元废旧锂电池。",
+    "reason": "循环回收已有实际经营，不依赖旧拟建30万吨计划；注明成熟主体是铅循环，固态仅高校研发。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601318.SH",
+    "key": "insurance_industry",
+    "sector": "保险",
+    "source_sector_name": "保险Ⅱ",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "综合保险及金融服务"
+    ],
+    "stage": "revenue",
+    "fact": "集团提供保险银行资管及金融赋能业务。",
+    "company_fact": "集团提供保险银行资管及金融赋能业务。",
+    "ths_fact": "公司资料页列寿险健康险、财产险、银行和资管产品。",
+    "reason": "保险经营构成清晰金融身份，医疗AI与家庭医生作为服务生态而非机械替代。",
+    "basis": "crosschecked_sources",
+    "extra_evidence": [
+      {
+        "evidence_id": "ths-company-601318-20260919",
+        "source_kind": "web_secondary",
+        "publisher": "同花顺",
+        "title": "公司资料",
+        "source_url": "https://basic.10jqka.com.cn/601318/company.html",
+        "published_at": null,
+        "assertions": [
+          "公司资料页列寿险健康险、财产险、银行和资管产品。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "601319.SH",
+    "key": "insurance_industry",
+    "sector": "保险",
+    "source_sector_name": "保险Ⅱ",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "财产及人身保险"
+    ],
+    "stage": "revenue",
+    "fact": "子公司开展财险人身险和资产管理。",
+    "company_fact": "子公司开展财险人身险和资产管理。",
+    "ths_fact": "公司资料页明确财产保险、人身保险及资管，产品覆盖人保财险寿险健康。",
+    "reason": "实际保险产品和金融服务支持归属，蚂蚁持股不是经营主线。",
+    "basis": "crosschecked_sources",
+    "extra_evidence": [
+      {
+        "evidence_id": "ths-company-601319-20260919",
+        "source_kind": "web_secondary",
+        "publisher": "同花顺",
+        "title": "公司资料",
+        "source_url": "https://basic.10jqka.com.cn/601319/company.html",
+        "published_at": null,
+        "assertions": [
+          "公司资料页明确财产保险、人身保险及资管，产品覆盖人保财险寿险健康。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "601326.SH",
+    "key": "ports",
+    "sector": "港口",
+    "source_sector_name": "港口",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "大宗干散货码头"
+    ],
+    "stage": "revenue",
+    "fact": "装卸堆存仓储运输物流综合港口服务。",
+    "company_fact": "装卸堆存仓储运输物流综合港口服务。",
+    "ths_fact": "主营码头设施及货物装卸仓储等港口作业。",
+    "reason": "港口经营而非煤炭开采，货种和地区只作细分。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601328.SH",
+    "key": "bank",
+    "sector": "银行",
+    "source_sector_name": "银行",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "综合商业银行"
+    ],
+    "stage": "revenue",
+    "fact": "境内外公司零售客户存贷款结算及资产管理。",
+    "company_fact": "境内外公司零售客户存贷款结算及资产管理。",
+    "ths_fact": "CIPS直接参与并通过村镇银行等提供金融服务。",
+    "reason": "银行是统一产业身份，支付系统成员为细分服务关系。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601330.SH",
+    "key": "biomass_power",
+    "sector": "生物质能发电",
+    "source_sector_name": "生物质能发电",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "生活垃圾焚烧发电"
+    ],
+    "stage": "revenue",
+    "fact": "以特许经营开展垃圾焚烧发电，37个运营项目857MW。",
+    "company_fact": "以特许经营开展垃圾焚烧发电，37个运营项目857MW。",
+    "ths_fact": "主营垃圾焚烧发电项目投资建设运营。",
+    "reason": "垃圾能源化实际运营主线；自身数字化合作不等于云计算供应商。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601333.SH",
+    "key": "railway_transport",
+    "sector": "铁路运输",
+    "source_sector_name": "铁路运输",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "铁路客货及受托运营"
+    ],
+    "stage": "revenue",
+    "fact": "经营铁路客货运输并为多条高铁提供运输服务。",
+    "company_fact": "经营铁路客货运输并为多条高铁提供运输服务。",
+    "ths_fact": "武广赣深服务包括客运、设备维修和机车牵引。",
+    "reason": "直接运输运营身份比铁路基建标签准确，不混同工程施工企业。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601336.SH",
+    "key": "insurance_industry",
+    "sector": "保险",
+    "source_sector_name": "保险Ⅱ",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "人寿健康与意外险"
+    ],
+    "stage": "revenue",
+    "fact": "经营人身保险、健康险、意外险及保险资金运用。",
+    "company_fact": "经营人身保险、健康险、意外险及保险资金运用。",
+    "ths_fact": "互联网保险解析明确保险业务和资产管理业务。",
+    "reason": "保险产品经营明确，参股蚂蚁保留投资关联。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601339.SH",
+    "key": "cotton_spinning",
+    "sector": "棉纺",
+    "source_sector_name": "棉纺",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "色纺纱及坯纱"
+    ],
+    "stage": "revenue",
+    "fact": "研发生产销售以纯棉为主色纺纱及坯纱，越南有主要产能。",
+    "company_fact": "研发生产销售以纯棉为主色纺纱及坯纱，越南有主要产能。",
+    "ths_fact": "东盟概念明确越南纱锭投产和营业收入。",
+    "reason": "实物纱线生产交叉核对充分，汇率受益是风格条件而非产业。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601360.SH",
+    "key": "ai_agents",
+    "sector": "AI智能体",
+    "source_sector_name": "AI智能体",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "搜索及安全智能体"
+    ],
+    "stage": "delivery",
+    "fact": "互联网AI应用与数字安全并行，实际产品含安全智能体蜂群。",
+    "company_fact": "互联网AI应用与数字安全并行，实际产品含安全智能体蜂群。",
+    "ths_fact": "已推出安全智能体及纳米超级搜索、视频智能体，提供任务执行。",
+    "reason": "AI智能体已形成面向用户和安全场景产品，不能因广告传统收入忽略增量身份。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601366.SH",
+    "key": "new_retail",
+    "sector": "新零售",
+    "source_sector_name": "新零售",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "全渠道零售与食品供应链"
+    ],
+    "stage": "revenue",
+    "fact": "商业连锁涵盖商超便利店与线上O2O、即时零售，配套食品工业和物流。",
+    "company_fact": "商业连锁涵盖商超便利店与线上O2O、即时零售，配套食品工业和物流。",
+    "ths_fact": "统一大市场解析列零售供应链食品工业，智慧物流冷链基地已投入运营。",
+    "reason": "现有线上线下协同零售支持主线，不因腾讯框架或第三方服务合同转成科技供应商。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601368.SH",
+    "key": "wastewater_treatment",
+    "sector": "污水处理",
+    "source_sector_name": "污水处理",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "供排水及水环境运营"
+    ],
+    "stage": "revenue",
+    "fact": "供水213万立方米每日、污水192.5万立方米每日并配套施工检测。",
+    "company_fact": "供水213万立方米每日、污水192.5万立方米每日并配套施工检测。",
+    "ths_fact": "污水处理概念对应供水排水设施投资建设运营。",
+    "reason": "水环境经营明确，数据产品上架不等于已成为数据业务主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601369.SH",
+    "key": "energy_storage",
+    "sector": "储能",
+    "source_sector_name": "储能",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "压缩空气储能机组"
+    ],
+    "stage": "orders",
+    "fact": "制造压缩机、透平及压缩空气储能机组，另有能源服务工业气体运营。",
+    "company_fact": "制造压缩机、透平及压缩空气储能机组，另有能源服务工业气体运营。",
+    "ths_fact": "具备储能压缩膨胀和储换热技术，并签300MW压缩空气储能示范项目。",
+    "reason": "具体压缩空气储能技术及订单支撑增量主线；核电样机和供航天气体分别保留，不将签单自动写作收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601375.SH",
+    "key": "securities",
+    "sector": "券商",
+    "source_sector_name": "券商概念",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "综合证券与期货服务"
+    ],
+    "stage": "revenue",
+    "fact": "财富投行投资管理自营信用期货和境外业务。",
+    "company_fact": "财富投行投资管理自营信用期货和境外业务。",
+    "ths_fact": "期货解析明确期货经营及其历史收入。",
+    "reason": "期货为综合券商业务组成，2021收入比例不能代替当前主线判断。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601377.SH",
+    "key": "securities",
+    "sector": "券商",
+    "source_sector_name": "券商概念",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "证券财富及机构服务"
+    ],
+    "stage": "revenue",
+    "fact": "财富管理、机构服务、自营投资及海外金融。",
+    "company_fact": "财富管理、机构服务、自营投资及海外金融。",
+    "ths_fact": "公司资料页明确财富管理、投行、机构交易和海外业务。",
+    "reason": "综合券商经营归属明确，地域和业绩风格并非产业。",
+    "basis": "crosschecked_sources",
+    "extra_evidence": [
+      {
+        "evidence_id": "ths-company-601377-20260919",
+        "source_kind": "web_secondary",
+        "publisher": "同花顺",
+        "title": "公司资料",
+        "source_url": "https://basic.10jqka.com.cn/601377/company.html",
+        "published_at": null,
+        "assertions": [
+          "公司资料页明确财富管理、投行、机构交易和海外业务。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "601388.SH",
+    "key": "metal_recycling",
+    "sector": "金属回收",
+    "source_sector_name": "金属回收",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "废铝再生及汽车拆解"
+    ],
+    "stage": "revenue",
+    "fact": "回收废铝生产铝合金锭，并开展汽车拆解废金属回收。",
+    "company_fact": "回收废铝生产铝合金锭，并开展汽车拆解废金属回收。",
+    "ths_fact": "主营铝合金锭生产销售和废金属回收销售。",
+    "reason": "循环金属回收覆盖真实原料至再生经营链，非原生铝矿业。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601390.SH",
+    "key": "railway_infrastructure",
+    "sector": "铁路基建",
+    "source_sector_name": "铁路基建",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "铁路轨道工程与装备"
+    ],
+    "stage": "revenue",
+    "fact": "铁路公路市政建设设计及轨道装备，另有地产资源经营。",
+    "company_fact": "铁路公路市政建设设计及轨道装备，另有地产资源经营。",
+    "ths_fact": "铁路及轨道交通建设集团，参建高铁和海外铁路项目。",
+    "reason": "铁路全产业链工程身份明确；金属矿经营真实但不足单独替代，低空设施项目为工程延伸。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "601398.SH",
+    "key": "bank",
+    "sector": "银行",
+    "source_sector_name": "银行",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "大型综合银行"
+    ],
+    "stage": "revenue",
+    "fact": "向全球公司个人客户提供金融服务。",
+    "company_fact": "向全球公司个人客户提供金融服务。",
+    "ths_fact": "CIPS首批直接参与者之一。",
+    "reason": "支付服务属于综合银行业务链，不以风格指数为产业归属。",
+    "basis": "crosschecked_sources"
+  }
+]

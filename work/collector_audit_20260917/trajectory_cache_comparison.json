@@ -1,0 +1,882 @@
+[
+  {
+    "direction": "defense",
+    "sector_key": "dairy",
+    "published_points": 11,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:33:42.670233+08:00"
+  },
+  {
+    "direction": "defense",
+    "sector_key": "grain_concept",
+    "published_points": 11,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:34:00.035862+08:00"
+  },
+  {
+    "direction": "defense",
+    "sector_key": "shipping",
+    "published_points": 12,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:34:50.875471+08:00"
+  },
+  {
+    "direction": "defense",
+    "sector_key": "pharmaceutical_biology",
+    "published_points": 12,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:34:29.849902+08:00"
+  },
+  {
+    "direction": "defense",
+    "sector_key": "chicken_concept",
+    "published_points": 11,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:33:31.254438+08:00"
+  },
+  {
+    "direction": "defense",
+    "sector_key": "medical_devices",
+    "published_points": 11,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:34:16.118509+08:00"
+  },
+  {
+    "direction": "defense",
+    "sector_key": "retail",
+    "published_points": 12,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:34:40.808227+08:00"
+  },
+  {
+    "direction": "defense",
+    "sector_key": "traditional_chinese_medicine_concept",
+    "published_points": 12,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:35:01.814529+08:00"
+  },
+  {
+    "direction": "defense",
+    "sector_key": "agriculture",
+    "published_points": 12,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:35:08.977812+08:00"
+  },
+  {
+    "direction": "defense",
+    "sector_key": "highway",
+    "published_points": 11,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:34:02.806124+08:00"
+  },
+  {
+    "direction": "defense",
+    "sector_key": "traditional_chinese_medicine",
+    "published_points": 11,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:35:00.327163+08:00"
+  },
+  {
+    "direction": "defense",
+    "sector_key": "retail_concept",
+    "published_points": 10,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:34:42.077087+08:00"
+  },
+  {
+    "direction": "defense",
+    "sector_key": "energy_conservation_environmental_protection",
+    "published_points": 11,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:33:51.932527+08:00"
+  },
+  {
+    "direction": "defense",
+    "sector_key": "water_conservancy",
+    "published_points": 11,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:35:02.632600+08:00"
+  },
+  {
+    "direction": "defense",
+    "sector_key": "water_utilities",
+    "published_points": 12,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:35:03.848768+08:00"
+  },
+  {
+    "direction": "defense",
+    "sector_key": "environmental_protection",
+    "published_points": 12,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:33:54.519726+08:00"
+  },
+  {
+    "direction": "defense",
+    "sector_key": "insurance",
+    "published_points": 12,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:34:07.583929+08:00"
+  },
+  {
+    "direction": "defense",
+    "sector_key": "food_beverage",
+    "published_points": 11,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:33:56.019563+08:00"
+  },
+  {
+    "direction": "defense",
+    "sector_key": "baijiu",
+    "published_points": 11,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:33:27.426870+08:00"
+  },
+  {
+    "direction": "defense",
+    "sector_key": "white_goods",
+    "published_points": 11,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:35:05.082428+08:00"
+  },
+  {
+    "direction": "defense",
+    "sector_key": "new_retail",
+    "published_points": 11,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:34:22.657723+08:00"
+  },
+  {
+    "direction": "defense",
+    "sector_key": "natural_gas",
+    "published_points": 11,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:34:21.187760+08:00"
+  },
+  {
+    "direction": "defense",
+    "sector_key": "medical_device_concept",
+    "published_points": 11,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:34:14.956610+08:00"
+  },
+  {
+    "direction": "defense",
+    "sector_key": "nuclear_power",
+    "published_points": 11,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:34:24.108536+08:00"
+  },
+  {
+    "direction": "defense",
+    "sector_key": "shale_gas",
+    "published_points": 11,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:34:49.614759+08:00"
+  },
+  {
+    "direction": "defense",
+    "sector_key": "coal_chemical",
+    "published_points": 11,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:33:33.723061+08:00"
+  },
+  {
+    "direction": "defense",
+    "sector_key": "oil_gas_resources",
+    "published_points": 11,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:34:26.744726+08:00"
+  },
+  {
+    "direction": "defense",
+    "sector_key": "oil_gas_services",
+    "published_points": 11,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:34:28.009658+08:00"
+  },
+  {
+    "direction": "defense",
+    "sector_key": "coal",
+    "published_points": 12,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:33:32.448522+08:00"
+  },
+  {
+    "direction": "defense",
+    "sector_key": "gas",
+    "published_points": 12,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:33:57.415422+08:00"
+  },
+  {
+    "direction": "defense",
+    "sector_key": "pork_concept",
+    "published_points": 10,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:34:34.634969+08:00"
+  },
+  {
+    "direction": "defense",
+    "sector_key": "ports",
+    "published_points": 11,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:34:35.828465+08:00"
+  },
+  {
+    "direction": "defense",
+    "sector_key": "green_power",
+    "published_points": 11,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:34:01.397177+08:00"
+  },
+  {
+    "direction": "defense",
+    "sector_key": "electric_power",
+    "published_points": 12,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:33:50.480336+08:00"
+  },
+  {
+    "direction": "defense",
+    "sector_key": "oil_gas",
+    "published_points": 12,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:34:25.310504+08:00"
+  },
+  {
+    "direction": "defense",
+    "sector_key": "diversified_finance",
+    "published_points": 12,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:33:46.681577+08:00"
+  },
+  {
+    "direction": "defense",
+    "sector_key": "duty_free",
+    "published_points": 11,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:33:49.106108+08:00"
+  },
+  {
+    "direction": "defense",
+    "sector_key": "precious_metals",
+    "published_points": 12,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:34:37.011047+08:00"
+  },
+  {
+    "direction": "defense",
+    "sector_key": "gold_concept",
+    "published_points": 11,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:33:58.629059+08:00"
+  },
+  {
+    "direction": "defense",
+    "sector_key": "bank",
+    "published_points": 12,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:33:28.801307+08:00"
+  },
+  {
+    "direction": "offense",
+    "sector_key": "reducer",
+    "published_points": 12,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:34:39.335787+08:00"
+  },
+  {
+    "direction": "offense",
+    "sector_key": "robot_actuator",
+    "published_points": 11,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:34:43.392447+08:00"
+  },
+  {
+    "direction": "offense",
+    "sector_key": "innovative_drugs",
+    "published_points": 12,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:34:06.553151+08:00"
+  },
+  {
+    "direction": "offense",
+    "sector_key": "compute",
+    "published_points": 11,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:33:37.623422+08:00"
+  },
+  {
+    "direction": "offense",
+    "sector_key": "topcon_battery",
+    "published_points": 11,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:34:58.904990+08:00"
+  },
+  {
+    "direction": "offense",
+    "sector_key": "ai_application",
+    "published_points": 23,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:35:11.307594+08:00"
+  },
+  {
+    "direction": "offense",
+    "sector_key": "humanoid_robot",
+    "published_points": 12,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:34:05.208751+08:00"
+  },
+  {
+    "direction": "offense",
+    "sector_key": "apple_concept",
+    "published_points": 114,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:35:17.432278+08:00"
+  },
+  {
+    "direction": "offense",
+    "sector_key": "advanced_packaging",
+    "published_points": 12,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:35:06.426400+08:00"
+  },
+  {
+    "direction": "offense",
+    "sector_key": "multimodal_ai",
+    "published_points": 12,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:34:20.029745+08:00"
+  },
+  {
+    "direction": "offense",
+    "sector_key": "lithography_machine",
+    "published_points": 12,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:34:12.557001+08:00"
+  },
+  {
+    "direction": "offense",
+    "sector_key": "cpo",
+    "published_points": 12,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:33:41.223630+08:00"
+  },
+  {
+    "direction": "offense",
+    "sector_key": "ai_agent",
+    "published_points": 13,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:35:10.120935+08:00"
+  },
+  {
+    "direction": "offense",
+    "sector_key": "artificial_intelligence",
+    "published_points": 115,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:35:18.588544+08:00"
+  },
+  {
+    "direction": "offense",
+    "sector_key": "communication_equipment",
+    "published_points": 12,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:33:36.459744+08:00"
+  },
+  {
+    "direction": "offense",
+    "sector_key": "robotics",
+    "published_points": 11,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:34:44.672354+08:00"
+  },
+  {
+    "direction": "offense",
+    "sector_key": "liquid_cooling_server",
+    "published_points": 12,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:34:08.795427+08:00"
+  },
+  {
+    "direction": "offense",
+    "sector_key": "machine_vision",
+    "published_points": 11,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:34:13.696408+08:00"
+  },
+  {
+    "direction": "offense",
+    "sector_key": "consumer_electronics",
+    "published_points": 12,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:33:38.919093+08:00"
+  },
+  {
+    "direction": "offense",
+    "sector_key": "automation_equipment",
+    "published_points": 116,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:35:20.078352+08:00"
+  },
+  {
+    "direction": "offense",
+    "sector_key": "smart_wearable",
+    "published_points": 12,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:34:52.032394+08:00"
+  },
+  {
+    "direction": "offense",
+    "sector_key": "ai_glasses",
+    "published_points": 94,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:35:13.765083+08:00"
+  },
+  {
+    "direction": "offense",
+    "sector_key": "semiconductor",
+    "published_points": 12,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:34:47.291956+08:00"
+  },
+  {
+    "direction": "offense",
+    "sector_key": "consumer_electronics_concept",
+    "published_points": 12,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:33:40.063864+08:00"
+  },
+  {
+    "direction": "offense",
+    "sector_key": "ai_phone",
+    "published_points": 96,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:35:14.967851+08:00"
+  },
+  {
+    "direction": "offense",
+    "sector_key": "ai_chip",
+    "published_points": 93,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:35:12.575069+08:00"
+  },
+  {
+    "direction": "offense",
+    "sector_key": "aigc",
+    "published_points": 106,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:35:16.295978+08:00"
+  },
+  {
+    "direction": "offense",
+    "sector_key": "third_generation_semiconductor",
+    "published_points": 12,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:34:57.433301+08:00"
+  },
+  {
+    "direction": "offense",
+    "sector_key": "photovoltaic_concept",
+    "published_points": 11,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:34:32.012762+08:00"
+  },
+  {
+    "direction": "offense",
+    "sector_key": "energy_storage",
+    "published_points": 11,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:33:53.417072+08:00"
+  },
+  {
+    "direction": "offense",
+    "sector_key": "photovoltaic_equipment",
+    "published_points": 12,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:34:33.247962+08:00"
+  },
+  {
+    "direction": "offense",
+    "sector_key": "military",
+    "published_points": 11,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:34:17.428952+08:00"
+  },
+  {
+    "direction": "offense",
+    "sector_key": "semiconductor_concept",
+    "published_points": 12,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:34:48.476468+08:00"
+  },
+  {
+    "direction": "offense",
+    "sector_key": "solid_state_battery",
+    "published_points": 12,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:34:54.571285+08:00"
+  },
+  {
+    "direction": "offense",
+    "sector_key": "lithium_battery",
+    "published_points": 11,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:34:11.211658+08:00"
+  },
+  {
+    "direction": "offense",
+    "sector_key": "domestic_chip",
+    "published_points": 12,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:33:47.970044+08:00"
+  },
+  {
+    "direction": "offense",
+    "sector_key": "data_center",
+    "published_points": 12,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:33:43.914900+08:00"
+  },
+  {
+    "direction": "offense",
+    "sector_key": "commercial_spaceflight",
+    "published_points": 12,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:33:35.025090+08:00"
+  },
+  {
+    "direction": "offense",
+    "sector_key": "hjt_battery",
+    "published_points": 11,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:34:04.017669+08:00"
+  },
+  {
+    "direction": "offense",
+    "sector_key": "battery",
+    "published_points": 12,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:33:30.021339+08:00"
+  },
+  {
+    "direction": "offense",
+    "sector_key": "software_development",
+    "published_points": 12,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:34:53.266251+08:00"
+  },
+  {
+    "direction": "offense",
+    "sector_key": "photoresist",
+    "published_points": 12,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:34:30.601298+08:00"
+  },
+  {
+    "direction": "offense",
+    "sector_key": "defense",
+    "published_points": 12,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:33:45.267416+08:00"
+  },
+  {
+    "direction": "offense",
+    "sector_key": "satellite_internet",
+    "published_points": 12,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:34:45.916198+08:00"
+  },
+  {
+    "direction": "offense",
+    "sector_key": "minor_metals",
+    "published_points": 12,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:34:18.675610+08:00"
+  },
+  {
+    "direction": "offense",
+    "sector_key": "aerospace",
+    "published_points": 12,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:35:07.582036+08:00"
+  },
+  {
+    "direction": "offense",
+    "sector_key": "storage_chip",
+    "published_points": 12,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:34:56.042639+08:00"
+  },
+  {
+    "direction": "offense",
+    "sector_key": "rare_earth_permanent_magnet",
+    "published_points": 12,
+    "cached_points": 120,
+    "cached_max_gap_minutes": 1.0,
+    "cached_first": "2026-09-17T09:31:00+08:00",
+    "cached_last": "2026-09-17T11:30:00+08:00",
+    "fetched_at": "2026-09-17T11:34:38.194837+08:00"
+  }
+]

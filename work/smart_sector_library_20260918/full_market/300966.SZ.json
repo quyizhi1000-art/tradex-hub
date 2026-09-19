@@ -1,0 +1,68 @@
+{
+  "instrument_id": "300966.SZ",
+  "name": "共同药业",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "300966.SZ",
+    "name": "共同药业",
+    "memberships": [
+      "医药生物",
+      "化学制药",
+      "原料药",
+      "湖北板块",
+      "创业板综",
+      "融资融券",
+      "QFII重仓",
+      "转债标的",
+      "合成生物",
+      "辅助生殖",
+      "婴童概念"
+    ],
+    "business_sections": [
+      {
+        "title": "甾体药物原料的研发、生产及销售",
+        "kind": "主营业务",
+        "text": "公司自设立以来，主要从事甾体药物原料的研发、生产及销售，致力于“为客户提供最好的产品和服务”，公司主要产品为甾体药物生产所需的起始物料、中间体和原料药。"
+      },
+      {
+        "title": "全产业链一体化与成本控制能力",
+        "kind": "核心竞争力",
+        "text": "公司通过纵向延伸，从起始物料到中间体，再到高端原料药，已打通“甾体药物全产业链”的每一个关键节点，这种垂直一体化布局，给公司带来了显著的成本协同效应、质量可控性与供应链安全性。"
+      },
+      {
+        "title": "技术驱动与绿色制造壁垒",
+        "kind": "核心竞争力",
+        "text": "公司在探索多元路线方面，积极推动从传统高耗能化学合成向绿色生物制造的战略转型，以技术驱动与绿色制造共同构筑行业的高阶竞争壁垒。公司通过掌握植物甾醇生物转化、酶催化等核心技术，不仅大幅简化了生产流程、降低了成本，更从源头上解决了高污染、高能耗的环保痛点。公司正以技术创新为内核的绿色制造能力应对日益严苛的全球环保法规（如REACH）和药品生产质量管理规范（GMP）要求。"
+      },
+      {
+        "title": "全球合规准入与国际化布局",
+        "kind": "核心竞争力",
+        "text": "子公司甾领药业作为公司旗下的原料药生产企业，正在同时推进中美欧日等多地认证，拥有美国FDA、欧洲CEP等权威认证将是公司产品进入规范市场的“通行证”，成功的国际认证将体现公司的合规能力，产品进入欧美主流市场也将构成极高的准入壁垒。"
+      },
+      {
+        "title": "多元化产品矩阵与抗风险能力",
+        "kind": "核心竞争力",
+        "text": "公司构建了“多元化产品矩阵”，产品包含甾体药物起始物料与中间体、原料药，且分布在甾体性激素、孕激素、皮质激素、其他类等所有板块，这种产品布局不仅仅是公司扩张的手段，更是公司穿越行业周期、抵御外部冲击的核心护城河。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ300966",
+    "fetched_at": "2026-09-18T23:19:59.513101+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [
+    "医疗医药"
+  ],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "自产"
+}

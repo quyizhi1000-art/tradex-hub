@@ -1,0 +1,407 @@
+--- docs\intraday-macd-j.md (v4)
++++ docs\intraday-macd-j.md
+@@ -1,11 +1,11 @@
+-# 双拐雷达与选股中心：当前规则 v4
++# 双拐雷达与选股中心：当前规则 v5
+ 
+-2026-09-18 确认使用 `macd-j-upturn-main-board.v4`，仅沪深主板非 ST，排除退市、停牌和缺失证据；MACD(12,26,9)、KDJ(9,3,3)。v1/v2/v3 历史存档与原始扫描不覆盖，历史记录明确显示版本。
++2026-09-18 确认使用 `macd-j-upturn-main-board.v5`，仅沪深主板非 ST，排除退市、停牌和缺失证据；MACD(12,26,9)、KDJ(9,3,3)。v1/v2/v3/v4 历史存档与原始扫描不覆盖，历史记录明确显示版本。
+ 
+ ## 正式入选：五项同时满足
+ 
+ 1. 当日新金叉：昨日 DIF≤DEA，今日 DIF>DEA。不限制零轴位置，水上水下均可。
+-2. J 当天或前一交易日拐头，且今天 J>昨天 J。拐头指前一段下降或走平、随后上升；不允许提前两天，不要求 K>D。低 J 仅作为标签。
++2. J 当天或此前1～2个交易日拐头，且今天 J>昨天 J。拐头指前一段下降或走平、随后上升；不允许提前三天，不要求 K>D。低 J 仅作为标签。
+ 3. 当前价格/最近60个交易日内的最高价−1 < -20%。含筛选日，取日内最高价，不是最高收盘价；全部使用同一前复权窗口。恰好 -20% 不入选。
+ 4. 当前价格≥当日 MA5；MA5 含筛选日价格，不要求昨天位于 MA5 下方。
+ 5. 当日量比≤1.5，恰好1.5可入选，量比缺失不放行。
+@@ -18,13 +18,15 @@
+ 
+ 盘后通过 Analysis Worker 使用正式六日指标和当日量比；同一 gateway 为初筛股票取得恰好60个交易日的前复权行情。盘中由 Collector 独占扫描，使用前59日行情加当日高价/现价，MACD/KDJ沿用已有全历史指标递推。盘中量比优先使用当前报价的量比，否则用经单位核验的累计成交股数/已交易分钟，与前5日平均每分钟成交量比较；午休不计时。新历史获取后重新取得实时行情，仍执行逐股时间校验。
+ 
+-`macd_rules.v4_signal`、`price_filter_evidence` 统一正式信号/预警及价格量比判断；不另建采集器或调度器。行情窗口 gateway 独占日期和股票维度的历史缓存，日历、窗口、复权、价格对账不通过时明确未核验。历史为空时可重试，不能用前15日高点或60日前收盘价替代60日最高价。
++`macd_rules.v4_signal(max_j_lead=2)`、`price_filter_evidence` 统一正式信号/预警及价格量比判断；不另建采集器或调度器。行情窗口 gateway 独占日期和股票维度的历史缓存，日历、窗口、复权、价格对账不通过时明确未核验。历史为空时可重试，不能用前15日高点或60日前收盘价替代60日最高价。
+ 
+ 正式入选显示金叉日期、J拐头日期、60日高点及日期、回撤百分比、MA5、量比。预警在独立区域显示并列出连续三日的两线差距。每轮正式新增仍相对上一交易日同版本正式存档取差集；缺少基准时不声称已核验新增，原始扫描保留。收盘雷达与选股中心读取同一正式存档；当日不回退旧规则作为当前确认。
+ 
+ ## 用户例子核对
+ 
+-- 通富微电给定价格58.31、高点84.7时，回撤为-31.1570%，通过回撤条件。但保存的9月17日指标显示J于9月15日拐头，提前两日，按已确认窗口不入选。
++- 通富微电9月17日已核验：收盘58.31，60日高点84.7（7月15日），回撤-31.1570%，MA5为57.922，量比1.08。J于9月15日拐头，9月17日MACD新金叉，提前两日，正式进入v5名单；v4仍按原一日窗口排除。
+ - 彤程新材9月8日：DIF从9月7日的-1.786降到-1.791，虽DEA−DIF连续缩小，仍不满足预警的DIF上升条件。图形理想不等于全部数值条件已满足。
+ 
+ 旧存档保留其原规则，不把新版本筛选结果冒充当时已知的信号；补算记录实际生成时间。
++
++本次v5仅将v4的J前置窗口从最多1日放宽为最多2日，正式入选与独立预警同时适用。v4历史规则仍保持最多1日。
+--- tradex\src\tradex\dashboard\watch\app.js (v4)
++++ tradex\src\tradex\dashboard\watch\app.js
+@@ -3543,11 +3543,11 @@
+       createElement("div", "", `MA5 ${Number(row.ma5).toFixed(4)} · 量比 ${Number(row.volume_ratio).toFixed(3)}`));
+   }
+ 
+-  function renderMacdPending(target, rows, isClose) {
++  function renderMacdPending(target, rows, isClose, maxJLead = 2) {
+     target.replaceChildren();
+     rows = asArray(rows);
+     target.append(createElement("h3", "", `待金叉预警（独立于正式入选） · ${rows.length} 只`),
+-      createElement("p", "", "尚未金叉；DIF今天上升、两线差距连续两天缩小，J当天或前一交易日拐头且今天仍上升。满足同样的60日高点、MA5和量比过滤；不保证之后金叉。"));
++      createElement("p", "", `尚未金叉；DIF今天上升、两线差距连续两天缩小，J当天或此前${maxJLead}个交易日内拐头且今天仍上升。满足同样的60日高点、MA5和量比过滤；不保证之后金叉。`));
+     if (!rows.length) { target.append(createElement("p", "", "当前已核验范围内没有待金叉预警。")); return; }
+     const scroll = createElement("div", "stock-selection-table-scroll");
+     const table = createElement("table", "stock-selection-table");
+@@ -3577,7 +3577,9 @@
+     const body = byId("stock-macd-j-table-body");
+     body.replaceChildren();
+     if (!valid) return;
+-    byId("stock-macd-j-rule").textContent = payload.screen_version === "macd-j-upturn-main-board.v4"
++    byId("stock-macd-j-rule").textContent = payload.screen_version === "macd-j-upturn-main-board.v5"
++      ? "当日金叉 · J 当天或提前1～2日 · 距60日高点<-20% · 价格≥MA5 · 量比≤1.5 · v5"
++      : payload.screen_version === "macd-j-upturn-main-board.v4"
+       ? "当日金叉 · J 当天或提前1日 · 距60日高点<-20% · 价格≥MA5 · 量比≤1.5 · v4"
+       : payload.screen_version === "macd-j-upturn-main-board.v3"
+       ? "金叉距今日 0～2 个交易日 · v3"
+@@ -3589,7 +3591,7 @@
+       `主板非 ST ${formatCount(eligible)} 只 · 完整指标 ${formatCount(evaluated)} 只`
+       + ` · 覆盖 ${eligible ? (evaluated / eligible * 100).toFixed(1) : "0.0"}%`
+       + ` · 命中 ${formatCount(payload.matched_count)} 只`
+-      + `（J 当日拐头 ${formatCount(payload.same_day_count)} · ${payload.screen_version?.endsWith(".v4") ? "前一交易日" : "此前 1～3 日"}拐头 ${formatCount(payload.prior_3_sessions_count)}）`
++      + `（J 当日拐头 ${formatCount(payload.same_day_count)} · ${payload.screen_version?.endsWith(".v5") ? "此前1～2日" : payload.screen_version?.endsWith(".v4") ? "前一交易日" : "此前 1～3 日"}拐头 ${formatCount(payload.prior_3_sessions_count)}）`
+       + ` · 独立待金叉预警 ${formatCount(payload.pending_count || 0)} 只`
+       + ` · ${{ accepted: "完备", degraded: "降级", unavailable: "不可用" }[payload.quality] || "未知"}`;
+     const metadata = asArray(payload.source_metadata);
+@@ -3598,12 +3600,12 @@
+       `指标来源：${text(latest.provider, "未知")} · 前复权日线 · 获取时间 ${text(latest.fetched_at, "未知")}`
+       + " · 精确发布时间未提供；按信号日 ST 名单排除。";
+     const priorOption = byId("stock-macd-j-group").querySelector('option[value="prior_3_sessions"]');
+-    if (priorOption) priorOption.textContent = payload.screen_version?.endsWith(".v4") ? "J 前一交易日拐头" : "J 此前 1～3 个交易日拐头";
++    if (priorOption) priorOption.textContent = payload.screen_version?.endsWith(".v5") ? "J 此前1～2个交易日拐头" : payload.screen_version?.endsWith(".v4") ? "J 前一交易日拐头" : "J 此前 1～3 个交易日拐头";
+     const pendingPanel = byId("stock-macd-j-pending");
+-    if (pendingPanel) renderMacdPending(pendingPanel, stockSelectionVisibleCandidates(payload.pending_candidates), true);
++    if (pendingPanel) renderMacdPending(pendingPanel, stockSelectionVisibleCandidates(payload.pending_candidates), true, payload.screen_version?.endsWith(".v4") ? 1 : 2);
+     const group = byId("stock-macd-j-group").value || "all";
+     const candidates = stockSelectionVisibleCandidates(payload.candidates)
+-      .filter((item) => group === "all" || item.signal_group === group || (group === "prior_3_sessions" && item.signal_group === "prior_1_session"));
++      .filter((item) => group === "all" || item.signal_group === group || (group === "prior_3_sessions" && ["prior_1_session", "prior_2_sessions"].includes(item.signal_group)));
+     const number = (value) => finiteNumber(value) === null ? "--" : Number(value).toFixed(4);
+     if (!candidates.length) {
+       const cell = createElement("td", "stock-selection-table-empty",
+@@ -3632,7 +3634,7 @@
+       details.append(list); evidence.append(details);
+       row.append(nameCell, createElement("td", "", stockSelectionIndustryName(candidate)),
+         createElement("td", "", formatLevel(candidate.reference_close)),
+-        createElement("td", "", candidate.signal_group === "same_day" ? "J 当日拐头" : candidate.signal_group === "prior_1_session" ? "J 前一交易日拐头" : "J 此前 1～3 日拐头"),
++        createElement("td", "", candidate.signal_group === "same_day" ? "J 当日拐头" : candidate.signal_group === "prior_1_session" ? "J 前一交易日拐头" : candidate.signal_group === "prior_2_sessions" ? "J 此前1～2日拐头" : "J 此前 1～3 日拐头"),
+         createElement("td", "", { above_zero: "零轴上方", below_zero: "零轴下方", crossing_zero: "零轴附近" }[candidate.zero_axis_zone]),
+         turn, evidence);
+       body.append(row);
+@@ -7405,8 +7407,8 @@
+     const increment = objectValue(scan.comparison).status === "available";
+     if (scan.screen_version === "macd-j-upturn-main-board.v2") {
+       target.append(createElement("p", "", "此记录使用已停用的放宽规则（只要求当前金叉状态），不代表当前双拐条件下的新增；保留供核对。"));
+-    } else if (scan.screen_version !== "macd-j-upturn-main-board.v4") {
+-      target.append(createElement("p", "", "此记录使用历史版本规则；原始结果保留，不与当前当日金叉、J最多提前1日及价格量比过滤混算。"));
++    } else if (scan.screen_version !== "macd-j-upturn-main-board.v5") {
++      target.append(createElement("p", "", "此记录使用历史版本规则；原始结果保留，不与当前当日金叉、J最多提前2日及价格量比过滤混算。"));
+     }
+     if (scan.scan_kind === "manual_close") {
+       target.append(createElement("p", "", "此记录使用收盘价推算指标，属于预估；正式名单见收盘确认。"));
+@@ -7475,7 +7477,7 @@
+     target.append(scroll);
+     const pendingPanel = createElement("section");
+     const pendingRows = stockSelectionIndustryPayload({candidates: scan.pending_candidates}, objectValue(state.intradayMacdJIndustryDisplay)).candidates;
+-    renderMacdPending(pendingPanel, pendingRows.filter(r => !state.intradayMacdJIndustry || stockSelectionIndustryName(r) === state.intradayMacdJIndustry), isClose);
++    renderMacdPending(pendingPanel, pendingRows.filter(r => !state.intradayMacdJIndustry || stockSelectionIndustryName(r) === state.intradayMacdJIndustry), isClose, scan.screen_version?.endsWith(".v4") ? 1 : 2);
+     target.append(pendingPanel);
+     state.intradayMacdJRenderedKey = renderKey();
+   }
+--- tradex\src\tradex\dashboard\watch\index.html (v4)
++++ tradex\src\tradex\dashboard\watch\index.html
+@@ -236,7 +236,7 @@
+             <h2 id="intraday-macd-j-heading">双拐雷达</h2>
+             <p id="intraday-macd-j-status" role="status">等待后台扫描状态…</p>
+             <p>09:30～11:30、13:00～15:00 每 15 分钟扫描；午休仅 11:45 复核一次。命中即提示，每只股票每天提示一次。</p>
+-            <p>与盘后选股使用同一条件：主板非ST，日线 MACD(12,26,9) 当日金叉（不限零轴位置）；KDJ(9,3,3) J 今日上升、当天或前一交易日拐头。距近60个交易日的前复权最高价严格低于-20%，价格≥当日MA5，量比≤1.5。另列待金叉预警：DIF上升、两线差距连续两天缩小，不算正式入选。每轮显示本轮符合条件且不在上一交易日同版本存档中的股票，开盘首次符合的也计入。盘中为未收盘日线预估；收盘确认展示完整股票池。</p>
++            <p>与盘后选股使用同一条件：主板非ST，日线 MACD(12,26,9) 当日金叉（不限零轴位置）；KDJ(9,3,3) J 今日上升、当天或此前1～2个交易日拐头。距近60个交易日的前复权最高价严格低于-20%，价格≥当日MA5，量比≤1.5。另列待金叉预警：DIF上升、两线差距连续两天缩小，不算正式入选。每轮显示本轮符合条件且不在上一交易日同版本存档中的股票，开盘首次符合的也计入。盘中为未收盘日线预估；收盘确认展示完整股票池。</p>
+             <p id="intraday-macd-j-coverage"></p>
+             <button class="button button-primary" id="intraday-macd-j-history-open" type="button">查看每次扫描结果</button>
+           </section>
+@@ -759,7 +759,7 @@
+             <section id="stock-selection-panel-macd-j" role="tabpanel" data-stock-selection-result-contract="stock_macd_j_screen.v1" hidden>
+               <div class="stock-pattern-rule" aria-label="MACD 金叉与 J 线拐头规则">
+                 <strong>MACD 金叉 + J 线拐头</strong>
+-                <span>主板非 ST</span><span>日线前复权</span><span>MACD(12,26,9)</span><span>KDJ(9,3,3)</span><span id="stock-macd-j-rule">当日金叉 · J当天或提前1日 · 距60日高点&lt;-20% · 价格≥MA5 · 量比≤1.5</span><span>低位只做标签</span>
++                <span>主板非 ST</span><span>日线前复权</span><span>MACD(12,26,9)</span><span>KDJ(9,3,3)</span><span id="stock-macd-j-rule">当日金叉 · J当天或提前1～2日 · 距60日高点&lt;-20% · 价格≥MA5 · 量比≤1.5</span><span>低位只做标签</span>
+               </div>
+               <div class="stock-pattern-empty" id="stock-macd-j-empty">该交易日尚无此策略档案；按收盘后规则生成，历史缺失不代表没有股票命中。</div>
+               <div id="stock-macd-j-content" hidden>
+@@ -770,7 +770,7 @@
+                 <select id="stock-macd-j-group" aria-label="MACD J 信号分组">
+                   <option value="all">全部命中</option>
+                   <option value="same_day">J 当日拐头</option>
+-                  <option value="prior_3_sessions">J 前一交易日拐头</option>
++                  <option value="prior_3_sessions">J 此前1～2个交易日拐头</option>
+                 </select>
+                 <div class="stock-selection-table-scroll" tabindex="0" aria-label="MACD J 命中股票表">
+                   <table class="stock-selection-table">
+--- tradex\src\tradex\stock_selection\contracts.py (v4)
++++ tradex\src\tradex\stock_selection\contracts.py
+@@ -474,7 +474,7 @@
+ 
+ 
+ class MacdJCandidateV1(SelectionModel):
+-    signal_rule: Literal["fresh_cross", "bullish_state", "recent_cross_2_sessions", "strict_cross_v4", "pending_cross_v4"] = "fresh_cross"
++    signal_rule: Literal["fresh_cross", "bullish_state", "recent_cross_2_sessions", "strict_cross_v4", "pending_cross_v4", "strict_cross_v5", "pending_cross_v5"] = "fresh_cross"
+     macd_cross_date: date | None = None
+     macd_cross_age_sessions: int | None = Field(default=None, ge=0, le=2)
+     instrument_id: str = Field(pattern=r"^\d{6}\.(?:SH|SZ)$")
+@@ -482,7 +482,7 @@
+     industry: str | None = None
+     reference_close: float = Field(gt=0, allow_inf_nan=False)
+     signal_trade_date: date
+-    signal_group: Literal["same_day", "prior_3_sessions", "prior_1_session"]
++    signal_group: Literal["same_day", "prior_3_sessions", "prior_1_session", "prior_2_sessions"]
+     zero_axis_zone: Literal["above_zero", "below_zero", "crossing_zero"]
+     j_turn_date: date
+     gap_sessions: int = Field(ge=0, le=3)
+@@ -508,14 +508,14 @@
+         if (self.signal_group == "same_day") != (self.gap_sessions == 0):
+             raise ValueError("MACD J group must match session gap")
+         yesterday, today = self.evidence[-2:]
+-        if self.signal_rule in {"strict_cross_v4", "pending_cross_v4"}:
++        if self.signal_rule in {"strict_cross_v4", "pending_cross_v4", "strict_cross_v5", "pending_cross_v5"}:
+             from .macd_rules import v4_signal
+             from decimal import Decimal
+-            kind, index = v4_signal(self.evidence)
+-            expected = "confirmed" if self.signal_rule == "strict_cross_v4" else "pending_cross"
++            kind, index = v4_signal(self.evidence, max_j_lead=2 if self.signal_rule.endswith("v5") else 1)
++            expected = "confirmed" if self.signal_rule.startswith("strict_cross_") else "pending_cross"
+             if kind != expected or index != 5-self.gap_sessions:
+                 raise ValueError("v4 signal evidence mismatch")
+-            if self.signal_group != ("same_day" if self.gap_sessions == 0 else "prior_1_session"):
++            if self.signal_group != ("same_day" if self.gap_sessions == 0 else "prior_2_sessions" if self.signal_rule.endswith("v5") else "prior_1_session"):
+                 raise ValueError("v4 requires J today or previous session")
+             if (self.macd_cross_date, self.macd_cross_age_sessions) != (
+                     (self.signal_trade_date, 0) if kind == "confirmed" else (None, None)):
+@@ -552,7 +552,7 @@
+ class MacdJScreenV1(SelectionModel):
+     contract: Literal["stock_macd_j_screen.v1"] = "stock_macd_j_screen.v1"
+     schema_version: Literal[1] = 1
+-    screen_version: Literal["macd-j-upturn-main-board.v1", "macd-j-upturn-main-board.v2", "macd-j-upturn-main-board.v3", "macd-j-upturn-main-board.v4"] = "macd-j-upturn-main-board.v1"
++    screen_version: Literal["macd-j-upturn-main-board.v1", "macd-j-upturn-main-board.v2", "macd-j-upturn-main-board.v3", "macd-j-upturn-main-board.v4", "macd-j-upturn-main-board.v5"] = "macd-j-upturn-main-board.v1"
+     title: str = "MACD 金叉 + J 线拐头"
+     quality: Literal["accepted", "degraded", "unavailable"]
+     universe_count: int = Field(ge=0)
+@@ -571,10 +571,10 @@
+ 
+     @model_validator(mode="after")
+     def validate_counts(self):
+-        rule = {"v1": "fresh_cross", "v2": "bullish_state", "v3": "recent_cross_2_sessions", "v4": "strict_cross_v4"}[self.screen_version.rsplit(".", 1)[1]]
++        rule = {"v1": "fresh_cross", "v2": "bullish_state", "v3": "recent_cross_2_sessions", "v4": "strict_cross_v4", "v5": "strict_cross_v5"}[self.screen_version.rsplit(".", 1)[1]]
+         if (self.pending_count != len(self.pending_candidates)
+-                or any(c.signal_rule != "pending_cross_v4" for c in self.pending_candidates)
+-                or (self.pending_candidates and rule != "strict_cross_v4")
++                or any(c.signal_rule != rule.replace("strict_cross_", "pending_cross_") for c in self.pending_candidates)
++                or (self.pending_candidates and rule not in {"strict_cross_v4", "strict_cross_v5"})
+                 or len({c.instrument_id for c in (*self.candidates, *self.pending_candidates)}) != self.matched_count+self.pending_count
+                 or self.matched_count+self.pending_count > self.evaluated_count):
+             raise ValueError("pending MACD candidates must be separate and counted")
+--- tradex\src\tradex\stock_selection\insights.py (v4)
++++ tradex\src\tradex\stock_selection\insights.py
+@@ -40,7 +40,7 @@
+ 
+ def evidence_projection(candidate, strategy_id):
+     result = {field: candidate.get(field) for field in STRATEGY_FIELDS[strategy_id]}
+-    if strategy_id == "macd-j-upturn-main-board" and candidate.get("signal_rule") == "strict_cross_v4":
++    if strategy_id == "macd-j-upturn-main-board" and candidate.get("signal_rule") in {"strict_cross_v4", "strict_cross_v5"}:
+         result.update({key: candidate.get(key) for key in ("macd_cross_date", "high_60", "high_60_date",
+             "drawdown_60_pct", "ma5", "volume_ratio", "price_window_start", "price_window_end")})
+     if strategy_id in EVIDENCE_FIELDS:
+--- tradex\src\tradex\stock_selection\intraday_increment.py (v4)
++++ tradex\src\tradex\stock_selection\intraday_increment.py
+@@ -7,7 +7,7 @@
+ CONTRACT = "intraday_macd_j_increment.v1"
+ 
+ 
+-def load_previous_close(day, *, version="v4"):
++def load_previous_close(day, *, version="v5"):
+     previous = day - timedelta(days=1)
+     for _ in range(30):
+         status = calendar_day_status(previous)
+@@ -38,7 +38,7 @@
+ 
+ def with_previous_close_difference(scan, *, baselines=None):
+     """Project display/alerts only. Raw scan archives and close results stay intact."""
+-    if (scan.get("screen_version") not in {"macd-j-upturn-main-board.v1", "macd-j-upturn-main-board.v2", "macd-j-upturn-main-board.v3", "macd-j-upturn-main-board.v4"}
++    if (scan.get("screen_version") not in {"macd-j-upturn-main-board.v1", "macd-j-upturn-main-board.v2", "macd-j-upturn-main-board.v3", "macd-j-upturn-main-board.v4", "macd-j-upturn-main-board.v5"}
+             or scan.get("scan_kind") in {"manual_close", "close_confirmation"}
+             or scan.get("status") not in {"monitoring", "partial"}
+             or not isinstance(scan.get("scan_candidates"), list)):
+--- tradex\src\tradex\stock_selection\intraday_macd_j.py (v4)
++++ tradex\src\tradex\stock_selection\intraday_macd_j.py
+@@ -19,7 +19,7 @@
+ 
+ SHANGHAI = ZoneInfo("Asia/Shanghai")
+ CONTRACT = "intraday_macd_j_watch.v1"
+-SCREEN_VERSION = "macd-j-upturn-main-board.v4"
++SCREEN_VERSION = "macd-j-upturn-main-board.v5"
+ SCAN_MINUTES = tuple(range(570, 691, 15)) + (705,) + tuple(range(780, 901, 15))
+ 
+ 
+@@ -160,7 +160,7 @@
+         evaluated += 1
+         evaluated_ids.add(q.instrument_id)
+         projected = SimpleNamespace(dif=dif, dea=dea, j=j)
+-        kind, turn = v4_signal(points[-5:] + [projected])
++        kind, turn = v4_signal(points[-5:] + [projected], max_j_lead=2)
+         if kind is None:
+             excluded["no_v4_signal"] += 1
+             continue
+@@ -192,7 +192,7 @@
+             "price_trade_date": day.isoformat(), "dif": dif, "dea": dea, "k": k, "d": d, "j": j,
+             "macd_cross_date": day.isoformat() if kind == "confirmed" else None,
+             "macd_cross_age_sessions": 0 if kind == "confirmed" else None,
+-            "signal_group": "同日拐头" if turn == 5 else "前一交易日拐头",
++            "signal_group": "同日拐头" if turn == 5 else "此前1～2个交易日拐头",
+             "zero_axis_zone": "零轴上方" if min(dif, dea) > 0 else "零轴下方" if max(dif, dea) < 0 else "零轴附近",
+             "j_turn_date": dates[turn].isoformat(), "j_trough": trough,
+             "low_j_tags": [label for threshold, label in [(20, "J<20"), (0, "J<0")] if trough < threshold],
+@@ -279,7 +279,8 @@
+     if day > local.date() or (day == local.date() and local.hour < 15):
+         return None
+     from .store import read_archived_strategy_result
+-    result = (read_archived_strategy_result(day, "macd-j-upturn-main-board", strategy_version="v4")
++    result = (read_archived_strategy_result(day, "macd-j-upturn-main-board", strategy_version="v5")
++              or read_archived_strategy_result(day, "macd-j-upturn-main-board", strategy_version="v4")
+               or read_archived_strategy_result(day, "macd-j-upturn-main-board", strategy_version="v3")
+               or read_archived_strategy_result(day, "macd-j-upturn-main-board", strategy_version="v1"))
+     if result is None or result.quality == "unavailable":
+@@ -291,7 +292,7 @@
+     for candidate in (*screen.candidates, *screen.pending_candidates):
+         evidence = candidate.evidence[-1]
+         candidates.append({
+-            "signal_kind": "pending_cross" if candidate.signal_rule == "pending_cross_v4" else "confirmed",
++            "signal_kind": "pending_cross" if candidate.signal_rule in {"pending_cross_v4", "pending_cross_v5"} else "confirmed",
+             **{key: value.isoformat() if isinstance(value, date) else value for key, value in
+                candidate.model_dump().items() if key in {"high_60", "high_60_date", "ma5",
+                "drawdown_60_pct", "volume_ratio", "price_window_start", "price_window_end"}},
+@@ -300,7 +301,8 @@
+             "price_trade_date": day.isoformat(), "observed_at": None,
+             **{key: getattr(evidence, key) for key in ("dif", "dea", "k", "d", "j")},
+             "signal_group": "同日拐头" if candidate.signal_group == "same_day" else
+-                            "前一交易日拐头" if candidate.signal_group == "prior_1_session" else "此前 1～3 日拐头",
++                            "前一交易日拐头" if candidate.signal_group == "prior_1_session" else
++                            "此前1～2个交易日拐头" if candidate.signal_group == "prior_2_sessions" else "此前 1～3 日拐头",
+             "zero_axis_zone": {"above_zero": "零轴上方", "below_zero": "零轴下方",
+                                "crossing_zero": "零轴附近"}[candidate.zero_axis_zone],
+             "j_turn_date": candidate.j_turn_date.isoformat(), "j_trough": candidate.j_trough,
+--- tradex\src\tradex\stock_selection\macd_j.py (v4)
++++ tradex\src\tradex\stock_selection\macd_j.py
+@@ -19,13 +19,13 @@
+         if row.market != "主板" or _special_treatment_name(row.name):
+             continue
+         points = [m.get(row.instrument_id) for m in maps]
+-        if all(p is not None for p in points) and v4_signal(points)[0] is not None:
++        if all(p is not None for p in points) and v4_signal(points, max_j_lead=2)[0] is not None:
+             requests.append(row.instrument_id)
+     return tuple(requests)
+ 
+ 
+-def screen_macd_j(snapshot: DailyStockFactorSnapshotV1, *, version="v4") -> MacdJScreenV1:
+-    if version not in {"v1", "v2", "v3", "v4"}:
++def screen_macd_j(snapshot: DailyStockFactorSnapshotV1, *, version="v5") -> MacdJScreenV1:
++    if version not in {"v1", "v2", "v3", "v4", "v5"}:
+         raise ValueError("unsupported MACD J screen version")
+     window = snapshot.technicals
+     days = window.days if window else ()
+@@ -35,7 +35,7 @@
+     candidates = []
+     pending = []
+     histories = {h.instrument_id: h for h in window.price_histories} if window else {}
+-    dates60 = sixty_sessions(snapshot.trade_date) if version == "v4" else ()
++    dates60 = sixty_sessions(snapshot.trade_date) if version in {"v4", "v5"} else ()
+     eligible = evaluated = 0
+     for row in snapshot.factors:
+         if row.market != "主板" or not row.instrument_id.endswith((".SH", ".SZ")):
+@@ -63,8 +63,8 @@
+             continue
+         evaluated += 1
+         yesterday, today = points[-2:]
+-        if version == "v4":
+-            kind, index = v4_signal(points)
++        if version in {"v4", "v5"}:
++            kind, index = v4_signal(points, max_j_lead=2 if version == "v5" else 1)
+             if kind is None:
+                 excluded["no_v4_signal"] += 1
+                 continue
+@@ -78,12 +78,12 @@
+                 continue
+             gap, low = 5-index, points[index-1].j
+             item = MacdJCandidateV1(
+-                signal_rule="strict_cross_v4" if kind == "confirmed" else "pending_cross_v4",
++                signal_rule=f"strict_cross_{version}" if kind == "confirmed" else f"pending_cross_{version}",
+                 macd_cross_date=snapshot.trade_date if kind == "confirmed" else None,
+                 macd_cross_age_sessions=0 if kind == "confirmed" else None,
+                 instrument_id=row.instrument_id, name=row.name, industry=row.industry,
+                 reference_close=row.close, signal_trade_date=snapshot.trade_date,
+-                signal_group="same_day" if gap == 0 else "prior_1_session",
++                signal_group="same_day" if gap == 0 else "prior_2_sessions" if version == "v5" else "prior_1_session",
+                 zero_axis_zone="above_zero" if min(today.dif, today.dea) > 0 else
+                                "below_zero" if max(today.dif, today.dea) < 0 else "crossing_zero",
+                 j_turn_date=days[index].trade_date, gap_sessions=gap, j_trough=low,
+@@ -142,11 +142,12 @@
+         source_metadata=tuple(day.metadata for day in days) + tuple(h.metadata for h in histories.values()),
+         methodology=(
+             "主板非 ST；MACD(12,26,9)、KDJ(9,3,3)，不限制金叉在零轴上方或下方。",
+-            "正式入选：昨天 DIF≤DEA，今天 DIF>DEA；J 当天或前一交易日由下降/走平转为上升，今天仍上升。",
++            ("正式入选：昨天 DIF≤DEA，今天 DIF>DEA；J 当天或此前1～2个交易日由下降/走平转为上升，今天仍上升。" if version == "v5" else
++             "正式入选：昨天 DIF≤DEA，今天 DIF>DEA；J 当天或前一交易日由下降/走平转为上升，今天仍上升。"),
+             "待金叉预警单独列出：DIF≤DEA，DIF 今天上升，两线差距连续两个交易日缩小；J 条件相同。",
+             "含筛选日最近60个交易日的前复权最高价；当前价/最高价−1 严格小于−20%，当前价≥含当天的MA5，量比≤1.5。",
+             "不额外要求 K>D；J<20、J<0 仅作标签；缺失历史、量比或复权口径不一致时不入选。",
+-        ) if version == "v4" else (
++        ) if version in {"v4", "v5"} else (
+             "仅沪深主板非 ST、非退市股票；以信号日 ST 名单和证券名称交叉排除。",
+             "收盘日线、前复权 MACD(12,26,9) 与 KDJ(9,3,3)，采用数据源已发布的历史指标。",
+             ({"v1": "新金叉：昨天 DIF ≤ DEA，今天 DIF > DEA。",
+@@ -162,7 +163,7 @@
+             "预警不是金叉，不保证未来金叉；正式入选与预警分别计数。",
+             "仅使用筛选日及之前证据；60日高点、MA5使用同一前复权窗口，量比使用当日数据源指标。",
+             "数据缺失保持未核验，不填旧值；未进行收益回测。",
+-        ) if version == "v4" else (
++        ) if version in {"v4", "v5"} else (
+             "J 先拐头组只要求筛选当天仍上行，不要求中间每天连续上涨；超过 3 日窗口会退出，不代表趋势已经反转。",
+             "指标来自数据源全历史计算，初始化与历史修订由数据源定义；不是用最近 6 日重新计算指标。",
+             "数据源未提供精确发布时间，质量标为降级；保留交易日期、获取时间与请求标识，不伪造发布时间。",
+--- tradex\src\tradex\stock_selection\macd_rules.py (v4)
++++ tradex\src\tradex\stock_selection\macd_rules.py
+@@ -11,14 +11,16 @@
+     return None
+ 
+ 
+-def v4_signal(points):
++def v4_signal(points, *, max_j_lead=1):
+     """Disjoint confirmed/early signals, using only information through T."""
+-    if len(points) < 4:
++    if max_j_lead not in (1, 2):
++        raise ValueError("unsupported J lead window")
++    if len(points) < max_j_lead + 3:
+         return None, None
+     js = [p.j for p in points]
+     if js[-1] <= js[-2]:
+         return None, None
+-    turns = [i for i in (len(js)-2, len(js)-1)
++    turns = [i for i in range(len(js)-1-max_j_lead, len(js))
+              if js[i-2] >= js[i-1] and js[i] > js[i-1]]
+     if not turns:
+         return None, None
+--- tradex\src\tradex\stock_selection\strategies.py (v4)
++++ tradex\src\tradex\stock_selection\strategies.py
+@@ -159,7 +159,7 @@
+     ),
+     RegisteredStockSelectionStrategy(
+         strategy_id="macd-j-upturn-main-board",
+-        strategy_version="v4",
++        strategy_version="v5",
+         title="MACD 金叉 + J 线拐头",
+         result_contract="stock_macd_j_screen.v1",
+         evaluation_policy="not_defined",

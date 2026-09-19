@@ -1,0 +1,428 @@
+[
+  {
+    "id": "603863.SH",
+    "key": "paper",
+    "sector": "造纸",
+    "source_sector_name": "造纸",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "环保再生纸"
+    ],
+    "stage": "revenue",
+    "fact": "回收废纸生产瓦楞及特种纸。",
+    "company_fact": "回收废纸生产瓦楞及特种纸。",
+    "ths_fact": "主营环保再生纸研发生产销售。",
+    "reason": "实际纸品经营清晰，彩票成员标签缺乏可替代主线的业务解释。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603866.SH",
+    "key": "bakery_food",
+    "sector": "烘焙食品",
+    "source_sector_name": "烘焙食品",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "面包糕点"
+    ],
+    "stage": "revenue",
+    "fact": "中央工厂加批发经营桃李面包糕点。",
+    "company_fact": "中央工厂加批发经营桃李面包糕点。",
+    "ths_fact": "公司资料页确认面包及糕点生产销售。",
+    "reason": "烘焙产品为市场身份基础，自用光伏与数字渠道不改变产品行业。",
+    "basis": "crosschecked_sources",
+    "extra_evidence": [
+      {
+        "evidence_id": "603866-ths-company",
+        "source_kind": "web_secondary",
+        "publisher": "同花顺",
+        "title": "公司资料",
+        "source_url": "https://basic.10jqka.com.cn/603866/company.html",
+        "published_at": null,
+        "assertions": [
+          "公司资料页确认面包及糕点生产销售。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "603867.SH",
+    "key": "salt_lake_lithium",
+    "sector": "盐湖提锂",
+    "source_sector_name": "盐湖提锂",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "萃取提锂化学品及技术"
+    ],
+    "stage": "delivery",
+    "fact": "矿用化学品及萃取技术已应用盐湖沉锂母液和电池回收。",
+    "company_fact": "矿用化学品及萃取技术已应用盐湖沉锂母液和电池回收。",
+    "ths_fact": "已向藏格锂业提供沉锂母液回收服务。",
+    "reason": "提锂已有具体客户应用，与精细化工技术相互印证，属于化学品及服务环节而非自有锂矿。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603868.SH",
+    "key": "home_appliances",
+    "sector": "家用电器",
+    "source_sector_name": "家用电器",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "个护小家电"
+    ],
+    "stage": "revenue",
+    "fact": "经营剃须刀及个人护理生活厨房电器。",
+    "company_fact": "经营剃须刀及个人护理生活厨房电器。",
+    "ths_fact": "产品包括剃须刀和电吹风。",
+    "reason": "个护家电产品明确；短剧营销为销售活动。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603869.SH",
+    "key": "computing_power_leasing",
+    "sector": "算力租赁",
+    "source_sector_name": "算力租赁",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "区域算力服务"
+    ],
+    "stage": "delivery",
+    "fact": "经营聚安网及企业数智化智能集成，向算力业务倾斜。",
+    "company_fact": "经营聚安网及企业数智化智能集成，向算力业务倾斜。",
+    "ths_fact": "年报解析已向青海甘肃宁夏客户提供算力服务。",
+    "reason": "有明确地域客户服务，与数智业务方向一致，交付阶段不推算算力收入占比。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603871.SH",
+    "key": "belt_and_road",
+    "sector": "一带一路",
+    "source_sector_name": "一带一路",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "跨境多式联运与陆港"
+    ],
+    "stage": "revenue",
+    "fact": "经营中蒙中亚非洲等陆锁国家跨境物流及陆港。",
+    "company_fact": "经营中蒙中亚非洲等陆锁国家跨境物流及陆港。",
+    "ths_fact": "服务覆盖多个沿线国家，具有刚果陆港项目。",
+    "reason": "跨境通道与海外陆港构成实际业务，非仅所在地或合作意向。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603876.SH",
+    "key": "lithium_batteries",
+    "sector": "锂电池",
+    "source_sector_name": "锂电池概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "电池铝箔"
+    ],
+    "stage": "revenue",
+    "fact": "生产铝板带箔及电池箔。",
+    "company_fact": "生产铝板带箔及电池箔。",
+    "ths_fact": "电池箔用于正极集流体并供头部电池客户。",
+    "reason": "电池材料真实供货形成主线，固态适用性不等于固态专属量产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603877.SH",
+    "key": "apparel_home_textiles",
+    "sector": "服装家纺",
+    "source_sector_name": "服装家纺",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "时尚品牌服装"
+    ],
+    "stage": "revenue",
+    "fact": "经营多品牌时尚零售。",
+    "company_fact": "经营多品牌时尚零售。",
+    "ths_fact": "列明太平鸟男女装及乐町和童装品牌。",
+    "reason": "品牌服装经营清晰，电商标签仅渠道。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603878.SH",
+    "key": "offshore_equipment",
+    "sector": "海工装备",
+    "source_sector_name": "海工装备",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "深海耐蚀不锈钢管件"
+    ],
+    "stage": "delivery",
+    "fact": "生产工业不锈钢管及管件服务能源化工。",
+    "company_fact": "生产工业不锈钢管及管件服务能源化工。",
+    "ths_fact": "为深海一号二期提供超级双相钢管件并验收。",
+    "reason": "海洋工程有明确交付项目，属于关键材料装备配套，不等于油气开采。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603879.SH",
+    "key": "low_altitude_economy",
+    "sector": "低空经济",
+    "source_sector_name": "低空经济",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "物流无人机"
+    ],
+    "stage": "revenue",
+    "fact": "主营树脂及无人机生产销售。",
+    "company_fact": "主营树脂及无人机生产销售。",
+    "ths_fact": "具有无人飞行器整机研发制造销售和航空经营许可。",
+    "reason": "无人机已纳入实际双主业，不以旧采购合同金额推断当前收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603880.SH",
+    "key": "medical_devices",
+    "sector": "医疗器械",
+    "source_sector_name": "医疗器械",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "医用敷料及耗材"
+    ],
+    "stage": "revenue",
+    "fact": "生产透皮贴剂敷料胶布绷带等。",
+    "company_fact": "生产透皮贴剂敷料胶布绷带等。",
+    "ths_fact": "医用胶布敷料及云南白药ODM业务明确。",
+    "reason": "医疗耗材为真实业务，其他药物概念不能替代。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603881.SH",
+    "key": "data_centers",
+    "sector": "数据中心(AIDC)",
+    "source_sector_name": "数据中心(AIDC)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "IDC托管运营"
+    ],
+    "stage": "revenue",
+    "fact": "经营IDC托管及建设解决方案，智算部门处于布局。",
+    "company_fact": "经营IDC托管及建设解决方案，智算部门处于布局。",
+    "ths_fact": "数据中心托管及区域节点有实际业务。",
+    "reason": "以成熟IDC运营支撑归属，不将智算布局写成已规模出租GPU。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603882.SH",
+    "key": "ai_applications",
+    "sector": "AI应用",
+    "source_sector_name": "AI应用",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "医学检验人工智能"
+    ],
+    "stage": "delivery",
+    "fact": "以第三方医学检验及数智化检验服务为基础。",
+    "company_fact": "以第三方医学检验及数智化检验服务为基础。",
+    "ths_fact": "小域医面向用户落地，宫颈AI已有大量临床调用。",
+    "reason": "检验数据与临床AI应用形成对外产品；不把全部检验收入计作AI收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603883.SH",
+    "key": "retail_pharmacies",
+    "sector": "线下药店",
+    "source_sector_name": "线下药店",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "连锁药品零售"
+    ],
+    "stage": "revenue",
+    "fact": "经营连锁药店中西药零售。",
+    "company_fact": "经营连锁药店中西药零售。",
+    "ths_fact": "实体连锁结合天猫京东及O2O销售。",
+    "reason": "药店服务为稳定市场身份，线上为延伸渠道，内部AI助手不等于AI供应商。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603885.SH",
+    "key": "aviation_transport",
+    "sector": "航空运输",
+    "source_sector_name": "航空运输",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "航空客货运输"
+    ],
+    "stage": "revenue",
+    "fact": "经营国内国际客货航空运输。",
+    "company_fact": "经营国内国际客货航空运输。",
+    "ths_fact": "公司资料页主营航空客货运输，产品航空客运及货运。",
+    "reason": "航空运营具明确实体业务，自贸区地址标签不能替代。",
+    "basis": "crosschecked_sources",
+    "extra_evidence": [
+      {
+        "evidence_id": "603885-ths-company",
+        "source_kind": "web_secondary",
+        "publisher": "同花顺",
+        "title": "公司资料",
+        "source_url": "https://basic.10jqka.com.cn/603885/company.html",
+        "published_at": null,
+        "assertions": [
+          "公司资料页主营航空客货运输，产品航空客运及货运。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "603886.SH",
+    "key": "bakery_food",
+    "sector": "烘焙食品",
+    "source_sector_name": "烘焙食品",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "蛋糕与节令食品"
+    ],
+    "stage": "revenue",
+    "fact": "经营蛋糕月饼粽子及中西点心。",
+    "company_fact": "经营蛋糕月饼粽子及中西点心。",
+    "ths_fact": "明确从事烘焙食品研发生产销售。",
+    "reason": "节令烘焙与蛋糕为实际产品，熊猫IP联名是营销设计。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603887.SH",
+    "key": "data_centers",
+    "sector": "数据中心(AIDC)",
+    "source_sector_name": "数据中心(AIDC)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "IDC投资运营及系统集成"
+    ],
+    "stage": "revenue",
+    "fact": "经营IDC投资运营，已交付仪征扬州项目并提供集成服务。",
+    "company_fact": "经营IDC投资运营，已交付仪征扬州项目并提供集成服务。",
+    "ths_fact": "提供IDC全生命周期服务含投资运营设备和系统集成。",
+    "reason": "现有数据中心交付及运营支撑归属，未交付新合同不当稳定运营收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603888.SH",
+    "key": "ai_applications",
+    "sector": "AI应用",
+    "source_sector_name": "AI应用",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "政务智能体与AIGC安全"
+    ],
+    "stage": "delivery",
+    "fact": "数字智能业务含AIGC平台及内容模型安全服务。",
+    "company_fact": "数字智能业务含AIGC平台及内容模型安全服务。",
+    "ths_fact": "政务智能体落地覆盖2000余项服务，AIGC-Safe提供安全检测。",
+    "reason": "以自身政务及安全产品交付为依据，未用参股新华智云收入替代本体。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603889.SH",
+    "key": "other_textiles",
+    "sector": "其他纺织",
+    "source_sector_name": "其他纺织",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "羊毛及羊绒纱线"
+    ],
+    "stage": "revenue",
+    "fact": "研发生产销售羊毛纱线毛条和羊绒纱线。",
+    "company_fact": "研发生产销售羊毛纱线毛条和羊绒纱线。",
+    "ths_fact": "主营毛精纺纱线研发生产销售。",
+    "reason": "纺织材料业务明确，工业互联网为自身制造管理平台。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603890.SH",
+    "key": "ai_pc",
+    "sector": "AI PC",
+    "source_sector_name": "AI PC",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "AI电脑精密结构件"
+    ],
+    "stage": "revenue",
+    "fact": "生产笔记本精密结构件及配套模具。",
+    "company_fact": "生产笔记本精密结构件及配套模具。",
+    "ths_fact": "参与联想多款AIPC研发生产且订单计入营收。",
+    "reason": "AI电脑结构件具明确收入证据；人形骨架联合研发尚不能视作量产主业。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603893.SH",
+    "key": "ai_chips",
+    "sector": "AI芯片",
+    "source_sector_name": "AI芯片",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "端侧AI系统级芯片"
+    ],
+    "stage": "revenue",
+    "fact": "智能SoC集成CPU GPU NPU，配套数模混合芯片。",
+    "company_fact": "智能SoC集成CPU GPU NPU，配套数模混合芯片。",
+    "ths_fact": "瑞芯微智能处理芯片已用于视觉语音及智能终端。",
+    "reason": "端侧AI计算为核心产品能力，覆盖多场景，不将人形追踪机器人误作人形整机。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603895.SH",
+    "key": "solid_state_batteries",
+    "sector": "固态电池",
+    "source_sector_name": "固态电池",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "固态电池生产装备"
+    ],
+    "stage": "orders",
+    "fact": "高端自动化装备及信息系统集成供应商。",
+    "company_fact": "高端自动化装备及信息系统集成供应商。",
+    "ths_fact": "与卫蓝恩力麻省固能等签约固态电池项目。",
+    "reason": "有具体电池装备项目签约，阶段按订单；人形仅研发合作意向。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603896.SH",
+    "key": "chinese_medicine",
+    "sector": "中医药",
+    "source_sector_name": "中医药",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "灵芝石斛中药饮片"
+    ],
+    "stage": "revenue",
+    "fact": "从事灵芝石斛等选育栽培加工销售。",
+    "company_fact": "从事灵芝石斛等选育栽培加工销售。",
+    "ths_fact": "中药饮片以灵芝孢子粉鲜铁皮石斛为主。",
+    "reason": "药材饮片产业链明确；数字经济解析出现城市警务运营商描述与本公司错位，排除该段。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603897.SH",
+    "key": "flat_wire_motor",
+    "sector": "扁线电机",
+    "source_sector_name": "扁线电机",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "驱动电机扁平电磁线"
+    ],
+    "stage": "revenue",
+    "fact": "研发生产销售电磁线用于工业与新能源汽车电机。",
+    "company_fact": "研发生产销售电磁线用于工业与新能源汽车电机。",
+    "ths_fact": "新能源汽车电机用扁线已批量供货。",
+    "reason": "扁线是实际量产材料与新能源驱动核心增量，非仅机器人泛用低压线圈。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603898.SH",
+    "key": "custom_home_furnishings",
+    "sector": "定制家居",
+    "source_sector_name": "定制家居",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "全屋定制"
+    ],
+    "stage": "revenue",
+    "fact": "经营衣柜橱柜木门护墙等全屋定制。",
+    "company_fact": "经营衣柜橱柜木门护墙等全屋定制。",
+    "ths_fact": "定位高端定制并通过合作拓展智能家居平台。",
+    "reason": "成熟全屋定制支撑归属，合资物联网方案尚不等于已规模智能产品收入。",
+    "basis": "crosschecked_sources"
+  }
+]

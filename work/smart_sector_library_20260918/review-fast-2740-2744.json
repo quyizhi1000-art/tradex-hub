@@ -1,0 +1,79 @@
+[
+  {
+    "id": "301368.SZ",
+    "key": "humanoid_robots",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "谐波减速器"
+    ],
+    "company_fact": "齿轮精密减速器及零部件研产销，应用机器人等。",
+    "ths_fact": "谐波常规模型完成小批生产，并与人形协作工业机器人部分客户合作。",
+    "fact": "齿轮精密减速器及零部件研产销，应用机器人等。",
+    "reason": "人形核心零件市场身份清楚，合作与常规型号生产不推成人形专项批量收入。"
+  },
+  {
+    "id": "301369.SZ",
+    "key": "semiconductors",
+    "sector": "芯片",
+    "source_sector_name": "芯片概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "半导体测试设备"
+    ],
+    "company_fact": "后道测试专用设备研产销，包括自动化测试系统及激光打标。",
+    "ths_fact": "主营后道测试设备，QT4000已规模用于GaNSiC。",
+    "fact": "后道测试专用设备研产销，包括自动化测试系统及激光打标。",
+    "reason": "芯片测试设备供应商，第三代半导体为覆盖方向，不冒作自研芯片制造。"
+  },
+  {
+    "id": "301370.SZ",
+    "key": "medical_devices",
+    "sector": "医疗器械",
+    "source_sector_name": "医疗器械概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "器械分销",
+      "SPD服务"
+    ],
+    "company_fact": "医疗器械分销直销及仓储物流渠道管理医院SPD。",
+    "ths_fact": "器械分销直销，介入骨科等材料。",
+    "fact": "医疗器械分销直销及仓储物流渠道管理医院SPD。",
+    "reason": "医疗器械流通服务主线明确，数字化物流为运营环节。"
+  },
+  {
+    "id": "301371.SZ",
+    "key": "medical_aesthetics",
+    "sector": "医美",
+    "source_sector_name": "医美概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "术后皮肤修复护理"
+    ],
+    "company_fact": "专业皮肤护理产品研发生产销售。",
+    "ths_fact": "医用透明质酸钠修复膜用于激光光子术后辅助治疗。",
+    "fact": "专业皮肤护理产品研发生产销售。",
+    "reason": "医美术后护理产品与品牌市场定位一致，重组蛋白和合成技术作为产品研发标签。"
+  },
+  {
+    "id": "301372.SZ",
+    "key": "sewage_treatment",
+    "sector": "污水处理",
+    "source_sector_name": "污水处理",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "水处理产品",
+      "治理及运营"
+    ],
+    "company_fact": "水环境系统治理，水处理产品方案及项目运营。",
+    "ths_fact": "水环境治理综合服务，水处理产品方案运营。",
+    "fact": "水环境系统治理，水处理产品方案及项目运营。",
+    "reason": "业务闭环对应污水处理，管网城镇化是场景延伸。"
+  }
+]

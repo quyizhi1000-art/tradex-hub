@@ -1,0 +1,85 @@
+{
+  "instrument_id": "300386.SZ",
+  "name": "飞天诚信",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "300386.SZ",
+    "name": "飞天诚信",
+    "memberships": [
+      "计算机",
+      "计算机设备",
+      "其他计算机设备",
+      "北京板块",
+      "富时罗素",
+      "创业板综",
+      "深股通",
+      "电子身份证",
+      "跨境支付",
+      "数字货币",
+      "知识产权",
+      "生物识别",
+      "车联网(车路云)",
+      "国产芯片",
+      "区块链",
+      "国产软件",
+      "网络安全",
+      "移动支付",
+      "物联网",
+      "创投"
+    ],
+    "business_sections": [
+      {
+        "title": "USB Key和OTP产品",
+        "kind": "主营业务",
+        "text": "USB Key和OTP产品是公司传统产品，虽然市场需求下降，但公司在这一细分领域具有相对优势。"
+      },
+      {
+        "title": "移动支付终端",
+        "kind": "主营业务",
+        "text": "第一，在移动支付终端领域，公司抓住支付方式改变带来的机遇，为金融服务应用场景提供解决方案。2025年11月，飞天诚信F55安全支付终端通过PCI PTS POI v7.0（Payment Card Industry PIN Transaction Security Point-of-Interaction Modular Security Requirements Version7.0）认证，PCI PTS POI v7.0是支付卡行业安全标准委员会（PCI SSC）于2025年5月29日发布的最新支付终端安全标准，适用于POS终端、PIN键盘、自助服务终端、读卡器等所有处理持卡人数据的支付设备，是保护面对面支付交易安全的最高级别规范。"
+      },
+      {
+        "title": "芯片",
+        "kind": "主营业务",
+        "text": "第二，在芯片领域，宏思电子产品线全面、应用广泛。2025年在智能交通ETC-OBU市场继续大批量供货，并被多家客户获评为“2024年度优秀供应商奖”；2025年6月，宏思电子凭借车规级物联网安全芯片产品荣获“2024年‘物联之星’中国物联网行业创新产品奖”；10月，宏思电子再获“2025中国汽车芯片优秀供应商”；11月，芯片产品获推为“2025中国汽车芯片创新成果”；12月，又凭借在物联网行业解决方案的出色表现荣获“2025物联网感知层核心技术突破奖”；同月获评为“2025年度北京市知识产权优势单位”。"
+      },
+      {
+        "title": "行业优势",
+        "kind": "核心竞争力",
+        "text": "公司立足于身份认证为主的信息安全产品，是嵌入式操作系统及数字安全系统整体解决方案的提供商和服务商，以为各行业客户提供嵌入式软件产品和服务为核心价值，在网络银行安全交易、支付卡及服务、移动支付安全、云认证、身份认证及软件保护等多个领域提供完整的服务和解决方案。"
+      },
+      {
+        "title": "客户优势",
+        "kind": "核心竞争力",
+        "text": "作为国内智能网络身份认证产品领域的重要服务商，公司银行客户群体覆盖范围广泛，凭借稳定的产品性能、全面的解决方案及专业的技术支持，积累了大量优质银行客户资源，在金融行业身份认证细分市场占据重要地位。"
+      },
+      {
+        "title": "员工优势",
+        "kind": "核心竞争力",
+        "text": "公司目前拥有一支由国内外信息安全领域专家、中青年核心骨干、海归、硕士、博士等组成的研发队伍，为产品创新、技术迭代及服务升级提供了坚实的人才支撑，助力公司产品成为业内的佼佼者。"
+      },
+      {
+        "title": "技术优势",
+        "kind": "核心竞争力",
+        "text": "技术创新是公司核心竞争力的核心支柱，公司先后获评北京市专利示范单位、国家级知识产权示范企业、企业知识产权管理标准化单位及中国企业专利500强。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ300386",
+    "fetched_at": "2026-09-18T23:07:58.674989+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "身份认证"
+}

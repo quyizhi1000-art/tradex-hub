@@ -12,6 +12,8 @@ from datetime import date
 from pathlib import Path
 from typing import Any
 
+from tradex.data_gateway.contracts import DailyLimitUpMembershipV1
+
 from .contracts import (
     DailyStockSelectionOutcomeV1,
     DailyStockSelectionV1,
@@ -24,6 +26,24 @@ from .engine import DEFAULT_SELECTION_CONFIG
 ARCHIVE_CONTRACT = "daily_stock_selection_archive.v1"
 ARCHIVE_SCHEMA_VERSION = 1
 ENV_DB_PATH = "TRADEX_DAILY_STOCK_SELECTION_DB"
+
+
+def read_archived_strategy_result(trade_date, strategy_id, *, strategy_version):
+    """Read an existing archive without creating a database or running migrations."""
+    path = Path(os.environ.get(ENV_DB_PATH) or
+                Path.home() / ".tradex" / "daily_stock_selection.sqlite3").expanduser().resolve()
+    if not path.is_file():
+        return None
+    connection = sqlite3.connect(f"{path.as_uri()}?mode=ro", uri=True, timeout=5)
+    try:
+        row = connection.execute(
+            "SELECT payload_json FROM stock_selection_strategy_results "
+            "WHERE trade_date = ? AND strategy_id = ? AND strategy_version = ?",
+            (_date(trade_date), strategy_id, strategy_version),
+        ).fetchone()
+        return StockSelectionStrategyResultV1.model_validate_json(row[0]) if row else None
+    finally:
+        connection.close()
 
 
 def _json(value: Any) -> str:
@@ -81,6 +101,11 @@ class DailyStockSelectionStore:
                 CREATE TABLE IF NOT EXISTS daily_stock_selection_meta (
                     key TEXT PRIMARY KEY,
                     value TEXT NOT NULL
+                );
+                CREATE TABLE IF NOT EXISTS stock_selection_limit_up_memberships (
+                    trade_date TEXT PRIMARY KEY,
+                    payload_digest TEXT NOT NULL,
+                    payload_json TEXT NOT NULL
                 );
                 CREATE TABLE IF NOT EXISTS daily_stock_selections (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -166,6 +191,43 @@ class DailyStockSelectionStore:
     def _ensure_open(self) -> None:
         if self._closed:
             raise RuntimeError("daily stock selection store is closed")
+
+    def get_limit_up_membership(self, trade_date: date) -> DailyLimitUpMembershipV1 | None:
+        with self._lock:
+            self._ensure_open()
+            row = self._connection.execute(
+                "SELECT payload_json, payload_digest FROM stock_selection_limit_up_memberships WHERE trade_date = ?",
+                (_date(trade_date),),
+            ).fetchone()
+        if row is None:
+            return None
+        payload = json.loads(row["payload_json"])
+        if _digest(payload) != row["payload_digest"]:
+            raise RuntimeError("selection limit-up membership digest mismatch")
+        result = DailyLimitUpMembershipV1.model_validate(payload)
+        if result.trading_date != trade_date:
+            raise RuntimeError("selection limit-up membership date mismatch")
+        return result
+
+    def record_limit_up_membership(self, membership: DailyLimitUpMembershipV1) -> None:
+        canonical = DailyLimitUpMembershipV1.model_validate(membership)
+        if canonical.metadata.quality.value == "rejected":
+            raise ValueError("rejected membership cannot be archived")
+        payload = canonical.model_dump(mode="json")
+        with self._lock, self._connection:
+            self._ensure_open()
+            self._connection.execute(
+                "INSERT OR IGNORE INTO stock_selection_limit_up_memberships VALUES (?, ?, ?)",
+                (_date(canonical.trading_date), _digest(payload), _json(payload)),
+            )
+
+    def limit_up_membership_revision(self) -> str:
+        with self._lock:
+            self._ensure_open()
+            rows = self._connection.execute(
+                "SELECT trade_date, payload_digest FROM stock_selection_limit_up_memberships ORDER BY trade_date",
+            ).fetchall()
+        return _digest([list(row) for row in rows])
 
     @staticmethod
     def _selection(row: sqlite3.Row | None) -> DailyStockSelectionV1 | None:

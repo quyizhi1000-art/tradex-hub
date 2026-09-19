@@ -1,0 +1,86 @@
+{
+  "instrument_id": "002313.SZ",
+  "name": "日海智能",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "002313.SZ",
+    "name": "日海智能",
+    "memberships": [
+      "通信",
+      "通信设备",
+      "通信终端及配件",
+      "广东板块",
+      "高市净率",
+      "2026中报扭亏",
+      "破增发价股",
+      "破发股",
+      "标准普尔",
+      "富时罗素",
+      "通信技术",
+      "低空经济",
+      "算力概念",
+      "数据中心",
+      "边缘计算",
+      "工业互联网",
+      "车联网(车路云)",
+      "智能驾驶",
+      "人工智能",
+      "5G概念",
+      "无人机",
+      "央国企改革",
+      "智能家居",
+      "大数据",
+      "物联网",
+      "深圳特区"
+    ],
+    "business_sections": [
+      {
+        "title": "无线通信模组业务",
+        "kind": "主营业务",
+        "text": "公司无线通信模组业务主要包括模组产品的设计、研发与销售服务，拥有完整的全球化产品序列，全方位涵盖GNSS、WIFI、2G、3G、LTE CAT1、LTE CAT4、LTE CAT6、LTE CAT12、5G、5G+V2X、5G Redcap等多种通讯制式和提供AI算力及算法，广泛应用于网联汽车、智能出行、移动支付、安防监控、无线网关、智慧工业、智慧生活、数字城市和医疗健康等众多领域，为全球客户提供无线通信模组及基于模组的解决方案，多样化的产品组合及丰富的功能可满足客户的标准化需求及定制需求。"
+      },
+      {
+        "title": "通信工程服务业务",
+        "kind": "主营业务",
+        "text": "目前公司业务已涵盖通信网络、信息网络、算力中心、弱电智能化、电力服务、光储充一体化综合能源服务等领域，主要客户为电信运营商及行业政企客户，全资子公司日海通服具有工程设计资质证书甲级和通信工程施工总承包壹级等诸多通信服务行业顶级资质，可为客户提供咨询、勘察及设计、施工、维护、网络优化、系统集成等一体化的解决方案。"
+      },
+      {
+        "title": "行业高端客户群信息优势",
+        "kind": "核心竞争力",
+        "text": "公司积累了各重要市场领域内行业高端客户群信息优势、高精尖产品品质优势、研发和技术解决方案优势及综合服务配套优势。"
+      },
+      {
+        "title": "高精尖产品品质优势",
+        "kind": "核心竞争力",
+        "text": "公司积累了各重要市场领域内行业高端客户群信息优势、高精尖产品品质优势、研发和技术解决方案优势及综合服务配套优势。"
+      },
+      {
+        "title": "研发和技术解决方案优势",
+        "kind": "核心竞争力",
+        "text": "公司积累了各重要市场领域内行业高端客户群信息优势、高精尖产品品质优势、研发和技术解决方案优势及综合服务配套优势。"
+      },
+      {
+        "title": "综合服务配套优势",
+        "kind": "核心竞争力",
+        "text": "公司积累了各重要市场领域内行业高端客户群信息优势、高精尖产品品质优势、研发和技术解决方案优势及综合服务配套优势。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ002313",
+    "fetched_at": "2026-09-18T22:45:54.297277+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "无线通信模组"
+}

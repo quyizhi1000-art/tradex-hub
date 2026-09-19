@@ -1,0 +1,66 @@
+{
+  "instrument_id": "300125.SZ",
+  "name": "聆达股份",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "300125.SZ",
+    "name": "聆达股份",
+    "memberships": [
+      "公用事业",
+      "电力",
+      "光伏发电",
+      "辽宁板块",
+      "近期摘帽",
+      "破发股",
+      "创业板综",
+      "半导体概念",
+      "工业大麻",
+      "光伏概念",
+      "新能源"
+    ],
+    "business_sections": [
+      {
+        "title": "光伏发电业务",
+        "kind": "主营业务",
+        "text": "公司光伏发电业务通过全资子公司格尔木神光具体开展实施。格尔木神光位于太阳能资源富集的青海省海西蒙古族藏族自治州格尔木市，运营一座总装机容量为53MW的光伏电站。"
+      },
+      {
+        "title": "电力工程施工业务",
+        "kind": "主营业务",
+        "text": "报告期内，公司电力工程施工业务由公司控股子公司天津嘉悦和全资子公司阳光恒煜负责开展。天津嘉悦和阳光恒煜均定位为新能源电力工程综合服务商，整合“技术+工程+交付”能力，服务于光伏电站从设计、建设到并网的全生命周期需求，专注于新能源电力工程领域，业务覆盖光伏发电及电力设施建设等。"
+      },
+      {
+        "title": "重整计划执行完成，构筑战略转型基础",
+        "kind": "核心竞争力",
+        "text": "重整计划执行完毕，是公司核心竞争力重构的根本前提，为公司夯实业务基础与推动战略转型提供了不可替代的核心保障。"
+      },
+      {
+        "title": "稳定存量业务，完善成本管控体系",
+        "kind": "核心竞争力",
+        "text": "公司持有并稳定运营格尔木神光53MW光伏电站，已于2025年底启动二期50MW技改项目建设，技改完成后将进一步增加格尔木神光电站的盈利能力，为公司主营业务收入增长提供保障。"
+      },
+      {
+        "title": "拓展先进智造领域业务，培育公司新的盈利增长点",
+        "kind": "核心竞争力",
+        "text": "依托产业投资人在先进智造领域的产业积淀与资源优势，公司以合规审慎为原则，有序启动先进智造领域的业务布局。公司根据重整计划，已启动专项业务团队搭建及储备项目尽调论证工作，聚焦新兴产业方向的高端制造细分赛道，稳步推进先进智造产业落地的各项前期准备事宜，着力培育上市公司新的盈利增长点，优化产业结构，提升公司持续盈利能力与抗风险能力。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ300125",
+    "fetched_at": "2026-09-18T23:02:48.743058+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "EPC-工程"
+}

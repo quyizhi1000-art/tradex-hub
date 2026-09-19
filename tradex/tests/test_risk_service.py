@@ -1672,9 +1672,9 @@ def test_trajectory_requires_fresh_leadership_when_it_changed_sector_state():
         ],
         concept_records=_background("概念"),
         leadership_records=[
-            {"代码": "1", "涨停原因": "粮食", "连板": "首板"},
-            {"代码": "2", "涨停原因": "种业", "连板": "2天2板"},
-            {"代码": "3", "涨停原因": "复合肥", "连板": "首板"},
+            {"代码": "1", "smart_sector_membership": {"status": "verified", "primary_sector_key": "agriculture", "primary_sector_name": "农业"}, "涨停原因": "粮食", "连板": "首板"},
+            {"代码": "2", "smart_sector_membership": {"status": "verified", "primary_sector_key": "agriculture", "primary_sector_name": "农业"}, "涨停原因": "种业", "连板": "2天2板"},
+            {"代码": "3", "smart_sector_membership": {"status": "verified", "primary_sector_key": "agriculture", "primary_sector_name": "农业"}, "涨停原因": "复合肥", "连板": "首板"},
         ],
         leadership_source_status={
             "source_valid": True,

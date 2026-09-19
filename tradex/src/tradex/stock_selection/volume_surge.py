@@ -1,6 +1,7 @@
 """Seven-session upward volume events using verified daily share volume."""
 
 from collections import Counter
+from decimal import Decimal
 from statistics import mean
 
 from tradex.data_gateway.stock_selection_contracts import DailyStockFactorSnapshotV1
@@ -40,6 +41,7 @@ def screen_volume_surge(snapshot: DailyStockFactorSnapshotV1) -> VolumeSurgeScre
         anchor = None
         minimum_subsequent_close = None
         rounds = 0
+        unconfirmed = excessive_next_volume = False
         for index in range(5, 12):
             bar = bars[index]
             # Invalidate before evaluating today's event: a breach day may
@@ -57,6 +59,13 @@ def screen_volume_surge(snapshot: DailyStockFactorSnapshotV1) -> VolumeSurgeScre
             average = mean(item.volume_shares for item in bars[index - 5:index])
             multiple = bar.volume_shares / average
             if bar.close > bar.previous_close and multiple >= 2.0:
+                if index + 1 >= len(bars):
+                    unconfirmed = True
+                    continue
+                following = bars[index + 1]
+                if Decimal(str(following.volume_shares)) * 100 > Decimal(str(bar.volume_shares)) * 66:
+                    excessive_next_volume = True
+                    continue
                 if anchor is None:
                     anchor = bar
                     rounds += 1
@@ -67,9 +76,15 @@ def screen_volume_surge(snapshot: DailyStockFactorSnapshotV1) -> VolumeSurgeScre
                     volume_shares=bar.volume_shares,
                     prior_5d_average_volume_shares=average,
                     volume_multiple=multiple,
+                    next_trade_date=following.trade_date,
+                    next_volume_shares=following.volume_shares,
+                    next_volume_ratio=following.volume_shares / bar.volume_shares,
                 ))
         if not evidence:
-            excluded["close_below_anchor_low" if rounds else "no_upward_volume_surge"] += 1
+            reason = ("close_below_anchor_low" if rounds else
+                      "next_day_volume_above_66pct" if excessive_next_volume else
+                      "pending_next_day_confirmation" if unconfirmed else "no_upward_volume_surge")
+            excluded[reason] += 1
             continue
         candidates.append(VolumeSurgeCandidateV1(
             instrument_id=row.instrument_id, name=row.name, industry=row.industry,
@@ -82,7 +97,7 @@ def screen_volume_surge(snapshot: DailyStockFactorSnapshotV1) -> VolumeSurgeScre
         -max(event.volume_multiple for event in item.evidence), item.instrument_id,
     ))
     return VolumeSurgeScreenV1(
-        screen_version="upward-volume-surge-main-board.v2",
+        screen_version="upward-volume-surge-main-board.v3",
         quality=("unavailable" if evaluated == 0 else
                  "accepted" if evaluated == eligible and snapshot.metadata.quality.value == "accepted"
                  else "degraded"),
@@ -92,6 +107,8 @@ def screen_volume_surge(snapshot: DailyStockFactorSnapshotV1) -> VolumeSurgeScre
         methodology=(
             "以档案交易日为末日，最近 7 个交易日至少一天收盘价高于该日昨收价。",
             "该日成交量（股）须达到此前 5 个交易日平均成交量的 2 倍；均量不含该日。",
+            "每个放量日须经下一交易日确认：次日成交量不高于放量日的 66%（等于允许），才计为有效命中并参与本轮底线计算。",
+            "档案当日放量尚无次日数据时不计为命中；只使用截至档案日已收盘的数据，不引用未来成交量。",
             "同一 7 日窗口无收盘涨停；涨停价按昨收 × 1.10 四舍五入到 0.01 元判定。",
             "从窗口内首次放量命中开始，以命中日最低价为底线；此后每日收盘价不得低于底线，等于底线允许。",
             "收盘跌破则本轮失效；跌破当天或之后再次放量命中可重启，以新命中日最低价为底线。未跌破时再次命中不重置。",

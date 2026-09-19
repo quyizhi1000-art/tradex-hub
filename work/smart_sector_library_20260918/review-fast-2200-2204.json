@@ -1,0 +1,100 @@
+[
+  {
+    "id": "300760.SZ",
+    "key": "medical_devices",
+    "sector": "医疗器械",
+    "source_sector_name": "医疗器械概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "生命支持设备",
+      "体外诊断",
+      "医学影像"
+    ],
+    "fact": "多产线医疗设备研发制造与服务构成完整产业身份。",
+    "ths_fact": "同花顺医疗器械解析明确研发制造营销服务，AI条目为设备与专科应用能力。",
+    "company_fact": "主营列体外诊断、生命信息支持、医学影像及新兴业务，不仅某一单产线。",
+    "reason": "已有医疗器械涵盖诊断监护超声等，不能仅因一条收入最大就排除其他核心产线；AI升级保留附加标签。"
+  },
+  {
+    "id": "300761.SZ",
+    "key": "poultry",
+    "sector": "养鸡",
+    "source_sector_name": "养鸡",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "黄羽肉鸡养殖",
+      "屠宰加工"
+    ],
+    "fact": "黄羽肉鸡全产业链为公司明确经营身份。",
+    "ths_fact": "同花顺养鸡解析明确黄羽肉鸡养殖屠宰销售，另有肉猪肉鹅。",
+    "company_fact": "主营确认育种繁育饲料养殖冰鲜完整鸡产业链，并有猪鹅业务。",
+    "reason": "已有养鸡体现稳定专业主线，保留猪肉相关性但不因多畜种经营模糊唯一主归属。"
+  },
+  {
+    "id": "300762.SZ",
+    "key": "commercial_space",
+    "sector": "商业航天",
+    "source_sector_name": "商业航天",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "低轨卫星通信载荷",
+      "信关站",
+      "卫星通信终端"
+    ],
+    "fact": "千帆星座通信分系统设备已有批产交付并贡献营收增长。",
+    "ths_fact": "同花顺2026年5月调研明确2025年载荷信关站等批产交付和收入增长贡献。",
+    "company_fact": "主营确认参与千帆建设标准及载荷地基基站测试终端研制维护，提供低轨通信整体方案。",
+    "reason": "已有商业航天准确对应星座通信产业链；不是卫星发射服务商，其他专网军用通信继续保留。"
+  },
+  {
+    "id": "300763.SZ",
+    "key": "photovoltaics",
+    "sector": "光伏",
+    "source_sector_name": "光伏概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "组串式逆变器",
+      "储能逆变器",
+      "分布式电站"
+    ],
+    "fact": "逆变器和分布式发电组成光伏业务体系。",
+    "ths_fact": "同花顺光伏解析明确组串式逆变器研发生产销售服务，为发电系统核心设备。",
+    "company_fact": "主营确认并网及储能逆变器和锦浪智慧分布式光伏开发运营。",
+    "reason": "采用已有光伏覆盖两条核心业务及光储融合，不用少数芯片投资替代专业主线，储能为重要产品标签。"
+  },
+  {
+    "id": "300765.SZ",
+    "key": "innovative_drugs",
+    "sector": "创新药",
+    "source_sector_name": "创新药",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "创新生物药",
+      "ADC及抗体研发",
+      "对外授权合作"
+    ],
+    "fact": "创新生物药已形成对外授权收入并有商业化产品。",
+    "ths_fact": "同花顺创新药解析记载巨石增资转型，近期疫苗条目明确巨石为控股子公司。",
+    "company_fact": "主营确认抗体ADC和mRNA等研发生产销售；原2026H1摘要确认巨石与阿斯利康合作并确认部分首付款收入。",
+    "reason": "已有创新药体现经营转型与市场身份；授权收入和药品销售区分，不把授权候选药说成获批，咖啡因保健食品并行业务不遗漏。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "300765-2026h1-license",
+        "source_kind": "official_filing",
+        "publisher": "中国证券报公司公告",
+        "title": "2026年半年度报告摘要",
+        "source_url": "https://epaper.cs.com.cn/zgzqb/html/2026-08/18/nw.D110000zgzqb_20260818_3-B041.htm",
+        "published_at": "2026-08-18",
+        "assertions": [
+          "巨石为控股子公司，与阿斯利康合作首付款已收到并按准则确认部分收入，授权不等于新药上市。"
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,76 @@
+{
+  "started_at": "2026-09-18T11:38:00.972209+08:00",
+  "finished_at": "2026-09-18T11:38:16.926449+08:00",
+  "seconds": 15.98,
+  "metadata": {
+    "contract": "a_share_universe_quote.v1",
+    "schema_version": 1,
+    "provider": "tushare",
+    "provider_request_id": null,
+    "provider_as_of": "2026-09-18T11:30:02+08:00",
+    "fetched_at": "2026-09-18T11:38:00.972209+08:00",
+    "quality": "degraded",
+    "quality_flags": [
+      "turnover_partial"
+    ]
+  },
+  "provider_rows": 5579,
+  "active_quotes": 5579,
+  "target_count": 3043,
+  "target_received": 3043,
+  "target_with_timestamp": 3043,
+  "target_fresh_90s": 0,
+  "missing_required_prices": 0,
+  "timestamp_min": "2026-09-18T11:25:56+08:00",
+  "timestamp_max": "2026-09-18T11:30:02+08:00",
+  "samples": [
+    {
+      "instrument_id": "000688.SZ",
+      "name": "国城矿业",
+      "observed_at": "2026-09-18T11:29:51+08:00",
+      "last": 25.79,
+      "change_pct": -0.9980806142034608,
+      "amount_cny": 231998100.0,
+      "open": 26.3,
+      "high": 26.54,
+      "low": 25.62,
+      "previous_close": 26.05,
+      "turnover_pct": null,
+      "amplitude_pct": 3.531669865642987,
+      "total_market_cap_cny": null,
+      "float_market_cap_cny": null
+    },
+    {
+      "instrument_id": "000905.SZ",
+      "name": "厦门港务",
+      "observed_at": "2026-09-18T11:29:57+08:00",
+      "last": 9.44,
+      "change_pct": 4.194260485651203,
+      "amount_cny": 221508500.0,
+      "open": 9.08,
+      "high": 9.7,
+      "low": 8.91,
+      "previous_close": 9.06,
+      "turnover_pct": null,
+      "amplitude_pct": 8.719646799116989,
+      "total_market_cap_cny": null,
+      "float_market_cap_cny": null
+    },
+    {
+      "instrument_id": "600519.SH",
+      "name": "贵州茅台",
+      "observed_at": "2026-09-18T11:29:57+08:00",
+      "last": 1257.2,
+      "change_pct": -0.7719143159323725,
+      "amount_cny": 1528039700.0,
+      "open": 1262.99,
+      "high": 1265.88,
+      "low": 1256.51,
+      "previous_close": 1266.98,
+      "turnover_pct": null,
+      "amplitude_pct": 0.7395538998247895,
+      "total_market_cap_cny": null,
+      "float_market_cap_cny": null
+    }
+  ]
+}

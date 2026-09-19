@@ -1,0 +1,428 @@
+[
+  {
+    "id": "002943.SZ",
+    "key": "third_generation_semiconductors",
+    "sector": "第三代半导体",
+    "source_sector_name": "第三代半导体",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "碳化硅切磨抛设备"
+    ],
+    "stage": "revenue",
+    "fact": "制造高精密切磨抛数控设备，应用半导体等硬脆材料。",
+    "company_fact": "制造高精密切磨抛数控设备，应用半导体等硬脆材料。",
+    "ths_fact": "第三代半导体解释碳化硅切磨抛设备已批量销售。",
+    "reason": "设备已销售形成材料加工主线，链明设备不称晶圆厂。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002945.SZ",
+    "key": "internet_brokerages",
+    "sector": "互联网券商",
+    "source_sector_name": "互联网券商",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "线上证券经纪与财富管理"
+    ],
+    "stage": "revenue",
+    "fact": "财富管理经纪信用投顾为核心并协同投行资管。",
+    "company_fact": "财富管理经纪信用投顾为核心并协同投行资管。",
+    "ths_fact": "互联网券商说明网上开户占比超过90%且持续平台合作。",
+    "reason": "客户经营方式和证券服务一致，非泛互联网金融投资。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002946.SZ",
+    "key": "dairy",
+    "sector": "乳业",
+    "source_sector_name": "乳业",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "液体乳与含乳饮料"
+    ],
+    "stage": "revenue",
+    "fact": "乳制品含乳饮料奶粉研发生产销售。",
+    "company_fact": "乳制品含乳饮料奶粉研发生产销售。",
+    "ths_fact": "乳业解析对应液体乳含乳饮料奶粉及养殖。",
+    "reason": "产品生产与市场身份一致。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002947.SZ",
+    "key": "data_centers",
+    "sector": "数据中心(AIDC)",
+    "source_sector_name": "数据中心(AIDC)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "算力服务器精密金属结构件"
+    ],
+    "stage": "revenue",
+    "fact": "精密金属件广泛应用算力服务器并建立量产交付协同。",
+    "company_fact": "精密金属件广泛应用算力服务器并建立量产交付协同。",
+    "ths_fact": "AIDC解析服务器存储路由交换设备结构件及稳定客户合作。",
+    "reason": "已有数通算力配件供货，明确结构件而非算力运营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002948.SZ",
+    "key": "bank",
+    "sector": "银行",
+    "source_sector_name": "银行",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "存贷款与跨境结算"
+    ],
+    "stage": "revenue",
+    "fact": "存贷款支付结算及公司零售金融业务覆盖山东。",
+    "company_fact": "存贷款支付结算及公司零售金融业务覆盖山东。",
+    "ths_fact": "跨境支付解析已完成CIPS间参跨境支付，一带一路有融资结算。",
+    "reason": "银行服务闭环明确，跨境支付只是业务场景非独立支付科技商。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002949.SZ",
+    "key": "prefabricated_buildings",
+    "sector": "装配式建筑",
+    "source_sector_name": "装配式建筑",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "装配式建筑设计与BIM"
+    ],
+    "stage": "revenue",
+    "fact": "建筑设计BIM与装配式前端技术设计咨询。",
+    "company_fact": "建筑设计BIM与装配式前端技术设计咨询。",
+    "ths_fact": "装配式解析明确设计咨询技术研发和建筑产业链。",
+    "reason": "直接设计交付支持主题，航空小镇规划不冒充低空飞行器制造。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002950.SZ",
+    "key": "medical_devices",
+    "sector": "医疗器械",
+    "source_sector_name": "医疗器械概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "医用耗材敷料与防护"
+    ],
+    "stage": "revenue",
+    "fact": "核心医用耗材含外科伤口护理感染防护高级敷料。",
+    "company_fact": "核心医用耗材含外科伤口护理感染防护高级敷料。",
+    "ths_fact": "医疗器械明确耗材一次性器械与感染防护生产销售。",
+    "reason": "医疗耗材经营实在，医美为使用场景。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002951.SZ",
+    "key": "energy_storage",
+    "sector": "储能",
+    "source_sector_name": "储能",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "储能系统与消防安全"
+    ],
+    "stage": "revenue",
+    "fact": "研发生产销售储能系统及消防安全整体方案。",
+    "company_fact": "研发生产销售储能系统及消防安全整体方案。",
+    "ths_fact": "储能解析液冷风冷一体机及集装箱系统具体产品。",
+    "reason": "现有储能产业已成主业，不沿用旧包装背景。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002952.SZ",
+    "key": "electronic_paper",
+    "sector": "电子纸",
+    "source_sector_name": "电子纸",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "电子纸显示模组"
+    ],
+    "stage": "revenue",
+    "fact": "制造液晶及黑白三四色E6电子纸模组。",
+    "company_fact": "制造液晶及黑白三四色E6电子纸模组。",
+    "ths_fact": "电子纸解释对应产品研发设计生产销售。",
+    "reason": "具体显示技术产品支持细分主题。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002953.SZ",
+    "key": "data_centers",
+    "sector": "数据中心(AIDC)",
+    "source_sector_name": "数据中心(AIDC)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "AI服务器特种电缆"
+    ],
+    "stage": "delivery",
+    "fact": "特种新能源通信电缆用于AI数据中心服务器等。",
+    "company_fact": "特种新能源通信电缆用于AI数据中心服务器等。",
+    "ths_fact": "AIDC解析算力中心和AI服务器用电缆实现实际供货。",
+    "reason": "实交付强于光纤拟投资，明确线缆配套。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002955.SZ",
+    "key": "ai_applications",
+    "sector": "AI应用",
+    "source_sector_name": "AI应用",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "智慧教学与课堂分析"
+    ],
+    "stage": "delivery",
+    "fact": "智慧教室软硬件平台及AI个性化课后学习。",
+    "company_fact": "智慧教室软硬件平台及AI个性化课后学习。",
+    "ths_fact": "AI应用解析自研开放平台已用于高职与课堂行为分析。",
+    "reason": "教育AI具体产品场景落地，不仅概念接入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002956.SZ",
+    "key": "snack_food_industry",
+    "sector": "休闲食品",
+    "source_sector_name": "休闲食品",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "燕麦健康谷物"
+    ],
+    "stage": "revenue",
+    "fact": "燕麦健康谷物食品研发生产销售。",
+    "company_fact": "燕麦健康谷物食品研发生产销售。",
+    "ths_fact": "同花顺经营评述明确燕麦健康谷物研发生产销售，含纯燕、休闲烘焙、复合燕麦三系列。",
+    "reason": "主产品是食品，跨境销售渠道不替代实业分类。",
+    "basis": "crosschecked_sources",
+    "extra_evidence": [
+      {
+        "evidence_id": "ths-business-002956",
+        "source_kind": "web_secondary",
+        "publisher": "同花顺",
+        "title": "002956业务资料",
+        "source_url": "https://basic.10jqka.com.cn/002956/operate.html",
+        "published_at": null,
+        "assertions": [
+          "同花顺经营评述明确燕麦健康谷物研发生产销售，含纯燕、休闲烘焙、复合燕麦三系列。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "002957.SZ",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "精密骨架关节部件与自动化"
+    ],
+    "stage": "delivery",
+    "fact": "工业自动化和定制精密零部件研发制造，直供品牌客户。",
+    "company_fact": "工业自动化和定制精密零部件研发制造，直供品牌客户。",
+    "ths_fact": "人形解析直接间接供应髋部四肢骨架关节精密部件。",
+    "reason": "已有具体客户供应支撑，不将CPO耦合测试设备当光模块。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002958.SZ",
+    "key": "bank",
+    "sector": "银行",
+    "source_sector_name": "银行",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "农村商业银行存贷款"
+    ],
+    "stage": "revenue",
+    "fact": "支农支小定位，零售公司资金业务并行经营。",
+    "company_fact": "支农支小定位，零售公司资金业务并行经营。",
+    "ths_fact": "同花顺公司页明确公司银行、零售、资金国际业务，贷款存款贸易融资及结算。",
+    "reason": "存贷款实际银行业务明确，股息风格不作为归属。",
+    "basis": "crosschecked_sources",
+    "extra_evidence": [
+      {
+        "evidence_id": "ths-business-002958",
+        "source_kind": "web_secondary",
+        "publisher": "同花顺",
+        "title": "002958业务资料",
+        "source_url": "https://basic.10jqka.com.cn/002958/company.html",
+        "published_at": null,
+        "assertions": [
+          "同花顺公司页明确公司银行、零售、资金国际业务，贷款存款贸易融资及结算。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "002959.SZ",
+    "key": "small_appliances",
+    "sector": "小家电",
+    "source_sector_name": "小家电",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "厨房生活母婴小家电"
+    ],
+    "stage": "revenue",
+    "fact": "小熊自主品牌研发生产厨房生活个护母婴小家电。",
+    "company_fact": "小熊自主品牌研发生产厨房生活个护母婴小家电。",
+    "ths_fact": "家用电器解释创意小家电研发设计生产销售。",
+    "reason": "产品细分明确，不因线上销售选电商。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002960.SZ",
+    "key": "fire_safety_equipment",
+    "sector": "消防装备",
+    "source_sector_name": "消防装备",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "消防报警灭火与控制"
+    ],
+    "stage": "revenue",
+    "fact": "消防安全物联网智控系统产品生产销售及整体交付。",
+    "company_fact": "消防安全物联网智控系统产品生产销售及整体交付。",
+    "ths_fact": "消防装备列报警联动电气火灾气灭气体监控四系统。",
+    "reason": "直接消防业务链完整，人形为投资不取代。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002961.SZ",
+    "key": "futures",
+    "sector": "期货",
+    "source_sector_name": "期货概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "期货经纪与风险管理"
+    ],
+    "stage": "revenue",
+    "fact": "代理期货结算交割、资管咨询及衍生风险管理。",
+    "company_fact": "代理期货结算交割、资管咨询及衍生风险管理。",
+    "ths_fact": "期货解释期货交易所会员与代理交易资格。",
+    "reason": "直接持牌期货运营而非参股。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002962.SZ",
+    "key": "tof_optics",
+    "sector": "TOF镜头",
+    "source_sector_name": "TOF镜头",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "TOF生物识别滤光片"
+    ],
+    "stage": "delivery",
+    "fact": "生物识别滤光片服务特定红外波段与3D感知。",
+    "company_fact": "生物识别滤光片服务特定红外波段与3D感知。",
+    "ths_fact": "TOF镜头解析滤光片用于TOF摄像头已批量供货。",
+    "reason": "沿用已有市场主题，链明确滤光片不称镜头总成。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002963.SZ",
+    "key": "battery_swapping",
+    "sector": "换电",
+    "source_sector_name": "换电概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "重卡充换电能源服务"
+    ],
+    "stage": "delivery",
+    "fact": "豪能汇提供重卡充换电、电池银行、光储充管理服务。",
+    "company_fact": "豪能汇提供重卡充换电、电池银行、光储充管理服务。",
+    "ths_fact": "换电解析相同三网融合综合服务体系。",
+    "reason": "经营新能源交通补给有双源支持，AIDC冷板仅1.3719%参股。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002965.SZ",
+    "key": "liquid_cooled_servers",
+    "sector": "液冷服务器",
+    "source_sector_name": "液冷服务器",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "水冷板与服务器散热件"
+    ],
+    "stage": "delivery",
+    "fact": "制造热交换精密件和数据机柜等新能源金属产品。",
+    "company_fact": "制造热交换精密件和数据机柜等新能源金属产品。",
+    "ths_fact": "液冷解释水冷板散热器已为头部客户供应。",
+    "reason": "既有热管理配套供货强于人形研发中心规划。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002966.SZ",
+    "key": "bank",
+    "sector": "银行",
+    "source_sector_name": "银行",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "城市商业银行综合金融"
+    ],
+    "stage": "revenue",
+    "fact": "存贷款结算债券外汇及基金销售托管。",
+    "company_fact": "存贷款结算债券外汇及基金销售托管。",
+    "ths_fact": "移动支付已有Su-Pay及签约客户，村镇银行控股布局。",
+    "reason": "具体银行服务双源一致，移动支付是渠道业务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002967.SZ",
+    "key": "testing_services",
+    "sector": "检测服务",
+    "source_sector_name": "检测服务",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "计量可靠性与专业检测"
+    ],
+    "stage": "revenue",
+    "fact": "提供计量检测数据评价EHS及标准技术服务。",
+    "company_fact": "提供计量检测数据评价EHS及标准技术服务。",
+    "ths_fact": "华为等客户有校准可靠性电磁兼容服务，低空亦为适航检测。",
+    "reason": "横跨行业共同角色是独立检测，不把客户航空产品当自产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002968.SZ",
+    "key": "property_management",
+    "sector": "物业管理",
+    "source_sector_name": "物业管理",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "公建物业与城市服务"
+    ],
+    "stage": "revenue",
+    "fact": "航空学校公共医养商住物业四保一服并拓城市运营。",
+    "company_fact": "航空学校公共医养商住物业四保一服并拓城市运营。",
+    "ths_fact": "物业管理解析公共学校住宅园区保洁设施安保。",
+    "reason": "实际服务一致，低空业务多为地面保障不优先替代。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002969.SZ",
+    "key": "metal_packaging",
+    "sector": "金属包装",
+    "source_sector_name": "金属包装",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "食品饮料金属罐与灌装"
+    ],
+    "stage": "revenue",
+    "fact": "食品饮料容器三片二片罐及纸包装生产与灌装。",
+    "company_fact": "食品饮料容器三片二片罐及纸包装生产与灌装。",
+    "ths_fact": "食品包装已有标签，海峡两岸解释六个核桃等长期饮料客户。",
+    "reason": "容器制造客户链吻合，控股股东转让不等于机器人资产注入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002970.SZ",
+    "key": "ai_agents",
+    "sector": "AI智能体",
+    "source_sector_name": "AI智能体",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "商用车安全与车队管理代理"
+    ],
+    "stage": "delivery",
+    "fact": "以AI视频提供商用车安全合规效率物联方案。",
+    "company_fact": "以AI视频提供商用车安全合规效率物联方案。",
+    "ths_fact": "AI智能体解释对话代理工作台及安全事件AI判读已嵌入管理。",
+    "reason": "已落地管理代理直接服务客户，区别L4清扫试点与配套电源。",
+    "basis": "crosschecked_sources"
+  }
+]

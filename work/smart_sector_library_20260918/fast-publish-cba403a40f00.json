@@ -1,0 +1,116 @@
+[
+  {
+    "id": "600503.SH",
+    "key": "innovative_drugs",
+    "sector": "创新药",
+    "source_sector_name": "创新药",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "海和药物权益投资"
+    ],
+    "company_fact": "地产开发为原业务，海和投资关系另由原公告核实。",
+    "ths_fact": "旧公告拟3亿元增资海和药物创新药研发企业。",
+    "fact": "地产开发为原业务，海和投资关系另由原公告核实。",
+    "reason": "原年报确认持股7.8706%完成投资，标的有获批创新药；按重要新增投资市场主线归类，非控制重大影响或并表收入；南江机器人拟注销不能沿用旧2017营收。",
+    "relation": "investment",
+    "investment_reviewed": true,
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "official-600503-12183615",
+        "source_kind": "official_filing",
+        "publisher": "华丽家族",
+        "title": "2025年年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12183615&stockid=600503",
+        "published_at": "2026-04-25",
+        "assertions": [
+          "海和增资付款并工商完成，持股7.8706%，不构成控制共同控制重大影响，非交易权益投资。"
+        ]
+      },
+      {
+        "evidence_id": "official-600503-11290220",
+        "source_kind": "official_filing",
+        "publisher": "华丽家族",
+        "title": "现金增资海和药物公告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=11290220&stockid=600503",
+        "published_at": "2025-08-11",
+        "assertions": [
+          "海和谷美替尼及口服紫杉醇已获批商业化；不将合作方ON101权属误写归海和。"
+        ]
+      },
+      {
+        "evidence_id": "official-600503-12567458",
+        "source_kind": "official_filing",
+        "publisher": "华丽家族",
+        "title": "2026年半年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12567458&stockid=600503",
+        "published_at": "2026-08-29",
+        "assertions": [
+          "海和权益投资账面3亿元仍存续；南江机器人拟注销，石墨烯业务销售未形成规模。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "600505.SH",
+    "key": "green_power",
+    "sector": "绿色电力",
+    "source_sector_name": "绿色电力",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "水电及光伏发供电"
+    ],
+    "company_fact": "自有水电电网售终端，光伏电站上网售电。",
+    "ths_fact": "目前电源为水电及光伏，水电为主。",
+    "fact": "自有水电电网售终端，光伏电站上网售电。",
+    "reason": "真实清洁发供电闭环对应绿色电力，非仅新能源计划。"
+  },
+  {
+    "id": "600506.SH",
+    "key": "liquid_cooled_servers",
+    "sector": "液冷服务器",
+    "source_sector_name": "液冷服务器",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "数据中心冷却液"
+    ],
+    "company_fact": "润滑油液之外推出数据中心新能源储能液冷特种油液。",
+    "ths_fact": "浸没冷却工艺覆盖高密数据中心，参与液冷标准并发布产研基地。",
+    "fact": "润滑油液之外推出数据中心新能源储能液冷特种油液。",
+    "reason": "自身液冷流体产品与技术场景明确，取product不把行业标准当专项销售证明。"
+  },
+  {
+    "id": "600507.SH",
+    "key": "special_steel",
+    "sector": "特钢",
+    "source_sector_name": "特钢概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "弹簧扁钢",
+      "汽车板簧"
+    ],
+    "company_fact": "冶金产品含弹簧扁钢汽车板簧螺纹钢，国内外实际销售。",
+    "ths_fact": "特钢细分重点弹簧扁钢及汽车板簧。",
+    "fact": "冶金产品含弹簧扁钢汽车板簧螺纹钢，国内外实际销售。",
+    "reason": "特钢制造身份稳定；不照搬旧2014目标和历史份额作为当前指标。"
+  },
+  {
+    "id": "600508.SH",
+    "key": "coal",
+    "sector": "煤炭",
+    "source_sector_name": "煤炭概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "煤矿开采洗选"
+    ],
+    "company_fact": "拥有江苏新疆在产煤矿，煤炭销售451909万元，并有电力铝加工。",
+    "ths_fact": "主营煤炭开采洗选销售及自营铁路等。",
+    "fact": "拥有江苏新疆在产煤矿，煤炭销售451909万元，并有电力铝加工。",
+    "reason": "实际煤矿经营与煤炭市场身份明确，绿电和虚拟电厂是延伸标签。"
+  }
+]

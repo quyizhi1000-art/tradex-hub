@@ -1,0 +1,72 @@
+{
+  "evidence": [
+    {
+      "raw": [
+        {
+          "代码": "000688",
+          "名称": "国城矿业",
+          "最新价": 25.97,
+          "涨跌幅": -0.31,
+          "成交额": 21302.0,
+          "流通市值": 307.76,
+          "今开": 26.3,
+          "昨收": 26.05,
+          "最高": 26.54,
+          "最低": 25.62,
+          "更新时间": "20260918111254"
+        },
+        {
+          "代码": "000905",
+          "名称": "厦门港务",
+          "最新价": 9.4,
+          "涨跌幅": 3.75,
+          "成交额": 21509.0,
+          "流通市值": 69.73,
+          "今开": 9.08,
+          "昨收": 9.06,
+          "最高": 9.7,
+          "最低": 8.91,
+          "更新时间": "20260918111254"
+        }
+      ],
+      "mapped": [
+        {
+          "instrument_id": "000688.SH",
+          "name": "国城矿业",
+          "observed_at": "2026-09-18T11:12:54+08:00",
+          "last": 25.97,
+          "change_pct": -0.31,
+          "amount_cny": 213020000.0,
+          "open": 26.3,
+          "high": 26.54,
+          "low": 25.62,
+          "previous_close": 26.05,
+          "turnover_pct": null,
+          "amplitude_pct": null,
+          "total_market_cap_cny": null,
+          "float_market_cap_cny": 30776000000.0
+        },
+        {
+          "instrument_id": "000905.SH",
+          "name": "厦门港务",
+          "observed_at": "2026-09-18T11:12:54+08:00",
+          "last": 9.4,
+          "change_pct": 3.75,
+          "amount_cny": 215090000.0,
+          "open": 9.08,
+          "high": 9.7,
+          "low": 8.91,
+          "previous_close": 9.06,
+          "turnover_pct": null,
+          "amplitude_pct": null,
+          "total_market_cap_cny": null,
+          "float_market_cap_cny": 6973000000.0
+        }
+      ]
+    }
+  ],
+  "missing": [
+    "000688.SZ",
+    "000905.SZ"
+  ]
+}

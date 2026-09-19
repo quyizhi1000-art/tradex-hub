@@ -30,11 +30,53 @@ limit-up diffusion are not claimed as inputs to this first version.
 
 Confirmed hotspots remain in the day directory after cooling. Prior-day entries
 may remain for directory reconciliation, but their curve points and hot status
-are never copied into a new day. Supported new hotspots with missing history join
-the existing Collector auxiliary loop, one curve per idle window using the same
-cache and provider limiter (2-second queue budget, 4-second request timeout).
+are never copied into a new day. Every supported observed board with missing
+history joins the existing Collector auxiliary loop, using the same cache and
+provider limiter (2-second queue budget, 4-second request timeout).
 They are not registered as required legacy closing targets; quote capture does
 not wait for them. This bounded queue can leave visible gaps under source limits.
+During trading, a round admits at most four curves in a 10-second budget and
+checks the live admission window before each request. Lunch and post-close rounds
+admit at most 32 curves in a 20-second budget, with a one-second inter-round wait
+while a backlog remains. Missing minutes older than five minutes are prioritized,
+then the twelve default displayed hotspots, other hotspots and ordinary boards.
+Each round stops after three consecutive attempts return no missing minutes. Each individual
+request retains the existing provider timeout/limiter. Successful additions are
+published in the same Collector step; persisted curves are the restart checkpoint.
+The main 88 required targets are not expanded by full-directory repairs.
+Missing minutes are measured against the trading-clock cutoff (`coverage_as_of`),
+even when no new provider snapshot arrives. `as_of` and `quote_as_of` remain the
+actual data watermarks; extending the expected coverage creates no data points.
+
+The same rotation SQLite database persists each target's attempt count, last
+outcome and retry deadline before network I/O. An interrupted request is eligible
+again after its 30-second lease. A closed admission window does not count as a
+source failure. Existing backoff provably caused by an out-of-window non-request
+is released while keeping its audit count; real in-window failures retain their
+deadlines. Unsuccessful targets back off from 30 seconds to 30 minutes.
+The existing per-round request/time/failure limits still apply. Fresh
+unattempted eligible targets are considered before previously attempted peers.
+Downloaded points remain in the canonical curve store, and publication failures
+retry from that store. Only the published catalog's expected minute coverage can
+produce recovery state `complete`.
+
+The read-only catalog API adds `recovery` (`sector_catalog_recovery.v1`) bound to
+the catalog revision, exposing pending/running/backoff/complete/unavailable/failed,
+coverage counts, retry time and the last check. The desktop status reports these
+states and flags a check older than three minutes. It does not treat process
+liveness as proof of coverage. Auxiliary loop crashes restart inside the existing
+Collector process; no additional daemon, scheduled task or AI agent is required.
+The primary Collector completes startup reconciliation and publishes its heartbeat
+before starting auxiliary calculations. Its main loop then reuses that initialized
+state, preventing a large catalog from starving the managed readiness check.
+Failures outside the same-day source capability remain explicit `unavailable`.
+
+Regression gates are `tradex/tests/test_sector_catalog.py`,
+`tradex/tests/test_market_watch_collector_worker.py`,
+`tradex/tests/test_sector_catalog_ui.cjs`, and `tests/test_architecture_boundaries.py`.
+They cover a stopped source's missing tail, restart/backoff, interruption before
+download completion, failed publication without re-download, expired history,
+and the existing real-point chart and legacy direction behavior.
 Old days use archived real points only. They cannot be repaired using today's
 provider curve. Missing minutes are explicit, not interpolated or zero-filled.
 An explicitly dated backfill may accept a provider response still containing

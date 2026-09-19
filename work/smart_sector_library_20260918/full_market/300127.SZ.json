@@ -1,0 +1,77 @@
+{
+  "instrument_id": "300127.SZ",
+  "name": "银河磁体",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "300127.SZ",
+    "name": "银河磁体",
+    "memberships": [
+      "有色金属",
+      "金属新材料",
+      "磁性材料",
+      "四川板块",
+      "创业板综",
+      "深股通",
+      "华为概念",
+      "新能源车",
+      "特斯拉概念",
+      "西部大开发",
+      "稀土永磁",
+      "新材料"
+    ],
+    "business_sections": [
+      {
+        "title": "稀土永磁",
+        "kind": "主营业务",
+        "text": "公司从1993年开始一直专业从事新一代稀土永磁体——粘结钕铁硼（Boned NdFeB）稀土磁体元件及部件的研发、生产和销售，从2012年3月开始从事钐钴磁体和热压钕铁硼磁体的研发、生产和销售。报告期公司主要产品包括：粘结钕铁硼磁体、热压钕铁硼磁体、钐钴磁体。"
+      },
+      {
+        "title": "高层次人才和稳定管理团队",
+        "kind": "核心竞争力",
+        "text": "公司拥有懂技术会管理的高层次人才、专业的研发队伍、稳定的管理团队。"
+      },
+      {
+        "title": "规模化优势和高自动化程度",
+        "kind": "核心竞争力",
+        "text": "公司粘结钕铁硼磁体业务具有较强的规模化优势，自动化程度高、行业竞争力较强。"
+      },
+      {
+        "title": "新产品研发和设备改造能力",
+        "kind": "核心竞争力",
+        "text": "公司拥有较强的新产品研发和持续的设备改造能力，能快速应对下游需求变化。"
+      },
+      {
+        "title": "自主知识产权和专有技术",
+        "kind": "核心竞争力",
+        "text": "公司拥有多项具有完全自主知识产权的专利和一系列专有技术。截至本报告期末，公司拥有有效专利64件（发明专利18件、实用新型专利46件）。"
+      },
+      {
+        "title": "丰富的产品种类及大型、异型磁体研发生产能力",
+        "kind": "核心竞争力",
+        "text": "公司产品种类、件数在同行业中最多；公司大型、异型磁体及磁体组件的研发生产能力居同行业前列。"
+      },
+      {
+        "title": "稳定优质的客户群",
+        "kind": "核心竞争力",
+        "text": "公司拥有稳定优质的客户群。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ300127",
+    "fetched_at": "2026-09-18T23:02:51.502790+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "有色金属"
+}

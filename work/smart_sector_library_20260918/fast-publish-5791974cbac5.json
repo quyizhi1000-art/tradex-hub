@@ -1,0 +1,428 @@
+[
+  {
+    "id": "002311.SZ",
+    "key": "animal_feed",
+    "sector": "饲料",
+    "source_sector_name": "饲料",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "水产畜禽饲料与养殖服务"
+    ],
+    "stage": "revenue",
+    "fact": "饲料种苗动保为核心，配套生猪及对虾养殖。",
+    "company_fact": "饲料种苗动保为核心，配套生猪及对虾养殖。",
+    "ths_fact": "饲料解析列明水产畜禽饲料生产销售。",
+    "reason": "核心饲料产品和养殖解决方案一致，猪肉是下游经营标签。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002312.SZ",
+    "key": "phosphorus_chemicals",
+    "sector": "磷化工",
+    "source_sector_name": "磷化工",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "磷矿磷酸盐与新能源材料"
+    ],
+    "stage": "revenue",
+    "fact": "形成磷矿到磷酸盐、磷酸铁锂完整链条，磷酸二氢锂仍在建。",
+    "company_fact": "形成磷矿到磷酸盐、磷酸铁锂完整链条，磷酸二氢锂仍在建。",
+    "ths_fact": "磷化工明确磷酸一铵、磷酸氢钙及新能源材料。",
+    "reason": "磷资源加工是已落地共同环节，不将建设规划产能当现有产能。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002313.SZ",
+    "key": "iot",
+    "sector": "物联网",
+    "source_sector_name": "物联网",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "无线通信与端侧AI模组"
+    ],
+    "stage": "revenue",
+    "fact": "研发销售多通信制式模组及AI算力算法，覆盖车联与工业等领域。",
+    "company_fact": "研发销售多通信制式模组及AI算力算法，覆盖车联与工业等领域。",
+    "ths_fact": "物联网明确无线模组核心业务，端侧AI已有模组方案。",
+    "reason": "多场景共同核心为联网模组，机房工程不能替代为算力租赁。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002314.SZ",
+    "key": "smart_logistics",
+    "sector": "智能物流",
+    "source_sector_name": "智能物流",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "高标准仓储园区运营"
+    ],
+    "stage": "revenue",
+    "fact": "宝湾仓储物流提供投资开发建设运营及智能仓配全链服务。",
+    "company_fact": "宝湾仓储物流提供投资开发建设运营及智能仓配全链服务。",
+    "ths_fact": "智能物流明确高标仓结构与效率优势，一带一路解释已运营物流园区。",
+    "reason": "真实仓储网络承载智慧物流主题，跨境电商仅客户用途。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002315.SZ",
+    "key": "ai_agents",
+    "sector": "AI智能体",
+    "source_sector_name": "AI智能体",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "外贸采购与营销智能体"
+    ],
+    "stage": "delivery",
+    "fact": "AI麦可与Sourcing AI2.0提供买卖双方智能外贸助手。",
+    "company_fact": "AI麦可与Sourcing AI2.0提供买卖双方智能外贸助手。",
+    "ths_fact": "AI智能体明确麦可代理可自动规划执行完整外贸工作流。",
+    "reason": "平台数据与已上线代理形成直接业务主题，不是仅接入通用模型。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002316.SZ",
+    "key": "synthetic_biology",
+    "sector": "合成生物",
+    "source_sector_name": "合成生物",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "生物纤维素膜与医用敷料基材"
+    ],
+    "stage": "revenue",
+    "fact": "生产销售食品级原料发酵的生物纤维素基材，服务护肤与医疗敷料品牌。",
+    "company_fact": "生产销售食品级原料发酵的生物纤维素基材，服务护肤与医疗敷料品牌。",
+    "ths_fact": "合成生物解析明确控股企业从事生物纤维素研究生产销售，属于下游应用。",
+    "reason": "有具体发酵材料和客户，不冒充上游细胞工厂平台；专网为并行业务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002317.SZ",
+    "key": "innovative_drugs",
+    "sector": "创新药",
+    "source_sector_name": "创新药",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "抗病毒与代谢创新药"
+    ],
+    "stage": "product",
+    "fact": "具备小分子多肽临床平台并推动创新药产业化及上市转化。",
+    "company_fact": "具备小分子多肽临床平台并推动创新药产业化及上市转化。",
+    "ths_fact": "创新药推进来瑞特韦与昂拉地韦商业化，流感解释后者已获批上市。",
+    "reason": "获批创新品种支持转型主题，但未仅据获批推定收入，减肥药仍临床。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002318.SZ",
+    "key": "nuclear_power",
+    "sector": "核电",
+    "source_sector_name": "核电",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "核级管材与蒸发器传热管"
+    ],
+    "stage": "delivery",
+    "fact": "工业不锈钢及特种合金管材包括SG-U管，服务核电及中广核客户。",
+    "company_fact": "工业不锈钢及特种合金管材包括SG-U管，服务核电及中广核客户。",
+    "ths_fact": "核电解析明确核1/2/3级配管及三代核电蒸发器U型传热管供应。",
+    "reason": "核级成熟供应证据优于聚变研发规划，核裂变核电与聚变分开。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002319.SZ",
+    "key": "coatings_inks",
+    "sector": "涂料油墨",
+    "source_sector_name": "涂料油墨",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "凹印包装油墨"
+    ],
+    "stage": "revenue",
+    "fact": "主营中高端凹印油墨，应用饮料食品卷烟包装。",
+    "company_fact": "主营中高端凹印油墨，应用饮料食品卷烟包装。",
+    "ths_fact": "同花顺经营页明确印刷油墨开发生产销售，包含凹印、特种、柔印、网印、胶印，2025年产销1.92及1.89万吨。",
+    "reason": "当前油墨主营明确，不能以未证实投产的HJT框架替代。",
+    "basis": "crosschecked_sources",
+    "extra_evidence": [
+      {
+        "evidence_id": "ths-business-002319",
+        "source_kind": "web_secondary",
+        "publisher": "同花顺",
+        "title": "002319.SZ经营分析",
+        "source_url": "https://basic.10jqka.com.cn/002319/operate.html",
+        "published_at": null,
+        "assertions": [
+          "同花顺经营页明确印刷油墨开发生产销售，包含凹印、特种、柔印、网印、胶印，2025年产销1.92及1.89万吨。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "002320.SZ",
+    "key": "hainan_free_trade_zone",
+    "sector": "海南自贸区",
+    "source_sector_name": "海南自贸区",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "海南客滚航运与港口"
+    ],
+    "stage": "revenue",
+    "fact": "经营琼州海峡及渤海湾客滚、西沙旅游航线与新海秀英港。",
+    "company_fact": "经营琼州海峡及渤海湾客滚、西沙旅游航线与新海秀英港。",
+    "ths_fact": "海南自贸区解释海南客滚运输及港航整合，航运解析具体港口航线。",
+    "reason": "实际跨海运输及海南港口直接承载自贸港交通需求，不是仅注册地。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002321.SZ",
+    "key": "prepared_food",
+    "sector": "预制菜",
+    "source_sector_name": "预制菜",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "鸭肉鸭血预制食品"
+    ],
+    "stage": "revenue",
+    "fact": "主营熟食、鸭血、鸭肉预制菜及生鲜羽绒。",
+    "company_fact": "主营熟食、鸭血、鸭肉预制菜及生鲜羽绒。",
+    "ths_fact": "预制菜解释华樱生物鸭血预制菜与预蒸食材。",
+    "reason": "当前鸭类深加工产品更直接，旧养鸡数据不取代当前经营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002322.SZ",
+    "key": "smart_grid",
+    "sector": "智能电网",
+    "source_sector_name": "智能电网",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "电力软件与在线监测"
+    ],
+    "stage": "revenue",
+    "fact": "电力环保软件信息化及电力在线监测系统。",
+    "company_fact": "电力环保软件信息化及电力在线监测系统。",
+    "ths_fact": "智能电网明确变压器色谱在线监测系统已有销售应用。",
+    "reason": "电力监测与信息化为落地业务，AI专家模型布局为增强标签。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002323.SZ",
+    "key": "bipv",
+    "sector": "光伏建筑一体化",
+    "source_sector_name": "光伏建筑一体化",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "金属屋面与光伏EPC"
+    ],
+    "stage": "revenue",
+    "fact": "金属围护系统与新能源EPC、BIPV建设运维两大业务。",
+    "company_fact": "金属围护系统与新能源EPC、BIPV建设运维两大业务。",
+    "ths_fact": "BIPV解析覆盖设计采购施工并网验收与运维。",
+    "reason": "建筑屋面能力与光伏工程直接结合，HJT厂区建设不等于电池量产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002324.SZ",
+    "key": "sodium_ion_battery",
+    "sector": "钠离子电池",
+    "source_sector_name": "钠离子电池",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "聚阴离子钠电池"
+    ],
+    "stage": "orders",
+    "fact": "新能源板块研发生产销售钠离子等电池系统，改性材料含PEEK。",
+    "company_fact": "新能源板块研发生产销售钠离子等电池系统，改性材料含PEEK。",
+    "ths_fact": "钠电解释聚阴离子体系性能及已获取订单，固态为合作研发。",
+    "reason": "钠电有具体路线与订单优于固态合作，PEEK材料为并行次标签。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002326.SZ",
+    "key": "fluorochemicals",
+    "sector": "氟化工",
+    "source_sector_name": "氟化工概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "含氟医药植保与新能源材料"
+    ],
+    "stage": "revenue",
+    "fact": "以含氟技术制造医药植保和新能源材料，垂直一体化。",
+    "company_fact": "以含氟技术制造医药植保和新能源材料，垂直一体化。",
+    "ths_fact": "氟化工解析列明含氟液晶医药农药中间体生产销售。",
+    "reason": "含氟材料是共同技术产品基础，液冷应用未被写成服务器制造。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002327.SZ",
+    "key": "home_textiles",
+    "sector": "家纺",
+    "source_sector_name": "家纺",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "艺术床品与睡眠家居"
+    ],
+    "stage": "revenue",
+    "fact": "研发生产销售家纺睡眠及生活用品，拥有富安娜等四品牌。",
+    "company_fact": "研发生产销售家纺睡眠及生活用品，拥有富安娜等四品牌。",
+    "ths_fact": "同花顺公司资料页明确纺织家居、睡眠家居研发生产销售，主要套件、被芯、枕芯。",
+    "reason": "家纺产品和品牌归属清楚，高股息为风格不作业务主板块。",
+    "basis": "crosschecked_sources",
+    "extra_evidence": [
+      {
+        "evidence_id": "ths-business-002327",
+        "source_kind": "web_secondary",
+        "publisher": "同花顺",
+        "title": "002327.SZ公司资料",
+        "source_url": "https://basic.10jqka.com.cn/002327/company.html",
+        "published_at": null,
+        "assertions": [
+          "同花顺公司资料页明确纺织家居、睡眠家居研发生产销售，主要套件、被芯、枕芯。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "002328.SZ",
+    "key": "liquid_cooled_servers",
+    "sector": "液冷服务器",
+    "source_sector_name": "液冷服务器",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "液冷机柜与结构件"
+    ],
+    "stage": "delivery",
+    "fact": "金属通信零件定制设计制造，2025年液冷研发取得突破。",
+    "company_fact": "金属通信零件定制设计制造，2025年液冷研发取得突破。",
+    "ths_fact": "2026年8月披露部分液冷产品经客户验证逐步小批交付。",
+    "reason": "液冷已越过样机进入交付，明确机柜结构件而非服务器整机。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002329.SZ",
+    "key": "dairy",
+    "sector": "乳业",
+    "source_sector_name": "乳业",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "水牛奶及低温乳品"
+    ],
+    "stage": "revenue",
+    "fact": "水牛奶发酵乳巴氏鲜奶为支柱，覆盖奶牛育种到乳品加工销售。",
+    "company_fact": "水牛奶发酵乳巴氏鲜奶为支柱，覆盖奶牛育种到乳品加工销售。",
+    "ths_fact": "乳业解析列明巴氏乳发酵乳等具体产品，另有光伏EPC。",
+    "reason": "特色乳品全产业链持续经营，未把旧光伏布局推定为电池制造。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002330.SZ",
+    "key": "prepared_food",
+    "sector": "预制菜",
+    "source_sector_name": "预制菜",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "速冻调理与肉制品"
+    ],
+    "stage": "revenue",
+    "fact": "生产销售低温肉品、预制菜、牛肉系列及即食产品。",
+    "company_fact": "生产销售低温肉品、预制菜、牛肉系列及即食产品。",
+    "ths_fact": "预制菜解析明确速冻调理牛肉等产品。",
+    "reason": "已有预制产品及生产销售证据，不与生猪养殖混淆。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002331.SZ",
+    "key": "etc",
+    "sector": "ETC",
+    "source_sector_name": "ETC",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "交通联网收费与信息化"
+    ],
+    "stage": "revenue",
+    "fact": "提供交通港航等信息化系统集成软件与运维。",
+    "company_fact": "提供交通港航等信息化系统集成软件与运维。",
+    "ths_fact": "ETC解析明确高速联网收费、电子支付、视频及智能路网业务。",
+    "reason": "高速收费信息化是直接成熟业务，昇腾港口合作保留次标签。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002332.SZ",
+    "key": "assisted_reproduction",
+    "sector": "辅助生殖",
+    "source_sector_name": "辅助生殖",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "黄体酮等生殖用药"
+    ],
+    "stage": "revenue",
+    "fact": "生产甾体原料药及制剂，包含性激素妇科计生用药。",
+    "company_fact": "生产甾体原料药及制剂，包含性激素妇科计生用药。",
+    "ths_fact": "辅助生殖解释黄体酮胶囊已与生殖中心医院合作推广。",
+    "reason": "实际生殖用药支持医疗主题，创新药仅海外参股不替代。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002333.SZ",
+    "key": "building_inspection",
+    "sector": "房屋检测",
+    "source_sector_name": "房屋检测",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "建筑材料与房屋安全鉴定"
+    ],
+    "stage": "revenue",
+    "fact": "经营工程及特种设备检测，同时制造铝型材门窗光伏边框。",
+    "company_fact": "经营工程及特种设备检测，同时制造铝型材门窗光伏边框。",
+    "ths_fact": "房屋检测解释全资方正检测从事建材基坑桩基与房屋安全鉴定。",
+    "reason": "全资经营检测支撑已有主题，不把光伏边框称作电池生产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002334.SZ",
+    "key": "liquid_cooled_servers",
+    "sector": "液冷服务器",
+    "source_sector_name": "液冷服务器",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "AIDC冷板液冷与配电"
+    ],
+    "stage": "product",
+    "fact": "网络能源为AIDC提供供配电、制冷温控及微模块。",
+    "company_fact": "网络能源为AIDC提供供配电、制冷温控及微模块。",
+    "ths_fact": "液冷解析明确冰芯SC冷板式整体方案已发布上市。",
+    "reason": "网络能源与具体液冷产品交叉落地；人形关节视觉尚研发合作。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002335.SZ",
+    "key": "data_centers",
+    "sector": "数据中心(AIDC)",
+    "source_sector_name": "数据中心(AIDC)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "智算中心全栈建设运营"
+    ],
+    "stage": "revenue",
+    "fact": "智算订单增长并构建全栈算力方案，融合数据中心与光储。",
+    "company_fact": "智算订单增长并构建全栈算力方案，融合数据中心与光储。",
+    "ths_fact": "AIDC解析十余城市二十多个中心及三万五千以上机柜运营。",
+    "reason": "直接建设运营和算力服务支撑主主题，储能电源为协同业务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "002337.SZ",
+    "key": "robotics",
+    "sector": "机器人",
+    "source_sector_name": "机器人概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "AGV物流机器人与调度"
+    ],
+    "stage": "revenue",
+    "fact": "生产销售轮胎装备、AGV机器人系统及飞机运输工装。",
+    "company_fact": "生产销售轮胎装备、AGV机器人系统及飞机运输工装。",
+    "ths_fact": "机器人解析明确AGV智能物流装备与场内解决方案。",
+    "reason": "有整机与控制调度系统的机器人业务，不能将AGV泛化为人形。",
+    "basis": "crosschecked_sources"
+  }
+]

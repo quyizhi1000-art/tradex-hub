@@ -1,0 +1,31 @@
+{
+  "generated_at": "2026-09-18T13:35:59.897688+08:00",
+  "screen_version": "macd-j-upturn-main-board.v1",
+  "status": "partial",
+  "requested_count": 3043,
+  "evaluated_count": 2913,
+  "quote_provider_counts": {
+    "tushare": 3004,
+    "tencent_http": 33
+  },
+  "comparison": {
+    "contract": "intraday_macd_j_increment.v1",
+    "baseline": {
+      "status": "available",
+      "trade_date": "2026-09-17",
+      "result_id": "stock-selection-strategy-result:27d4b0b79d2f3cfd417ae601",
+      "source_snapshot_revision": "831a55ff4077cf712da19ba2767cb69be5bdc044d0cf61138c4871d0bd151f60",
+      "strategy_version": "v1",
+      "quality": "degraded",
+      "matched_count": 56,
+      "evaluated_count": 3036,
+      "eligible_count": 3052
+    },
+    "raw_matched_count": 74,
+    "status": "available",
+    "removed_count": 0,
+    "new_count": 74
+  },
+  "old_scans_unchanged": true,
+  "all_candidates_pass_original_fresh_cross": true
+}

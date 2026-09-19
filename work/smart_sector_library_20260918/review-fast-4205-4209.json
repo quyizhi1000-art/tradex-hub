@@ -1,0 +1,90 @@
+[
+  {
+    "id": "603409.SH",
+    "key": "huawei_auto",
+    "sector": "华为汽车",
+    "source_sector_name": "华为汽车",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "汽车造型与声学部件"
+    ],
+    "fact": "造型格栅保险杠及声学软内饰等零部件。",
+    "company_fact": "造型格栅保险杠及声学软内饰等零部件。",
+    "ths_fact": "智界项目开发配套供货，尊界项目开发。",
+    "reason": "明确智界供货，尊界开发不升级为批量。"
+  },
+  {
+    "id": "603416.SH",
+    "key": "humanoid_robots",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "stage": "product",
+    "chain": [
+      "电机编码器核心部件"
+    ],
+    "fact": "智能装置包括人形核心零部件和具身机器人，核心部件自主产权。",
+    "company_fact": "智能装置包括人形核心零部件和具身机器人，核心部件自主产权。",
+    "ths_fact": "掌握空心杯无框力矩电机编码器，具备供应产品。",
+    "reason": "真实产品能力与自动化技术互证，未把工业伺服收入当人形收入。"
+  },
+  {
+    "id": "603418.SH",
+    "key": "integrated_die_casting",
+    "sector": "一体化压铸",
+    "source_sector_name": "一体化压铸",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "汽车铝合金轻量化结构件"
+    ],
+    "fact": "新能源汽车门槛梁托盘副车架，挤压压铸焊接CNC工艺。",
+    "company_fact": "新能源汽车门槛梁托盘副车架，挤压压铸焊接CNC工艺。",
+    "ths_fact": "副车架一体压铸供应商形成增长点。",
+    "reason": "直接轻量化制造身份，割草机器人探索不当已销售产品。"
+  },
+  {
+    "id": "603421.SH",
+    "key": "smart_grid",
+    "sector": "智能电网",
+    "source_sector_name": "智能电网",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "电力载波计量与采集设备"
+    ],
+    "fact": "全品类计量产品采集终端监控终端等智能电网方案。",
+    "company_fact": "全品类计量产品采集终端监控终端等智能电网方案。",
+    "ths_fact": "低压载波模块芯片及采集设备用于电网信息采集。",
+    "reason": "电网设备实际经营，芯片大量自用支撑，不将泛虚拟电厂应用等同电厂运营。"
+  },
+  {
+    "id": "603429.SH",
+    "key": "paper_packaging",
+    "sector": "纸包装",
+    "source_sector_name": "纸包装",
+    "source_sector_provider": "东方财富",
+    "stage": "revenue",
+    "chain": [
+      "包装印刷及复合纸"
+    ],
+    "fact": "包装印刷品电化铝复合纸生产销售并拓社会包装。",
+    "company_fact": "包装印刷品电化铝复合纸生产销售并拓社会包装。",
+    "ths_fact": "旧烟草包装供货与新药业拟收购需区别。",
+    "reason": "原H1确认当前包装经营，慧聚交易尚问询不当已并表药企，避免沿用旧烟草客户清单。",
+    "extra_evidence": [
+      {
+        "evidence_id": "603429-2026h1-packaging",
+        "source_kind": "official_filing",
+        "publisher": "集友股份",
+        "title": "2026年半年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12574564&stockid=603429",
+        "published_at": "2026-08-31",
+        "assertions": [
+          "当前包装印刷电化铝复合纸业务；拟收购慧聚50.76%，交易问询仍在回复阶段。"
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,54 @@
+{
+  "instrument_id": "000514.SZ",
+  "name": "渝开发",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "000514.SZ",
+    "name": "渝开发",
+    "memberships": [
+      "房地产",
+      "房地产开发",
+      "住宅开发",
+      "重庆板块",
+      "2026中报首亏",
+      "破净股",
+      "机构重仓",
+      "化债(AMC)概念",
+      "一带一路",
+      "央国企改革",
+      "西部大开发",
+      "成渝特区"
+    ],
+    "business_sections": [
+      {
+        "title": "房地产开发与销售业务",
+        "kind": "主营业务",
+        "text": "公司主要从事房地产开发与销售业务，拥有建设部颁发的房地产开发企业一级资质证书。目前，所开发项目主要集中在重庆主城。公司房地产开发主要以住宅、社区商业为主，在建在售项目有茶园项目三期、星河one三期项目，贯金和府一期共三个项目。公司目前仍以商品房销售和存量商业运营为主，在重庆具有一定的品牌效应和市场认知度，报告期内未发生变化。"
+      },
+      {
+        "title": "核心竞争力",
+        "kind": "核心竞争力",
+        "text": "公司目前拥有总储备土地计容面积24.15万㎡，权益计容面积17.82万㎡，目前在建计容面积19.66万㎡，可保证未来几年的平稳经营和发展需要；公司建立起项目全周期运营计划，合理规划当期和远期的开发节奏，预测项目全周期利润和现金流，保证公司项目决策的客观性；在工程建设方面，通过内控制度的建设和管控体系的严格执行，保证了公司所开发项目的建设成本控制在预期目标内；在财务成本上，通过严格执行资金计划，多种融资方式相结合，使公司财务成本处于较优秀的水平。公司除房地产开发业务外，还在物业管理、会议展览、市政设施、商业租赁等方面开展经营，在一定程度上能够有效对冲房地产市场周期波动的风险。公司通过合理运营和严格成本控制，有效提升了公司的整体抗风险能力。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ000514",
+    "fetched_at": "2026-09-18T22:35:27.210823+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [
+    "房地产"
+  ],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "住宅销售"
+}

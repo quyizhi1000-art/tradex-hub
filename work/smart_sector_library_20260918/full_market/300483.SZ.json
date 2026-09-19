@@ -1,0 +1,61 @@
+{
+  "instrument_id": "300483.SZ",
+  "name": "首华燃气",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "300483.SZ",
+    "name": "首华燃气",
+    "memberships": [
+      "公用事业",
+      "燃气Ⅱ",
+      "燃气Ⅲ",
+      "上海板块",
+      "券商金股",
+      "股权分散",
+      "创业板综",
+      "深股通",
+      "基金重仓",
+      "油气资源",
+      "天然气"
+    ],
+    "business_sections": [
+      {
+        "title": "天然气业务",
+        "kind": "主营业务",
+        "text": "报告期内，公司的主营业务为天然气业务，主要由中海沃邦、永和伟润、浙江沃憬、山西沃晋等主体开展运营，主要从事天然气的勘探、开发、生产、代输增压和销售。"
+      },
+      {
+        "title": "储量优势",
+        "kind": "核心竞争力",
+        "text": "公司所处的天然气上游开采领域，天然气储量对于公司的经营发展起着决定性作用。截至报告期末，石楼西区块累计已经自然资源部门备案的天然气（含煤层气）地质储量2,163亿立方米。"
+      },
+      {
+        "title": "技术优势",
+        "kind": "核心竞争力",
+        "text": "公司深耕天然气开采业多年，积累了丰富的非常规天然气勘探开发经验，逐步建立起一支专业知识水平高、工作经验丰富、综合能力强的管理和技术团队。技术人员平均从业年限超过10年，具备复杂地质条件下的开发技术及经验，尤其在石楼西区块的非常规天然气开发过程中积累了丰富的实战能力。优秀的管理团队和技术团队，能够应对天然气开采的风险及技术障碍，及时处理各种突发事件，保证工作顺利开展；同时，强化地质工程一体化，技术人员将其丰富的技术经验与地质条件结合，形成了一整套适用于矿区地质条件和气藏特征的天然气勘探、开采、生产技术体系。"
+      },
+      {
+        "title": "市场及产业链优势",
+        "kind": "核心竞争力",
+        "text": "山西省经过多年发展已形成较为完备的天然气产业链。陕京一线、陕京二线、陕京三线、“西气东输”、榆济线共5条国家级天然气主干管线过境山西省，省内管网已通达全省11个设区市、90余县（市、区）和部分重点镇，重点覆盖城市居民燃气、工业、加气站等领域。石楼西区块位于山西省永和县、石楼县境内，外输管线已连接省级干线临临线，以及国家管网西气东输一线销往国内下游市场。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ300483",
+    "fetched_at": "2026-09-18T23:10:01.868401+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "油气"
+}

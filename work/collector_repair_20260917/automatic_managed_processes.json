@@ -1,0 +1,21 @@
+{
+  "collector": {
+    "name": "collector",
+    "process_pid": 50844,
+    "process_start_utc": "2026-09-17T08:18:45.3202294Z",
+    "started_at": "2026-09-17T16:18:50.1435764+08:00",
+    "stdout_log": "G:\\money\\.tradex-run\\collector.out.log",
+    "stderr_log": "G:\\money\\.tradex-run\\collector.err.log"
+  },
+  "dashboard": {
+    "name": "dashboard",
+    "port": 8765,
+    "process_pid": 63180,
+    "process_start_utc": "2026-09-17T08:18:52.1699786Z",
+    "launcher_pid": 53948,
+    "launcher_start_utc": "2026-09-17T08:18:52.0972533Z",
+    "started_at": "2026-09-17T16:18:54.5106096+08:00",
+    "stdout_log": "G:\\money\\.tradex-run\\dashboard.out.log",
+    "stderr_log": "G:\\money\\.tradex-run\\dashboard.err.log"
+  }
+}

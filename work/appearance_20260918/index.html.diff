@@ -1,0 +1,49 @@
+--- 
+
++++ 
+
+@@ -10,6 +10,7 @@
+
+         let preference = {};
+         try { preference = JSON.parse(localStorage.getItem("tradex.marketWatch.appearance.v1")) || {}; } catch {}
+-        document.documentElement.dataset.theme = ["paper", "mist", "sage", "graphite", "classic"].includes(preference.theme) ? preference.theme : "paper";
++        document.documentElement.dataset.theme = ["porcelain", "sand", "ink", "paper", "mist", "sage", "graphite", "classic"].includes(preference.theme) ? preference.theme : "porcelain";
+         document.documentElement.dataset.layout = ["comfortable", "compact", "wide"].includes(preference.layout) ? preference.layout : "comfortable";
++        document.documentElement.dataset.font = ["noto", "deng", "yahei"].includes(preference.font) ? preference.font : "noto";
+       })();
+     </script>
+@@ -31,5 +32,5 @@
+
+         </div>
+         <button class="button button-secondary appearance-trigger" id="appearance-button" type="button" popovertarget="appearance-panel" aria-haspopup="dialog" aria-expanded="false">
+-          <span aria-hidden="true">◐</span> 外观 · <span id="appearance-current">暖纸米白</span>
++          <span aria-hidden="true">◐</span> 外观 · <span id="appearance-current">瓷白钴蓝</span>
+         </button>
+         <div class="toolbar" aria-label="刷新与提醒控制">
+@@ -59,10 +60,24 @@
+
+         </div>
+         <fieldset class="appearance-fieldset"><legend>页面配色</legend>
++          <div class="appearance-themes appearance-themes--new">
++            <button type="button" class="appearance-choice" data-appearance-theme="porcelain" aria-pressed="true"><span class="appearance-swatch appearance-swatch--editorial" style="--sample-bg:#f3f4f6;--sample-panel:#ffffff;--sample-accent:#345bd6;--sample-text:#242a35" aria-hidden="true"><b>MARKET / 01</b><em>清晰，有序。</em><i></i><i></i></span><strong>瓷白钴蓝 <span class="appearance-recommended">推荐</span></strong><small>中性灰白 · 克制蓝色 · 轻盈卡片</small><span class="appearance-selected" aria-hidden="true">✓ 已选</span></button>
++            <button type="button" class="appearance-choice" data-appearance-theme="sand" aria-pressed="false"><span class="appearance-swatch appearance-swatch--editorial" style="--sample-bg:#f2efea;--sample-panel:#fcfaf7;--sample-accent:#9a503a;--sample-text:#332e2b" aria-hidden="true"><b>MARKET / 02</b><em>温和，从容。</em><i></i><i></i></span><strong>月砂赤陶</strong><small>暖白与墨色 · 赤陶点缀 · 平整分区</small><span class="appearance-selected" aria-hidden="true">✓ 已选</span></button>
++            <button type="button" class="appearance-choice" data-appearance-theme="ink" aria-pressed="false"><span class="appearance-swatch appearance-swatch--editorial" style="--sample-bg:#191b23;--sample-panel:#222530;--sample-accent:#b2a8f2;--sample-text:#e3e4ec" aria-hidden="true"><b>MARKET / 03</b><em>沉静，专注。</em><i></i><i></i></span><strong>墨夜鸢尾</strong><small>墨灰底色 · 柔和蓝紫 · 细线层次</small><span class="appearance-selected" aria-hidden="true">✓ 已选</span></button>
++          </div>
++          <details class="appearance-previous"><summary>之前的 5 套配色</summary>
+           <div class="appearance-themes">
+-            <button type="button" class="appearance-choice" data-appearance-theme="paper" aria-pressed="true"><span class="appearance-swatch" style="--sample-bg:#f1eee6;--sample-panel:#faf8f2;--sample-accent:#826744" aria-hidden="true"><i></i><i></i><i></i></span><strong>暖纸米白</strong><small>柔和暖底 · 长时间阅读</small><span class="appearance-selected" aria-hidden="true">✓ 已选</span></button>
++            <button type="button" class="appearance-choice" data-appearance-theme="paper" aria-pressed="false"><span class="appearance-swatch" style="--sample-bg:#f1eee6;--sample-panel:#faf8f2;--sample-accent:#826744" aria-hidden="true"><i></i><i></i><i></i></span><strong>暖纸米白</strong><small>柔和暖底 · 长时间阅读</small><span class="appearance-selected" aria-hidden="true">✓ 已选</span></button>
+             <button type="button" class="appearance-choice" data-appearance-theme="mist" aria-pressed="false"><span class="appearance-swatch" style="--sample-bg:#e8edf2;--sample-panel:#f5f7fa;--sample-accent:#486d94" aria-hidden="true"><i></i><i></i><i></i></span><strong>雾蓝浅灰</strong><small>清爽浅灰 · 层次分明</small><span class="appearance-selected" aria-hidden="true">✓ 已选</span></button>
+             <button type="button" class="appearance-choice" data-appearance-theme="sage" aria-pressed="false"><span class="appearance-swatch" style="--sample-bg:#e7ece4;--sample-panel:#f3f6ef;--sample-accent:#526e50" aria-hidden="true"><i></i><i></i><i></i></span><strong>鼠尾草绿</strong><small>低饱和绿 · 安静自然</small><span class="appearance-selected" aria-hidden="true">✓ 已选</span></button>
+             <button type="button" class="appearance-choice" data-appearance-theme="graphite" aria-pressed="false"><span class="appearance-swatch" style="--sample-bg:#25272b;--sample-panel:#303237;--sample-accent:#b4b9ca" aria-hidden="true"><i></i><i></i><i></i></span><strong>柔和石墨</strong><small>中性深灰 · 减少炫光</small><span class="appearance-selected" aria-hidden="true">✓ 已选</span></button>
+             <button type="button" class="appearance-choice" data-appearance-theme="classic" aria-pressed="false"><span class="appearance-swatch" style="--sample-bg:#071016;--sample-panel:#13232d;--sample-accent:#55c8d2" aria-hidden="true"><i></i><i></i><i></i></span><strong>经典深青</strong><small>保留原来的配色</small><span class="appearance-selected" aria-hidden="true">✓ 已选</span></button>
++          </div>
++          </details>
++        </fieldset>
++        <fieldset class="appearance-fieldset"><legend>中文字体 · 可与任意配色搭配</legend>
++          <div class="appearance-fonts">
++            <button class="appearance-choice" type="button" data-appearance-font="noto" aria-pressed="true"><span class="appearance-font-sample">盘面观察 <em>Aa 0123</em></span><strong>Noto 黑体</strong><small>清晰匀称 · 推荐</small></button>
++            <button class="appearance-choice" type="button" data-appearance-font="deng" aria-pressed="false"><span class="appearance-font-sample">盘面观察 <em>Aa 0123</em></span><strong>等线</strong><small>字形舒展 · 轻盈</small></button>
++            <button class="appearance-choice" type="button" data-appearance-font="yahei" aria-pressed="false"><span class="appearance-font-sample">盘面观察 <em>Aa 0123</em></span><strong>雅黑 UI</strong><small>紧凑清晰 · 熟悉</small></button>
+           </div>
+         </fieldset>

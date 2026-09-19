@@ -336,6 +336,9 @@ class ManualPortfolioRelationshipContextV1(ContractModel):
     concept_names: tuple[str, ...] = ()
     business_summary: str | None = None
     quality_flags: tuple[str, ...] = ()
+    market_sector_name: str | None = None
+    market_sector_revision: str | None = None
+    market_sector_status: Literal["verified", "unresolved", "stale", "disputed"] = "unresolved"
 
     @model_validator(mode="after")
     def validate_relationship_projection(self) -> "ManualPortfolioRelationshipContextV1":

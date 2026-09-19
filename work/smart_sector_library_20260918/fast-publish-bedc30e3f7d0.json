@@ -1,0 +1,477 @@
+[
+  {
+    "id": "688429.SH",
+    "key": "photovoltaics",
+    "sector": "光伏",
+    "source_sector_name": "光伏概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "光伏辅材设备电池"
+    ],
+    "fact": "光伏新技术平台，三大业务。",
+    "company_fact": "光伏新技术平台，三大业务。",
+    "ths_fact": "主营光伏湿制程辅助品装备及电池。",
+    "reason": "涵盖实际经营环节，不把TOPCON可升级能力当全部已改造。"
+  },
+  {
+    "id": "688432.SH",
+    "key": "semiconductor_materials",
+    "sector": "半导体材料",
+    "source_sector_name": "半导体材料",
+    "source_sector_provider": "东方财富",
+    "stage": "revenue",
+    "chain": [
+      "硅片及刻蚀硅材料"
+    ],
+    "fact": "硅材料研发生产销售用于集成电路功率传感器及刻蚀设备。",
+    "company_fact": "硅材料研发生产销售用于集成电路功率传感器及刻蚀设备。",
+    "ths_fact": "半导体硅材料抛光片区熔单晶等。",
+    "reason": "芯片上游硅材料，参股存储客户供货不能称自营存储芯片。"
+  },
+  {
+    "id": "688433.SH",
+    "key": "three_d_printing",
+    "sector": "3D打印",
+    "source_sector_name": "3D打印",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "工业增材制造装备"
+    ],
+    "fact": "SLM SLS工业装备材料工艺服务。",
+    "company_fact": "SLM SLS工业装备材料工艺服务。",
+    "ths_fact": "金属及高分子3D打印设备产销。",
+    "reason": "设备技术身份明确，航天机器人为应用行业。"
+  },
+  {
+    "id": "688435.SH",
+    "key": "data_security",
+    "sector": "数据安全",
+    "source_sector_name": "数据安全",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "数据复制容灾软件"
+    ],
+    "fact": "数据复制灾备软件一体机服务，三种核心复制技术。",
+    "company_fact": "数据复制灾备软件一体机服务，三种核心复制技术。",
+    "ths_fact": "容灾备份保护数据与系统连续性。",
+    "reason": "实际数据保护软件，模型数据保障不等同模型研发。"
+  },
+  {
+    "id": "688439.SH",
+    "key": "military_electronics",
+    "sector": "军工电子",
+    "source_sector_name": "军工电子Ⅱ",
+    "source_sector_provider": "东方财富",
+    "stage": "revenue",
+    "chain": [
+      "高可靠集成电路"
+    ],
+    "fact": "高可靠IC设计封装测试销售，抗辐照信号链等。",
+    "company_fact": "高可靠IC设计封装测试销售，抗辐照信号链等。",
+    "ths_fact": "军用集成电路供应军工集团科研单位。",
+    "reason": "军工芯片市场身份；人形磁编码技术适用不自动变成人形量产。"
+  },
+  {
+    "id": "603948.SH",
+    "key": "chips",
+    "sector": "芯片",
+    "source_sector_name": "芯片概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "超纯氨与电子氨水"
+    ],
+    "stage": "revenue",
+    "fact": "生产脂肪胺电子化学品及乙酸酯。",
+    "company_fact": "生产脂肪胺电子化学品及乙酸酯。",
+    "ths_fact": "子公司生产销售超纯氨，电子级氨水用于晶圆清洗。",
+    "reason": "电子材料具实际产品和生产销售，属于半导体材料配套，不是芯片设计。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603949.SH",
+    "key": "automotive_thermal",
+    "sector": "汽车热管理",
+    "source_sector_name": "汽车热管理",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "冷却风扇总成"
+    ],
+    "stage": "revenue",
+    "fact": "研发生产内燃机冷却及轻量化塑料产品。",
+    "company_fact": "研发生产内燃机冷却及轻量化塑料产品。",
+    "ths_fact": "冷却风扇及硅油离合器风扇总成为商用车热管理产品。",
+    "reason": "热管理与明确冷却产品直接对应。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603950.SH",
+    "key": "low_altitude_economy",
+    "sector": "低空经济",
+    "source_sector_name": "低空经济",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "飞行电驱壳体"
+    ],
+    "stage": "orders",
+    "fact": "加工发动机缸体缸盖等精密核心部件。",
+    "company_fact": "加工发动机缸体缸盖等精密核心部件。",
+    "ths_fact": "获得飞行汽车电驱主壳外转子等定点通知。",
+    "reason": "精密加工延伸有明确客户定点，数量供期以订单为准，不推为已批量收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603955.SH",
+    "key": "urban_construction",
+    "sector": "新型城镇化",
+    "source_sector_name": "新型城镇化",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "生态园林与城市更新"
+    ],
+    "stage": "revenue",
+    "fact": "生态规划建设治理及养护产业链，新增宠物业务。",
+    "company_fact": "生态规划建设治理及养护产业链，新增宠物业务。",
+    "ths_fact": "实际从事城市更新生态修复等综合服务。",
+    "reason": "成熟城市生态工程与主题一致；宠物起步、羽毛球机器人产业化准备尚不足替代。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603956.SH",
+    "key": "ai_applications",
+    "sector": "AI应用",
+    "source_sector_name": "AI应用",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "河图水务AI平台"
+    ],
+    "stage": "delivery",
+    "fact": "智慧水务硬件软件物联网一体化方案。",
+    "company_fact": "智慧水务硬件软件物联网一体化方案。",
+    "ths_fact": "河图AI已应用水厂管网调度及营销场景。",
+    "reason": "垂直水务AI为对外产品实际应用，不因模型接入推断资本关系或全收入为AI。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603958.SH",
+    "key": "consumer_electronics",
+    "sector": "消费电子",
+    "source_sector_name": "消费电子概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "精密金属结构件与自动化"
+    ],
+    "stage": "revenue",
+    "fact": "控股郎克斯和哈森工业生产手机电脑穿戴结构件及设备。",
+    "company_fact": "控股郎克斯和哈森工业生产手机电脑穿戴结构件及设备。",
+    "ths_fact": "主营已经包括精密结构件和自动化设备。",
+    "reason": "现有控股消费电子经营双源一致，不将拟购辰瓴或拟设机器人参股业务当已完成。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603959.SH",
+    "key": "lithium_batteries",
+    "sector": "锂电池",
+    "source_sector_name": "锂电池概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "锂电材料智能产线"
+    ],
+    "stage": "revenue",
+    "fact": "经营正负极三元前驱体智能产线集成及工程总包。",
+    "company_fact": "经营正负极三元前驱体智能产线集成及工程总包。",
+    "ths_fact": "面向锂电材料智慧工厂提供设备与EPC整体方案。",
+    "reason": "锂电装备已有本体经营，旧条目子公司未并表不用于证明当前关系，机器人仅策划拓展。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603960.SH",
+    "key": "industrial_robots",
+    "sector": "工业机器人",
+    "source_sector_name": "工业机器人",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "柔性装配检测机器人系统"
+    ],
+    "stage": "revenue",
+    "fact": "工业机器人系统用于新能源电驱电控及ADAS产线。",
+    "company_fact": "工业机器人系统用于新能源电驱电控及ADAS产线。",
+    "ths_fact": "机器人涂胶装配码垛有工程应用。",
+    "reason": "对外自动化产线以机器人为系统核心，非自有工厂采购机器人。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603966.SH",
+    "key": "robotics",
+    "sector": "机器人",
+    "source_sector_name": "机器人概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "空中重载搬运机器人"
+    ],
+    "stage": "revenue",
+    "fact": "提供起重设备及桁架式空中机器人搬运方案。",
+    "company_fact": "提供起重设备及桁架式空中机器人搬运方案。",
+    "ths_fact": "成熟产品包括酿酒换电和三维物流机器人。",
+    "reason": "机器人产品及客户场景明确，属于工业重载不是人形。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603967.SH",
+    "key": "cross_border_logistics",
+    "sector": "跨境物流",
+    "source_sector_name": "跨境物流",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "跨境集装箱及工程物流"
+    ],
+    "stage": "revenue",
+    "fact": "经营跨境集装箱工程及资源转运物流。",
+    "company_fact": "经营跨境集装箱工程及资源转运物流。",
+    "ths_fact": "提供港口货代仓储及跨境综合物流。",
+    "reason": "全球物流经营完整，单项核电运输为细分场景。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603968.SH",
+    "key": "sugar_substitutes",
+    "sector": "代糖",
+    "source_sector_name": "代糖概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "安赛蜜及食品添加剂"
+    ],
+    "stage": "revenue",
+    "fact": "食品添加剂产品明确含乙酰磺胺酸钾。",
+    "company_fact": "食品添加剂产品明确含乙酰磺胺酸钾。",
+    "ths_fact": "精细化学品产品表同列乙酰磺胺酸钾，早期安赛蜜项目施工。",
+    "reason": "较新实际产品表与代糖题材互证，不仅依据旧建设计划。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603969.SH",
+    "key": "water_conservancy",
+    "sector": "水利",
+    "source_sector_name": "水利",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "PCCP预应力钢丝"
+    ],
+    "stage": "revenue",
+    "fact": "生产预应力钢材及轨道混凝土制品。",
+    "company_fact": "生产预应力钢材及轨道混凝土制品。",
+    "ths_fact": "PCCP钢丝用于多项引调水工程。",
+    "reason": "重大水利材料供应有连续应用，雅下仅跟踪准备不当订单。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603970.SH",
+    "key": "supply_marketing_cooperatives",
+    "sector": "供销社",
+    "source_sector_name": "供销社",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "供销体系农药流通"
+    ],
+    "stage": "revenue",
+    "fact": "主营农药流通及植保技术服务。",
+    "company_fact": "主营农药流通及植保技术服务。",
+    "ths_fact": "供销总社控制并经营农药供应网络。",
+    "reason": "控制体系与农资供销真实业务相吻合，不是仅国资身份标签。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603976.SH",
+    "key": "medical_devices",
+    "sector": "医疗器械",
+    "source_sector_name": "医疗器械概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "药用玻璃包装"
+    ],
+    "stage": "revenue",
+    "fact": "药用管制玻璃瓶及瓶盖生产销售。",
+    "company_fact": "药用管制玻璃瓶及瓶盖生产销售。",
+    "ths_fact": "药用玻璃管制瓶为明确规模产品。",
+    "reason": "药包材料业务明确，属于耗材包装而非疫苗研发。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603977.SH",
+    "key": "civil_explosives",
+    "sector": "民爆",
+    "source_sector_name": "民爆概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "炸药雷管与爆破服务"
+    ],
+    "stage": "revenue",
+    "fact": "民爆研发生产销售爆破一体化兼新材料。",
+    "company_fact": "民爆研发生产销售爆破一体化兼新材料。",
+    "ths_fact": "炸药雷管索类及矿山基建爆破服务明确。",
+    "reason": "民爆有完整持续经营基础，商业航天火箭应用仍在拓展，不用拟建助推产能替代。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603978.SH",
+    "key": "lithium_batteries",
+    "sector": "锂电池",
+    "source_sector_name": "锂电池概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "电池铝箔坯料"
+    ],
+    "stage": "revenue",
+    "fact": "10万吨电池铝箔坯料项目2024末建成投产销售。",
+    "company_fact": "10万吨电池铝箔坯料项目2024末建成投产销售。",
+    "ths_fact": "同确认电池铝箔坯料投产及六氟磷酸锂已投产线。",
+    "reason": "电池材料有投产经营，未投产扩产线和钠盐中试不计量产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603979.SH",
+    "key": "metal_copper",
+    "sector": "金属铜",
+    "source_sector_name": "金属铜",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "铜矿开发及矿山服务"
+    ],
+    "stage": "revenue",
+    "fact": "自有矿区四个在产，产品主要铜与磷矿石。",
+    "company_fact": "自有矿区四个在产，产品主要铜与磷矿石。",
+    "ths_fact": "主要产品含铜及磷矿石销售和矿山服务。",
+    "reason": "资源开发已落地，铜主题具生产销售支撑，不仅工程服务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603980.SH",
+    "key": "dyes",
+    "sector": "染料",
+    "source_sector_name": "染料",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "分散活性染料及中间体"
+    ],
+    "stage": "revenue",
+    "fact": "染料及染料中间体研发生产销售。",
+    "company_fact": "染料及染料中间体研发生产销售。",
+    "ths_fact": "分散活性染料与H酸产品用于纺织印染。",
+    "reason": "染料实体经营明确，药品仿制批准与合作方创新药不可笼统合并成自有创新药收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603982.SH",
+    "key": "integrated_die_casting",
+    "sector": "一体化压铸",
+    "source_sector_name": "一体化压铸",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "多合一电驱壳体"
+    ],
+    "stage": "revenue",
+    "fact": "生产三电及智能驾驶铝合金精密壳体。",
+    "company_fact": "生产三电及智能驾驶铝合金精密壳体。",
+    "ths_fact": "多合一壳体一体化压铸已量产应用多款新能源车。",
+    "reason": "具体量产工艺及产品强化主线，汽车减速机不误作机器人减速器。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603983.SH",
+    "key": "recombinant_proteins",
+    "sector": "重组蛋白",
+    "source_sector_name": "重组蛋白",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "重组胶原护肤及修复"
+    ],
+    "stage": "revenue",
+    "fact": "以皮肤生物科学开发丸美护肤和彩妆。",
+    "company_fact": "以皮肤生物科学开发丸美护肤和彩妆。",
+    "ths_fact": "重组胶原等明星系列已用合成生物技术，发布术后修复产品。",
+    "reason": "生物活性成分已融入商业产品，不把内部数字人当AI主业。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603985.SH",
+    "key": "computing_power_leasing",
+    "sector": "算力租赁",
+    "source_sector_name": "算力租赁",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "智算集群与算力服务"
+    ],
+    "stage": "revenue",
+    "fact": "控股润六尺经营智算服务器算力及运营业务。",
+    "company_fact": "控股润六尺经营智算服务器算力及运营业务。",
+    "ths_fact": "已完成智算集群搭建产生算力收入，并提供租赁。",
+    "reason": "算力服务真实经营可形成市场主线，不按规划投资推算已落地规模。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603986.SH",
+    "key": "memory_chips",
+    "sector": "存储芯片",
+    "source_sector_name": "存储芯片",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "NOR NAND及DRAM"
+    ],
+    "stage": "revenue",
+    "fact": "研发销售存储器MCU传感与模拟芯片。",
+    "company_fact": "研发销售存储器MCU传感与模拟芯片。",
+    "ths_fact": "明确Flash及DRAM存储产品经营。",
+    "reason": "存储核心产品身份明确，人形控制方案属应用拓展。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603987.SH",
+    "key": "medical_devices",
+    "sector": "医疗器械",
+    "source_sector_name": "医疗器械概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "穿刺与输注耗材"
+    ],
+    "stage": "revenue",
+    "fact": "研发生产销售医用穿刺针输注器械。",
+    "company_fact": "研发生产销售医用穿刺针输注器械。",
+    "ths_fact": "从不锈钢焊管至穿刺装配灭菌完整产业链。",
+    "reason": "成熟穿刺耗材为主线，医美新品待批与辅助生殖中试不当获批收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603988.SH",
+    "key": "wind_power",
+    "sector": "风电",
+    "source_sector_name": "风电",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "风力发电机"
+    ],
+    "stage": "revenue",
+    "fact": "生产大中型交直流电机发电机及成套电源。",
+    "company_fact": "生产大中型交直流电机发电机及成套电源。",
+    "ths_fact": "陆海风力发电机多机型研发及量产。",
+    "reason": "实际发电机产品支持风电归属，供汽车客户压缩机电机非汽车驱动电机。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603989.SH",
+    "key": "passive_components",
+    "sector": "被动元件",
+    "source_sector_name": "被动元件",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "铝电解及薄膜电容"
+    ],
+    "stage": "revenue",
+    "fact": "生产电容电极箔金属化膜。",
+    "company_fact": "生产电容电极箔金属化膜。",
+    "ths_fact": "铝电解电容有明确制造与多领域供货。",
+    "reason": "跨新能源算力的共同核心为电容，固态电池设备可用不代表自产电池。",
+    "basis": "crosschecked_sources"
+  }
+]

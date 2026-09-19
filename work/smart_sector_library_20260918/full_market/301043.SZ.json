@@ -1,0 +1,49 @@
+{
+  "instrument_id": "301043.SZ",
+  "name": "绿岛风",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "301043.SZ",
+    "name": "绿岛风",
+    "memberships": [
+      "机械设备",
+      "通用设备",
+      "制冷空调设备",
+      "广东板块",
+      "创业板综",
+      "融资融券",
+      "机构重仓",
+      "QFII重仓",
+      "建筑节能"
+    ],
+    "business_sections": [
+      {
+        "title": "室内通风系统产品的设计研发、生产及销售",
+        "kind": "主营业务",
+        "text": "公司主要从事室内通风系统产品的设计研发、生产及销售，致力于改善室内空气质量、提高建筑节能水平，为客户提供智能化、定制化、一体化室内通风系统解决方案。主要产品覆盖新风系列产品、风幕机两大品类、上百个系列、数千种型号，适用于民用住宅、市政基建、商业场所、工业厂房等国民经济各个领域。"
+      },
+      {
+        "title": "研发团队与技术优势",
+        "kind": "核心竞争力",
+        "text": "公司现为高新技术企业、国家知识产权示范企业、广东省室内通风系统工程技术研究中心、广东省博士工作站、广东省省级企业技术中心、AMCA会员单位及中国通用机械工业协会风机分会会员单位。公司组建了行业经验丰富的技术研发队伍，研发团队结合对市场走向的准确把握，对国际相关领先技术和产品的长期跟踪调研，公司建立了标准的研发设计管理模式，引进了行业先进的美国参数技术公司（PTC公司）Windchill的产品生命周期管理（PLM）系统。采用自主研发或与西安交通大学、上海交通大学、华中科技大学等高等院校合作研发的方式开展技术研究，积极探索行业先进技术，不断在核心技术上取得突破，取得了大量知识产权成果。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ301043",
+    "fetched_at": "2026-09-18T23:21:34.560554+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "新风系列"
+}

@@ -1,0 +1,71 @@
+{
+  "instrument_id": "300137.SZ",
+  "name": "先河环保",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "300137.SZ",
+    "name": "先河环保",
+    "memberships": [
+      "环保",
+      "环保设备Ⅱ",
+      "环保设备Ⅲ",
+      "河北板块",
+      "创业板综",
+      "深股通",
+      "AI智能体",
+      "算力概念",
+      "AIGC概念",
+      "机器人概念",
+      "碳交易",
+      "数据中心",
+      "乡村振兴",
+      "雄安新区",
+      "区块链",
+      "人工智能",
+      "PPP模式",
+      "大数据",
+      "海洋经济",
+      "物联网",
+      "节能环保"
+    ],
+    "business_sections": [
+      {
+        "title": "环境综合服务商",
+        "kind": "主营业务",
+        "text": "公司目前已发展成为集环境监测、环境管理、环境治理为一体的综合服务商，具有全产业链服务优势，在行业中具有较强的竞争力。"
+      },
+      {
+        "title": "技术创新研发优势",
+        "kind": "核心竞争力",
+        "text": "公司始终以自主研发为核心驱动力，搭建起高水平研发创新体系。公司通过建立国家企业技术中心、省级工程技术研究中心、国家地方联合工程实验室等高端研发平台，先后承担国家及省部级重大科技专项，主导或参与制定多项国家、行业及地方标准，技术引领地位突出。与此同时，依托持续创新，公司积累了丰富的科技成果与自主知识产权。截止报告期末，公司（含子公司）共拥有专利425项，拥有软件著作权422项。"
+      },
+      {
+        "title": "全产业链服务优势",
+        "kind": "核心竞争力",
+        "text": "公司具备完善的生态环境全产业链综合服务能力，能够为客户提供智慧监测、大数据服务、治理修复为一体的全方位、一站式环境改善方案。"
+      },
+      {
+        "title": "品牌优势",
+        "kind": "核心竞争力",
+        "text": "公司在生态环境监测与治理领域长期深耕、经验丰富，凭借稳定优异的产品性能、可靠的产品质量以及快速高效的服务体系，在行业内树立了良好口碑与较高品牌影响力。公司通过源清单编制、排放贡献分析、减排模拟、综合整治、效果评估、达标规划等核心技术，深度支撑地方政府环境治理与生态改善，有效助力服务区域环境质量持续达标，获得客户广泛认可与高度信任。经过多年的市场深耕与项目积淀，公司品牌认知度、行业影响力与客户忠诚度不断提升，已成为国内生态环境监测、管理与治理领域具有重要影响力的品牌企业。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ300137",
+    "fetched_at": "2026-09-18T23:03:04.016167+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "运营及咨询服务"
+}

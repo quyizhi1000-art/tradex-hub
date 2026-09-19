@@ -1,0 +1,70 @@
+{
+  "instrument_id": "001221.SZ",
+  "name": "悍高集团",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "001221.SZ",
+    "name": "悍高集团",
+    "memberships": [
+      "轻工制造",
+      "家居用品",
+      "其他家居用品",
+      "广东板块",
+      "消费风格",
+      "小盘成长",
+      "小盘股",
+      "养老金",
+      "深股通",
+      "中证500",
+      "融资融券",
+      "深成500",
+      "电商概念"
+    ],
+    "business_sections": [
+      {
+        "title": "家居五金及户外家具等产品的研发、设计、生产与销售",
+        "kind": "主营业务",
+        "text": "报告期内，公司主要从事家居五金及户外家具等产品的研发、设计、生产与销售业务。公司坚持以原创设计为核心、以精益制造为支撑，将多元化设计理念与高品质产品深度融合，为客户提供外观精致、用材考究、实用性突出的家居收纳五金、基础五金、厨卫五金及户外家具等系列产品。"
+      },
+      {
+        "title": "品牌力",
+        "kind": "核心竞争力",
+        "text": "公司坚持以“悍高（HIGOLD）”自主品牌为核心，深度融合工业设计美学与产品功能，形成面向消费端与产业端协同赋能的立体化品牌体系。"
+      },
+      {
+        "title": "渠道力",
+        "kind": "核心竞争力",
+        "text": "在行业竞争日趋激烈的背景下，公司已构建起“经销与直销结合、线上与线下互补”的全渠道销售体系，能够有效分散单一渠道风险，并深度适配家居行业消费分散化的趋势。"
+      },
+      {
+        "title": "产品力",
+        "kind": "核心竞争力",
+        "text": "公司坚持“高端价值、卓越品质”的产品定位，通过品类拓展、品质管控、场景协同三维发力，构建产品综合竞争力，加速核心产品进口替代进程。"
+      },
+      {
+        "title": "制造力",
+        "kind": "核心竞争力",
+        "text": "公司通过持续推进智能制造升级、优化供应链管理体系、并实施聚焦核心品类的规模化策略，构筑了在成本、效率、交付与品质的综合制造优势。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ001221",
+    "fetched_at": "2026-09-18T22:37:21.659272+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [
+    "消费"
+  ],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "基础五金"
+}

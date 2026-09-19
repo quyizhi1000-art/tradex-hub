@@ -1,0 +1,82 @@
+[
+  {
+    "id": "300781.SZ",
+    "key": "ai_video",
+    "sector": "AI视频",
+    "source_sector_name": "AI视频",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "AI营销内容生成",
+      "视频智能剪辑"
+    ],
+    "fact": "自研营销模型具视频生成剪辑能力并用于客户服务。",
+    "ths_fact": "同花顺AI视频解析明确InsightGPT图生视频和智能剪辑，文生视频当时仍开发。",
+    "company_fact": "主营AI营销已服务腾讯游戏PUBG等客户，覆盖内容生产及智能营销。",
+    "reason": "已有AI视频体现营销内容AI化的市场主线，交付指服务与已有功能，不把早期开发中功能写成当时成熟。"
+  },
+  {
+    "id": "300782.SZ",
+    "key": "rf_devices",
+    "sector": "射频器",
+    "source_sector_name": "射频器",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "射频前端芯片",
+      "射频滤波器模组"
+    ],
+    "fact": "射频集成电路产品构成核心技术身份。",
+    "ths_fact": "同花顺射频器解析明确射频开关放大器滤波器及蓝牙微控制器。",
+    "company_fact": "主营确认射频器件模组研发生产销售，应用智能终端通信汽车等场景。",
+    "reason": "选择已有射频器而非自造射频芯片板块，体现专门产品；下游卫星及物联网并不等于整套系统运营。"
+  },
+  {
+    "id": "300783.SZ",
+    "key": "snack_food",
+    "sector": "休闲零食",
+    "source_sector_name": "休闲零食",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "坚果零食品牌",
+      "全渠道食品销售"
+    ],
+    "fact": "以坚果为品牌核心拓展多品类零食。",
+    "ths_fact": "同花顺休闲零食解析确认品牌电商及线上线下销售坚果干果等。",
+    "company_fact": "主营列坚果、零食、婴童零食矩阵及生活馆品类。",
+    "reason": "已有休闲零食体现消费者产品身份，IP联名和电商直播是品牌渠道手段，不替代食品主归属。"
+  },
+  {
+    "id": "300784.SZ",
+    "key": "ip_economy",
+    "sector": "IP经济(谷子经济)",
+    "source_sector_name": "IP经济(谷子经济)",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "授权塑料玩具制造",
+      "精密注塑模具"
+    ],
+    "fact": "为授权品牌提供塑料玩具制造。",
+    "ths_fact": "同花顺IP经济解析明确为Spin Master生产塑料玩具并获得授权。",
+    "company_fact": "主营为注塑和精密模具一体制造，核心客户领域明确包含玩具日用品。",
+    "reason": "已有IP经济对应玩具制造链，非自有IP版权运营；工业机器人应用项目不认作外销人形产品。"
+  },
+  {
+    "id": "300785.SZ",
+    "key": "ai_agents",
+    "sector": "AI智能体",
+    "source_sector_name": "AI智能体",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "AI购物助手",
+      "消费决策智能体"
+    ],
+    "fact": "购物助手升级为独立AI购物管家应用。",
+    "ths_fact": "同花顺AI智能体解析明确小值购物助手，AI应用解析确认正式上线。",
+    "company_fact": "公司技术优势确认Agent引擎和张大妈购物管家，2025年9月独立App上线并整合导购比价。",
+    "reason": "已有AI智能体对应真实消费应用，而不是内部办公接入；上线交付不等于独立收费收入已证。"
+  }
+]

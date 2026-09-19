@@ -1,0 +1,83 @@
+{
+  "instrument_id": "000572.SZ",
+  "name": "海马汽车",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "000572.SZ",
+    "name": "海马汽车",
+    "memberships": [
+      "汽车",
+      "乘用车",
+      "综合乘用车",
+      "海南板块",
+      "破增发价股",
+      "东方财富热股",
+      "昨日高振幅",
+      "昨日炸板",
+      "昨日触板",
+      "深股通",
+      "融资融券",
+      "机构重仓",
+      "海南自贸",
+      "汽车整车",
+      "换电概念",
+      "氢能源",
+      "共享经济",
+      "车联网(车路云)",
+      "新能源车",
+      "智能驾驶",
+      "充电桩",
+      "婴童概念",
+      "参股银行"
+    ],
+    "business_sections": [
+      {
+        "title": "汽车及汽车动力总成的研发、制造、销售及金融服务",
+        "kind": "主营业务",
+        "text": "公司主营业务为汽车及汽车动力总成的研发、制造、销售及金融服务，主要产品包括海马7X-E、海马7X-H、海马7X、海马8S、海马S7Pro、海马S5Pro等，目标市场包括海外市场及国内重点区域市场。"
+      },
+      {
+        "title": "管理体制优势",
+        "kind": "核心竞争力",
+        "text": "公司核心经营团队长期保持稳定，通过推行条线管理，实现了扁平体制、效率机制，提升公司运营与决策效率，管理机制更加灵活。"
+      },
+      {
+        "title": "技术积累优势",
+        "kind": "核心竞争力",
+        "text": "公司具有自主的燃油车、纯电动汽车、插电式混合动力汽车和氢能汽车整车研发体系，配套建立严谨的质量控制体系与国内、国际结合的配套体系。截至2025年末，公司在国内累计申请专利1185项，在国外累计申请专利63项。"
+      },
+      {
+        "title": "成本控制能力",
+        "kind": "核心竞争力",
+        "text": "公司成立零部件公司，满足自制件需求。其他零部件供应较大比例来自海口、郑州周边配套企业，具备较强的成本管控能力。同时，公司建立了以成本分析为基础的采购目标价格体系，进一步保障了成本控制能力。"
+      },
+      {
+        "title": "海外市场优势",
+        "kind": "核心竞争力",
+        "text": "多年来，公司持续深耕海外市场，打造了一支高效务实、经验丰富的海外市场团队。经过长期合作，公司已与海外主要合作伙伴建立了稳固的战略合作关系。"
+      },
+      {
+        "title": "区位优势",
+        "kind": "核心竞争力",
+        "text": "公司海口基地依托海南自贸港区位、政策及岛屿环境等方面资源禀赋，在协同构建全产业链零碳排放汽车生态体以及出行领域创新突破等方面具备独特优势。与此同时，公司郑州基地位于中原腹地，原点市场庞大、交通物流便利，在面向B端赛道新产品的生产、应用及推广等方面具备独特的区位优势。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ000572",
+    "fetched_at": "2026-09-18T22:35:34.465386+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "汽车"
+}

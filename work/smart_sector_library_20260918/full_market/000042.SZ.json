@@ -1,0 +1,54 @@
+{
+  "instrument_id": "000042.SZ",
+  "name": "中洲控股",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "000042.SZ",
+    "name": "中洲控股",
+    "memberships": [
+      "房地产",
+      "房地产开发",
+      "住宅开发",
+      "广东板块",
+      "2026中报预增",
+      "标准普尔",
+      "深股通",
+      "融资融券",
+      "深圳特区"
+    ],
+    "business_sections": [
+      {
+        "title": "地产开发、酒店经营、物业服务、商业管理",
+        "kind": "主营业务",
+        "text": "公司致力于成为国内一流城市综合运营商，业务涵盖地产开发、酒店经营、物业服务、商业管理等领域。公司聚焦粤港澳大湾区、辐射成渝经济圈、上海大都市圈，实施“专注区域、深耕城市、多盘联动”的战略布局。公司开发建设多个品质住宅项目，拥有优质的土地储备，自持并经营五星级酒店、甲级写字楼、商业综合体，拥有专业的物业服务公司。"
+      },
+      {
+        "title": "战略发展规划",
+        "kind": "核心竞争力",
+        "text": "公司明确战略发展规划，完善组织管控体系、职位和薪酬体系、业务流程体系和业务管控体系，强化战略拓展能力、规划设计能力、运营管理能力、营销策划能力、成本管控能力和资本运作能力，形成“稳中求进、高质发展”的发展模式，为公司实现高度市场化运作、进一步扩大经营规模、增强可持续发展力提供了有力支撑。"
+      },
+      {
+        "title": "运营管理团队",
+        "kind": "核心竞争力",
+        "text": "公司通过调整组织架构，开展人才盘点分析，并通过外部人才引进和内部培养等方式，合理配置人力资源，促进公司人力资源更加年轻化，专业化，人才结构不断完善，打造了一支专业的运营管理团队和高效率的业务队伍。公司根据发展战略构建适合的员工培养体系，构建多层次的激励体系。结合内外部资源，组织内部赋能培训学习和外部专业提升培训，助力员工成长成才。此外，公司对标市场，对薪酬激励体系进行了积极优化，形成“共创、共担、共享”的激励文化，有效地调动了员工的积极性和创造性。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ000042",
+    "fetched_at": "2026-09-18T22:35:16.988742+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "房地产"
+}

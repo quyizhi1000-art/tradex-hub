@@ -1,0 +1,430 @@
+[
+  {
+    "id": "603758.SH",
+    "key": "new_energy_vehicles",
+    "sector": "新能源汽车",
+    "source_sector_name": "新能源汽车",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "增程混动动力结构件"
+    ],
+    "stage": "revenue",
+    "fact": "主营缸体缸盖、混动变速箱及纯电电机壳体。",
+    "company_fact": "主营缸体缸盖、混动变速箱及纯电电机壳体。",
+    "ths_fact": "增程发动机与混动箱体已广泛应用，五合一总成另处样车调试。",
+    "reason": "新能源动力部件已有经营基础，区分已销零件和试验总成；传感器参股不自动视为并表机器人业务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603759.SH",
+    "key": "photovoltaics",
+    "sector": "光伏",
+    "source_sector_name": "光伏概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "光伏电池导电浆料"
+    ],
+    "stage": "revenue",
+    "fact": "双主业包括供排水环保及光伏导电浆料研发生产销售。",
+    "company_fact": "双主业包括供排水环保及光伏导电浆料研发生产销售。",
+    "ths_fact": "光伏解析确认以导电浆料为新能源核心，旧收购解析仍使用拟购买措辞。",
+    "reason": "原2026H1确认原贺利氏银浆三主体已为全资子公司，光伏辅材构成真实转型主线，不停留于旧水务行业。",
+    "basis": "crosschecked_sources",
+    "extra_evidence": [
+      {
+        "evidence_id": "603759-original-2026h1",
+        "source_kind": "official_filing",
+        "publisher": "海天股份",
+        "title": "2026年半年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12553152&stockid=603759",
+        "published_at": "2026-08-27",
+        "assertions": [
+          "原贺利氏光伏、光伏科技及新加坡主体均已为全资新能源新材料子公司；公司形成环保与光伏导电浆料双主业。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "603766.SH",
+    "key": "two_wheelers",
+    "sector": "两轮车",
+    "source_sector_name": "两轮车",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "摩托车与动力平台"
+    ],
+    "stage": "revenue",
+    "fact": "经营无极摩托车、三轮车、全地形车及发动机和通机。",
+    "company_fact": "经营无极摩托车、三轮车、全地形车及发动机和通机。",
+    "ths_fact": "两轮车解析确认自主品牌无极摩托车生产销售与出口。",
+    "reason": "品牌摩托车和整车动力是明确身份，早期农机无人机或车机接入大模型不替代现有主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603767.SH",
+    "key": "reducers",
+    "sector": "减速器",
+    "source_sector_name": "减速器",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "新能源汽车减速器及齿轮"
+    ],
+    "stage": "revenue",
+    "fact": "主营汽车变速器、新能源减速器及各类车辆齿轮。",
+    "company_fact": "主营汽车变速器、新能源减速器及各类车辆齿轮。",
+    "ths_fact": "自动变速器及新能源汽车减速器均进入量产。",
+    "reason": "已有减速器概念与真实量产匹配，但应用是新能源汽车，不把同名减速器误写成人形关节。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603768.SH",
+    "key": "new_energy_vehicles",
+    "sector": "新能源汽车",
+    "source_sector_name": "新能源汽车",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "车身冲压焊接及电池壳体"
+    ],
+    "stage": "revenue",
+    "fact": "研发生产汽车冲压焊接件，覆盖车身底盘与新能源电池壳。",
+    "company_fact": "研发生产汽车冲压焊接件，覆盖车身底盘与新能源电池壳。",
+    "ths_fact": "明确为多家新能源整车供货，电池壳体项目已投产。",
+    "reason": "已供货新能源车结构件比规划性一体压铸更具确定性，不将新基地建设等于全面量产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603773.SH",
+    "key": "glass_substrate",
+    "sector": "玻璃基板",
+    "source_sector_name": "玻璃基板",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "TGV玻璃载板与新型显示"
+    ],
+    "stage": "delivery",
+    "fact": "主营玻璃精加工、Mini/MicroLED玻璃线路板及泛半导体玻璃封装载板。",
+    "company_fact": "主营玻璃精加工、Mini/MicroLED玻璃线路板及泛半导体玻璃封装载板。",
+    "ths_fact": "TGV产线已小批供货，芯片玻璃载板仍客户验证，1.6T载板小批送样。",
+    "reason": "玻璃基板贯通实际技术产品和市场主题，分别记录已供货与客户送样，不把所有芯片项目写成量产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603776.SH",
+    "key": "hydrogen_energy",
+    "sector": "氢能源",
+    "source_sector_name": "氢能源",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "氢能两轮车及制储氢设备"
+    ],
+    "stage": "revenue",
+    "fact": "公共出行之外明确经营氢能两轮车与相关系统。",
+    "company_fact": "公共出行之外明确经营氢能两轮车与相关系统。",
+    "ths_fact": "年报解析明确氢能自行车、制充氢一体机、燃料电池及储氢产品销售与换氢收入。",
+    "reason": "氢能产品及服务已商业化，体现出行技术增量主线；存储芯片旧量产目标不能视为完成。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603777.SH",
+    "key": "snack_food",
+    "sector": "休闲零食",
+    "source_sector_name": "休闲零食",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "自主品牌零食连锁"
+    ],
+    "stage": "revenue",
+    "fact": "建设家庭生活消费平台，围绕供应链及全渠道经营。",
+    "company_fact": "建设家庭生活消费平台，围绕供应链及全渠道经营。",
+    "ths_fact": "休闲零食解析明确自主品牌休闲食品连锁业务。",
+    "reason": "直接零食品牌连锁经营是核心身份，AI营销及联名礼盒为销售手段。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603778.SH",
+    "key": "hjt_cells",
+    "sector": "HJT电池",
+    "source_sector_name": "HJT电池",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "异质结光伏电池及组件"
+    ],
+    "stage": "revenue",
+    "fact": "经营异质结、TOPCon电池组件生产销售及电站EPC。",
+    "company_fact": "经营异质结、TOPCon电池组件生产销售及电站EPC。",
+    "ths_fact": "控股安徽国晟中标大型HJT海上光伏组件采购项目。",
+    "reason": "HJT已有制造销售和实单，优先于旧园林标签；固态电池投资建设计划另看落地。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603779.SH",
+    "key": "other_alcoholic_beverages",
+    "sector": "其他酒类",
+    "source_sector_name": "其他酒类",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "葡萄酒酿造与葡萄种植"
+    ],
+    "stage": "revenue",
+    "fact": "覆盖葡萄种植、葡萄酒生产及销售全流程。",
+    "company_fact": "覆盖葡萄种植、葡萄酒生产及销售全流程。",
+    "ths_fact": "解析确认葡萄酒和白兰地生产销售及种植基地。",
+    "reason": "葡萄酒是直接业务，股东控制变化不能等同算力资产注入；使用已有其他酒类行业。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603786.SH",
+    "key": "automotive_electronics",
+    "sector": "汽车电子",
+    "source_sector_name": "汽车电子",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "域控制器与汽车智能控制"
+    ],
+    "stage": "revenue",
+    "fact": "经营照明电机能源管理、中央计算及智驾域控等电子产品。",
+    "company_fact": "经营照明电机能源管理、中央计算及智驾域控等电子产品。",
+    "ths_fact": "汽车电子解析确认智能节能电子系统，底盘控制产品已量产。",
+    "reason": "汽车电子贯通多类已销控制产品，智驾业务与参股主体区分，不能混淆全部域控收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603787.SH",
+    "key": "two_wheelers",
+    "sector": "两轮车",
+    "source_sector_name": "两轮车",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "电动自行车及电摩"
+    ],
+    "stage": "revenue",
+    "fact": "主营电动自行车、电轻摩和电摩研发生产销售。",
+    "company_fact": "主营电动自行车、电轻摩和电摩研发生产销售。",
+    "ths_fact": "两轮车解析与同股主营一致。",
+    "reason": "整车品牌制造已有持续经营，智能功能和共享使用场景是产品扩展。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603788.SH",
+    "key": "new_energy_vehicles",
+    "sector": "新能源汽车",
+    "source_sector_name": "新能源汽车",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "电子换挡及油门踏板"
+    ],
+    "stage": "revenue",
+    "fact": "主营变速操纵和加速控制系统、踏板总成及拉索。",
+    "company_fact": "主营变速操纵和加速控制系统、踏板总成及拉索。",
+    "ths_fact": "电子换挡器及电子油门踏板均已配套新能源汽车。",
+    "reason": "已供货电控操纵部件支撑新能源车主题，覆盖多家客户无需仅按单一车企分类。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603789.SH",
+    "key": "agricultural_machinery",
+    "sector": "农机",
+    "source_sector_name": "农机",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "农业机械及农事服务"
+    ],
+    "stage": "revenue",
+    "fact": "制造销售农业机械并提供作业服务，另有零部件业务。",
+    "company_fact": "制造销售农业机械并提供作业服务，另有零部件业务。",
+    "ths_fact": "履带农机覆盖水田山地等，产品包括收割机拖拉机和旋耕机。",
+    "reason": "完整农业机械生产服务身份明确，无人化技术是农机升级，ST不是业务板块。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603790.SH",
+    "key": "dyes",
+    "sector": "染料",
+    "source_sector_name": "染料",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "中高端染料及纺织助剂"
+    ],
+    "stage": "revenue",
+    "fact": "研发生产中高端染料助剂并提供染整技术服务。",
+    "company_fact": "研发生产中高端染料助剂并提供染整技术服务。",
+    "ths_fact": "染料解析列活性、酸性、分散染料及各类助剂。",
+    "reason": "直接染整产品体系构成稳定识别，PEEK为另一投资关系，需持续评估其产业影响而非因持有标签自动改主。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603797.SH",
+    "key": "wastewater_treatment",
+    "sector": "污水处理",
+    "source_sector_name": "污水处理",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "污水厂及管网投建运营"
+    ],
+    "stage": "revenue",
+    "fact": "已运营污水厂及分散站点，配套管网泵站和污泥处置。",
+    "company_fact": "已运营污水厂及分散站点，配套管网泵站和污泥处置。",
+    "ths_fact": "污水解析确认收集输送和终端处理服务。",
+    "reason": "实际收费运营与污水处理高度一致，PPP只是合同模式。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603798.SH",
+    "key": "hydrogen_energy",
+    "sector": "氢能源",
+    "source_sector_name": "氢能源",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "氢能催化剂投资关联"
+    ],
+    "stage": "product",
+    "fact": "润滑油为经营基本盘，原H1另确认控参股氢能研发和催化剂产品。",
+    "company_fact": "润滑油为经营基本盘，原H1另确认控参股氢能研发和催化剂产品。",
+    "ths_fact": "氢能源解析指向氢启，燃料电池解析列电堆生产线。",
+    "reason": "氢能形成持续技术投资主线，最新原报重点证实参股创启催化剂产线，显式投资关联；不把参股催化剂产能计为上市公司并表产销，也不延用旧电堆产能证明当前销量。",
+    "basis": "crosschecked_sources",
+    "relation": "investment",
+    "investment_reviewed": true,
+    "extra_evidence": [
+      {
+        "evidence_id": "603798-original-2026h1",
+        "source_kind": "official_filing",
+        "publisher": "康普顿",
+        "title": "2026年半年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12565438&stockid=603798",
+        "published_at": "2026-08-29",
+        "assertions": [
+          "公司参股青岛创启新能催化科技有限公司，其具有1000kg/年燃料电池及电解水制氢催化剂产能，覆盖燃料电池、ALK、AEM、PEM，量产线交付能力稳定。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "603799.SH",
+    "key": "lithium_batteries",
+    "sector": "锂电池",
+    "source_sector_name": "锂电池概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "镍钴锂资源及前驱体正极"
+    ],
+    "stage": "revenue",
+    "fact": "构建资源开发冶炼、三元前驱体、正极及回收的一体化链条。",
+    "company_fact": "构建资源开发冶炼、三元前驱体、正极及回收的一体化链条。",
+    "ths_fact": "锂电解析与实际材料一致，已进入头部动力电池供应链。",
+    "reason": "锂电材料一体化比仅按钴或镍单金属覆盖更完整；固态材料出货为增量，不将全产业收入等同固态。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603800.SH",
+    "key": "glass_substrate",
+    "sector": "玻璃基板",
+    "source_sector_name": "玻璃基板",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "TGV微纳直写光刻设备"
+    ],
+    "stage": "delivery",
+    "fact": "主营铜箔装备、真空镀膜、精密光学设备及油气装备。",
+    "company_fact": "主营铜箔装备、真空镀膜、精密光学设备及油气装备。",
+    "ths_fact": "控股洪镭的TGV玻璃基板光刻机已完成交付，具备批量生产能力。",
+    "reason": "已交付TGV工艺设备支持玻璃基板产业链身份；生产装备而非玻璃载板，消防机器人拟收购未当已并表。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603801.SH",
+    "key": "smart_home",
+    "sector": "智能家居",
+    "source_sector_name": "智能家居",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "定制柜与智能整家"
+    ],
+    "stage": "product",
+    "fact": "围绕全屋定制厨柜门墙软体和门窗形成整家体系。",
+    "company_fact": "围绕全屋定制厨柜门墙软体和门窗形成整家体系。",
+    "ths_fact": "智能家居产品及生态平台完成研发，2025年已在终端门店呈现。",
+    "reason": "智能整家有具体产品和渠道展示，阶段按产品而非未经证实独立收入；内部工业平台不等于对外工业软件。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603803.SH",
+    "key": "computing_power",
+    "sector": "东数西算(算力)",
+    "source_sector_name": "东数西算(算力)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "智算互联交换机及光传输"
+    ],
+    "stage": "delivery",
+    "fact": "提供数据中心交换机、DCI及OTN等网络产品。",
+    "company_fact": "提供数据中心交换机、DCI及OTN等网络产品。",
+    "ths_fact": "已发布400G算力交换机，RoCE交换机和高速光模块在多省运营商智算中心商用部署。",
+    "reason": "直接网络设备支撑算力互联，选算力主线；不称算力租赁收入或把高速光模块自动当CPO光引擎。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603806.SH",
+    "key": "photovoltaics",
+    "sector": "光伏",
+    "source_sector_name": "光伏概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "光伏封装胶膜与背板"
+    ],
+    "stage": "revenue",
+    "fact": "光伏材料板块研发生产胶膜背板等，另有电子功能膜。",
+    "company_fact": "光伏材料板块研发生产胶膜背板等，另有电子功能膜。",
+    "ths_fact": "光伏解析确认胶膜背板，BC专用POE等已有供应。",
+    "reason": "光伏封装材料构成清晰市场身份，电子干膜量产是延伸而非仅凭热点替换原主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603808.SH",
+    "key": "apparel_home_textiles",
+    "sector": "服装家纺",
+    "source_sector_name": "服装家纺",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "多品牌高端时装"
+    ],
+    "stage": "revenue",
+    "fact": "运营歌力思、Laurèl、IRO、self-portrait等品牌及门店。",
+    "company_fact": "运营歌力思、Laurèl、IRO、self-portrait等品牌及门店。",
+    "ths_fact": "同股解析确认服装服饰研发生产销售与定制服务。",
+    "reason": "直接多品牌时装运营是市场身份，虚拟人物或自用供应链AI不等于AI产品收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603809.SH",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "高精密减速器与关节总成"
+    ],
+    "stage": "product",
+    "fact": "形成高精密行星及摆线减速机机器人产品线。",
+    "company_fact": "形成高精密行星及摆线减速机机器人产品线。",
+    "ths_fact": "减速机和关节总成已在人形、机器狗、外骨骼和灵巧手成功应用。",
+    "reason": "直接人形关节核心产品支持主题，应用阶段不虚构单独大批收入，汽车航空业务另留背景。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "603810.SH",
+    "key": "sodium_ion_battery",
+    "sector": "钠离子电池",
+    "source_sector_name": "钠离子电池",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "锂钠盐电解液"
+    ],
+    "stage": "product",
+    "fact": "控股丰山全诺5万吨电解液项目销售爬坡，仍经营农药原药制剂。",
+    "company_fact": "控股丰山全诺5万吨电解液项目销售爬坡，仍经营农药原药制剂。",
+    "ths_fact": "目前新能源研发生产销售集中锂盐、钠盐新型电解液。",
+    "reason": "钠电电解液是具体转型产品，尚无钠系单列销量故按产品，不把整个电解液产能全记钠电；半固态仍研发。",
+    "basis": "crosschecked_sources"
+  }
+]

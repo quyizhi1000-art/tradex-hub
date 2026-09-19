@@ -1,0 +1,451 @@
+[
+  {
+    "id": "600280.SH",
+    "key": "department_stores",
+    "sector": "百货",
+    "source_sector_name": "百货",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "百货零售",
+      "便利店"
+    ],
+    "stage": "revenue",
+    "fact": "在营多家区域百货与罗森便利店，地产尾盘。",
+    "company_fact": "在营多家区域百货与罗森便利店，地产尾盘。",
+    "ths_fact": "原正文明确百货联营经销代销租赁及便利店。",
+    "reason": "真实零售门店和品牌运营支持，不因唯一概念物业管理误改零售定位。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600281.SH",
+    "key": "metal_recycling",
+    "sector": "金属回收",
+    "source_sector_name": "金属回收",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "贵金属催化剂回收",
+      "铂铑钯"
+    ],
+    "stage": "revenue",
+    "fact": "自有贵金属加工及废催化剂回收处置产能。",
+    "company_fact": "自有贵金属加工及废催化剂回收处置产能。",
+    "ths_fact": "全资华盛丰从事铂铑钯回收加工。",
+    "reason": "自有实际回收产品与已有主题直接吻合，PBAT项目平台不等同已量产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600282.SH",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "人形关节轴承钢"
+    ],
+    "stage": "delivery",
+    "fact": "实际精特钢材料平台生产基础零部件用钢。",
+    "company_fact": "实际精特钢材料平台生产基础零部件用钢。",
+    "ths_fact": "2026明确供人形企业关节轴承钢用于肩肘腕指髋膝踝。",
+    "reason": "实际特定下游供货支持人形材料链，不能把全部钢材营收归人形。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600283.SH",
+    "key": "wastewater_treatment",
+    "sector": "污水处理",
+    "source_sector_name": "污水处理",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "城市污水治理",
+      "水务运营"
+    ],
+    "stage": "revenue",
+    "fact": "自有供水污水处理管网工程及受托水处理。",
+    "company_fact": "自有供水污水处理管网工程及受托水处理。",
+    "ths_fact": "明确污水处理及自来水供应安装经营。",
+    "reason": "实际水处理资产运营；水厂内部AI智能体不自动等于对外AI软件销售。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600284.SH",
+    "key": "urban_construction",
+    "sector": "新型城镇化",
+    "source_sector_name": "新型城镇化",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "基础设施建设",
+      "园区开发"
+    ],
+    "stage": "revenue",
+    "fact": "自有施工勘察园区开发运营和建材。",
+    "company_fact": "自有施工勘察园区开发运营和建材。",
+    "ths_fact": "新型城镇化明确基建投资施工园区。",
+    "reason": "实际城市建设链条，浦算仅30%参股拟开展算力不视为自营运营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600285.SH",
+    "key": "innovative_drugs",
+    "sector": "创新药",
+    "source_sector_name": "创新药",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "自主鼻喷新药",
+      "外用制剂"
+    ],
+    "stage": "revenue",
+    "fact": "原H1银谷90%控股且必立汀1.1类新药为自有呼吸系统产品。",
+    "company_fact": "原H1银谷90%控股且必立汀1.1类新药为自有呼吸系统产品。",
+    "ths_fact": "银谷自主创新鼻喷新增适应症已获批。",
+    "reason": "收购及实际药品经营均证实，骨科中药保留不掩盖新药主线；其他仿制鼻喷不混算创新。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "600285-2026-08-12-official",
+        "source_kind": "official_filing",
+        "publisher": "羚锐制药",
+        "title": "2026年半年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12488155&stockid=600285",
+        "published_at": "2026-08-12",
+        "assertions": [
+          "原H1合并子公司银谷90%，必立汀1.1类新药用于两类鼻炎，实际列主营呼吸产品及市场拓展。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "600287.SH",
+    "key": "cross_border_ecommerce",
+    "sector": "跨境电商",
+    "source_sector_name": "跨境电商",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "服装跨境平台",
+      "B2B出口"
+    ],
+    "stage": "product",
+    "fact": "自有服装出口及国内贸易和配套商品业务。",
+    "company_fact": "自有服装出口及国内贸易和配套商品业务。",
+    "ths_fact": "已建中亚欧洲独立站并获得有效询盘。",
+    "reason": "自营跨境平台已经形成，按产品不把询盘当成交收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600288.SH",
+    "key": "machine_vision",
+    "sector": "机器视觉",
+    "source_sector_name": "机器视觉",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "工业摄像机",
+      "图像采集处理"
+    ],
+    "stage": "revenue",
+    "fact": "自有摄像机采集卡图像软件及视觉系统。",
+    "company_fact": "自有摄像机采集卡图像软件及视觉系统。",
+    "ths_fact": "明确多年视觉经营及中头部设备客户。",
+    "reason": "核心自营视觉部件系统完整，机器人为应用场景不自动为人形。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600289.SH",
+    "key": "computing_power",
+    "sector": "东数西算(算力)",
+    "source_sector_name": "东数西算(算力)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "算网调度",
+      "算力服务"
+    ],
+    "stage": "product",
+    "fact": "主营算力服务及运营商智能运维软件。",
+    "company_fact": "主营算力服务及运营商智能运维软件。",
+    "ths_fact": "参与算网感知调度编排等模块。",
+    "reason": "实际算网软件与服务对应现有算力主题，不自称全部拥有大型数据中心资产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600292.SH",
+    "key": "green_power",
+    "sector": "绿色电力",
+    "source_sector_name": "绿色电力",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "水风光发电",
+      "清洁能源运营"
+    ],
+    "stage": "revenue",
+    "fact": "自有水电586万千瓦及新能源装机，清洁能源100%。",
+    "company_fact": "自有水电586万千瓦及新能源装机，清洁能源100%。",
+    "ths_fact": "绿色电力已有户用智慧零碳电厂项目落地。",
+    "reason": "实际清洁能源运营平台成立，环保工程并行保留。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600293.SH",
+    "key": "glass",
+    "sector": "玻璃",
+    "source_sector_name": "玻璃",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "浮法玻璃",
+      "功能玻璃"
+    ],
+    "stage": "revenue",
+    "fact": "自有平板功能玻璃与硅砂深加工。",
+    "company_fact": "自有平板功能玻璃与硅砂深加工。",
+    "ths_fact": "玻璃解析列五条浮法线实际产能；电子基板项目为规划。",
+    "reason": "成熟玻璃业务确认，基板规划未当已商业供货；按项目投产客户节点再评。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600295.SH",
+    "key": "small_metals",
+    "sector": "小金属",
+    "source_sector_name": "小金属概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "硅铁硅锰",
+      "冶金材料"
+    ],
+    "stage": "revenue",
+    "fact": "自有冶金化工矿产电力循环及羊绒服装。",
+    "company_fact": "自有冶金化工矿产电力循环及羊绒服装。",
+    "ths_fact": "电力冶金实际硅铁硅锰生产。",
+    "reason": "选择现有小金属覆盖合金材料，不将其化学定义为稀有金属，链细化真实产品。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600298.SH",
+    "key": "condiments",
+    "sector": "调味品",
+    "source_sector_name": "调味品",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "酵母抽提物",
+      "发酵食品原料"
+    ],
+    "stage": "revenue",
+    "fact": "自有酵母抽提物酿造酵母与食品调味营养原料。",
+    "company_fact": "自有酵母抽提物酿造酵母与食品调味营养原料。",
+    "ths_fact": "明确酵母深加工食品添加剂调味品经营。",
+    "reason": "完整发酵调味经营，微琪PHA原H1为联营，不能将合资推进直接归自营合成生物产能。",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "600298-2026-08-15-official",
+        "source_kind": "official_filing",
+        "publisher": "安琪酵母",
+        "title": "2026年半年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12495539&stockid=600298",
+        "published_at": "2026-08-15",
+        "assertions": [
+          "原H1关联租赁表明确微琪为联营公司，不能将其PHA合资产能直接当作上市公司自营已投产。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "600299.SH",
+    "key": "synthetic_biology",
+    "sector": "合成生物",
+    "source_sector_name": "合成生物",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "发酵单细胞蛋白",
+      "动物营养"
+    ],
+    "stage": "product",
+    "fact": "自有全球动物营养解决方案和饲料添加剂。",
+    "company_fact": "自有全球动物营养解决方案和饲料添加剂。",
+    "ths_fact": "创新发酵斐康单细胞产品已推向市场。",
+    "reason": "具体生物制造产品超出泛维生素标签，市场上市不等于披露单品大额收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600300.SH",
+    "key": "soft_drinks",
+    "sector": "软饮料",
+    "source_sector_name": "软饮料",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "豆奶粉",
+      "植物蛋白饮料"
+    ],
+    "stage": "revenue",
+    "fact": "自有维维豆奶豆浆谷物蛋白饮品及乳品粮油。",
+    "company_fact": "自有维维豆奶豆浆谷物蛋白饮品及乳品粮油。",
+    "ths_fact": "乳业段明确动植物蛋白饮料和豆奶粉实际销售。",
+    "reason": "产品结构对应既有饮料行业，不能把植物豆奶全部归乳制品。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600301.SH",
+    "key": "small_metals",
+    "sector": "小金属",
+    "source_sector_name": "小金属概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "锡锑铟",
+      "多金属采选加工"
+    ],
+    "stage": "revenue",
+    "fact": "自有锡锌铅锑铜精矿及锡铟加工和委托冶炼。",
+    "company_fact": "自有锡锌铅锑铜精矿及锡铟加工和委托冶炼。",
+    "ths_fact": "主营明确锡锌铅锑勘探采选。",
+    "reason": "真实资源与产品谱支持小金属，不因仅一个矿种标签忽略多金属经营。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600302.SH",
+    "key": "robotics",
+    "sector": "机器人",
+    "source_sector_name": "机器人概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "三维机器人缝纫",
+      "汽车内饰加工"
+    ],
+    "stage": "pilot",
+    "fact": "自有工业缝制设备与定制生产系统。",
+    "company_fact": "自有工业缝制设备与定制生产系统。",
+    "ths_fact": "机械臂3D缝纫已完成中控台试缝并基本具交付能力。",
+    "reason": "具体装备试验支撑机器人应用，未以具备能力声称已交付。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600303.SH",
+    "key": "new_energy_vehicles",
+    "sector": "新能源汽车",
+    "source_sector_name": "新能源汽车",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "新能源车桥",
+      "客车整车"
+    ],
+    "stage": "revenue",
+    "fact": "自有车桥零件和汽车整车。",
+    "company_fact": "自有车桥零件和汽车整车。",
+    "ths_fact": "小鹏零跑五菱新能源车桥增量实际销售。",
+    "reason": "下游真实新能源配套确定，车桥与整车经营分别表达。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600305.SH",
+    "key": "condiments",
+    "sector": "调味品",
+    "source_sector_name": "调味品",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "镇江香醋",
+      "料酒酱油"
+    ],
+    "stage": "revenue",
+    "fact": "自有恒顺香醋及调味酿造产品。",
+    "company_fact": "自有恒顺香醋及调味酿造产品。",
+    "ths_fact": "实际香醋及高端年份醋料酒品牌经营。",
+    "reason": "明确调味食品品牌和生产体系，不按消费荣誉分类。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600307.SH",
+    "key": "nuclear_fusion",
+    "sector": "可控核聚变",
+    "source_sector_name": "可控核聚变",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "聚变低磁导材料",
+      "特种钢"
+    ],
+    "stage": "delivery",
+    "fact": "自有不锈钢及钛锆镍加工完整制造体系。",
+    "company_fact": "自有不锈钢及钛锆镍加工完整制造体系。",
+    "ths_fact": "2025明确自研低磁导材料已用于超导托卡马克装置。",
+    "reason": "特定聚变用途已应用，区分核裂变316H和一般航天钢，未把全钢销量算聚变收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600308.SH",
+    "key": "paper",
+    "sector": "造纸",
+    "source_sector_name": "造纸",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "新闻文化包装纸"
+    ],
+    "stage": "revenue",
+    "fact": "自有新闻文化铜版包装纸与氯碱化工。",
+    "company_fact": "自有新闻文化铜版包装纸与氯碱化工。",
+    "ths_fact": "环保包装及人民币升值解析列具体新闻文化纸产能产品。",
+    "reason": "真实浆纸制造完整；语料与AI当前为产业自身数字化，待明确对外软件客户后复核。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600309.SH",
+    "key": "mdi",
+    "sector": "MDI",
+    "source_sector_name": "MDI",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "异氰酸酯",
+      "聚氨酯材料"
+    ],
+    "stage": "revenue",
+    "fact": "自有聚氨酯异氰酸酯及聚醚石化新材料。",
+    "company_fact": "自有聚氨酯异氰酸酯及聚醚石化新材料。",
+    "ths_fact": "MDI解析确认既有龙头制造，旧收购产能数字不作现时口径。",
+    "reason": "自营关键材料与既有主题一致，POE旧规划不替代已成熟聚氨酯平台。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600310.SH",
+    "key": "green_power",
+    "sector": "绿色电力",
+    "source_sector_name": "绿色电力",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "水风光发电",
+      "区域供电"
+    ],
+    "stage": "revenue",
+    "fact": "自有发电清洁装机71.24%及区域电网。",
+    "company_fact": "自有发电清洁装机71.24%及区域电网。",
+    "ths_fact": "海上风电70万千瓦全并网及光伏实际发电。",
+    "reason": "规模清洁能源实绩支撑，不将全部火电供电都说绿色。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600312.SH",
+    "key": "uhv",
+    "sector": "特高压",
+    "source_sector_name": "特高压",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "特高压开关",
+      "输变电设备"
+    ],
+    "stage": "revenue",
+    "fact": "自有超特高压交直流开关GIS断路器。",
+    "company_fact": "自有超特高压交直流开关GIS断路器。",
+    "ths_fact": "多项特高压重点工程投运和产能保障。",
+    "reason": "真实核心开关制造稳定；检修机器人作为运维配套保留。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "600313.SH",
+    "key": "agricultural_planting",
+    "sector": "农业种植",
+    "source_sector_name": "农业种植",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "农作物种子",
+      "育繁推"
+    ],
+    "stage": "revenue",
+    "fact": "自有小麦玉米水稻大豆等种子研发繁育销售。",
+    "company_fact": "自有小麦玉米水稻大豆等种子研发繁育销售。",
+    "ths_fact": "农业种植解析明确种子及专用粮；转基因大豆联合研发。",
+    "reason": "实际种业平台支持农业种植，研发顺利无验证节点不写转基因已商业化。",
+    "basis": "crosschecked_sources"
+  }
+]

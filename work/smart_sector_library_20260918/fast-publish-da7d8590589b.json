@@ -1,0 +1,415 @@
+[
+  {
+    "id": "301031.SZ",
+    "key": "data_centers",
+    "sector": "数据中心(AIDC)",
+    "source_sector_name": "数据中心(AIDC)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "数据中心电路保护熔断器"
+    ],
+    "stage": "product",
+    "fact": "主营熔断器等电路保护器件，覆盖能源电力与电子系统。",
+    "company_fact": "主营熔断器等电路保护器件，覆盖能源电力与电子系统。",
+    "ths_fact": "熔断器用于数据中心UPS及高压直流柜等供电架构。",
+    "reason": "数据中心供电保护存在具体产品应用，不将其等同液冷设备。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301032.SZ",
+    "key": "machinery_equipment",
+    "sector": "机械装备",
+    "source_sector_name": "机械装备",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "非道路柴油发动机"
+    ],
+    "stage": "revenue",
+    "fact": "非道路柴油发动机及零部件研发生产销售。",
+    "company_fact": "非道路柴油发动机及零部件研发生产销售。",
+    "ths_fact": "柴油机用于叉车挖掘机装载机、农机及发电船舶。",
+    "reason": "实际发动机装备业务覆盖工程和农业机械，选现有装备板块。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301033.SZ",
+    "key": "medical_devices",
+    "sector": "医疗器械",
+    "source_sector_name": "医疗器械概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "神经外科植入修复器械"
+    ],
+    "stage": "revenue",
+    "fact": "研发生产销售人工硬脑膜、颅颌面修复固定系统等三类器械。",
+    "company_fact": "研发生产销售人工硬脑膜、颅颌面修复固定系统等三类器械。",
+    "ths_fact": "神经外科植入材料与修复器械为现有产品；生物打印属前沿研究。",
+    "reason": "植入医疗器械已有商业业务，研究中的打印不能替代主线。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301035.SZ",
+    "key": "pesticides",
+    "sector": "农药",
+    "source_sector_name": "农药",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "农药原药及制剂"
+    ],
+    "stage": "revenue",
+    "fact": "农药原药与制剂研发生产销售。",
+    "company_fact": "农药原药与制剂研发生产销售。",
+    "ths_fact": "公司资料页确认农药原药及制剂主营；草甘膦解析明确较长时间未生产该原药。",
+    "reason": "农药产品主业充分；草甘膦工艺研发不等于当前生产。",
+    "basis": "crosschecked_sources",
+    "extra_evidence": [
+      {
+        "evidence_id": "ths-301035-company-20260919",
+        "source_kind": "web_secondary",
+        "publisher": "同花顺",
+        "title": "润丰股份公司资料",
+        "source_url": "https://basic.10jqka.com.cn/301035/company.html",
+        "published_at": null,
+        "assertions": [
+          "主营农药原药及制剂研发生产销售，产品包括多种除草剂与杀菌剂。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "301036.SZ",
+    "key": "photoresist",
+    "sector": "光刻胶",
+    "source_sector_name": "光刻胶",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "面板光刻胶用颜料"
+    ],
+    "stage": "pilot",
+    "fact": "酞菁颜料研发生产销售为主业。",
+    "company_fact": "酞菁颜料研发生产销售为主业。",
+    "ths_fact": "面板光刻胶用颜料生产线已建成，产品仍测试完善。",
+    "reason": "既有颜料能力延伸至光刻胶材料，保留测试阶段，不写成半导体光刻胶量产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301037.SZ",
+    "key": "acrylic_acid",
+    "sector": "丙烯酸",
+    "source_sector_name": "丙烯酸",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "水性丙烯酸乳液"
+    ],
+    "stage": "revenue",
+    "fact": "水性丙烯酸乳液研发生产销售，用于建筑防水及工业涂料。",
+    "company_fact": "水性丙烯酸乳液研发生产销售，用于建筑防水及工业涂料。",
+    "ths_fact": "丙烯酸乳液供应立邦三棵树亚士等涂料客户。",
+    "reason": "乳液产品及涂料客户构成实际产业链，区分丙烯酸单体制造。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301038.SZ",
+    "key": "water_conservancy",
+    "sector": "水利",
+    "source_sector_name": "水利",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "水利工程勘察设计"
+    ],
+    "stage": "revenue",
+    "fact": "水利工程规划勘察设计及相关运营服务。",
+    "company_fact": "水利工程规划勘察设计及相关运营服务。",
+    "ths_fact": "具备大型灌区引调水水库项目服务资质和业务；雅下解析仅述西藏分院。",
+    "reason": "水利工程服务是直接业务，设分院不能证明雅下合同。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301039.SZ",
+    "key": "automobiles",
+    "sector": "汽车整车",
+    "source_sector_name": "汽车整车",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "半挂车与专用车上装"
+    ],
+    "stage": "revenue",
+    "fact": "全球半挂车设计制造销售，并经营专用车上装与新能源头挂业务。",
+    "company_fact": "全球半挂车设计制造销售，并经营专用车上装与新能源头挂业务。",
+    "ths_fact": "高端装备解析明确半挂车及专用车辆制造。",
+    "reason": "选已有汽车整车板块，链条限定半挂车专用车，不推定乘用车业务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301040.SZ",
+    "key": "offshore_wind_power",
+    "sector": "海上风电",
+    "source_sector_name": "海上风电",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "海上风电锻造法兰"
+    ],
+    "stage": "revenue",
+    "fact": "工业锻件含轴承法兰齿轮，应用于风电等装备。",
+    "company_fact": "工业锻件含轴承法兰齿轮，应用于风电等装备。",
+    "ths_fact": "向西门子上海电气供应大兆瓦海上风电基础及转子法兰。",
+    "reason": "海风锻件直接供货强于少数股权参股航天企业。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301041.SZ",
+    "key": "cpo",
+    "sector": "共封装光学(CPO)",
+    "source_sector_name": "共封装光学(CPO)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "800G光模块PCB"
+    ],
+    "stage": "delivery",
+    "fact": "PCB研发制造及电子产品设计制造服务。",
+    "company_fact": "PCB研发制造及电子产品设计制造服务。",
+    "ths_fact": "已开展800G光模块PCB样板和小批量交付，继续客户验证。",
+    "reason": "光通信板卡已有小批交付支持市场主题，不能写成整套CPO产品量产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301042.SZ",
+    "key": "security_surveillance",
+    "sector": "安防",
+    "source_sector_name": "安防",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "安防摄像及录像设备"
+    ],
+    "stage": "revenue",
+    "fact": "安防摄像等软硬件研发生产销售。",
+    "company_fact": "安防摄像等软硬件研发生产销售。",
+    "ths_fact": "安防设备ODM出口为业务基础；人形相关新公司尚未证明产品交付。",
+    "reason": "成熟安防业务充分，新设机器人子公司不能替代实际业务。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301043.SZ",
+    "key": "building_energy_efficiency",
+    "sector": "建筑节能",
+    "source_sector_name": "建筑节能",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "风幕机及热回收新风"
+    ],
+    "stage": "revenue",
+    "fact": "通风新风与风幕机研发生产销售。",
+    "company_fact": "通风新风与风幕机研发生产销售。",
+    "ths_fact": "风幕机降低冷热交换损耗，热回收通风机改善建筑能耗。",
+    "reason": "节能功能来自实际设备产品，业务与既有建筑节能主题一致。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301045.SZ",
+    "key": "consumer_electronics",
+    "sector": "消费电子",
+    "source_sector_name": "消费电子概念",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "显示用导光板"
+    ],
+    "stage": "revenue",
+    "fact": "显示核心部件导光板研发生产销售，TAC膜项目仍属推进事项。",
+    "company_fact": "显示核心部件导光板研发生产销售，TAC膜项目仍属推进事项。",
+    "ths_fact": "导光板用于小米电视等终端，华为相关为历史显示样品及小批试制。",
+    "reason": "现有显示消费电子材料业务成立，不把备案TAC项目写成量产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301046.SZ",
+    "key": "photovoltaics",
+    "sector": "光伏",
+    "source_sector_name": "光伏概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "光伏电站设计集成运营"
+    ],
+    "stage": "revenue",
+    "fact": "光伏电站设计系统集成及自持运营，并拓展储能等业务。",
+    "company_fact": "光伏电站设计系统集成及自持运营，并拓展储能等业务。",
+    "ths_fact": "已完成约1.55GW光伏设计集成运营项目；人形属合作拓展方向。",
+    "reason": "光伏工程运营有实际项目支撑，机器人合作不等同落地收入。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301047.SZ",
+    "key": "recombinant_proteins",
+    "sector": "重组蛋白",
+    "source_sector_name": "重组蛋白",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "科研用蛋白抗体试剂"
+    ],
+    "stage": "revenue",
+    "fact": "重组蛋白抗体基因等生物试剂及技术服务。",
+    "company_fact": "重组蛋白抗体基因等生物试剂及技术服务。",
+    "ths_fact": "提供重组蛋白抗体及ELISA等产品。",
+    "reason": "现有蛋白试剂产品与市场概念吻合，区分治疗性药品。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301048.SZ",
+    "key": "rail_transit",
+    "sector": "轨道交通",
+    "source_sector_name": "轨道交通",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "铁路养护和轨道作业车辆"
+    ],
+    "stage": "revenue",
+    "fact": "铁路养护装备轨道车接触网作业车及集装箱业务。",
+    "company_fact": "铁路养护装备轨道车接触网作业车及集装箱业务。",
+    "ths_fact": "轨道交通解析列明轨道作业车辆和铁路维护装备。",
+    "reason": "实际铁路设备制造支持轨道交通归属。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301049.SZ",
+    "key": "automobile_dismantling",
+    "sector": "汽车拆解",
+    "source_sector_name": "汽车拆解概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "报废汽车拆解回收"
+    ],
+    "stage": "revenue",
+    "fact": "危废医疗废物处置及电子拆解，并实际开展报废汽车回收销售。",
+    "company_fact": "危废医疗废物处置及电子拆解，并实际开展报废汽车回收销售。",
+    "ths_fact": "汽车拆解项目于2023年开始运营，动力电池回收解析含规划产能。",
+    "reason": "汽车拆解已有运营证据，不能把规划电池产能当作已投产。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301050.SZ",
+    "key": "defense_informatization",
+    "sector": "军工信息化",
+    "source_sector_name": "军工信息化",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "毫米波相控阵微系统"
+    ],
+    "stage": "revenue",
+    "fact": "阵列天线及TR组件等控制波束幅相，应用雷达通信。",
+    "company_fact": "阵列天线及TR组件等控制波束幅相，应用雷达通信。",
+    "ths_fact": "毫米波有源相控阵微系统用于国防装备。",
+    "reason": "军用雷达通信电子真实产品更直接，航天用途保留链条信息。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301051.SZ",
+    "key": "flexible_display",
+    "sector": "柔性屏(折叠屏)",
+    "source_sector_name": "柔性屏(折叠屏)",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "折叠终端玻璃盖板"
+    ],
+    "stage": "delivery",
+    "fact": "手机平板及穿戴终端玻璃盖板研发制造。",
+    "company_fact": "手机平板及穿戴终端玻璃盖板研发制造。",
+    "ths_fact": "已经向折叠屏终端供应玻璃盖板。",
+    "reason": "真实折叠产品供货支持主题，不将盖板等同柔性显示面板。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301052.SZ",
+    "key": "ai_applications",
+    "sector": "AI应用",
+    "source_sector_name": "AI应用",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "AI校对软件"
+    ],
+    "stage": "delivery",
+    "fact": "出版及IP内容产品与互联网业务。",
+    "company_fact": "出版及IP内容产品与互联网业务。",
+    "ths_fact": "AI校对王已完成政企客户本地部署交付，并拓展上市公司客户。",
+    "reason": "自有校对应用实际交付，内容业务形成明确使用场景。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301053.SZ",
+    "key": "textile_apparel_equipment",
+    "sector": "纺织服装设备",
+    "source_sector_name": "纺织服装设备",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "纺织热定形装备"
+    ],
+    "stage": "revenue",
+    "fact": "热定形机及相关智能染整设备研发生产销售。",
+    "company_fact": "热定形机及相关智能染整设备研发生产销售。",
+    "ths_fact": "将无线联网远程运维和ERP协同融入热定形控制系统。",
+    "reason": "智能化是现有纺织设备升级，主归属选具体设备行业。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301055.SZ",
+    "key": "other_household_goods",
+    "sector": "其他家居用品",
+    "source_sector_name": "其他家居用品",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "刀剪及厨房五金"
+    ],
+    "stage": "revenue",
+    "fact": "刀剪厨房器具锅具及生活五金产品制造销售。",
+    "company_fact": "刀剪厨房器具锅具及生活五金产品制造销售。",
+    "ths_fact": "露营产品包括轻量刀具便携炊具，老字号解析对应刀剪品牌业务。",
+    "reason": "厨房生活五金产品是完整业务基础，露营只是部分产品场景。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301056.SZ",
+    "key": "elevators",
+    "sector": "电梯",
+    "source_sector_name": "电梯概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "电梯扶梯及自动人行道"
+    ],
+    "stage": "revenue",
+    "fact": "电梯扶梯自动人行道制造与服务。",
+    "company_fact": "电梯扶梯自动人行道制造与服务。",
+    "ths_fact": "电梯解析与全系列电扶梯产品及服务一致。",
+    "reason": "产品及服务直接支持电梯归属。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301057.SZ",
+    "key": "polyester",
+    "sector": "涤纶",
+    "source_sector_name": "涤纶",
+    "source_sector_provider": "东方财富",
+    "chain": [
+      "原液着色差别化涤纶"
+    ],
+    "stage": "revenue",
+    "fact": "原液着色差别化涤纶DTY FDY POY生产销售。",
+    "company_fact": "原液着色差别化涤纶DTY FDY POY生产销售。",
+    "ths_fact": "原液着色纤维减少后续染色废水和能源消耗。",
+    "reason": "节能工艺与涤纶制造交叉吻合，出口区域不能替代产品行业。",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "301058.SZ",
+    "key": "grain",
+    "sector": "粮食",
+    "source_sector_name": "粮食概念",
+    "source_sector_provider": "同花顺",
+    "chain": [
+      "粮油工程及加工装备"
+    ],
+    "stage": "revenue",
+    "fact": "粮油与冷链工程咨询集成交付及粮油加工设备制造。",
+    "company_fact": "粮油与冷链工程咨询集成交付及粮油加工设备制造。",
+    "ths_fact": "粮食工程覆盖稻米小麦玉米饲料加工等；冷链亦有实际收入。",
+    "reason": "粮食加工工程装备构成核心产业链，非粮食种植贸易。",
+    "basis": "crosschecked_sources"
+  }
+]

@@ -1,0 +1,71 @@
+{
+  "instrument_id": "000936.SZ",
+  "name": "华西股份",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "000936.SZ",
+    "name": "华西股份",
+    "memberships": [
+      "基础化工",
+      "化学纤维",
+      "涤纶",
+      "江苏板块",
+      "2026中报首亏",
+      "标准普尔",
+      "富时罗素",
+      "深股通",
+      "融资融券",
+      "知识产权",
+      "人工智能",
+      "央国企改革",
+      "长江三角",
+      "参股银行",
+      "参股券商",
+      "创投"
+    ],
+    "business_sections": [
+      {
+        "title": "涤纶化纤业务",
+        "kind": "主营业务",
+        "text": "报告期内，公司在行业波动与竞争加剧的背景下，通过强化产销协同、推进结构优化及提升精细化管理水平，实现产量、销量双增长。新车间实现稳定达产并逐步释放效益，整体经营韧性和抗风险能力持续增强。"
+      },
+      {
+        "title": "仓储物流业务",
+        "kind": "主营业务",
+        "text": "报告期内，在宏观政策持续发力和市场需求逐步回暖的双重作用下，仓储行业全年运行平稳，但液体化工品仓储，受关税贸易战等的影响，行业供大于求，出租率和仓储价格呈现下降趋势。"
+      },
+      {
+        "title": "品牌优势",
+        "kind": "核心竞争力",
+        "text": "经过多年的经营发展，“华西村”品牌已树立了诚信品牌形象，这种品牌优势使得公司在涤纶短纤维市场拥有了一大批长期客户，保证了市场的稳定性，同时在产品价格上也形成了一定的优势。"
+      },
+      {
+        "title": "技术优势",
+        "kind": "核心竞争力",
+        "text": "公司拥有稳定、专业的研发团队，拥有省级企业技术中心，博士后创新实践基地，拥有多项自主知识产权。近年来，公司与高校、科研院所开展产学研合作更加密切，并重视与下游企业特别是与品牌企业的联合开发，协同创新能力不断增强。截至报告期末，公司已拥有专利88项，其中发明专利14项，实用新型专利74项。"
+      },
+      {
+        "title": "产品优势",
+        "kind": "核心竞争力",
+        "text": "公司利用自身的设备优势和人才优势，成功地开发了市场高端的差别化产品，提高了产品的附加值。这些差别化产品在市场上具有较高的竞争力，使得公司在差别化纤维领域处于领先地位，并在一些差别化产品上拥有了定价权，提高了企业的效益。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ000936",
+    "fetched_at": "2026-09-18T22:36:09.053738+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "物流"
+}

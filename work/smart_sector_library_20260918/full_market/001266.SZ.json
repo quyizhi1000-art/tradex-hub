@@ -1,0 +1,64 @@
+{
+  "instrument_id": "001266.SZ",
+  "name": "宏英智能",
+  "taxonomy_revision": "337b8954ec170b0a8d1cd1b7fa3a154dd6e276e38e4e1f7862af09bfcfe2b88b",
+  "collection_status": "collected",
+  "source": {
+    "contract": "stock_sector_evidence.v1",
+    "instrument_id": "001266.SZ",
+    "name": "宏英智能",
+    "memberships": [
+      "机械设备",
+      "自动化设备",
+      "工控设备",
+      "上海板块",
+      "2026中报预增",
+      "专精特新",
+      "QFII重仓",
+      "新型工业化",
+      "储能概念",
+      "PCB",
+      "智能驾驶",
+      "充电桩"
+    ],
+    "business_sections": [
+      {
+        "title": "智能控制板块业务",
+        "kind": "主营业务",
+        "text": "公司深耕智能电控产品及总成的研发、生产与销售，以技术创新为核心引擎、产品迭代为发展脉络，紧扣高端制造领域智能化、电动化转型趋势，打造高效、稳定、可迭代的全场景智能电控解决方案，赋能产业数字化升级，助力客户构建核心技术壁垒，彰显民族智造企业的技术实力与责任担当。该业务板块构建了“核心产品+集成总成+系统解决方案”的三维产品矩阵，具体涵盖以下三大类核心产品。"
+      },
+      {
+        "title": "新能源板块业务",
+        "kind": "主营业务",
+        "text": "作为公司战略布局的核心增长极与业绩核心驱动力，新能源板块聚焦储能、光伏、微电网、能源管理、充电桩、电力交易等全领域，紧扣“十五五”规划纲要中新型储能发展部署，以“技术融合+场景赋能”为核心，打造全方位、一体化绿色能源解决方案，推动能源行业向清洁化、智能化、协同化转型，助力实现“双碳”目标，致力于成为“懂控制、慧管理”的综合能源生态运营商，目前已构建涵盖“风、光、储、车、充、换、算”的综合能源解决方案体系。"
+      },
+      {
+        "title": "技术驱动的多场景产品矩阵",
+        "kind": "核心竞争力",
+        "text": "公司的核心竞争力根植于对两大战略板块的深度布局与协同发展：智能控制板块作为“技术底座”，新能源板块作为“战略延伸”，二者形成了“控制+能源”的复合竞争优势。"
+      },
+      {
+        "title": "敏捷协同的精益运营体系",
+        "kind": "核心竞争力",
+        "text": "卓越的技术与产品设计需要高效的运营体系将其转化为市场成功。公司构建了一套“研发-销售-生产-采购”全价值链的敏捷协同体系，确保了快速响应、高效率研发与高质量交付。"
+      }
+    ],
+    "provider": "eastmoney_f10",
+    "source_url": "https://emweb.eastmoney.com/PC_HSF10/CoreConception/PageAjax?code=SZ001266",
+    "fetched_at": "2026-09-18T22:37:52.566666+08:00",
+    "provider_as_of": null,
+    "quality_flags": [
+      "provider_timestamp_missing",
+      "secondary_business_digest"
+    ]
+  },
+  "candidate_sectors": [
+    "储能"
+  ],
+  "review_status": "pending",
+  "flags": [
+    "market_primary_not_verified",
+    "official_disclosure_crosscheck_required"
+  ],
+  "business_background": "光储充系统产品及服务"
+}

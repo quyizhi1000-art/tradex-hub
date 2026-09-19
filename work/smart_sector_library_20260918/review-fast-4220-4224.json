@@ -1,0 +1,90 @@
+[
+  {
+    "id": "603486.SH",
+    "key": "service_robots",
+    "sector": "服务机器人",
+    "source_sector_name": "服务机器人",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "家庭清洁服务机器人"
+    ],
+    "fact": "扫地擦窗割草机器人研发制造销售，全球家用服务机器人品牌。",
+    "company_fact": "扫地擦窗割草机器人研发制造销售，全球家用服务机器人品牌。",
+    "ths_fact": "地宝家庭服务机器人持续产品化。",
+    "reason": "清晰服务机器人身份，布局具身不声称人形量产。"
+  },
+  {
+    "id": "603488.SH",
+    "key": "military_it",
+    "sector": "军工信息化",
+    "source_sector_name": "军工信息化",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "军事航空仿真系统"
+    ],
+    "fact": "电梯与军事仿真双主业，领为军融开展军事仿真。",
+    "company_fact": "电梯与军事仿真双主业，领为军融开展军事仿真。",
+    "ths_fact": "控股领为军融通用数字空战仿真系统与技术服务。",
+    "reason": "原报确认表决权控制与交割，不因现金收购比例小于50%误写非控股。",
+    "extra_evidence": [
+      {
+        "evidence_id": "603488-2026h1-control",
+        "source_kind": "official_filing",
+        "publisher": "展鹏科技",
+        "title": "2026年半年度报告",
+        "source_url": "https://money.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12515799&stockid=603488",
+        "published_at": "2026-08-22",
+        "assertions": [
+          "2024年8月交割并控股领为军融，表决权委托；现明确电梯和军事仿真双主业。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "603489.SH",
+    "key": "two_wheelers",
+    "sector": "两轮车",
+    "source_sector_name": "两轮车",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "电助力自行车驱动系统"
+    ],
+    "fact": "电踏车电机电气系统研发生产销售服务。",
+    "company_fact": "电踏车电机电气系统研发生产销售服务。",
+    "ths_fact": "向两轮车提供电机驱动系统。",
+    "reason": "驱动系统业务实际，非自行车平台运营。"
+  },
+  {
+    "id": "603496.SH",
+    "key": "aidc",
+    "sector": "数据中心(AIDC)",
+    "source_sector_name": "数据中心(AIDC)",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "智算平台软硬件"
+    ],
+    "fact": "服务器主板整机交换机等用于智算中心数据中心。",
+    "company_fact": "服务器主板整机交换机等用于智算中心数据中心。",
+    "ths_fact": "智能系统平台用于数据中心可集成二次开发方案。",
+    "reason": "计算基础设施直接业务；算力项目资产持有人与服务收费主体有区别，不笼统自持租赁。"
+  },
+  {
+    "id": "603499.SH",
+    "key": "paper_packaging",
+    "sector": "纸包装",
+    "source_sector_name": "纸包装",
+    "source_sector_provider": "东方财富",
+    "stage": "revenue",
+    "chain": [
+      "包装印刷及日化包材"
+    ],
+    "fact": "包装印刷塑料容器化妆品一体化服务。",
+    "company_fact": "包装印刷塑料容器化妆品一体化服务。",
+    "ths_fact": "彩盒标签研发生产销售，烟包为应用领域。",
+    "reason": "选择真实包装产业身份，工业互联网内部示范及小额创投不替代主归属。"
+  }
+]

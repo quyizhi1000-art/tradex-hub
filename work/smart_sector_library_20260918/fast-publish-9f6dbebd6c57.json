@@ -1,0 +1,80 @@
+[
+  {
+    "id": "300808.SZ",
+    "key": "camping_economy",
+    "sector": "露营经济",
+    "source_sector_name": "露营经济",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "户外LED灯",
+      "便携式电源"
+    ],
+    "company_fact": "LED移动及家居照明经营，拓展户外便携储能系列。",
+    "ths_fact": "LED应急灯支持充电、太阳能及多种放置方式，用于帐篷露营徒步等。",
+    "fact": "LED移动及家居照明经营，拓展户外便携储能系列。",
+    "reason": "现有露营题材与自有户外照明产品一致，国资地域不替代产品主线。"
+  },
+  {
+    "id": "300809.SZ",
+    "key": "humanoid_robotics",
+    "sector": "人形机器人",
+    "source_sector_name": "人形机器人",
+    "source_sector_provider": "同花顺",
+    "stage": "orders",
+    "chain": [
+      "丝杠精密磨削装备"
+    ],
+    "company_fact": "高端精密磨床及螺纹磨床研发制造销售，含自有磨削数控系统。",
+    "ths_fact": "中标南理工高精度外螺纹磨床，用途含人形直线传动组件磨削。",
+    "fact": "高端精密磨床及螺纹磨床研发制造销售，含自有磨削数控系统。",
+    "reason": "人形设备供应链有明确中标证据；链位为丝杠加工设备，既有磨床收入不扩大成人形专用已交付收入。"
+  },
+  {
+    "id": "300810.SZ",
+    "key": "military",
+    "sector": "军工",
+    "source_sector_name": "军工",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "声纳装备",
+      "水声探测信号处理"
+    ],
+    "company_fact": "特种电子声纳装备研发生产销售，终端用户为国家特种部门。",
+    "ths_fact": "持保密装备承制及武器装备科研生产相关资格。",
+    "fact": "特种电子声纳装备研发生产销售，终端用户为国家特种部门。",
+    "reason": "实际特种声纳业务加行业资质支撑军工，不把内部算力平台改称商业智算租赁。"
+  },
+  {
+    "id": "300811.SZ",
+    "key": "cpo",
+    "sector": "共封装光学(CPO)",
+    "source_sector_name": "共封装光学(CPO)",
+    "source_sector_provider": "同花顺",
+    "stage": "orders",
+    "chain": [
+      "光模块电感"
+    ],
+    "company_fact": "金属软磁粉芯及芯片电感产品，覆盖高频半导体供电应用。",
+    "ths_fact": "2026年5月8日确认光模块电感取得量产订单。",
+    "fact": "金属软磁粉芯及芯片电感产品，覆盖高频半导体供电应用。",
+    "reason": "主线选已有CPO题材，链位为光模块电感且阶段订单；不把英伟达GPU供电量产推成CPO模块生产收入。"
+  },
+  {
+    "id": "300812.SZ",
+    "key": "flexible_display",
+    "sector": "柔性屏(折叠屏)",
+    "source_sector_name": "柔性屏(折叠屏)",
+    "source_sector_provider": "同花顺",
+    "stage": "delivery",
+    "chain": [
+      "柔性OLED贴附设备",
+      "面板制造装备"
+    ],
+    "company_fact": "自有平板显示与半导体设备，含柔性OLED贴附清洗绑定等工艺。",
+    "ths_fact": "2026年4月公告解析柔性设备获面板客户订单，维信诺覆膜设备验证并实现量产。",
+    "fact": "自有平板显示与半导体设备，含柔性OLED贴附清洗绑定等工艺。",
+    "reason": "柔性显示已有明确产品验证量产；旧CPO只部分100G组装应用与800G研发，不超过已证据阶段。"
+  }
+]

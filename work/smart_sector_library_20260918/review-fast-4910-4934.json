@@ -1,0 +1,558 @@
+[
+  {
+    "id": "688353.SH",
+    "key": "electrolyte",
+    "sector": "电解液",
+    "chain": [
+      "电解液添加剂VC/FEC"
+    ],
+    "stage": "revenue",
+    "fact": "VC/FEC电解液添加剂已规模经营。",
+    "ths_fact": "VC、FEC为主要电解液添加剂产品；固态相关产品仍有实验室试制。",
+    "company_fact": "电子化学品和特殊有机硅业务，电解液添加剂为实际产品。",
+    "reason": "选择已有电解液反映材料供应身份；钠盐小试及固态研发不视为规模销售。",
+    "source_sector_name": "电解液",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688355.SH",
+    "key": "machine_tools",
+    "sector": "工业母机",
+    "chain": [
+      "砂型铸造制芯装备及精密铸件"
+    ],
+    "stage": "revenue",
+    "fact": "制芯装备与高品质铸件持续经营。",
+    "ths_fact": "工业母机解释对应制芯装备；航空航天部分项目仍研发测试。",
+    "company_fact": "研发生产销售砂型铸造制芯装备及高品质铸件。",
+    "reason": "核心市场身份有实际装备支撑；氢能及商业航天试制不替代已确认装备业务。",
+    "source_sector_name": "工业母机",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688356.SH",
+    "key": "innovative_drugs",
+    "sector": "创新药",
+    "chain": [
+      "聚乙二醇伊立替康创新药临床开发"
+    ],
+    "stage": "pilot",
+    "fact": "创新药仍有脑胶质瘤及乳腺癌适应症II期临床。",
+    "ths_fact": "早期解析称小细胞肺癌III期获批；该适应症状态已被新半年报更新。",
+    "company_fact": "主营PEG材料、衍生物及技术服务，并开发自主创新药。",
+    "reason": "半年报披露终止小细胞肺癌III期并计提减值，但另两适应症II期仍开展；选择真实创新药管线，pilot指临床，不将材料收入记为药物收入。",
+    "source_sector_name": "创新药",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "official-688356-2026h1",
+        "source_kind": "official_filing",
+        "publisher": "键凯科技",
+        "title": "2026年半年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=688356&id=12532622",
+        "published_at": null,
+        "assertions": [
+          "终止小细胞肺癌III期；脑胶质瘤及伴脑转移HER2阴性乳腺癌II期仍在研。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "688357.SH",
+    "key": "hydrogen_energy",
+    "sector": "氢能源",
+    "chain": [
+      "氢气提纯及制氢用分子筛吸附剂"
+    ],
+    "stage": "revenue",
+    "fact": "自营分子筛用于氢气提纯大型装置并已销售。",
+    "ths_fact": "JLPH5制氢分子筛用于大型项目；并购概念旧文为拟控股汉兴。",
+    "company_fact": "主营分子筛吸附剂、催化剂，用于工业气体分离和能源化工。",
+    "reason": "原报确认产品应用于100余套PSA氢提纯装置，有制氢分子筛销售合同；汉兴实际收购40%属联营，不能宣称并表。本归属依据自身材料经营，非将联营企业制氢收入计入本体。",
+    "source_sector_name": "氢能源",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "official-688357-2026h1",
+        "source_kind": "official_filing",
+        "publisher": "建龙微纳",
+        "title": "2026年半年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=688357&id=12522179",
+        "published_at": null,
+        "assertions": [
+          "氢提纯装置100余套；制氢分子筛9900万元合同尚未履行完毕；上海建龙持汉兴40%。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "688358.SH",
+    "key": "pet_economy",
+    "sector": "宠物经济",
+    "chain": [
+      "动物医疗超声成像设备"
+    ],
+    "stage": "delivery",
+    "fact": "SonoVet动物超声产品已批量进入市场。",
+    "ths_fact": "SonoVet系列2025年9月已批量进入全球宠物超声市场。",
+    "company_fact": "从事超声医疗设备；产品技术覆盖动物超声应用。",
+    "reason": "动物超声已形成具体产品与批量交付，半年报列为智能影像战略方向；不把乳腺机器人研发或AI软件推广统称全部成熟收入。",
+    "source_sector_name": "宠物经济",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "official-688358-2026h1",
+        "source_kind": "official_filing",
+        "publisher": "祥生医疗",
+        "title": "2026年半年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=688358&id=12563876",
+        "published_at": null,
+        "assertions": [
+          "SonoVet动物超声产品与全球布局已形成，动物超声升级为智能影像战略核心。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "688359.SH",
+    "key": "pcb",
+    "sector": "PCB",
+    "chain": [
+      "PCB化学品及表面处理设备"
+    ],
+    "stage": "revenue",
+    "fact": "PCB电子化学品与配套设备已有量产线应用。",
+    "ths_fact": "PCB概念对应化学沉铜等表面处理；玻璃基板主要为工艺合作。",
+    "company_fact": "表面工程专用化学品和设备服务PCB、新能源等行业。",
+    "reason": "半年报200余条量产线应用与设备交付支持PCB产业身份；玻璃基板合作及复合集流体研发不能全等同收入，高邮项目终止也不否定现有PCB经营。",
+    "source_sector_name": "PCB概念",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "official-688359-2026h1",
+        "source_kind": "official_filing",
+        "publisher": "三孚新科",
+        "title": "2026年半年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=688359&id=12536047",
+        "published_at": null,
+        "assertions": [
+          "PCB化学品200余量产线稳定应用，mSAP上线；部分设备交付；高邮项目已终止。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "688360.SH",
+    "key": "smart_logistics",
+    "sector": "智能物流",
+    "chain": [
+      "智能输送分拣系统及物流机器人"
+    ],
+    "stage": "revenue",
+    "fact": "智能物流装备和核心部件已正常销售。",
+    "ths_fact": "智能物流解释对应输送分拣系统；人形机器人源络合作尚待产品落地。",
+    "company_fact": "从事智能物流系统、设备及核心零部件研发生产销售。",
+    "reason": "物流自动化的实际产品、客户应用与市场标签相符；不因人形战略合作自动变更主线，后续具体产品订单为复核触发。",
+    "source_sector_name": "智能物流",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688361.SH",
+    "key": "semiconductor_equipment",
+    "sector": "半导体设备",
+    "chain": [
+      "晶圆缺陷检测与量测设备"
+    ],
+    "stage": "revenue",
+    "fact": "半导体检测量测设备已提供给芯片生产企业。",
+    "ths_fact": "芯片设备解释包含无图形及图形晶圆检测、形貌和膜厚量测。",
+    "company_fact": "半导体质量控制设备、软件及良率解决方案。",
+    "reason": "检测量测是明确产品身份；先进封装和存储客户属下游应用，不能写成制造存储芯片。",
+    "source_sector_name": "半导体设备",
+    "source_sector_provider": "东方财富",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688362.SH",
+    "key": "advanced_packaging",
+    "sector": "先进封装",
+    "chain": [
+      "倒装及系统级封装测试"
+    ],
+    "stage": "revenue",
+    "fact": "FC、SiP等先进封装已形成封测服务。",
+    "ths_fact": "先进封装解析指出中高端封装测试量产。",
+    "company_fact": "提供FC、SiP、Bumping、WLP、QFN等封测服务。",
+    "reason": "技术平台和实际服务共同支撑先进封装；不是晶圆代工或芯片设计企业。",
+    "source_sector_name": "先进封装",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688363.SH",
+    "key": "medical_aesthetics",
+    "sector": "医美",
+    "chain": [
+      "透明质酸医美原料与注射产品"
+    ],
+    "stage": "revenue",
+    "fact": "透明质酸医美原料及润致等终端产品已商业化。",
+    "ths_fact": "医美解释列示注射类产品及品牌；合成生物为技术平台。",
+    "company_fact": "生物活性原料、医疗终端、护肤及营养业务，包含透明质酸医美产品。",
+    "reason": "选择有原料与终端产品支撑的医美市场身份；合成生物研发和创新药孵化不等于临床批准或药品收入。",
+    "source_sector_name": "医美概念",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688365.SH",
+    "key": "ai_applications",
+    "sector": "AI应用",
+    "chain": [
+      "电商智能客服及美工SaaS"
+    ],
+    "stage": "revenue",
+    "fact": "快麦小智、深绘等AI电商应用已形成付费服务。",
+    "ths_fact": "AI应用解释对应客服、美工等实际产品；智能体内容同时含参股实在智能。",
+    "company_fact": "电商SaaS包含快麦小智客服机器人、深绘美工机器人。",
+    "reason": "半年报确认快麦小智服务5000余品牌商家和核心大商家产品收入增长；选择自身AI应用，不将参股企业智能体经营视为本体。",
+    "source_sector_name": "AI应用",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "official-688365-2026h1",
+        "source_kind": "official_filing",
+        "publisher": "光云科技",
+        "title": "2026年半年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=688365&id=12519636",
+        "published_at": null,
+        "assertions": [
+          "快麦小智为核心AI电商客服产品，服务5000余品牌商家；核心大商家产品收入增长35.91%。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "688366.SH",
+    "key": "medical_aesthetics",
+    "sector": "医美",
+    "chain": [
+      "透明质酸填充产品及医美设备"
+    ],
+    "stage": "revenue",
+    "fact": "透明质酸医美产品已有销售并迭代上市。",
+    "ths_fact": "无痛交联玻尿酸2025年12月获批、2026年4月上市。",
+    "company_fact": "医美、眼科、骨科、外科产品经营，含透明质酸和医美设备。",
+    "reason": "已有医美成员及新产品商业化共同支撑该市场身份；眼科保持经营背景，未批准临床产品不借用成熟产品收入。",
+    "source_sector_name": "医美概念",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688367.SH",
+    "key": "rail_transit",
+    "sector": "轨道交通",
+    "chain": [
+      "工业铁路信号与矿山轨道调度"
+    ],
+    "stage": "revenue",
+    "fact": "工业铁路和矿井轨道信号调度系统正常经营。",
+    "ths_fact": "轨道交通解释对应铁路信号；无人驾驶单轨吊仍含合作研发。",
+    "company_fact": "工业铁路及矿井窄轨信号控制、调度系统与集成服务。",
+    "reason": "实际工业轨道控制业务最清晰；无人驾驶合作后续验收或订单再复核，不将开发自动当交付。",
+    "source_sector_name": "轨道交通",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688368.SH",
+    "key": "data_centers",
+    "sector": "数据中心(AIDC)",
+    "chain": [
+      "AI服务器多相电源管理芯片"
+    ],
+    "stage": "revenue",
+    "fact": "HPC电源管理芯片已规模量产并产生收入。",
+    "ths_fact": "数据中心及英伟达解释对应多相电源芯片，已有量产产品。",
+    "company_fact": "模拟及电源管理芯片，包含高性能计算DC/DC产品。",
+    "reason": "半年报HPC收入0.46亿元并披露AI算力卡及服务器应用，支持新增算力供电身份；该收入也含通用服务器和游戏用途，不能全部称AIDC收入。",
+    "source_sector_name": "数据中心(AIDC)",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "official-688368-2026h1",
+        "source_kind": "official_filing",
+        "publisher": "晶丰明源",
+        "title": "2026年半年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=688368&id=12527875",
+        "published_at": null,
+        "assertions": [
+          "HPC收入0.46亿元，多相控制器与SPS规模量产；易冲重组已完成。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "688369.SH",
+    "key": "ai_agents",
+    "sector": "AI智能体",
+    "chain": [
+      "企业协同CoMi智能体平台"
+    ],
+    "stage": "orders",
+    "fact": "CoMi智能体产品已发布，AI关联合同已签约。",
+    "ths_fact": "CoMi智能体与含AI功能合同形成明确业务线索。",
+    "company_fact": "企业协同运营软件，向组织AI平台转型。",
+    "reason": "半年报确认CoMi2.1发布、客户超过2000家及AI关联合同1.750267亿元；以已签合同记录orders，不把全部协同软件收入当独立智能体收入。",
+    "source_sector_name": "AI智能体",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "official-688369-2026h1",
+        "source_kind": "official_filing",
+        "publisher": "致远互联",
+        "title": "2026年半年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=688369&id=12536355",
+        "published_at": null,
+        "assertions": [
+          "CoMi2.1已发布、客户超过2000家；上半年签约AI关联合同17502.67万元。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "688370.SH",
+    "key": "solid_waste_treatment",
+    "sector": "固废处理",
+    "chain": [
+      "危险废物资源化与无害化处置"
+    ],
+    "stage": "revenue",
+    "fact": "危险废物资源化与无害化处理持续经营。",
+    "ths_fact": "固废处理解释与危废处理业务一致。",
+    "company_fact": "危险废物资源化、无害化处理及相关服务。",
+    "reason": "已有固废概念准确覆盖实际经营模式，无需另造危废产业类别。",
+    "source_sector_name": "固废处理",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688371.SH",
+    "key": "liquid_cooled_servers",
+    "sector": "液冷服务器",
+    "chain": [
+      "浸没液冷电子部件纳米防护膜"
+    ],
+    "stage": "revenue",
+    "fact": "浸没式液冷电子部件防护已有量产案例。",
+    "ths_fact": "液冷解析列示量产应用；CPO仍处技术验证。",
+    "company_fact": "纳米防护薄膜服务及设备应用于电子产品和服务器等。",
+    "reason": "半年报确认浸没PCBA防护及客户算力大板量产，支持液冷增量市场身份；提供防护工艺而非冷却液或整套液冷机组。",
+    "source_sector_name": "液冷服务器",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "official-688371-2026h1",
+        "source_kind": "official_filing",
+        "publisher": "菲沃泰",
+        "title": "2026年半年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=688371&id=12568163",
+        "published_at": null,
+        "assertions": [
+          "PECVD与CVD用于浸没PCBA绝缘及抗冷却油；服务器电源、风扇及客户算力大板量产。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "688372.SH",
+    "key": "advanced_packaging",
+    "sector": "先进封装",
+    "chain": [
+      "高端芯片独立第三方测试"
+    ],
+    "stage": "revenue",
+    "fact": "先进芯片测试服务已有商业化经营。",
+    "ths_fact": "先进封装解析对应先进封装产品的测试需求及服务。",
+    "company_fact": "独立晶圆测试、成品测试、SLT及老化测试覆盖CPU、GPU和存储等。",
+    "reason": "定位先进封装链测试环节；不把测试服务写成自营封装制造，也不以客户芯片品种替代服务身份。",
+    "source_sector_name": "先进封装",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688373.SH",
+    "key": "innovative_drugs",
+    "sector": "创新药",
+    "chain": [
+      "抗感染创新药研发及康替唑胺商业化"
+    ],
+    "stage": "revenue",
+    "fact": "康替唑胺已有商业销售，其他抗感染管线仍在研发。",
+    "ths_fact": "创新药解析包含康替唑胺片销售与MRX8临床。",
+    "company_fact": "创新小分子抗感染药物研发及商业化。",
+    "reason": "已上市创新药支撑revenue；不把该阶段外推至MRX8等临床管线。",
+    "source_sector_name": "创新药",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688375.SH",
+    "key": "commercial_space",
+    "sector": "商业航天",
+    "chain": [
+      "星载有源相控阵T/R组件"
+    ],
+    "stage": "delivery",
+    "fact": "低轨卫星及商业航天T/R组件已批量交付。",
+    "ths_fact": "商业航天解释指出多款组件交付客户。",
+    "company_fact": "研发生产T/R组件及射频芯片，应用含卫星通信。",
+    "reason": "原报明确新应用多款产品大批量交付，足以选择新增航天市场身份；stage指对应组件交付，不将全部军工收入划为商业航天。",
+    "source_sector_name": "商业航天",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "official-688375-2026h1",
+        "source_kind": "official_filing",
+        "publisher": "国博电子",
+        "title": "2026年半年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=688375&id=12505705",
+        "published_at": null,
+        "assertions": [
+          "低轨卫星及商业航天多款T/R组件已大批量交付客户。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "688376.SH",
+    "key": "lithography",
+    "sector": "光刻机",
+    "chain": [
+      "光刻设备EFU及ULPA超净过滤"
+    ],
+    "stage": "delivery",
+    "fact": "光刻设备用超净过滤组件已有客户验收。",
+    "ths_fact": "光刻机解析称上海微电子设备配套EFU、ULPA已验收合格。",
+    "company_fact": "半导体洁净环境风机过滤及超净过滤产品经营。",
+    "reason": "实际机台洁净配套和客户验收支撑光刻设备链；不宣称生产光刻整机，不将客户制程标签理解为公司制程能力。",
+    "source_sector_name": "光刻机",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688377.SH",
+    "key": "offshore_equipment",
+    "sector": "海工装备",
+    "chain": [
+      "深海油气井控及压力控制部件"
+    ],
+    "stage": "revenue",
+    "fact": "深海油气装备专用部件已有销售。",
+    "ths_fact": "海工装备解释对应深海油气开采装备部件。",
+    "company_fact": "油气井控、深海及页岩开发用特殊压力部件。",
+    "reason": "以真实深海装备配套定位海工产业链；天然气属于下游用途，不能归为自营资源开采。",
+    "source_sector_name": "海工装备",
+    "source_sector_provider": "同花顺",
+    "basis": "crosschecked_sources"
+  },
+  {
+    "id": "688378.SH",
+    "key": "microled",
+    "sector": "MicroLED",
+    "chain": [
+      "MicroLED金属蒸镀设备"
+    ],
+    "stage": "orders",
+    "fact": "MicroLED金属蒸镀设备项目已中标。",
+    "ths_fact": "2026年8月天马金属蒸镀机项目中标，新增装备方向开始落地。",
+    "company_fact": "OLED材料及蒸发源经营，向新型显示装备延伸。",
+    "reason": "半年报明确天马MicroLED项目中标，采用orders表示中标待执行，不写已验收或收入；OLED既有交付不能借作MicroLED收入。",
+    "source_sector_name": "MicroLED概念",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "official-688378-2026h1",
+        "source_kind": "official_filing",
+        "publisher": "奥来德",
+        "title": "2026年半年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=688378&id=12506493",
+        "published_at": null,
+        "assertions": [
+          "已中标天马新型显示研究院金属蒸镀机项目；MicroOLED已产品化，两者技术路线不同。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "688379.SH",
+    "key": "liquid_cooled_servers",
+    "sector": "液冷服务器",
+    "chain": [
+      "数据中心液冷精密钎焊材料"
+    ],
+    "stage": "revenue",
+    "fact": "数据中心液冷用精密钎料已形成明确收入。",
+    "ths_fact": "液冷解释有实际产品；人形机器人焊料收入较小，CPO含参股关联。",
+    "company_fact": "钎焊材料用于制冷、电子、新能源等行业。",
+    "reason": "半年报液冷钎料收入2.16亿元，占9.36%，真实增量足以支持液冷市场身份，不按最大收入选类；参股CPO不视为本体收入。",
+    "source_sector_name": "液冷服务器",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "official-688379-2026h1",
+        "source_kind": "official_filing",
+        "publisher": "华光新材",
+        "title": "2026年半年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=688379&id=12550198",
+        "published_at": null,
+        "assertions": [
+          "数据中心液冷领域精密钎料收入2.16亿元，占营业收入9.36%。"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "688380.SH",
+    "key": "memory_chips",
+    "sector": "存储芯片",
+    "chain": [
+      "自主SPI NOR Flash设计销售"
+    ],
+    "stage": "revenue",
+    "fact": "自主SPI NOR Flash已量产并于2026年二季度产生收入。",
+    "ths_fact": "2026年1月新存储产品线索取代2024年无存储业务的旧描述。",
+    "company_fact": "MCU及混合信号平台型芯片设计，产品线扩展至存储。",
+    "reason": "半年报确认自研SPI NOR量产和百万元以内收入，支持真实新增存储身份；另持珠海博雅21.0016%为投资，不将其2.28亿元收入并为本体。",
+    "source_sector_name": "存储芯片",
+    "source_sector_provider": "同花顺",
+    "basis": "official_disclosure",
+    "extra_evidence": [
+      {
+        "evidence_id": "official-688380-2026h1",
+        "source_kind": "official_filing",
+        "publisher": "中微半导",
+        "title": "2026年半年度报告",
+        "source_url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=688380&id=12497218",
+        "published_at": null,
+        "assertions": [
+          "首款SPI NOR Flash2026年1月发布量产，5月形成销售收入，二季度总收入百万元以内；博雅为21.0016%参股。"
+        ]
+      }
+    ]
+  }
+]

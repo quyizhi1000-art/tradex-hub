@@ -1,0 +1,77 @@
+[
+  {
+    "id": "688429.SH",
+    "key": "photovoltaics",
+    "sector": "光伏",
+    "source_sector_name": "光伏概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "光伏辅材设备电池"
+    ],
+    "fact": "光伏新技术平台，三大业务。",
+    "company_fact": "光伏新技术平台，三大业务。",
+    "ths_fact": "主营光伏湿制程辅助品装备及电池。",
+    "reason": "涵盖实际经营环节，不把TOPCON可升级能力当全部已改造。"
+  },
+  {
+    "id": "688432.SH",
+    "key": "semiconductor_materials",
+    "sector": "半导体材料",
+    "source_sector_name": "半导体材料",
+    "source_sector_provider": "东方财富",
+    "stage": "revenue",
+    "chain": [
+      "硅片及刻蚀硅材料"
+    ],
+    "fact": "硅材料研发生产销售用于集成电路功率传感器及刻蚀设备。",
+    "company_fact": "硅材料研发生产销售用于集成电路功率传感器及刻蚀设备。",
+    "ths_fact": "半导体硅材料抛光片区熔单晶等。",
+    "reason": "芯片上游硅材料，参股存储客户供货不能称自营存储芯片。"
+  },
+  {
+    "id": "688433.SH",
+    "key": "3d_printing",
+    "sector": "3D打印",
+    "source_sector_name": "3D打印",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "工业增材制造装备"
+    ],
+    "fact": "SLM SLS工业装备材料工艺服务。",
+    "company_fact": "SLM SLS工业装备材料工艺服务。",
+    "ths_fact": "金属及高分子3D打印设备产销。",
+    "reason": "设备技术身份明确，航天机器人为应用行业。"
+  },
+  {
+    "id": "688435.SH",
+    "key": "data_security",
+    "sector": "数据安全",
+    "source_sector_name": "数据安全",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "数据复制容灾软件"
+    ],
+    "fact": "数据复制灾备软件一体机服务，三种核心复制技术。",
+    "company_fact": "数据复制灾备软件一体机服务，三种核心复制技术。",
+    "ths_fact": "容灾备份保护数据与系统连续性。",
+    "reason": "实际数据保护软件，模型数据保障不等同模型研发。"
+  },
+  {
+    "id": "688439.SH",
+    "key": "military_electronics",
+    "sector": "军工电子",
+    "source_sector_name": "军工电子Ⅱ",
+    "source_sector_provider": "东方财富",
+    "stage": "revenue",
+    "chain": [
+      "高可靠集成电路"
+    ],
+    "fact": "高可靠IC设计封装测试销售，抗辐照信号链等。",
+    "company_fact": "高可靠IC设计封装测试销售，抗辐照信号链等。",
+    "ths_fact": "军用集成电路供应军工集团科研单位。",
+    "reason": "军工芯片市场身份；人形磁编码技术适用不自动变成人形量产。"
+  }
+]

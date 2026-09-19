@@ -1,0 +1,77 @@
+[
+  {
+    "id": "603400.SH",
+    "key": "liquid_cooled_servers",
+    "sector": "液冷服务器",
+    "source_sector_name": "液冷服务器",
+    "source_sector_provider": "同花顺",
+    "stage": "pilot",
+    "chain": [
+      "液冷服务器电子水泵"
+    ],
+    "fact": "依托无刷驱动电控电池管理业务向液冷服务器延展。",
+    "company_fact": "依托无刷驱动电控电池管理业务向液冷服务器延展。",
+    "ths_fact": "已进入国内头部客户供应链，水泵送样测试确认。",
+    "reason": "明确送样阶段，不写批供；新机器人公司成立不代表产品收入。"
+  },
+  {
+    "id": "603402.SH",
+    "key": "tourism",
+    "sector": "旅游",
+    "source_sector_name": "旅游概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "景区文化旅游运营"
+    ],
+    "fact": "依托华清宫华山资源旅游演艺索道餐饮运营。",
+    "company_fact": "依托华清宫华山资源旅游演艺索道餐饮运营。",
+    "ths_fact": "旅游演艺索道餐饮产业运营。",
+    "reason": "直接文旅消费身份。"
+  },
+  {
+    "id": "603406.SH",
+    "key": "polyester",
+    "sector": "涤纶",
+    "source_sector_name": "涤纶",
+    "source_sector_provider": "东方财富",
+    "stage": "revenue",
+    "chain": [
+      "差别化聚酯纤维"
+    ],
+    "fact": "差别化复合纤维及再生有色涤纶短纤。",
+    "company_fact": "差别化复合纤维及再生有色涤纶短纤。",
+    "ths_fact": "招股书海外生产基地规划主产品为功能涤纶短纤。",
+    "reason": "已有涤纶行业，银行仅财务投资；不把海外拟建写实际产能。"
+  },
+  {
+    "id": "603407.SH",
+    "key": "minor_metals",
+    "sector": "小金属",
+    "source_sector_name": "小金属概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "锆系材料"
+    ],
+    "fact": "氧氯化锆碳酸锆氧化锆等生产销售，锆类供应商。",
+    "company_fact": "氧氯化锆碳酸锆氧化锆等生产销售，锆类供应商。",
+    "ths_fact": "锆类产品特种尼龙精细化工研发产销。",
+    "reason": "锆化学材料端归属，不声称自有矿山；义齿仅小批样品验证。"
+  },
+  {
+    "id": "603408.SH",
+    "key": "water_purification",
+    "sector": "净水",
+    "source_sector_name": "净水概念",
+    "source_sector_provider": "同花顺",
+    "stage": "revenue",
+    "chain": [
+      "净水器与健康家居"
+    ],
+    "fact": "ODM厨卫净水宜居空气等五类业务。",
+    "company_fact": "ODM厨卫净水宜居空气等五类业务。",
+    "ths_fact": "净水器净水配件等研发设计生产销售。",
+    "reason": "已有净水产品经营可核对；机器人联合实验室不当成熟业务。"
+  }
+]
